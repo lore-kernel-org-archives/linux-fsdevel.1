@@ -1,100 +1,136 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.42
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795123188;
-	b=M+Ze1sMkSALfWBp1Q6h+die/VAQ5rXDUU3zQ+3zpMg/LfXuEw8RG3iRvoKTQoRC2AyRh
-	 yzaGxPpzGtfokr3KOQwlwBzfWpMs/JlfQT6yWG2SkH02+y4eXsycazOIgnxh9fg5q8haZ
-	 kK4NhPCPPU5dpkB9il973Uur+gw1ErfNRGbYVCHQ3+0/r4Es3/ShpJk6Cdkj0nUAIzYU/
-	 JGczCTsROP3zDOLMl/nAMF4heih43u2qShxNgN+VEjpqPDjnjYQWXWr0FenVDsLAWQYoG
-	 rlJwzoM2s1Ln4PYpP4XloZXJBLrAKVSRFPr4uTvkNrrDbn1MV5F8+1QgkLKqtVJfegQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795123188;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=RRAMHZ4S62Yo6hlTBa8X3X3JUkjgdwr/B0EvJfR6wag=;
-	b=0vAOPFXS2ruBfiSblmorTSIrruhUO/8U1PHqTeUQ0o6Rrp3FYTZI0M/UtYIjElm8WmlF
-	 iMY+tdV9Nj5ZaeWjSAZHeSShpl9pX05eiTCWU0MGBTQcIuyNmaQwusssgcxPvBhzylNNX
-	 VnftgxV4tHfSOrINGhktUoikZUtPmlK0kEKKIxheijTexljQbd1P3W/jD5Gd2f+l11jvT
-	 AoxOa5ZF1E48tGyfn2DQSZrZhMX39YEqPyk7M3pdn7AtRRWpild590m2Wn/im7Cxcw6WN
-	 A02DRxQ9DlWvi6AT+vON7rBsGbvXPt0CnHzety/QpvsutmIhB9v8oRof+6T7i8AJzkg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=laV1PA5+;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.42
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795124001;
+	b=kyBKVSjaW0FpIvQHktjETnOKduGjLzQpnk9clVYW0Zk5lJMFsZcKQeq57gMGvZijfkm8
+	 HEQ4t6TRSdsrduY+8Sw+CgzI2XHjw1UFZ8M98PStPTfsjd5CIO5ZGirJO5YXD7fX/wTPE
+	 ktRbd0ddPUisiQkEVQFU2xPQlwxPmhhDyLm2nhk+Xhx3r9oavtCVXv/3+aye53gRjvqbv
+	 qEh5kDfutni2HTtMuMYu0PcFOhv0N5IDCz5n3v9/WbpS1Vkvlw5e96ysJJ0d1cOCylovc
+	 ZlH1QzRrz8qHKEUgrMvTYcvQYenLvs6CeCBtEQznT4V3d0U0kmtXI7a1KOFYdlGmfUg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795124001;
+	h=Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
+	 In-Reply-To:References:Autocrypt:Content-Type:
+	 Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=GntRI6tOBrAhacb25HAQl+V7JQYtYMfqRJJMvNkCZ00=;
+	b=hEbPi9uD00JIriPSRH4yliCtf3ExTDB94G4yVFa6fJREQVcf4C40P2CRslqwycv8FZuU
+	 lR8smvnEDA6i3b3mXLnISUOok7Tm8SFhzWd/PFLcBI8Ecp/Xg20NKE+A7kyDTPN4Sj2Jt
+	 1/0kjcrPyL50WgGyliECNc8QNJCCL+cVo/0fwCx3XXMWoUhSYG9d8A9iw9tLbf0zFt5Dx
+	 opNE0ejxV/VQjF1JUttxiDU6wY8yOQrtDykymbzYZNjVcMV3g9/f6ZLaBwT55l2B9pTeN
+	 O9FcNSlu0v2xqQS9E+EyleBAOCyKMHe4xFYhZL2YvfxRKzcYW3Ikgy4Dtzt/Y1mOdNA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hORGslzE;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F132606A325
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 21:19:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9F132606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61131606A324;
+	Thu, 19 Nov 2026 21:33:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=laV1PA5+
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6ba380cd8dbso238123a12.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 13:19:47 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795123186; cv=none;
-        d=google.com; s=arc-20260327;
-        b=O1zDC1JC/+Tr+ILC29gGi8qmRD1J6qVOOC2s/AdNV10s7SXqcJbokFqm4mxVIZQJ2G
-         zLmZZivRqeudEEwkMjWfuP0jNoXdK7Xb2CkSL3Ni1SlF0uU9glnE1CLOyFPJZ+xUC6hO
-         X96wB50II21ZIRdcyp8lY5rHcErR1OXiO05GxT/Z+ureYy14FP0UUK3MCOCJEzP4KhRb
-         +Br6OHeLh/OMeEMOSxdVugmH8yHn0w+IgzJe1QBNwPxGuhb4YO22cLCJzN6Kbs/bSFM3
-         rKEVzW88NHkwMLomotE7Xm5iSiv9BIH+twfFAG4SAakUNyPJFElG6YzTjWrpCw6zx0Ue
-         o9+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=RRAMHZ4S62Yo6hlTBa8X3X3JUkjgdwr/B0EvJfR6wag=;
-        fh=pbtiAU4YxMA5aUJYiRqEVRI7zZkVZYTBnDTwWPDimUg=;
-        b=Nb9zL4MMrfUxpoC3emhZ0IKsdzJlydLvG47spIapxADBrdGwc28C6lTpBjjp1A+aO8
-         nkN5+Ddx8RuJ/v5wnFGWBbikb8iuaVzapF2i2505xpqaO5xmOzQ0her8QY/0BOnerkHn
-         vyMDO8XwsYgPitc0y8JdiXGT7C1hkkzLU+gzAsIblDCzIBm+pN32sxu9cMcBTCTg+/3N
-         2LRtbzayTcncm1m5yAevM7F3ZH+nvtYqo07Ei/eSmGQtbhBJBz3RpQurH/0HoAwiD4wu
-         /HoG95hZblVxt4TyF6Pol4h2O0xJRqXsy0+2R1sxw/1iyH6yZp/XwiI716vHEMSzb7SR
-         kx5A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795123186; x=1795727986; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=RRAMHZ4S62Yo6hlTBa8X3X3JUkjgdwr/B0EvJfR6wag=;
-        b=laV1PA5+3hmc33X0BGaxCjFqIr5MqJ14e9KVgBgQUD6w5FPHWNELug37pi66yNshOO
-         UtoE7UWwEKSpcQzNeUxWJAM3bhT7HkJCAiU7OdWbJ79b6RYYSVd09QkI4F3kjHNd4uIJ
-         A0KOX+/nviYNRwIn7i1u3U6DQtbJdNgm4kx11uMbKZBHvDHA07UCEtp+8s8J/3ftTkyD
-         0b33uNay84cp3nATACTYqENsjxWmuERBUTYceTcNXmaT6SW5O3j5ZxtuAh/nT+jMUBp5
-         kDvnqi6gOWlZGQrvzdF6yRmGtb/ByUm74fSXPlcNdy0Xq9hzQ1JF4+mE/rkIADt6bUc/
-         F0sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795123186; x=1795727986;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=RRAMHZ4S62Yo6hlTBa8X3X3JUkjgdwr/B0EvJfR6wag=;
-        b=Qq5tO0CrUiDUV9hdgK175IJ57fcXzYHOJP3zGrHTLzDL4QhG7o/DSP79lHwAEUrdoE
-         E6XFODeSJWWdiNAeUb2T1WXgYTPJ0I/Qb6njfZ8sgnw0Vwrxd8Tf0+1M9g0ppKxLn2Kt
-         j6otQF6E625iWLJbgBwpBi6FrGNSvEFzC8Fzax3NgrPCJ31gUHqI9wCXq+wkS1slPKPT
-         9+Q+LfyfTlYvqno/PKSp09jPI91UOIfqOF/5Hws65dp5q9T7a+VmK3UN0bM4RRmSxI4q
-         UNIg6kxpk/bHL1K6jFjXMWLGQ6xPdoa9OL4vdTkxAp4fVRhl1eAW4jNjb7B+VcUFYYiE
-         Hg0w==
-X-Forwarded-Encrypted: i=1; AL+hErHTx7zzSVrOjm2sOAJPeMh4CSNb7LQdk3BN+UdSRzKHC962CeKGmHzWtjdb66bw/xKClbibj+IO4FOmnF71@vger.kernel.org
-X-Gm-Message-State: APuU4Z9KJ4Z4bHS+Vw3MkSSDUp5KQ/At2Kr+IpUralM9tJ3QX35gIRBR
-	Dx/SnMZ90Qscx/cma4iQgdyQtxPGdaVeSIqNtYotCjFLlDLqikSeliRZoRMFwy4B0jwJW7WCP+n
-	cejqMMVP0T3prtreUzob2YD46yY3clQA=
-X-Gm-Gg: AYBFou3j7VnspwQ8cNcDCFO7x09eEJBgZBBjcaSX4DbZzYZj2vY9xwI31KPIVEBAk51
-	i21YjnYfwm4hB57bdgQmonWtiDMnGCFi7ZYs+SVxU9D2vXWFW32tm5QWPUFheMzL59n8h9PL+7Z
-	/aNGYPT68pt55nWxQ5gRHhyKwywF65i40pvkPuwQzXmPKO+NJYaYNJWZaFsZrhRbVQkBSxnNLi3
-	8oLgS9Fd3vaZ66J8fg8LY6gigFffOj/6VmBoChwQO+zJ0En2esJQC9jlRhoOjSor3WbwugpCrOW
-	mJ95VoHrOpD+9CyEHCa8mvrBKbrEqcGrv2ydjivhWaJgK3maLHsQayJQ0+bs3rraR1E/4Fu+HIC
-	azeh3P74kfpplXI0SC61xP/PJ+z3rFRfu1RrFdFrcmPVB+T/5WmADkbIeoNbjHhP1inRDzQ==
-X-Received: by 2002:a05:6402:4052:20b0:6b5:876c:a98f with SMTP id
- 4fb4d7f45d1cf-6ba37ee52e4mr405100a12.34.1795123185728; Thu, 19 Nov 2026
- 13:19:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hORGslzE
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99A711F000C4;
+	Thu, 19 Nov 2026 21:33:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795124001;
+	bh=GntRI6tOBrAhacb25HAQl+V7JQYtYMfqRJJMvNkCZ00=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=hORGslzEfPnglEGYTeGwNMSOmJXFI4vnJPKl7LTQIu6U3OAB+1BJ8zyz54/2JFWHW
+	 8IzcYvIIspyPXWuuG+FVSxX2IKDKG3jeviaS8r1G59Tdpf2dwEh7dHkp4C0VTKzPSp
+	 xU39D1sTcGVRDUoasAYN2hvatrOuWn96/gCU/42hT1Buhv7/slwmOxJnShLEKvlM7T
+	 CR50NyB7flx0PVno5QiHLbPOSICq+5CqndPCX9A4MQ9hjHCY85q1TH1iMymhLUIfEu
+	 ic2rwg1eefJHL/yIOoMC3TgbyajVZsyb9WmJpYFEP68IBaq9Xax9q173rS+QAZjUNw
+	 AmTrz8Xdrv+Rg==
+Message-ID: <b4c8f20fd76086323f20ce2095d6aa116bbf1d3e.camel@kernel.org>
+Subject: Re: [PATCH 2/2] nfsd: enforce cross-export and may_linkat() checks
+ in nfsd_link()
+From: Jeff Layton <jlayton@kernel.org>
+To: Dominik Maier <dmnk@google.com>, Chuck Lever <cel@kernel.org>, Christian
+ Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, Olga Kornievskaia	
+ <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey
+ <tom@talpey.com>, 	linux-nfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, dmnk+artist@google.com
+Date: Thu, 19 Nov 2026 13:33:20 -0800
+In-Reply-To: <20261119192311.2684978-2-dmnk@google.com>
+References: <20261119192311.2684978-1-dmnk@google.com>
+	 <20261119192311.2684978-2-dmnk@google.com>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-3.fc44) 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,363 +140,129 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <CAOQ4uxjHwtZEHu9xMM6zg9niSgNdLXhAu65jA8Ai_SKVg-W2nw@mail.gmail.com>
- <20261119183039.1505892-2-ptikhomirov@virtuozzo.com>
-In-Reply-To: <20261119183039.1505892-2-ptikhomirov@virtuozzo.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 19 Nov 2026 22:19:34 +0100
-X-Gm-Features: Aa3M54qPR6beAzPiPDvVeM7eC1sDIvJDE2oypEtexE164vDya4GKLsVUqI-JH_g
-Message-ID: <CAOQ4uxjj9inY=n-WP83_sYpuZBLKumxqiVACpseKuB2hkW-Auw@mail.gmail.com>
-Subject: Re: [PATCH] selftests/cachestat: add overlayfs test cases
-To: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Christian Brauner <brauner@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Ding Feng <dingf3ng@gmail.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Shuah Khan <shuah@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 19, 2026 at 7:34=E2=80=AFPM Pavel Tikhomirov
-<ptikhomirov@virtuozzo.com> wrote:
->
-> Run cachestat() on overlayfs files in four variants. The file is written
-> either to the lower dir of an overlayfs or through its mount, so its
-> page cache is in the lower or in the upper dir. Then it is opened
-> read-only, so it is not copied up, and checked:
->
-> - through the overlayfs mount: the page cache is one stacking level
->   down;
-> - through a second overlayfs mount, which has the first one's merged dir
->   as its lower dir: the page cache is two stacking levels down.
->
-> Overlayfs does not cache file data in its own inodes, so cachestat()
-> sees the pages only if it is forwarded to the real file.
->
-> Add a check_cached argument to test_cachestat() to check the pages of a
-> file the test did not write itself, and bump NR_TESTS to the actual
-> number of tests (it was 9 while ten were already run).
->
-> The test rework and the changelog were drafted with the help of an AI
-> coding assistant (Claude); the result was reviewed and tested by me.
->
-> Link: https://lore.kernel.org/r/20261118123105.1247627-1-amir73il@gmail.c=
-om/
-> Signed-off-by: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+On Thu, 2026-11-19 at 20:23 +0100, Dominik Maier wrote:
+> nfsd_link() verifies NFSD_MAY_CREATE on the destination directory
+> filehandle (ffhp) and NFSD_MAY_NOP on the source filehandle (tfhp)
+> before calling vfs_link() directly, omitting two checks enforced
+> elsewhere:
+>=20
+> 1. Unlike nfsd_rename(), nfsd_link() does not verify that the source and
+>    destination filehandles belong to the same export path. In addition,
+>    because tfhp is verified second with NFSD_MAY_NOP, if two distinct
+>    svc_export entries share ex_path with different read-only or UID
+>    squashing options, fh_verify(tfhp, NFSD_MAY_NOP) skips exp_rdonly()
+>    and leaves current_cred() set to tfhp->fh_export's credentials.
+> 2. Unlike filename_linkat(), nfsd_link() does not call may_linkat()
+>    before vfs_link(), allowing remote NFSv3 and NFSv4 clients to bypass
+>    fs.protected_hardlinks restrictions and hardlink non-owned restricted
+>    files.
+>=20
+> Require ffhp->fh_export->ex_path and tfhp->fh_export->ex_path to match
+> (returning nfserr_xdev on mismatch, matching nfsd_rename()). When
+> ffhp->fh_export and tfhp->fh_export differ on the same ex_path, reject
+> read-only source exports via exp_rdonly() with nfserr_rofs and restore
+> ffhp->fh_export credentials via nfsd_setuser(). Finally, check
+> may_linkat() before proceeding with the link, mapping -EOVERFLOW on
+> unmapped inode IDs to nfserr_perm to match vfs_link().
+>=20
+> This issue was discovered by an AI-assisted code review tool (ARTIST)
+> and validated in QEMU against an unmodified v7.4-rc3 kernel without
+> kernel modifications or error injection. A standalone reproducer is
+> available on request. The fix was build-tested with KCFLAGS=3D-Werror and
+> checked with checkpatch.pl --strict.
+>=20
+> Fixes: 800179c9b8a1 ("fs: add link restrictions")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Dominik Maier <dmnk@google.com>
 > ---
-> v2:
-> - Rework of patch 3/3 of v1 on top of Amir's ->f_real() patch; the
->   ->cachestat() file operation from patches 1-2 is replaced by it.
-> - Add lower file and nested overlayfs cases, and a check_cached argument
->   to test_cachestat().
-> v1: https://lore.kernel.org/r/20260623111533.2285005-1-ptikhomirov@virtuo=
-zzo.com/
->
-> The nested cases pass only with Amir's ovl_f_real() recursion fix
-> (https://lore.kernel.org/r/CAOQ4uxjHwtZEHu9xMM6zg9niSgNdLXhAu65jA8Ai_SKVg=
--W2nw@mail.gmail.com/)
-> plus EXPORT_SYMBOL(__file_real) when overlayfs is a module; on Amir's v1
-> alone they fail with "Cached: 0".
-
-Posted v2 with your Tested-by:
-
-https://lore.kernel.org/linux-fsdevel/20261119211542.1509119-1-amir73il@gma=
-il.com/
-
-Christian,
-
-Please apply Pavel's test along with the file_real() patch.
-
-Thanks,
-Amir.
-
-> ---
->  .../selftests/cachestat/test_cachestat.c      | 172 +++++++++++++++++-
->  1 file changed, 163 insertions(+), 9 deletions(-)
->
-> diff --git a/tools/testing/selftests/cachestat/test_cachestat.c b/tools/t=
-esting/selftests/cachestat/test_cachestat.c
-> index 542cd09cb4434..af8fa21c90ca1 100644
-> --- a/tools/testing/selftests/cachestat/test_cachestat.c
-> +++ b/tools/testing/selftests/cachestat/test_cachestat.c
-> @@ -4,27 +4,42 @@
->
->  #include <stdio.h>
->  #include <stdbool.h>
-> +#include <stdlib.h>
->  #include <linux/kernel.h>
->  #include <linux/magic.h>
->  #include <linux/mman.h>
->  #include <sys/mman.h>
-> +#include <sys/mount.h>
->  #include <sys/shm.h>
-> +#include <sys/stat.h>
->  #include <sys/syscall.h>
->  #include <sys/vfs.h>
->  #include <unistd.h>
->  #include <string.h>
->  #include <fcntl.h>
->  #include <errno.h>
-> +#include <limits.h>
->
->  #include "kselftest.h"
->
-> -#define NR_TESTS       9
-> +#define NR_TESTS       14
->
->  static const char * const dev_files[] =3D {
->         "/dev/zero", "/dev/null", "/dev/urandom",
->         "/proc/version", "/proc"
->  };
->
-> +static const struct {
-> +       bool lower;
-> +       bool nested;
-> +       const char *desc;
-> +} ovl_tests[] =3D {
-> +       { false, false, "an overlayfs file" },
-> +       { false, true, "a nested overlayfs file" },
-> +       { true, false, "an overlayfs lower file" },
-> +       { true, true, "a nested overlayfs lower file" },
-> +};
-> +
->  void print_cachestat(struct cachestat *cs)
->  {
->         ksft_print_msg(
-> @@ -117,10 +132,14 @@ static bool is_on_tmpfs(int fd)
->   * Open/create the file at filename, (optionally) write random data to i=
-t
->   * (exactly num_pages), then test the cachestat syscall on this file.
->   *
-> + * If write_random =3D=3D true or check_cached =3D=3D true, check that a=
-ll num_pages
-> + * pages of the file are cached or evicted.
-> + *
->   * If test_fsync =3D=3D true, fsync the file, then check the number of d=
-irty
->   * pages.
->   */
-> -static int test_cachestat(const char *filename, bool write_random, bool =
-create,
-> +static int test_cachestat(const char *filename, bool write_random,
-> +                         bool check_cached, bool create,
->                           bool test_fsync, unsigned long num_pages,
->                           int open_flags, mode_t open_mode)
->  {
-> @@ -161,7 +180,7 @@ static int test_cachestat(const char *filename, bool =
-write_random, bool create,
->         } else {
->                 print_cachestat(&cs);
->
-> -               if (write_random) {
-> +               if (write_random || check_cached) {
->                         if (cs.nr_cache + cs.nr_evicted !=3D num_pages) {
->                                 ksft_print_msg(
->                                         "Total number of cached and evict=
-ed pages is off.\n");
-> @@ -294,6 +313,122 @@ bool run_cachestat_test(enum file_type type)
->         return ret;
+>  fs/nfsd/vfs.c | 34 +++++++++++++++++++++++++++++-----
+>  1 file changed, 29 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/fs/nfsd/vfs.c b/fs/nfsd/vfs.c
+> index 56c49b5..0c4e052 100644
+> --- a/fs/nfsd/vfs.c
+> +++ b/fs/nfsd/vfs.c
+> @@ -45,6 +45,7 @@
+>  #include "netns.h"
+>  #include "stats.h"
+>  #include "vfs.h"
+> +#include "auth.h"
+>  #include "filecache.h"
+>  #include "trace.h"
+> =20
+> @@ -1993,6 +1994,11 @@ nfsd_symlink(struct svc_rqst *rqstp, struct svc_fh=
+ *fhp,
+>  	return err;
 >  }
->
-> +static int mount_overlayfs(const char *lowerdir, const char *upperdir,
-> +                          const char *workdir, const char *merged)
+> =20
+> +static int exp_rdonly(struct svc_cred *cred, struct svc_export *exp)
 > +{
-> +       char opts[4 * PATH_MAX];
-> +
-> +       snprintf(opts, sizeof(opts), "lowerdir=3D%s,upperdir=3D%s,workdir=
-=3D%s",
-> +                lowerdir, upperdir, workdir);
-> +       if (mount("overlay", merged, "overlay", 0, opts)) {
-> +               ksft_print_msg("Unable to mount overlayfs (need root?): %=
-s\n",
-> +                              strerror(errno));
-> +               return KSFT_SKIP;
-> +       }
-> +
-> +       return KSFT_PASS;
+> +	return nfsexp_flags(cred, exp) & NFSEXP_READONLY;
 > +}
 > +
-> +/*
-> + * Write a file to an overlayfs, either directly to its lower dir (if lo=
-wer)
-> + * or through the overlayfs mount, so that its page cache is in the lowe=
-r or
-> + * upper dir. Then open the file read-only, so it is not copied up, thro=
-ugh the
-> + * overlayfs mount or, if nested, through a second overlayfs mount on to=
-p of it
-> + * (using the first one's merged dir as its lower dir), and run cachesta=
-t on
-> + * it. Overlayfs does not cache file data in its own inodes, so cachesta=
-t sees
-> + * the pages only if it is forwarded one (or two, if nested) stacking le=
-vels
-> + * down, to the page cache belonging to the real file.
-> + */
-> +static int run_cachestat_overlayfs_test(bool lower, bool nested)
-> +{
-> +       char tmpl[] =3D "/tmp/cachestat_ovl.XXXXXX";
-> +       char lowerdir[PATH_MAX];
-> +       char upper1[PATH_MAX], work1[PATH_MAX], merged1[PATH_MAX];
-> +       char upper2[PATH_MAX], work2[PATH_MAX], merged2[PATH_MAX];
-> +       char cmd[PATH_MAX + 16], file[PATH_MAX + 16];
-> +       const char *write_path, *read_path;
-> +       char *base;
-> +       int ret;
-> +
-> +       base =3D mkdtemp(tmpl);
-> +       if (!base) {
-> +               ksft_print_msg("Unable to create overlayfs base dir: %s\n=
-",
-> +                              strerror(errno));
-> +               return KSFT_FAIL;
-> +       }
-> +
-> +       snprintf(lowerdir, sizeof(lowerdir), "%s/lower", base);
-> +       snprintf(upper1, sizeof(upper1), "%s/upper1", base);
-> +       snprintf(work1, sizeof(work1), "%s/work1", base);
-> +       snprintf(merged1, sizeof(merged1), "%s/merged1", base);
-> +       snprintf(upper2, sizeof(upper2), "%s/upper2", base);
-> +       snprintf(work2, sizeof(work2), "%s/work2", base);
-> +       snprintf(merged2, sizeof(merged2), "%s/merged2", base);
-> +
-> +       if (mkdir(lowerdir, 0755) || mkdir(upper1, 0755) ||
-> +           mkdir(work1, 0755) || mkdir(merged1, 0755) ||
-> +           mkdir(upper2, 0755) || mkdir(work2, 0755) ||
-> +           mkdir(merged2, 0755)) {
-> +               ksft_print_msg("Unable to create overlayfs dirs: %s\n",
-> +                              strerror(errno));
-> +               ret =3D KSFT_FAIL;
-> +               goto cleanup;
-> +       }
-> +
-> +       if (lower)
-> +               write_path =3D lowerdir;
-> +       else
-> +               write_path =3D merged1;
-> +
-> +       if (nested)
-> +               read_path =3D merged2;
-> +       else
-> +               read_path =3D merged1;
-> +
-> +       snprintf(file, sizeof(file), "%s/cachestat", write_path);
-> +
-> +       /* Write the lower file before mounting overlayfs over it */
-> +       if (lower) {
-> +               ret =3D test_cachestat(file, true, false, false, false, 4=
-,
-> +                                    O_CREAT | O_RDWR, 0600);
-> +               if (ret !=3D KSFT_PASS)
-> +                       goto cleanup;
-> +       }
-> +
-> +       ret =3D mount_overlayfs(lowerdir, upper1, work1, merged1);
-> +       if (ret !=3D KSFT_PASS)
-> +               goto cleanup;
-> +
-> +       if (!lower) {
-> +               ret =3D test_cachestat(file, true, false, false, false, 4=
-,
-> +                                    O_CREAT | O_RDWR, 0600);
-> +               if (ret !=3D KSFT_PASS)
-> +                       goto umount;
-> +       }
-> +
-> +       if (nested) {
-> +               ret =3D mount_overlayfs(merged1, upper2, work2, merged2);
-> +               if (ret !=3D KSFT_PASS)
-> +                       goto umount;
-> +       }
-> +
-> +       snprintf(file, sizeof(file), "%s/cachestat", read_path);
-> +       /* Look at that page cache through the overlayfs layer(s) */
-> +       ret =3D test_cachestat(file, false, true, false, false, 4,
-> +                            O_RDONLY, 0);
-> +
-> +       if (nested)
-> +               umount(merged2);
-> +umount:
-> +       umount(merged1);
-> +cleanup:
-> +       /* Best-effort recursive cleanup of the temporary tree. */
-> +       snprintf(cmd, sizeof(cmd), "rm -rf %s", base);
-> +       if (system(cmd))
-> +               ksft_print_msg("Unable to clean up %s\n", base);
-> +       return ret;
-> +}
-> +
->  int main(void)
+>  /**
+>   * nfsd_link - create a link
+>   * @rqstp: RPC transaction context
+> @@ -2011,6 +2017,7 @@ nfsd_link(struct svc_rqst *rqstp, struct svc_fh *ff=
+hp,
 >  {
->         int ret;
-> @@ -317,8 +452,8 @@ int main(void)
->         for (int i =3D 0; i < 5; i++) {
->                 const char *dev_filename =3D dev_files[i];
->
-> -               if (test_cachestat(dev_filename, false, false, false,
-> -                       4, O_RDONLY, 0400) =3D=3D KSFT_PASS)
-> +               if (test_cachestat(dev_filename, false, false, false, fal=
-se,
-> +                                  4, O_RDONLY, 0400) =3D=3D KSFT_PASS)
->                         ksft_test_result_pass("cachestat works with %s\n"=
-, dev_filename);
->                 else {
->                         ksft_test_result_fail("cachestat fails with %s\n"=
-, dev_filename);
-> @@ -326,16 +461,16 @@ int main(void)
->                 }
->         }
->
-> -       if (test_cachestat("tmpfilecachestat", true, true,
-> -               false, 4, O_CREAT | O_RDWR, 0600) =3D=3D KSFT_PASS)
-> +       if (test_cachestat("tmpfilecachestat", true, false, true,
-> +                          false, 4, O_CREAT | O_RDWR, 0600) =3D=3D KSFT_=
-PASS)
->                 ksft_test_result_pass("cachestat works with a normal file=
-\n");
->         else {
->                 ksft_test_result_fail("cachestat fails with normal file\n=
-");
->                 ret =3D 1;
->         }
->
-> -       switch (test_cachestat("tmpfilecachestat", true, true,
-> -               true, 4, O_CREAT | O_RDWR, 0600)) {
-> +       switch (test_cachestat("tmpfilecachestat", true, false, true,
-> +                              true, 4, O_CREAT | O_RDWR, 0600)) {
->         case KSFT_FAIL:
->                 ksft_test_result_fail("cachestat fsync fails with normal =
-file\n");
->                 ret =3D KSFT_FAIL;
-> @@ -361,5 +496,24 @@ int main(void)
->                 ksft_test_result_fail("cachestat fails with a mmap file\n=
-");
->                 ret =3D 1;
->         }
+>  	struct dentry	*ddir, *dnew, *dold;
+>  	struct inode	*dirp;
+> +	struct path	old_path;
+>  	int		type;
+>  	__be32		err;
+>  	int		host_err;
+> @@ -2032,6 +2039,28 @@ nfsd_link(struct svc_rqst *rqstp, struct svc_fh *f=
+fhp,
+>  	err =3D nfserr_exist;
+>  	if (name_is_dot_dotdot(name, len))
+>  		goto out;
+> +	err =3D nfserr_xdev;
+> +	if (!path_equal(&ffhp->fh_export->ex_path, &tfhp->fh_export->ex_path))
+> +		goto out;
+> +	if (ffhp->fh_export !=3D tfhp->fh_export) {
+> +		if (exp_rdonly(&rqstp->rq_cred, tfhp->fh_export)) {
+> +			err =3D nfserr_rofs;
+> +			goto out;
+> +		}
+> +		host_err =3D nfsd_setuser(&rqstp->rq_cred, ffhp->fh_export);
+> +		if (host_err) {
+> +			err =3D nfserrno(host_err);
+> +			goto out;
+> +		}
+> +	}
 > +
-> +       for (int i =3D 0; i < ARRAY_SIZE(ovl_tests); i++) {
-> +               const char *desc =3D ovl_tests[i].desc;
-> +
-> +               switch (run_cachestat_overlayfs_test(ovl_tests[i].lower,
-> +                                                    ovl_tests[i].nested)=
-) {
-> +               case KSFT_FAIL:
-> +                       ksft_test_result_fail("cachestat fails with %s\n"=
-, desc);
-> +                       ret =3D 1;
-> +                       break;
-> +               case KSFT_PASS:
-> +                       ksft_test_result_pass("cachestat works with %s\n"=
-, desc);
-> +                       break;
-> +               case KSFT_SKIP:
-> +                       ksft_test_result_skip("overlayfs not available fo=
-r %s\n",
-> +                                             desc);
-> +                       break;
-> +               }
-> +       }
->         return ret;
+> +	old_path.mnt =3D tfhp->fh_export->ex_path.mnt;
+> +	old_path.dentry =3D tfhp->fh_dentry;
+> +	host_err =3D may_linkat(&nop_mnt_idmap, &old_path);
+> +	if (host_err) {
+> +		err =3D host_err =3D=3D -EOVERFLOW ? nfserr_perm : nfserrno(host_err);
+> +		goto out;
+> +	}
+> =20
+>  	err =3D nfs_ok;
+>  	type =3D d_inode(tfhp->fh_dentry)->i_mode & S_IFMT;
+> @@ -2592,11 +2621,6 @@ nfsd_statfs(struct svc_rqst *rqstp, struct svc_fh =
+*fhp, struct kstatfs *stat, in
+>  	return err;
 >  }
-> --
-> 2.56.0
->
+> =20
+> -static int exp_rdonly(struct svc_cred *cred, struct svc_export *exp)
+> -{
+> -	return nfsexp_flags(cred, exp) & NFSEXP_READONLY;
+> -}
+> -
+>  #ifdef CONFIG_NFSD_V4
+>  /*
+>   * Helper function to translate error numbers. In the case of xattr oper=
+ations,
+
+Looks sane, but sashiko has a comment on this about the credentials
+being used:
+
+https://sashiko.dev/#/patchset/20261119192311.2684978-1-dmnk%40google.com
+
+Sounds like this may require 2 may_linkat() checks?
+--=20
+Jeff Layton <jlayton@kernel.org>
