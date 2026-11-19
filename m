@@ -1,71 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795119260;
-	b=gGdr8ENWI0q8Z6e4Fq7fdHurMPtR5uz2N4r52+JklqU//ZSchlSQiKTBGbPLUdwgMDNG
-	 0bYs5yWvouIRQorbu9e8EOgcvqcxq7PXhLdg+Uv6cv+gMotu3iweSetTjJDtpls8Ts2zi
-	 CTwOIxsWumJrcp72h5goWuoQFMXfraOZgkHd3XjiqSYF4Pg/60+7nbLDGWr0q6DzrCMRn
-	 qnOYVe7bDdErcU43r7CCX7brE63IGnjVCiUSZWfkkXrHty/DaTQ264PVY23WfOktFL+gQ
-	 sKKCT7OTo41M/UmwB6NJP4JzMIxF6DkBHdNyxICT/s0vsUrGCeCnsfIB8TAzlPcxQdg==
+	t=1795121312;
+	b=cnH8DXX/ZsR1xrDVAkOeNksLuK7BSz4K/8/EJ54MyG0RuxrhPWKtulq6pze0Af8aekkh
+	 vjbrQXivcetFpkHZIpCOynUD62/X0aevbA3TX3sNaqKezOqURCX5hkTmDp3578n+Ecfds
+	 qqJswwBJ03IijnM4jkfgOVcGoz3weQQLMbMLIGVKOCS34GN+tHSVU7/hEXmIB7JFBmaMq
+	 CTXBkwGPYsRf6yG9tKKWmFg97utJ4ooGdbzGCDOSAr72ShkoyTiD+ccgbOcyxcQlf0AdS
+	 efxJN/cvTSbEDnOvpJEQn8YfpVwYTs/oq4juWizCBsQu68WgnvQ2Xxn/tsPpEdkaaKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795119260;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795121312;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=ztZOYDDj4YBSqYLNwQGp2fMnE23YsKtU2LeiU8/UQwE=;
-	b=06irUZf2HB4Ectvcdb7wvcVagxxHKrs5DvB8x7t7J+g0umphTzd8llX3kj2BSe3nYVkh
-	 iXSjIl0g0X140S3DehYnfuv/kr91xb2JGp1bu59V9iPBZ/YQ1cE+jSnajnLEpGxuuGJL8
-	 qNwlAJjBIKLP2sICv/kNBNFw+G5ZzCL6qpi8WyiCviU4WqdmvXLHj8z6eLC6vX8HazSfX
-	 GD70vJwZUcr/CQM7smvFTFXr47LoUSBY2e/cywfSs/4r6wwMvbAy/fBjwbHt3SdjtXffK
-	 YApbK24sE+iOS/nQQ2U3WGDFA1eBgnidm5w9mtv1tJ9Uv4uJMcsNmknIcwhq9T80ouA==
+	bh=3PGVJVSc8QkEj1hdnStWiMpyEZMIVB/RSu3VQkMSD4Q=;
+	b=Ajaai7QKegnNBftjudihJZNJzbHihUEIwGdQP18COs3jNV5mQkradseRq4R2ok/9iQHG
+	 xwV+t31In4zgrnTgyp8XrvOCw+CXb1GWz6tiG83mXR1T+AP805z93nFP/tD2fWhyP0fx7
+	 EX74oDH0xZ3hNF7RPUTCMk09p/qWX6E4pu6qKdbb5DUjq3zicwtCp/w7cKu9/OA3VubH9
+	 gJYfVW2K9ie6g8w42G062p6lcGd2OdoitaolKrlFZvuXmx7aXNNtVGztIxn/srGGe2sit
+	 1Rbl+gaTq7pKdASJErwGmgFcayUjnMT7S1ZNd9JMJPc80lzk3VqJaWYQC2uO20u6t6g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mNSYDVjJ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Ue9J5/vX";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 479D0606A320;
-	Thu, 19 Nov 2026 20:14:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E6C606CC7B;
+	Thu, 19 Nov 2026 20:48:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mNSYDVjJ
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 9941C1F000C0;
-	Thu, 19 Nov 2026 20:14:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ue9J5/vX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5862C1F000CF;
+	Thu, 19 Nov 2026 20:48:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795119260;
-	bh=ztZOYDDj4YBSqYLNwQGp2fMnE23YsKtU2LeiU8/UQwE=;
+	s=k20260515; t=1795121312;
+	bh=3PGVJVSc8QkEj1hdnStWiMpyEZMIVB/RSu3VQkMSD4Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mNSYDVjJ/BEzpaUbevR2cNTUAwuX81DGs1T+9sVKjtaxqcTSGfvEPldgdpP7Jchji
-	 jqpAwSVXHOuhZ5aY45s9O9/0dgEPRPZniI/JiMbsnRUlbivecIuPENcjQqdjVBDKMp
-	 ekjPDsS5ooFm3VuggwXme6iPKovVVyVVkrEajuUi3jLY+wMwI1h/m47qU+VP6NkvTy
-	 OJdcoCeBw7o0G6JmK1KtFdtqiC+TMVFiC8s6nHvMHqMFbv5kUCCyPJ3qOPEzuA1gPs
-	 3pgHdelX/ywey3HjBAONozyA2zIkL89dLrU7ld9cbhT8mPqGmYi5dUa7nyPLlXjqpk
-	 YjQ8Z6Y9pHgwA==
-Date: Thu, 19 Nov 2026 22:14:16 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: "Hallgrimur H. Gunnarsson" <halg@google.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Serge Hallyn <sergeh@kernel.org>, Andy Lutomirski <luto@kernel.org>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	David Howells <dhowells@redhat.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	Jonathan Calmels <jcalmels@3xx0.net>, Jann Horn <jannh@google.com>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	KP Singh <kpsingh@kernel.org>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-	containers@lists.linux.dev, keyrings@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] userns: introduce capability bounding set for
- user namespaces
-Message-ID: <av9YmPJexMJoCGWO@kernel.org>
-References: <20261119104208.782900-1-halg@google.com>
- <20261119104208.782900-2-halg@google.com>
- <av8QNiFcnGWocORy@kernel.org>
- <av9L2ez51erKkQNo@google.com>
+	b=Ue9J5/vXQQKgXeGGR/gDKOdLIvkPt/OHBv/xbkrYdBe65rGDof+xnYjDqlFvqyqQV
+	 WTbiGm1jwXFq2goSCG+63YU564jbcVpEBNEmScsT4QFSJLA/xI1v8/xsoWqAW2f1Ul
+	 SSVRPr2dUv57zfJ2/9acK9mOwLLa5IYT21C8vqN0sSoybGDiMczqGgpVA1x2ScNPvR
+	 SwWELDPV/KKxRb1t95LVaGxquYOYMrfFU97lDXPBU8ZIkB06H6EscpbeR2xjQHhO+G
+	 EVtsDIFt5g8DJJmL063y3QX3nR44hpO1z/oLunHmPHWXkAYut8GVWPBGAVsr8yFtPi
+	 pVmjC2n2lsCcA==
+Date: Thu, 19 Nov 2026 21:48:27 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: ebiggers@kernel.org, hch@lst.de, fsverity@lists.linux.dev, 
+	dsterba@suse.com, linux-xfs@vger.kernel.org, linux-btrfs@vger.kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	viro@zeniv.linux.org.uk, jaegeuk@kernel.org, chao@kernel.org, tytso@mit.edu
+Subject: Re: [PATCH v2 2/5] fsverity: add I_VERITY_BUILDING inode state flag
+Message-ID: <20261119-gefunden-beteiligen-epidemie-5a23ff160ef4@brauner>
+References: <20261105115532.613467-1-aalbersh@kernel.org>
+ <20261105115532.613467-3-aalbersh@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -75,46 +59,130 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <av9L2ez51erKkQNo@google.com>
+In-Reply-To: <20261105115532.613467-3-aalbersh@kernel.org>
 
-On Thu, Nov 19, 2026 at 07:19:53PM +0000, Hallgrimur H. Gunnarsson wrote:
-> On Thu, Nov 19, 2026 at 05:05:26PM +0200, Jarkko Sakkinen wrote:
-> > On Thu, Nov 19, 2026 at 10:42:05AM +0000, Hallgrimur H. Gunnarsson wrote:
-> > >  static void set_cred_user_ns(struct cred *cred, struct user_namespace *user_ns)
-> > 
-> > I read the diff through but this led me to dead end. Cannot find this
-> > function from anywhere. I look the changes again once this is sorted
-> > out becaus this is interesting.
-> > 
-> > I wanted to look at the call site to understand how cap_bset gets set,
-> > which is not now possible but I do get the gist and agree with it.
+On Thu, Nov 05, 2026 at 12:55:27PM +0100, Andrey Albershteyn wrote:
+> Every filesystem that supports fs-verity keeps a private runtime inode
+> flag meaning Merkle tree is currently being built *_VERITY_IN_PROGRESS.
+> They all serve the same two purposes: reject a concurrent enable with
+> -EBUSY and let the write paths recognize the special writes done while
+> the tree is under construction.
 > 
-> Thanks for taking a look. The series is based on v7.4-rc1 and
-> set_cred_user_ns() lives in kernel/user_namespace.c, where it is called
-> from create_user_ns() and userns_install(). ns->cap_bset itself is
-> initialized in create_user_ns() right before calling set_cred_user_ns().
+> Hoist this flag into the VFS as a new inode state flag,
+> I_VERITY_BUILDING, and manage its lifetime in the generic fs-verity
+> enable path. The flag is set after ->begin_enable_verity() succeeds and
+> cleared after ->end_enable_verity() returns (both on the success and the
+> rollback paths). Add the concurrent-enable guard.
 > 
-> > I'd figure getting this relates to my rootns patches (perhas). One key
-> > mechanism for me resolving the unprivileged in my use case is
-> > MOVE_MOUNT_T_MNTNS [1], which is orthogonal but just pointing out
-> > the problem space.
+> A new helper, fsverity_is_building(), is provided for filesystems to
+> query the flag. No filesystem uses it yet; the per-fs flags are
+> converted in following patches.
 > 
-> From a quick look, they appear complementary. Being able to do more
-> setup operations from the outside generally aligns with bounding
-> capabilities inside the user namespace.
+> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> ---
+>  fs/verity/enable.c       | 22 +++++++++++++++++++---
+>  include/linux/fs.h       |  6 ++++++
+>  include/linux/fsverity.h | 21 +++++++++++++++++++++
+>  3 files changed, 46 insertions(+), 3 deletions(-)
 > 
-> > I read through https://lwn.net/Articles/978846/ to understand the topic
-> > overall. Just mentionining as a possible addition to the cover letter
-> > (not a priority/necessity).
-> 
-> That LWN article is actually linked in the cover letter as [2].
-> 
-> > Hope these help and can be kept in the loop :-)
-> 
-> Will do, I'll keep you CC'd on future revisions.
+> diff --git a/fs/verity/enable.c b/fs/verity/enable.c
+> index fe8493280b77..65d3571c62b5 100644
+> --- a/fs/verity/enable.c
+> +++ b/fs/verity/enable.c
+> @@ -229,13 +229,23 @@ static int enable_verity(struct file *filp,
+>  
+>  	/*
+>  	 * Start enabling verity on this file, serialized by the inode lock.
+> -	 * Fail if verity is already enabled or is already being enabled.
+> +	 * Fail if verity is already enabled or is already being enabled. Set
+> +	 * I_VERITY_BUILDING inode runtime flag which will be cleared when
+> +	 * enablement succeeded or rolled back.
+>  	 */
+>  	inode_lock(inode);
+> -	if (IS_VERITY(inode))
+> +	if (IS_VERITY(inode)) {
+>  		err = -EEXIST;
+> -	else
+> +	} else if (inode_state_read_once(inode) & I_VERITY_BUILDING) {
+> +		err = -EBUSY;
+> +	} else {
+>  		err = vops->begin_enable_verity(filp);
+> +		if (!err) {
+> +			spin_lock(&inode->i_lock);
+> +			inode_state_set(inode, I_VERITY_BUILDING);
+> +			spin_unlock(&inode->i_lock);
+> +		}
+> +	}
+>  	inode_unlock(inode);
+>  	if (err)
+>  		goto out;
+> @@ -291,6 +301,9 @@ static int enable_verity(struct file *filp,
+>  	 */
+>  	inode_lock(inode);
+>  	err = vops->end_enable_verity(filp, desc, desc_size, params.tree_size);
+> +	spin_lock(&inode->i_lock);
+> +	inode_state_clear(inode, I_VERITY_BUILDING);
+> +	spin_unlock(&inode->i_lock);
+>  	inode_unlock(inode);
+>  	if (err) {
+>  		fsverity_err(inode, "%ps() failed with err %d",
+> @@ -317,6 +330,9 @@ static int enable_verity(struct file *filp,
+>  rollback:
+>  	inode_lock(inode);
+>  	(void)vops->end_enable_verity(filp, NULL, 0, params.tree_size);
+> +	spin_lock(&inode->i_lock);
+> +	inode_state_clear(inode, I_VERITY_BUILDING);
+> +	spin_unlock(&inode->i_lock);
+>  	inode_unlock(inode);
+>  	goto out;
+>  }
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 99caef43ff3c..7c90ce09f797 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -707,6 +707,11 @@ is_uncached_acl(struct posix_acl *acl)
+>   * I_LRU_ISOLATING	Inode is pinned being isolated from LRU without holding
+>   *			i_count.
+>   *
+> + * I_VERITY_BUILDING	fs-verity is being enabled on the inode: the Merkle
+> + *			tree is under construction.  The file is effectively
+> + *			read-only to userspace; the only writes happening are
+> + *			for the fs-verity metadata.
+> + *
+>   * Q: What is the difference between I_WILL_FREE and I_FREEING?
+>   *
+>   * __I_{SYNC,NEW,LRU_ISOLATING} are used to derive unique addresses to wait
+> @@ -741,6 +746,7 @@ enum inode_state_flags_enum {
+>  	I_SYNC_QUEUED		= (1U << 17),
+>  	I_PINNING_NETFS_WB	= (1U << 18),
+>  	I_METADATA_WRITEBACK	= (1U << 19),
+> +	I_VERITY_BUILDING	= (1U << 20),
+>  };
+>  
+>  #define I_DIRTY_INODE (I_DIRTY_SYNC | I_DIRTY_DATASYNC)
+> diff --git a/include/linux/fsverity.h b/include/linux/fsverity.h
+> index 61fe96ccdff6..c72edec57e30 100644
+> --- a/include/linux/fsverity.h
+> +++ b/include/linux/fsverity.h
+> @@ -164,6 +164,22 @@ static inline bool fsverity_active(const struct inode *inode)
+>  	return false;
+>  }
+>  
+> +/**
+> + * fsverity_is_building() - is fs-verity being enabled on the inode
+> + * @inode: inode to check
+> + *
+> + * This checks whether the inode's Merkle tree is currently being built.
+> + * While this is the case the file is read-only to userspace and the only writes
+> + * allowed are for the fs-verity metadata. This becomes false when fsverity
+> + * metadata is fully created and written to disk or building failed.
+> + *
+> + * Return: true if fs-verity is being enabled on the inode
+> + */
+> +static inline bool fsverity_is_building(const struct inode *inode)
+> +{
+> +	return inode_state_read_once((struct inode *)inode) & I_VERITY_BUILDING;
 
-Thank you.
-
-Br, Jarkko
+Isn't the fix to make inode_state_read_once() take a const struct inode *?
