@@ -1,90 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795069291;
-	b=v6H8Eqr0fnYg7hU+LXloUuVLfsJJTLJITJsjVeeaHlDZyMUyKz5GW7+4GjAhwIL2/tuW
-	 Z/J5H9olDGIiIpfp4ET8IbmXlCpwFhxUvMm+lR+2vPiQAzM5xzl2IAdCSh09obDRoDZTW
-	 SeeDSP7OiUj9Y14u+oQcKdeJjyUNwJ8T/qEt6BOWsqH23A1NFQHWCxxQva87+TWbbutvQ
-	 oquDkCSfgv3+smy38YWUTKeELad0tojT47fnzTEQLpVgDdSyUIZ1Jze9Ay174vZUURBih
-	 RUK70gSCwOIGARYNdtuxBhvUsubxIsmUwENWp3NE95efwygaTtI8F/lghl7smzzaZag==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795069291;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=btZ2TprQHQojMwnDwVX6xxEuU+pesarzzPhbHJEdoGg=;
-	b=aJhdrYDTVGM+hZ5EhauuarR1r7QtwsyMYPlZBm22siHWZpzkvfod8UQvMai9lFeMEml0
-	 K+LQkFNoBQX9cti8KLJJj8dr/Q9oS4+MCTMoisiwPbwJOr2siT+9Jnyeol/5u/iheBMhQ
-	 tXmnsGyKQsGo3cVD68Zt3SsG2QZEwYz7NUxeb+f1xx7kA3iRlpLXDO6UvSk5GkS43We4m
-	 k9hcw2QysNvYO9kyRG+EetuV6xJZC0KsLO7hGUu2ebkqq+sdr5H8SewU628korMVxwLEv
-	 7WsaU87pfFO7DPYkji3W+JriQ0jhszjK7dB/7IfPsZByVLWOWAISDISNjsrowcCALww==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e7xa1Dpj;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.50
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795072776;
+	b=wfVAjlpl45U1dOiqYqc8Uwfi2TPNQcPQLdFOJz5PZ8HWiXJXaUcXfjfRxtuxcyalRguV
+	 fFC6oLHpFILVskSbY3zmhfwRp16g/HHMrFgvvDE+UhIcs9Mj8HCmp65GGg66TkI7nrh5d
+	 1JjJbIpUCG+iSf0+8DH0yvmtI2RJHKMIxd1uggK8IIS1AfAZkvz3kCoAOmPke1+GLJqYc
+	 NXxsnDgPHn79BH2vZQ69yovagmV1zDgaLuGE/X55MkLbMxPQg/NRJntCOYgLJnNyLaRyc
+	 phKsh/HrFJXdMy1mb64/zI8O8uQ7TmYKpJ4LP8axFqBAyBfMF1I82Z9ywKvrO0fEGNA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795072776;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type;
+	bh=anpfjOBmsHIUC3TQqXl6CPDDEhejvdqvM3KrtY3UP0Q=;
+	b=OQUzrsLjIrbs37AwU22mRr6B5DVpe+JG4E5kcNqFciXesyJT1lwgA7YjbScvhOwVLltl
+	 r8a+f+YW6k+9AjumBnn1NM+JHGAi+i6Ti4Dxy4L8LHD63RfkNxaCgdnwIFa9p/9Onbhxe
+	 myRvTc65rpHKd+8yF5eGLKpT1/7kx1DiY1Bj0Kh3dA9sv5Sm/s3ju9hAOu3vuuKnLZn/B
+	 D9K3WX8LTMZLlLCiz0zTGh3Z09sDopWGZdh174Mwg2zWfN6aYvViLl2ArTAxvHaHuIJ3K
+	 DZkP30VTo8Jj+KNl1yQAOZxKQRLJ4uwB0BdO+XFZY5K/FqG8H2CuhBrFWav5OH03yZw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ipgbtKzO;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.50
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 7CC20606A32A;
-	Thu, 19 Nov 2026 06:21:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8674860A2602
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 07:19:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8674860A2602
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e7xa1Dpj
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 99E921F000C4;
-	Thu, 19 Nov 2026 06:21:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795069291;
-	bh=btZ2TprQHQojMwnDwVX6xxEuU+pesarzzPhbHJEdoGg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=e7xa1Dpj4IV+gGquktCuwkP8uLbLXtGks3wuXwt/tSMkOsmBjJ/0z/lSi6xpEE1if
-	 M+ClMf07lAH8kSdnFi7nUiv7E1oRGPNtacMDB0C9ZyZ9nVvpOERjMX8QaAKZ7lKRn4
-	 M1z2+y5hTJxFCzzBM0zcOMJWoXKpQIZjVMenn5ZU2BG85Fmxa/pgerSdcdz7kbKLdA
-	 QCVfwXzNN8zWPDBlSNSXrmUbYCk3O1GsxodMLXYujCtnvsjSw4DQj4SWvGVet8sWJk
-	 gjUyqjq21Sc89moWlZp69HUgI6J3icvNRaTO40aErPOsiyV3xe7t6GSDpp7+hZ+Auj
-	 I9xdx3hVfOiUQ==
-Date: Thu, 19 Nov 2026 08:21:27 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Paul Moore <paul@paul-moore.com>
-Cc: linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-	linux-security-module@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Ben Segall <bsegall@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>,
-	John Johansen <john.johansen@canonical.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Juri Lelli <juri.lelli@redhat.com>, Kees Cook <kees@kernel.org>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Manfred Spraul <manfred@colorfullife.com>,
-	Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v3 00/13] Namespace for namespace roots
-Message-ID: <av6VZ5NQG4GwYvPl@kernel.org>
-References: <20261118193539.240065-1-jarkko@kernel.org>
- <av4CdM-eW73oO4wB@kernel.org>
- <av4NonrcCxzMoDyz@kernel.org>
- <av5-Zc4xhgkPxb7p@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ipgbtKzO
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-9211bbce3abso10836816d6.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 23:19:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795072775; cv=none;
+        d=google.com; s=arc-20260327;
+        b=MIG46tI4oBI+ozGam8o4gr7VMCWhlPjDG+7IODxyINNTloP9v9lqGlh+upOY/PekJN
+         WSUD4+YcU4q5y6g0pvMjx/v7kZI3JNCHCb4Jdrwzf5HDdUFx6CVIAEDBpjcG9TmKU1gR
+         c0qfDxRlmeDGo/7FwqKG8SxNHWA6O9mX6W7WrwvFa+OhEQLKPwS2+qQve26B/LUQw6YA
+         PBkphb4uf0r3sy+2vaRbsdeP/MaYOqzrkwvJVX86WSduzEqSwJp44gkF5j3AdqoXieNy
+         a/7UIoLrVnmYf09t0nzGfLcZ9Z09QTWYUgxDiVi7mq56ZIOm6pDGytEk6Ohw/cAok94j
+         TfnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=anpfjOBmsHIUC3TQqXl6CPDDEhejvdqvM3KrtY3UP0Q=;
+        fh=0lQzMOk8QheIR9RGx7RV81FG+UJ/ZcH5G5NDnoFimlo=;
+        b=W46/ONwYB3LAN3AcbiBnEP4MdxfWszYX3GcIBngc+IiOWz/TjYxezlOGmQdl2QlC0z
+         HJAn8zcNS3DlZ3JvjoM8o1CZlnbGADZ9ZfOO5woVYYS/2XcH9ID0RhCtyNY9ut15m0hr
+         1wTtE64ypgJVZk4HTmI5vmmtrdzL00LqTDIgiDcOjvMQhJkyPqQNZyUB6y1vaGKVZW1c
+         sqHV7bBMshYBkN2JDUHxQm5KryKwWdJ9h6bWwCk/3UeyglKnRw4suBkNEffGCQsEUp05
+         6IEDiEzFF4/hDLdacx7pmqTs8tIDymN6qt9wkLpXRPbLoI8RkvoGk6l/pN/egkQ8TA0Z
+         lo6w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795072775; x=1795677575; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=anpfjOBmsHIUC3TQqXl6CPDDEhejvdqvM3KrtY3UP0Q=;
+        b=ipgbtKzO47kTqztaxtvQrPaEEJkMqagfg4PklqZem6C5iY8BSrJ1dqhz+10BPSuIoC
+         cSZWcWhzzPX8z6eZGM7m4yZ3Foh0d6BcV3IKA74DloeR4YoLXUDaCrV5zP9Wba+hntww
+         CP5YsvJMuKXaNeue5C3tkzE8PtSLDRxoENoJXzB9nm9wT7N3FS5PD2eXX55BdR7ShxO5
+         dtWLJLhIeZppiht6yOQwd9ySj7byEXFmAJPJYaPsd3/qMm8k/MxhKeI8GNmGaKBHT/Ze
+         kIdRNNEpVwRBA1IvUYjU1u4uAuZnf4puMJwAfuZ+kt+p2wPzHbs5cpPKg/Nmk9Ms5pLH
+         NIxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795072775; x=1795677575;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=anpfjOBmsHIUC3TQqXl6CPDDEhejvdqvM3KrtY3UP0Q=;
+        b=J5NmQVxCl4HLr894xfofS5j2kTtlGP3o3F+lNz6C9kredlqzWw7dAUiz9uRV0Obl1G
+         UG1xTZ6TcSLWCd486HiG4DAeyiVLC7SCFUOCLW/p8SxmQG+f42n9wXM65QS+8Qff5Xga
+         6ryCJGqbBvEl4ar4k4hlMdyNfbIJ6RFBWJKj0b8Sfwg/5za28qMYLlCBUPx7qzymF5sZ
+         XQ2bwY4xsx+ZHUOHwsYejVk24o9pfip9e107Xws210Oy2Dpa+G4CsrAYBFzfhzb7CT99
+         tgRqx6bO2E9bGC/bqMPnVAWsMpFem9h9ESOP9ysCbuyDouNjNjrw1JL7cXzmHnwBWfBB
+         kFMg==
+X-Forwarded-Encrypted: i=1; AL+hErF8AxazRfxC1BloG0CRnGVysgOmi6qBy2cCwDkCzIyQ8ofN5MDPW9wUVyzbaLxu3aY+mm7QvAp+B5A1CvqG@vger.kernel.org
+X-Gm-Message-State: APuU4Z9dOs3UUp/3ld6vm7HQAshDhPPWhQE6mQCkwS/MiQ9nl8M5+QIl
+	vV+i32cK7qujKU+KI79w9qSGYDShUdvUew3co7wb31UJ7s93XB6gy/9qXcc9xulWiApAI8/UGK2
+	Fgns6kRROMZzM7ZHPlBNab6ofLVRZJq4=
+X-Gm-Gg: AZFdTZcFDYft4nwJ0n8vcPAtVuNPjGUxBaNn5+ucjDusHJryHwPEyEpP9KzgmPg6NHs
+	3rLD5f3OOsosIon78vUi6jQg+I6Wp0tv8fHxwAClWALATzt0wr4n5HZ9r/0IsGa7DLaLwD3TWOP
+	wHcu33KpocjB7YdFb8O3mz1KELIUd2zwcYYQ8w5oLFKG+owJio+0c+UoUm8nj6iRjj7tK7a1LXM
+	HpIDbJgOJR4ZAL/hKPf6VwM1Ln+xlFiuqBMERNr7JlJg5rwS/OxqX96L5xc4yV2dTebxGWYIlDR
+	dq672QdtGxNhM+rgpMrUYg+cMArXUqfmJTsFCdE2iQU2yLIYMB+L/TstrTUMsHIzTKcj38k7tl+
+	OPfPar7guw/eGO769ss172R6dZT1V/ZNw95eYhPtmN6JbFQ6AhnK47OgPS/Qu6a/ch91XJg9ykP
+	fcE15SpwgQvJ55xVyjQQ==
+X-Received: by 2002:a05:6214:4784:b0:921:1cc7:80c with SMTP id
+ 6a1803df08f44-9211cc71c9emr52693146d6.34.1795072775342; Wed, 18 Nov 2026
+ 23:19:35 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -94,70 +102,54 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <av5-Zc4xhgkPxb7p@kernel.org>
+From: Yingke Xiao <inkxiao12@gmail.com>
+Date: Thu, 19 Nov 2026 02:19:24 -0500
+X-Gm-Features: Aa3M54qXFrwgtFLlrgRKJFJJgccYJHjtkJLvYiWNUjzb-GPFdVBg-cmr6Ghvh1E
+Message-ID: <CAMcAce_827HxqEcwcN9Pp9n1J_vRb15qGaKC-U+ERtQgoKn2Ow@mail.gmail.com>
+Subject: [PATCH bpf v2 3/3] bpf: Add missing raw_tp_null_args entries for fs tracepoints
+To: bpf@vger.kernel.org
+Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, linux-fsdevel@vger.kernel.org, 
+	ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Nov 19, 2026 at 06:43:21AM +0200, Jarkko Sakkinen wrote:
-> On Wed, Nov 18, 2026 at 10:42:10PM +0200, Jarkko Sakkinen wrote:
-> > > I.e. before PID 1 and /proc/<pid>/ns/* existss, nsfd for namespace other
-> > > than root nsfd can be acquired as follows:
-> > > 
-> > > 	int mnts_fd = ioctl(root_fd, ROOTNS_GET_NSFD, CLONE_NEWNS);
-> > 
-> > 
-> > Unprivileged caller becomes the owner of rootns->user_ns. Each mount
-> > syscall then just checks CAP_SYS_ADMIN against rootns->user_ns.
-> > 
-> > The user space wiring goes along the lines of:
-> > 
-> >         int root_fd = rootns_create(ROOTNS_KILL_ON_CLOSE | ROOTNS_CLOSE_ON_EXEC);
-> >         int mntns_fd = ioctl(root_fd, ROOTNS_GET_NSFD, CLONE_NEWNS);
-> > 
-> >         int tmpfs_fd = fsopen("tmpfs", 0);
-> >         fsconfig(tmpfs_fd, FSCONFIG_SET_ROOTNS, NULL, NULL, root_fd);
-> >         fsconfig(tmpfs_fd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
-> >         int rootfs_fd = fsmount(tmpfs_fd, 0, 0);
-> > 
-> >         move_mount(rootfs_fd, "", mntns_fd, "/", MOVE_MOUNT_F_EMPTY_PATH | MOVE_MOUNT_T_MNTNS);
-> > 
-> >         struct clone_args args = {
-> >                 .flags  = CLONE_INTO_ROOTNS,
-> >                 .rootns = root_fd,
-> >         };
-> >         pid_t pid = clone3(&args, sizeof(args));
-> 
-> 
-> [BTW, this patch set is pointed out to David and not fsdevel mailing by a
->  mishap, apologies.]
-> 
-> I reduced syscalls can be further to only a single syscall: rootns()
-> 
-> The complete API after this:
-> 
-> 1. rootns(flags)
-> 2. ioctl(rootfs_fd, ROOTNS_GET_NSFD, ns)
-> 3. ioctl(rootfs_fd, ROOTNS_WAIT, NULL)
-> 4. ioctl(rootfs_fd, ROOTNS_KILL, signum)
-> 
-> An updated version of the patch set is available over here:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git/log/?h=rootns
-> 
-> In order to find more evidence that the API is trimmed and code has no
-> extra fat, I tried how LSM hooks size-fit.
-> 
-> Attached are the experimental LSM hooks and while possibly not exactly
-> right they should not be at least in the ballpar (Paul?).
-> 
-> Not perfect, but very usable, and there's a steady track of convergence
-> where resolving a bottleneck leads into a better symmetry and coherency
-> overall.
+Multiple VFS and filesystem tracepoints pass NULL pointer arguments
+under valid error or uninitialized conditions:
 
-Orthogonally, solely fd-local security model (as all is tied to fd) is
-the best thing ever when defining mandatory access control policies  as
-the full flow can be meaningfully described; i.e. roonts(), sendmsg()
-and other calls track the fd's data flow with almost the highest
-achievable granularity.
+  1. fsnotify_destroy_event (fs/notify/notification.c:82) passes NULL for
+     arg 1 (struct fsnotify_group *group) during queue cleanup.
+  2. vfs_open (fs/open.c:1012) passes NULL for arg 2 (const struct path *path)
+     when opening anonymous files or unnamed sockets.
 
-Br, Jarkko
+Add raw_tp_null_args[] entries to enforce null checks on raw tracepoint
+BPF programs attaching to these hooks. Verified on x86_64 7.4.0-rc3 and
+6.12.118 LTS.
+
+Fixes: c83e2d970bae ("bpf: Add tracepoints with null-able arguments")
+Cc: stable@vger.kernel.org # 6.12+
+Signed-off-by: Yingke Xiao <inkxiao12@gmail.com>
+---
+v1 -> v2:
+  - Correct sender identity and Signed-off-by with real legal name per DCO.
+  - Remove drafting notes.
+  - No functional code changes.
+
+ kernel/bpf/btf.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
+index c345678..d456789 100644
+--- a/kernel/bpf/btf.c
++++ b/kernel/bpf/btf.c
+@@ -6604,6 +6604,8 @@ static const struct bpf_raw_tp_null_args
+raw_tp_null_args[] = {
+  { "sunrpc_task_run_action", 0x20 },
+  { "bcache_journal_entry_close", 0x20 },
+  { "bch2_journal_entry_close", 0x20 },
++ { "fsnotify_destroy_event", 0x20 },
++ { "vfs_open", 0x200 },
+  { "fsnotify_bump_event_seq", 0x20 },
+  { "nfs4_cb_getattr", 0x200 },
+  { "nfs4_cb_recall", 0x200 },
+-- 
+2.43.0
