@@ -1,102 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.69.102
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795113280;
-	b=KMUmjU1gFs2aNQtQ1pWKwGccYonkRZGj7QOCUE541g0NBhZCYs9S8LX5CZCxFeJe/uUA
-	 eU6m/4D6U1pYHwGjYYIcCniik8kBBndW0iFhESajYfEenVrYAB3raIHEuYopL+0fJU6UM
-	 sYH3OyFZMp1egOClAl3hT/6kXg3ErgMRtqkdBPEvIFTsUaTmyBLzr9JXZueKr67EZYGqW
-	 jAUFfVVrA8tQS/o5SLIdEgw+yW8e6OXRt3/scQzIAk2z7NcssCSCFEIQE+8Un6NXuAGrM
-	 slCZYk4ZvNsUCrT9VYQzfmd4UFU/XI+ClBLUMT/SUhGGGqrpHmv5JapHiT65hRaryVg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795113280;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:
-	 X-MS-Exchange-AntiSpam-MessageData-1:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=0vxw8Y/Y3wzKmT9yYuQHcCtRpctNh95EEn7KFbp0XfI=;
-	b=kf7F5Q2W4w9pZX67PjV1Dleo9Wn2txji3wdo6Zi4If7lzLNkYdgLd6fNo3MFCGwpENXl
-	 LBd92cJFgMPuJstLBVUcz1VTRglkTDDYn2ytwoYILYQiio2GyTKp89/+4D2RgLLx31XFA
-	 q36bVcOLdiymEVhdxisWBfZSR/gpZSiMnzkpU/YS+BXkCvmIKlPbCcxfS37oiO6ZK9aKk
-	 fd2pQzuTjGkqzUK+ENCjOvOVxJyey/98xqc2zfslVHd7eWbvyuWiTboGtl2p17JQE4FrB
-	 rxR08oKoSsufuomBGIpVO5Zln/16Zpt9+/joDd7+L4Kk0UhFm6gn7Q9WofXY/ZQIrrA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=virtuozzo.com;
-	spf=pass smtp.mailfrom=virtuozzo.com;
-	dkim=pass header.d=virtuozzo.com header.i=@virtuozzo.com header.a=rsa-sha256 header.s=selector2 header.b=VU7jN7Wf;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.69.102
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11020102.outbound.protection.outlook.com [52.101.69.102])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=64.215.233.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795114359;
+	b=hNemNS3eW9gQsZe80r/1tRn0HhlIcm5oc/rOfqN7ydCrwNGJZgsWm6fuLIl9SBwLFvEd
+	 PNRz8praKVSJcBpoh7eg651IpvzcJtCf0i+RUGzkuEDwuEXkbjZUiP4pqne047qw3oYUN
+	 QHiBcsqWTLn4yTyY7dnMXXI34FTp39J8IAjeAGI1jmOvFVQhGHVn0c7vGwt+VI543bCof
+	 9Rf+RAlr5ch486afdR7ECdAZniaRcjdlnoTLuGCwTNjMnfg+tGJ5t9cGE9ZFMFLmzb4YZ
+	 jRwQhaFsbGFYBteP/GV/96dJOIRwsNRbWTONNf0oMXD4B9yUA4Dcl6EGlo/b6rMtUSw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795114359;
+	h=DMARC-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=t0Ic1mzIR68UWnq2c+X05T/4Ui6CKPSbnUPVfSE8g04=;
+	b=AkoCz2XVNd0oS34MRe8k6DvjLte5sgFO2ZaVxLRTdBUBV90qKFK6NCCvTDsUR0bu9deW
+	 Yb4X5dCzt/8vhSgfaAIZ/LG/CTFVZgiK1MBzUnFOLF8rYwoFGFHppWFkbWclAkAE3GVGp
+	 LEDG88vqwkhED1Db1zC5K6Kz2494d9hwgkiUuypQjEuRmOly4Vsi2pQuTIPVjp5gN28QB
+	 XpS7lvc3CED+AlLff8IWF8a1Rs94Miavdh71YvX7C+W24ot7Z1kgyL3LLvttcKP0UAdv6
+	 h48lky0z5emHX5/LexJ5y8t5F3CqG6Jz0IU5OKVI8ht3Q2i+PlqGfAaojLjHG60wXeg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=janestreet.com;
+	spf=pass smtp.mailfrom=janestreet.com;
+	dkim=pass header.d=janestreet.com header.i=@janestreet.com header.a=rsa-sha256 header.s=waixah header.b="m/G4DBHs";
+	arc=none smtp.remote-ip=64.215.233.18
+Received: from mxout5.mail.janestreet.com (mxout5.mail.janestreet.com [64.215.233.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4901606A320;
-	Thu, 19 Nov 2026 18:34:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4901606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=virtuozzo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130A3606E8F3
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 18:52:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 130A3606E8F3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=janestreet.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=janestreet.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=virtuozzo.com header.i=@virtuozzo.com header.a=rsa-sha256 header.s=selector2 header.b=VU7jN7Wf
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RRDXALFrtkhhGfp0VOFkZUbA2japJG1YjMsun6oLqlHiR1FphSQ+V2LkB2eEC6AEL5vb1Ab4v6Lp9W/yF64OmspJot7aiuk0EyY3EEyRLmYQ9Jm2Q+J+Fx5Qnj7d3LfJKajfoshEBULozIpDyWCPr3VBDO8qjl0I7/FUwjYNR6bhzkjS4YZzYDP5uI9ufUW7nlnQfDaTzYuHObu8z1CJAMAB5fSDYnh6Y/y6yBQ2h9DyhTan+DxiuHhUziIzx8fXQqosFAaFX2qqJdG4db39rJPzVFN1iU0Jz9dduwxVUo4Rf3QSVDXilb9T1CqfzRYxWoC38WLS5+iGMB6xrDQmmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0vxw8Y/Y3wzKmT9yYuQHcCtRpctNh95EEn7KFbp0XfI=;
- b=OpGWc2XoAq98xga4odbWURpn4UimGIUcv/lfBZGaUKKRvD33JDUTc6zgRqvbzHccQHezyUReNeK9R8i6PY4qrbOMP2X8DL8h3E61bhPrXvXRnn5PNxOAL3xhkBkmeME7dgFHhKoZ7tmsm78xZATLzmPUh8/Tb+GMdYalJLzrlYExRgMxfu/AcSEWXlZP+mTiYE9ZiI7d5530Ss9iglavKtTAqpc2KUajPEqohKczaVom3qWTpEIsQStjzb3rmxwoZHpYQkxoBQF7KzdUx3WN297/m6BtoXQ8yEguX/K1CjUAAKII06fK+XPEvwzdA95aMmiaC+D7Hjlo2GH8wpJjhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0vxw8Y/Y3wzKmT9yYuQHcCtRpctNh95EEn7KFbp0XfI=;
- b=VU7jN7Wflm4UZGUrnXkh2R7re5cbxYCUiOcJHaGgCC4sPcJETolXDAkx++px92PJgEmREwE+DaGy0H9pcvZeuFTfS/9ijbQEh+3cVfOmCQqudmq1ADaLBUzvn/GrK1aiHmWH/VoOoq6nbgNAcTCT1441K1uMSFdoFGgpcbm0IetXclJIJHTJcS7hIJ+STVlSYCl2WzVmRKnFwLBFDY0aXSNYBX8S6zh58451u7oCdQz7pkZ4TiNRLzmWxsO+BK3eeDAJEVeohy64XVuek6COoTunxcjO+eYN99wiOiQFQUEgPSF3yflMY+YIcrqJVJYORlzCxztcL+6AnBcM/oiK9Q==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM0PR08MB11804.eurprd08.prod.outlook.com
- (2603:10a6:20b:747::14) by MI7PR08MB837237.eurprd08.prod.outlook.com
- (2603:10a6:290:102::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.10; Thu, 19 Nov
- 2026 18:34:36 +0000
-Received: from AM0PR08MB11804.eurprd08.prod.outlook.com
- ([fe80::bf46:f137:f6d2:5b3a]) by AM0PR08MB11804.eurprd08.prod.outlook.com
- ([fe80::bf46:f137:f6d2:5b3a%7]) with mapi id 15.21.0615.015; Thu, 19 Nov 2026
- 18:34:36 +0000
-From: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
-To: Amir Goldstein <amir73il@gmail.com>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,
-	Ding Feng <dingf3ng@gmail.com>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-unionfs@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] selftests/cachestat: add overlayfs test cases
-Date: Thu, 19 Nov 2026 19:30:40 +0100
-Message-ID: <20261119183039.1505892-2-ptikhomirov@virtuozzo.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <CAOQ4uxjHwtZEHu9xMM6zg9niSgNdLXhAu65jA8Ai_SKVg-W2nw@mail.gmail.com>
-References: <CAOQ4uxjHwtZEHu9xMM6zg9niSgNdLXhAu65jA8Ai_SKVg-W2nw@mail.gmail.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BE1P281CA0102.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:79::15) To AM0PR08MB11804.eurprd08.prod.outlook.com
- (2603:10a6:20b:747::14)
+	dkim=pass (2048-bit key) header.d=janestreet.com header.i=@janestreet.com header.a=rsa-sha256 header.s=waixah header.b=m/G4DBHs
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=janestreet.com;
+  s=waixah; t=1795114358;
+  bh=t0Ic1mzIR68UWnq2c+X05T/4Ui6CKPSbnUPVfSE8g04=;
+  h=From:To:Cc:Subject:Date;
+  b=m/G4DBHstImSa6u2UmSNW9J+5pWcSrnCUlzciL2P3VQJMRvO1BQhATPyKBFes7/wa
+  n/SVh+zJXNIrm3Ar1ehugGQht8+Hm3BYMIfl1tpKNZKIaBzU4x8YYeZjTzozinoPsM
+  yOChphFXGJxbgfQRCL7AurJXUf2A/Ll439NMOF+DMgtJshD1N8zzaShIDMbCNg8SJo
+  ePCvbtkQBnum33s5ooNdvZixO8+mVimdJSitBkqNEzC0zpicdgna4uW68q7k5afDHi
+  Hs7WilIFvB459B7YsZC+L4kuY7jRLgyzoEfz8qVmvJTx3bsoAHPQoGTrOcLhnpDx3S
+  aCEHM2dyopHWQ==
+From: Eric Hagberg <ehagberg@janestreet.com>
+To: stable@vger.kernel.org
+Cc: Baokun Li <libaokun@linux.alibaba.com>,
+ 	Jan Kara <jack@suse.cz>,
+ 	Christian Brauner <brauner@kernel.org>,
+ 	Tejun Heo <tj@kernel.org>,
+ 	linux-fsdevel@vger.kernel.org,
+ 	Eric Hagberg <ehagberg@janestreet.com>
+Subject: [PATCH 6.18.y] writeback: use a per-sb counter to drain inode wb switches at umount
+Date: Thu, 19 Nov 2026 13:52:14 -0500
+Message-ID: <20261119185222.1147448-1-ehagberg@janestreet.com>
+X-Mailer: git-send-email 2.43.7
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -106,353 +63,692 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR08MB11804:EE_|MI7PR08MB837237:EE_
-X-MS-Office365-Filtering-Correlation-Id: bb38dd11-d384-408b-8f21-08df466bc347
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|366016|376014|7416014|52116014|1800799024|23010399003|56012099006|5023799004|261009223027099003|261021121427099003|10067099003|261102130727099003|261102123227099003|261026140227099003|261022105027099003|261022075727099003|261022115727099003|261026121527099003|261021123027099003|261028144727099003|18002099003|22082099003|6133799003|4133799003;
-X-Microsoft-Antispam-Message-Info:
-	GBfUXBfpOR9xbu6gtnEgeHucV0u4WGKs7u6LORpYyLgwzAXExvpXCVkF22bIfhJzNfuTY/mGHC6wC3Um6DIu1H3FmHWnfjXfXqpCyYiuMQKHLYHh25/U9h5xcqCMTCCPxB5REw8YEDNjoISM8gY2FM+9fI3vEDXMbqmkndAR1zrfXkMAa9lCyISjx8NgiXCXmT/VnBmFm99yLDsCI3e144iOGEDsdRqCPYeQUvMauV8aydCtASXePsS6Zaz+HUZVW2K/hQ61eA3ZlX6TlCwhfkieNeVsoshSGgkHhcTllatlw+LDkWWYEfW9F1urKQD6MpGpoEXtAZj8mamhCQC9c8Z/IaojULoIGp+XKVZwOtsiFcI4EaZEB8jwDYmGsG5SaYjeuh1ugZziaRGqSyaqBuMzF341NJqgb7cYjRth9wH68bqMXA/12nNbg4uhEqezplnNuzjVbbkBo196yWv5HTL2k/I4hVs3YD25idBruLvB5af9l0Rtz/o1uObjG0vztfXd82DIS8bYUR7ybNdZgqZ5rPPj4uGJZVedaz5XJmzHNxFxwyDKVxhn/OkQqt64gVdlL+WGK3YqERpPL+eRwLDyr69ljkB+hITaQVfOn6TGozceWaNufs+cJRmQKr5D
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR08MB11804.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(376014)(7416014)(52116014)(1800799024)(23010399003)(56012099006)(5023799004)(261009223027099003)(261021121427099003)(10067099003)(261102130727099003)(261102123227099003)(261026140227099003)(261022105027099003)(261022075727099003)(261022115727099003)(261026121527099003)(261021123027099003)(261028144727099003)(18002099003)(22082099003)(6133799003)(4133799003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?HXbLPj3JXAfV+lPwKZy2Jz7+U/MiChpfXdslH+N3f9CfOf/WAuXD9UJw4T7n?=
- =?us-ascii?Q?YXWoMzUsarRvDDklRlCHaIWUd238Gt96qwfylyBfVTFx8hSDAxjNrdHkG+jG?=
- =?us-ascii?Q?/HjdAyUR9Xz3gQXfhH0dKG9NzyjFOx4LqSm4nY/ltC6xAQ1RVFwVN9iSAa/R?=
- =?us-ascii?Q?9qJHp4bhKuHiYkRWzGolAicAHlRWi+sLsjffkpx9kojAIB8oOBC7pPxRB6AE?=
- =?us-ascii?Q?bAUMGkl4hwYdRtyr4Vdb5S6oOjdrLl4XKkFtFratwqy4ZEu2E6UYYW00T2Xr?=
- =?us-ascii?Q?t0dPeCJtPoueDiqHJ4mg5udSm8i6KALHqrg7eWH21X3a+W/IyNzciUmozSgk?=
- =?us-ascii?Q?LPgc9ibFIxS2ebz4wR0WLhWw04mScfbhidWW2y3yj0VyIWgmGjj+8aMYhxeQ?=
- =?us-ascii?Q?eQ1nNCNYJWQ1c/gRH6CpLgWgT9dCnuy1ZGbTUNy1++jjwun7RXFQ5nvKfnlS?=
- =?us-ascii?Q?9ZzsfypHpLRRwl9SbOgM6T/eVUbFvB0jviBqEpGyGB6qL6efbQIMV7QiacT2?=
- =?us-ascii?Q?SG8dZSAQt+7qhDB6usKETwVh2iCJoiykzVwfDxHyugFfzeZbihijO20lMVNu?=
- =?us-ascii?Q?hGpHkT+tuWWh29j7uHzhE/qJFZdhvxR+SMLlR1gBHRymw7vEsuUweFftDbgf?=
- =?us-ascii?Q?QcLqeGNsg/thyDoiR5sf3hSgGNLkjpH3OjoK2KVx1ub8pmyqE5b2dGUTjis3?=
- =?us-ascii?Q?Q5FazEKQD1kLE65AncbPjdQ67GUy1abjbHgWw8BxCkz34LaDHU66k5Fr+1oP?=
- =?us-ascii?Q?C4xzXuY5z3rGUBijaEC0vTQhcGyxW++BqUrxi9E0gHQqpmBB1HbNyEMNbHOQ?=
- =?us-ascii?Q?aSSfS7Lfq84L9mP+DB4boT6D3UoG07qK/Sp8FIShh0nwSruSlTeb0DmcKOfh?=
- =?us-ascii?Q?yVSm1sX4JQ7ikaqmNBWuFLvNQpq5jryh7Low9+DE0epD3dEr/9WjSeOqxdZW?=
- =?us-ascii?Q?xKFYmD4z9mO2DOPqDXRfhnmvybQscb/bJguxzzdtJGt20lghMyIClQmsOG2S?=
- =?us-ascii?Q?6PM5z8hdT8mclSR4aiM7qEYaBCdsyNqFGBme9+JieIRUn3oB3UaY1eSRz6CG?=
- =?us-ascii?Q?b6NLR0LprY6AdVk72HdKp5WumQ/0YdOFDgww0yPvuosv8QlJSRX59iF3jdan?=
- =?us-ascii?Q?aWiUpqqKbt5UwtQR41X6WmN1xD1AbrWQAz+BKyJYB1eGyNtbOP706zByCjPr?=
- =?us-ascii?Q?vqjGiCyZ9m9q9TnSbWwr753tICrO5ER5XEi44PXyicsfUci0t1raeEorD5mq?=
- =?us-ascii?Q?Ivk5d86Sv/bOqVgdQcnfNXuYdwtRs8WAfTc8M5+kzd7zlZhlqGGOFwAVTDVM?=
- =?us-ascii?Q?7dXv8aPv+6PEpcSijezXlh/Oir+Oqdg6gvlp1KdbvTeoGfjrmFETJLdR9eH6?=
- =?us-ascii?Q?FKUQncRuAasKS5KYUod3jMaTdrm3/WMm8Dhg8RcDnB2R2WfaLqSeZp9HvAHw?=
- =?us-ascii?Q?Gds2qrXSeP1G5jYR70nwdgsEFt758kzJlVkzFoAG4HlPrd0gTnLeSpRLuXP0?=
- =?us-ascii?Q?s+K/eCOQ8fxFexWxkNCdVVk0ncbijM4t+bWhTNydGD4E2Td8/nfMSbkbxzEQ?=
- =?us-ascii?Q?ZBNk5ex1TfoJfCVsCVLHcDKUZOwbKQwWbaSPhaREEZT4Ks45G2FMuLK0XzbG?=
- =?us-ascii?Q?EoucqQrITVyPrFhzVSVL4jvGgPREzby8VEtgsHQpHUg+KPeVT4ZwpRYUZn6A?=
- =?us-ascii?Q?eAg6HxkTkziJ3Uha4kOShBUK34du4UadajvjhVWybUXhKTVTQCcLtiW7ulBm?=
- =?us-ascii?Q?Qm1HloKQ8APRgotBjJqxkVMrXQu+C0TSe7UDJjX4Wrf3Nmo41UIGBHXZGFWd?=
-X-MS-Exchange-AntiSpam-MessageData-1: zX1dta65ixeIwOGwsCbBnLHDG019U9dvsLg=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bb38dd11-d384-408b-8f21-08df466bc347
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB11804.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2026 18:34:36.2579
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Fboc0b3dpgZiMIc+Hrv7m31h5OqpG37e24vEPStUCS7QWv+zURIBo3Sb4n2n2UJDM23Ri/bVcehihE6QTGkukeYBugJYu3y7FSn2/S212wk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MI7PR08MB837237
+Content-Transfer-Encoding: 8bit
 
-Run cachestat() on overlayfs files in four variants. The file is written
-either to the lower dir of an overlayfs or through its mount, so its
-page cache is in the lower or in the upper dir. Then it is opened
-read-only, so it is not copied up, and checked:
+From: Baokun Li <libaokun@linux.alibaba.com>
 
-- through the overlayfs mount: the page cache is one stacking level
-  down;
-- through a second overlayfs mount, which has the first one's merged dir
-  as its lower dir: the page cache is two stacking levels down.
+commit 31c1d19ead2c26a63859a2757d8b786765ba9cdd upstream.
 
-Overlayfs does not cache file data in its own inodes, so cachestat()
-sees the pages only if it is forwarded to the real file.
+Tracking in-flight inode wb switches with a single global counter
+(isw_nr_in_flight) plus a synchronize_rcu() based wait in
+cgroup_writeback_umount() forces every umount to take a global hit
+whenever any other superblock on the system has wb switches in flight,
+even if the superblock being unmounted has none of its own.
 
-Add a check_cached argument to test_cachestat() to check the pages of a
-file the test did not write itself, and bump NR_TESTS to the actual
-number of tests (it was 9 while ten were already run).
+Replace the global synchronize_rcu()/flush_workqueue() pair with a
+per-sb counter, s_isw_nr_in_flight, plus three small helpers:
 
-The test rework and the changelog were drafted with the help of an AI
-coding assistant (Claude); the result was reviewed and tested by me.
+  - cgroup_writeback_pin(sb)   - increment counter
+  - cgroup_writeback_unpin(sb) - decrement and wake drainer if last
+  - cgroup_writeback_drain(sb) - wait for counter to reach zero
 
-Link: https://lore.kernel.org/r/20261118123105.1247627-1-amir73il@gmail.com/
-Signed-off-by: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+The wiring is:
+
+  - inode_prepare_wbs_switch() pins before checking SB_ACTIVE and
+    grabbing the inode; failure paths unpin before returning.  A
+    lockless SB_ACTIVE check at the top of the function lets us skip
+    the atomic_inc/smp_mb dance once SB_ACTIVE has been cleared (it
+    is monotonic and never set back).
+  - process_inode_switch_wbs() unpins after the matching iput().
+  - cgroup_writeback_umount() drains the per-sb counter via
+    wait_var_event().
+
+The smp_mb() pair between inode_prepare_wbs_switch() and
+cgroup_writeback_umount() keeps the SB_ACTIVE / counter ordering:
+either the umounter sees a non-zero counter and waits, or the
+switcher sees SB_ACTIVE cleared and aborts before grabbing the
+inode.
+
+The global isw_nr_in_flight is left in place, since it is still used
+to throttle in-flight switches via WB_FRN_MAX_IN_FLIGHT.
+
+The rcu_read_lock() extension in inode_switch_wbs() and
+cleanup_offline_cgwb() that the race fix added is no longer needed
+and is reverted; the synchronize_rcu() that the race fix added to
+cgroup_writeback_umount() is dropped as well.
+
+The following numbers were measured on a 16 vCPU QEMU guest with 4
+background superblocks each churning "create memcg -> write 1 MiB ->
+rmdir memcg" to keep the global isw_nr_in_flight non-zero.  Latencies
+are wall-clock around umount(8); only the target sb's umount is
+measured.
+
+Target sb runs its own cgwb churn:
+
+                              p50      p95      p99      max
+  global synchronize_rcu()   67.6 ms  88.3 ms  88.3 ms  96.8 ms
+  per-sb counter (this)       7.9 ms  10.0 ms  10.0 ms  10.1 ms
+
+Idle target umount latency under cross-sb cgwb-switch pressure:
+
+                              p50      p95      p99      max
+  global synchronize_rcu()   62.7 ms  95.4 ms 108.1 ms 108.6 ms
+  per-sb counter (this)       5.3 ms   6.9 ms   7.4 ms   7.4 ms
+  no-pressure baseline        4.9 ms   5.9 ms   6.3 ms   6.7 ms
+
+8 concurrent umounts of idle sbs under the same pressure:
+
+                              p50      p95      max
+  global synchronize_rcu()   61.3 ms  99.5 ms 113.7 ms
+  per-sb counter (this)       8.1 ms   9.1 ms   9.5 ms
+
+In-kernel cgroup_writeback_umount() time across the same run
+(bpftrace, ~340 calls covering all scenarios):
+
+  global synchronize_rcu()    12371 ms total (~36 ms / call)
+  per-sb counter (this)        1.37 ms total ( ~4 us / call)
+
+Suggested-by: Christian Brauner <brauner@kernel.org>
+Link: https://lore.kernel.org/r/177910456953.488929.2169908940676707307.b4-review@b4
+Reviewed-by: Jan Kara <jack@suse.cz>
+Signed-off-by: Baokun Li <libaokun@linux.alibaba.com>
+Link: https://patch.msgid.link/20260521095016.2791354-4-libaokun@linux.alibaba.com
+Acked-by: Tejun Heo <tj@kernel.org>
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+[ ehagberg: Backported to 6.18.y. struct super_block lives in
+  include/linux/fs.h here, so add the field there. 6.18.y predates the
+  inode_state_read()/inode_state_set() accessors, so adjust context
+  accordingly. Also adjust context in cleanup_offline_cgwb() for
+  "writeback: keep cleanup_offline_cgwb()'s scan out of syncs".
+  No functional change from upstream. ]
+Signed-off-by: Eric Hagberg <ehagberg@janestreet.com>
 ---
-v2:
-- Rework of patch 3/3 of v1 on top of Amir's ->f_real() patch; the
-  ->cachestat() file operation from patches 1-2 is replaced by it.
-- Add lower file and nested overlayfs cases, and a check_cached argument
-  to test_cachestat().
-v1: https://lore.kernel.org/r/20260623111533.2285005-1-ptikhomirov@virtuozzo.com/
+Hi,
 
-The nested cases pass only with Amir's ovl_f_real() recursion fix
-(https://lore.kernel.org/r/CAOQ4uxjHwtZEHu9xMM6zg9niSgNdLXhAu65jA8Ai_SKVg-W2nw@mail.gmail.com/)
-plus EXPORT_SYMBOL(__file_real) when overlayfs is a module; on Amir's v1
-alone they fail with "Cached: 0".
----
- .../selftests/cachestat/test_cachestat.c      | 172 +++++++++++++++++-
- 1 file changed, 163 insertions(+), 9 deletions(-)
+Please consider 31c1d19ead2c ("writeback: use a per-sb counter to
+drain inode wb switches at umount") for 6.18.y.
 
-diff --git a/tools/testing/selftests/cachestat/test_cachestat.c b/tools/testing/selftests/cachestat/test_cachestat.c
-index 542cd09cb4434..af8fa21c90ca1 100644
---- a/tools/testing/selftests/cachestat/test_cachestat.c
-+++ b/tools/testing/selftests/cachestat/test_cachestat.c
-@@ -4,27 +4,42 @@
+The first two patches of this series are already in 6.18.y:
+
+  cba38ec4cbd3 ("writeback: fix race between cgroup_writeback_umount()
+                and inode_switch_wbs()")
+  e90a6d668e26 ("writeback: drop now-unnecessary rcu_barrier() in
+                cgroup_writeback_umount()")
+
+With those applied, cgroup_writeback_umount() calls synchronize_rcu()
+and flush_workqueue() whenever any superblock on the system has an
+inode wb switch in flight, so every umount on a host with cgroup
+writeback churn elsewhere pays for it. This patch is the third patch
+of the same series. It replaces the global wait with a per-sb counter,
+so a umount only waits for switches on its own superblock.
+
+On a bare-metal 32-CPU Intel Xeon Gold 6346 host, with the reproducer
+below (cgroup writeback churn on 4 other ext4 filesystems), umount
+latency in ms:
+
+                   vanilla 6.18.64     6.18.64 + this patch
+  scenario        p50    p95    max     p50    p95    max
+  baseline        1.7    3.2    4.2     1.8    3.5    4.7
+  idle           30.8   46.1   53.8     2.2    3.8    5.1
+  busy           28.3   47.6   52.6     7.9    9.1   10.3
+  concurrent     27.1   37.2   49.2     2.5    6.3    6.6
+
+  baseline:   idle target fs, no background load
+  idle:       idle target fs, background load on other filesystems
+  busy:       target fs ran its own churn for 2s, then umount
+  concurrent: 8 idle target filesystems unmounted in parallel
+
+The load was comparable on both kernels: 7081 vs 6793 churn
+iterations, 8356 vs 8054 inode_switch_wbs events. The same reproducer
+on vanilla 6.12.118 gives an idle p50 of 32.2 ms without the patch and
+2.9 ms with it; I'm sending that backport separately.
+
+The backport only adjusts context; there is no functional change from
+upstream:
+  - struct super_block is in include/linux/fs.h, not
+    include/linux/fs/super_types.h.
+  - 6.18.y has no inode_state_read()/inode_state_set() accessors;
+    context adjusted.
+  - Context in cleanup_offline_cgwb() adjusted for "writeback: keep
+    cleanup_offline_cgwb()'s scan out of syncs", already in 6.18.y.
+
+The reproducer needs root, cgroup v2 with the memory and io
+controllers, loop devices, e2fsprogs and perl, and runs for about two
+minutes. It keeps the filesystem images on tmpfs, so flushes of the
+backing store don't add to the measured latency:
+
+-- 8< -- isw-umount-bench.sh --
+#!/bin/bash
+# SPDX-License-Identifier: GPL-2.0
+#
+# isw-umount-bench.sh: measure umount(8) latency while other
+# filesystems have cgroup writeback (inode wb) switches in flight.
+#
+# Before 31c1d19ead2c ("writeback: use a per-sb counter to drain inode
+# wb switches at umount"), cgroup_writeback_umount() does
+# synchronize_rcu() + flush_workqueue() whenever any superblock on the
+# system has a wb switch in flight, so an idle filesystem's umount
+# waits for unrelated activity.  With the patch it only waits for
+# switches on its own superblock.
+#
+# Background load: NR_BG ext4 filesystems on loop devices, each in a
+# loop of "mkdir memcg; write from it with O_SYNC; rmdir memcg".  Each
+# iteration:
+#  - drops the page cache of a shared file and rewrites it, so the new
+#    folios are charged to the new memcg and writeback sees a foreign
+#    owner (foreign inode switches);
+#  - writes a new file, whose inode attaches to the new memcg's wb; when
+#    the memcg is removed, cleanup_offline_cgwb() switches it away.
+# The last KEEP_FILES new files are kept so their inodes stay attached.
+#
+# Scenarios (latency is wall-clock around umount(8) of the target):
+#   baseline    idle target, no background load
+#   idle        idle target, background load running
+#   busy        target ran its own churn for BUSY_SECS, then umount
+#   concurrent  NR_CONC idle targets unmounted in parallel, with load
+#
+# Requires root, cgroup v2 with the memory and io controllers,
+# CONFIG_CGROUP_WRITEBACK, loop devices, e2fsprogs, util-linux, perl.
+# Creates and removes its loop devices, mounts and cgroups.
+#
+# Usage: isw-umount-bench.sh [parent-dir]   (default /dev/shm; fs
+# images go in a fresh subdirectory that is removed afterwards).  Keep
+# the images on tmpfs: on a disk-backed filesystem, the umount's
+# journal commit and flush queue behind the background O_SYNC writes
+# to the other images, which adds latency unrelated to the kernel
+# behaviour being measured.
+# Tunables (environment): ITERS, BUSY_ITERS, CONC_ROUNDS, NR_BG,
+#   NR_CONC, BUSY_SECS, WARMUP_SECS, FS_MB, KEEP_FILES.
+
+set -u
+
+ITERS=${ITERS:-50}
+BUSY_ITERS=${BUSY_ITERS:-20}
+CONC_ROUNDS=${CONC_ROUNDS:-10}
+NR_BG=${NR_BG:-4}
+NR_CONC=${NR_CONC:-8}
+BUSY_SECS=${BUSY_SECS:-2}
+WARMUP_SECS=${WARMUP_SECS:-5}
+FS_MB=${FS_MB:-256}
+KEEP_FILES=${KEEP_FILES:-16}
+
+CGROOT=/sys/fs/cgroup
+CGPARENT=$CGROOT/isw-bench.$$
+TRACEFS=/sys/kernel/tracing
+TRACEINST=$TRACEFS/instances/isw-bench.$$
+
+WORK=$(mktemp -d "${1:-/dev/shm}/isw-bench.XXXXXX") ||
+	{ echo "error: mktemp failed" >&2; exit 1; }
+LOOPS=()
+CHURN_PIDS=()
+
+die() { echo "error: $*" >&2; exit 1; }
+
+# ---- setup / teardown ------------------------------------------------
+
+check_env() {
+	[ "$(id -u)" = 0 ] || die "must run as root"
+	[ "$(stat -fc %T $CGROOT)" = cgroup2fs ] ||
+		die "$CGROOT is not cgroup v2"
+	for c in memory io; do
+		grep -qw $c $CGROOT/cgroup.controllers ||
+			die "cgroup controller '$c' not available"
+	done
+	for t in mkfs.ext4 losetup perl; do
+		command -v $t >/dev/null || die "$t not found"
+	done
+}
+
+setup_cgroups() {
+	echo "+memory +io" > $CGROOT/cgroup.subtree_control ||
+		die "cannot enable memory+io in $CGROOT"
+	mkdir $CGPARENT || die "mkdir $CGPARENT"
+	echo "+memory +io" > $CGPARENT/cgroup.subtree_control ||
+		die "cannot enable memory+io in $CGPARENT"
+}
+
+# make_fs NAME: create an ext4 fs on a loop device, set DEV to it
+make_fs() {
+	local img=$WORK/$1.img
+	truncate -s ${FS_MB}M $img || die "truncate $img"
+	DEV=$(losetup -f --show $img) || die "losetup $img"
+	LOOPS+=("$DEV")
+	mkfs.ext4 -q -F $DEV || die "mkfs.ext4 $DEV"
+	mkdir -p $WORK/mnt/$1
+}
+
+cleanup() {
+	trap - EXIT INT TERM
+	stop_churn
+	for m in $WORK/mnt/*; do
+		mountpoint -q $m && umount $m
+	done
+	for d in "${LOOPS[@]}"; do losetup -d $d; done
+	if [ -d $CGPARENT ]; then
+		rmdir $CGPARENT/* 2>/dev/null
+		rmdir $CGPARENT
+	fi
+	[ -d $TRACEINST ] && rmdir $TRACEINST
+	rm -rf $WORK
+}
+
+# ---- load generation -------------------------------------------------
+
+# churn MNT TAG STOPFILE: create memcg, write from it, remove memcg;
+# repeat until STOPFILE exists.  Iteration count goes to iters.TAG.
+churn() {
+	local mnt=$1 tag=$2 stop=$3 n=0 cg
+	while [ ! -e $stop ]; do
+		cg=$CGPARENT/$tag-$n
+		mkdir $cg || return
+		sh -c 'echo $$ > "$1/cgroup.procs" || exit 1
+		# drop cached (clean) folios so the rewrite recharges
+		dd if=/dev/null of="$2/burner" oflag=nocache \
+			conv=notrunc,fdatasync count=0 status=none
+		dd if=/dev/zero of="$2/burner" bs=4k count=256 \
+			conv=notrunc oflag=sync status=none
+		exec dd if=/dev/zero of="$2/f$3" bs=4k count=256 \
+			oflag=sync status=none' sh $cg $mnt $n
+		until rmdir $cg 2>/dev/null; do sleep 0.01; done
+		rm -f $mnt/f$((n - KEEP_FILES))
+		n=$((n + 1))
+		echo $n > $WORK/iters.$tag
+	done
+}
+
+# Total iterations so far across the background churn loops.
+churn_iters() {
+	cat $WORK/iters.bg* 2>/dev/null |
+		awk '{ n += $1 } END { print n + 0 }'
+}
+
+start_churn() {
+	local i
+	rm -f $WORK/stop-bg
+	for i in $(seq 0 $((NR_BG - 1))); do
+		churn $WORK/mnt/bg$i bg$i $WORK/stop-bg &
+		CHURN_PIDS+=($!)
+	done
+}
+
+stop_churn() {
+	touch $WORK/stop-bg
+	[ ${#CHURN_PIDS[@]} -gt 0 ] && wait "${CHURN_PIDS[@]}"
+	CHURN_PIDS=()
+}
+
+# ---- measurement -----------------------------------------------------
+
+# time_umount MNT: umount MNT, print elapsed microseconds
+time_umount() {
+	perl -MTime::HiRes=time -e '
+		my $t = time;
+		system("umount", $ARGV[0]) == 0 or exit 1;
+		printf "%d\n", (time - $t) * 1e6;' "$1"
+}
+
+# Count inode_switch_wbs events (entries + overruns) in our instance.
+switch_count() {
+	[ -d $TRACEINST ] || { echo n/a; return; }
+	cat $TRACEINST/per_cpu/cpu*/stats |
+		awk '/^(entries|overrun):/ { n += $2 } END { print n }'
+}
+
+setup_trace() {
+	local ev=events/writeback/inode_switch_wbs/enable
+	[ -e $TRACEFS/$ev ] || return
+	mkdir $TRACEINST 2>/dev/null || return
+	echo 1 > $TRACEINST/$ev
+}
+
+reset_trace() {
+	[ -d $TRACEINST ] && echo > $TRACEINST/trace
+}
+
+# stats NAME FILE: print n/p50/p95/p99/max in ms (nearest rank)
+stats() {
+	sort -n $2 | awk -v name=$1 '
+		{ v[NR] = $1 }
+		function p(q,  i) {
+			i = int(q * NR + 0.999999); if (i < 1) i = 1
+			return v[i] / 1000
+		}
+		END {
+			printf "%-11s %5d %8.1f %8.1f %8.1f %8.1f\n",
+				name, NR, p(.5), p(.95), p(.99),
+				v[NR] / 1000
+		}'
+}
+
+p50() { sort -n $1 | awk '{ v[NR] = $1 } END {
+	i = int(.5 * NR + 0.999999); print v[i] }'; }
+
+run_idle() {	# run_idle OUTFILE
+	local i
+	for i in $(seq $ITERS); do
+		mount ${TARGET} $WORK/mnt/target || die "mount target"
+		sleep 0.2
+		time_umount $WORK/mnt/target >> $1 ||
+			die "umount target"
+	done
+}
+
+run_busy() {	# run_busy OUTFILE
+	local i pid
+	for i in $(seq $BUSY_ITERS); do
+		mount ${TARGET} $WORK/mnt/target || die "mount target"
+		rm -f $WORK/stop-t
+		dd if=/dev/zero of=$WORK/mnt/target/burner bs=4k \
+			count=256 status=none
+		churn $WORK/mnt/target t $WORK/stop-t &
+		pid=$!
+		sleep $BUSY_SECS
+		touch $WORK/stop-t
+		wait $pid
+		time_umount $WORK/mnt/target >> $1 ||
+			die "umount target"
+	done
+}
+
+run_concurrent() {	# run_concurrent OUTFILE
+	local i pids
+	for _ in $(seq $CONC_ROUNDS); do
+		for i in $(seq 0 $((NR_CONC - 1))); do
+			mount ${CONC[$i]} $WORK/mnt/c$i ||
+				die "mount c$i"
+		done
+		sleep 0.2
+		pids=()
+		for i in $(seq 0 $((NR_CONC - 1))); do
+			time_umount $WORK/mnt/c$i > $WORK/c$i.out &
+			pids+=($!)
+		done
+		# Only these: a bare wait would also wait for the
+		# background churn loops, which never exit.
+		wait "${pids[@]}"
+		cat $WORK/c*.out >> $1
+	done
+}
+
+# ---- main ------------------------------------------------------------
+
+trap cleanup EXIT INT TERM
+check_env
+setup_cgroups
+setup_trace
+
+for i in $(seq 0 $((NR_BG - 1))); do
+	make_fs bg$i
+	mount $DEV $WORK/mnt/bg$i || die "mount bg$i"
+	dd if=/dev/zero of=$WORK/mnt/bg$i/burner bs=4k count=256 \
+		status=none
+done
+make_fs target
+TARGET=$DEV
+CONC=()
+for i in $(seq 0 $((NR_CONC - 1))); do
+	make_fs c$i
+	CONC+=("$DEV")
+done
+
+echo "kernel: $(uname -r)  cpus: $(nproc)  bg fs: $NR_BG"
+
+phase() { echo "[$(date +%T)] $*" >&2; }
+
+phase "baseline ($ITERS umounts, no load)"
+run_idle $WORK/baseline.us
+
+phase "starting background load, warming up ${WARMUP_SECS}s"
+start_churn
+sleep $WARMUP_SECS
+reset_trace
+iters0=$(churn_iters)
+phase "idle ($ITERS umounts)"
+run_idle $WORK/idle.us
+phase "busy ($BUSY_ITERS x ${BUSY_SECS}s churn + umount)"
+run_busy $WORK/busy.us
+phase "concurrent ($CONC_ROUNDS rounds x $NR_CONC umounts)"
+run_concurrent $WORK/concurrent.us
+phase "stopping background load"
+switches=$(switch_count)
+iters=$(( $(churn_iters) - iters0 ))
+stop_churn
+
+echo
+echo "umount latency (ms)"
+printf "%-11s %5s %8s %8s %8s %8s\n" scenario n p50 p95 p99 max
+for s in baseline idle busy concurrent; do
+	stats $s $WORK/$s.us
+done
+echo
+echo "background churn iterations while loaded: $iters"
+echo "inode_switch_wbs events while loaded: $switches"
+if [ "$switches" != n/a ] && [ "$switches" -lt "$iters" ]; then
+	echo "WARNING: fewer wb switches than churn iterations; the" \
+	     "load is not exercising cgroup writeback as intended," \
+	     "so the latencies above are not meaningful"
+fi
+awk -v b="$(p50 $WORK/baseline.us)" -v i="$(p50 $WORK/idle.us)" \
+	'BEGIN { printf "idle/baseline p50 ratio: %.1fx\n", i / b }'
+-- >8 --
+
+Thanks,
+Eric
+
+ fs/fs-writeback.c  | 97 ++++++++++++++++++++++------------------------
+ include/linux/fs.h |  8 ++++
+ 2 files changed, 55 insertions(+), 50 deletions(-)
+
+diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+index e479e31..9966399 100644
+--- a/fs/fs-writeback.c
++++ b/fs/fs-writeback.c
+@@ -488,6 +488,23 @@ skip_switch:
+ 	return switched;
+ }
  
- #include <stdio.h>
- #include <stdbool.h>
-+#include <stdlib.h>
- #include <linux/kernel.h>
- #include <linux/magic.h>
- #include <linux/mman.h>
- #include <sys/mman.h>
-+#include <sys/mount.h>
- #include <sys/shm.h>
-+#include <sys/stat.h>
- #include <sys/syscall.h>
- #include <sys/vfs.h>
- #include <unistd.h>
- #include <string.h>
- #include <fcntl.h>
- #include <errno.h>
-+#include <limits.h>
- 
- #include "kselftest.h"
- 
--#define NR_TESTS	9
-+#define NR_TESTS	14
- 
- static const char * const dev_files[] = {
- 	"/dev/zero", "/dev/null", "/dev/urandom",
- 	"/proc/version", "/proc"
- };
- 
-+static const struct {
-+	bool lower;
-+	bool nested;
-+	const char *desc;
-+} ovl_tests[] = {
-+	{ false, false, "an overlayfs file" },
-+	{ false, true, "a nested overlayfs file" },
-+	{ true, false, "an overlayfs lower file" },
-+	{ true, true, "a nested overlayfs lower file" },
-+};
++static inline void cgroup_writeback_pin(struct super_block *sb)
++{
++	atomic_inc(&sb->s_isw_nr_in_flight);
++}
 +
- void print_cachestat(struct cachestat *cs)
++static inline void cgroup_writeback_unpin(struct super_block *sb)
++{
++	if (atomic_dec_and_test(&sb->s_isw_nr_in_flight))
++		wake_up_var(&sb->s_isw_nr_in_flight);
++}
++
++static inline void cgroup_writeback_drain(struct super_block *sb)
++{
++	wait_var_event(&sb->s_isw_nr_in_flight,
++		       !atomic_read(&sb->s_isw_nr_in_flight));
++}
++
+ static void process_inode_switch_wbs(struct bdi_writeback *new_wb,
+ 				     struct inode_switch_wbs_context *isw)
  {
- 	ksft_print_msg(
-@@ -117,10 +132,14 @@ static bool is_on_tmpfs(int fd)
-  * Open/create the file at filename, (optionally) write random data to it
-  * (exactly num_pages), then test the cachestat syscall on this file.
+@@ -546,8 +563,12 @@ relock:
+ 		wb_put_many(old_wb, nr_switched);
+ 	}
+ 
+-	for (inodep = isw->inodes; *inodep; inodep++)
++	for (inodep = isw->inodes; *inodep; inodep++) {
++		struct super_block *sb = (*inodep)->i_sb;
++
+ 		iput(*inodep);
++		cgroup_writeback_unpin(sb);
++	}
+ 	wb_put(new_wb);
+ 	kfree(isw);
+ 	atomic_dec(&isw_nr_in_flight);
+@@ -590,16 +611,19 @@ void inode_switch_wbs_work_fn(struct work_struct *work)
+ static bool inode_prepare_wbs_switch(struct inode *inode,
+ 				     struct bdi_writeback *new_wb)
+ {
++	/* Avoid the atomic_inc/smp_mb dance once SB_ACTIVE is gone. */
++	if (!(inode->i_sb->s_flags & SB_ACTIVE))
++		return false;
++
+ 	/*
+-	 * Paired with smp_mb() in cgroup_writeback_umount().
+-	 * isw_nr_in_flight must be increased before checking SB_ACTIVE and
+-	 * grabbing an inode, otherwise isw_nr_in_flight can be observed as 0
+-	 * in cgroup_writeback_umount() and the isw_wq will be not flushed.
++	 * Pairs with smp_mb() in cgroup_writeback_umount(): the umounter either
++	 * sees a non-zero counter and waits, or we see SB_ACTIVE clear below.
+ 	 */
++	cgroup_writeback_pin(inode->i_sb);
+ 	smp_mb();
+ 
+ 	if (IS_DAX(inode))
+-		return false;
++		goto out_unpin;
+ 
+ 	/* while holding I_WB_SWITCH, no one else can update the association */
+ 	spin_lock(&inode->i_lock);
+@@ -607,13 +631,17 @@ static bool inode_prepare_wbs_switch(struct inode *inode,
+ 	    inode->i_state & (I_WB_SWITCH | I_FREEING | I_WILL_FREE) ||
+ 	    inode_to_wb(inode) == new_wb) {
+ 		spin_unlock(&inode->i_lock);
+-		return false;
++		goto out_unpin;
+ 	}
+ 	inode->i_state |= I_WB_SWITCH;
+ 	__iget(inode);
+ 	spin_unlock(&inode->i_lock);
+ 
+ 	return true;
++
++out_unpin:
++	cgroup_writeback_unpin(inode->i_sb);
++	return false;
+ }
+ 
+ static void wb_queue_isw(struct bdi_writeback *wb,
+@@ -652,19 +680,12 @@ static void inode_switch_wbs(struct inode *inode, int new_wb_id)
+ 
+ 	atomic_inc(&isw_nr_in_flight);
+ 
+-	/*
+-	 * Paired with synchronize_rcu() in cgroup_writeback_umount():
+-	 * holding rcu_read_lock across inode_prepare_wbs_switch()
+-	 * (covering the SB_ACTIVE check and the inode grab) and
+-	 * wb_queue_isw() ensures synchronize_rcu() cannot return until
+-	 * the work is queued, so the subsequent flush_workqueue() will
+-	 * wait for the switch.
+-	 */
+-	rcu_read_lock();
+ 	/* find and pin the new wb */
++	rcu_read_lock();
+ 	memcg_css = css_from_id(new_wb_id, &memory_cgrp_subsys);
+ 	if (memcg_css && !css_tryget(memcg_css))
+ 		memcg_css = NULL;
++	rcu_read_unlock();
+ 	if (!memcg_css)
+ 		goto out_free;
+ 
+@@ -680,11 +701,9 @@ static void inode_switch_wbs(struct inode *inode, int new_wb_id)
+ 
+ 	trace_inode_switch_wbs_queue(inode->i_wb, new_wb, 1);
+ 	wb_queue_isw(new_wb, isw);
+-	rcu_read_unlock();
+ 	return;
+ 
+ out_free:
+-	rcu_read_unlock();
+ 	atomic_dec(&isw_nr_in_flight);
+ 	if (new_wb)
+ 		wb_put(new_wb);
+@@ -765,14 +784,6 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
+ 	 * moved ones. Exclude syncs as process_inode_switch_wbs() does.
+ 	 */
+ 	down_read(&wb->bdi->wb_switch_rwsem);
+-	/*
+-	 * Paired with synchronize_rcu() in cgroup_writeback_umount().
+-	 * Holding rcu_read_lock across the SB_ACTIVE check, the inode grab
+-	 * and wb_queue_isw() ensures synchronize_rcu() cannot return until
+-	 * the work is queued, so the subsequent flush_workqueue() will wait
+-	 * for the switch.
+-	 */
+-	rcu_read_lock();
+ 	spin_lock(&wb->list_lock);
+ 	/*
+ 	 * In addition to the inodes that have completed writeback, also switch
+@@ -791,7 +802,6 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
+ 
+ 	/* no attached inodes? bail out */
+ 	if (nr == 0) {
+-		rcu_read_unlock();
+ 		atomic_dec(&isw_nr_in_flight);
+ 		wb_put(new_wb);
+ 		kfree(isw);
+@@ -800,7 +810,6 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
+ 
+ 	trace_inode_switch_wbs_queue(wb, new_wb, nr);
+ 	wb_queue_isw(new_wb, isw);
+-	rcu_read_unlock();
+ 
+ 	return restart;
+ }
+@@ -1231,39 +1240,27 @@ out_bdi_put:
+ }
+ 
+ /**
+- * cgroup_writeback_umount - flush inode wb switches for umount
++ * cgroup_writeback_umount - wait for in-flight inode wb switches on @sb
+  * @sb: target super_block
   *
-+ * If write_random == true or check_cached == true, check that all num_pages
-+ * pages of the file are cached or evicted.
-+ *
-  * If test_fsync == true, fsync the file, then check the number of dirty
-  * pages.
+- * This function is called when a super_block is about to be destroyed and
+- * flushes in-flight inode wb switches.  An inode wb switch goes through
+- * RCU and then workqueue, so the two need to be flushed in order to ensure
+- * that all previously scheduled switches are finished.  As wb switches are
+- * rare occurrences and synchronize_rcu() can take a while, perform
+- * flushing iff wb switches are in flight.
++ * Wait until every inode wb switch that already passed the SB_ACTIVE
++ * check on this superblock has been completed by the worker.  Since
++ * SB_ACTIVE is cleared before this is called, no new switches can start
++ * for @sb, so s_isw_nr_in_flight will monotonically drop to zero.
   */
--static int test_cachestat(const char *filename, bool write_random, bool create,
-+static int test_cachestat(const char *filename, bool write_random,
-+			  bool check_cached, bool create,
- 			  bool test_fsync, unsigned long num_pages,
- 			  int open_flags, mode_t open_mode)
+ void cgroup_writeback_umount(struct super_block *sb)
  {
-@@ -161,7 +180,7 @@ static int test_cachestat(const char *filename, bool write_random, bool create,
- 	} else {
- 		print_cachestat(&cs);
+-
+ 	if (!(sb->s_bdi->capabilities & BDI_CAP_WRITEBACK))
+ 		return;
  
--		if (write_random) {
-+		if (write_random || check_cached) {
- 			if (cs.nr_cache + cs.nr_evicted != num_pages) {
- 				ksft_print_msg(
- 					"Total number of cached and evicted pages is off.\n");
-@@ -294,6 +313,122 @@ bool run_cachestat_test(enum file_type type)
- 	return ret;
+ 	/*
+-	 * SB_ACTIVE should be reliably cleared before checking
+-	 * isw_nr_in_flight, see generic_shutdown_super().
++	 * Pairs with smp_mb() in inode_prepare_wbs_switch(): we either observe
++	 * a non-zero counter and wait, or the switcher sees SB_ACTIVE clear
++	 * (cleared by generic_shutdown_super()) and bails before grabbing the
++	 * inode.
+ 	 */
+ 	smp_mb();
+-
+-	if (atomic_read(&isw_nr_in_flight)) {
+-		/*
+-		 * Paired with rcu_read_lock() in inode_switch_wbs() and
+-		 * cleanup_offline_cgwb().  synchronize_rcu() waits for any
+-		 * in-flight switcher that already passed the SB_ACTIVE check
+-		 * to finish queueing its work, so flush_workqueue() below
+-		 * will then drain it.
+-		 */
+-		synchronize_rcu();
+-		flush_workqueue(isw_wq);
+-	}
++	cgroup_writeback_drain(sb);
  }
  
-+static int mount_overlayfs(const char *lowerdir, const char *upperdir,
-+			   const char *workdir, const char *merged)
-+{
-+	char opts[4 * PATH_MAX];
-+
-+	snprintf(opts, sizeof(opts), "lowerdir=%s,upperdir=%s,workdir=%s",
-+		 lowerdir, upperdir, workdir);
-+	if (mount("overlay", merged, "overlay", 0, opts)) {
-+		ksft_print_msg("Unable to mount overlayfs (need root?): %s\n",
-+			       strerror(errno));
-+		return KSFT_SKIP;
-+	}
-+
-+	return KSFT_PASS;
-+}
-+
-+/*
-+ * Write a file to an overlayfs, either directly to its lower dir (if lower)
-+ * or through the overlayfs mount, so that its page cache is in the lower or
-+ * upper dir. Then open the file read-only, so it is not copied up, through the
-+ * overlayfs mount or, if nested, through a second overlayfs mount on top of it
-+ * (using the first one's merged dir as its lower dir), and run cachestat on
-+ * it. Overlayfs does not cache file data in its own inodes, so cachestat sees
-+ * the pages only if it is forwarded one (or two, if nested) stacking levels
-+ * down, to the page cache belonging to the real file.
-+ */
-+static int run_cachestat_overlayfs_test(bool lower, bool nested)
-+{
-+	char tmpl[] = "/tmp/cachestat_ovl.XXXXXX";
-+	char lowerdir[PATH_MAX];
-+	char upper1[PATH_MAX], work1[PATH_MAX], merged1[PATH_MAX];
-+	char upper2[PATH_MAX], work2[PATH_MAX], merged2[PATH_MAX];
-+	char cmd[PATH_MAX + 16], file[PATH_MAX + 16];
-+	const char *write_path, *read_path;
-+	char *base;
-+	int ret;
-+
-+	base = mkdtemp(tmpl);
-+	if (!base) {
-+		ksft_print_msg("Unable to create overlayfs base dir: %s\n",
-+			       strerror(errno));
-+		return KSFT_FAIL;
-+	}
-+
-+	snprintf(lowerdir, sizeof(lowerdir), "%s/lower", base);
-+	snprintf(upper1, sizeof(upper1), "%s/upper1", base);
-+	snprintf(work1, sizeof(work1), "%s/work1", base);
-+	snprintf(merged1, sizeof(merged1), "%s/merged1", base);
-+	snprintf(upper2, sizeof(upper2), "%s/upper2", base);
-+	snprintf(work2, sizeof(work2), "%s/work2", base);
-+	snprintf(merged2, sizeof(merged2), "%s/merged2", base);
-+
-+	if (mkdir(lowerdir, 0755) || mkdir(upper1, 0755) ||
-+	    mkdir(work1, 0755) || mkdir(merged1, 0755) ||
-+	    mkdir(upper2, 0755) || mkdir(work2, 0755) ||
-+	    mkdir(merged2, 0755)) {
-+		ksft_print_msg("Unable to create overlayfs dirs: %s\n",
-+			       strerror(errno));
-+		ret = KSFT_FAIL;
-+		goto cleanup;
-+	}
-+
-+	if (lower)
-+		write_path = lowerdir;
-+	else
-+		write_path = merged1;
-+
-+	if (nested)
-+		read_path = merged2;
-+	else
-+		read_path = merged1;
-+
-+	snprintf(file, sizeof(file), "%s/cachestat", write_path);
-+
-+	/* Write the lower file before mounting overlayfs over it */
-+	if (lower) {
-+		ret = test_cachestat(file, true, false, false, false, 4,
-+				     O_CREAT | O_RDWR, 0600);
-+		if (ret != KSFT_PASS)
-+			goto cleanup;
-+	}
-+
-+	ret = mount_overlayfs(lowerdir, upper1, work1, merged1);
-+	if (ret != KSFT_PASS)
-+		goto cleanup;
-+
-+	if (!lower) {
-+		ret = test_cachestat(file, true, false, false, false, 4,
-+				     O_CREAT | O_RDWR, 0600);
-+		if (ret != KSFT_PASS)
-+			goto umount;
-+	}
-+
-+	if (nested) {
-+		ret = mount_overlayfs(merged1, upper2, work2, merged2);
-+		if (ret != KSFT_PASS)
-+			goto umount;
-+	}
-+
-+	snprintf(file, sizeof(file), "%s/cachestat", read_path);
-+	/* Look at that page cache through the overlayfs layer(s) */
-+	ret = test_cachestat(file, false, true, false, false, 4,
-+			     O_RDONLY, 0);
-+
-+	if (nested)
-+		umount(merged2);
-+umount:
-+	umount(merged1);
-+cleanup:
-+	/* Best-effort recursive cleanup of the temporary tree. */
-+	snprintf(cmd, sizeof(cmd), "rm -rf %s", base);
-+	if (system(cmd))
-+		ksft_print_msg("Unable to clean up %s\n", base);
-+	return ret;
-+}
-+
- int main(void)
- {
- 	int ret;
-@@ -317,8 +452,8 @@ int main(void)
- 	for (int i = 0; i < 5; i++) {
- 		const char *dev_filename = dev_files[i];
+ static int __init cgroup_writeback_init(void)
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 09cbcfb..b83b5a0 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -1660,6 +1660,14 @@ struct super_block {
  
--		if (test_cachestat(dev_filename, false, false, false,
--			4, O_RDONLY, 0400) == KSFT_PASS)
-+		if (test_cachestat(dev_filename, false, false, false, false,
-+				   4, O_RDONLY, 0400) == KSFT_PASS)
- 			ksft_test_result_pass("cachestat works with %s\n", dev_filename);
- 		else {
- 			ksft_test_result_fail("cachestat fails with %s\n", dev_filename);
-@@ -326,16 +461,16 @@ int main(void)
- 		}
- 	}
- 
--	if (test_cachestat("tmpfilecachestat", true, true,
--		false, 4, O_CREAT | O_RDWR, 0600) == KSFT_PASS)
-+	if (test_cachestat("tmpfilecachestat", true, false, true,
-+			   false, 4, O_CREAT | O_RDWR, 0600) == KSFT_PASS)
- 		ksft_test_result_pass("cachestat works with a normal file\n");
- 	else {
- 		ksft_test_result_fail("cachestat fails with normal file\n");
- 		ret = 1;
- 	}
- 
--	switch (test_cachestat("tmpfilecachestat", true, true,
--		true, 4, O_CREAT | O_RDWR, 0600)) {
-+	switch (test_cachestat("tmpfilecachestat", true, false, true,
-+			       true, 4, O_CREAT | O_RDWR, 0600)) {
- 	case KSFT_FAIL:
- 		ksft_test_result_fail("cachestat fsync fails with normal file\n");
- 		ret = KSFT_FAIL;
-@@ -361,5 +496,24 @@ int main(void)
- 		ksft_test_result_fail("cachestat fails with a mmap file\n");
- 		ret = 1;
- 	}
+ 	spinlock_t		s_inode_wblist_lock;
+ 	struct list_head	s_inodes_wb;	/* writeback inodes */
 +
-+	for (int i = 0; i < ARRAY_SIZE(ovl_tests); i++) {
-+		const char *desc = ovl_tests[i].desc;
-+
-+		switch (run_cachestat_overlayfs_test(ovl_tests[i].lower,
-+						     ovl_tests[i].nested)) {
-+		case KSFT_FAIL:
-+			ksft_test_result_fail("cachestat fails with %s\n", desc);
-+			ret = 1;
-+			break;
-+		case KSFT_PASS:
-+			ksft_test_result_pass("cachestat works with %s\n", desc);
-+			break;
-+		case KSFT_SKIP:
-+			ksft_test_result_skip("overlayfs not available for %s\n",
-+					      desc);
-+			break;
-+		}
-+	}
- 	return ret;
- }
++#ifdef CONFIG_CGROUP_WRITEBACK
++	/*
++	 * Number of in-flight inode wb switches for this sb.  Drained by
++	 * cgroup_writeback_umount() before tear-down.
++	 */
++	atomic_t		s_isw_nr_in_flight;
++#endif
+ } __randomize_layout;
+ 
+ static inline struct user_namespace *i_user_ns(const struct inode *inode)
 -- 
-2.56.0
+2.43.7
 
