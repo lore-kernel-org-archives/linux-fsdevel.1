@@ -1,105 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.69
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795082691;
-	b=Ubudxbjyszmh9waj9+KKgtmucwkWcbdJLpCSpTZ8qrvRZrL8AbBsmjlTaXyycPHsO1Vm
-	 PleKkG32zsXBDW8H7VTKhoWbHdCcn/GGsvL38VnHNR74M3JBZT6waexWsj+Dw4rfRZHcJ
-	 CURiaCPis/fq6zoOYclUgKR7VOwktPRa3BCYsG1/PzBFJ0AHw0OVN/Kd/uElHOSPKWMa2
-	 taKmueqD0ZAjnVE55k+xt8uLCRM3y/aOIpc+/H3An8R462OJqWjO/GcZ1t1ZVo7+lMLy8
-	 jELswxG3c5LEopOR2fGBkMgnXojeNvAf+8xXDCS5pzJgC66REdbRJ9fFwPZ5bBd3xOw==
+	t=1795084974;
+	b=ZsHe726HU56TWM3pP2/czNnwf82QJ/4C10QFlzkuG1+S/NfDMs0i9WW8p3WTfCETyBl3
+	 ZzU0H0gzFtCzYlyHAMTtofadfZ0OgNDchnTfu08uQ3uxXgE2NGsxuvD4mENZH1FivR1jw
+	 2yhZ6U9dWBZfqUvIqdSv4Iz0QaemmkkOP9cQLxn6qJZax18a+f0snYm4V0TWEVIlNXWN0
+	 uTm5Wa2ZnnUp1nk2qQyFRzfe26TWcZ1AlRSbnCPY2fl9TjCPCpS/bMFXXrZBSC7RzAYGB
+	 EhPPz9dctIJ0jjQiUamDcadvk/anq2nCpbfXtHgwoqNLHNkKrevWr0/QS3Huxn6ueNg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795082691;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=rr5ZFT5ZcgDyOCKRYwikwt5oVr+KWAPOlhB6uIOoL0U=;
-	b=GbEvzN4Dr6h+xQ+Vm75/DXoMoEpsaHPRoJ/hM9weFi4jnZhXV0SlxUKcX6JUfZWTfdFQ
-	 HtSchp88G4cFdxebXlO3pM91n5Ysy/9xRAkUYtl61Sm/ouQ7yA118zbNHo/bJyvjEF4P3
-	 rv7J8CpLLfDg15kuiG97iqQbHO1oSfnEj6mK7X0Wtx4WqlHpGrf+WXDP0NShEPP9akvW1
-	 ktt1moAjB+FLLgJtW2eZ+WEmQ6RCrGd9J/IB7vrkG7yrsC3ELY+xr1gBlSK4CEeN/5Jyg
-	 S8DK/diZQeQGDL4RUc24hOnEcwLv2EaoQC1MbIjZ1hvbi+vC4sBAP3JlDK/HDZ02YNg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795084974;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=K0VpW7YvMhl0iK0xeqDJ+A8D6OVh/Im/AWHWGl8sSUs=;
+	b=ftIw5Sa5tTjDZGCJwC2HRt7gMZwe6JmfJBHjQj3p6j6spgxqd3gjpHBQE+b3SxjdyUls
+	 UBPdIDvTHIJNem16u7sLtXh/wPhavSfn+ji/WMKCVtk72gLr86nTBoRQG+uB8MTuE/sKF
+	 bEc5yng2DCjCFrkIcdirp+zS0EMmsEGwpDe3P+NqH2+e9EKtEpW51lgqpILy8gS9RF5TV
+	 6VIjWnwoIA11GAVIgQeP5rTYVBMFmCx4pWeF74N8H23cD/b56cfikpHx2yIwchlBGlXva
+	 eTbRWARQjxv0A5qmYHBAqDp9c7A65T2jTB/QrmPbbPkJFD5l5cx3ef/zASmsKrhdFCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=mOZ75kp+;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="C/T7BPSH";
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=mOZ75kp+;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="C/T7BPSH";
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--halg.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=dYYJaJLY;
+	arc=none smtp.remote-ip=209.85.208.69
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com [209.85.208.69])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55CED606A320;
-	Thu, 19 Nov 2026 10:04:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 55CED606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6A460A2614
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 10:42:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B6A460A2614
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--halg.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=mOZ75kp+;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=C/T7BPSH;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=mOZ75kp+;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=C/T7BPSH
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6CB451F7D2;
-	Thu, 19 Nov 2026 10:04:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795082689; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rr5ZFT5ZcgDyOCKRYwikwt5oVr+KWAPOlhB6uIOoL0U=;
-	b=mOZ75kp+8euuYZElFoQETC2Bu4+ZygBPKU799/sASUntaGV/0c0vBhhgOvLqeeXAVFuI5n
-	IUnCRRon+g4/ZoTLE+83LgR+3LcKlPJKO30teTuww8GPVqTE0xuFQQsuzOrkU/4gVzF8qC
-	kTixyN3JsW8YyDXO8/3H/sWXC/3tJh8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795082689;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rr5ZFT5ZcgDyOCKRYwikwt5oVr+KWAPOlhB6uIOoL0U=;
-	b=C/T7BPSH0M+vvqcalxvzTU+PhfqDMVIVA9kJdLr6+PaC8qaHFEk6WmO+5W3FZ3y7yiYlA5
-	KvfPPBG4TtttJYAw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795082689; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rr5ZFT5ZcgDyOCKRYwikwt5oVr+KWAPOlhB6uIOoL0U=;
-	b=mOZ75kp+8euuYZElFoQETC2Bu4+ZygBPKU799/sASUntaGV/0c0vBhhgOvLqeeXAVFuI5n
-	IUnCRRon+g4/ZoTLE+83LgR+3LcKlPJKO30teTuww8GPVqTE0xuFQQsuzOrkU/4gVzF8qC
-	kTixyN3JsW8YyDXO8/3H/sWXC/3tJh8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795082689;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rr5ZFT5ZcgDyOCKRYwikwt5oVr+KWAPOlhB6uIOoL0U=;
-	b=C/T7BPSH0M+vvqcalxvzTU+PhfqDMVIVA9kJdLr6+PaC8qaHFEk6WmO+5W3FZ3y7yiYlA5
-	KvfPPBG4TtttJYAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 46A381334C;
-	Thu, 19 Nov 2026 10:04:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id K9YNCcHJ/mo9dgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 19 Nov 2026 10:04:49 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id CB4BF25192; Thu, 19 Nov 2026 11:04:48 +0100 (CET)
-Date: Thu, 19 Nov 2026 11:04:48 +0100
-From: Jan Kara <jack@suse.cz>
-To: mdshahid03@gmail.com
-Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] fs: sync: fix overflow check in sync_file_range()
-Message-ID: <zwxt7yvljy7znovloyduos7zkkz7eelu7xd6qzkrl6io36bkq7@ecppjcso6uao>
-References: <20261119053827.69933-1-mdshahid03@gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=dYYJaJLY
+Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-6b42827bb4bso1967824a12.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 02:42:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1795084972; x=1795689772; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=K0VpW7YvMhl0iK0xeqDJ+A8D6OVh/Im/AWHWGl8sSUs=;
+        b=dYYJaJLYMnEy4RHfL1CMb2r8JwhR8Fj05tJ5NNGuIVCdKhXdZJxcZh0i9PI4QL5XN2
+         pX2zoZMJBYFwTVHH92MwlpzaaH/gNBWrCtjMftVfCzEBCAdXVhVZx27dt2YfyaoiaPls
+         +rc55ASA21ddeIQf6fCsdB+Gc89M0UK079O4SVd+CyEqaQtcdDRgshmU9sW1Xo6rC/4N
+         JSF8BcFF/A9NCp8sA1fZyVWzRkXRFobcHIJTYRvZS3FOXKdhNiOQFfe3pVHVPjpfYalT
+         M9uL8yqgrgumxmIEE+ZtZfMMd9pGyIQzxQ52pEwVY4asW/QsZI16y9dGpYiHSaXJhMI8
+         6SUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795084972; x=1795689772;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=K0VpW7YvMhl0iK0xeqDJ+A8D6OVh/Im/AWHWGl8sSUs=;
+        b=PePLZS07R7XF/rhtn4ipA7o5aZTeFscBqinH8AhxXQwQMzuOfxIFhxjs401CZ09O6Z
+         Nf9KjeqCMONHxZtib0pe+P4cLncVjp5EnDipuf+4XjYhduJe0eITcrVg38+9HqalKXGc
+         K+eN7CCpa7pm1wogb15Upq0z1zan1HkzBLA34T5GY1HRK1wtSIbh7IdHOS86tMJTmHPn
+         gTDlUzHDacq81bAPTehSZF8Oh7B4afPvvMKM3jcw9Ef94VFDiCNEwWibqxf7QnpRGZx4
+         /pTvmdyprstRTooiMpO/km5g2j7g3iZ9VbprvkuE6psB0e2kY5afUCFpafMokGb1aSns
+         3zXQ==
+X-Forwarded-Encrypted: i=1; AL+hErF7uj8rbVCw5x8oHdO15uhcUUoDAqT52AX/OhzYJJGk7RApkL62vpQz7L7QSil5ZEIJZaPeI86tzx4m9YgT@vger.kernel.org
+X-Gm-Message-State: APuU4Z+YLDjH6Lm0L0zvugmhhms5Ba+f5YQ7Nn0ZLanx8IHOX4Z9FStK
+	6C3uTFy8MCWXBy7iuLb1K9ci/hiZb/n2Zy7zhXIeoDYpKRxCXC1xkgxvgfyHeEqgblX9SaS4Ig=
+	=
+X-Received: from edev9-n1.prod.google.com ([2002:a05:6402:a2c9:10b0:6b7:77b0:4135])
+ (user=halg job=prod-delivery.src-stubby-dispatcher) by 2002:aa7:d411:0:b0:6b8:ac39:bb96
+ with SMTP id 4fb4d7f45d1cf-6b8ac39c472mr2401311a12.12.1795084971484; Thu, 19
+ Nov 2026 02:42:51 -0800 (PST)
+Date: Thu, 19 Nov 2026 10:42:06 +0000
+In-Reply-To: <20261119104208.782900-1-halg@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -108,89 +78,127 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261119053827.69933-1-mdshahid03@gmail.com>
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-12.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.80
+Mime-Version: 1.0
+References: <20261119104208.782900-1-halg@google.com>
+X-Mailer: git-send-email 2.56.1.708.g77570a6a1d-goog
+Message-ID: <20261119104208.782900-3-halg@google.com>
+Subject: [PATCH v2 2/4] capability: bound ptrace and cred subset checks by
+ userns ceilings
+From: "Hallgrimur H. Gunnarsson" <halg@google.com>
+To: Christian Brauner <brauner@kernel.org>, Serge Hallyn <sergeh@kernel.org>, 
+	Andy Lutomirski <luto@kernel.org>
+Cc: Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, 
+	"=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?=" <mic@digikod.net>, Jonathan Calmels <jcalmels@3xx0.net>, Jann Horn <jannh@google.com>, 
+	"=?UTF-8?q?G=C3=BCnther=20Noack?=" <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
+	Casey Schaufler <casey@schaufler-ca.com>, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
+	containers@lists.linux.dev, keyrings@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, "Hallgrimur H. Gunnarsson" <halg@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu 19-11-26 11:08:27, mdshahid03@gmail.com wrote:
-> From: Mohammad Shahid <mdshahid03@gmail.com>
-> 
-> Use check_add_overflow() to detect overflow when calculating
-> the end byte of the requested range.
-> 
-> Reject negative offsets and lengths before performing the
-> addition.
-> 
-> Signed-off-by: Mohammad Shahid <mdshahid03@gmail.com>
+Same-namespace ptrace checks only compare cap_permitted (or
+cap_effective), ignoring the userns capability ceiling. As a result, a
+task with a lowered ceiling could trace a less-restricted same-UID task
+in the same user namespace and use it to create a wider child user
+namespace.
 
-Looks good. Feel free to add:
+Require the tracee's cred_userns_bset() to be a subset of the tracer's
+in the same-namespace check in cap_ptrace_access_check() and
+cap_ptrace_traceme(). Cross-namespace implicit CAP_SYS_PTRACE via user
+namespace ownership is already bounded by cap_capable_helper(), while
+tracers holding explicit CAP_SYS_PTRACE retain access.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Also update cred_cap_issubset() so commit_creds() resets mm->dumpable
+and pdeath_signal whenever a credential transition widens the effective
+userns capability ceiling.
 
-							Honza
+Suggested-by: Christian Brauner <brauner@kernel.org>
+Suggested-by: Andy Lutomirski <luto@kernel.org>
+Signed-off-by: Hallgrimur H. Gunnarsson <halg@google.com>
+---
+ kernel/cred.c        | 13 +++++++++----
+ security/commoncap.c | 12 ++++++++----
+ 2 files changed, 17 insertions(+), 8 deletions(-)
 
-> ---
->  fs/sync.c | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
-> 
-> diff --git a/fs/sync.c b/fs/sync.c
-> index 4a84dd837b86..a1ef2b619cfc 100644
-> --- a/fs/sync.c
-> +++ b/fs/sync.c
-> @@ -10,6 +10,7 @@
->  #include <linux/slab.h>
->  #include <linux/export.h>
->  #include <linux/namei.h>
-> +#include <linux/overflow.h>
->  #include <linux/sched.h>
->  #include <linux/writeback.h>
->  #include <linux/syscalls.h>
-> @@ -233,13 +234,10 @@ int sync_file_range(struct file *file, loff_t offset, loff_t nbytes,
->  	if (flags & ~VALID_FLAGS)
->  		goto out;
->  
-> -	endbyte = offset + nbytes;
-> -
-> -	if ((s64)offset < 0)
-> -		goto out;
-> -	if ((s64)endbyte < 0)
-> +	if (offset < 0 || nbytes < 0)
->  		goto out;
-> -	if (endbyte < offset)
-> +
-> +	if (check_add_overflow(offset, nbytes, &endbyte))
->  		goto out;
->  
->  	if (sizeof(pgoff_t) == 4) {
-> -- 
-> 2.43.0
-> 
+diff --git a/kernel/cred.c b/kernel/cred.c
+index d01df40a9a38..968122cdbf07 100644
+--- a/kernel/cred.c
++++ b/kernel/cred.c
+@@ -335,17 +335,22 @@ static bool cred_cap_issubset(const struct cred *set, const struct cred *subset)
+ 	 * the capabilities of subset are a subset of set.
+ 	 */
+ 	if (set_ns == subset_ns)
+-		return cap_issubset(subset->cap_permitted, set->cap_permitted);
++		return cap_issubset(subset->cap_permitted,
++				    set->cap_permitted) &&
++			cap_issubset(cred_userns_bset(subset),
++				     cred_userns_bset(set));
+ 
+ 	/* The credentials are in a different user namespaces
+ 	 * therefore one is a subset of the other only if a set is an
+ 	 * ancestor of subset and set->euid is owner of subset or one
+-	 * of subsets ancestors.
++	 * of subsets ancestors, and set's userns capability ceiling
++	 * covers subset's capabilities.
+ 	 */
+ 	for (;subset_ns != &init_user_ns; subset_ns = subset_ns->parent) {
+-		if ((set_ns == subset_ns->parent)  &&
++		if (set_ns == subset_ns->parent &&
+ 		    uid_eq(subset_ns->owner, set->euid))
+-			return true;
++			return cap_issubset(subset_ns->cap_bset,
++					    cred_userns_bset(set));
+ 	}
+ 
+ 	return false;
+diff --git a/security/commoncap.c b/security/commoncap.c
+index ddac8e917680..786f99eb6838 100644
+--- a/security/commoncap.c
++++ b/security/commoncap.c
+@@ -157,7 +157,8 @@ int cap_settime(const struct timespec64 *ts, const struct timezone *tz)
+  * @mode: The mode of attachment.
+  *
+  * If we are in the same or an ancestor user_ns and have all the target
+- * task's capabilities, then ptrace access is allowed.
++ * task's capabilities (including its userns capability ceiling), then
++ * ptrace access is allowed.
+  * If we have the ptrace capability to the target user_ns, then ptrace
+  * access is allowed.
+  * Else denied.
+@@ -179,7 +180,8 @@ int cap_ptrace_access_check(struct task_struct *child, unsigned int mode)
+ 	else
+ 		caller_caps = &cred->cap_permitted;
+ 	if (cred->user_ns == child_cred->user_ns &&
+-	    cap_issubset(child_cred->cap_permitted, *caller_caps))
++	    cap_issubset(child_cred->cap_permitted, *caller_caps) &&
++	    cap_issubset(cred_userns_bset(child_cred), cred_userns_bset(cred)))
+ 		goto out;
+ 	if (ns_capable(child_cred->user_ns, CAP_SYS_PTRACE))
+ 		goto out;
+@@ -194,7 +196,8 @@ int cap_ptrace_access_check(struct task_struct *child, unsigned int mode)
+  * @parent: The task proposed to be the tracer
+  *
+  * If parent is in the same or an ancestor user_ns and has all current's
+- * capabilities, then ptrace access is allowed.
++ * capabilities (including its userns capability ceiling), then ptrace
++ * access is allowed.
+  * If parent has the ptrace capability to current's user_ns, then ptrace
+  * access is allowed.
+  * Else denied.
+@@ -211,7 +214,8 @@ int cap_ptrace_traceme(struct task_struct *parent)
+ 	cred = __task_cred(parent);
+ 	child_cred = current_cred();
+ 	if (cred->user_ns == child_cred->user_ns &&
+-	    cap_issubset(child_cred->cap_permitted, cred->cap_permitted))
++	    cap_issubset(child_cred->cap_permitted, cred->cap_permitted) &&
++	    cap_issubset(cred_userns_bset(child_cred), cred_userns_bset(cred)))
+ 		goto out;
+ 	if (has_ns_capability(parent, child_cred->user_ns, CAP_SYS_PTRACE))
+ 		goto out;
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.56.1.708.g77570a6a1d-goog
+
