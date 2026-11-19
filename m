@@ -1,84 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.171.160.6
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795085920;
-	b=IGF17+Q70sYRRHvh62fn6VdGczAghtjCk/NPPeMb0a2kJVUrlh0bQx7WOaINnbQsan2U
-	 rirMhHCEP9kjyj2SbuhU9tof5hsnO5QT50F3zcyupsYzdv8wQguUhajhm0t7l282N7JiD
-	 lLXZvcWoEtCRbeTmi0wlcnAaVrK7yL5o5uZkt44TuMPEqxIvMgAE/j0tKHzuZuJLL+syt
-	 RBYgISJcekSZ4n7diiYeXwk+cTGrLxazCsz0L/0TIt0ZjfPZdaeNAwQKQU8J/jt78lPCf
-	 sV8ZtxolFVyMuEqVR57aYnxAUVPcYMklq5N/o0WpIB9lH5HvFn0sZMfZ45K7NxtPVPQ==
+	t=1795086024;
+	b=o+Rq7BZvlsh/mC0pSjxeu/xX6l/jQTwlS/By5x/c7d6CADQInN2GbeJFaHpStjLmxaYl
+	 d6kuP6V69QBjqZ4T7VyjVAIaayaUgt9HmH31Ey+AoFi/bB1A37d1xqm8qCbe2Z+VtpXdM
+	 lf7xfAsl7TAbjhIr/owhyxJrMRARut5yXHF5XiBior5veZlFUiOrP6yPAszctcK9CMh8R
+	 y0eDMS8HFtn6kfLKF1p5aoZx9vPBHBpIMFJh5Irsx9PWrSiEG5UXGIcivz2jRo2CS9ceW
+	 NUKYdnuHj1izuiiQE+mfuinOG3lLMhxn2OTO/ntKpR00HyFkLCRDpkemfMxJjNTWfsg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795085920;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 User-Agent:MIME-Version:Content-Type;
-	bh=eu8s7ba4whbxVZt98CCqbePfX8He1ghLwLHh7HUZVOQ=;
-	b=j5vb22OlZIlmaDBqrl2Uy8lph9Nrb6Y8s9uQpVQPPnbv/ZoahM/PrDFjrg63YJU1RrMX
-	 0TNL1gbx0Jc54UHi7QIK4jBu8if5g1A1nw5F78ZN/95e9qZeBwGdmUPB199Wvfn9rwxWk
-	 eIzONefRnJvlR3XB9UayQ/Bo4XyWyFz7zH9Obu83spwoOam/OEONe0RXi9IBC2/E6Jdld
-	 WhA98Z241szAqGV7DE4FwVD5fSbrzIX5H4I+CtYMQUmcaOs72fi+z7/V0mFw+3ASuH0gM
-	 1NOMoOZLfqaFMpzH9K8GXaphMxNdj6P3kORXOPJayFDW4EICN9ARehp/Uw9x4kBWNJg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795086024;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:X-Mailer:
+	 References:In-Reply-To;
+	bh=A9oz9N9wH00FCW5H3UowtSmH7Mh76gUUYu8lgBfPcTY=;
+	b=gon6TfzuUJ8iDqXuiCyY4cxoEbGsC8Vh0zllg/I+stcsgIpVOlwp6JMdHpBGZnVLTaxb
+	 QzH0TTGONJmLEJtIgCirF02zpR8nKr96QzRajnzfIKKoM9BtjMtfOm47GnVb0paUWCE4z
+	 6q7tvQkFlO3+mDIm77jyYYCgiUrvBT0/Yz8q7pmSVapCYQc/NtR+LV9F8CoidrvIvCCBi
+	 0FyegZSj+Bln7NFoPB/4zJHI0qsC/jPHCW3rHW4qfpG5PsElE+I1p/roqDzC9TAjt/apk
+	 qOOwCJTZoz1iX/jugTtbbC3OBe0GhN7Meq1+1wOiZpPfknSqCjCWNrdqDPf4wiUYmTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.parknet.co.jp;
-	spf=pass smtp.mailfrom=parknet.co.jp;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=KYekbOUE;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=E9BT3gtc;
-	arc=none smtp.remote-ip=210.171.160.6
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=p+8y4zX1;
+	arc=none smtp.remote-ip=209.85.128.54
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07EA606A320;
-	Thu, 19 Nov 2026 10:58:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C07EA606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450D7606A325
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 11:00:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 450D7606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=KYekbOUE;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=E9BT3gtc
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id 90D1420BD290;
-	Thu, 19 Nov 2026 19:58:35 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1795085915;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eu8s7ba4whbxVZt98CCqbePfX8He1ghLwLHh7HUZVOQ=;
-	b=KYekbOUEPhJ5XxSPyxzVUJQJ+UIEHq0O0y0GXTSD5eLcv8HXCU2UaM0bZ9zQxTPcgQ1VSv
-	V6qx1Ku9+OH/fFnMzgS3wYxXo0skzRKsbF1AuzAqASQKzXwuNfLCEcIX1uyhwHwUb89qVv
-	+399XMaOId4KS2PMsf6WlkIFWoZ63nr1IDkKl3krJBg1qyYLzq+EeEjtTEE4VA1Hqk550e
-	rZVJEI+zmfJvO+l53eSmeKCa8qtZpzkgNo03DUn9rJWO++L16qmpluTmLLieR2djAJNzRp
-	ffY+hPR1afF91S2kMnV050DmtkLnmHcdgCN2a0nYd3Y51M1Y7QKgqitQFqt/8g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1795085915;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eu8s7ba4whbxVZt98CCqbePfX8He1ghLwLHh7HUZVOQ=;
-	b=E9BT3gtcRFyXVnIif6ZyBLF8gdOPGA1huyUO29ZxEMSX+cmz2M+dWEd4nMiSlV8vJTwJQc
-	ksXqe4+XVahjfBAw==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 1552CE00181;
-	Thu, 19 Nov 2026 19:58:35 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id 0D55F220021A; Thu, 19 Nov 2026 19:58:35 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Jan Kara <jack@suse.cz>
-Cc: Josef Bacik <josef@toxicpanda.com>,  Miklos Szeredi <miklos@szeredi.hu>,
-  Amir Goldstein <amir73il@gmail.com>,  Christian Brauner
- <brauner@kernel.org>,  Alexander Viro <viro@zeniv.linux.org.uk>,
-  Christoph Hellwig <hch@infradead.org>,  Chris Mason <mason@kernel.org>,
-  Chengguang Xu <cgxu519@mykernel.net>,  linux-unionfs@vger.kernel.org,
-  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 4/7] fs: add write_inode_for_sync()
-In-Reply-To: <2z4x35murtwkmuzosciww63z4hfnnaefitc5qinzazvq4pr7qb@uor7pldovwan>
-References: <20261118-b4-ovl-containerized-sync-v7-0-54f45743fe55@toxicpanda.com>
-	<20261118-b4-ovl-containerized-sync-v7-4-54f45743fe55@toxicpanda.com>
-	<vafoz7tqboipgnsotuqbv27a2ywgiihbxqtlbegctyoygfbi7a@i4gmvgmj7wnd>
-	<87a4n517c2.fsf@mail.parknet.co.jp>
-	<2z4x35murtwkmuzosciww63z4hfnnaefitc5qinzazvq4pr7qb@uor7pldovwan>
-Date: Thu, 19 Nov 2026 19:58:35 +0900
-Message-ID: <875wxt1410.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=p+8y4zX1
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4bb68c197c7so29756245e9.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 03:00:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795086022; x=1795690822; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-type:mime-version:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=A9oz9N9wH00FCW5H3UowtSmH7Mh76gUUYu8lgBfPcTY=;
+        b=p+8y4zX1UI+mfeJMp1kRmcRAREPQADmhTVfjwwRI88EjgnuIVQGkaBCJWGDqulNg56
+         qZLBHTfK06G3YF3YQSRWX8m+vVHiieMTkDYSgmwiy/8pZ2u5p1jzXb+saLyYFE+symgc
+         XwvR7gNzlBUv8jT7ejMAl52+fA6I9fW5y42cG24CLkTfkMuzP35I2d84GrYtRFqMoboA
+         D+VbsUKrj9ueSA9ZvnY0211UUuM7RVIzcOf42AcUSKbYmp8PKmWrDlqpUBrSz09aRZuF
+         vbuqpLlk38nEHuUROa2vow7zuk951pDNkAcPkOuJaXssazOo+udgoIX7xMuJU23oFXVJ
+         36LA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795086022; x=1795690822;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=A9oz9N9wH00FCW5H3UowtSmH7Mh76gUUYu8lgBfPcTY=;
+        b=f3vCLGfxhrUoM6UvtJ5z63VxcBe15sLYjDm2lneL3GYW+QD8hcc8FWPme9wqgIAo+H
+         +y/wGZ63V7Fyt0sPBbVD3FI/KqSaQC9QzinjW+t0lfQSlqcDgdtsx6+b4p49dsNRZOMq
+         LP10argHpQEIlB03RO4Wd6Z74un0sRomITmgYaIdSFXBOJvUbbl628mPqEvR5G14P91a
+         zlso0E8pGWYfJJsUGTfOPJU28wqDG9xVZIl939v5vwrwP4UdcK2Xs5bzqI6EQT3s1j+M
+         QQBtdpsuCDo0LCT47vxDawfkG72lpNZZjuK1/pNmY3MqsIr/e08qllmucMnpIOZnuHS0
+         fJfA==
+X-Forwarded-Encrypted: i=1; AL+hErGSq46rZ59d91mvYdxKJlwlMAIbws/LIQYBZUrzsu7NIqPmFXwdj3UnxzwXz3WYlUyDKv8eXcd+8oniC5y6@vger.kernel.org
+X-Gm-Message-State: APuU4Z+7xH0MKQOaNXorevTxZ2dWhRBdsHVM9FjJMI0Yji9L0ur3HO0l
+	iloX//OPy+vEIrypIYJzXSiAbn0EuJ9K45MW7JpE6zK0gHAere6nzqgz
+X-Gm-Gg: AYBFou1Ub1XAivM6WoP279uKf2y5OcwCMnKGVzw8G/dwzdJaKshcgumMWdwd7Yd/VEK
+	XYdpMCLXjtdCIh3tPOSQQgeFiea9Kc76I/+OxrIVKzTKIjFUGUm967NmNd7d6uL5KBtioG5wmoD
+	BkeOdOe4aZVZTQjrJn/o7XWnQB8EGj3kqpmbm4Oobhu7KpAgKHMDRfkx2XZFpeWBDdmyldFNEzf
+	Rp9OGYYB3qqeBeMqvC6VMeTSta1dZDpHc4unqkST4z0LX1bcl0pI7JKcSz1mClgZ2A2C8XNG9xM
+	3GN5IuTCf58zgxkz0oVjl3GQtR+Mb612mf3S0G3s8xPQDl9tYV6iBAmrGZKor+E9cJChNyrT4BH
+	oJ9BSuPfM/BH3qsiTe0C7QE0TYTqy4J+mkVh3MgFI4eQ82S+Kn/4wokb825Q8cEVNrh1DLtq15/
+	cDd/+meK6l99Mskmltdr0UI5BaQzZ6DvpvPAI1MYM3ECwI9dsxRmU+hY1yhL0AiEIpumntvCZam
+	KP4u0OiGeO9KMajXqL+nY13pJzt+7sVGh6uwOp5wQWsmGBBZxQnJXPCfE0T2jX6LvX6sUjbpbKw
+	4PdQv9+hhnt2lmMAcuojEG1PZa8A4r5vrBdbIpiIUMtVYnV0
+X-Received: by 2002:a05:600c:6095:b0:4a2:c2b:a91b with SMTP id 5b1f17b1804b1-4bb7da03b45mr96312765e9.10.1795086021026;
+        Thu, 19 Nov 2026 03:00:21 -0800 (PST)
+Received: from localhost ([130.192.98.149])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8534d908sm30956005e9.9.2026.11.19.03.00.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Nov 2026 03:00:20 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -87,82 +86,272 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=a790ada8fe7b7f1ee219e7d28021102d19589829fb834fe469ae5db7b9de;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Thu, 19 Nov 2026 12:00:04 +0100
+Message-Id: <DMZ4VQ7SZ07T.29WMPQ0BQZGSS@gmail.com>
+From: "koraynilay" <koray.fra@gmail.com>
+To: "Lauri Gates" <lauri.gates@gmail.com>, "Dave Chinner" <dgc@kernel.org>
+Cc: "Christian Brauner" <brauner@kernel.org>, "Christoph Hellwig"
+ <hch@infradead.org>, <linux-xfs@vger.kernel.org>, "Carlos Maiolino"
+ <cem@kernel.org>, "Christian Brauner" <christian@brauner.io>, "Darrick J.
+ Wong" <djwong@kernel.org>, <linux-api@vger.kernel.org>,
+ <linux-fsdevel@vger.kernel.org>, <linux-btrfs@vger.kernel.org>,
+ <ocfs2-devel@lists.linux.dev>, <linux-nfs@vger.kernel.org>,
+ <linux-cifs@vger.kernel.org>, "Amir Goldstein" <amir73il@gmail.com>
+Subject: Re: Concurrent FIEMAP on reflinked files serialises on the AGF
+ buffer lock
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+References: <av4Hn9u80fs8iHZ6@dread>
+ <20261119095943.85048-1-lauri.gates@gmail.com>
+In-Reply-To: <20261119095943.85048-1-lauri.gates@gmail.com>
 
-Jan Kara <jack@suse.cz> writes:
+--a790ada8fe7b7f1ee219e7d28021102d19589829fb834fe469ae5db7b9de
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-> On Thu 19-11-26 18:47:09, OGAWA Hirofumi wrote:
->> Jan Kara <jack@suse.cz> writes:
->> 
->> > On Wed 18-11-26 17:03:27, Josef Bacik wrote:
->> >> sync_inodes_sb() has the flusher write every dirty inode of a superblock
->> >> with WB_SYNC_ALL and for_sync set.  That writes the pages without waiting
->> >> for them, hands over the timestamps that lazytime has deferred while it
->> >> holds I_SYNC, and calls ->write_inode() in a way that tells the filesystem
->> >> that ->sync_fs() follows, so ext4 does not commit a transaction for every
->> >> inode.
->> >> 
->> >> overlayfs is about to sync some of the inodes of its upper filesystem, and
->> >> none of the exported functions does that for one inode.  write_inode_now()
->> >> and sync_inode_metadata() either do not wait for somebody else who is
->> >> writing the inode and leave deferred timestamps alone, or they wait for the
->> >> pages, clear the error flags of the mapping and make ext4 commit.
->> >> 
->> >> Add a function that writes one inode the way a sync does.
->> >> 
->> >> Nothing calls it yet.
->> >> 
->> >> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
->> >
->> > Looks good. Feel free to add:
->> >
->> > Reviewed-by: Jan Kara <jack@suse.cz>
->> >
->> > Actually Ogawa wanted the very same function for FAT flushing of dirty data
->> > on close so it looks like a generally useful primitive to have. Just the
->> > description of the function is really hard to parse (at least to me as a
->> > non-native speaker). 
->> >
->> >> +/**
->> >> + * write_inode_for_sync - write an inode like a sync of its filesystem does
->> >> + * @inode: inode to write to disk
->> >> + *
->> >> + * This does for one inode what sync_inodes_sb() has the flusher do for every
->> >> + * dirty inode of a superblock.  It writes all dirty pages, the timestamps that
->> >> + * lazytime has deferred and the inode.  It waits for somebody else who is
->> >> + * writing the inode, but not for the pages it writes, and it does not ask the
->> >> + * filesystem to commit anything.
->> >> + *
->> >> + * This is for a caller that syncs some of the inodes of a filesystem.  It has
->> >> + * to wait for the pages with filemap_fdatawait_keep_errors(), like
->> >> + * wait_sb_inodes() does, and to call sync_fs_and_bdev() in the end.
->> >
->> > I'd write:
->> > This writes out inode like e.g. sync(2) would do it. On high level that
->> > means we make sure anything dirty is submitted to the storage but we don't
->> > wait for any completion. In particular, it means we wait if there's
->> > somebody else submitting writeback for the inode (I_SYNC state set), we
->> > make sure all dirty pages are submitted for writeback waiting for locks,
->> > and we treat the inode as dirty if it has dirty timestamps. However we
->> > don't wait for any IO to complete and we don't persist other inode-related
->> > metadata through ->sync_inode_metadata(). If the caller wants data
->> > persistency guarantee, it has to wait for IO completion (e.g. using
->> > filemap_fdatawait_keep_errors()) and also persist common filesystem
->> > metadata using sync_fs_and_bdev().
->> 
->> Looks good (except the name of function though). What I want is, not
->> emulate sync, it is flushing dirty stuff. Now both are same usage
->> though, may not be same by future changes.
+On Thu Nov 19, 2026 at 10:59 AM CET, Lauri Gates wrote:
+> On Wed, Nov 18, 2026 at 10:16PM +0200, Dave Chinner wrote:
+>> I really don't care if it is exposed by statx or file_attr; checking
+>> the flag through either interface will be orders of magnitude faster
+>> than using FIEMAP to iterate extents on every file to find shared
+>> extents. My concern with statx is coherency - it runs completely
+>> unlocked and so can race with operations that add/remove the reflink
+>> flag...
 >
-> The intention behind both users is "reliably submit everything for IO but
-> don't wait for IO completion". So I think they overlap not only in the
-> implementation and there's good chance they won't diverge...
+> Thanks, Dave and Christian. Given Christian's preference and the
+> coherency point, I'll write the RFC against file_attr, once the
+> question at the end is settled. xfs_fileattr_get() already reads the
+> flags under XFS_ILOCK_SHARED, so the new flag gets that without extra
+> work. The answer can still go stale right after the call, as with any
+> stat result: a clone that lands after the read is missed, just as one
+> that lands after FIEMAP returns is missed today.
+>
+> As I suggested on the 6th, the flag would take the inverted meaning,
+> so that an unset flag stays the safe answer: say FS_XFLAG_NOSHARED
+> ("no extents shared with another file"), read-only, in
+> FS_XFLAG_RDONLY_MASK next to the case-folding flags.
 
-Possible. However, current implementation is unclear name and boolean
-.for_sync. Not combination of clear flags, so it is also possible to
-introduce unintended code for flush via sync changes.
+Hello, I don't have any say in the FIEMAP issue, but I wanted to let you
+know that, since also a mask was mentioned and your patch would be
+touching the fileattr API, there is work going[1] on for adding a
+fsx_xflags_mask that filesystem use[2][3] to advertise supported flags (on
+get, like stx_attributes_mask) and users use to say what they want to
+change (on set).
+It doesn't seem like an FS_XFLAG_NOSHARED flag would touch this new
+change, but I thought it was worth pointing out, especially because this
+patch would also add FS_XFLAG_PROJID and a new FS_FILE_ATTR_XFLAGS_MASK
+to have a way to include both legacy and newly added xflags, so
+FS_XFLAG_NOSHARED would maybe also go there (correct me if I'm wrong).
 
-Well, anyway, what I wanted is make it clear for future developers.
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+> Christian, one question on the shape within file_attr: would you take
+> the inverted flag, or would you rather keep a plain "may share" flag
+> and add a mask to struct file_attr that says which xflags the
+> filesystem reports?
+
+And if Christian chooses the mask approach, then my patch[4] becomes
+relevant.
+(in [4] I put the patch that will be sent in v5 of [1], since in [1]
+it's merged with the ptime change)
+
+(For Amir who I just CC'd, [5] is the main link for this thread)
+
+Thanks,
+koraynilay
+
+[1]: https://lore.kernel.org/all/20261115180343.576773-1-koray.fra@gmail.co=
+m/T/#u
+[2]: https://lore.kernel.org/all/CAOQ4uxj82K4z+2OiY5W1g7NyWAFOFjqqWnZSS3pry=
+tW36j1LgA@mail.gmail.com/
+[3]: https://lore.kernel.org/all/CAOQ4uxiuJ=3DeZu28FZAUz3rpqPKqCimPxJucOnYY=
+uBowvD09_Cw@mail.gmail.com/
+[5]: https://lore.kernel.org/linux-xfs/20261102193533.93690-1-lauri.gates@g=
+mail.com/T/#u
+
+[4]:
+commit 0efe0de3b5cc2b767aa6e2bb9174eb05b0d818f1
+Author: koraynilay <koray.fra@gmail.com>
+Date:   Tue Nov 17 14:57:47 2026 +0100
+
+    vfs: add xflags mask to file_attr API
+   =20
+    Add fa_xflags_mask to struct file_attr and equivalent fsx_xflags_mask
+    to struct file_kattr.
+   =20
+    This lets filesystems advertise their support for specific xflags and
+    users specify only what they want to change, behaving like
+    statx.stx_attributes_mask:
+    - on GET (file_getattr): each filesystem fills the mask according to
+      its supported xflags, e.g. FS_XFLAG_COWEXTSIZE or FS_XFLAG_EXTSIZE,
+      and provides the values in the corresponding struct fields;
+    - on SET (file_setattr): userspace fills the mask according to which
+      xflags it wants to change, VFS validates this and preserves xflags
+      that were not specified in the mask;
+    - if xflags_mask =3D=3D 0, use legacy full-struct replacement to keep
+      compatibility with older programs.
+   =20
+    Furthermore, add the missing FS_XFLAG_PROJID flag, to allow userspace t=
+o
+    set the projid using file_[sg]etattr().
+   =20
+    Finally, in order to prevent the legacy FS_IOC_FSSETXATTR from acceptin=
+g
+    FS_XFLAG_PROJID, add an FS_FILE_ATTR_XFLAGS_MASK to support new xflags
+    and use it in fileattr_to_file_attr()/file_attr_to_fileattr() to
+    validate that the xflags passed in fa_xflags and fa_xflags_mask fields
+    are valid.
+   =20
+    Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.7
+    Signed-off-by: koraynilay <koray.fra@gmail.com>
+---
+ fs/file_attr.c           | 46 ++++++++++++++++++++++++++++++++++++++++++--=
+--
+ include/linux/fileattr.h |  5 +++++
+ include/uapi/linux/fs.h  |  3 +++
+ 3 files changed, 50 insertions(+), 4 deletions(-)
+
+diff --git a/fs/file_attr.c b/fs/file_attr.c
+index 833e03810b24..56ea65f790f1 100644
+--- a/fs/file_attr.c
++++ b/fs/file_attr.c
+@@ -102,10 +102,18 @@ EXPORT_SYMBOL(vfs_fileattr_get);
+ static void fileattr_to_file_attr(const struct file_kattr *fa,
+ 				  struct file_attr *fattr)
+ {
+-	__u32 mask =3D FS_XFLAGS_MASK;
++	/*
++	 * fsx_xflags_mask contains only flags added after the
++	 * file_[gs]etattr() API, so we need to tell userspace the filesystem
++	 * actually supports all legacy (FS_XFLAGS_MASK and FS_XFLAG_PROJID,
++	 * which lacked its own bit) and new advertised flags.
++	 */
++	__u32 mask =3D (FS_XFLAGS_MASK | FS_XFLAG_PROJID | fa->fsx_xflags_mask) &
++		     FS_FILE_ATTR_XFLAGS_MASK;
+=20
+ 	memset(fattr, 0, sizeof(struct file_attr));
+ 	fattr->fa_xflags =3D fa->fsx_xflags & mask;
++	fattr->fa_xflags_mask =3D mask;
+ 	fattr->fa_extsize =3D fa->fsx_extsize;
+ 	fattr->fa_nextents =3D fa->fsx_nextents;
+ 	fattr->fa_projid =3D fa->fsx_projid;
+@@ -141,12 +149,17 @@ EXPORT_SYMBOL(copy_fsxattr_to_user);
+ static int file_attr_to_fileattr(const struct file_attr *fattr,
+ 				 struct file_kattr *fa)
+ {
+-	__u64 mask =3D FS_XFLAGS_MASK;
++	__u64 mask =3D fattr->fa_xflags_mask ?: FS_XFLAGS_MASK;
++
++	if (fattr->fa_xflags_mask & ~FS_FILE_ATTR_XFLAGS_MASK)
++		return -EINVAL;
+=20
+ 	if (fattr->fa_xflags & ~mask)
+ 		return -EINVAL;
+=20
+-	fileattr_fill_xflags(fa, fattr->fa_xflags & ~FS_XFLAG_RDONLY_MASK);
++	fileattr_fill_xflags(fa, fattr->fa_xflags & FS_XFLAGS_MASK &
++				 ~FS_XFLAG_RDONLY_MASK);
++	fa->fsx_xflags_mask =3D fattr->fa_xflags_mask;
+ 	fa->fsx_extsize =3D fattr->fa_extsize;
+ 	fa->fsx_projid =3D fattr->fa_projid;
+ 	fa->fsx_cowextsize =3D fattr->fa_cowextsize;
+@@ -288,12 +301,37 @@ int vfs_fileattr_set(const struct mnt_idmap *idmap, s=
+truct dentry *dentry,
+ 	if (!err) {
+ 		/* initialize missing bits from old_ma */
+ 		if (fa->flags_valid) {
+-			fa->fsx_xflags |=3D old_ma.fsx_xflags & ~FS_XFLAG_COMMON;
++			/* FS_IOC_SETFLAGS */
++			fa->fsx_xflags_mask =3D 0;
++			fa->fsx_xflags |=3D (old_ma.fsx_xflags & FS_XFLAGS_MASK) &
++					  ~FS_XFLAG_COMMON;
+ 			fa->fsx_extsize =3D old_ma.fsx_extsize;
+ 			fa->fsx_nextents =3D old_ma.fsx_nextents;
+ 			fa->fsx_projid =3D old_ma.fsx_projid;
+ 			fa->fsx_cowextsize =3D old_ma.fsx_cowextsize;
+ 		} else {
++			/*
++			 * Preserve unmasked xflags when running file_setattr()
++			 * with a mask, which doesn't need a read-modify-write
++			 * so these attributes would be set to 0.
++			 *
++			 * With FS_IOC_FSSETXATTR or mask =3D=3D 0 (legacy mode)
++			 * this is not needed as userspace does
++			 * read-modify-write already.
++			 */
++			if (fa->fsx_xflags_mask) {
++				fa->fsx_xflags |=3D (old_ma.fsx_xflags & FS_XFLAGS_MASK) &
++						  ~fa->fsx_xflags_mask;
++				fileattr_fill_xflags(fa, fa->fsx_xflags &
++						     ~FS_XFLAG_RDONLY_MASK);
++				if (!(fa->fsx_xflags_mask &
++				      (FS_XFLAG_EXTSIZE | FS_XFLAG_EXTSZINHERIT)))
++					fa->fsx_extsize =3D old_ma.fsx_extsize;
++				if (!(fa->fsx_xflags_mask & FS_XFLAG_PROJID))
++					fa->fsx_projid =3D old_ma.fsx_projid;
++				if (!(fa->fsx_xflags_mask & FS_XFLAG_COWEXTSIZE))
++					fa->fsx_cowextsize =3D old_ma.fsx_cowextsize;
++			}
+ 			fa->flags |=3D old_ma.flags & ~FS_COMMON_FL;
+ 		}
+=20
+diff --git a/include/linux/fileattr.h b/include/linux/fileattr.h
+index 09e32b84e02a..40ecb29f6235 100644
+--- a/include/linux/fileattr.h
++++ b/include/linux/fileattr.h
+@@ -35,6 +35,10 @@
+ 	(FS_XFLAG_COMMON | FS_XFLAG_RDONLY_MASK | FS_XFLAG_VALUES_MASK | \
+ 	 FS_XFLAG_DIRONLY_MASK | FS_XFLAG_MISC_MASK)
+=20
++/* Flags only for fa_ fields */
++#define FS_FILE_ATTR_XFLAGS_MASK \
++	(FS_XFLAGS_MASK | FS_XFLAG_PROJID)
++
+ /*
+  * Merged interface for miscellaneous file attributes.  'flags' originates=
+ from
+  * ext* and 'fsx_flags' from xfs.  There's some overlap between the two, w=
+hich
+@@ -45,6 +49,7 @@ struct file_kattr {
+ 	u32	flags;		/* flags (FS_IOC_GETFLAGS/FS_IOC_SETFLAGS) */
+ 	/* struct fsxattr: */
+ 	u32	fsx_xflags;	/* xflags field value (get/set) */
++	u32	fsx_xflags_mask; /* supported xflags (get) / flags to set (set) */
+ 	u32	fsx_extsize;	/* extsize field value (get/set)*/
+ 	u32	fsx_nextents;	/* nextents field value (get)	*/
+ 	u32	fsx_projid;	/* project identifier (get/set) */
+diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+index a46c33692aa2..b168f1b75126 100644
+--- a/include/uapi/linux/fs.h
++++ b/include/uapi/linux/fs.h
+@@ -229,6 +229,7 @@ struct file_attr {
+ 	__u32 fa_nextents;	/* nextents field value (get)   */
+ 	__u32 fa_projid;	/* project identifier (get/set) */
+ 	__u32 fa_cowextsize;	/* CoW extsize field value (get/set) */
++	__u32 fa_xflags_mask;   /* supported xflags (get) / flags to set (set) */
+ };
+=20
+ #define FILE_ATTR_SIZE_VER0 24
+@@ -261,6 +262,8 @@ struct file_attr {
+  */
+ #define FS_XFLAG_CASEFOLD	0x00040000	/* case-insensitive lookups */
+ #define FS_XFLAG_CASENONPRESERVING 0x00080000	/* case not preserved */
++
++#define FS_XFLAG_PROJID		0x00200000	/* project ID */
+ #define FS_XFLAG_HASATTR	0x80000000	/* no DIFLAG for this	*/
+=20
+ /* the read-only stuff doesn't really belong here, but any other place is
+
+--a790ada8fe7b7f1ee219e7d28021102d19589829fb834fe469ae5db7b9de
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRJ2XvJtXGwULYEerQ0bnTtJTDoOAUCav7WtQAKCRA0bnTtJTDo
+OOFTAP9cSbNg14OXapAqT+mncV13potVsiqOZOXJtAk63T7kPgD/SJGc0uh1yl7P
+zMRtZOHywYA/PKzpBOYpIXLlW3BzCg4=
+=/S3z
+-----END PGP SIGNATURE-----
+
+--a790ada8fe7b7f1ee219e7d28021102d19589829fb834fe469ae5db7b9de--
