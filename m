@@ -1,72 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.70
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.70
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795116195;
-	b=uVbkD/i5ew3OBauOFvXhBimaCA50sgaDwmf4KGy9/M4LuuqPMG69vYwu0mGjiV+K66t/
-	 1bU+0d0ekKGk+Fu5AXPCZdg0Qc1ri6dZrsc4FPa9lJrNr+1VHCKeC6feaExXBGlCj7QKi
-	 u3K56iG7wy2pplBR8gxRd3YCt/JSKeOxaw/2JMvyvzzeWTDUq4aXPGp/KIrTexrgsz5bo
-	 bzE1rXhyV/F1MyfhE8HvKr3uaOaYH76fPihLuXkmgBcc/FQEC++4K+Kdv3as8oWhs7aXl
-	 9TSRbvZKje/VmI4BbcTFwF39NPliCUXK9R7gqNyAM/WbkHVUor1D3UAy5bNk+uTg9vw==
+	t=1795116197;
+	b=ekoaxvlw3cb1nDYNGl7fLbrBjWvHwtlGIJRACIxmufd90eAo9Yd7iDOCisLkL9i8TbB5
+	 ZvmZfse5GxsHZBgA/ow0MRPrHcK/zzC84jlN3WIla1QyJWoXx7P9iR++EWkVqVjTVjJVO
+	 pohi4NSGB875TfgNSPkmDna+wsL83mYEuV5zxbzB7z7gis3cjPXuSLGbKZPxilGxiZ+lQ
+	 r61YZGqGIcGBi7LFmiQaVkF4LbTw9F21CCuM+fwrN0qSeFBSnfWqCtNzWUBZEiGOiilWd
+	 VebBaHsmxEwflOXfNwVo0TJJI3mCbht3on9q9JzWdOmnFmwBLrlw2c4KUHfFuTgG0Og==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795116195;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795116197;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
-	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
-	bh=sfFGrUaw7Fqr5/HV4cxJvsPhjYosSvwq1pdNIkXnzLs=;
-	b=Zo0/lolTYihL8Essu/Y/xuQheFhg1DWUn8EThARAZdbHO3C1nPcPenvz0nHP9hb+YJ7p
-	 SKVODEQXEmc70Y11fMPNqcRiQjQuLKCeuh1Q42sdhCm5DHerxKSrWu+hkwCl0tptVebYx
-	 tZqYnEzmwDK8iWxi9srxSepEWixiOW6o7CNAi14l5ni6Aa+wALHM4QYU+wyDirUJBodzE
-	 WiZD+IMIFPxlmzAezfKwWobEzSy1Q90y8xM9dFf6Y9lz2iDAz5vVbte4Pd1RBKBwDiANJ
-	 dCcJjqirFB7Fz7W50esiokTKI5QUigK5TLAStlfMSeKsozLBBCei3sCKtQMj2C0bElQ==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=iB7uS9rNzMUxVP6IABsn6P+/g0oB4DwnWOOQRoeg9fM=;
+	b=WJmFKSTdOlVQZgHu4QYX2vRaMBBC6YUtdVKjwEmxxJbw+gwqrLjrHXoEsU+6fjm1olA9
+	 lsEo3c35Ky7H9Uy6rg830QLa9kmNh8XjE05NxhpYMa7t++vK7o3aGixzan5GM43OBGdyD
+	 EH+S4IHPEeJS8L8AguvOQ7kA4L8QHhy1RDMxumYK0CVwqbtazsUb/uUZWcxyQhBJsp6mp
+	 /zumEIsQMl+T2hwqlFSpgWLVik/7moemy2vxHFIVPe8M+s/c7ZzNzy1PVMnx2mf6E1/hl
+	 Oym9yOqGeKKcHqSk1/0GB/1Zz6iS3Rl0RH87qnBvUG/nKsBsDEg6ABbv4Y/YZJPfOMw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--dmnk.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=RoDD9snv;
-	arc=none smtp.remote-ip=209.85.221.70
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com [209.85.221.70])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="WiPMiav/";
+	arc=none smtp.remote-ip=209.85.218.70
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com [209.85.218.70])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E45606A331
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 19:23:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02E45606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E8B5606A338
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 19:23:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E8B5606A338
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmnk.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=RoDD9snv
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-48e0389d6f9so22936f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 11:23:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=WiPMiav/
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-c40bbd26f74so14888966b.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 11:23:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795116193; x=1795720993; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sfFGrUaw7Fqr5/HV4cxJvsPhjYosSvwq1pdNIkXnzLs=;
-        b=RoDD9snvR81IV2Ac91gE8vBF6shjd0+G/GstOxhrAM3SU+vnUWav7pdLTYj2zpW1ae
-         n0Bw5QMqboFfQibqVW5DVvHhfnDNMM1bLnZJhgAckNtr3yUmAixu7c/zjC2QiGwUCYAR
-         xAzcJanpU9j1ZN4wZa04592Gm1gNrIyH7AvAVZYBFC3diNVX9v937HdIIdlsXjsNUPyj
-         orOAinpXq3RWqJtvSWFbFK3EiGctAOxAgEwoS46l5q2rHBqFPTZKnqkGdZOStIyZM8uw
-         peeEGD6cYufG62reehGHYWkMo8EF3PqyLkLROupBtdKbawNz6OqI6yTugB8Lh9PX0ixk
-         jLmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795116193; x=1795720993;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20260707; t=1795116195; x=1795720995; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=sfFGrUaw7Fqr5/HV4cxJvsPhjYosSvwq1pdNIkXnzLs=;
-        b=xoTusvuiLwUpbDXPDzc5gYASJjxr1lZutivqw5Ya1cOPlHLG/qtXaw3SpE4OATYVZ4
-         o5IAQNOXxWopjNvZ13zeLMqWelsWneSv2jnJDj99sXdWBI6SuYebkhM/7G6lpaQA2X2p
-         p9mam2oSHtmvn9FJWoXBSW6Vxm7JFeLx1dNi7FP7rfDJ1OmM+bCmJZcB5aH2kDx+LdaG
-         r8rMKSvPdD/V7U7+T7wSxmF0BW8BejXYD0FSBIlyCAvaLyC9YMOeYmPrxWclqxPx/JVL
-         EEIHrMpT5yMR7YZoaE96BPG2FZVy4Ub/4jEgRM13gA57B5FusE2Bi6lBoXBYA+/pr02+
-         heyw==
-X-Forwarded-Encrypted: i=1; AL+hErHwMjyJgINHA/Iu4onU4vyc9iN7zNf8eL5iuXWj1Z3W3lq+e0MmseQzTIneXsbJkrx0luwvSGFFC7MO4A2f@vger.kernel.org
-X-Gm-Message-State: APuU4Z8T9U8cX7Pwbn4m92oaTyh7dSddY20X8d5U2i4B+9z9r3TzLCE6
-	S26zdz6c22FVqi1a/z9OqiDvzQbjOC5k/UhrMvVeUoMfuFCN2zijS6Ffsu8CWCAHjSceXA65hA=
+        bh=iB7uS9rNzMUxVP6IABsn6P+/g0oB4DwnWOOQRoeg9fM=;
+        b=WiPMiav/DFba3jhOffEk7iCJjNHHI3HaGlH6rW/CFy0x9i1TYN56ACpiw4ZhFt2uIZ
+         qH2ww7OiLAtz/wjpK2rLSbOMiiwjIo/uJdmLUWOaTJ5J9qYS6nA+i2cO7NE0fTJ652vw
+         SLdGakiivxs7AUfR/fy25HqS4womznQxUhaCd2kD0zbsc8kffRqiTB/7WMH8vF1uiPpe
+         Y6pBUdrjFGjANX3QRQwQXDNnhWYB6AoH8B4iDfn9VmuS6HNUUdHALEdrKg5ecccG3q9g
+         i+ldi0hbGMxSeL96u11Peokty8hPnoe9neE6DL/RdJW5axurubHAGo3CTc9V8yTHiXj0
+         t84Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795116195; x=1795720995;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=iB7uS9rNzMUxVP6IABsn6P+/g0oB4DwnWOOQRoeg9fM=;
+        b=wyXs7VErgo9b/pNjUrJdWrn+67hdQJEw9oOJ5IfPlR2yDogDW0gDqpMaqN7sjeN9WS
+         yIKGxdnBF5b+16vEAX9BMioAWHgRjeY3doNaQquystN2TBJAU1/lsZjAYWAl/frLvqtv
+         Ts/4RU8iNqm2hvk4TN4ogbmAgf6j7nqOA3NrcB8K3vVu1f8A1Bqz2MujYIuv25w3baIE
+         Z1HVBq/FWT355gerAP34qCekWjO0KesQT6gG6wL9dx6l2bLaq70+okEf7xiTs3Mdwo+V
+         cj6Mc3Y0gkJYhvythEBxRTqT7bmq0uR1elKEUjGt+nQWGrz42KtDNJXDwC7LO/NF+R6U
+         4YUQ==
+X-Forwarded-Encrypted: i=1; AL+hErFVd6RwxBWO9qCTwQg1Mh1gvsbwyR3O86g/NNLFNd85RjGjtiSPscJAq2d7RBgfQKXtxgWm+k8KHPAMr1JE@vger.kernel.org
+X-Gm-Message-State: APuU4Z+/HftCMtgu9zUJtOJJhpKL7ZASLx/MI77Gkkr3gMiHueJN+6P7
+	hjC9ZPt+dGIpEIky/+2aHibrUhnXvPFVYeME3VA2E2SfEA7FMTJ6ovNJMIiVlTpaSjEnZJVJMg=
 	=
-X-Received: from wrpz6.prod.google.com ([2002:adf:f746:0:b0:4a6:7c3d:a12f])
- (user=dmnk job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:848d:b0:4a5:1cf1:b7bd
- with SMTP id 5b1f17b1804b1-4bb88810b2dmr11129215e9.16.1795116193152; Thu, 19
- Nov 2026 11:23:13 -0800 (PST)
-Date: Thu, 19 Nov 2026 20:23:10 +0100
+X-Received: from ejcfw45.prod.google.com ([2002:a17:907:502d:b0:c50:519f:c790])
+ (user=dmnk job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:9408:b0:c49:8f1e:af0a
+ with SMTP id a640c23a62f3a-c513a52bef3mr107772066b.7.1795116194626; Thu, 19
+ Nov 2026 11:23:14 -0800 (PST)
+Date: Thu, 19 Nov 2026 20:23:11 +0100
+In-Reply-To: <20261119192311.2684978-1-dmnk@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -76,9 +79,10 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
+References: <20261119192311.2684978-1-dmnk@google.com>
 X-Mailer: git-send-email 2.56.1.809.ga0b61035b5-goog
-Message-ID: <20261119192311.2684978-1-dmnk@google.com>
-Subject: [PATCH 1/2] fs: export may_linkat() for nfsd
+Message-ID: <20261119192311.2684978-2-dmnk@google.com>
+Subject: [PATCH 2/2] nfsd: enforce cross-export and may_linkat() checks in nfsd_link()
 From: Dominik Maier <dmnk@google.com>
 To: Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
 	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>
@@ -88,62 +92,115 @@ Cc: Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>,
 	dmnk+artist@google.com, Dominik Maier <dmnk@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-vfs_link() expects its callers to enforce protected hardlink policy via
-may_linkat() prior to creating a hardlink. Move the declaration of
-may_linkat() from fs/internal.h to include/linux/fs.h and export it with
-EXPORT_SYMBOL_GPL() so modular in-kernel file servers such as NFSD can
-invoke it before calling vfs_link().
+nfsd_link() verifies NFSD_MAY_CREATE on the destination directory
+filehandle (ffhp) and NFSD_MAY_NOP on the source filehandle (tfhp)
+before calling vfs_link() directly, omitting two checks enforced
+elsewhere:
 
-This prepares for fixing missing hardlink restrictions in nfsd_link(),
-which was discovered by an AI-assisted code review tool (ARTIST),
-validated in QEMU without kernel modifications or error injection, and
-verified with kernel builds and checkpatch.pl.
+1. Unlike nfsd_rename(), nfsd_link() does not verify that the source and
+   destination filehandles belong to the same export path. In addition,
+   because tfhp is verified second with NFSD_MAY_NOP, if two distinct
+   svc_export entries share ex_path with different read-only or UID
+   squashing options, fh_verify(tfhp, NFSD_MAY_NOP) skips exp_rdonly()
+   and leaves current_cred() set to tfhp->fh_export's credentials.
+2. Unlike filename_linkat(), nfsd_link() does not call may_linkat()
+   before vfs_link(), allowing remote NFSv3 and NFSv4 clients to bypass
+   fs.protected_hardlinks restrictions and hardlink non-owned restricted
+   files.
+
+Require ffhp->fh_export->ex_path and tfhp->fh_export->ex_path to match
+(returning nfserr_xdev on mismatch, matching nfsd_rename()). When
+ffhp->fh_export and tfhp->fh_export differ on the same ex_path, reject
+read-only source exports via exp_rdonly() with nfserr_rofs and restore
+ffhp->fh_export credentials via nfsd_setuser(). Finally, check
+may_linkat() before proceeding with the link, mapping -EOVERFLOW on
+unmapped inode IDs to nfserr_perm to match vfs_link().
+
+This issue was discovered by an AI-assisted code review tool (ARTIST)
+and validated in QEMU against an unmodified v7.4-rc3 kernel without
+kernel modifications or error injection. A standalone reproducer is
+available on request. The fix was build-tested with KCFLAGS=-Werror and
+checked with checkpatch.pl --strict.
 
 Fixes: 800179c9b8a1 ("fs: add link restrictions")
 Cc: stable@vger.kernel.org
 Signed-off-by: Dominik Maier <dmnk@google.com>
 ---
- fs/internal.h      | 1 -
- fs/namei.c         | 1 +
- include/linux/fs.h | 1 +
- 3 files changed, 2 insertions(+), 1 deletion(-)
+ fs/nfsd/vfs.c | 34 +++++++++++++++++++++++++++++-----
+ 1 file changed, 29 insertions(+), 5 deletions(-)
 
-diff --git a/fs/internal.h b/fs/internal.h
-index 3f2fbac..7c30669 100644
---- a/fs/internal.h
-+++ b/fs/internal.h
-@@ -54,7 +54,6 @@ extern int filename_lookup(int dfd, struct filename *name, unsigned flags,
- 			   struct path *path, const struct path *root);
- int filename_rmdir(int dfd, struct filename *name);
- int filename_unlinkat(int dfd, struct filename *name);
--int may_linkat(const struct mnt_idmap *idmap, const struct path *link);
- int filename_renameat2(int olddfd, struct filename *oldname, int newdfd,
- 		 struct filename *newname, unsigned int flags);
- int filename_mkdirat(int dfd, struct filename *name, umode_t mode);
-diff --git a/fs/namei.c b/fs/namei.c
-index 925aeb6..8f7c2dc 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -1385,6 +1385,7 @@ int may_linkat(const struct mnt_idmap *idmap, const struct path *link)
- 	audit_log_path_denied(AUDIT_ANOM_LINK, "linkat");
- 	return -EPERM;
+diff --git a/fs/nfsd/vfs.c b/fs/nfsd/vfs.c
+index 56c49b5..0c4e052 100644
+--- a/fs/nfsd/vfs.c
++++ b/fs/nfsd/vfs.c
+@@ -45,6 +45,7 @@
+ #include "netns.h"
+ #include "stats.h"
+ #include "vfs.h"
++#include "auth.h"
+ #include "filecache.h"
+ #include "trace.h"
+ 
+@@ -1993,6 +1994,11 @@ nfsd_symlink(struct svc_rqst *rqstp, struct svc_fh *fhp,
+ 	return err;
  }
-+EXPORT_SYMBOL_GPL(may_linkat);
  
++static int exp_rdonly(struct svc_cred *cred, struct svc_export *exp)
++{
++	return nfsexp_flags(cred, exp) & NFSEXP_READONLY;
++}
++
  /**
-  * may_create_in_sticky - Check whether an O_CREAT open in a sticky directory
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 5b3a100..c165f27 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -2740,6 +2740,7 @@ int may_delete_dentry(const struct mnt_idmap *idmap, struct inode *dir,
- 		      struct dentry *victim, bool isdir);
- int may_create_dentry(const struct mnt_idmap *idmap,
- 		      struct inode *dir, struct dentry *child);
-+int may_linkat(const struct mnt_idmap *idmap, const struct path *link);
- 
- static inline bool execute_ok(struct inode *inode)
+  * nfsd_link - create a link
+  * @rqstp: RPC transaction context
+@@ -2011,6 +2017,7 @@ nfsd_link(struct svc_rqst *rqstp, struct svc_fh *ffhp,
  {
+ 	struct dentry	*ddir, *dnew, *dold;
+ 	struct inode	*dirp;
++	struct path	old_path;
+ 	int		type;
+ 	__be32		err;
+ 	int		host_err;
+@@ -2032,6 +2039,28 @@ nfsd_link(struct svc_rqst *rqstp, struct svc_fh *ffhp,
+ 	err = nfserr_exist;
+ 	if (name_is_dot_dotdot(name, len))
+ 		goto out;
++	err = nfserr_xdev;
++	if (!path_equal(&ffhp->fh_export->ex_path, &tfhp->fh_export->ex_path))
++		goto out;
++	if (ffhp->fh_export != tfhp->fh_export) {
++		if (exp_rdonly(&rqstp->rq_cred, tfhp->fh_export)) {
++			err = nfserr_rofs;
++			goto out;
++		}
++		host_err = nfsd_setuser(&rqstp->rq_cred, ffhp->fh_export);
++		if (host_err) {
++			err = nfserrno(host_err);
++			goto out;
++		}
++	}
++
++	old_path.mnt = tfhp->fh_export->ex_path.mnt;
++	old_path.dentry = tfhp->fh_dentry;
++	host_err = may_linkat(&nop_mnt_idmap, &old_path);
++	if (host_err) {
++		err = host_err == -EOVERFLOW ? nfserr_perm : nfserrno(host_err);
++		goto out;
++	}
+ 
+ 	err = nfs_ok;
+ 	type = d_inode(tfhp->fh_dentry)->i_mode & S_IFMT;
+@@ -2592,11 +2621,6 @@ nfsd_statfs(struct svc_rqst *rqstp, struct svc_fh *fhp, struct kstatfs *stat, in
+ 	return err;
+ }
+ 
+-static int exp_rdonly(struct svc_cred *cred, struct svc_export *exp)
+-{
+-	return nfsexp_flags(cred, exp) & NFSEXP_READONLY;
+-}
+-
+ #ifdef CONFIG_NFSD_V4
+ /*
+  * Helper function to translate error numbers. In the case of xattr operations,
 -- 
 2.56.1.750.gf70dc682cf-goog
-
