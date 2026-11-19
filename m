@@ -1,60 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=18.9.28.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795098650;
-	b=He1Ugxncn210bsA12PySIi69Y4H0lIfX4avszwOL7iLyya3XJHmhHabBt+V+lwrNQfGd
-	 86SyFlBD+pyUrwXjYP7sHArywYvWQvpRcMt+Z2E23xh4aUKGybvHMfmtJfr6xF281Tb36
-	 RfqO8eau1syNzR30gPa/r8aAWaIauxAmD2wyKFRET2e+9ojuACx9QpDVgaCD3tvrc++Nc
-	 lD/qbSvzagIo61ith/oxorbmqjG/QNWwTIU2uMVYEEbnXISLwM3D9EXgxNpanbX+MsIpM
-	 4nCF0lMDupbPd6tzCC0KcFyzEj4ZQH/ng+ZTUy6c8ffw//FlDKRRcNh8s3A9EV9ySSg==
+	t=1795099716;
+	b=0LpKTBvugo1jxmAPCa9DoqzuMSkDBsbnOOin0evCEzfO02M+Qu93pFIFK45YlMvAwEps
+	 G/CHiEFuQjLItZf4tfkzgo/8zzpFUWVyqDTm4YKyrciagIfWuCEu4yvPSgjdlyALPcyeC
+	 rs7hVJjgLglHqoXCSNXRmgXGGV1fb8DD4o/jK7VT/d8Ra7ka0hqMHTH2QgyH5MmMksj4t
+	 6Ycx7Ik1TtDDAuGdm1dltEZrrhn3G/vjg+i6ES/FGo6eL91pWgJFBZxxIKP3kpM7vjVRu
+	 DX4in+SPpAIr6LTyAe/BabLnMXQgg9vcByCuA/DNrXLpagxCYUF0sMei0ob4QkD0itw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795098650;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
-	bh=l/C1DKA2mG967MO6KAH7vKhZoLEilrqj2aGc1tORCpc=;
-	b=ufvkxzR5ggSKzuRvlfbiNLMrzh1asFkUg0gIenVFniLoeW/7SpHJCXWjb1kd2IOmrTkT
-	 /u90+Lz2xkHj7wF/HF/Ezz8Z1SJL3SWnos16RxuC7b3WI4gqM4fr/a4SmKEBhKgUvz9R5
-	 AxMLnnTDc+0z2N7bM2ejNb2N+D0JejSx+2XZ2sRMSdC5bscejCX7hcywnQyOU8oJjJczJ
-	 xSur6rQRBE5uTt3FbipGH+2DTY85lXrjPrnwmGLco9UdfuKr3jzzGGOb5FrTZudgsomqn
-	 pSVF9bqc1CUZzjK460DGqZCCmnb/DexDJ9Qorx1rlgakOgA4nAPx9IrMjGLmE0dd2wA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795099716;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=1/D5TRdPGEJv/deORRf7lI6TarBcGeZ7nHw5ckttJ6Q=;
+	b=FPQuqH40YhBUPZVA0qEMTBAHqH2B5+h9142xH2Y1gPFmPln5WV+sdAqXYRgA4qmg5dl6
+	 /CoXu9J1KPaFNVeOybYNjWwCLFsoSQnmI4jxfm6rGBtCHcGZ8oDT8N7q3t7UfkIYmEsiU
+	 pxc1FvSFRH6IO8RLLUQ7QCsPyrF78or0PKauLGE7/8YB7fl/cjzd9vrsE+KN8HYJxabzZ
+	 DxE0gr1hbaBrW34IPu1U/GywK5s17uaaGig6y8z9CNpbByoxl4j0NuYKOdSiG1LetFhaf
+	 OQP2qlloJOKFaeAcwcIPh6GqKVMEZsVYnqV9WZIsG5S/ttYGcdi6JCLPSEvOHh+ulzQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RPLWnijZ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=mit.edu;
+	spf=pass smtp.mailfrom=mit.edu;
+	dkim=pass header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=oZBiw3Dj;
+	arc=none smtp.remote-ip=18.9.28.11
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E981606A324
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 14:30:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431996070C33
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 14:48:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 431996070C33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RPLWnijZ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF2E61F000C5;
-	Thu, 19 Nov 2026 14:30:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795098649;
-	bh=l/C1DKA2mG967MO6KAH7vKhZoLEilrqj2aGc1tORCpc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=RPLWnijZtzCfSDVs+eh1M2sc5vytM2exqsz117e2JIViupzd1Z5kY2cDMmGCrEXLm
-	 K89/a3NI7zfU71LNpzrCAVDBSTrwpPlXhz96JwXu+DoNMmk8pDPTViowIXGYxmqgQr
-	 1YbHUd4LH0+VZ7vI6CXy1JW3OZ2yoEdePQp+Swui9yaEwGPoeIYYSkxN7HPlJu3BYr
-	 2Uo1Mqsv1l5TTZq9F8asii/mTdaW1RJI/3P0/Jr6jgwH2kJckhLOI8AstlPH1bzK6B
-	 sOWym+A9iRtSsDXitybcUNmt/sJspkf4vWTAgg+dLqFgkrS1z6hjsWIqlD0QQ1sEVl
-	 bGy+9pyn3dkug==
-From: Christian Brauner <brauner@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	syzbot+4324f771847cecb27c54@syzkaller.appspotmail.com,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Miklos Szeredi <mszeredi@redhat.com>
-Subject: Re: [PATCH] shmem: consume the reserved xattr space despite remount
-Date: Thu, 19 Nov 2026 15:30:43 +0100
-Message-ID: <20261119-zahlt-mitmachen-genom-b6bca236b924@brauner>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=oZBiw3Dj
+Received: from trampoline.thunk.org (pool-173-48-114-214.bstnma.fios.verizon.net [173.48.114.214])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 6AJElg0E018270
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 19 Nov 2026 09:47:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1795099666; bh=1/D5TRdPGEJv/deORRf7lI6TarBcGeZ7nHw5ckttJ6Q=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=oZBiw3DjHt5lL9MqN5yI27gPELYMwiMFZ9OrUd69hJRB9NWSypFcL+XJ7EBVlo43m
+	 UCtJXRcHaC4TvLufgD/nmR17La2dpTOXfizyUa7G/Hij3L1GCrtY+zXEOX9XTx6To/
+	 7lQPOreev/BHzeY6QrnMzMPRCPQzjY69ojyTjo/emr0R5u++MH0zVuNir0TFILhDrw
+	 Mw8OklqnoWTqyR46+7hCRrvgBiYY3kvvl6GpZ2iye4HSMf/B9lvhZgACbaLYrHVBuq
+	 tivv/eL8IdfqLumRqK3EDdDJZ9AfLvWiW4J3vJvukBsoM7F9Cc9grVKHPXdYw6lXNJ
+	 8iLo3D8233hyg==
+Received: by trampoline.thunk.org (Postfix, from userid 15806)
+	id 776AF2E019C; Thu, 19 Nov 2026 09:47:33 -0500 (EST)
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: "Theodore Ts'o" <tytso@mit.edu>, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, adilger.kernel@dilger.ca,
+        libaokun@linux.alibaba.com, jack@suse.cz, ojaswin@linux.ibm.com,
+        ritesh.list@gmail.com, yi.zhang@huawei.com, yizhang089@gmail.com,
+        chengzhihao1@huawei.com, yangerkun@huawei.com,
+        yukuai@alb-78bjiv52429oh8qptp.cn-shenzhen.alb.aliyuncs.com
+Subject: Re: [PATCH v2 0/4] ext4: assorted fixes related to the buffered iomap conversion
+Date: Thu, 19 Nov 2026 09:47:25 -0500
+Message-ID: <179509948721.1938961.6124445990802957861.b4-ty@b4>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <00461f0c866d4a4eb9f50792f0e1f3d0.1@linux-foundation.org>
-References: <00461f0c866d4a4eb9f50792f0e1f3d0.1@linux-foundation.org>
+In-Reply-To: <20261030021338.1768292-1-yi.zhang@huaweicloud.com>
+References: <20261030021338.1768292-1-yi.zhang@huaweicloud.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -65,37 +74,35 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1352; i=brauner@kernel.org; h=from:subject:message-id; bh=sL/wvWYqiVFPhGVN8MzDddQMTa/IduVM8SQcJxF+fQw=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT95xDeNdGz6uK7yDVLjl7sXlTxaOb96FvGNioqCnzbn jEu6Npb0FHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjAR/d2MDN0GfObnZKq7cxxb V5u8Ttc4nd215t/UKoFrLGzs6s1ZBxj+WeRJ16ZLMLOYvg3M2Pki/9xSLs39929sr2NQ1haevUG MGwA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-On Wed, 18 Nov 2026 10:23:05 -0800, Andrew Morton wrote:
-> Creating a tmpfs inode can trigger WARN_ON(ispace) in shmem_initxattrs()
-> when a concurrent remount sets nr_inodes=0.  With panic_on_warn enabled,
-> this warning can panic the machine.
+
+On Fri, 30 Oct 2026 10:13:34 +0800, Zhang Yi wrote:
+> This series fixes some small issues introduced by the iomap
+> conversion [1] as well as some pre-existing issues found by Sashiko. The
+> first two patches were sent separately before [2]. Packaging them into
+> this series to facilitate merging.
 > 
-> shmem_initxattrs() reserves space for the security xattrs while inode
-> limits are enabled.  It later tests max_inodes again before consuming that
-> reservation for each installed xattr.  If remount disables the limit
-> between those steps, successfully installed xattrs leave a nonzero
-> reservation behind.
+> Patch 1/4: fixes a complaint from smatch, making ext4_iomap_writepages()
+>            return 0 directly when it encounters an inode that doesn't go
+>            through the buffered iomap path during leftover writeback,
+>            instead of reusing the stale ret variable, even though it is
+>            also 0. Not a functional problem, it just makes the code
+>            clearer and silences the complaint.
 > 
 > [...]
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+Applied, thanks!
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+[1/4] ext4: return 0 instead of stale ret in ext4_iomap_writepages()
+      commit: 943b2d083db0e1bbdcebaad144358b1416f02818
+[2/4] ext4: fix extent status cache clearing when truncating inline data
+      commit: af05a1e287c389f8dcecacbf93bc65875ad37ff4
+[3/4] ext4: add inode to orphan list before extent conversion
+      commit: 819809ac85ae334cc9996ee0b582b8883f36da9f
+[4/4] ext4: initialize map->m_pblk in ext4_da_map_blocks()
+      commit: 109c4b25e5e4494b7533f34dd335685bcaaf1dc9
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
-
-[1/1] shmem: consume the reserved xattr space despite remount
-      https://git.kernel.org/vfs/vfs/c/274ae8ab278e
+Best regards,
+-- 
+Theodore Ts'o <tytso@mit.edu>
