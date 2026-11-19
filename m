@@ -1,65 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795115975;
-	b=GYGJBEjNVvo4yFpAtV16bYFMK0C9St5v5V4vi8xkaTcjwT327hxTDCxhgGWokBnGEjuQ
-	 txMDNzfjQNVfOPEKwYPEeXU4KLkUhnFPvdaOi/WTbDRsLUL6UwFReehwfiS9sTP6UJmiz
-	 MFIf8Q45zNuE8Ah48JijjjfmUo6+eksAqyISn8ZLpC5vQFpTEW5G2b912/WvXnt/bKs2t
-	 l8lYHTGb/PRHXzGaerxmYZcYAQC46WmLDbtsduogNf7yYqhcywScL5/eXN6O9yFDL4Fup
-	 /RGg/CdToAm7TGVwFISyUNSIi2idgMf+MK212I9ea84c8PDzXnsm366qICGP9Eik1rA==
+	t=1795115996;
+	b=AG/p1tB0TQK31rhpmBb3NbdrwxpkWbhP/0rdylu/svPFtTIy5HzGE2r+hPxmU4yk7941
+	 nWdrpIVqqJB6Yx21bH6Z25cllv33dtbfbi9A21nxumXCj9abu5e9nGPpxJlMN5L3HxOpv
+	 7lOkPLdtM+XMy+PEUo5I0bd6EMSmyfkk1QrKClD/NsTzO1bV+bo2H+I1092I9Kb2gUKjC
+	 OcTRpRN0kTqHp8/RREzhqlIq4kdquqg+M9y9tWKbuunCZQLe9I0CWbm0+6CP6S7N5pgJZ
+	 CTtx2IKggM9RKeBH/rlXuw4cu9/1Y+mJ8loLgIo/DqVSUk+ofEevh62NDs9blFSSB6A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795115975;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=BZCkI+AJVrTn6rAyjDMACqLXCym//kL8/ECfN+OzY5g=;
-	b=Zuii02g4sTmDLm+wsN/048vIgh5lcftv/C8yahb9dCH9x/Jc2plPO8AXrUsNupl/3aQK
-	 CpuZ5siheNGeYcRxZeudTS/kYWXd1Vtl5C8GqwFmmWbkSYdSu2eqJgIADCBuBXijouDOO
-	 gU+sv7apEimEGvtTLPDSrxSlWW0CBcmrCdapb5Z3elAsyhRvvAVMvyxZXiOzETBEYJKTs
-	 IEtdw9y5HjQdFK1AhMBsBFMQ5UBMp16+mu2PzITVugzXx1Tacja87n4tTMtCfW8J5MBZc
-	 07aNfq8cQRyA5z28Q2bx4V8JNnL5zuEsBg+wtOgh8Tng1OES4clawVyG7Yf4gQFBu6w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795115996;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=B3fPYwtnhJtRTzUId1FsxU5BbcK59iDRRgRTHG4g8TM=;
+	b=EmqmgN4X7NpRccFxFQg1F+6TyQnStk4SUUUC0HqdgSpdVIPp2avW5jA1WyM2hM1oPJ2G
+	 MLv7wSJbTQYyK9YDCha4bMYIMe45Mt2rxebnBynSg7b6GHSaDhSgzI658+2OxyeHiLltR
+	 fBc9vWkQmF6uUhX57PzMcDqZRdKsABmmOy1fJZfuQGJ8+MaHOhHGkiiRFg/Z6OfL9IkQB
+	 eFZwsFDgmOX+nYu2Oi+Vpq8YVaq5r8WIQd0/FRzvMoDga1iIQ9AZOmpbGB5jRMyA0UtpV
+	 iGvoRmR2GtztTfaHseYwa3Wd3tZW9boS16Ar0+lzFwd/hpg8noFKFJbPYzt7gcZWY2g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=CIsk0BJD;
-	arc=none smtp.remote-ip=91.218.175.178
-Received: from mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--halg.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=e6cswkqt;
+	arc=none smtp.remote-ip=209.85.218.72
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com [209.85.218.72])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB5B606A320
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 19:19:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4BB5B606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89938606A331
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 19:19:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89938606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--halg.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=CIsk0BJD
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=Ryss+itbMtDgDKKvNsoonliuWcCUhWr1JohLRFsYU4I=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795115972; v=1; x=1795720772;
- b=CIsk0BJD8ESIevYfaPxQkq53kBzG+UqePadU9vZN4hcRzpwkBDctK4+6HMG0PorHnym463ka
- 1Umsdx4iHUmfyZ0IOqYV6KJ+Lra3U1zhD32BpWKjWiON8DWQZg2+8AwzwMIVXpl9CRIJ4QXUgqJ
- d7uf8I7cU5nAMXsVbCxA4MLo=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id f7ac90210d8047b6;
-	Thu, 19 Nov 2026 19:19:32 +0000
-X-Mizu-Trace-ID: f7ac90210d8047b6
-X-Migadu-Flow: FLOW_OUT
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tejun Heo <tj@kernel.org>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Meta kernel team <kernel-team@meta.com>,
-	cgroups@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] kernfs: allocate in open before taking the active reference
-Date: Thu, 19 Nov 2026 11:19:22 -0800
-Message-ID: <20261119191923.2223993-1-shakeel.butt@linux.dev>
-X-Mailer: git-send-email 2.53.1
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=e6cswkqt
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-c49b95262a5so7694666b.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 11:19:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1795115995; x=1795720795; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=B3fPYwtnhJtRTzUId1FsxU5BbcK59iDRRgRTHG4g8TM=;
+        b=e6cswkqtbr5gIXT7zPqwbxbqDazMSGSQh5brqg3woxMXmbrKcsjWeeblJDpIszQpxv
+         TGd/0ALnpNpnRp60nZIXkRb+MGUi4YpzELfsgyKbr4pDwt9UXKuQxAM8wTMa71F87J3J
+         YYQ7BIp9fnmNRMjQDqTpqrghxE77fiw7x7nGb+4Wy9iKCcQm8Xc//n2/a/t+2OZIFVuz
+         vY5oy9BS16JZ7A7CoPwlDpw7vJHOvZMFy7JAayuM8duhreLgQWZdUtjMkjojacGMmAPo
+         XWy8bVfUa3GEHukBLrYA+VA8kAgfdKRZvXiR9bpIv8Lbshi6/T1qWH0+rQhWll7dwZeB
+         FMQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795115995; x=1795720795;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=B3fPYwtnhJtRTzUId1FsxU5BbcK59iDRRgRTHG4g8TM=;
+        b=WlgP6aRlse9MHES+IdZl1zDaE1FTm1nlYJPMi5v35TQBOrOc+ZNFV/CdTVK49GCNST
+         QIGhtv1e20MHUFBHkZR3ZNtr3RAUPGaPk0XnK4QaJhNgDg9WePZDdJx81ZzwUUcuMN80
+         DPbb7cxCZysQXNOYYzohNKsmKbUxvcE+2mfTLCAsz8VbT8/Bkl+m5kH2h0y25/SphBES
+         Kr0kCMsSXljb7cbsHzZMnPfJaFpg/0HQYP8f7/hfiGovoceJ8qce8vNxccubH7tHE+Rh
+         NxB8oz/W3D5VZIWlJX3K/2grnl1Iij8oc9+ydvMG43ljgPx4dSRaxdTuxCU1nVOjKe9t
+         I4nw==
+X-Forwarded-Encrypted: i=1; AL+hErHuq7dAtom1OMwOzK7+WhnKrF/2pRJQf0+uxtY0seiei4G9MvLKIAgh/4YP7GV95Vgjzbth98lni/Ft1vMJ@vger.kernel.org
+X-Gm-Message-State: APuU4Z9BJG6ko8tr8WdHOcFTL7rBZpmzfm26yQkePBaUkwuAPYtqSOQy
+	7DH5KaLE8a4VEvuaWVWLgI7TxpVRn4FKV5HYdxm0nPoSsJbkL14lQ4EDDM8asJ5ruyKEuhdnpg=
+	=
+X-Received: from ejbgt15.prod.google.com ([2002:a17:906:f20f:b0:c2e:1bc5:6c6c])
+ (user=halg job=prod-delivery.src-stubby-dispatcher) by 2002:a17:906:9fd0:b0:c50:a2f1:f200
+ with SMTP id a640c23a62f3a-c513a5da8e7mr99034666b.16.1795115994327; Thu, 19
+ Nov 2026 11:19:54 -0800 (PST)
+Date: Thu, 19 Nov 2026 19:19:53 +0000
+In-Reply-To: <av8QNiFcnGWocORy@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,247 +77,57 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20261119104208.782900-1-halg@google.com> <20261119104208.782900-2-halg@google.com>
+ <av8QNiFcnGWocORy@kernel.org>
+Message-ID: <av9L2ez51erKkQNo@google.com>
+Subject: Re: [PATCH v2 1/4] userns: introduce capability bounding set for user namespaces
+From: "Hallgrimur H. Gunnarsson" <halg@google.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, Serge Hallyn <sergeh@kernel.org>, 
+	Andy Lutomirski <luto@kernel.org>, Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	David Howells <dhowells@redhat.com>, Kees Cook <kees@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	"=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?=" <mic@digikod.net>, Jonathan Calmels <jcalmels@3xx0.net>, Jann Horn <jannh@google.com>, 
+	"=?utf-8?Q?G=C3=BCnther?= Noack" <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
+	Casey Schaufler <casey@schaufler-ca.com>, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
+	containers@lists.linux.dev, keyrings@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-kernfs_fop_open() allocates the open file, its seq_file and the open
-node while holding the file's active reference.  The seq_file is
-charged to the opener's memory cgroup, so in a cgroup at its limit the
-allocation reclaims.  Removing the file waits for active references.
-cgroup rmdir does that with cgroup_mutex held, so every cgroup
-operation on the host waits for that reclaim.  Deleting a netdev waits
-the same way with rtnl_lock held.
+On Thu, Nov 19, 2026 at 05:05:26PM +0200, Jarkko Sakkinen wrote:
+> On Thu, Nov 19, 2026 at 10:42:05AM +0000, Hallgrimur H. Gunnarsson wrote:
+> >  static void set_cred_user_ns(struct cred *cred, struct user_namespace *user_ns)
+> 
+> I read the diff through but this led me to dead end. Cannot find this
+> function from anywhere. I look the changes again once this is sorted
+> out becaus this is interesting.
+> 
+> I wanted to look at the call site to understand how cap_bset gets set,
+> which is not now possible but I do get the gist and agree with it.
 
-Allocate them before taking the active reference.  kn->flags already
-says whether the file has ->seq_show, which is all seq_open() needs.
-If the file is removed in the meantime, open fails with -ENODEV as
-before.  Only the prealloc buffer, whose size comes from the ops, and
-->open() still allocate under the active reference.
+Thanks for taking a look. The series is based on v7.4-rc1 and
+set_cred_user_ns() lives in kernel/user_namespace.c, where it is called
+from create_user_ns() and userns_install(). ns->cap_bset itself is
+initialized in create_user_ns() right before calling set_cred_user_ns().
 
-In a VM, eight tasks in a 256 MB memory cgroup at its limit, with swap
-writes taking 500 ms, open and read small files of a cgroup that
-another task removes and recreates every 20 ms (60 s, worst of four
-runs):
+> I'd figure getting this relates to my rootns patches (perhas). One key
+> mechanism for me resolving the unprivileged in my use case is
+> MOVE_MOUNT_T_MNTNS [1], which is orthogonal but just pointing out
+> the problem space.
 
-                                           before    after
-  reclaim with an active reference held     5.0 s        0
-  rmdir waiting for it, cgroup_mutex held  377 ms   6.3 ms
-  mkdir/rmdir of other cgroups             382 ms   125 ms
+From a quick look, they appear complementary. Being able to do more
+setup operations from the outside generally aligns with bounding
+capabilities inside the user namespace.
 
-The rest of the mkdir/rmdir time is waiting for kernfs_rwsem.  Opening
-and closing cgroup files in a loop is as fast as before.
+> I read through https://lwn.net/Articles/978846/ to understand the topic
+> overall. Just mentionining as a possible addition to the cover letter
+> (not a priority/necessity).
 
-Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
----
-This applies on vfs-7.5.kernfs, with or without my kernfs_iattr_rwsem
-series [1].
+That LWN article is actually linked in the cover letter as [2].
 
-[1] https://lore.kernel.org/all/20261118220154.2965621-1-shakeel.butt@linux.dev/
+> Hope these help and can be kept in the loop :-)
 
- fs/kernfs/file.c | 106 ++++++++++++++++++++++++++---------------------
- 1 file changed, 59 insertions(+), 47 deletions(-)
-
-diff --git a/fs/kernfs/file.c b/fs/kernfs/file.c
-index 10ee357b388e..08c29eb3f435 100644
---- a/fs/kernfs/file.c
-+++ b/fs/kernfs/file.c
-@@ -512,9 +512,11 @@ static int kernfs_fop_mmap(struct file *file, struct vm_area_struct *vma)
-  *	kernfs_get_open_node - get or create kernfs_open_node
-  *	@kn: target kernfs_node
-  *	@of: kernfs_open_file for this instance of open
-+ *	@new_on: kernfs_open_node allocated by the caller, or %NULL
-  *
-  *	If @kn->attr.open exists, increment its reference count; otherwise,
-- *	create one.  @of is chained to the files list.
-+ *	create one, from @new_on if given.  @of is chained to the files list.
-+ *	@new_on is consumed.
-  *
-  *	Locking:
-  *	Kernel thread context (may sleep).
-@@ -523,19 +525,12 @@ static int kernfs_fop_mmap(struct file *file, struct vm_area_struct *vma)
-  *	%0 on success, -errno on failure.
-  */
- static int kernfs_get_open_node(struct kernfs_node *kn,
--				struct kernfs_open_file *of)
-+				struct kernfs_open_file *of,
-+				struct kernfs_open_node *new_on)
- {
--	struct kernfs_open_node *on, *new_on = NULL;
-+	struct kernfs_open_node *on;
- 	struct mutex *mutex;
- 
--	/*
--	 * Peek without the mutex: if nothing has this open, we will need a
--	 * node and can allocate before taking a mutex shared by every node
--	 * hashing to it.
--	 */
--	if (!rcu_access_pointer(kn->attr.open))
--		new_on = kzalloc_obj(*new_on);
--
- 	mutex = kernfs_open_file_mutex_lock(kn);
- 	on = kernfs_deref_open_node_locked(kn);
- 
-@@ -544,7 +539,7 @@ static int kernfs_get_open_node(struct kernfs_node *kn,
- 		on = new_on;
- 		new_on = NULL;
- 		if (!on) {
--			/* the peek raced; rare, so allocate here */
-+			/* the caller's peek raced; rare, so allocate here */
- 			on = kzalloc_obj(*on);
- 			if (!on) {
- 				mutex_unlock(mutex);
-@@ -618,13 +613,52 @@ static int kernfs_fop_open(struct inode *inode, struct file *file)
- {
- 	struct kernfs_node *kn = inode->i_private;
- 	struct kernfs_root *root = kernfs_root(kn);
-+	struct kernfs_open_node *new_on = NULL;
- 	const struct kernfs_ops *ops;
- 	struct kernfs_open_file *of;
- 	bool has_read, has_write, has_mmap, no_splice_write;
--	int error = -EACCES;
-+	int error;
-+
-+	/*
-+	 * Allocate before taking the active reference.  Removing @kn waits
-+	 * for active references, often with a global lock held (cgroup rmdir
-+	 * holds cgroup_mutex), and the seq_file is charged to the opener's
-+	 * memory cgroup, so allocating can wait for reclaim.  Only the
-+	 * prealloc buffer, which needs @ops, and ->open() allocate under the
-+	 * active reference.
-+	 */
-+	of = kzalloc_obj(struct kernfs_open_file);
-+	if (!of)
-+		return -ENOMEM;
-+
-+	/*
-+	 * Always instantiate seq_file even if read access doesn't use
-+	 * seq_file or is not requested.  This unifies private data access
-+	 * and readable regular files are the vast majority anyway.
-+	 * kn->flags tells whether there is ->seq_show, without @ops.  Other
-+	 * bits of it can change meanwhile, hence READ_ONCE().
-+	 */
-+	if (READ_ONCE(kn->flags) & KERNFS_HAS_SEQ_SHOW)
-+		error = seq_open(file, &kernfs_seq_ops);
-+	else
-+		error = seq_open(file, NULL);
-+	if (error)
-+		goto err_free;
- 
-+	of->seq_file = file->private_data;
-+	of->seq_file->private = of;
-+
-+	/* seq_file clears PWRITE unconditionally, restore it if WRITE */
-+	if (file->f_mode & FMODE_WRITE)
-+		file->f_mode |= FMODE_PWRITE;
-+
-+	/* if nothing has @kn open, we will need a new open node too */
-+	if (!rcu_access_pointer(kn->attr.open))
-+		new_on = kzalloc_obj(*new_on);
-+
-+	error = -ENODEV;
- 	if (!kernfs_get_active(kn))
--		return -ENODEV;
-+		goto err_seq_release;
- 
- 	ops = kernfs_ops(kn);
- 
-@@ -633,22 +667,17 @@ static int kernfs_fop_open(struct inode *inode, struct file *file)
- 	has_mmap = ops->mmap;
- 
- 	/* see the flag definition for details */
-+	error = -EACCES;
- 	if (root->flags & KERNFS_ROOT_EXTRA_OPEN_PERM_CHECK) {
- 		if ((file->f_mode & FMODE_WRITE) &&
- 		    (!(inode->i_mode & S_IWUGO) || !has_write))
--			goto err_out;
-+			goto err_put_active;
- 
- 		if ((file->f_mode & FMODE_READ) &&
- 		    (!(inode->i_mode & S_IRUGO) || !has_read))
--			goto err_out;
-+			goto err_put_active;
- 	}
- 
--	/* allocate a kernfs_open_file for the file */
--	error = -ENOMEM;
--	of = kzalloc_obj(struct kernfs_open_file);
--	if (!of)
--		goto err_out;
--
- 	/*
- 	 * Splice callbacks need this before the iter paths acquire an active
- 	 * reference, so cache it while @kn is active.
-@@ -707,31 +736,16 @@ static int kernfs_fop_open(struct inode *inode, struct file *file)
- 	 * ->read must be used instead.
- 	 */
- 	if (ops->prealloc && ops->seq_show)
--		goto err_free;
-+		goto err_put_active;
- 	if (ops->prealloc) {
- 		int len = of->atomic_write_len ?: PAGE_SIZE;
- 		of->prealloc_buf = kmalloc(len + 1, GFP_KERNEL);
- 		error = -ENOMEM;
- 		if (!of->prealloc_buf)
--			goto err_free;
-+			goto err_put_active;
- 		mutex_init(&of->prealloc_mutex);
- 	}
- 
--	/*
--	 * Always instantiate seq_file even if read access doesn't use
--	 * seq_file or is not requested.  This unifies private data access
--	 * and readable regular files are the vast majority anyway.
--	 */
--	if (ops->seq_show)
--		error = seq_open(file, &kernfs_seq_ops);
--	else
--		error = seq_open(file, NULL);
--	if (error)
--		goto err_free;
--
--	of->seq_file = file->private_data;
--	of->seq_file->private = of;
--
- 	/*
- 	 * seq_read_iter() takes @of->mutex under the seq_file lock, whose key
- 	 * is shared with seq_files that can be spliced. Separate it too.
-@@ -742,14 +756,11 @@ static int kernfs_fop_open(struct inode *inode, struct file *file)
- 		lockdep_set_class(&of->seq_file->lock, &seq_no_splice_key);
- 	}
- 
--	/* seq_file clears PWRITE unconditionally, restore it if WRITE */
--	if (file->f_mode & FMODE_WRITE)
--		file->f_mode |= FMODE_PWRITE;
--
- 	/* make sure we have open node struct */
--	error = kernfs_get_open_node(kn, of);
-+	error = kernfs_get_open_node(kn, of, new_on);
-+	new_on = NULL;
- 	if (error)
--		goto err_seq_release;
-+		goto err_put_active;
- 
- 	if (ops->open) {
- 		/* nobody has access to @of yet, skip @of->mutex */
-@@ -764,13 +775,14 @@ static int kernfs_fop_open(struct inode *inode, struct file *file)
- 
- err_put_node:
- 	kernfs_unlink_open_file(kn, of, true);
-+err_put_active:
-+	kernfs_put_active(kn);
- err_seq_release:
-+	kfree(new_on);
- 	seq_release(inode, file);
- err_free:
- 	kfree(of->prealloc_buf);
- 	kfree(of);
--err_out:
--	kernfs_put_active(kn);
- 	return error;
- }
- 
-
-base-commit: ccf2a4692fed0fa77751d32d2690585127a152c5
--- 
-2.53.1-Meta
-
+Will do, I'll keep you CC'd on future revisions.
