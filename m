@@ -1,75 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.72
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795125000;
-	b=EhTdonZ32Xb//yXM+iJ826fBlZpwOzE+dNH3rSO3f1oLt8f+5Tx9Dgxhbjt0LHj2f710
-	 Qr4nhp4O97rsMEb9xW9jeQRYUhI8hrPEbcIa8wEJEdAdRCLpAgc1/q9Bd/RQyrTTqZZzK
-	 JHlG1Kpk91kwtD+3pDaCphf6C0WusZwW0tkS7YYSQYCbaIZEKnyM5Md/QeYTyK42dziLU
-	 Ge/4ouyiq6C0aswY/JFv9D7qVEAj0aE3uXvupKxiytfukHjA7WvYuFyMoKNRq6irlfocs
-	 f7bo1r9hi7z70jNYGFOCma0SXGbLOKAob9Di/9fsfI8TKI7mlU4cTdW3dh8e0uGrFwA==
+	t=1795125091;
+	b=XIki4jBN7EPjGFa4Yok/XWHVe8pPR/us+m8ygTilfskmpDr829upTW5LsSCZ50/uKdhP
+	 rKjQg8Fd5+ZfV3Sj0my6gC3ptBgwvZ1eG/HOoeJzjkpNJZkZonVFvTzQLtIMJBVB0D+Qm
+	 +xDsRgN3d+2x3Ax+nqg5K99EjKHtrx4xE6GmoMIZLj1+J1AaI8JeyKTnRUTLW5VOOyt3V
+	 Dn7z+JDHpmOmxS+zT8Wxt3x7t4zvyVwn7G3kvEfl+8/vyAPhVV1TIiCpNrxmeEY0WmHlk
+	 wYntYc/VLW3Frr5T0IbP8q/w6nHss/l1YwFDWu0w8fXriMOYp8Wd0gGNP0wRtzHHKDg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795125000;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795125091;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
-	 Content-Type;
-	bh=ztAGIxfsJeJeYbrxCepsv8LrburFVrWDTXV5CLSdeyQ=;
-	b=drXk4d4x8cKE76InU/VEYnOmkhrkwQRP82zs8BcGOalolMh4d19/cDUz95zIvzXCdLRD
-	 0KHdx5msyfii9FzA6/dtttTpOef9A8qgKHJ1THbTtMFQ9sLE+3YqmtBUWJt5MGkDMXt5g
-	 Z+tIM+wqXP2CpyWXRNpD+rum0B8p93tYDNUDijJbyp0lWpAytYngisRuvaBRj3YgW3O60
-	 QYD6Tw5hQSlqhvuOR9TWAHjo/AVZ0+ua5oCvBDWwDCSCrgLM/SKJJLDEXzFbfB9sblWyt
-	 u9d/qNN/U76RPNGAMvVMcpvxNoUeLN/a8+TGDKgwd9M69XIBn6S3301wPFKcbQhXtkA==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:X-Mailer:
+	 References:In-Reply-To;
+	bh=Ny3Sl9Bn6sHIvah8OWFokkLcjHbV6BwIAehQvpJWiOM=;
+	b=NTb6tcj8P8sc0zLCjrsQ53ypCEuG3rJENZAFARIhNWA3uc9qntK+0nUDwN+7T8fa0L/a
+	 EHwMVNhZRfHdjnNxLd19misPzJgvM7ouxpvxDRf4v6p9vdzKuO3Ue/LxSR0e3bYbUFE3s
+	 6jWnfZpArJLng58krrp1nYE/Mh66btj99JDUbzlxUgV2qKPEr/6hYmEkE9Fp/FdBCzINy
+	 r+JFsptm7vlePn/eskgEcEgTEYY9XWJPHoMz/Hv9ae0g5Qc2PhXTomRdZTl0hhczycXMI
+	 IS9sebcSjE9+MHnv5lxLi5fI3WZIR4EV1pSJyLriwCVHZM514vzb+yzY0YZzqk5R1hA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--sarthakkukreti.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=SmKPdUhi;
-	arc=none smtp.remote-ip=74.125.82.72
-Received: from mail-dl1-f72.google.com (mail-dl1-f72.google.com [74.125.82.72])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IlZfXAdV;
+	arc=none smtp.remote-ip=209.85.128.47
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8997606A326
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 21:49:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B8997606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sarthakkukreti.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E2B606A32C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 21:51:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 04E2B606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=SmKPdUhi
-Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-1b29df78132so276043c88.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 13:49:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IlZfXAdV
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4bb64ef5a00so1605375e9.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 13:51:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795124999; x=1795729799; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ztAGIxfsJeJeYbrxCepsv8LrburFVrWDTXV5CLSdeyQ=;
-        b=SmKPdUhiKG9uwoTev3LkNgOF9UWy4G/Tu/UBqJ0fJr8zuNbxgX8cfLAv7suZKdV/zX
-         M4KutBajFKCdgWeBcaV+6+MwvMsJv69o7tANOpqHhrrKOBJUZfNXniKxqMI80fre+A3L
-         1UMW06mu3NZj7PdkCnI3A7zWQYtW128SbN7AS3CLYBjPGuJdIqeGHmj+XGkENPUh2LSF
-         jug/oOZUE5crY7F0ADf47N0fXq7y5pudGteFFYKyAAtoiKBFFOE3ce4JteikPpdbBkjP
-         TFm9D2VY4BrRZlx33jxSZRuIZvWo7osMHZUudaHwZWu4UouSmCWt6XpEvMfrXNx6gJhy
-         lEqw==
+        d=gmail.com; s=20260707; t=1795125089; x=1795729889; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:mime-version:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Ny3Sl9Bn6sHIvah8OWFokkLcjHbV6BwIAehQvpJWiOM=;
+        b=IlZfXAdVqjbuXw7jCUzgBXdPvunc6N0Mgo0wFLsi18PRIXDg8h5ImWiXqqG9r5Z3nz
+         mMCiHUUIjL1nanBAy+gmMMgf3P/DYPfNI/EhxL6VmuCltURwD+QgSpN5wH9Ap5okdiWa
+         y1/JXPn/JLNw5xRoGTUzFUnMvRCF7c7CMfNmwx5ikxXdmn96ekaYhxXTtb8MRXhNYeaS
+         5grEbe59oWK77G5W0OdmQ9pOUNCM7ixvwCJgXOuUiJiLHN4zyLRjXQj9XiUl5nqIEgCk
+         mpXfVFfEyeVkldYSBLUdPMoMK3O4rNrOnb4CWeh8R4q5zrhhEuhtuEtenWRCvjHT14FL
+         k9gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795124999; x=1795729799;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ztAGIxfsJeJeYbrxCepsv8LrburFVrWDTXV5CLSdeyQ=;
-        b=h2H/BL7tofi0qZ3quTRHfwIymLZuUKuMh/r7sXi6NpU2zO8ctSWI/sEoY/zLNwfW/W
-         BtemeTca2rvsIq1q5xLHkzA7rxk0JzQbEJhSiaIK5njkUSWjJrxbYoLcxyfxa4REaIqF
-         CaF4cBpl/9GYEHVro4lw57VQAIHBzzhz2qXSGH4NQSmwsjfbsgwMf1Xv3NcNBN9R6nnd
-         La2bILKSFO8kEsYPyvIjFFmwd+Of5EsvnLE2EQ/0l2//OwSRpEvjLyrW+IHMTNJS9k/e
-         GkXSOpvgirfUIuur43gYIBO/GWE/Y1MBRU3iMCdmyIraIDqvjATC2WAmNi8/nk90+LUk
-         Jzfw==
-X-Forwarded-Encrypted: i=1; AL+hErGIwu84L6fwxkAzNqbLggdX/SewXeqYxC6RHlvtHKxlR5Cs8+XNAa6dN8vGRnVczjbxI1atM3DunT/8jsj9@vger.kernel.org
-X-Gm-Message-State: APuU4Z+uOkOLUNmC9oe7GIT79qaAZar4ttR0ltgUAyiJzNwa8TcA43lJ
-	Wsut12LZgIUol4+U5KbdbWizuj5UHOAlO+MEZ5w2MZmpKy2QvC7jEzeUrnoAeVGBJfSjL6zHH1R
-	0MK97ZZzrHmj6CVqupNKD+1nx8El3eBp0kfAmwQ==
-X-Received: from dlam10.prod.google.com ([2002:a05:701b:208a:b0:1b5:55a9:d18a])
- (user=sarthakkukreti job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:701b:42d4:20b0:1b5:43d8:b82a with SMTP id a92af1059eb24-1b55689e7b7mr849071c88.9.1795124998470;
- Thu, 19 Nov 2026 13:49:58 -0800 (PST)
-Date: Thu, 19 Nov 2026 13:49:44 -0800
-In-Reply-To: <20261119214944.1480596-1-sarthakkukreti@google.com>
+        d=1e100.net; s=20260707; t=1795125089; x=1795729889;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Ny3Sl9Bn6sHIvah8OWFokkLcjHbV6BwIAehQvpJWiOM=;
+        b=fHYAu/c9eljQ8NJzMk+Ns0LmRa6RZG9AW8KmloDniy3H1yAwUZ/K+XZdEVqV0vLH07
+         OsA3TU/P0y3d0H+s6i6fevup0dLSMkw2otvThj4iV2cRhOWC3HzbDxnd8roFo0ROHErz
+         0OGRzKluvnMHyEoaXDpmlneUYMfPEij7qvLjlvNQfK2WDk7PWBMFcZVhA7SVbcKy/P+o
+         6i2RTYeQ5WhHfhY9xTlavQq6Zer+B/puNyJTwUoqKp0HCmHgYLYoSEZ+tni0j0K3xAsh
+         RPQuou9iqqMjj6X+5wcYnamYV65or0fig+il5kxjJnftXSta+bEtrIi+fy92OUJ0zlEy
+         FDMw==
+X-Forwarded-Encrypted: i=1; AL+hErH/3WuOxK5GtPQEElqHNsUkb/1A6BqMBM2Vom2Ssyryj0J5n9EsV7hulvrECrqdv2dJ6QmQwKkh5m6jAzx1@vger.kernel.org
+X-Gm-Message-State: APuU4Z+jFRHDosZpfmhQC5MWls5zatCwXaXpDFttadD4g6Sa3aoNgvuu
+	iSic/k9vi3KbqBHY1KLH93sXBePjKz+9bK9xW7xIJ5y+yiI+PwNkjInP
+X-Gm-Gg: AYBFou3sTc+8Ww92sBqrCjdEAJZG5BMq6/IdYxjfkgBJjJ4ueSx1NdvibPRYmbe6c+P
+	8Xm+2GpBaL7U9NSFcakUL1nZwtI9xMuGmsKA2xJ23EGMmZQ8rvY3SdvMGXjEbQ4UrakU+Yhvy9H
+	6pymIdohhQQt4xpBjmWtH/mMB9uBBOaFIiwuP34jzNKymCnuo3yd0Uf5ti9oMBz27gwS/lBWWhR
+	7knB0nEE+fkvzraTiUQLRqCFbVmNimwLgP8MnAjX39ssisCPlv3EjKjaEU4HKtYgkmrEUSeR3/i
+	tBXmRBfq92Ezj5h/dB1hB1wK4PnrmxpdIQuP4ElwK9RA+TOhJLxmL1hBU7OaivpasaDdsRO03vh
+	q65E8XhlvrJIam+ivHWZrfDZRlIZMjJa0tTfBa43cyKkgRcGx1GtstL53aZuDeZ2htO6aQzhqWI
+	1NQD3y6Y7n67wPdFWr/ILYICs16hv26G5yd5ZqrlYkdvdZkvccj1AvEn8ncr6kY0xQ/m0T603qh
+	LA6BDy3BQzKf6ycZ5yYjSa8/AQue/PbA/RPPqMt0x9dVvCyi53MuS3JcQ2BCerJvD6FD71Wi80Z
+	zLDDTRyBOW/xxd2qbtMhcQOUUgqFU0i7ZQUmo2nJuIOVwDE=
+X-Received: by 2002:a05:600c:4f48:b0:4a6:44b:2593 with SMTP id 5b1f17b1804b1-4bb8893ab9cmr20069015e9.29.1795125089289;
+        Thu, 19 Nov 2026 13:51:29 -0800 (PST)
+Received: from localhost ([2001:b07:5d26:7a6a:365a:60ff:fe0d:cfc6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884a3a3dsm24821245e9.10.2026.11.19.13.51.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Nov 2026 13:51:28 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -79,61 +87,110 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
-References: <20261119214944.1480596-1-sarthakkukreti@google.com>
-X-Mailer: git-send-email 2.56.1.809.ga0b61035b5-goog
-Message-ID: <20261119214944.1480596-4-sarthakkukreti@google.com>
-Subject: [PATCH v2 3/3] f2fs: reject casefolded names that fold to ".", "..",
- or empty
-From: Sarthak Kukreti <sarthakkukreti@google.com>
-To: "Theodore Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>
-Cc: Gabriel Krisman Bertazi <krisman@suse.de>, Eric Biggers <ebiggers@kernel.org>, 
-	Dmitry Torokhov <dtor@google.com>, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org, 
-	Sarthak Kukreti <sarthakkukreti@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed;
+ boundary=305c4db69b4b7682b4927e5c7245ccd497c3eba9918a22ec95937c8c862e;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Thu, 19 Nov 2026 22:51:26 +0100
+Message-Id: <DMZIQG4U1NTH.2IN0S2YIWEYTG@gmail.com>
+Cc: "David Sterba" <dsterba@suse.com>, "Namjae Jeon"
+ <linkinjeon@kernel.org>, "Sungjong Seo" <sj1557.seo@samsung.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner"
+ <brauner@kernel.org>, "Trond Myklebust" <trondmy@kernel.org>, "Anna
+ Schumaker" <anna@kernel.org>, "Chuck Lever" <cel@kernel.org>, "Jeff Layton"
+ <jlayton@kernel.org>, "Konstantin Komarov"
+ <almaz.alexandrovich@paragon-software.com>, "Paulo Alcantara"
+ <pc@manguebit.org>, "Chris Mason" <mason@kernel.org>, "Yuezhang Mo"
+ <yuezhang.mo@sony.com>, "Jan Kara" <jack@suse.cz>, "NeilBrown"
+ <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo"
+ <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>, "Ronnie Sahlberg"
+ <ronniesahlberg@gmail.com>, "Shyam Prasad N" <sprasad@microsoft.com>,
+ "Bharath SM" <bharathsm@microsoft.com>, "Sergey Senozhatsky"
+ <senozhatsky@chromium.org>, "ChenXiaoSong" <chenxiaosong@chenxiaosong.com>,
+ "Darrick J . Wong" <djwong@kernel.org>, "Sean Smith"
+ <defendthedisabled@gmail.com>, "Andrey Albershteyn" <aalbersh@kernel.org>,
+ "Pedro Falcato" <pfalcato@suse.de>, =?utf-8?q?Pali_Roh=C3=A1r?=
+ <pali@kernel.org>, <linux-btrfs@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <exfat@lists.linux.dev>, <ntfs3@lists.linux.dev>,
+ <linux-cifs@vger.kernel.org>, <linux-nfs@vger.kernel.org>,
+ <linux-api@vger.kernel.org>
+Subject: Re: [RFC PATCH v4 09/10] ksmbd: add provenance time (ptime) and map
+ it to CreationTime
+From: "koraynilay" <koray.fra@gmail.com>
+To: "Amir Goldstein" <amir73il@gmail.com>, "koraynilay"
+ <koray.fra@gmail.com>
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+References: <20261115180343.576773-1-koray.fra@gmail.com>
+ <20261115180343.576773-10-koray.fra@gmail.com>
+ <CAOQ4uxhjxp5sxYphWoB=8sgX3XHOv9zLVYf+8ZjYbS_gQDxO3w@mail.gmail.com>
+In-Reply-To: <CAOQ4uxhjxp5sxYphWoB=8sgX3XHOv9zLVYf+8ZjYbS_gQDxO3w@mail.gmail.com>
 
-From: Dmitry Torokhov <dtor@google.com>
+--305c4db69b4b7682b4927e5c7245ccd497c3eba9918a22ec95937c8c862e
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Filenames consisting only of ignorable Unicode characters fold to empty
-strings, and names with leading dots and ignorable characters can fold
-to "." or "..". Allowing such names in casefolded directories can corrupt
-directory structure or cause confusion with special entries.
+On Thu Nov 19, 2026 at 6:34 PM CET, Amir Goldstein wrote:
+> On Sun, Nov 15, 2026 at 7:04=E2=80=AFPM koraynilay <koray.fra@gmail.com> =
+wrote:
+>>
+>> Implement provenance time (ptime) in ksmbd, as introduced in a
+>> previous commit ("vfs: add provenance time (ptime)").
+>>
+>> Map it to SMB's CreationTime, making it settable by SMB clients. When
+>> reporting CreationTime to clients, prioritize ptime over da.create_time
+>> memorized in the user.DOSATTRIB xattr.
+>
+> That doesn't sound like the right thing to do.
+>
+> If the server stored a CreationTime that client had set, you cannot
+> override this.
 
-Reject any non-dot names that fold to empty, ".", or ".." during
-casefolded name setup, while still allowing invalid UTF-8 sequences to
-be handled as opaque byte sequences when strict mode is not enabled.
+Ah, yes, but how would we handle older files which get a custom
+CreationTime both before (in the xattr) and after (in ptime) a kernel
+upgrade?
 
-Fixes: 2c2eb7a300cd ("f2fs: Support case-insensitive file name lookups")
-Signed-off-by: Dmitry Torokhov <dtor@google.com>
-Signed-off-by: Sarthak Kukreti <sarthakkukreti@google.com>
----
- fs/f2fs/dir.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+> When the client sets CreationTime, the server can decide if it can and wa=
+nts
+> (may be a policy decision) to store CreationTime in PTIME and not store
+> it in user.DOSATTRIB.
 
-diff --git a/fs/f2fs/dir.c b/fs/f2fs/dir.c
-index 97f7fef6b068..f1d40f818b35 100644
---- a/fs/f2fs/dir.c
-+++ b/fs/f2fs/dir.c
-@@ -77,13 +77,17 @@ int f2fs_init_casefolded_name(const struct inode *dir,
- 
- 		len = utf8_casefold(sb->s_encoding, fname->usr_fname,
- 				    buf, F2FS_NAME_LEN);
--		if (len <= 0) {
-+		if (len < 0) {
- 			kmem_cache_free(f2fs_cf_name_slab, buf);
- 			if (sb_has_strict_encoding(sb))
- 				return -EINVAL;
- 			/* fall back to treating name as opaque byte sequence */
- 			return 0;
- 		}
-+		if (len == 0 || name_is_dot_dotdot(buf, len)) {
-+			kmem_cache_free(f2fs_cf_name_slab, buf);
-+			return -EINVAL;
-+		}
- 		fname->cf_name.name = buf;
- 		fname->cf_name.len = len;
- 	}
--- 
-2.56.1.750.gf70dc682cf-goog
+To fix the above problem we should probably keep storing it in both
+ptime and the xattr though.
 
+> Fun fact: the user.DOSATTRIB format also has a mask so storing the
+> creation time inside it is also optional.
+
+With my current patch series applied, when CreationTime gets set by a
+client, ksmbd writes it to ptime and fixes/heals the xattr (=3D removing
+the CREATE_TIME flag created by older kernels, see the other fun fact
+below).
+
+And another fun fact: until [1] ksmbd ignored the flags and just
+read/wrote the attribs every time :) so that can only be honored for
+files that have been written to/updated with newer kernels.
+(That's why there is the ((flags & CREATE_TIME) || da.create_time > 0)
+in my patch, and not just the flag check)
+
+Thanks,
+koraynilay
+
+[1]: https://lore.kernel.org/linux-cifs/20261115155308.415734-1-koray.fra@g=
+mail.com/
+
+> Thanks,
+> Amir.
+
+
+
+--305c4db69b4b7682b4927e5c7245ccd497c3eba9918a22ec95937c8c862e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSgVimKafU5DQMcjcDmj22qf5IGXAUCav9vXgAKCRDmj22qf5IG
+XM7AAPsG6qghsrCfCEnMzpWg6QyG3mDtqVzO2LuI2Jbx+5MdmwEAqDTU6SUvXvP1
+4H1OcrcMro3Ek7i+OVcH9ZQ2xF4lngw=
+=LZNw
+-----END PGP SIGNATURE-----
+
+--305c4db69b4b7682b4927e5c7245ccd497c3eba9918a22ec95937c8c862e--
