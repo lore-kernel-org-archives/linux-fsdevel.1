@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795094726;
-	b=CVut7x7BS23Z9eRpznMZmAsDkdKW1qaGfjK85xdiy58p7Iya5R7oHmvnrKHoKu98lNIK
-	 YNU64gNRQ/u6i3H5ku+d008ODEtLzIDiK1TP1mX/O/Bf8DtNyXtKIYoex3ukb8j6pSApx
-	 JImav2NQJdI75+KyjVCJi1OHUbkdiH194xOE2t/RlZYpzNOg/gmNlrpjdp31NI9GmMZyn
-	 gItrVtFazsiCmFihJK49jF4KbY6sIYQm6fxb2LYNYI9zwnAWBL1oe52d62sGflnRiJTed
-	 lrDGA6pTfLH4T9gQKcGOmWhmuUj2CR3qBVR1edzwyShBSAnNGr8cOT8iLj1VPnWehMw==
+	t=1795094728;
+	b=mjyMA/2GEHmIlbBBEw6gMUQ2P43zDU4JDhOaq2OlTwkt01qbXsxUgzbGsv/7dZU+56s8
+	 OYSG/khIOCEGnobJmBiMXXiJPTyJtbvZtsdTUVO80LoEchwh/gle6ABX5HUJygnVm/btE
+	 EoSyBaRVFeUoW+jsjc9rHADT9XcWLRWc3vPxWtjKIEMdv+ibWnjHXAVZRgMhyDsEhW6J5
+	 hK81sb5g4ayEqwa/TGzj0fyp1umrAvGyFil9MHimI382C21557HQ6UMLg69dVhKqQSZJG
+	 9oBo/jNsQAApdmpU3lfiZ/i0y0MLTrAv9ki1ukhcocGArwXgyHIKeSJmEQmlaDCz2zQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795094726;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795094728;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=ZFakn7ESaXiheChkjUCErjsZmDHmoVu+93OqffVr0Wk=;
-	b=dL4OYRxs55pl8dwvVZEYzehf8qxNsH1uXlyxPwCyItHTZUVnjzQcjhK59OkFf5b+Tntn
-	 NGyUmZLqUhuxAgtSHH7I+ImRfrpdtbRjBTc30HbrT175Mu5IXjooXWZ1H5IbDSuARFPMh
-	 toexcZlVch477SBYCOc7ZD8MJkjRpjcY1NO6zju62QdFWE2fNo8q6x5aabLR51z3IQHIK
-	 Zn/gPG1/PB92UFyySyS6m0DXa/thSboZpH958MWIZqjR3oTQ7qR0BsyrX8wa9JaebPB/E
-	 uiRgqQqbwj8V6qJGqJJH/5L2pcXNei18uJgKuSvB0sUaTZjevNXyqfDClAKGY/c8Ong==
+	bh=asmzVKl6VjZXqyUMQcsnnGy/M5UxrAuHCwO9nkITWKg=;
+	b=zW9Idm355Ofj39oHAR4fhGoVFS3rUSkFZ78P7klssz+WLyFDiVcG0gl5bL1AG6o3tmWK
+	 Z0smPdOhwzO3AEliRZPvtWRqBKBQhS3ko/XR+GKD5rEenKRtuoJIvlJw+b/kqAcmORVxv
+	 BJ3kq31aRdwY6p5gBgIeByvbfQv8reINIVtTp263+EPqfEj0x63bIdwSn3KruzRvt/4iU
+	 7K6QIepwflTenqdJjNSzqt7aYWGOeeGUot3ad71k3OG9tLdlZ3m5GCtDnk640a0KWjgKN
+	 +v4tgsIOr3Vbz1TL7fl66hoq2CEOKA/rKK1gARcx9QHYilWz8C27ZkE+IAqV/vkvBmQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gvpvByzQ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="JHA/QDas";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F85660A2629;
-	Thu, 19 Nov 2026 13:25:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A37860A263F;
+	Thu, 19 Nov 2026 13:25:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gvpvByzQ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 620B71F000CC;
-	Thu, 19 Nov 2026 13:25:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JHA/QDas
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F2371F000C9;
+	Thu, 19 Nov 2026 13:25:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795094726;
-	bh=ZFakn7ESaXiheChkjUCErjsZmDHmoVu+93OqffVr0Wk=;
+	s=k20260515; t=1795094728;
+	bh=asmzVKl6VjZXqyUMQcsnnGy/M5UxrAuHCwO9nkITWKg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=gvpvByzQ0+VFYQHUgU4UvsZOI57ELlePro+quq14oxJXYScoMZvfenimmpSXdPIFL
-	 is1uQEv0o5V8sM850Pt2tE8htOUpeabQSHNsihMFnyk+IO1NOVCucSAxldlmu4NB/0
-	 7S/s+IJu+cjnQ9CTqEzcx596ePtpwhpJ0QR1OoK9f42eBggBSm4e4ey+513cEsZ+a3
-	 XOHI4xGz/yjVY45b3Pldcsr8oY60iYMs4UQdMmFgLEuoCGTYFXEH14JkxekVuUmgdW
-	 K6HYKObcezE6IkUNaySJAmI2qoHlX18CYINVf3s4v0ZpexW+ikiKsYsvKfl6s5uM2Z
-	 iJpD0TCgAFFaA==
+	b=JHA/QDasI7qkyLvRhzfhjUtjNTh+srHQLIqdAS/FA949RuGHdkO1ngj7DeBwUeiMO
+	 gI154b53nztuycz8rFqnWyYYNNtv1Dv9Z2kTEFX2AOmydOjwJzj5nn/SIoPYnjz2CX
+	 F7LjkS+LfJfNMEmGXtYmgTFrMlzva53JQEe5yEOtDxU1mBLm8rEgJFUfgE8++BbNgr
+	 fkrCUdi2i2mzxK06FLUKburbDhpBa8h9znqgxfxWkuldBYmVxOOEGi44nBeCNzyIeO
+	 x1e99MdnM1k4/7hVnmYO88tcZed12iaVRF5C5ciSWBKD+yKXorJW5OIWBlnL5Y1t39
+	 OA+rJ00KQZ0rg==
 From: Christian Brauner <brauner@kernel.org>
-Date: Thu, 19 Nov 2026 14:25:01 +0100
-Subject: [PATCH 1/2] fs: let pivot_root() move userspace_init_fs when
- nobody shares it
+Date: Thu, 19 Nov 2026 14:25:02 +0100
+Subject: [PATCH 2/2] fs: don't reset userspace_init_fs when PID 1 stops
+ sharing it
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261119-work-fs-pid1_unshare-v1-1-b6a7e468bd68@kernel.org>
+Message-Id: <20261119-work-fs-pid1_unshare-v1-2-b6a7e468bd68@kernel.org>
 References: <20261119-work-fs-pid1_unshare-v1-0-b6a7e468bd68@kernel.org>
 In-Reply-To: <20261119-work-fs-pid1_unshare-v1-0-b6a7e468bd68@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -64,90 +64,113 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
  regressions@lists.linux.dev, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
 X-Mailer: b4 0.17-dev-04696
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2608; i=brauner@kernel.org;
- h=from:subject:message-id; bh=yMCy1J0ttVN1HZdNFC/PInxv4Zwyf9OEjkP4B2hqeLE=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9+7F36kLta6dm7KhYmy227t81Gfu5BWdeJq2peRTul
- pjYm1i6oKOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAiC54wMky9s+kPh3Vxmka+
- hmbps9/us25KHNNgrZD93Tzv7icvx/kM/6P31p06cNnzxdL0U2UBC+188zzUuCxOLbnyUnLhf+Z
- aUwYA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4860; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=r/00EL6FbLgCa8L/wM1EanNSfj22DeZcL/B8qrXXWGU=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9+7Hf8g/PpooDE3Vf2JdIbeqe5Cwo3We33yt5+6XZr
+ wt/zznb2FHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRmhJGhv45MVOOHJYImfVg
+ 1fO3U25yOT7cuvGbteSk6gX/uwqnLOtn+O999Ei7+exNkio6tq/S9y2YOOc/r7yvX4LeQhVRsfO
+ JYkwA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-chroot_fs_refs() only finds userspace_init_fs through the tasks that
-share it. Currently that doesn't matter because validate_fs_switch()
-resets userspace_init_fs to nullfs as soon as PID 1 stops sharing it.
+In Android's second stage init StartPropertyService() spawns two
+threads. They share PID 1's fs_struct via CLONE_FS. So they share
+userspace_init_fs. Afterwards SetupMountNamespaces() calls
+unshare(CLONE_NEWNS) on the main thread to create a second mount
+namespace and setns()s right back into the initial mount namespace.
+unshare(CLONE_NEWNS) implies CLONE_FS so PID 1 switches to a private
+copy of its fs_struct.
 
-But in the next patch we'll stop resetting userspace_init_fs and it will
-keep what PID 1 left behind. If no other task shares it either a later
-pivot_root() would leave kthreads and usermodehelpers behind on the old
-root and keep the old root pinned. A plain umount() of the old root
-would then fail with EBUSY.
+Ever since v7.3 validate_fs_switch() notices that PID 1 stopped sharing
+userspace_init_fs and resets root and pwd of userspace_init_fs to
+nullfs. But it does that in place and the two property service threads
+still use userspace_init_fs. So they suddenly find themselves in nullfs,
+libselinux can't open /sys/fs/selinux/access anymore, every property
+write is denied and init stalls.
 
-Before PID 1 got its own fs_struct chroot_fs_refs() found init_fs
-through the kthreads. So handle userspace_init_fs explicitly after
-walking the tasks. If the walk already updated it through a task that
-shares it nothing happens.
+Before commit 14adbd5341aa ("fs: stop sharing fs_struct between
+init_task and pid 1") PID 1 shared init_fs with init_task. So
+userspace_init_fs was init_fs and the reset was a no-op as the first
+stage chroot had already updated init_fs.root.
 
+There are a couple of fixes to not leave stale state behind but it seems
+that there is legitimate userspace out there that does need this. So
+stop resetting userspace_init_fs for now. I can probably rework this to
+something sane but I'm not sure it's worth it. Kthreads and
+usermodehelpers keep using what PID 1 left behind, just like they kept
+using init_fs before PID 1 got its own fs_struct. Keep the notice
+though but downgrade it to pr_info().
+
+Fixes: 9a8e29695888 ("fs: make userspace_init_fs a dynamically-initialized pointer")
 Fixes: 14adbd5341aa ("fs: stop sharing fs_struct between init_task and pid 1")
+Reported-by: Akisaira <akisaira@outlook.com>
+Closes: https://lore.kernel.org/TY4PR01MB14006C85EBAAA186836A6E05CA67A2@TY4PR01MB14006.jpnprd01.prod.outlook.com
 Cc: stable@vger.kernel.org # v7.3+
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/fs_struct.c | 32 +++++++++++++++++++++-----------
- 1 file changed, 21 insertions(+), 11 deletions(-)
+ fs/fs_struct.c | 40 +++++++++-------------------------------
+ 1 file changed, 9 insertions(+), 31 deletions(-)
 
 diff --git a/fs/fs_struct.c b/fs/fs_struct.c
-index 34699f3b6f881..538eaaecbadf5 100644
+index 538eaaecbadf5..56dc79b065bd4 100644
 --- a/fs/fs_struct.c
 +++ b/fs/fs_struct.c
-@@ -53,6 +53,21 @@ static inline int replace_path(struct path *p, const struct path *old, const str
- 	return 1;
- }
+@@ -165,46 +165,24 @@ int unshare_fs_struct(void)
+ EXPORT_SYMBOL_GPL(unshare_fs_struct);
  
-+static inline int replace_fs_paths(struct fs_struct *fs,
-+				   const struct path *old_root,
-+				   const struct path *new_root)
-+{
-+	int hits = 0;
-+
-+	write_seqlock(&fs->seq);
-+	hits += replace_path(&fs->root, old_root, new_root);
-+	hits += replace_path(&fs->pwd, old_root, new_root);
-+	for (int i = 0; i < hits; i++)
-+		path_get(new_root);
-+	write_sequnlock(&fs->seq);
-+	return hits;
-+}
-+
- void chroot_fs_refs(const struct path *old_root, const struct path *new_root)
+ /*
+- * PID 1 may choose to stop sharing fs_struct state with us.
+- * Either via unshare(CLONE_FS) or unshare(CLONE_NEWNS). Of
+- * course, PID 1 could have chosen to create arbitrary process
+- * trees that all share fs_struct state via CLONE_FS. This is a
+- * strong statement: We only care about PID 1 aka the thread-group
+- * leader so subthread's fs_struct state doesn't matter.
++ * PID 1 may stop sharing userspace_init_fs via unshare(CLONE_FS) or
++ * unshare(CLONE_NEWNS) which implies CLONE_FS. That doesn't mean it's
++ * done with it. Android's init unshares to create a second mount
++ * namespace and setns()s right back while its threads keep sharing
++ * userspace_init_fs.
+  *
+- * PID 1 unsharing fs_struct state is a bug. PID 1 relies on
+- * various kthreads to be able to perform work based on its
+- * fs_struct state. Breaking that contract sucks for both sides.
+- * So just don't bother with extra work for this. No sane init
+- * system should ever do this.
+- *
+- * On older kernels if PID 1 unshared its filesystem state with us the
+- * kernel simply used the stale fs_struct state implicitly pinning
+- * anything that PID 1 had last used. Even if PID 1 might've moved on to
+- * some completely different fs_struct state and might've even unmounted
+- * the old root.
+- *
+- * This has hilarious consequences: Think continuing to dump coredump
+- * state into an implicitly pinned directory somewhere. Calling random
+- * binaries in the old rootfs via usermodehelpers.
+- *
+- * Be aggressive about this: We simply reject operating on stale
+- * fs_struct state by reverting to nullfs. Every kworker that does
+- * lookups after this point will fail. Every usermodehelper call will
+- * fail. Tough luck but let's be kind and emit a warning to userspace.
++ * So never change userspace_init_fs behind userspace's back. Kthreads
++ * and usermodehelpers keep using what PID 1 left behind, just like
++ * they kept using init_fs before PID 1 got its own fs_struct.
+  */
+ static inline void validate_fs_switch(struct fs_struct *old_fs)
  {
- 	struct task_struct *g, *p;
-@@ -66,20 +81,15 @@ void chroot_fs_refs(const struct path *old_root, const struct path *new_root)
- 
- 		task_lock(p);
- 		fs = p->real_fs;
--		if (fs) {
--			int hits = 0;
--			write_seqlock(&fs->seq);
--			hits += replace_path(&fs->root, old_root, new_root);
--			hits += replace_path(&fs->pwd, old_root, new_root);
--			while (hits--) {
--				count++;
--				path_get(new_root);
--			}
--			write_sequnlock(&fs->seq);
--		}
-+		if (fs)
-+			count += replace_fs_paths(fs, old_root, new_root);
- 		task_unlock(p);
- 	}
- 	read_unlock(&tasklist_lock);
-+
-+	/* Kernel lookups and usermodehelpers use it even if no task shares it. */
-+	count += replace_fs_paths(userspace_init_fs, old_root, new_root);
-+
- 	while (count--)
- 		path_put(old_root);
+-	might_sleep();
+-
+ 	if (likely(current->pid != 1))
+ 		return;
+ 	/* @old_fs may be dangling but for comparison it's fine */
+ 	if (old_fs != userspace_init_fs)
+ 		return;
+-	pr_warn("VFS: Pid 1 stopped sharing filesystem state\n");
+-	set_fs_root(userspace_init_fs, &init_fs.root);
+-	set_fs_pwd(userspace_init_fs, &init_fs.root);
++	pr_info("VFS: Pid 1 stopped sharing filesystem state\n");
  }
+ 
+ struct fs_struct *switch_fs_struct(struct fs_struct *new_fs)
 
 -- 
 2.53.0
