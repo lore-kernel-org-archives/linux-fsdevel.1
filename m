@@ -1,123 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795108989;
-	b=Rg47tOk9q27s2vE7jiNZezt/Yf3qhEYGzr40hxVjjLVTSCjgFaFfdCFJT60VXeS87jjN
-	 8dpT2Z2V+aXvLrpzEyFk9lFskCSD2D8zHbrs4BgCjHHMwnj0tsRNy59EaMYV9/NHP5Qvb
-	 ankO+kZ5NIMAkaaES4cw9i5N90CN6Qws77zWE0qhSq60uvbHkrSIp+/BuRhYMqLVfV9MV
-	 7UqVoIRvJwpeGfr9c4hm2MojYamqV/OXbitg2aQK2Ncph2MrX+kmB4z9IRwbLyUX9CC1O
-	 ujiLABfYUCZRLsVX5Fr0JcuAymNWwMU8dlShaGpncvmFaOnGhTsdp+/S6fdjv/oHA9w==
+	t=1795109458;
+	b=vC94/BuzJf2J88yY3iU2U8VHPnchP+y4nBnu1lAIm7f40Vv3OsPumbxLtM4Qq/mHLFnE
+	 wMbmCtlhztXvKUzj0Dh1nhzSrj2W9p4ykpXqhRJTzs5iVI7SS/7+s8ftxhs3EIP7LyXry
+	 9OlPpJRIwPtfwIj1QW0/LKKnipR3cqb22lLRpLIR6Ebql55tMp8amV/RvpZDSmZ5kjh+e
+	 vRD/N5uYlMGmO2yayuYGRs1CtWMT+CtljRtegQWUw0wev/3qKTQq08We10jHGc81TdNY7
+	 AVs5K1KKiLUPvADM2yo7bo0WlDpINo5d+K7g8sLP3s84zKok0/CM5XVVvSLGB69csNw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795108989;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:
-	 X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:
-	 X-Spam-Score;
-	bh=1Wm5iqQHUYdGAarP0mjCGKsz4+MXWHrAKw+70dxWMRE=;
-	b=IcO+vwWdsRlDCcSdpwSDeccViU9ZXzpgUU61R9lNBriqZz9IwPadw6Vf3MlL44dZrD1j
-	 HyfuYDJM5v4bKFS/JKUYiUuyMOBGT8wkecbHp6kHcVxw1T8Py2p4k1xyP4D5EsXHf2h+m
-	 1/23T9Uc24dxgc23F5nzul5jLRZ58OxpFneXje1OeOObTEQTSPieTkoC3gbqSeeadF9pB
-	 9YWVqWNOChAf3uH3PjBEdW90cCbdr7qhyNpbgdFqmyBBOF5GFYdulcw8noqWoBzW0q9sA
-	 O9kYgWdYI5fryODJcw991ZkIGtjma53aKJBApj/gddfHMgzD3iLuilAOTrlFIg/F00A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795109458;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=vs32yPthyobk2oEa2KkdNDnwUJjwL8zz25GmqC5+HvQ=;
+	b=MKwCeKj8oH6yhqSmhZOiPYPfukmyc6yjw3/BGjsN7sRY4s2aPmQVVsz8MDjQnqynxFrg
+	 V57i0V6ozNkIt/Z4GxUQQIlmnP8u4zYdnTHGGLoN5iaFqD8ppur0jlV6iIE73YPkFv3cQ
+	 BIRD7hbwBmyFrhhxnN5UAkR2Dk9lzxFpu4eODP1/iyVJUR048By3q7t+IfeakQXokitDS
+	 QHA5Tke4V79KgUg8vHgnG/Ru7y8Yp0siqJlFjMWaaqu053T7EHgDz/jRBh5uBJDGHTqoS
+	 GcpVbolfBqIQfkbDHeXqsWS8lzRhY24L1kfXUpMo7typ1J7nKPtgeSQ50r0G8czw/JA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=PXBHlrgf;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="yVhMt1/s";
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=PXBHlrgf;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="yVhMt1/s";
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=toxicpanda.com;
+	spf=pass smtp.mailfrom=toxicpanda.com;
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=kcyODoF4;
+	arc=none smtp.remote-ip=209.85.219.45
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C8D606A32A;
-	Thu, 19 Nov 2026 17:23:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A7C8D606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053DE606A32A
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 17:30:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 053DE606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=PXBHlrgf;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=yVhMt1/s;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=PXBHlrgf;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=yVhMt1/s
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8B04C1FA9C;
-	Thu, 19 Nov 2026 17:23:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795108986; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1Wm5iqQHUYdGAarP0mjCGKsz4+MXWHrAKw+70dxWMRE=;
-	b=PXBHlrgfYbI+JJxF/v08s3dXWhH6f0vHnN071+GnPD2j/Z0/oc3h5Znz80fcGSsPXUHdk1
-	yHfXtlZq8byVQl28gZTXLako5YAD9Z7x3xsZILPRY9UShnsDTZwGGXaB+7Wjz+3ADf4mdr
-	SXnrYhmuei5E+law5M57gcVBPkSsUR0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795108986;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1Wm5iqQHUYdGAarP0mjCGKsz4+MXWHrAKw+70dxWMRE=;
-	b=yVhMt1/srNiWd/sYvbvRDSy0zo1vsKR4MVUFPz1M/UDm8JFTw7us4wWSehEblXVxAhiSYc
-	x3F84/iSy8vH4/Aw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=PXBHlrgf;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="yVhMt1/s"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795108986; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1Wm5iqQHUYdGAarP0mjCGKsz4+MXWHrAKw+70dxWMRE=;
-	b=PXBHlrgfYbI+JJxF/v08s3dXWhH6f0vHnN071+GnPD2j/Z0/oc3h5Znz80fcGSsPXUHdk1
-	yHfXtlZq8byVQl28gZTXLako5YAD9Z7x3xsZILPRY9UShnsDTZwGGXaB+7Wjz+3ADf4mdr
-	SXnrYhmuei5E+law5M57gcVBPkSsUR0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795108986;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1Wm5iqQHUYdGAarP0mjCGKsz4+MXWHrAKw+70dxWMRE=;
-	b=yVhMt1/srNiWd/sYvbvRDSy0zo1vsKR4MVUFPz1M/UDm8JFTw7us4wWSehEblXVxAhiSYc
-	x3F84/iSy8vH4/Aw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5A1A41334C;
-	Thu, 19 Nov 2026 17:23:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id B6s1Dnow/2pTOQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 19 Nov 2026 17:23:06 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id D88B12529E; Thu, 19 Nov 2026 18:23:05 +0100 (CET)
-Date: Thu, 19 Nov 2026 18:23:05 +0100
-From: Jan Kara <jack@suse.cz>
-To: Andreas Gruenbacher <agruenba@redhat.com>
-Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, gfs2@lists.linux.dev, Mike Marshall <hubcap@omnibond.com>, 
-	Martin Brandenburg <martin@omnibond.com>, devel@lists.orangefs.org, Dave Kleikamp <shaggy@kernel.org>, 
-	jfs-discussion@lists.sourceforge.net, Carlos Maiolino <cem@kernel.org>, linux-xfs@vger.kernel.org, 
-	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
-	linux-afs@lists.infradead.org, Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, 
-	linux-block@vger.kernel.org, Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
-	linux-nfs@vger.kernel.org, Eric Biggers <ebiggers@kernel.org>, 
-	Jaegeuk Kim <jaegeuk@kernel.org>, linux-fscrypt@vger.kernel.org
-Subject: Re: [PATCH 06/13] gfs2: Avoid racy dirtiness check in gfs2_fsync()
-Message-ID: <ntzwnqethzdzix45gbxpmajmjiu2pwp7hpelmcmim5i5qabrqq@ahxo7kpx65qh>
-References: <20261116171044.6938-1-jack@suse.cz>
- <20261118145941.1063127-19-jack@suse.cz>
- <CAHc6FU7NoZua98SGP9Kuga58gAcco6X__u=kOPfsUqbefAKLFQ@mail.gmail.com>
- <wo5723b7wrmu35q5qffzs7zzqwnojk3ireel2jkit2kxgv6bra@yd3gbigdmmdk>
- <CAHc6FU5HY9x5ntTOz_xk36T0XTzjNc8R4jy2zzpQKo=19HNMog@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=kcyODoF4
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-92119da3d37so706566d6.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 09:30:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=toxicpanda.com; s=google; t=1795109457; x=1795714257; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:subject:cc:to:from:message-id:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=vs32yPthyobk2oEa2KkdNDnwUJjwL8zz25GmqC5+HvQ=;
+        b=kcyODoF499MEItXJuafpVcnzdrYkl7/sScpUZDNuvzQ8x8TeBmZDqdks69cwQJPENI
+         9iFlKy+JKSRnJ43XkhGYbKr6s8nEbIsy4qEBpMjCGf/q7zUHm+eoySF82h8iB9DE2E+6
+         x6E285TcglmPmUWPzBeIw5GGsOfgrTK54KwCO0dY+Gad/9rpkfmJp+Fzuv7FM12rO3cW
+         oVa7V3SRTkJyyHdCmKYhiZ0iNHkbMSf2mGIbRMegzCViN1JkHDoqRPAMPCRKMsFhAncg
+         tqPk2hQGV6zgzsjM3kKOt4MztPrYgP6ISE5NoJeIoBzovYoyXvuYXpAuHCmOYhEhLB8f
+         9Xsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795109457; x=1795714257;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:subject:cc:to:from:message-id:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vs32yPthyobk2oEa2KkdNDnwUJjwL8zz25GmqC5+HvQ=;
+        b=qZWq0vypL9fC0z7OEAStIUq+IP0h+fXheOIjr4fuyaQcHO/CIn+6sEW82XG2isBrWv
+         fY67j4EyfCdFTcpDm0f6hvhhq0jKqa6vBu90tUxGZ2vB3cH4blJbHZhdXlGS10XEYtS4
+         TWVOqV9l+sNimP6IpDoCSrleR9/HovH0GjvffOdzK7Mh328payG2+fX+P5BjJYOYWXLT
+         2U13u/O4JkdrN2ahJSve5BWlj+B70/opDYy0LM/bYEPrH32IJmGEN5ZSX1xfP8C6Eo3E
+         mfydG8/7ACSqnI5NV1tCxp6VX/Ies0zt1PkllAmZ3sC+mgaT1sbQgizo8mcps7lEcdzN
+         cUVQ==
+X-Forwarded-Encrypted: i=1; AL+hErG+jm7jF6Mjj2VsXyxOOTR39TEn/tK9twsbU6HQngRRpY40MJONI1ugqMw5gUO1fuhDRl23VhEa2p0Vo7rw@vger.kernel.org
+X-Gm-Message-State: APuU4Z+DppQ9n83K7ZVryb88pRuVaR5okjZEDCjhB84XvwSz3M3Oi3eM
+	ktiQM8CPZoKzEVali0uy5PrO89P4nFoWmBTFiXrm5Svs+Xw7vsOtZZ47AyKoYeuP4Dk=
+X-Gm-Gg: AZFdTZfBfwaAHdztqT5OyF2+Kak9ulppjb/G/PRWjAY0kDfL5rBmOTQZCH+zgDirmoL
+	SecV3qpeJxh9HyWkZkhVia9kl8xcKY8H66nfA2vBfFv5r8ruSJHURyYHqzwU9yWf2yaW64O2y8/
+	xpRCq02YY/6BqXcwjVMdBn4SxqG5I6sqwRT0b6zSabD0XBWIMEYyBTTS9Bt3FhTaMSdDHhWbcdE
+	0FsdvplATaZ5APceifS/BUdlbQdnLBSUegxbgWy/VcfuOm2IIjFr7wv0SlOvKREgqVF+mFE6psb
+	TTs3gpmfEltHQtsvbblfhvWK9hwaSae/5mVzexzFHpKaQaDXSVCX3UVUT+d+yuh38+vcq3iAXpd
+	0uxst2SLoqYqB1EDOK8XtPMLSUAFx009Jzxyc/0AiVD60QMjxSan3mQRqKlNQsBPFrUnDA7Dwfz
+	K/Hu+9no1nw5vnkccqqWiMxOZWOZkKZWzff38kAfeFhhKtFkCLm8WwPhOh615Kb3Q71bn8enoVz
+	bheCk/uxUWO3+Yr0aZAzqC7ZrZQEzlE3wv5E9tiwmmTkRoJhY8PaXZgT3FxWkeTs2AhGzPJmGtc
+	8BX8BZi5d6z/O4+BgFDJgwPnbttI6I/hkxE1XdM+RcJgww==
+X-Received: by 2002:a05:6214:3d0f:b0:921:2f16:4714 with SMTP id 6a1803df08f44-921349cdc5cmr6310486d6.7.1795109456756;
+        Thu, 19 Nov 2026 09:30:56 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.251])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921349ec64csm3556376d6.28.2026.11.19.09.30.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Nov 2026 09:30:56 -0800 (PST)
+Date: Thu, 19 Nov 2026 17:30:55 +0000
+Message-ID: <9463a969d35a7d5ec5a56aeb67644b94.josef@toxicpanda.com>
+From: Josef Bacik <josef@toxicpanda.com>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: Jarkko Sakkinen <jarkko@kernel.org>,
+ Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ David Howells <dhowells@redhat.com>,
+ Jan Kara <jack@suse.cz>,
+ Serge Hallyn <sergeh@kernel.org>,
+ Kees Cook <kees@kernel.org>,
+ Paul Moore <paul@paul-moore.com>,
+ linux-fsdevel@vger.kernel.org,
+ linux-api@vger.kernel.org,
+ linux-security-module@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v2 00/13] Namespace for namespace roots
+In-Reply-To: <CALCETrXPLeUgxyhjP4XuWS46FKB0TUHF5PcMkdMf+qeEXbyXRA@mail.gmail.com>
+References: <20261117231352.3816603-1-jarkko@kernel.org>
+ <CALCETrVUkbpoFjwSAejyA4b_9qEauAP_36i=O8Op1ifp8aUkqA@mail.gmail.com>
+ <av3akYFOYaeQZauZ@kernel.org>
+ <av3bkDnwmjunTleX@kernel.org>
+ <CALCETrXPLeUgxyhjP4XuWS46FKB0TUHF5PcMkdMf+qeEXbyXRA@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -127,91 +111,42 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHc6FU5HY9x5ntTOz_xk36T0XTzjNc8R4jy2zzpQKo=19HNMog@mail.gmail.com>
-X-Rspamd-Queue-Id: 8B04C1FA9C
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-13.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -13.01
 
-On Thu 19-11-26 13:17:57, Andreas Gruenbacher wrote:
-> On Thu, Nov 19, 2026 at 1:05 PM Jan Kara <jack@suse.cz> wrote:
-> > On Thu 19-11-26 00:35:42, Andreas Gruenbacher wrote:
-> > > On Wed, Nov 18, 2026 at 4:00 PM Jan Kara <jack@suse.cz> wrote:
-> > > > Check for I_DIRTY_PAGES state in gfs2_fsync() is racy because
-> > > > __writeback_single_inode() unconditionally clears the flag and
-> > > > reinstates it only later based on PAGECACHE_TAG_DIRTY tag. If
-> > > > gfs2_fsync() unlocked read of i_state hits in between, it will not see
-> > > > I_DIRTY_PAGES although there may be dirty folios in the mapping. Check
-> > > > for PAGECACHE_TAG_DIRTY instead and use inode_is_dirty() helper for
-> > > > inode metadata dirtiness check.
-> > > >
-> > > > Signed-off-by: Jan Kara <jack@suse.cz>
-> > ...
-> > > > @@ -760,12 +760,8 @@ static int gfs2_fsync(struct file *file, loff_t start, loff_t end,
-> > > >                         return ret1;
-> > > >         }
-> > > >
-> > > > -       if (!gfs2_is_jdata(ip))
-> > > > -               sync_state &= ~I_DIRTY_PAGES;
-> > > > -       if (datasync)
-> > > > -               sync_state &= ~I_DIRTY_SYNC;
-> > > > -
-> > > > -       if (sync_state) {
-> > > > +       if (inode_is_dirty(inode, datasync) ||
-> > > > +           (gfs2_is_jdata(ip) && dirty_data)) {
-> > >
-> > > this adds back the I_DIRTY_TIME check explicitly removed in commit:
-> > >
-> > > 3aac630b5ce1 ("gfs2: don't worry about I_DIRTY_TIME in gfs2_fsync()")
-> > >
-> > > Could you please clarify what's going on?
-> >
-> > I wonder how you remember this after five years :). Anyway, the truth is I
-> > forgot fsync path is calling sync_lazytime() as well before calling into
-> > ->fsync and even if I remembered that, then it would be fragile for the
-> > helper to rely on that (and there are already users of inode_is_dirty() and
-> > inode_or_mapping_dirty() which want it). So to summarize you are correct
-> > that the added I_DIRTY_TIME check is unnecessary for gfs2_fsync() as it
-> > should never trigger just for that but it is also harmless and the helper
-> > is more robust that way.
-> 
-> Alright. Could you please include that in the commit message?
-> 
-> Reviewed-by: Andreas Gruenbacher <agruenba@redhat.com>
+On Wed, Nov 18, 2026 at 9:46 AM Andy Lutomirski <luto@amacapital.net> wrote:
+> cells: The dance where I create an anonymous mountns, mount stuff into
+> it, and then attach it to the cell is cute.  But I think the userns
+> interaction is wrong: you are making me assemble all the mounts in
+> *my* userns and then clone the entire tree into a fresh, non-anonymous
+> mountns bound to the current userns.  And that clone operation is not
+> free and serves no actual practical purpose.
 
-Sure added this to the changelog. Thanks for review!
+The copy buys us nothing, agreed.  That's just what the mount API gives
+me to work with today, it's not something cells wants.  If I could make
+an empty mount namespace and fill it by fd I'd use that, the "root" slot
+takes a mount namespace fd already.  Extending the API for that makes
+sense to me on its own.
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+The mount namespace staying with the builder's userns is on purpose
+though, that's what keeps the cell from mounting anything no matter what
+capabilities it was given.  The builder sets the tree up and hands it
+over, so the cell only ever has what it was given, and the mount code
+isn't something it can attack from the inside.
+
+> cells: I find it *incredibly annoying* that one generally cannot put
+> new mounts into an existing container using most existing container
+> managers.  I hit this on a surprisingly regular basis.  You seem to be
+> baking this into the whole cells design.  Why?
+
+By design.  Allowing changes to a running container is what causes the
+problems.  If you need another mount, tear it down and build it again.
+
+> both of you: Can we please make it possible to do the parts of this
+> that oughtn't require privilege without privilege?
+
+Agreed, we need to come up with a design for this.
+
+Thanks,
+
+Josef
