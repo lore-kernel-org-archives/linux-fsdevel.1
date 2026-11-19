@@ -1,76 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.71
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795085236;
-	b=Ae53FCNHlkvBdPIZieDU9cdkD9acjoamqgbb4veOnIJsuYk6D+ao5pec1ELlcezp5poy
-	 PmB8P1rc/XzV8mosmA23QtUuhugtMfchZQnp7v+arhKedASfAnf6+EWtvU1uwA2A2i9Jb
-	 cerp3/w2c5MuuEhhvRtPVq7JqMsp0M17orzI+pmxyuWjPGa818QnNLx6Tfj1u1tEWNLXm
-	 RbildsVjoJC4A/yMJ5jFz802vls7xkQvE/L0IjSEWJtQ5bPB7qbjqzpSeGU/ndZta/Vc3
-	 hYmypmV2YlhiYiT0ejoRoxn7RTv3EPXEPDLdxebfpc01/HSpd7543w7GT1YgrUVyAmg==
+	t=1795085545;
+	b=eLoxoArUReXscnqoPJg50p3/oGEe16/Ka/v8mwu4XBRUR9VdJcjAevWlziBQJmqrp3KH
+	 okF02HNGnsR0GICfYyBNs0PVJwfbsrXaZWg8RBSQenAVytmxEXInS85bh7Yf33cXwsZiH
+	 m4D2zX2b96cDwPhuPGEMSbzn0d3LYuBCfBrLqa7CH1qbTX11FPOsl7FUGKMAERieqphdS
+	 N2x3BuRirhbUngGN0584++VM7B6hCZFfiVJy7YEltcn/fLa/RYjYTmmplvdJbjHmUGbLS
+	 kgNYGlcfD5SwuBuGyea/SpTsAiwYRdmT6b+7GIBzpN/HhTeFfDJX6wrFmipLLPwe0Ig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795085236;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=67I3bNEfcu+N7yXs6EAi+/lBjbBrobM44S6SPv9jyFg=;
-	b=uIM3USUszkewKxKdOQGFm2c5v/UkQGMrUV9XeCEHuRU4n+nYKIPpp2F4d+Aa6ck3nOPD
-	 QJxDxxMecqOQ6cgk9uJ5k5kCUiRlfzpwc1Y/733rMLMBzXSc/94uMG6CD6h8MS64C4y0M
-	 vmJJjcdar22hwafoL65rwW/S6abXli4uE4oPTdcKijN1+B1U4+WQ4rHDxg8FuJA2+/A00
-	 r/JdTrXDdDr2AQEJChslDdH0bmG6bNUmf6s3RNfSL01VDE5ju5lUOT2yO9jEa/x8nY8X7
-	 lSfAp2YJ85xz6lnuuQ7/HyzKXFjN2jEJiiQafPgn6Cw+T/7u+z5vjaEgDKUlWQVEiWw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795085545;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=OqF5vrBptKgxZu2EMdBPRPy0tap7A0RPQIqpEhJDaEM=;
+	b=b/jG+yf6MV9ljJ5e2mxcQeE4nphz7pvVtWK6Mo3CcvaTEW4zsDkR4V1SMgpmt3EHYOX3
+	 KeW9VXFeiFZH6N1s3hc2WutqvodC8CqHjzi9o9lqIBDy67e/x+vXSuuiLTr7JLAaYfMKQ
+	 QQGf5JTVUmQ7W86Gm29RS2+9Whc+oBsmrkLa9HuVVpXT4t16M+DpmVxeUuAJ8s8SMiFvn
+	 85X58qlbUHAdmhE07d8bEgq/v0oY3INU68arR5aTO/Pc3+xRwl+cKFcOoGMrZQpTF7pXk
+	 1bHfelwaYV1dCMKF9Y2b63KSzZ1Jll76x2ICupTYiGs/nEtHvFTV0DUjGE0TlFQkGuA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--halg.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=NdNKDppB;
-	arc=none smtp.remote-ip=209.85.128.71
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com [209.85.128.71])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RYMK2ArS;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B682606A32C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 10:47:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B682606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--halg.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E57C7606A326;
+	Thu, 19 Nov 2026 10:52:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=NdNKDppB
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4bb66fc3aa6so21772075e9.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 02:47:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795085235; x=1795690035; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=67I3bNEfcu+N7yXs6EAi+/lBjbBrobM44S6SPv9jyFg=;
-        b=NdNKDppBshR3yFJ0FfbOWsYgjw9irAEaVT/7IxVBjACSprcjw70nJAaThe4TTE+dBk
-         UInzrM8KIqiFSmvFBXVwwQFzSfHXLRF4YLznNEgsA197A1YdVcYipcpKCnel74Lh3uP3
-         IJU8KmNQDE6rlRrjF6eygat4qW2/xwIgaKCTrFmzkS0v7LtEztyWb9t1xJsPCF5aMRuU
-         AIOVlCWj4gpRfMcPCpCzLg8bap7PiOOE6JeYbZy0QxdKAoWH1AASpuiixOTlS7ayd7/G
-         VorTt3PcndgbOdBiGT0Q/3kekAtTPAvN9t/QClLjiNey7MLYcj9IijV1Jh+gIk3Z/tIK
-         upLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795085235; x=1795690035;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=67I3bNEfcu+N7yXs6EAi+/lBjbBrobM44S6SPv9jyFg=;
-        b=aYMsQJNBDWXsbMjde7lHfPrBsdu/q2HaOlx5uxwNyvR3bdoWfZZFTkDWkTcd8b4gxs
-         FHpC1ad/03Mosf1EWK85kZQYxE/1KV0heDzXmStc9aaFS/YfZRjGtoSbZ+0b/9xCQZCn
-         XD5zw4l/RtvAP+G0R11xSt2RLnCGI9F1z/g0HaHGiZeK2GPfCjNbGYsqFCSzgk0AyFSZ
-         NyBRw0F26q/RlNdQAaMcPbBnf+AzCHmUOe/okDExzvkhVbZS/hKUYPWms8dZ0koq/cht
-         qruJcuB+uZqSSDMZkc3m3qUhZhfR25u4TchEtmx54Uz4au83AVqsgUQJu/BHeVNT7JWO
-         lM0A==
-X-Forwarded-Encrypted: i=1; AL+hErE4E7TqUeHTbkD8tm8lgUPOlX7dXLxAPCs2T7yPw2RC/b+AvXVy9bgKnoJJL8HgyyIx1UbzrGIjoPPyCHXS@vger.kernel.org
-X-Gm-Message-State: APuU4Z9oa83BRwE1pom2D40V/6aPJ3ow2nWUfebFnC2cNnSAYdIEOgZD
-	BEBa7Nr+7PGzHWUkTMdZRcN6c0EPnq8fuM6f+J6u+3wBmhHDR+P4bWpQYBSN810wPbHMuXx1xQ=
-	=
-X-Received: from wmwb7-n1.prod.google.com ([2002:a05:600d:4447:10b0:4a1:a2ef:38dc])
- (user=halg job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:4e56:b0:4bb:7581:2bb9
- with SMTP id 5b1f17b1804b1-4bb7da3003emr104763395e9.22.1795085234352; Thu, 19
- Nov 2026 02:47:14 -0800 (PST)
-Date: Thu, 19 Nov 2026 10:47:13 +0000
-In-Reply-To: <20261118.faiBee9Taigh@digikod.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RYMK2ArS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 781301F000C5;
+	Thu, 19 Nov 2026 10:52:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795085544;
+	bh=OqF5vrBptKgxZu2EMdBPRPy0tap7A0RPQIqpEhJDaEM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RYMK2ArS0wRvEjQ46WpFNLoHgw4LnDLCKz2wIUutazUiPrzI6+owAo82qSsTDV3Dr
+	 l9LCub57dKDF+9C//tVLZgmc30UNBwM9KAgtbRi10d+neB9INqhVWWcGOhXuisEjRy
+	 QeBCb6mKXv/L0xobqoIdmuJRVGFl9Mr5gFlJzrH8JuWXzWetofpibpjwVKL8MD1pZ4
+	 57htvAwZqch0lxNrL/fVKSwNrZrICeqkblyMjeuKZJ0OvkKu1hAT36PevhqD0gist3
+	 Q1PF+ZFdDpVDOFUrSDetmWJpohTwxf9KCppgLWDB6krbruedHqa5l6KSgWFTXNA823
+	 7Uwgj84yof9CQ==
+Date: Thu, 19 Nov 2026 11:52:19 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Anna Schumaker <anna@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Chuck Lever <cel@kernel.org>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] fs: reintroduce SB_I_MULTIROOT
+Message-ID: <20261119-beinen-gleis-affront-8ea5d3703879@brauner>
+References: <20261118-work-nfs-multiroot-v1-0-66e4458b7d32@kernel.org>
+ <20261118-work-nfs-multiroot-v1-1-66e4458b7d32@kernel.org>
+ <82b7c5ed-5736-48f7-8f65-e7984ea140bb@app.fastmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -79,56 +58,15 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261028221705.3915340-1-halg@google.com> <20261107.aighieG4Ami1@digikod.net>
- <20261118.faiBee9Taigh@digikod.net>
-Message-ID: <av7TsXKUE69lyiWl@google.com>
-Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
- opt-in netns loopback
-From: "Hallgrimur H. Gunnarsson" <halg@google.com>
-To: "=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?=" <mic@digikod.net>
-Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
-	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jann Horn <jannh@google.com>, "=?utf-8?Q?G=C3=BCnther?= Noack" <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
-	Jonathan Calmels <jcalmels@3xx0.net>, Casey Schaufler <casey@schaufler-ca.com>, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-api@vger.kernel.org, containers@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <82b7c5ed-5736-48f7-8f65-e7984ea140bb@app.fastmail.com>
 
-On Wed, Nov 18, 2026 at 03:43:03PM +0100, Micka=C3=ABl Sala=C3=BCn wrote:
-> Hallgrimur, could you please explain why your use case would not work
-> with Landlock?  The capability split or new clone flags would be
-> complementary of course.
+> I assume this is going through the VFS tree?
 
-Apologies for the late reply.
+Yeah, I got it on vfs.fixes.
 
-Landlock's capability restrictions work well for self-sandboxing
-applications and launchers. The main gap for our use case is setting a
-host-wide default for unprivileged user namespaces while still permitting
-exceptions. Because Landlock restricts all capability use (not just
-capabilities acquired via user namespaces) and its domains are strictly
-irrevocable, PID 1 cannot apply a default policy at boot without
-locking out privileged services, file-capability helpers, and authorized
-workloads. Using Landlock here would require explicit opt-in enforcement
-at every unprivileged transition boundary (SSH, container/job launchers,
-etc.), where missing any entrypoint leaves unprivileged user namespaces
-unrestricted.
+> Acked-by: Anna Schumaker <anna.schumaker@hammerspace.com>
 
-In v1 we had the global sysctl to tackle this. In v2 (based on Christian
-and Andy's feedback), we combine per-cred cap_userns with per-userns
-cap_bset), and PID 1 or a service manager can lower the default userns
-ceiling once at the root of the process tree, while privileged tasks
-automatically retain capabilities held in cap_permitted and can
-explicitly raise cap_userns for authorized workloads unless locked.
-
-Another minor difference is visibility. Clamping the task's capability
-sets on userns entry (and exposing CapUns in /proc/<pid>/status in v2)
-makes it easy for userspace to inspect what is actually restricted.
-
+Thanks!
