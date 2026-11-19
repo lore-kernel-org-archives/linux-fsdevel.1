@@ -1,100 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795057849;
-	b=OGSXi1JKoQK017Bs97iYHYz75fiIaNntybwzjLOPQ/yDBZYwKBJF55eqlh026bHmleu3
-	 TUPVvOUgpk3/MZMnI3/beKR0gCC2q2B/8UxU+ek1rDelJgHvudHunfP6NqS+65h2oKn9F
-	 jfiHery2Rqkn9iW5og00sECG71fS38pJantc+DIepK4XTRXZHgFLnxSArJ0auyLbrdtbS
-	 q97Wfa7QPE2d8N3KGGwrTroJOFNF2ZwEWh0xZ+3moKcKwJkHc8WctUTGhDtM+LLyh7sth
-	 6XBUYLfheA1Btav0aNDD/jfwrPSd7cWKX9xWqEBOlc37iCziQrpGMxq3i0KWedUH4rw==
+	t=1795058930;
+	b=eQ8E93oRo0WskA477Zb/8XKaxbex0Hr9bAhDBoOGQFTvfqBFiCuMA9U2FfowPRt5xLzE
+	 uBxCvckfVxL7FcukTyDjgw+dQWzdI9OfwIfXxQfgrIYcnSB3idAsB9LOUDvcogyKpmCwh
+	 rMBBXm5+74y5T2eNEBGu3ZvxND9NdixoLn9aW5YszR5S4PkGtIRCGtYdmi7PZokks8IHN
+	 NlSOC7onBd7YM5uZ0syn7xOXGqLWwnbmC5XqLTyLUag7NoAdqd3hJOttjJEhslV9tjCEW
+	 GPWfJu+iBq6AgDQfRI6iiGtY0XyKSJHiZEGcHYxKvCXUt/rzQ5nxEaXhBTtgjMf8oLQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795057849;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795058930;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=w1YOVY/Doh6e0864P1i6+EBgq5MNuINhZbLgi234zvI=;
-	b=x81tqI6Q+XuDirpRLXc5fMOukq5VG6drKB4I1NZ7PXPKlgdP7yLMq7nYXRbKW0MtgeP1
-	 auPYPKkvWKp8FLUZRCP0ZN94NYDOUEHLv54EuY3z2w9aLMRDc97pVeDorTnRAywhGQqHO
-	 MITx7nqfQEln5NgLpzNymdEJup4gcs6+Nrql6dKI7g69L8pKSgqLxvYxWBc95tn/prtYw
-	 IXuhyyuSDejh+9/z6KSN1V4FiLBkCi3F/j/wvIfJTYeDUp579idvY+eAqUqnc+E3MtzVu
-	 mB7jeyFVWvonWRTXYdiIdUArzKcf4PhIEe85dwOrBr6vsottNm6EigTtDqftuVFJFrg==
+	bh=CYlgoWlQjoEhGqZTHu9yMtGAoHutdZN/vbViahm757M=;
+	b=gMEh1fOuCD1KL7YPyozE6VM4zi04Go5qSp4YWcnvWPBiN1Pcx7hy5GINUbNQMdmMYN7+
+	 Ya7rLt2/rWzn7KHXOnzaNjjj+8IoXEjMV623UtZBmyG9v1ClKlM66jpLoYl7My2KB3k7B
+	 GaI/MtvYn0NaqjELALAMXpJ7yQih39nfjYDcL3yVkGXMsfq5h4KrhB6QdOHEZBLm4y/rY
+	 Lr8gHMD1v1a+7nIx/UX4rQUJQdS5id5aCu/E58pfLylBRed8zi4JZUD5w8vqJCIJDjxT3
+	 u6uGiP7hR7PIntz87AalkH9lVrNP0JzsUYIbychMrnvMqRElnrar9T/NNdsjaSSR36Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OjMOQRNd;
-	arc=none smtp.remote-ip=74.125.82.48
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pXfCUbWL;
+	arc=none smtp.remote-ip=209.85.215.172
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1FB860A2615
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 03:10:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1FB860A2615
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67EDE606A325
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 03:28:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 67EDE606A325
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OjMOQRNd
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-14394530ec6so2732942c88.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 19:10:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pXfCUbWL
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-cde4b4e936fso244528a12.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 19:28:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795057848; x=1795662648; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795058930; x=1795663730; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=w1YOVY/Doh6e0864P1i6+EBgq5MNuINhZbLgi234zvI=;
-        b=OjMOQRNdJeLJg5azmRkBB5RW5pkDklRxxPZrFuCIDm7OU+S7G0Dg/yw0sCsiyypQOq
-         g5xFwpHBQw+6l4NiCO7NbmKg6AneWrbRGdHARf8ZFk4QN5SLNKVuykO2/bTSXbM9n7wS
-         PRlHLWhQK7XaCIYZ/4kT7Bzamg1H+6MXS4pSobmIYryDP/dTloLkTJ5ZIc58S5nTyGmD
-         kq/s/VbhA0BvrG1n42/nx7ZjP+MPi06M/Uryt3Rvb+1niar2d2c/UA0gIDyK2IF5aI53
-         +Rs8tq6Iobqrakn+myFQo+BV/UgeR9tZ16VpC9s5u0UeZYPoXW2jcFOwUO2O2jRhpEX9
-         Mp8A==
+        bh=CYlgoWlQjoEhGqZTHu9yMtGAoHutdZN/vbViahm757M=;
+        b=pXfCUbWLnxs76b/MfQ8RKnylzDz7BaKSoLAaNcVZVMp953cz1o5DWBgqMUqrMA5yIe
+         F0UIBUgtJhZnSrfhRc18S6FvTkI3jq+cwTs98vwytkqQiKzFMdic4cKdjXY9PkmjqT6P
+         /isOEoBUk6GSkGLO2jwxL3fumT6AWaEYB2yFtH+9VmokuBRVJw9wK6gfSQA95Y6YyEi2
+         lt3Mpo/45zTNEnR6QccgMGVVZi34CU9IlSiBO6PmjuWmgr77sGAaGcwS1hIkR3XqXelH
+         ANFDsSg6Tl6F6ORfTI4Vv6h4ZjSYGXGR8jxrw7KEjOSI6EW6enHkwxFiEeuuTZ1oUoeC
+         sLcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795057848; x=1795662648;
+        d=1e100.net; s=20260707; t=1795058930; x=1795663730;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=w1YOVY/Doh6e0864P1i6+EBgq5MNuINhZbLgi234zvI=;
-        b=0gIwaNCDPJTJLGSeOHSl7qwW/Bj1AFa7u8wkCPwcQfn74ulXXAn3SceAAOOrNQZuEx
-         u6X19cN5zO2FsGHPUp3CYurXK/xvf/aqzHMpj3ViFwHc3nl8ZxnlkCwpGTiKdXy+5Wzh
-         cG2FKlwXP+DHIqhoxhz5z7GBxdiJ7VQedjfbtFIQ2ooGEdsUPqIkLbUTNWbAHf9eEY4/
-         0bvrTIi9lsHu3V2RbIAlsstKW6A+K585juYFJbqvyZ0Rhx3rDHYzZo7mii2aJPN/4nUs
-         jICl+XSBu5yiDroaBthoVNGmBvEdKSsQxdoG4njC4O1560FB2KJhPpMI3pkHbIKKTV/i
-         c9Fg==
-X-Forwarded-Encrypted: i=1; AL+hErE/Kyl5Q2HV+6DzzC7OnxqEo9wrMyTfYmBJsR+23NOYiW9WpERXHv8KlDJRZkEfvToHaSerZ6U3oeJq18c8@vger.kernel.org
-X-Gm-Message-State: APuU4Z+QIp4dkRZF5rbO/YpMhT1O1MPQdS9Pr9eEEz8RkO1naREX1+/q
-	nYllYqcMo0CF2+oCqW+sS/AVjta//bG6926tZXkKDRtlh0TtneKNFZOz
-X-Gm-Gg: AYBFou3/C6sCVOLDJ81yANA7I4dC3petg9p3rkEmZVTwPIXd8va/rdCoTw3Wfvi0E8g
-	lf3AomQvMi9mDvl7iKLG8At4UkHdI9cTrt07CBlSUWR8IGZOol2G4KhAuSZDoJvWWS3iSiNxMVq
-	yOB/Z+1OXFQuEztJsoU56vCLQ6gLjmBU7qv7emjjrXx0nkzGRZM7oeKzqRk7RIGXcQ06COanja5
-	n2CtOfo8rOYXCRA2WKN9ulwuCrVzGJXRg3l7sp9usLFC3vqnl1n6TtXluz2zrrvFkMFggjKbKzg
-	/pp+JAa/ue7IeGy55oxiIHDdnQc1W+D90F6eT4aAWDuggokZDJp0tdgk6aDj9hIjSgqatffPPF2
-	OwVLDTgykH3s36K1QIMqOJNAlkkol/u9dDM+kwZZ3pmLJSmIGCN/clOQGl+6aKBg/ruNvixhOmA
-	JcGwzm+drPWIiRCqdy3Q+xW/SXBR8fkjZKMWPFH+vyXRKW7rWe783AI1n6oWrirghAeD1QSqbX7
-	i6quZr6ea5dvUIAsq/JV1O9Pld84kNmRYFokGZeqWNPPC4P5/bQ75Fhlp/4clO1a4E66EiUR8j3
-	ZI7HcExOMGDAXpqUnEBzmFrJxX8eIIl26DiwwD4kjJM740UFMA==
-X-Received: by 2002:a05:7022:4183:b0:18d:5ef2:1644 with SMTP id a92af1059eb24-1b543be5439mr5394453c88.30.1795057847918;
-        Wed, 18 Nov 2026 19:10:47 -0800 (PST)
+        bh=CYlgoWlQjoEhGqZTHu9yMtGAoHutdZN/vbViahm757M=;
+        b=0UDkyHRch9f3RKCp6pwiC39Y/weRyY5vy7W0xApv51gtjiAOXUtnvFTfN55uXqV5kZ
+         YGj4Hqfr+dgNI8//FBivDqOPN6ZVb1d0x2DyT14g2Yn6a1mfgns5NB5B8Decrb86mFWx
+         oVnKiYzKx19O6GaPeU4I2jzAbd/J22DJc5BKLRBAS/qS3mZfOO6juhxRs3gEtPuyrVGY
+         YQ4lA3s/OZ+a/EsuBeqeSB5218p9Y2o+BeEm1zivm8kZWITBO2q6Gzrkj6LOVBB6zVx1
+         4ldb2k8zsfpKJ0e9df/E19MyEBbA2AhwbJvQIbzguRDf4klCvxJeYkxad6kIikP3s/af
+         WUXw==
+X-Forwarded-Encrypted: i=1; AL+hErEZfScfXUCOzSRzOWxhFBLFlkGDUBbfHbajQDh9/2x2HNer/dF5PnCUO5cCQR524CrSthfAdj6KZ8ncUT1p@vger.kernel.org
+X-Gm-Message-State: APuU4Z/6yEZtdPaK84z6OFGUxFYMQLWIOtuR5ek9owIiCxGYXuWl1pkQ
+	yH2XmdObiavvaO0qJqtyl6zwd5Tz1T3TEajwJIJqoB1OAcf0hWstUzmh
+X-Gm-Gg: AZFdTZctif/aUx/CgExxjA0xqk4XoK4j0qFbRrS25rCZJhT1idUMamgv2PMsOVIYt5N
+	cvdncolwDcuDc+ja4mN0j6I2b5wK16oift//92fZzsOl9N7HfqaBj/zfPgoXQSGBPUzqO0b8AZD
+	s4pO2GGWNfGPZPKfcRm9epcLf3tf0s9LusvCQk6/wJIb0Ftmd0/vy2Uun43oAJMWcM5RX2NusbV
+	1eJg6lzL3maaNNcxyoEdP6fOOy14yNia5XseUkNoK/qQj8Tb4JqNHYb/Q1a4fADwmn+rWWxtLhE
+	ZV4MBWTgkoBvI+VFDwsANUxLdLmR5ccLL2q3w/nrqVXnQ/704LMrAe3Bt4PRZVKuTMH0oIDRbKA
+	U3XKWAa0GJ99sMsG5m89qLcd/qdGraqsjzVNFbLtuU1fo63L+lgHcZPx2nhOwsmEPyHXc6ZOng3
+	IxmuiEDT2GAsYELMKHgxOplscBKJPjWLqX9MMqQZgVM1hELMWVMb2y5cws9LpEMj3kKP0u35wO8
+	tW3Spvm9zsP7XrIA2SIfGK0z0gHsmGopFngueNhu7TKFhNJfeebAUtfYXOUvJYc51AnCcnGbw5I
+	SqildVx4M5aEh09sjNiv3411BFHQuZ8x8DIopVtFZnj5/Jup/A==
+X-Received: by 2002:a17:90b:2487:b0:3b1:6e2:3693 with SMTP id 98e67ed59e1d1-3b3ffa1d30fmr268271a91.17.1795058929793;
+        Wed, 18 Nov 2026 19:28:49 -0800 (PST)
 Received: from MacBook-Pro-8.lan ([27.125.146.195])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5447f4e19sm15028118c88.13.2026.11.18.19.10.45
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b402aa8555sm319488a91.3.2026.11.18.19.28.47
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 18 Nov 2026 19:10:47 -0800 (PST)
+        Wed, 18 Nov 2026 19:28:49 -0800 (PST)
 From: Ding Feng <dingf3ng@gmail.com>
-To: Christian Brauner <brauner@kernel.org>,
-	Damien Le Moal <dlemoal@kernel.org>
-Cc: Ding Feng <dingf3ng@gmail.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Naohiro Aota <naohiro.aota@wdc.com>,
-	Johannes Thumshirn <jth@kernel.org>,
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>,
+	Damien Le Moal <dlemoal@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v2 2/2] zonefs: ignore RLIMIT_FSIZE above LLONG_MAX in zonefs_write_check_limits()
-Date: Thu, 19 Nov 2026 11:10:26 +0800
-Message-ID: <20261119031026.7985-3-dingf3ng@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] fs: ignore RLIMIT_FSIZE above LLONG_MAX in generic_write_check_limits()
+Date: Thu, 19 Nov 2026 11:28:42 +0800
+Message-ID: <20261119032842.34297-1-dingf3ng@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261119031026.7985-1-dingf3ng@gmail.com>
-References: <20261119031026.7985-1-dingf3ng@gmail.com>
+In-Reply-To: <20261119031026.7985-2-dingf3ng@gmail.com>
+References: <20261119031026.7985-2-dingf3ng@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -106,51 +101,12 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-zonefs_write_check_limits() follows generic_write_check_limits() and
-has the same problem: it stores rlimit(RLIMIT_FSIZE), an unsigned long,
-in a loff_t, so a soft limit between 2^63 and RLIM_INFINITY is negative
-and every write fails with -EFBIG and raises SIGXFSZ.
+Jan reviewed v1 of this patch after I had prepared v2:
 
-Keep the limit unsigned and apply it only when it is at most LLONG_MAX,
-as the generic helper now does.
+https://lore.kernel.org/linux-fsdevel/hwwtflqzbga65oxvo7bw44xuhpbqseyfww62kyzko5az4gdnxy@4wxsl465nvp5/
 
-Fixes: ebfd68cd0c1e ("zonefs: Fix O_APPEND async write handling")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-opus-5-5 Frama-C
-Signed-off-by: Ding Feng <dingf3ng@gmail.com>
----
+The only change in v2 is the type of the limit (u64 instead of
+unsigned long).
 
-Notes:
-    v2: hold the limit in a u64, as in patch 1.
-
- fs/zonefs/file.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/fs/zonefs/file.c b/fs/zonefs/file.c
-index 319d950..c9293e3 100644
---- a/fs/zonefs/file.c
-+++ b/fs/zonefs/file.c
-@@ -399,15 +399,16 @@ static loff_t zonefs_write_check_limits(struct file *file, loff_t pos,
- {
- 	struct inode *inode = file_inode(file);
- 	struct zonefs_zone *z = zonefs_inode_zone(inode);
--	loff_t limit = rlimit(RLIMIT_FSIZE);
-+	u64 limit = rlimit(RLIMIT_FSIZE);
- 	loff_t max_size = z->z_capacity;
- 
--	if (limit != RLIM_INFINITY) {
--		if (pos >= limit) {
-+	/* No file position reaches a limit above LLONG_MAX. */
-+	if (limit != RLIM_INFINITY && limit <= LLONG_MAX) {
-+		if (pos >= (loff_t)limit) {
- 			send_sig(SIGXFSZ, current, 0);
- 			return -EFBIG;
- 		}
--		count = min(count, limit - pos);
-+		count = min(count, (loff_t)limit - pos);
- 	}
- 
- 	if (!(file->f_flags & O_LARGEFILE))
--- 
-2.55.0
-
+Thanks,
+Ding Feng
