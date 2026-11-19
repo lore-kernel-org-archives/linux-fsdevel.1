@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=64.215.233.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795114359;
-	b=hNemNS3eW9gQsZe80r/1tRn0HhlIcm5oc/rOfqN7ydCrwNGJZgsWm6fuLIl9SBwLFvEd
-	 PNRz8praKVSJcBpoh7eg651IpvzcJtCf0i+RUGzkuEDwuEXkbjZUiP4pqne047qw3oYUN
-	 QHiBcsqWTLn4yTyY7dnMXXI34FTp39J8IAjeAGI1jmOvFVQhGHVn0c7vGwt+VI543bCof
-	 9Rf+RAlr5ch486afdR7ECdAZniaRcjdlnoTLuGCwTNjMnfg+tGJ5t9cGE9ZFMFLmzb4YZ
-	 jRwQhaFsbGFYBteP/GV/96dJOIRwsNRbWTONNf0oMXD4B9yUA4Dcl6EGlo/b6rMtUSw==
+	t=1795114420;
+	b=FQs3iHUh3Okvd+yDQqSLUQj6tYgoD1Osq3UGg/vbAVT321LqdSHv3LDuGXRPAe7Uuqu6
+	 F/fxCnIIRxsyUR8N2xJ9TjEtfoCwBE9XGPgxMq4faYrVWJEl4sr6xLhuVVeGB8DY1O58q
+	 eGpNwpPLcQ3uk5/Ob3XXw17dVvazhF4OYLNH8ChcxSPgNCUI/mBk5LFeOp0rZZXPUrpAz
+	 iE3DXT1m0S4mPt4pce2myUrEj4IUcwIiD2xCZugFRc2FGoIz0S0GfFBBc+durepNKDlGF
+	 HejmjRm2xEvrQyScsLYlspJKH2xqkgdfkzEgcA3YopgVcePoPOSfBFCPi56osF0xH8g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795114359;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795114420;
 	h=DMARC-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=t0Ic1mzIR68UWnq2c+X05T/4Ui6CKPSbnUPVfSE8g04=;
-	b=AkoCz2XVNd0oS34MRe8k6DvjLte5sgFO2ZaVxLRTdBUBV90qKFK6NCCvTDsUR0bu9deW
-	 Yb4X5dCzt/8vhSgfaAIZ/LG/CTFVZgiK1MBzUnFOLF8rYwoFGFHppWFkbWclAkAE3GVGp
-	 LEDG88vqwkhED1Db1zC5K6Kz2494d9hwgkiUuypQjEuRmOly4Vsi2pQuTIPVjp5gN28QB
-	 XpS7lvc3CED+AlLff8IWF8a1Rs94Miavdh71YvX7C+W24ot7Z1kgyL3LLvttcKP0UAdv6
-	 h48lky0z5emHX5/LexJ5y8t5F3CqG6Jz0IU5OKVI8ht3Q2i+PlqGfAaojLjHG60wXeg==
+	bh=sEQbdvJYwkDv3aKZeq8vEM5NNA7CQxGMnYKt6TroBE4=;
+	b=hFP0Q1q083czvShcJd7MK2PiCXEeEE23vIGksjwEcLLmGRN2+F/teJ5WpSWK/3olsFSe
+	 sKcEzfBjPtyPJxUaVdEXtKw1KRWxXe8IQCFU0VtGMEfXdXvMFqXAW/WCmtOJgOrPzfZEO
+	 BShiFS0/eXn8I4xu4LH96ClNHEBfD7M9xuWnvEmY5p8YKQBVrlbe8Xsxn9BSW5C6iW3/e
+	 ZCiwFNITkMAEmVcPtAxWQ3Qoz86WdN3KuJIq+Dsx5j2WD+j38S+68Z4vQQwRlifrHAOzT
+	 jIJYxE+ISIgz0f8GDEx0GI06IaylSQzQTe20hS2fzE7r7H7gKfRGbqQ2LfXDeVtpzBA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=janestreet.com;
 	spf=pass smtp.mailfrom=janestreet.com;
-	dkim=pass header.d=janestreet.com header.i=@janestreet.com header.a=rsa-sha256 header.s=waixah header.b="m/G4DBHs";
+	dkim=pass header.d=janestreet.com header.i=@janestreet.com header.a=rsa-sha256 header.s=waixah header.b="zz5/C9Zz";
 	arc=none smtp.remote-ip=64.215.233.18
 Received: from mxout5.mail.janestreet.com (mxout5.mail.janestreet.com [64.215.233.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130A3606E8F3
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 18:52:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 130A3606E8F3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1FE8606A333
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 18:53:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F1FE8606A333
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=janestreet.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=janestreet.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=janestreet.com header.i=@janestreet.com header.a=rsa-sha256 header.s=waixah header.b=m/G4DBHs
+	dkim=pass (2048-bit key) header.d=janestreet.com header.i=@janestreet.com header.a=rsa-sha256 header.s=waixah header.b=zz5/C9Zz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=janestreet.com;
-  s=waixah; t=1795114358;
-  bh=t0Ic1mzIR68UWnq2c+X05T/4Ui6CKPSbnUPVfSE8g04=;
+  s=waixah; t=1795114419;
+  bh=sEQbdvJYwkDv3aKZeq8vEM5NNA7CQxGMnYKt6TroBE4=;
   h=From:To:Cc:Subject:Date;
-  b=m/G4DBHstImSa6u2UmSNW9J+5pWcSrnCUlzciL2P3VQJMRvO1BQhATPyKBFes7/wa
-  n/SVh+zJXNIrm3Ar1ehugGQht8+Hm3BYMIfl1tpKNZKIaBzU4x8YYeZjTzozinoPsM
-  yOChphFXGJxbgfQRCL7AurJXUf2A/Ll439NMOF+DMgtJshD1N8zzaShIDMbCNg8SJo
-  ePCvbtkQBnum33s5ooNdvZixO8+mVimdJSitBkqNEzC0zpicdgna4uW68q7k5afDHi
-  Hs7WilIFvB459B7YsZC+L4kuY7jRLgyzoEfz8qVmvJTx3bsoAHPQoGTrOcLhnpDx3S
-  aCEHM2dyopHWQ==
+  b=zz5/C9Zzf7Sci/c12ncohRgl6pmWjT70XYZ1gIEorEaANHXfdBsHFdqh1dCiUcoPM
+  tWs6Xi4eNSNK5qgE+Irpw5KyU13kRWC6ThJ2WlqAy3W19fgBWJTkqM145pGvS0CU5l
+  KL+UVGhChWCUiiSGvfM4Zhatdy2oe33k5qaCCHuFVPRCG/4qHNFtT/ljTFMNImJZ8a
+  CeTkYG/IEMQsV5VOzk1fDGYdgQwt1/MirTo8G8OEIsRdAtbz+qW5vNSpNQ6iWRzLBX
+  U1K39U/CJFeM26HqjuvH0gVbJvBXxUX5XLzZwPf71bjSooTyL/TYRYMiegLfLXs6uV
+  JFMpcJ9Bqrq5w==
 From: Eric Hagberg <ehagberg@janestreet.com>
 To: stable@vger.kernel.org
 Cc: Baokun Li <libaokun@linux.alibaba.com>,
@@ -50,9 +50,9 @@ Cc: Baokun Li <libaokun@linux.alibaba.com>,
  	Tejun Heo <tj@kernel.org>,
  	linux-fsdevel@vger.kernel.org,
  	Eric Hagberg <ehagberg@janestreet.com>
-Subject: [PATCH 6.18.y] writeback: use a per-sb counter to drain inode wb switches at umount
-Date: Thu, 19 Nov 2026 13:52:14 -0500
-Message-ID: <20261119185222.1147448-1-ehagberg@janestreet.com>
+Subject: [PATCH 6.12.y] writeback: use a per-sb counter to drain inode wb switches at umount
+Date: Thu, 19 Nov 2026 13:53:31 -0500
+Message-ID: <20261119185336.1149309-1-ehagberg@janestreet.com>
 X-Mailer: git-send-email 2.43.7
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -145,9 +145,10 @@ Signed-off-by: Baokun Li <libaokun@linux.alibaba.com>
 Link: https://patch.msgid.link/20260521095016.2791354-4-libaokun@linux.alibaba.com
 Acked-by: Tejun Heo <tj@kernel.org>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-[ ehagberg: Backported to 6.18.y. struct super_block lives in
-  include/linux/fs.h here, so add the field there. 6.18.y predates the
-  inode_state_read()/inode_state_set() accessors, so adjust context
+[ ehagberg: Backported to 6.12.y. struct super_block lives in
+  include/linux/fs.h here, so add the field there. 6.12.y predates the
+  inode_state_read()/inode_state_set() accessors and the
+  trace_inode_switch_wbs_queue() tracepoint, so adjust context
   accordingly. Also adjust context in cleanup_offline_cgwb() for
   "writeback: keep cleanup_offline_cgwb()'s scan out of syncs".
   No functional change from upstream. ]
@@ -156,9 +157,9 @@ Signed-off-by: Eric Hagberg <ehagberg@janestreet.com>
 Hi,
 
 Please consider 31c1d19ead2c ("writeback: use a per-sb counter to
-drain inode wb switches at umount") for 6.18.y.
+drain inode wb switches at umount") for 6.12.y.
 
-The first two patches of this series are already in 6.18.y:
+The first two patches of this series are already in 6.12.y:
 
   cba38ec4cbd3 ("writeback: fix race between cgroup_writeback_umount()
                 and inode_switch_wbs()")
@@ -176,31 +177,31 @@ On a bare-metal 32-CPU Intel Xeon Gold 6346 host, with the reproducer
 below (cgroup writeback churn on 4 other ext4 filesystems), umount
 latency in ms:
 
-                   vanilla 6.18.64     6.18.64 + this patch
+                  vanilla 6.12.118     6.12.118 + this patch
   scenario        p50    p95    max     p50    p95    max
-  baseline        1.7    3.2    4.2     1.8    3.5    4.7
-  idle           30.8   46.1   53.8     2.2    3.8    5.1
-  busy           28.3   47.6   52.6     7.9    9.1   10.3
-  concurrent     27.1   37.2   49.2     2.5    6.3    6.6
+  baseline        1.6    2.9    3.1     1.7    3.5    4.2
+  idle           32.2   45.7   49.6     2.9    3.6    3.9
+  busy           26.2   40.5   45.4     8.8    9.6    9.8
+  concurrent     29.2   42.6   47.3     2.5    4.9    5.3
 
   baseline:   idle target fs, no background load
   idle:       idle target fs, background load on other filesystems
   busy:       target fs ran its own churn for 2s, then umount
   concurrent: 8 idle target filesystems unmounted in parallel
 
-The load was comparable on both kernels: 7081 vs 6793 churn
-iterations, 8356 vs 8054 inode_switch_wbs events. The same reproducer
-on vanilla 6.12.118 gives an idle p50 of 32.2 ms without the patch and
-2.9 ms with it; I'm sending that backport separately.
+The load was comparable on both kernels: 7169 vs 6943 churn
+iterations, 8448 vs 8268 inode_switch_wbs events. The same reproducer
+on vanilla 6.18.64 gives an idle p50 of 30.8 ms without the patch and
+2.2 ms with it; I'm sending that backport separately.
 
 The backport only adjusts context; there is no functional change from
 upstream:
   - struct super_block is in include/linux/fs.h, not
     include/linux/fs/super_types.h.
-  - 6.18.y has no inode_state_read()/inode_state_set() accessors;
-    context adjusted.
+  - 6.12.y has no inode_state_read()/inode_state_set() accessors or
+    trace_inode_switch_wbs_queue() tracepoint; context adjusted.
   - Context in cleanup_offline_cgwb() adjusted for "writeback: keep
-    cleanup_offline_cgwb()'s scan out of syncs", already in 6.18.y.
+    cleanup_offline_cgwb()'s scan out of syncs", already in 6.12.y.
 
 The reproducer needs root, cgroup v2 with the memory and io
 controllers, loop devices, e2fsprogs and perl, and runs for about two
@@ -530,7 +531,7 @@ Eric
  2 files changed, 55 insertions(+), 50 deletions(-)
 
 diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-index e479e31..9966399 100644
+index 3b67018..04e6fd5 100644
 --- a/fs/fs-writeback.c
 +++ b/fs/fs-writeback.c
 @@ -488,6 +488,23 @@ skip_switch:
@@ -637,9 +638,9 @@ index e479e31..9966399 100644
  	if (!memcg_css)
  		goto out_free;
  
-@@ -680,11 +701,9 @@ static void inode_switch_wbs(struct inode *inode, int new_wb_id)
+@@ -679,11 +700,9 @@ static void inode_switch_wbs(struct inode *inode, int new_wb_id)
+ 	isw->inodes[0] = inode;
  
- 	trace_inode_switch_wbs_queue(inode->i_wb, new_wb, 1);
  	wb_queue_isw(new_wb, isw);
 -	rcu_read_unlock();
  	return;
@@ -649,7 +650,7 @@ index e479e31..9966399 100644
  	atomic_dec(&isw_nr_in_flight);
  	if (new_wb)
  		wb_put(new_wb);
-@@ -765,14 +784,6 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
+@@ -764,14 +783,6 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
  	 * moved ones. Exclude syncs as process_inode_switch_wbs() does.
  	 */
  	down_read(&wb->bdi->wb_switch_rwsem);
@@ -664,7 +665,7 @@ index e479e31..9966399 100644
  	spin_lock(&wb->list_lock);
  	/*
  	 * In addition to the inodes that have completed writeback, also switch
-@@ -791,7 +802,6 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
+@@ -790,7 +801,6 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
  
  	/* no attached inodes? bail out */
  	if (nr == 0) {
@@ -672,15 +673,15 @@ index e479e31..9966399 100644
  		atomic_dec(&isw_nr_in_flight);
  		wb_put(new_wb);
  		kfree(isw);
-@@ -800,7 +810,6 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
+@@ -798,7 +808,6 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
+ 	}
  
- 	trace_inode_switch_wbs_queue(wb, new_wb, nr);
  	wb_queue_isw(new_wb, isw);
 -	rcu_read_unlock();
  
  	return restart;
  }
-@@ -1231,39 +1240,27 @@ out_bdi_put:
+@@ -1211,39 +1220,27 @@ out_bdi_put:
  }
  
  /**
@@ -731,10 +732,10 @@ index e479e31..9966399 100644
  
  static int __init cgroup_writeback_init(void)
 diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 09cbcfb..b83b5a0 100644
+index 67b57ce..fc63611 100644
 --- a/include/linux/fs.h
 +++ b/include/linux/fs.h
-@@ -1660,6 +1660,14 @@ struct super_block {
+@@ -1443,6 +1443,14 @@ struct super_block {
  
  	spinlock_t		s_inode_wblist_lock;
  	struct list_head	s_inodes_wb;	/* writeback inodes */
