@@ -1,72 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.69
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.70
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795116127;
-	b=Fxt9eEcPlCA1CLmlkr648InBqMN2IP5PqslnrsGQYiEJTibfDsnXlTF25+P2jfkNtixo
-	 BBYPVp7EqMbCCytnjedVXxuC1VpQRrRYNqursYRU8oYZ28AMRowuHsWBGhUoKEuMbMUtZ
-	 xcz0PojqSzmWyd3Fhd59LDmCmY6U/fyMyglmT5aUsjtD8pnJfqn0Xd1HpG72YkGMf+RrB
-	 +h8Cxsf6/T0AOUu+Zw2edf+QDabQppG+76UYavYf7IVXOTcBFXlcKsiB6SnRdHRixiSic
-	 LVe3unHXI4q26lJBr5z2d4Ryx1MwiT1SD4HUbiBwyg5d2uB2cUYIDmwyxsJx8qhU/4Q==
+	t=1795116195;
+	b=uVbkD/i5ew3OBauOFvXhBimaCA50sgaDwmf4KGy9/M4LuuqPMG69vYwu0mGjiV+K66t/
+	 1bU+0d0ekKGk+Fu5AXPCZdg0Qc1ri6dZrsc4FPa9lJrNr+1VHCKeC6feaExXBGlCj7QKi
+	 u3K56iG7wy2pplBR8gxRd3YCt/JSKeOxaw/2JMvyvzzeWTDUq4aXPGp/KIrTexrgsz5bo
+	 bzE1rXhyV/F1MyfhE8HvKr3uaOaYH76fPihLuXkmgBcc/FQEC++4K+Kdv3as8oWhs7aXl
+	 9TSRbvZKje/VmI4BbcTFwF39NPliCUXK9R7gqNyAM/WbkHVUor1D3UAy5bNk+uTg9vw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795116127;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795116195;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
 	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
-	bh=sKSxpidMSdQT3UMbZpQN/WSw4DkHB/UKT0GZsfYkc1s=;
-	b=lOarc60qS17d0CTJCFLJfgLSFk5kILJFC+lnsRGXq8iikyn7t6F6A6HO2qY9KBvGLDCB
-	 prruzbi/Hl5FZcrtlQFkwaAoGt2IwLRZEoGTTfySSJ0oUUHNi5UmPANhtuzyKU+dF/b/k
-	 GR+EfrD9QAJ490fPX3SD948+ZhSGU9JYDViCxWl4Lc1C8NMiZTgypcTekj730pwMpeSmp
-	 +ERsC1xBBcJkRoY+BM3XSHwyoagKn+aqtx/4e0wRe5ReCGElZeNBzaN8RnqLQ4Wcoq3XX
-	 G/9yT8kRUFXBWcIPUd5YG/D+ck4SJO7bQPzsY40KVwAf6N6lU7Y1Ns/dQDUUbOAWeMg==
+	bh=sfFGrUaw7Fqr5/HV4cxJvsPhjYosSvwq1pdNIkXnzLs=;
+	b=Zo0/lolTYihL8Essu/Y/xuQheFhg1DWUn8EThARAZdbHO3C1nPcPenvz0nHP9hb+YJ7p
+	 SKVODEQXEmc70Y11fMPNqcRiQjQuLKCeuh1Q42sdhCm5DHerxKSrWu+hkwCl0tptVebYx
+	 tZqYnEzmwDK8iWxi9srxSepEWixiOW6o7CNAi14l5ni6Aa+wALHM4QYU+wyDirUJBodzE
+	 WiZD+IMIFPxlmzAezfKwWobEzSy1Q90y8xM9dFf6Y9lz2iDAz5vVbte4Pd1RBKBwDiANJ
+	 dCcJjqirFB7Fz7W50esiokTKI5QUigK5TLAStlfMSeKsozLBBCei3sCKtQMj2C0bElQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--dmnk.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=HivBriA6;
-	arc=none smtp.remote-ip=209.85.221.69
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com [209.85.221.69])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=RoDD9snv;
+	arc=none smtp.remote-ip=209.85.221.70
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com [209.85.221.70])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774F5606A320
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 19:22:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 774F5606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E45606A331
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 19:23:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02E45606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmnk.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=HivBriA6
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-48c6a1d4034so31736f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 11:22:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=RoDD9snv
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-48e0389d6f9so22936f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 11:23:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795116126; x=1795720926; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1795116193; x=1795720993; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:mime-version:date:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sKSxpidMSdQT3UMbZpQN/WSw4DkHB/UKT0GZsfYkc1s=;
-        b=HivBriA6GBsT+51URSA4GEW6rY7T0KnjjOLeWNtV+hlmGVieqsoSSHasfrldZl10wO
-         cxx5tofhOpJkbfpsLYbX1Aw3KIi2Wf4LbIYBNvGJopxjFMHSF4KRKOw22Ts1LvttegHW
-         31YrllRhqLC/w++eJQUBKxFfgjq/CPexjeugmtGgMFfUjQUVvGFuVSBzw2R4UaAx72+G
-         cNGi3oi3hAHT7/07J1nepLIxNla3Gx/wb4K5lq/erCVgHPCVO5GqG1VcDnxlX6sVaWNR
-         J3bbeHQpDpWjvUB4/gK5mF28Gc0guUOR6nEpqhJ7cazQNbmo1z2BgLZpnxY1rV25kVV8
-         anPw==
+        bh=sfFGrUaw7Fqr5/HV4cxJvsPhjYosSvwq1pdNIkXnzLs=;
+        b=RoDD9snvR81IV2Ac91gE8vBF6shjd0+G/GstOxhrAM3SU+vnUWav7pdLTYj2zpW1ae
+         n0Bw5QMqboFfQibqVW5DVvHhfnDNMM1bLnZJhgAckNtr3yUmAixu7c/zjC2QiGwUCYAR
+         xAzcJanpU9j1ZN4wZa04592Gm1gNrIyH7AvAVZYBFC3diNVX9v937HdIIdlsXjsNUPyj
+         orOAinpXq3RWqJtvSWFbFK3EiGctAOxAgEwoS46l5q2rHBqFPTZKnqkGdZOStIyZM8uw
+         peeEGD6cYufG62reehGHYWkMo8EF3PqyLkLROupBtdKbawNz6OqI6yTugB8Lh9PX0ixk
+         jLmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795116126; x=1795720926;
+        d=1e100.net; s=20260707; t=1795116193; x=1795720993;
         h=content-type:cc:to:from:subject:message-id:mime-version:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=sKSxpidMSdQT3UMbZpQN/WSw4DkHB/UKT0GZsfYkc1s=;
-        b=HLI0Wjr2bPpdUKmGpe9w3Tvu9Vj2vSYHt0dVkDyYwJB4qFgusY5KT/JF5JvQPsFyPE
-         qvWs83ppONkb68g2RHpxWtP0P/44K2o0TTkKEeZ5vJKkhCkZ7qLljREhPDbenOy4CsK5
-         44H4QS9g546WZoThmi2DbEuj2WkuXtAbQk37e1V/Z5d4Mmyhgov1aKY3/A6GtHLm74Nm
-         85l4wDJGfDz3uHriJFzNWGNbb8vlqjzNxKfjiJh3Y7WK3912J5rkD6y8h9d4vmj0OH8X
-         5JwI155jb2CaguB/9sVLp1bkJ+Me30EYqNCPFPX5iprHeqh+1fAKuUuFptP9Gdu6xIJY
-         LxSQ==
-X-Forwarded-Encrypted: i=1; AL+hErEZ/r1e6P9XJ6GiG8QiiNAR5OcEa2lLvccNsgmIhvWwZMso3gJE8UybUlC1v38BlJ9XLyCkcYCL/BE+LUsI@vger.kernel.org
-X-Gm-Message-State: APuU4Z9RZQudKzBZO0OyBR9LB79dJI21DcqQdkNSGuiU13GTMN6TezPQ
-	4vKZHs2SwAn53hXOhNCH6IxM7BjlXU2AS8qlDqVjjnCkuljBXPZzYR2w1ZO9eX+AyKwcBGpPhQ=
+        bh=sfFGrUaw7Fqr5/HV4cxJvsPhjYosSvwq1pdNIkXnzLs=;
+        b=xoTusvuiLwUpbDXPDzc5gYASJjxr1lZutivqw5Ya1cOPlHLG/qtXaw3SpE4OATYVZ4
+         o5IAQNOXxWopjNvZ13zeLMqWelsWneSv2jnJDj99sXdWBI6SuYebkhM/7G6lpaQA2X2p
+         p9mam2oSHtmvn9FJWoXBSW6Vxm7JFeLx1dNi7FP7rfDJ1OmM+bCmJZcB5aH2kDx+LdaG
+         r8rMKSvPdD/V7U7+T7wSxmF0BW8BejXYD0FSBIlyCAvaLyC9YMOeYmPrxWclqxPx/JVL
+         EEIHrMpT5yMR7YZoaE96BPG2FZVy4Ub/4jEgRM13gA57B5FusE2Bi6lBoXBYA+/pr02+
+         heyw==
+X-Forwarded-Encrypted: i=1; AL+hErHwMjyJgINHA/Iu4onU4vyc9iN7zNf8eL5iuXWj1Z3W3lq+e0MmseQzTIneXsbJkrx0luwvSGFFC7MO4A2f@vger.kernel.org
+X-Gm-Message-State: APuU4Z8T9U8cX7Pwbn4m92oaTyh7dSddY20X8d5U2i4B+9z9r3TzLCE6
+	S26zdz6c22FVqi1a/z9OqiDvzQbjOC5k/UhrMvVeUoMfuFCN2zijS6Ffsu8CWCAHjSceXA65hA=
 	=
-X-Received: from wrrf12.prod.google.com ([2002:adf:f98c:0:b0:4a3:f307:7cdd])
- (user=dmnk job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:428a:b0:4a9:dcdb:2e11
- with SMTP id ffacd0b85a97d-4abb8406ea4mr760517f8f.41.1795116125671; Thu, 19
- Nov 2026 11:22:05 -0800 (PST)
-Date: Thu, 19 Nov 2026 20:22:04 +0100
+X-Received: from wrpz6.prod.google.com ([2002:adf:f746:0:b0:4a6:7c3d:a12f])
+ (user=dmnk job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:848d:b0:4a5:1cf1:b7bd
+ with SMTP id 5b1f17b1804b1-4bb88810b2dmr11129215e9.16.1795116193152; Thu, 19
+ Nov 2026 11:23:13 -0800 (PST)
+Date: Thu, 19 Nov 2026 20:23:10 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -77,83 +77,73 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
 X-Mailer: git-send-email 2.56.1.809.ga0b61035b5-goog
-Message-ID: <20261119192204.2648126-1-dmnk@google.com>
-Subject: [PATCH] xattr: require inode owner or CAP_FOWNER to write user.*
- xattrs on sockets
+Message-ID: <20261119192311.2684978-1-dmnk@google.com>
+Subject: [PATCH 1/2] fs: export may_linkat() for nfsd
 From: Dominik Maier <dmnk@google.com>
-To: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Jan Kara <jack@suse.cz>, "Darrick J. Wong" <djwong@kernel.org>, linux-fsdevel@vger.kernel.org, 
+To: Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, 
+	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+	linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
 	dmnk+artist@google.com, Dominik Maier <dmnk@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Commit dc0876b9846d ("xattr: support extended attributes on sockets")
-enabled user.* extended attributes on S_IFSOCK inodes so services can
-publish protocol discovery metadata (such as user.varlink=1 or /dev/log
-structured logging support) on bound UNIX domain sockets.
+vfs_link() expects its callers to enforce protected hardlink policy via
+may_linkat() prior to creating a hardlink. Move the declaration of
+may_linkat() from fs/internal.h to include/linux/fs.h and export it with
+EXPORT_SYMBOL_GPL() so modular in-kernel file servers such as NFSD can
+invoke it before calling vfs_link().
 
-However, connecting to a path-based AF_UNIX socket requires MAY_WRITE on
-the socket inode, so public system daemon sockets in /run and /dev are
-routinely created with mode 0666. Because xattr_permission() allows
-S_IFSOCK writes without checking inode_owner_or_capable(), any
-unprivileged local user who can connect to a 0666 socket can also call
-setxattr() or removexattr() to overwrite or delete the daemon's user.*
-attributes. Moreover, on tmpfs mounts such as /run (where unprivileged
-users normally cannot create files), shmem_xattr_handler_set() uses
-simple_xattr_set() and charges each attribute against the superblock's
-sbinfo->free_ispace pool, allowing an unprivileged user to exhaust /run
-inode space via a 0666 socket and cause -ENOSPC for privileged daemons.
+This prepares for fixing missing hardlink restrictions in nfsd_link(),
+which was discovered by an AI-assisted code review tool (ARTIST),
+validated in QEMU without kernel modifications or error injection, and
+verified with kernel builds and checkpatch.pl.
 
-Require inode_owner_or_capable(idmap, inode) when mask & MAY_WRITE is
-requested for user.* extended attributes on S_IFSOCK inodes, matching
-sticky directories while keeping unprivileged MAY_READ discovery intact.
-
-This issue was discovered with an AI-assisted code review tool (ARTIST)
-and reproduced in QEMU/KVM on an unmodified v7.4-rc3 kernel without
-kernel modifications or error injection; a standalone reproducer is
-available upon maintainers' request. The fix was compile-tested with
--Werror and checked with checkpatch.pl --strict; an equivalent fix was
-verified against the reproducer in QEMU/KVM.
-
-Fixes: dc0876b9846d ("xattr: support extended attributes on sockets")
+Fixes: 800179c9b8a1 ("fs: add link restrictions")
 Cc: stable@vger.kernel.org
 Signed-off-by: Dominik Maier <dmnk@google.com>
 ---
- fs/xattr.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ fs/internal.h      | 1 -
+ fs/namei.c         | 1 +
+ include/linux/fs.h | 1 +
+ 3 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/fs/xattr.c b/fs/xattr.c
-index 0705801..0acea1a 100644
---- a/fs/xattr.c
-+++ b/fs/xattr.c
-@@ -152,9 +152,9 @@ xattr_permission(const struct mnt_idmap *idmap, struct inode *inode,
- 	}
+diff --git a/fs/internal.h b/fs/internal.h
+index 3f2fbac..7c30669 100644
+--- a/fs/internal.h
++++ b/fs/internal.h
+@@ -54,7 +54,6 @@ extern int filename_lookup(int dfd, struct filename *name, unsigned flags,
+ 			   struct path *path, const struct path *root);
+ int filename_rmdir(int dfd, struct filename *name);
+ int filename_unlinkat(int dfd, struct filename *name);
+-int may_linkat(const struct mnt_idmap *idmap, const struct path *link);
+ int filename_renameat2(int olddfd, struct filename *oldname, int newdfd,
+ 		 struct filename *newname, unsigned int flags);
+ int filename_mkdirat(int dfd, struct filename *name, umode_t mode);
+diff --git a/fs/namei.c b/fs/namei.c
+index 925aeb6..8f7c2dc 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -1385,6 +1385,7 @@ int may_linkat(const struct mnt_idmap *idmap, const struct path *link)
+ 	audit_log_path_denied(AUDIT_ANOM_LINK, "linkat");
+ 	return -EPERM;
+ }
++EXPORT_SYMBOL_GPL(may_linkat);
  
- 	/*
--	 * In the user.* namespace, only regular files and directories can have
--	 * extended attributes. For sticky directories, only the owner and
--	 * privileged users can write attributes.
-+	 * In the user.* namespace, only regular files, directories, and
-+	 * sockets can have extended attributes. For sticky directories and
-+	 * sockets, only the owner and privileged users can write attributes.
- 	 */
- 	if (!strncmp(name, XATTR_USER_PREFIX, XATTR_USER_PREFIX_LEN)) {
- 		switch (inode->i_mode & S_IFMT) {
-@@ -163,13 +163,13 @@ xattr_permission(const struct mnt_idmap *idmap, struct inode *inode,
- 		case S_IFDIR:
- 			if (!(inode->i_mode & S_ISVTX))
- 				break;
-+			fallthrough;
-+		case S_IFSOCK:
- 			if (!(mask & MAY_WRITE))
- 				break;
- 			if (inode_owner_or_capable(idmap, inode))
- 				break;
- 			return -EPERM;
--		case S_IFSOCK:
--			break;
- 		default:
- 			return xattr_permission_error(mask);
- 		}
+ /**
+  * may_create_in_sticky - Check whether an O_CREAT open in a sticky directory
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 5b3a100..c165f27 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -2740,6 +2740,7 @@ int may_delete_dentry(const struct mnt_idmap *idmap, struct inode *dir,
+ 		      struct dentry *victim, bool isdir);
+ int may_create_dentry(const struct mnt_idmap *idmap,
+ 		      struct inode *dir, struct dentry *child);
++int may_linkat(const struct mnt_idmap *idmap, const struct path *link);
+ 
+ static inline bool execute_ok(struct inode *inode)
+ {
 -- 
 2.56.1.750.gf70dc682cf-goog
 
