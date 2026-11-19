@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795062988;
-	b=FK1nJscSiIsWZw0PfKaByfUXrhE0XgCh+VqOx9q/ovQLw01n9RpyZsraOSLkTsIwTKLH
-	 u6tJPhayFhulFgdx7+ty7VmNqzSQ//VlfyhJlK+fNl1rxf84HYwPnIaeaHsADK6o+2mgC
-	 UvV5CFnn+eG6AbbKTy/L4S927T77s1rs3B4OeSmdghdyNZWyV7NtV7Z9jM7nuCPgSgRQo
-	 lOvt46Yd/F+SRKhw08a661JluJbe/Z3urW7h5pt3Y9Gtx+IinBfye29xMWO+LO1FYVs6i
-	 7KvzkjAHXGDUbBL2Rr3aASZqb5fnqeS9DPyTP7NjegA6wzCpCvoyfRhEU+1/Mkkw2bA==
+	t=1795063131;
+	b=nzSyr4TuXvB4EZ1qrVVyANvrdfrChW0W4GjdL1z61rZV+ucpNg1WiZ4eIhle8X7hWlSI
+	 NS42v0YRtlIjyQS8THVWkjA0TGYzRqCk1gwpS4phuxwyRS0UnfFSqR/FrKPRfG39Z68Vj
+	 YqtlcotRrWqV5GBryal9kYmOL7zlrl12bKhwlFc0BatAiJ9H5FKJebGA0eA8TicK2+6xx
+	 5e2V3SfDmkzBtEpzJpidiC2QHB/a3o8weuWyeX7RyhgyPWPKZZ0hEmuT28GiIX2QgKaIa
+	 YcLLNtPm416o7OWK55+8mfVevGwYNX2vohKaW1TvFQq0Fm8BkKC2s4KNVCRSBZYYIcg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795062988;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795063131;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
 	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
 	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=3jfCZy6SiWS7DTdY9KnhR8HM774z4oPEC7pkYn58qRE=;
-	b=puo4FfASwkpR3FibYvWNm29evm2v4Fb5rv6CNd8DgjndSgnj04ennyM2wevZEa0MqwlB
-	 nqmrJhhTkTtWVXdMDGGYSNYDJLFG0Yi2SFxbtsheD6blxAzOeypzVx2DL19Hah+E3ZVDo
-	 LAYt+wH0GXGCXpAPKcpSVK/XfBO+pFoXqpAG49lrhiifeFgO2jcLEJrDzE+ibNRHJGMzJ
-	 JpWeo81wUikEhZcSIs0EYSPTgKXQaHU0bPxHMmxdj+PDK3flc38eFdwU7cyUaUnupFt+c
-	 Fo/U1gDsbJwqQ/+9db5nRWdE//QSS/XZ2kpTUOvnbTXBFZEmURBhTeKqaHC3rx/GOMg==
+	bh=boV9j9CJiFSO2Y60FsNmlMGCziCduZoOfN17A//Gn10=;
+	b=MvEbW8Zk2Z59choxNoIYRa/nPhVCVK96t6xm9A3i8CvgnwxC63NF0ewF6CSzE6JVCKIk
+	 i3FEkiA40WAZKjpg4m2bAloQMCy1fs1szeVU5KQ+6AOBIUefRoZy5TEgl0aROZgQXcH85
+	 +e4w2NJpwQffzULi0qMbt7TRYJZpf+S3dE9Fj2YOyHMBnyeM3S47y8p9bMkK1fkUgg3ID
+	 g9P4jc0kzihbfj1suY8Y5Occ1F2cUwA6t25FmRgTX8Ktm4reXvvICysDrANg+grzs1pCE
+	 6p4k7K6BVd8FrTzxz06hCl0ptbRoLuJYGcxghEAEefTyuXnhT51t6lWxbvCajGf862A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=arm.com;
 	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=RUHc4HPK;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=ISnp1hYQ;
 	arc=none smtp.remote-ip=217.140.110.172
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 018AE606A320;
-	Thu, 19 Nov 2026 04:36:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 018AE606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38B29606A320;
+	Thu, 19 Nov 2026 04:38:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38B29606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=RUHc4HPK
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=ISnp1hYQ
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 42606152B;
-	Wed, 18 Nov 2026 20:36:24 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 757EA152B;
+	Wed, 18 Nov 2026 20:38:47 -0800 (PST)
 Received: from [10.163.128.149] (unknown [10.163.128.149])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 70E083F882;
-	Wed, 18 Nov 2026 20:36:20 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CD11B3F882;
+	Wed, 18 Nov 2026 20:38:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795062987; bh=neGOr0hP78TEIQZkJ7PN5DflwqzgDrJbonprN/ve+C4=;
+	t=1795063130; bh=EcZiEGeiH3FHAMhxWmsIUo56I3szGrADgPmAMfAcAeM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RUHc4HPK8NvwYVieJPbxLpzyc1UPVo50Jc0n+9Tw4JPOVnao93AOPr86jHa7+9oub
-	 OMY+sfwdMJaQ8hyFB2pbCWG+rp0l73PyE5X/BcrKuFGY/oefsSc8jxVKuqA60Vf3zo
-	 TmdVPdA1ZDKOjr4GNkUdxNzloFxw8zQzuCcwaYtU=
-Message-ID: <dd4aba07-f533-401a-a5a6-22356f09f868@arm.com>
-Date: Thu, 19 Nov 2026 10:06:16 +0530
+	b=ISnp1hYQlv1T88o3LSEUjbvpB2fm0RfDcV/gWnHvHLw1Mnw4y+ybPLlqFExeLkarC
+	 3r2QYiOR/UBto46mbJFkxBKnE1UzeDMJUTXsgSNB363MOyxftBrBVY/7nslJZbaU7c
+	 kbwLjFFbKDVESDn/OfvyHqui9dgqEtdx/E6rzLNQ=
+Message-ID: <ac1d1bfd-5305-4292-8905-edd14ad028fa@arm.com>
+Date: Thu, 19 Nov 2026 10:08:40 +0530
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,7 +54,7 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH mm-new v2 4/5] mm/zsmalloc: remove unused zpdesc_lock()
+Subject: Re: [PATCH mm-new v2 5/5] mm: nommu: remove unused heap_stack_gap
 To: Shivank Garg <shivankg@amd.com>,
  "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
  Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
@@ -69,47 +69,40 @@ To: Shivank Garg <shivankg@amd.com>,
 Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
  linux-kernel@vger.kernel.org
 References: <20261117-unused-sym-mm-v2-0-2f845e94dd50@amd.com>
- <20261117-unused-sym-mm-v2-4-2f845e94dd50@amd.com>
+ <20261117-unused-sym-mm-v2-5-2f845e94dd50@amd.com>
 Content-Language: en-US
 From: Dev Jain <dev.jain@arm.com>
-In-Reply-To: <20261117-unused-sym-mm-v2-4-2f845e94dd50@amd.com>
+In-Reply-To: <20261117-unused-sym-mm-v2-5-2f845e94dd50@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
 On 17/11/26 12:46 pm, Shivank Garg wrote:
-> It was added in commit c1b3bb73d55e ("mm/zsmalloc: use zpdesc in
-
-This was in late 2024 so seems fine.
-
-
-> trylock_zspage()/lock_zspage()") but has never had a caller.
+> heap_stack_gap has been unused since at least the start of git history,
+> commit 1da177e4c3f4 ("Linux-2.6.12-rc2").
 > 
+> Link: https://lore.kernel.org/linux-mm/20140430083620.GA4711@dhcp22.suse.cz/
 > Signed-off-by: Shivank Garg <shivankg@amd.com>
 > ---
 
 Reviewed-by: Dev Jain <dev.jain@arm.com>
 
 
->  mm/zpdesc.h | 5 -----
->  1 file changed, 5 deletions(-)
+>  mm/nommu.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/mm/zpdesc.h b/mm/zpdesc.h
-> index 4fd81c2e8076..aaab5f1bfb52 100644
-> --- a/mm/zpdesc.h
-> +++ b/mm/zpdesc.h
-> @@ -107,11 +107,6 @@ static_assert(sizeof(struct zpdesc) <= sizeof(struct page));
->  	const struct page *:		(const struct zpdesc *)(p),	\
->  	struct page *:			(struct zpdesc *)(p)))
+> diff --git a/mm/nommu.c b/mm/nommu.c
+> index df99495c8902..a971c12f2732 100644
+> --- a/mm/nommu.c
+> +++ b/mm/nommu.c
+> @@ -43,7 +43,6 @@
+>  #include "internal.h"
 >  
-> -static inline void zpdesc_lock(struct zpdesc *zpdesc)
-> -{
-> -	folio_lock(zpdesc_folio(zpdesc));
-> -}
-> -
->  static inline bool zpdesc_trylock(struct zpdesc *zpdesc)
->  {
->  	return folio_trylock(zpdesc_folio(zpdesc));
+>  unsigned long highest_memmap_pfn;
+> -int heap_stack_gap = 0;
+>  
+>  atomic_long_t mmap_pages_allocated;
+>  
 > 
 
