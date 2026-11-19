@@ -1,59 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795096669;
-	b=xJf0XgzHXI65xZqky9vFlbcVRCGHwO12J/A57kU9AUWfNxp1ad1MuiPvGQ9vmY72/IvU
-	 J889v8Ngg8ZItm3yG+yyvSlvRb4SRet4pMUd8YtzinamCV3WYqIxYADRqr7AC/V2a8Pas
-	 4YabhumiHxO3NCO4krkVPb+q9cq9Io5lp4eomt1zp/mMBTkoqyvujMSSG8mu5PPfGgD+v
-	 PuHBdd8nbIkjPylNBq4GQ5FP3b/Irsj1NC+5pmUtBepvF/2+i4bbjkDRH6OTqLrA4Ow9N
-	 lVe94j+GBEqKDcq7qM1QmzZchY9C2tlzz6/0ZQpiSQpSGSDJEy6RmhMSWbET111LJUw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795096669;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=S0tdVInouOdohOf3y3ROcnEUNe5cSySDwSAP8SJS+UY=;
-	b=TFMRX4wXP0V9hIDaTC/JLFZQot8fe8dar9aAxb8P3ip01HF1SisBcR8P2O/5AZjJ935v
-	 iwSeMZJgRbxEn46fFBwOijN4YpoAoI/xjyhko8S33A9IHccbP0rNbKqzV0l46duvj95Ic
-	 NMt/p/HGaLpNWZERs7ZP4l9OGsln5yzkvs8ud0QxCOMK/rQ2DBgIW60Jp91QQj5va4CiO
-	 YtH6QyliquaJzky6XETdRlnt/Xu8wqpaLX/XHmlyPX2kXimas9he6+5+4X+x/cpor2e5J
-	 czYvqgYdL9V/qQFrbpAgbmQnIACHx9INYzz0geslJVm2lCbdShUaZXkLcKUVjN/n4Yw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VTG05IaB;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.230.72
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795097249;
+	b=ACx+55DdMJpkyEtqaV4UCO4h0ZK6fMDvXXKwa5GRetfN44pBHKPs1ZnN0JxhdfzVzWM7
+	 ofuk/AJMc7HKuypgY7RCeSUuf7lE0XJSe87nbv4mpgAkRM2N/6eJhzwtkgn7MydwyupH7
+	 nYUNGmguFtdedEDMzuTltxr2Z2ndxd604iMxF9LzMJMi0neZAC2ABq9niFs07V6tbDe2E
+	 YSWv7Me31W/x61tV5dEuuLSjwM3Qss0ckT1VGYW9CK0zC6cXVqrRmELQGoMSTFyPNG+ef
+	 kj/FOgZomUJSZNhK2dZCEYRhqBYzNVz8r/2V4QFMEW2y3aNkfEFmQEKCeZPA+ZPs/jg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795097249;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type;
+	bh=5fdfxp+3cN1O7P0/cteggQR2R9addmyAbUwlKtxIGuI=;
+	b=5gVNsXFdvlCOBndVz0XuhA6F2cz6dQllYjNDImPWtflvAPLH5m4NiARkLWveKOSVx5pE
+	 J/zezTSMKbUeWgzq4kuSMnzxjR75P8CoRdugvujpu81WyWrBf5nqYk+GuTJe2u82goGVf
+	 LWvtP50f5GA4bGAc1kZu1laypARWX6c6j9kVWPATbPaMpqylHUy5yrtV2fkWDC8bXNDU9
+	 3bavhwcisGQoJWJdpV/NSM79N7LozvMv9MDEzm1KlpoDZOLz18DXosrkkAgVS3mf5bWLW
+	 SoQFjl1pN1zfnwEuBueoNzI2HTGn7iXRER54EHwZQR2aCJQtGqyNruuIifwsrAJ5mEg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=apSCs1mR;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.230.72
+Received: from mail-lr2-f8.google.com (mail-lr2-f8.google.com [74.125.230.72])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937EF606A336;
-	Thu, 19 Nov 2026 13:57:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923A5606A324
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 14:07:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 923A5606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VTG05IaB
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 988861F000C5;
-	Thu, 19 Nov 2026 13:57:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795096669;
-	bh=S0tdVInouOdohOf3y3ROcnEUNe5cSySDwSAP8SJS+UY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VTG05IaBXiNOGB/UkOhNVLsvEyO1G3aax/eBEIJw9xXmsKjV6/n5DSpfuj9mDebv0
-	 dxQVA8CW32RvLNpK2dEueLPZLmwmldzvE6lEigS0dfr82/2clgcwsYzgQBftx7n14t
-	 pbkqPDWlSLY+b0qLHIXigaWQfBwFn5QV20gw6/J3TXcfgjDRllgZ8v1Se5REO1upH9
-	 GFuzBvRUejwpN3SyhXUHRLhLasaMVZrK1kcwxHs1LbSQfdhUOHC+EsjL0cgvsGIpdE
-	 oMB9nZu68h8x5RA3aHlOhrW6mARVPeFPsWOZ1zYHYR8jvwCzmIl0Qw/RmBzdvT/oCG
-	 WJaj1eJ7ISgsw==
-Date: Thu, 19 Nov 2026 14:57:43 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Vincent Mailhol <mailhol@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Davidlohr Bueso <dave@stgolabs.net>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
-	linux-block@vger.kernel.org, linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Dave Hansen <dave.hansen@intel.com>, James Bottomley <James.Bottomley@hansenpartnership.com>, 
-	Helge Deller <deller@gmx.de>, Matthew Wilcox <willy@infradead.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 0/7] init: discoverable root partitions
-Message-ID: <20261119-grauhaarig-wachleute-rockkonzert-696e45cdc27d@brauner>
-References: <20261102-discoverable-root_partitions-v3-0-27f04b69b7ab@kernel.org>
- <20261110-fachlehrer-anhaften-unkenntlich-86fc48b56f8f@brauner>
- <182e7cc2-43cd-4858-99ca-5f243e2c9eb5@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=apSCs1mR
+Received: by mail-lr2-f8.google.com with SMTP id 38308e7fff4ca-3adf0b90f98so2807721fa.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 06:07:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795097248; cv=none;
+        d=google.com; s=arc-20260327;
+        b=rYe7BMwjo5Et96cyGTI5c8h+Qf2GUrGjLdonV0G+mMCr08Nv2+XSANN85AL0u3ELTI
+         X+NLDfI+4zd4quI01l4qwux0mzGJAK/EjhUlcB1ZVuUxCuIb3cu47p3nkm8XnXW89edP
+         dXi44o9EPLZhuFUfJkUhToqhVk/0KdO+ON/zcrIJh01ln4zTHz8Wk7Kf9JBwnmWPmHVC
+         gTetPrIvlfwu5QJN2OEj3h/1sQ7Yv/5uOHEPlhVgujo/MTe2wo6Kbjn/5KyHjmgWfs3r
+         gRNY2aOfzWvFP7/+8IZANHEEI/ogs0OYx3FoTRdeMj1JZWDRd+LEKjH6IJpaqXeFTf4a
+         Ff/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=5fdfxp+3cN1O7P0/cteggQR2R9addmyAbUwlKtxIGuI=;
+        fh=mKyb0hkTes7kcHGeKf9ZnMdOsyAzcB7fa7Z+DdQHeRU=;
+        b=UpXtdq+KAeHDrwwteEmRncVq27AckUkoEWCLNb8RiTyiP6PlxYDxySRX8ubWQKAAIw
+         M9XcJGYvt1MPCMXA5vKKRGKlg3QstjyXjxbzfuqdSradT8eOwV1iCseW7mhIFQHRH6im
+         yq6NG+ijiwZC0yu8w5ldTR9PDPebN0GYlvZOubKBzwQkV72hyi5o8EbVDM6qbnRCGKjW
+         IjeM5KxHgM63+I4GZ6hdfzbbpJtW2gqFmlinrMOZf09jNPbo7xs0SupU3TGVTx3iCOgR
+         /OsplzchFhgE1tjztGZt943kzUAa4e/CpZgkxbndgTG5+ZKBkK3y1aQzXOLBuWUxNr+e
+         Flpw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795097248; x=1795702048; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5fdfxp+3cN1O7P0/cteggQR2R9addmyAbUwlKtxIGuI=;
+        b=apSCs1mRbYfiyuOplCR30hz6MbUxMYh93+x2cpTBQxkIrqhHyPOfu03EV9FN9SyUzc
+         g8F0ElaX571dOfSmkhssW3ExTSEbPitJw/hWlwoN5aZk7mMMclNinfzG03Hd4XqD9zAB
+         9Oibl2aZyxObNcMzHt5OY7pL6UvxVwDosf/MNfFrrj8C/lI5/kmOXM7kpAq95K8u8TG9
+         i5414Nz9Qseu8tXH9DZPMf2+fQ1SWkdHCUUzYHqqLK/gAOZvixGnpV5EBsXuw3Hd51+/
+         vVl5gXDeSqVAqiyh+9VAt8mFBqntpq5S28BxgBbavYRi9P2kqQ16/oS9wlxDFryhPrQm
+         7Vjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795097248; x=1795702048;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=5fdfxp+3cN1O7P0/cteggQR2R9addmyAbUwlKtxIGuI=;
+        b=UTy4mG05dcVsPOdy8ya/01pn2jGTzSfaiduyJ8cRn6a2t41LIwootE2P8mTuBBC/oU
+         DqeP9XR9mc+xamz0FXE+3V4bIVhPHHPRyhtUlFJNoSxEbLsabx6wP41eS9t/nLbzSBVn
+         SqG5V6xgrHSPu5yRb0b8aZzvZAsKKamxpd+lV0dR/M+OCQ6zy2Be5DxSaNvd9iQrekq2
+         XPNCSz7ifbaRe7RcXDPlKK0N/rJnIbfcSWbyNkcXBIoP2jXRL9JTxley7kx+4cRrc45r
+         Ac/EXDikN+k3/r0rz9LvEcBQrjE+I04cFLnXzrljfG6TZUpo7DQK//NX5R5xbq8jQkco
+         0UhA==
+X-Forwarded-Encrypted: i=1; AL+hErGluu+ldvFk1GX1fGDUU6gA+F7aGzS4+iq20IZxzw6Ud8ZJkXT8CAB7gaUDYgnM/8jnJ00w/Muii3S4/I4t@vger.kernel.org
+X-Gm-Message-State: APuU4Z9OqiyZLQ8sMD+N8SQUQA4A9UNk8F2ectwq9eaET9PvrDtfn1s5
+	6OQHGuuLnN1xmFEfQM6kOZslFlebM0QPaZwFjCXsHFXiOHVIsxQgsbEo+2niqqzI7TX1rNBP6E2
+	+TipxyZSJjiSsEvJUVZCRim9MWd5GYiQ=
+X-Gm-Gg: AYBFou0SPZZebtWu8HlgMtbXAgv8x15sd/b7FV8apGdYBnr23LMvm1hCc9PKOTBM9Vz
+	uWikZVLrFMNlCesJKpzw39RyJwyxa0oWpQLi4s2SefKhT8OK+9fByv3qoje8xODXtDC++qTTh9L
+	MneQ0qWNi6NzThNhrrwKGLBF3ikNMGACuus/fMK7f0N06zK6ztZ33Wicm3IyB12MrH0AH5mYh/I
+	lEfavyd8H7qC4O1HvLs20O6EQbphKVK1FsE+Ed/WPIYaqdNyiTpSULRvv9odbwS4+IQCaJPqgYY
+	uHaoHs4MJB3Be7yiD7kXxE7Wvz4vP+qzuCcHJZ330n7k2DJUpsBm9V5weowiH6jcRkToMVdV0H8
+	XLgMCV0NzQPtCzzeXozqBlOq5pkqDQ5VBFBVmiKB3us3KImOWEvY7M6rMuOn83QraYhI=
+X-Received: by 2002:a05:651c:2105:b0:3aa:f4c5:8920 with SMTP id
+ 38308e7fff4ca-3ae7b7b4759mr3971431fa.12.1795097247395; Thu, 19 Nov 2026
+ 06:07:27 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,31 +101,112 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <182e7cc2-43cd-4858-99ca-5f243e2c9eb5@kernel.org>
+From: Zheng Zheng <fengaojigui88@gmail.com>
+Date: Thu, 19 Nov 2026 22:07:12 +0800
+X-Gm-Features: AclHuK-b4i_d8VXZZJ0Fe5n8p466ow-YpKHzxH9f5HZX4zjZqSLG9FFtE1oPG30
+Message-ID: <CAO-4RZ1Q-HzRCd+S1uHZJRdN-ZCtv47f=pXTxbq4YaJgn_DALQ@mail.gmail.com>
+Subject: [BUG] INFO: task hung in nilfs_segctor_thread (fs/nilfs2/segment.c:357,
+ v7.4-rc3)
+To: konishi.ryusuke@gmail.com
+Cc: slava@dubeyko.com, linux-nilfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Nov 11, 2026 at 04:24:35PM +0100, Vincent Mailhol wrote:
-> I would appreciate hearing whether these use cases and the limited
-> scope address your concerns.
+Hi Ryusuke, Viacheslav,
 
-I don't think they do. The scope was never the problem. DPS is userspace
-policy and a subset of it in the kernel is still policy in the kernel.
-It seems just wrong.
+We found a reproducible NILFS2 segment-constructor hang on v7.4-rc3 with
+syzkaller. The supplied recipe reproduced on three independent fresh VMs; no
+state snapshot is required.
 
->   This is useful for booting a kernel manually, for example from the edk2
->   file browser, or recovering from a lost or corrupted bootloader
->   configuration without having to supply the correct root= argument or
->   load an initrd from the bootloader shell. Finally, it allows systems
->   that otherwise need no initrd to discover their root partition through
->   DPS without introducing an early userspace environment solely for that
->   lookup.
+Repository and reproducer:
 
-The kernel can already find the root partition without an initrd though?
-For example, via root=PARTUUID= and root=PARTLABEL=.
+  https://github.com/Zheng-zheng-codes/nilfs2-segctor-thread-hang
+  commit 2d94e07741d28d2dccaba174d06d6a5255ce0134
 
-And if you want to pick something in the edk2 file browser and have it
-boot then pick a UKI. It carries its command line and its initrd in the
-PE binary so there's nothing to type and no second file to find. And
-that initrd can do DPS just fine. Everything beyond that is bootloader
-or early userspace policy.
+Hung-task report
+----------------
+
+  INFO: task segctord:35823 blocked for more than 183 seconds.
+  task:segctord state:D stack:29568 pid:35823
+  Call Trace:
+   <TASK>
+   __schedule
+   schedule_preempt_disabled
+   rwsem_down_write_slowpath
+   __down_write
+   down_write
+   nilfs_transaction_lock+0x25d/0x410 fs/nilfs2/segment.c:357
+   nilfs_segctor_thread_construct fs/nilfs2/segment.c:2601 [inline]
+   nilfs_segctor_thread+0x600/0xa60 fs/nilfs2/segment.c:2716
+   kthread
+   ret_from_fork
+   ret_from_fork_asm
+   </TASK>
+
+The blocked thread is waiting to acquire `nilfs->ns_segctor_sem`
+for writing in `nilfs_transaction_lock()`:
+
+  for (;;) {
+      down_write(&nilfs->ns_segctor_sem);
+      if (!test_bit(NILFS_SC_PRIOR_FLUSH, &sci->sc_flags))
+          break;
+
+      nilfs_segctor_do_immediate_flush(sci);
+      up_write(&nilfs->ns_segctor_sem);
+      cond_resched();
+  }
+
+The lock dump also associates `&nilfs->ns_segctor_sem` with a task in
+`nilfs_ioctl_clean_segments()` holding `sb_writers`, while `segctord` is
+blocked in `down_write()` on that semaphore. The serial log repeatedly reports:
+
+  NILFS (loop6): error -28 cleaning segments
+
+i.e. `-ENOSPC` from the clean-segments path. The reason why the
+clean-segments ioctl holds the semaphore
+for an extended period is not yet clear. We have not established
+a circular lock dependency or identified the root cause.
+We would appreciate your analysis.
+
+Reproduction
+------------
+
+  git clone https://github.com/Zheng-zheng-codes/nilfs2-segctor-thread-hang
+  cd nilfs2-segctor-thread-hang
+
+  # boot v7.4-rc3 with the supplied kernel config
+  # using a Debian trixie x86_64 guest
+
+  # in the guest, as root:
+  syz-execprog -procs=8 -threaded -repeat=0 \
+      -executor ./syz-executor reproducer/repro.kernsight.prog
+
+`-repeat=0` enables indefinite repetition. The recipe has 227 entries: 226
+replay programs followed by the testcase.
+
+Verification:
+
+- Main KernSight pipeline: attempt 2, `confirmed=true`,
+  `status=verified`, 226 replay programs, 2026-11-19T11:10:28Z
+- Pipeline verification scope: `snapshot_restore`
+- Independent external fresh-VM verification: **3/3**
+  - run 1 hit after 422 s
+  - run 2 hit after 257 s
+  - run 3 hit after 320 s
+- External serial logs are in `external-verify/serial-{1,2,3}.log`
+- Runs were counted only when a `nilfs_transaction_lock` frame appeared next
+  to `segctord` or `nilfs_segctor_thread`; checker:
+  `external-verify/verify-logs.py`
+- C reproducer: not generated; the syzkaller recipe is the primary reproducer
+
+Kernel/guest details:
+
+  kernel: v7.4-rc3, bzImage sha256
+    0c16409f8aec508ac44a63e631c2bd352536401f3fd0856df1d839fb953a1882
+  guest: Debian trixie x86_64, 6 GiB RAM, 4 vCPU, QEMU/KVM
+  boot: oops=panic panic_on_warn=1 hung_task_panic=0
+  config: CONFIG_KASAN=y, CONFIG_PROVE_LOCKING=y, CONFIG_NILFS2_FS=y
+
+Thanks,
+Zheng
