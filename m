@@ -1,69 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795100730;
-	b=K6IK5S9XmtCJJ1F4RdydsRLPfnTOYmjMGGvPKPB1vKgDXerMHJjM5Bhp6btB+0yViTDH
-	 oVfovkYYvsB3ZKoOW+dPir8rbpxqXJIyQ5GInpW1NpueAnwUW/ARGj0AxAn6dtN/mFVHf
-	 e1KBD+fJIJAKAxk+6b682Tg+66n8h3DEwuOpZPDUnb+K0bOfA7cw7g+VTbVAQvcMSwxAE
-	 RmAnJuot7v6e+Mbpl9KvGjy7ZZz5CwSH8xYQi82hLB8k44Cm0+VxhcVoEvPuYlaUcHY1z
-	 1nrJDf5OJYf6i3k63PN/uZ6zH69hVOqepp6FXNTFUo4C+QLKn/kMnL7+JN1sDscDB0w==
+	t=1795102357;
+	b=bUeMj+AK9c5F1iEDh6QVPorT4Lq576mPyvoHw2+4WQdFebUsZVIFzzD8OVwCc26Hex5H
+	 lHZ4BgvO3VM17STv3TXYwJN4fhAu+gSlbvvrrewiTFSxe0cBSee4zX4Eu5IXSw4hrIo1m
+	 1tpYD/gyDB+ALAn0bWUgvpUUinQJ+eYWgJQH4+VQUqtgbgLvQbatYuBl9C5V7SIaGYCU6
+	 xYlTWMplVvjZMt/8N8+L2/pREAl2MCRv7dDS0gVOD0A+2aRwzsCeoexisVzPpzTHNENho
+	 skCJ1AeSup6RsIpOwV8krw+8yuzqLVxvf67NSqv+P6GFBAYsJYSjgNUMjvHumNtmeiQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795100730;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=2IrwUYnRl/CCcIkHyQ8rD1wVGp6x0G+ouTuLDtWvXeE=;
-	b=Ih9eYJW6P0+ko3S+GYlDYiTlRKDRb7m0BVkWyVMgZhZn2VUulVGbtPryZJftrJv38lyZ
-	 ksXgcK/olt9GkijapRRz7FzeHUFNIhE8XC3QqH8NK074pinH+Z9JGnb8Du9sKQugx7gke
-	 0wzkKpKOwXs8D6UHu5ioaRLmMiRLOE8jFBKlodYOy8C3x0DIzmC38Mqc/vsuHzeLJ3037
-	 XjqzY6E0uTaEncGR8xOzgt0cU1MiHtCoHAjMaKY4vCr4Q5AV8fEby1uY7VPKavX0qqNYq
-	 aPfZiiZ2Z7oBgqGJQSNGEYb7Z4URafSe/jMTJ8zw71h83aYyLub6L+VBNUP4sFeWhig==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795102357;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=f7T2TmAinoSSVrUkDLWCSHpGLO0VMoU6RTqJIGDHf8c=;
+	b=KDGIn3QkXhlU/V+Tjd6Lm/dXdz2wUDrR1CRN1n5vA6po/FfhIwOT7YfAPU3C5N7SAoU2
+	 XcInvVa3oMoOPsfODzCzT+2859xEaB2r/q0ycGH4VRQbsDMwBahkI/HK1XG9jPdY2/9KB
+	 mlgbwbyvOWInGbd7DMEbcsKPRlXseC8oKCtCgXLFqgohKDogTD1r/TlfM7gte/lSUsK+k
+	 m4IUkq+jE7fw60XbJY4km2ZqNZugYz1nx+Bv6ZximqSeOnX89WidO2jsNaRzcS5E/OnUI
+	 N/arPpows18BG14RTw9EaQ7u1On5MO0yzYE7c/D/fYA9cpewY5ZPSVeUy9jxHp2vqxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FVCdDZz9;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EriZpb1V;
+	arc=none smtp.remote-ip=209.85.208.169
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 82453606A324;
-	Thu, 19 Nov 2026 15:05:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7FD60A2612
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 15:32:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5D7FD60A2612
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FVCdDZz9
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 7F96D1F000C4;
-	Thu, 19 Nov 2026 15:05:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795100730;
-	bh=2IrwUYnRl/CCcIkHyQ8rD1wVGp6x0G+ouTuLDtWvXeE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FVCdDZz9CLOzCqQsYElv7NRpYqkN3P7TxOGmYw37Nt2LIqrKvGPDv0cm+uD2pfsxo
-	 reNk0EkMxZdKrLdZ9uuI4nobaoUOyq381WXDOPT/qbY+/22pTATrYksY1SPKUCQUwU
-	 OeDqUtESjF2OrtNUkoeMWt1WYxoX9OfHUTybLCGUCbsvEw8mIdp8GykomUioTiRIql
-	 Tv4B61awo0otLnhmH6ZEzySA2YUo2/dTWIXuWTVYnkNG8ODdZfVNrDyXx+NGvRHCa1
-	 dXZ7iSefdREPcENzx9AlTrLesVex9IbQhbtBvPv7IZ/YCBmIafp1kxixS5wRA92LpZ
-	 g/47LCbfIpyMA==
-Date: Thu, 19 Nov 2026 17:05:26 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: "Hallgrimur H. Gunnarsson" <halg@google.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Serge Hallyn <sergeh@kernel.org>, Andy Lutomirski <luto@kernel.org>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	David Howells <dhowells@redhat.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	Jonathan Calmels <jcalmels@3xx0.net>, Jann Horn <jannh@google.com>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	KP Singh <kpsingh@kernel.org>,
-	Casey Schaufler <casey@schaufler-ca.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EriZpb1V
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-3ae25c9f857so24095871fa.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 07:32:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795102355; x=1795707155; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=f7T2TmAinoSSVrUkDLWCSHpGLO0VMoU6RTqJIGDHf8c=;
+        b=EriZpb1V/2zno0fmMO54HL34Ty+nBUS/4UO0C6MvrvxZFEYE5Wk3AXr9C+UsTd1EKu
+         e7VRl67WTxEo3VDt+hkZtLmFiEHnR1zJiLfC/Bq9BJKAFBDFohxqHF5Q1gg0wFZRWOaP
+         GGmxEOrPJV8MRv3PkF03h/86SpZPKw+8KkyhjjjSRymeueMiKP4mQ8rtd0qNdqm/fzoE
+         MNeg/d90yqGf1ngIGXcTcG1X2LenLIoGjIMBxdm9LKyp4bnMI848kU3NoOJqH9CbrAin
+         fitPeVcUyIY+ve4q72M8iKNlPUyICj34RV6qW8QMN0CuPmRvl1c9rcr7e4C4EfPjdOm/
+         0D9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795102355; x=1795707155;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=f7T2TmAinoSSVrUkDLWCSHpGLO0VMoU6RTqJIGDHf8c=;
+        b=xC8hcr1qRl4r1Fhe3w2zRvQ709+gnPruvJhPUwg383O3D5id2gJzwgBDBLBciP1hOd
+         /25B9w5SqEkYpWJviDFIuGITtXfUwDaLe418XcJmuZg1J21xz31GM2pcAjXgUjYYiczq
+         FFJlrg7cyLhI5DuqdQ4vnX4byo+aJH1JdZtrF3T8UkhXV0H70vQZCebvcrqfHvJuAuQC
+         CxPTnZhjwPYsyU6VctSZWm0Zo5DP30P8Y7iUeblZXCmcIpW1fmLAD4N3GHGpWdsKFgM5
+         gjviMF5UnwJfw+IQh5Dp3/Xexl1DOWgs6KreO85g7iNoWKKrDDbwSVxfPpgKZfUJqL+P
+         6+Gg==
+X-Forwarded-Encrypted: i=1; AL+hErF5j8LnTzg8Hl1S0NRDDxQnr/jBirkuCcO7FLXd56I3bWUMkJvUWY8f15LCQ27VmdrSfXxC7a1+ju3mpymY@vger.kernel.org
+X-Gm-Message-State: APuU4Z9L04x9w6xtLV/SS2XJiC7cIksZRZ5W2MIOf8NJeK5LoTpu1r/l
+	ZcblLDtpoxSfCoT1byMhDb9j45ruyKm4JMli0fbs0TzWDpdnkvvPKrGz
+X-Gm-Gg: AZFdTZcf9PJ5LlfVASI+fZ7OSfXr+7tThQM24nT6pS3Cqi5wQagd+kckksip7U/Coo2
+	eCjba6ZYkpvw+SE4LKs+FQT0vrjeFI8/b7C9Yr1lkUnzfgja3Ve97AM81oguC8iiYJddaclBwD7
+	NacAsrm6iuBk3hxdXisQkZkUZ4oFq1etcb5OXOo/oS4py8K+eVdft1ZpMq1fYKg1ExdAMN3ia4Y
+	3DBKbJZYWxF/0yAc3bqS/QTbKdaTEl0wSENR8DmhKHUQX35GCYJOzTbLSv+GqD7T/WOT94lNBQm
+	j1sOVhW24XdnhFgGwx52eoN+rL1etb+GUuDdgahNltpds38vxtw1IPtaDtvbiqp9uKYTlX0/BSF
+	sjHkbO/Vn6IhnSkGj0vGMfwEG/Bv+W9UvlNKZNhQLEOYp2/CkPqS7pUbPWdKRJltx1iFDwqnPc1
+	xtWOrJOe/+HsM43d4H2HpkNBTXMbSOL/uE13/Vag81g4SSksa/zn46sa5+ElhNpdMdYSwRcAZpl
+	FeQjrQhhZQ9amaJUfGoRqecu3BtsHv/rkEBdBayjiDi9qUT+RjnNQddQIYSlYQ2gQndJwOho8lO
+	qXFNTzXBt/V4PYReedH6zh8AFZjsglwqAOs+bvoa94nP4KD3Xd685nZwhz3naeDW241nEOOS0dZ
+	tBfQdV+W+AtPj0Bfd8OFczO0Zs/SQOlOn2OrthzvVBz8Y2Mdtck0DztUCQfQ=
+X-Received: by 2002:a05:651c:a149:b0:3aa:ef31:e51e with SMTP id 38308e7fff4ca-3ae7fa644d5mr1204161fa.19.1795102355312;
+        Thu, 19 Nov 2026 07:32:35 -0800 (PST)
+Received: from Lauri-G-Pro-14-M4.intra.lakuz.com (n2vuxegwnwppvr5uhf9-1.v6.elisa-laajakaista.fi. [2001:99a:2ab:bb00:c16c:a39e:e605:54b5])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3ae6ebe67e2sm11532121fa.33.2026.11.19.07.32.33
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 19 Nov 2026 07:32:33 -0800 (PST)
+From: Lauri Gates <lauri.gates@gmail.com>
+To: koraynilay <koray.fra@gmail.com>
+Cc: Dave Chinner <dgc@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	linux-xfs@vger.kernel.org,
+	Carlos Maiolino <cem@kernel.org>,
+	Christian Brauner <christian@brauner.io>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	linux-api@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-	containers@lists.linux.dev, keyrings@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] userns: introduce capability bounding set for
- user namespaces
-Message-ID: <av8QNiFcnGWocORy@kernel.org>
-References: <20261119104208.782900-1-halg@google.com>
- <20261119104208.782900-2-halg@google.com>
+	linux-btrfs@vger.kernel.org,
+	ocfs2-devel@lists.linux.dev,
+	linux-nfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org,
+	Amir Goldstein <amir73il@gmail.com>
+Subject: Re: Concurrent FIEMAP on reflinked files serialises on the AGF buffer lock
+Date: Thu, 19 Nov 2026 17:32:22 +0200
+Message-ID: <20261119153222.65195-1-lauri.gates@gmail.com>
+X-Mailer: git-send-email 2.56.1
+In-Reply-To: <DMZ4VQ7SZ07T.29WMPQ0BQZGSS@gmail.com>
+References: <DMZ4VQ7SZ07T.29WMPQ0BQZGSS@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -73,31 +110,41 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261119104208.782900-2-halg@google.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 19, 2026 at 10:42:05AM +0000, Hallgrimur H. Gunnarsson wrote:
->  static void set_cred_user_ns(struct cred *cred, struct user_namespace *user_ns)
+On Thu, Nov 19, 2026 at 01:00PM +0200, koraynilay wrote:
+> It doesn't seem like an FS_XFLAG_NOSHARED flag would touch this new
+> change, but I thought it was worth pointing out, especially because this
+> patch would also add FS_XFLAG_PROJID and a new FS_FILE_ATTR_XFLAGS_MASK
+> to have a way to include both legacy and newly added xflags, so
+> FS_XFLAG_NOSHARED would maybe also go there (correct me if I'm wrong).
 
-I read the diff through but this led me to dead end. Cannot find this
-function from anywhere. I look the changes again once this is sorted
-out becaus this is interesting.
+Thanks, that is useful. I agree it would go there, whichever meaning
+it ends up with: as a newly added flag its bit would be added to
+FS_FILE_ATTR_XFLAGS_MASK next to FS_XFLAG_PROJID, since your
+fileattr_to_file_attr() masks the value with it as well as the mask
+bit.
 
-I wanted to look at the call site to understand how cap_bset gets set,
-which is not now possible but I do get the gist and agree with it.
+Your mask also changes the question I asked Christian. With it, a
+plain "may share" flag works the way stx_attributes_mask does: a
+filesystem that sets the bit in fsx_xflags_mask answers, and one that
+does not (btrfs today) reads as "not reported" rather than "not
+shared". The inverted meaning was only there because file_attr had no
+such mask.
 
-I'd figure getting this relates to my rootns patches (perhas). One key
-mechanism for me resolving the unprivileged in my use case is
-MOVE_MOUNT_T_MNTNS [1], which is orthogonal but just pointing out
-the problem space.
+One constraint for that case: the flag has to stay out of
+FS_XFLAGS_MASK. As I read your fileattr_to_file_attr(), every bit in
+FS_XFLAGS_MASK is reported as supported on every filesystem, so a
+plain flag there would read as "supported, not shared" on btrfs.
+Outside FS_XFLAGS_MASK the flag is also never seen through the legacy
+FS_IOC_FSGETXATTR, which masks with FS_XFLAGS_MASK. That is fine,
+since only file_getattr() needs to report it.
 
-I read through https://lwn.net/Articles/978846/ to understand the topic
-overall. Just mentionining as a possible addition to the cover letter
-(not a priority/necessity).
+Christian, with this mask on the way, would you take a plain flag
+(say FS_XFLAG_MAYSHARE, "may have extents shared with another file")
+that filesystems advertise through fsx_xflags_mask? If so, I'll build
+the RFC on top of koraynilay's series instead of using the inverted
+FS_XFLAG_NOSHARED.
 
-Hope these help and can be kept in the loop :-)
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git/commit/?h=rootns&id=cb058646b3dd76b13f5044846c119fe1d28db4bf
-
-Br, Jarkko
+Thanks,
+Lauri
