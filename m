@@ -1,69 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795099716;
-	b=0LpKTBvugo1jxmAPCa9DoqzuMSkDBsbnOOin0evCEzfO02M+Qu93pFIFK45YlMvAwEps
-	 G/CHiEFuQjLItZf4tfkzgo/8zzpFUWVyqDTm4YKyrciagIfWuCEu4yvPSgjdlyALPcyeC
-	 rs7hVJjgLglHqoXCSNXRmgXGGV1fb8DD4o/jK7VT/d8Ra7ka0hqMHTH2QgyH5MmMksj4t
-	 6Ycx7Ik1TtDDAuGdm1dltEZrrhn3G/vjg+i6ES/FGo6eL91pWgJFBZxxIKP3kpM7vjVRu
-	 DX4in+SPpAIr6LTyAe/BabLnMXQgg9vcByCuA/DNrXLpagxCYUF0sMei0ob4QkD0itw==
+	t=1795100730;
+	b=K6IK5S9XmtCJJ1F4RdydsRLPfnTOYmjMGGvPKPB1vKgDXerMHJjM5Bhp6btB+0yViTDH
+	 oVfovkYYvsB3ZKoOW+dPir8rbpxqXJIyQ5GInpW1NpueAnwUW/ARGj0AxAn6dtN/mFVHf
+	 e1KBD+fJIJAKAxk+6b682Tg+66n8h3DEwuOpZPDUnb+K0bOfA7cw7g+VTbVAQvcMSwxAE
+	 RmAnJuot7v6e+Mbpl9KvGjy7ZZz5CwSH8xYQi82hLB8k44Cm0+VxhcVoEvPuYlaUcHY1z
+	 1nrJDf5OJYf6i3k63PN/uZ6zH69hVOqepp6FXNTFUo4C+QLKn/kMnL7+JN1sDscDB0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795099716;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=1/D5TRdPGEJv/deORRf7lI6TarBcGeZ7nHw5ckttJ6Q=;
-	b=FPQuqH40YhBUPZVA0qEMTBAHqH2B5+h9142xH2Y1gPFmPln5WV+sdAqXYRgA4qmg5dl6
-	 /CoXu9J1KPaFNVeOybYNjWwCLFsoSQnmI4jxfm6rGBtCHcGZ8oDT8N7q3t7UfkIYmEsiU
-	 pxc1FvSFRH6IO8RLLUQ7QCsPyrF78or0PKauLGE7/8YB7fl/cjzd9vrsE+KN8HYJxabzZ
-	 DxE0gr1hbaBrW34IPu1U/GywK5s17uaaGig6y8z9CNpbByoxl4j0NuYKOdSiG1LetFhaf
-	 OQP2qlloJOKFaeAcwcIPh6GqKVMEZsVYnqV9WZIsG5S/ttYGcdi6JCLPSEvOHh+ulzQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795100730;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=2IrwUYnRl/CCcIkHyQ8rD1wVGp6x0G+ouTuLDtWvXeE=;
+	b=Ih9eYJW6P0+ko3S+GYlDYiTlRKDRb7m0BVkWyVMgZhZn2VUulVGbtPryZJftrJv38lyZ
+	 ksXgcK/olt9GkijapRRz7FzeHUFNIhE8XC3QqH8NK074pinH+Z9JGnb8Du9sKQugx7gke
+	 0wzkKpKOwXs8D6UHu5ioaRLmMiRLOE8jFBKlodYOy8C3x0DIzmC38Mqc/vsuHzeLJ3037
+	 XjqzY6E0uTaEncGR8xOzgt0cU1MiHtCoHAjMaKY4vCr4Q5AV8fEby1uY7VPKavX0qqNYq
+	 aPfZiiZ2Z7oBgqGJQSNGEYb7Z4URafSe/jMTJ8zw71h83aYyLub6L+VBNUP4sFeWhig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mit.edu;
-	spf=pass smtp.mailfrom=mit.edu;
-	dkim=pass header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=oZBiw3Dj;
-	arc=none smtp.remote-ip=18.9.28.11
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FVCdDZz9;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431996070C33
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 14:48:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 431996070C33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 82453606A324;
+	Thu, 19 Nov 2026 15:05:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=oZBiw3Dj
-Received: from trampoline.thunk.org (pool-173-48-114-214.bstnma.fios.verizon.net [173.48.114.214])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 6AJElg0E018270
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 19 Nov 2026 09:47:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1795099666; bh=1/D5TRdPGEJv/deORRf7lI6TarBcGeZ7nHw5ckttJ6Q=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=oZBiw3DjHt5lL9MqN5yI27gPELYMwiMFZ9OrUd69hJRB9NWSypFcL+XJ7EBVlo43m
-	 UCtJXRcHaC4TvLufgD/nmR17La2dpTOXfizyUa7G/Hij3L1GCrtY+zXEOX9XTx6To/
-	 7lQPOreev/BHzeY6QrnMzMPRCPQzjY69ojyTjo/emr0R5u++MH0zVuNir0TFILhDrw
-	 Mw8OklqnoWTqyR46+7hCRrvgBiYY3kvvl6GpZ2iye4HSMf/B9lvhZgACbaLYrHVBuq
-	 tivv/eL8IdfqLumRqK3EDdDJZ9AfLvWiW4J3vJvukBsoM7F9Cc9grVKHPXdYw6lXNJ
-	 8iLo3D8233hyg==
-Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id 776AF2E019C; Thu, 19 Nov 2026 09:47:33 -0500 (EST)
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: "Theodore Ts'o" <tytso@mit.edu>, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, adilger.kernel@dilger.ca,
-        libaokun@linux.alibaba.com, jack@suse.cz, ojaswin@linux.ibm.com,
-        ritesh.list@gmail.com, yi.zhang@huawei.com, yizhang089@gmail.com,
-        chengzhihao1@huawei.com, yangerkun@huawei.com,
-        yukuai@alb-78bjiv52429oh8qptp.cn-shenzhen.alb.aliyuncs.com
-Subject: Re: [PATCH v2 0/4] ext4: assorted fixes related to the buffered iomap conversion
-Date: Thu, 19 Nov 2026 09:47:25 -0500
-Message-ID: <179509948721.1938961.6124445990802957861.b4-ty@b4>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261030021338.1768292-1-yi.zhang@huaweicloud.com>
-References: <20261030021338.1768292-1-yi.zhang@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FVCdDZz9
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 7F96D1F000C4;
+	Thu, 19 Nov 2026 15:05:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795100730;
+	bh=2IrwUYnRl/CCcIkHyQ8rD1wVGp6x0G+ouTuLDtWvXeE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=FVCdDZz9CLOzCqQsYElv7NRpYqkN3P7TxOGmYw37Nt2LIqrKvGPDv0cm+uD2pfsxo
+	 reNk0EkMxZdKrLdZ9uuI4nobaoUOyq381WXDOPT/qbY+/22pTATrYksY1SPKUCQUwU
+	 OeDqUtESjF2OrtNUkoeMWt1WYxoX9OfHUTybLCGUCbsvEw8mIdp8GykomUioTiRIql
+	 Tv4B61awo0otLnhmH6ZEzySA2YUo2/dTWIXuWTVYnkNG8ODdZfVNrDyXx+NGvRHCa1
+	 dXZ7iSefdREPcENzx9AlTrLesVex9IbQhbtBvPv7IZ/YCBmIafp1kxixS5wRA92LpZ
+	 g/47LCbfIpyMA==
+Date: Thu, 19 Nov 2026 17:05:26 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: "Hallgrimur H. Gunnarsson" <halg@google.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Serge Hallyn <sergeh@kernel.org>, Andy Lutomirski <luto@kernel.org>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	David Howells <dhowells@redhat.com>, Kees Cook <kees@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	Jonathan Calmels <jcalmels@3xx0.net>, Jann Horn <jannh@google.com>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	KP Singh <kpsingh@kernel.org>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
+	containers@lists.linux.dev, keyrings@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] userns: introduce capability bounding set for
+ user namespaces
+Message-ID: <av8QNiFcnGWocORy@kernel.org>
+References: <20261119104208.782900-1-halg@google.com>
+ <20261119104208.782900-2-halg@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -73,36 +73,31 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261119104208.782900-2-halg@google.com>
 
+On Thu, Nov 19, 2026 at 10:42:05AM +0000, Hallgrimur H. Gunnarsson wrote:
+>  static void set_cred_user_ns(struct cred *cred, struct user_namespace *user_ns)
 
-On Fri, 30 Oct 2026 10:13:34 +0800, Zhang Yi wrote:
-> This series fixes some small issues introduced by the iomap
-> conversion [1] as well as some pre-existing issues found by Sashiko. The
-> first two patches were sent separately before [2]. Packaging them into
-> this series to facilitate merging.
-> 
-> Patch 1/4: fixes a complaint from smatch, making ext4_iomap_writepages()
->            return 0 directly when it encounters an inode that doesn't go
->            through the buffered iomap path during leftover writeback,
->            instead of reusing the stale ret variable, even though it is
->            also 0. Not a functional problem, it just makes the code
->            clearer and silences the complaint.
-> 
-> [...]
+I read the diff through but this led me to dead end. Cannot find this
+function from anywhere. I look the changes again once this is sorted
+out becaus this is interesting.
 
-Applied, thanks!
+I wanted to look at the call site to understand how cap_bset gets set,
+which is not now possible but I do get the gist and agree with it.
 
-[1/4] ext4: return 0 instead of stale ret in ext4_iomap_writepages()
-      commit: 943b2d083db0e1bbdcebaad144358b1416f02818
-[2/4] ext4: fix extent status cache clearing when truncating inline data
-      commit: af05a1e287c389f8dcecacbf93bc65875ad37ff4
-[3/4] ext4: add inode to orphan list before extent conversion
-      commit: 819809ac85ae334cc9996ee0b582b8883f36da9f
-[4/4] ext4: initialize map->m_pblk in ext4_da_map_blocks()
-      commit: 109c4b25e5e4494b7533f34dd335685bcaaf1dc9
+I'd figure getting this relates to my rootns patches (perhas). One key
+mechanism for me resolving the unprivileged in my use case is
+MOVE_MOUNT_T_MNTNS [1], which is orthogonal but just pointing out
+the problem space.
 
-Best regards,
--- 
-Theodore Ts'o <tytso@mit.edu>
+I read through https://lwn.net/Articles/978846/ to understand the topic
+overall. Just mentionining as a possible addition to the cover letter
+(not a priority/necessity).
+
+Hope these help and can be kept in the loop :-)
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git/commit/?h=rootns&id=cb058646b3dd76b13f5044846c119fe1d28db4bf
+
+Br, Jarkko
