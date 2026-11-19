@@ -1,128 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795057225;
-	b=4bN+B2JrdZ62Ws0j9GNdKHfsX/gT5OZkyxj3EXB0NAbayKyTtwkdTa9KfcBDOqjdVdQp
-	 aKQKuqKt7zTSB7ASxml2v3Jwyef3/Yw2szEcvZE/OunOhvaKFZOqmg7DL3IvcYivkiTVz
-	 A7mEgqV9PG4x/gmPo5Sf/9x3b5Sz4XG1SW43LX0B6O8GZG0U2fVHMeh8+8jRGlOc3ozTY
-	 fz63HgY2Bp3mFOW4OkUllqV/RYziyN/Tau1sYzbdl6g4lKQKLPrg4vXtP9WOtwdBuN0cn
-	 CnacfPUDn2PgL+gtjqSTEam5qnKX+67YUvWoNud2FxluUfTuzyzh3orpmp7ffqtYyVQ==
+	t=1795057843;
+	b=CRHAQQaAr3GFHqfHKY1ot0JD3RHkOET9aRRDsPqQ8dcxYUARf72n+j+y0zQ0yf8OJ9nS
+	 /lAFpLD47lD/bDBxPc+Ykhw8SKJyDpNhDka3tRLMwYaQJrsnm6QzPxHBfnwxC71CFGIox
+	 RosBjIY0cw841UmQrGTJsqAVEEghMCpuWn+iUlz4HgbE2j5l5ZXdCWHcCPZ3xZG45BRUF
+	 vW+ZtNb+bVbS4Kt2Jj1V6yCDnVS7Ia0IAb+wF6TFESd6K6z3033w2FEeuhy61lm1gVSEn
+	 oCwM39pb05KJ688k4rUL74pDfYnxU7lQLmA8jz1cifa/czk7gNp0WsbGbOVbRiQ05JQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795057225;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-	 References:Reply-To:MIME-Version:Content-Transfer-Encoding;
-	bh=d6+SiGbmf4j99ttYX6WtXOMxg4KR2+5qRzkcAFndvOU=;
-	b=tNJum5vysxU2UoW8KQrHGqeVl/jYBa0CVp4J25inpd/2hCdevc5bTb+iUnGjHGSKtBzd
-	 IHn5I9AwWQjld6eiXkNXDgZ2X41SdQursQea2zJ5CqjNHFBu2Uvpx+uun6J7kIal4AMJM
-	 N1NGsqm2EW6/B5GiwAMJBwjd8220vg/af4AtZL6lUBeAaiGbKrgQEDuBI/TS6tYH5H+3P
-	 o2QX3U7oiNV3gOdtLKsbywhBqcBG9usI7XeG0Ki7s6Ez47qu3CTPb+AZ9EB4gnncn72yf
-	 fYPtPJ4hpZ6iPricdxOUy+gEnr3L5/N0AGnqwNzcj6Ndpg5sCYU8X7UAh1lGBM+ihQQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795057843;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=kxxZFUyefVXfaK48eNDJdsq8mWd4zz3E9krdaJ2VCvM=;
+	b=eUYda3C/Qa4xhXSY+PDcAvmWYMNbuwr7KlTm4Gfggjad8CPmt6R93wudA2EDaIGIyDZd
+	 zc1/4Y7bzo5h2yuwD9lR8NjhP73GejVGvleTRM07gWlkqFPFfGgdvoekxIxILavua+Mkl
+	 027az15s1Vbxba0JNq5ayCdOzVNR4uffEUNvakZEo3i/pemFnJ7CyYYjEtdH95nlelBNV
+	 IwWjEgbIHLaI+viYq1BErNTGlX6XsKg3LFMp1sKyTJe3iaH87/Pf4KN04E2SP5z70Swyg
+	 qtPnabGNy3MbHbJum28bc3SgVamrXlphdGsOoYqTBMevn3wriIlKYpBvxE8b73v5fpw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ownmail.net;
-	spf=pass smtp.mailfrom=ownmail.net;
-	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm3 header.b=NfPf05rO;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=z3HFzhTc;
-	arc=none smtp.remote-ip=103.168.172.151
-Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AoRjtDeh;
+	arc=none smtp.remote-ip=74.125.82.43
+Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CDD4606A334
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 03:00:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9CDD4606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF653606A31C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 03:10:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AF653606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm3 header.b=NfPf05rO;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=z3HFzhTc
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id E0135EC0587
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 22:00:23 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Wed, 18 Nov 2026 22:00:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm3; t=1795057223;
-	 x=1795143623; bh=d6+SiGbmf4j99ttYX6WtXOMxg4KR2+5qRzkcAFndvOU=; b=
-	NfPf05rOs+JY66PDpqj706dMhhQreGRNavHaA1IyxRIo+LCDm80IturVlJA5RV1k
-	fs0aQuru3Bb1n44AKazcgmskuFMCpYWmTzAOeHp5to3lAI7eln7fNGQ7nAoXwBLG
-	d/S1UnWUIgg/gJOXzNqpRkGzHUC6OCZ3Wf6bXRfXFTn3b5DcKnE2UEutxd0EOe4F
-	k9Ji3vrNTTYLsUGrr3/XYZKCdmTdHeyhWHiKcShmEK3X9kIBgP60UvSSG74bk/xT
-	Z5EhqmOc1lnJEAVXZrThxBLJnbEwE5dqCQ9XxXa1C03Lc9QFJ0V00jkJO8ghuIbl
-	bn7CgG3fV4hNoM9NxmlAlw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1795057223; x=1795143623; bh=d
-	6+SiGbmf4j99ttYX6WtXOMxg4KR2+5qRzkcAFndvOU=; b=z3HFzhTcgmNOEdCix
-	Rw3ngcvcFeJPu0Ft1lBJjkSbZbsccQsN+1SpvsF7RSfEU4b2tN+sLKuEwu1QNMZk
-	1uvAmJm/dqJEI/20gMev2QKQCU1I6tvW0WcXHiZITSPxuhtLFlFQa0FetKqrcBDc
-	lYAXmN7P6CX4itX2PwHYd3BTqM9nUmL4yVA6vWSSAFSn+4/crE5PXkGa9Asv1UFd
-	LGML0j/JMTpbVeORO8Qiq/E/bdxXQULGvfQDSc1S1XN5c9tMT5qTVOirIxdmv8di
-	QpZ4jz2Gr/koaasRLJGQUdv8Cm2dQyRCvgfUxCGWsR91f0V7cgV8gp+tegf5wrJv
-	F4wNQ==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=ownmail.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795057223; d=ownmail.net;
-	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
-	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
-	s=fm3:rsa-sha256:zl2Hf4FGUiHR/Wqspce++3lDOIxxM4EgZQDc3H68a0aqFDH
-	aV53WIeXE/LswbX33mYCJaXHPhTdtoi0h6ARPLFXCbmdOR0yv6rtzDD2CIBw7Go2
-	8AXLZt/qj9axJGlMn5HfPIXQVDXtTEULcJASHu9u9MMLZ8+sj3WFGXN7CpJQ2noA
-	bEGYU4h69Pu/2n/t0oecMRGMycg3RI6GV4+b4eJfJlLmig15Ongf0cAxz2vV4Vpg
-	AkgWw5zHXOKfFEyMELkhgaUbMzIgZgQJeEJQRao8UBNYbL6uNpbcSXV2KxtMQcjD
-	6ZRVuxUWsgM8BuhFEr21zIn984Rv3EX11MZF/Kw==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,date,feedback-id,from,
-	in-reply-to,message-id,mime-version,references,reply-to,subject,
-	to;
-Message-Instance: m=1; h=sha256:pntBIrVDvArFt1PGz6ZtmGwt1Qof/Kc+tlUFABmcNWU=:emMHznvwRdqD2spFsW+XgRtx22Yu6t1JgDMwwuks/gU=;
-X-ME-Sender: <xms:R2b-arThj6N5lW-kHp6mrHry1MNtrA89TFB6jJIAj89BFBapvXvjBg>
-    <xme:R2b-avWxrkVV2-pP1TDG3BGzj23mfQw16XEw3q7l8KIo4Fvqne9LHmjBR4ladOTs2
-    76eCK55gCa488ZTAbpkobRvAQ2mPveW3hfZ3r0vRa1FOA7vc2E>
-X-ME-Received: <xmr:R2b-ake4PaqwnBM60w18qYfvBAfk5xmKYc54M1akI4EmLVhPRW_dkQJU7MgtuxsEhKKU-2iI0YI3Ajp3PAyOQO-BVgy__gY>
-X-ME-Proxy-Cause: dmFkZTF5aNm3vmmontyyrT2O6rUztv8ppj0IeipASNV+CPcjRRA9YZoQDvTUrYLUlj3z+U
-    d7nmqFT3cZ8iRlUAOQ7nwTQqZ8GU4/YJ5eLlR2pHJnzymEhfKraaOQL02uwwHm/YpeUTwa
-    Je/H/f5H8Ga3rQMfDfkvAV/C/0CVEqypHYXea/xfgt8GPv1IajFXzA5ONcgGcJNZBshF0l
-    tqbzCUDiR3KvVAsoXUb8O1nfFOPW0O6W9cjnkgQKL0KzUxEdSr5StwyWpsVrKRtDYVnSvM
-    leOXff0VZ4f8+RJSrXHrJk8G8/9MgY/9OofkHwo3sJvC8O2UlTHNid9yGNwLYYlB31BbiJ
-    QnqLxzoV6IPlgXzfdyQ9omtf6jFu5CgWB5yQ7Ugnv3UAvC3l+vi37RThEd87tbgqt8mSGe
-    b/c7Igd8cXbwdqWaGZGzYthhpbQpYd6OIsyqU6uRNsKu6tYYHTrg7xMZxOo54BcI3CMnLT
-    k5WEPDzofNytK78yy02DiNxthfb8jKcOXQlvc5flLHVETU2aBPa23JdHAcKHdq3hbgrzAh
-    cYNUt5BaEdfWhmdUnfoNicv26GQ6H0YK20lTTC685SWJlbzDqPOTRRvcazvNIw57H9XDPC
-    KwWREdFYsOe5BfisnsdYsiavt/NlesvUoNW2o9TTrgmaByDXyOjSCEpSBsvw
-X-ME-Proxy: <xmx:R2b-arL113C44hIPgIFeZrlCM4omnp9rDxk8tdd8ulqNB84PpWeW1w>
-    <xmx:R2b-apy4SXDaDQDcMmxrZDIR1zsLwFgQ0gteTaYFbmvYkDslHv8heA>
-    <xmx:R2b-apt4sZQ0s5jhrvyvRhcsga-BUxmYrzAHvtY3X5kH4zEPcQnoKA>
-    <xmx:R2b-akCY1iP8bGr98H_Hvdod1_w4pqgcQJAO0TJSDUTZyd7BbrOkIw>
-    <xmx:R2b-alg0UtGtqMd4SBxhqfjeEtBbAdyfWd_Bkn0tdlo_T-O8sAEiiRX5>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 18 Nov 2026 22:00:21 -0500 (EST)
-From: NeilBrown <neilb@ownmail.net>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AoRjtDeh
+Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-170135e43c7so2730327c88.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 19:10:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795057842; x=1795662642; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=kxxZFUyefVXfaK48eNDJdsq8mWd4zz3E9krdaJ2VCvM=;
+        b=AoRjtDehDVC0XDWH/tR9BNWExsVls6W+Weu6wtoQ9SQUraHQsEz8fzv+kRWKnTdLZP
+         MdxQJRCk8+x4F4VB41KrqALTCBCYTUF6MswbCP4g3GTFuCZ11g6bUynIPBugaS2v98jx
+         1Av+ELt2TXfAVB6LmHANyECDLwP9BxIFjbBqeNhP5IDaI8dPey/12oj3TMITIckx0WQw
+         momTyQUTSZg2hAbT0nULo3+ndAs+ywWBYO1A9VyezSfe/J/oKiQP3HUgi3HvSy3xrgbM
+         1k8r5liggcf+D73GLaC3FMYPaJt01h+hgFRYRLGFcodlGm6t2xvz9eCz5y5RRyTyxEPL
+         36fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795057842; x=1795662642;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kxxZFUyefVXfaK48eNDJdsq8mWd4zz3E9krdaJ2VCvM=;
+        b=jpFZ9KkcwT8KNdKB08dFqH7MKhEuvIGllRX+HJd+ooyAoTPLTITJi50GleKcAnvD6d
+         t7qxq2B0sJ1e1+K3tdcj9F/6FbjXbN8A0dmOFFcsqP/BhV2JfDHHTW6d7TsaJyfpEGVW
+         U1ISU6dCDSuoKeVvJI3kT0H2syCbE9o6jsIYE0PkV4bXF4Su3ikvtqJj7vm9tLTlavov
+         NRKn3CUPRGJr5l9LvVHcNeQG2vpnmpXkEF63jI5WUHrESvhNcqGOPBN0lT0n6Vuxhsnw
+         G5iu2f5wr6pOezFtvGbdYmc+H11xF3J0lO56Ub2MsyQs1tKfOdXsFQmwEckeuAjEQAU5
+         ZNdw==
+X-Forwarded-Encrypted: i=1; AL+hErEavEmuFgN5BAh7HITbxw1L/w71QNziEvIy9GTgZFB+D12wLCz62AS/q8LNBqs4QWtVXp+hYICkc1SHLUCD@vger.kernel.org
+X-Gm-Message-State: APuU4Z80GbuoeI3BS9XWSu8w55JSPkXXIvmcNQYt1gCzzjR2vAD6CCSB
+	ePKa4h6dJdNyPdP/MPdS6GAEs+sXfLUqsxyaEKRHdLls/0CNCkL/Hf6x
+X-Gm-Gg: AYBFou21r6IbEEN6uy5cUDWZrNGa6MH2Dd+jLh4+Ft0yqBPQne5GOxk+S2axIqhHx3k
+	YEQ3n9pBJ92wH3qMqgAvXA3/ESEh7jNNI1bwrYKXIsYYXXgPaRsE6PPrQnFIji6xeP3/JtMbYrJ
+	awzdAfO/LELqgnuuWwVuJx3JGOdLilw81D29AHpYdYafgvSwNaCSXTo61xZzs/t93CqtafXVFLa
+	DcEw39qx3RmU2eT2b7IFT+sU3djPgvHzsrb3n5LX99U4W4iLZoCm1esmgx8IO7zdkWj+gWFR3Fi
+	vw9Cj8M5NfV6usOZfXuxEdSFYDKX5d60r+XGZfyPoAJzMhX5vss8cGstVZ/p5LQa7zLyHxHo61v
+	VsFgHOjDNQ4/OWl5chYLuirz9WNuiuyK3GOL7Uo3VWhzIH3eJCy+swpEyzj52LBLNHnwz7FZZIr
+	rOWPpxMqXCC9VD9XbYJS9MeGQxvDp5j4W9GngS9gCGES0MfM3s3d8TRFfMWtYGvF/BPs5MkrD1o
+	y/MO1uuRx1GditTB5UkZQsuRAB+EE/2mQJFsQgLQe/oVtIbmfR6DVEwd+QzLu2aDLO0kMKFU83O
+	SAiPefA+iTEIAK4FavD4+78qVb8D153ETjO4bNFynNgAnajmhA==
+X-Received: by 2002:a05:7022:e2a:b0:163:a197:722d with SMTP id a92af1059eb24-1b543b193camr5961447c88.4.1795057841422;
+        Wed, 18 Nov 2026 19:10:41 -0800 (PST)
+Received: from MacBook-Pro-8.lan ([27.125.146.195])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5447f4e19sm15028118c88.13.2026.11.18.19.10.38
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 18 Nov 2026 19:10:41 -0800 (PST)
+From: Ding Feng <dingf3ng@gmail.com>
+To: Christian Brauner <brauner@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>
+Cc: Ding Feng <dingf3ng@gmail.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
 	Jan Kara <jack@suse.cz>,
-	Amir Goldstein <amir73il@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ian Kent <raven@themaw.net>,
-	Jake Edge <jake@lwn.net>
-Subject: [PATCH v5 5/5] Use d_for_each_positive_child() in fsnotify.
-Date: Thu, 19 Nov 2026 13:57:05 +1100
-Message-ID: <20261119025942.2848130-6-neilb@ownmail.net>
-X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
-In-Reply-To: <20261119025942.2848130-1-neilb@ownmail.net>
-References: <20261119025942.2848130-1-neilb@ownmail.net>
-Reply-To: NeilBrown <neil@brown.name>
+	Naohiro Aota <naohiro.aota@wdc.com>,
+	Johannes Thumshirn <jth@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] fs, zonefs: ignore RLIMIT_FSIZE values above LLONG_MAX
+Date: Thu, 19 Nov 2026 11:10:24 +0800
+Message-ID: <20261119031026.7985-1-dingf3ng@gmail.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -134,40 +102,55 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: NeilBrown <neil@brown.name>
+generic_write_check_limits() and its zonefs copy store
+rlimit(RLIMIT_FSIZE), an unsigned long, in a loff_t. A soft limit
+between 2^63 and RLIM_INFINITY turns negative, and every write then
+fails with -EFBIG and SIGXFSZ:
 
-fsnotify has been reported as source of soft-lockups when iterating a
-long ->d_children list.  Change it to use d_for_each_positive_child()
-which will call cond_resched() as needed to avoid soft-lockups.
+  $ bash -c 'ulimit -f 9007199254740992; echo hi > /tmp/f'
+  File size limit exceeded
 
-Link https://lwn.net/Articles/1079407/
-Signed-off-by: NeilBrown <neil@brown.name>
----
- fs/notify/fsnotify.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+Patch 1 fixes the VFS helper (write, pwrite, writev and copy_file_range
+paths). Patch 2 applies the same fix to zonefs.
 
-diff --git a/fs/notify/fsnotify.c b/fs/notify/fsnotify.c
-index 58566e6b9679..33c5d10f78ba 100644
---- a/fs/notify/fsnotify.c
-+++ b/fs/notify/fsnotify.c
-@@ -86,16 +86,12 @@ void fsnotify_set_children_dentry_flags(struct inode *inode)
- 	 * their d_flags to indicate parental interest (their parent is
- 	 * the original inode)
- 	 */
--	spin_lock(&alias->d_lock);
--	hlist_for_each_entry(child, &alias->d_children, d_sib) {
--		if (!child->d_inode)
--			continue;
- 
-+	d_for_each_positive_child(child, alias) {
- 		spin_lock_nested(&child->d_lock, DENTRY_D_LOCK_NESTED);
- 		child->d_flags |= DCACHE_FSNOTIFY_PARENT_WATCHED;
- 		spin_unlock(&child->d_lock);
- 	}
--	spin_unlock(&alias->d_lock);
- 	dput(alias);
- }
- 
+Changes in v2:
+- Hold the limit in a u64 instead of an unsigned long. On 32-bit,
+  "limit <= LLONG_MAX" was always true and clang W=1 warned, as the
+  kernel test robot reported and Damien pointed out.
+- v1 patch 1 was applied to vfs-7.5.misc as bc0dc4379463; v2 patch 1
+  replaces it.
+
+v1: https://lore.kernel.org/linux-fsdevel/20261117173129.61028-1-dingf3ng@gmail.com/
+
+Tested on v7.4-rc3 (20eef29b7c84), arm64 tinyconfig in QEMU, with a
+static test program that sets the soft RLIMIT_FSIZE, writes 2 bytes
+and copies 10 bytes with copy_file_range():
+
+  soft limit            unpatched           patched
+  1024, 2^63-1          ok                  ok
+  2^63, 2^63+4096,
+  2^64-2                EFBIG (both)        ok (both)
+  1                     short write, then EFBIG (both kernels)
+
+Built fs/read_write.o and fs/zonefs/file.o with clang 19 and W=1 for
+arm (multi_v7_defconfig) and arm64 (defconfig): v1 gives the robot's
+warning on arm, v2 gives none. The zonefs change is compile-tested only.
+
+Jun-ichi Takimoto reported this in 2020 [1]; no fix followed. It came up
+again while proving pwrite(2) against POSIX with Frama-C/WP.
+
+[1] https://lore.kernel.org/linux-fsdevel/8F9EB913-3AC3-4D89-9DA3-427029F6D211@kba.biglobe.ne.jp/
+
+Ding Feng (2):
+  fs: ignore RLIMIT_FSIZE above LLONG_MAX in
+    generic_write_check_limits()
+  zonefs: ignore RLIMIT_FSIZE above LLONG_MAX in
+    zonefs_write_check_limits()
+
+ fs/read_write.c  | 9 +++++----
+ fs/zonefs/file.c | 9 +++++----
+ 2 files changed, 10 insertions(+), 8 deletions(-)
+
 -- 
-2.50.0.107.gf914562f5916.dirty
+2.55.0
 
