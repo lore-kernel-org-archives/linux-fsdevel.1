@@ -1,110 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795079698;
-	b=NA7uVbxKeZuGtvj7wHsfXIlqNPnER12ohD+yFeXyZwkUqN8ibb5I5TyiDy+nh6vtWMxG
-	 b9iBuLq0aW+Ok8p8h7H3fgODU1s7WfSYJZ2mG83uWYsXIKQo1kf8B2iTC8J+19o9tESnZ
-	 uUtaVrkwLswo4xzwgs2xGwIIgf76MF0S1kT95Jxa4ktsxTggNOm0UrgoSojh1YbftlLER
-	 JA6SPqSp/9AsG4DcGnMeFDnh7k1qqiO9bEjgW9wTZ4g/KMgu4WjtlLpkezmOOOIqMMhTl
-	 Jqn8X+9ubqTRLfMU0ibslnM5GA1P+ZfyXCmj2NxLGf0Jw3Dl8sfEI3HUPskititQ3PA==
+	t=1795080087;
+	b=LyQ6vdWKOoUNQVqxSKPeJ6i3n5esIS/dK/x2GoGaJZmEhU5UnLQzHox2yKS2ioJg++bX
+	 HZG31QDKfSZ9uBa5ydXOWVNlzgfEbJrK6rFfLdy6W4hW6VdOQHjcutiRnt36+2MTb016e
+	 HdoXY8IrTlWqbcmEe3sGD6dFWa7itlKRVYfpzoP3IMawVw/m8O8zGCaRYwjn/SEQuPvsP
+	 Uvto6USiNK7CV330CCkiaBREXvs3HTH3shNWkmgSfaLwYJzz5uZVm+lG7gkVOsCTEe9Hp
+	 MwWPdUX8uYTjUavO3qi0CW9Hqq1YwOYpWno/NFBLUK9UZ8j9DwOGpOYW8SjuInuiCxw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795079698;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=og1SbwjrPZXs9YPN1FMHsnLhphJ8n/fonc++kfYh6o4=;
-	b=JX8kAybXYqBQiO2ugrymRtdcyE2/9BVBg9G1vmSJIViGO5i+z5n8JLy4N6WQROd/9Ing
-	 C55SikTlgfE2EioOe6CZfl6gKrh3hf5wFBesJ+4eWgXYCKe/R6y/rfCT5jDHoHl5uC2eH
-	 kP8GgnXib2/lTjD3thNaMFINPQcTjwpC8KWrjvFXgBpKopGqObvgd/yPlKIyl/gEHlowp
-	 LlpApjjiMExzXqnad0I5jrl9vQZPA7kG8ZGoy9EC2v1wNhd38Is+Ru4jhNdHSciOkHbsK
-	 q0bwyEltJlBGJXnGZdeuXEZoAEXQt4f2wVUIdF7XLioHHDu74bNLs9Td/oYZzQGV/eQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795080087;
+	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
+	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
+	 Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=phJmb426aoRooYkR2Gofxf73gCjIrRfzoC/1uf618JI=;
+	b=YlKEdRuuI+W/aSyTShtezAE+WtCiDPevniJyAtvWvztS9Wxi9xOrpPkePoVU6KB5kehg
+	 jca8WKr+cluQvIvlV4xha+5qfmeJb9id8A7I5XrQd6uh70rEqE2nJVq/NpckyasG/i0xQ
+	 cBFPqmdwo+iolTmn+zFZ1DwtfMdltUBpnV/nEXD94cjhnFmZkoIcua7mfdup11wt0CP6Z
+	 89FDta1xil5R9n9oOf2mO9FJ57ZsOpOiptPfXiU+kA1PBox1AvZDX32Abag8Gd3yDbv98
+	 oh4249rpWl+D1kGRQhfazqKU3xVHgw0avwuXEjO9gBTttYKwpndCEnyEHQpWp/zaLZQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=BuvyEsBq;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BIy3xPxe;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=BuvyEsBq;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BIy3xPxe;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A490606A320;
-	Thu, 19 Nov 2026 09:14:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A490606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=BuvyEsBq;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BIy3xPxe;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=BuvyEsBq;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BIy3xPxe
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C1FD41F8A6;
-	Thu, 19 Nov 2026 09:14:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795079695; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=og1SbwjrPZXs9YPN1FMHsnLhphJ8n/fonc++kfYh6o4=;
-	b=BuvyEsBqCf+nHLUkU+xH1LTOaA9CCHLT+R0ibjCWPZRcBuDIR5xdLTrhU5Iwpgj3LIo2k/
-	XeeTA28RoDvNdSA1bv6WzwcfK5cxKPcRr01XkLURh35c5gnJPa+SNI8WXY7WruzOCGMY1/
-	LSvI6bTT1JiJqG3WsB4W+x4GvNe2g/w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795079695;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=og1SbwjrPZXs9YPN1FMHsnLhphJ8n/fonc++kfYh6o4=;
-	b=BIy3xPxer6Y2dE9NaNbQoQslELDkCc2kVmiblKetwtuyKeCNVQ0wXalVJp64xLgt3OwRM1
-	m2phQ79HVp7N1vAg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795079695; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=og1SbwjrPZXs9YPN1FMHsnLhphJ8n/fonc++kfYh6o4=;
-	b=BuvyEsBqCf+nHLUkU+xH1LTOaA9CCHLT+R0ibjCWPZRcBuDIR5xdLTrhU5Iwpgj3LIo2k/
-	XeeTA28RoDvNdSA1bv6WzwcfK5cxKPcRr01XkLURh35c5gnJPa+SNI8WXY7WruzOCGMY1/
-	LSvI6bTT1JiJqG3WsB4W+x4GvNe2g/w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795079695;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=og1SbwjrPZXs9YPN1FMHsnLhphJ8n/fonc++kfYh6o4=;
-	b=BIy3xPxer6Y2dE9NaNbQoQslELDkCc2kVmiblKetwtuyKeCNVQ0wXalVJp64xLgt3OwRM1
-	m2phQ79HVp7N1vAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 986691334C;
-	Thu, 19 Nov 2026 09:14:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id tgXdHA++/momQwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 19 Nov 2026 09:14:55 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 2C07F25172; Thu, 19 Nov 2026 10:14:51 +0100 (CET)
-Date: Thu, 19 Nov 2026 10:14:51 +0100
-From: Jan Kara <jack@suse.cz>
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, 
-	Amir Goldstein <amir73il@gmail.com>, Christian Brauner <brauner@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@infradead.org>, 
-	Chris Mason <mason@kernel.org>, Chengguang Xu <cgxu519@mykernel.net>, 
-	linux-unionfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-Subject: Re: [PATCH v7 4/7] fs: add write_inode_for_sync()
-Message-ID: <vafoz7tqboipgnsotuqbv27a2ywgiihbxqtlbegctyoygfbi7a@i4gmvgmj7wnd>
-References: <20261118-b4-ovl-containerized-sync-v7-0-54f45743fe55@toxicpanda.com>
- <20261118-b4-ovl-containerized-sync-v7-4-54f45743fe55@toxicpanda.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1805606A337;
+	Thu, 19 Nov 2026 09:21:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A1805606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 93cdc67ee3fa11f19a56ed5b684f684d-20261119
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:3e6c968f-f40c-41d1-b7b3-9939313b65b4,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:20
+X-CID-META: VersionHash:7db8b62,CLOUDID:6521bea9981703ccd9b9ae390e9a61cd,BulkI
+	D:nil,BulkQuantity:0,SF:81|82|83|102|850|865|898,TC:nil,Content:0|15|50|99
+	|100|102|153,EDM:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,CO
+	L:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 93cdc67ee3fa11f19a56ed5b684f684d-20261119
+X-User: wangyibo@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <wangyibo@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 727782934; Thu, 19 Nov 2026 17:21:18 +0800
+From: Wang Yibo <wangyibo@kylinos.cn>
+To: David Howells <dhowells@redhat.com>
+Cc: Christian Brauner <christian@brauner.io>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Stefan Metzmacher <metze@samba.org>,
+	Eric Van Hensbergen <ericvh@kernel.org>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Ilya Dryomov <idryomov@gmail.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@infradead.org>,
+	netfs@lists.linux.dev,
+	linux-afs@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	v9fs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v19 01/17] iov_iter: Fix kunit test to remove __init and __refdata marks
+Date: Thu, 19 Nov 2026 17:21:15 +0800
+Message-Id: <20261119092115.3957212-1-wangyibo@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20261119083851.3306418-2-dhowells@redhat.com>
+References: <20261119083851.3306418-2-dhowells@redhat.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -114,97 +87,40 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261118-b4-ovl-containerized-sync-v7-4-54f45743fe55@toxicpanda.com>
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-12.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[szeredi.hu,gmail.com,kernel.org,zeniv.linux.org.uk,suse.cz,infradead.org,mykernel.net,vger.kernel.org,mail.parknet.co.jp];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[toxicpanda.com:email,suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.80
+Content-Transfer-Encoding: 8bit
 
-On Wed 18-11-26 17:03:27, Josef Bacik wrote:
-> sync_inodes_sb() has the flusher write every dirty inode of a superblock
-> with WB_SYNC_ALL and for_sync set.  That writes the pages without waiting
-> for them, hands over the timestamps that lazytime has deferred while it
-> holds I_SYNC, and calls ->write_inode() in a way that tells the filesystem
-> that ->sync_fs() follows, so ext4 does not commit a transaction for every
-> inode.
-> 
-> overlayfs is about to sync some of the inodes of its upper filesystem, and
-> none of the exported functions does that for one inode.  write_inode_now()
-> and sync_inode_metadata() either do not wait for somebody else who is
-> writing the inode and leave deferred timestamps alone, or they wait for the
-> pages, clear the error flags of the mapping and make ext4 commit.
-> 
-> Add a function that writes one inode the way a sync does.
-> 
-> Nothing calls it yet.
-> 
-> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+Hi David,
 
-Looks good. Feel free to add:
+> Remove the __init marks from the functions in the iov_iter kunit test so
+> that they don't get removed after the module is loaded or if the test is
+> built in as the tests can be triggered through debugfs too.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+The reasoning looks right to me.  The suite is registered with
+kunit_test_suites(), so it gets a debugfs "run" file and can be re-run
+after the init sections have been freed; calling into an __init function
+from there is a use-after-free, and __refdata on the case array keeps
+modpost from flagging the reference to init text.
 
-Actually Ogawa wanted the very same function for FAT flushing of dirty data
-on close so it looks like a generally useful primitive to have. Just the
-description of the function is really hard to parse (at least to me as a
-non-native speaker). 
+There is one more file in the tree with the same problem:
 
-> +/**
-> + * write_inode_for_sync - write an inode like a sync of its filesystem does
-> + * @inode: inode to write to disk
-> + *
-> + * This does for one inode what sync_inodes_sb() has the flusher do for every
-> + * dirty inode of a superblock.  It writes all dirty pages, the timestamps that
-> + * lazytime has deferred and the inode.  It waits for somebody else who is
-> + * writing the inode, but not for the pages it writes, and it does not ask the
-> + * filesystem to commit anything.
-> + *
-> + * This is for a caller that syncs some of the inodes of a filesystem.  It has
-> + * to wait for the pages with filemap_fdatawait_keep_errors(), like
-> + * wait_sb_inodes() does, and to call sync_fs_and_bdev() in the end.
+  lib/tests/bitfield_kunit.c:60   __init test_bitfields_constants()
+  lib/tests/bitfield_kunit.c:103  __init test_bitfields_variables()
+  lib/tests/bitfield_kunit.c:140  __refdata bitfields_test_cases[]
+  lib/tests/bitfield_kunit.c:151  kunit_test_suites(&bitfields_test_suite)
 
-I'd write:
-This writes out inode like e.g. sync(2) would do it. On high level that
-means we make sure anything dirty is submitted to the storage but we don't
-wait for any completion. In particular, it means we wait if there's
-somebody else submitting writeback for the inode (I_SYNC state set), we
-make sure all dirty pages are submitted for writeback waiting for locks,
-and we treat the inode as dirty if it has dirty timestamps. However we
-don't wait for any IO to complete and we don't persist other inode-related
-metadata through ->sync_inode_metadata(). If the caller wants data
-persistency guarantee, it has to wait for IO completion (e.g. using
-filemap_fdatawait_keep_errors()) and also persist common filesystem
-metadata using sync_fs_and_bdev().
+(line numbers from v7.4-rc1; test_bitfields_compile() is also marked
+__init but is only built under TEST_BITFIELD_COMPILE and is not in the
+case array)
 
-> + *
-> + * The caller must have a ref on the inode.
-> + *
-> + * Return: 0 on success, a negative error code otherwise.
+I went through the other suites that still have __init case functions --
+drivers/char/misc_minor_kunit.c, init/initramfs_test.c,
+security/landlock/id.c and lib/kunit/kunit-example-test.c -- and they
+are fine: they are all registered with
+kunit_test_init_section_suites(), which does not create a "run" file, so
+keeping __init there is correct.
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Do you want the bitfields one folded into this series, or would you
+rather I send it separately?
+
+Thanks,
+Wang Yibo
