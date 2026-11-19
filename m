@@ -1,115 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.171.160.6
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795080913;
-	b=XCvD9CQeNaHfcZi2g/AIQI2G5wMksEH9BP+qnmS0yWz0Ql2S7ZwwyDqW/D+std1tzKPx
-	 klA2ALKLAQWrHgvpAbytLEm/wsOisOnFlacAXcCC4dTzs6rPvkc4ZCesg8Beix+UT6fB3
-	 lUwfPgpogKomUy7V3heDbBX4euYXhWhag1rX2iXuwjbZuME7znZeCDxJt45aHKbRwiQDw
-	 GXbTqf0BW0InG4iGkoutQ1UbPPCw4PPpG6ZxpiqrEegQO/m9xjsDdE/mXjFK4wOIQjUtI
-	 B2aK6iPSz5VTDn186yVIRfGmc+cIT8tFBBi3OTiJuZzIuVfQYFNNF9M8xW0wze3l0yg==
+	t=1795081639;
+	b=sZs5QIUb38Fjgpe5WQ80j1rAA0dwnl6T5nyynqz8ZlW6EPhpihY2SoZuI4w7H+G3n8KH
+	 32RG/hSRM6hpD69k7s+EGk8jeZg6ta5obqWXNBxAWIBSN5xfFg+mNLOwhDVwcyT7MsW1m
+	 CHPhOBK//xNj0YvFitR3dogBm/5RD87Ci/tfTUAfP9rVtheXAPDs8NFtEivYeLTwBYoR8
+	 F1ww0jkG5ehwmr5nwnMeIELcQjLW3ayQGKh4D5UwNiRzhH0ytGhpsW6XCpZwC73EW0vVR
+	 l2YIXQVKT2rkPVFP1IbD/f22kf/PRmSWAKhtcmOVHKXTKDlDjroIRUqe76EknNpDbzg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795080913;
-	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:To:Cc:
-	 Subject:In-Reply-To:References:User-Agent:Date:Message-ID:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Last-TLS-Session-Version;
-	bh=CQyK9hhzQUtdCIaKwh8qFL6kiw3hBK7e02jXrxk3Q5M=;
-	b=LhTWe23zs6I7odY3AiALeSklqWjMJTgqIXC7Hsz1GXVxPp/rbJAW5QJrfL40q3rdbVBC
-	 3ZCYphNfkqCR5nQZszX1ONX1DXVWzoCf/oud/OuEs8/GipJXNmBDaAk264tOpy9ssbkJj
-	 0RRrkOisjX8soxKHCifOwG0oJHEYJPDEjtbDaOW9f4igF9ECSplTio+ROFC5HlNVsDFJ0
-	 LQivhiMU5cGC0K0P/dtPmE9j4LU/8JpFEjQKdfanAexDryWOhZeX4NroHjMv1p0OqJK1i
-	 hX6vSg7SXtToAHOvLpUUsPpj3F44LPBEHYtdcZXWOoHLNAHagpTIZLJAEd1GpALqDwQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795081639;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
+	 Received:From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 User-Agent:MIME-Version:Content-Type;
+	bh=WBEHu4DEjCVhl6ZgliAFGwGo+qGlwuitZqHdVLEx500=;
+	b=SRVG4U2FcNIqHDvGzG3rBda9p65m7n8oBjLnxZVEVX4+gQ/uAabP84l75wsu6r/B85yg
+	 u7cjFuLZrbHp+QG/BhhkekA/axM3MZNQQB5fs6odwxMgXiN/TzRNMQcKya9qcUDpFzBUN
+	 6afouLkrcU/oLF9c3fjk2wXnH5XoUOopPicN5/bCWqgLwjX2tVN5J8DARthJey6oTfr41
+	 g3+I7Wj5JCHhEiyoszpVlAYx7NDf7Ma9SW3Cd3a6wxMwR19322DI4QrzejedfWEntn5MV
+	 tBiRnLUwiIanFgA84UdbYzUz31+JwV3PrHOOtd+PUgNHuWLMhsWjRP+7vy9zxUDJI6w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bootlin.com;
-	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=trPf9+9S;
-	arc=none smtp.remote-ip=185.246.84.56
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=mail.parknet.co.jp;
+	spf=pass smtp.mailfrom=parknet.co.jp;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=JilNpQL1;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=lPuSvrgM;
+	arc=none smtp.remote-ip=210.171.160.6
+Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7677960A2606;
-	Thu, 19 Nov 2026 09:35:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7677960A2606
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81BDA606A320;
+	Thu, 19 Nov 2026 09:47:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81BDA606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=trPf9+9S
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 895141A170D;
-	Thu, 19 Nov 2026 09:35:08 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3D3E660237;
-	Thu, 19 Nov 2026 09:35:08 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 145C311BC315F;
-	Thu, 19 Nov 2026 10:34:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795080902; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=CQyK9hhzQUtdCIaKwh8qFL6kiw3hBK7e02jXrxk3Q5M=;
-	b=trPf9+9SmvXq7f3i06Ocu8PXp2wkKO6ORNKTA4/AjOKcQKVFePqcO/1BhMn+K4JKXgVetW
-	9Yr+85a0u4rw/+pGQPZDRSMsRMDGawEXfnQ9jCtNv2zr3C8ZQd4iUe048cU50ECPRyFurf
-	rsmMLyDo3rueQxG7RuwY+EBebjyTZuhqh1PyoyvCDfGRSYoPSTyfx/hwy85QgTWFsAil0Q
-	X6TU5TJA2EpRSA3/3QyU7eQBfCRlHqNmOlSA+ByZVazhopQuZSLgxPNhpRVe5QgDh43L/T
-	HBMPjxwGs9avJmS68J25IgXRGZqvRkZ+RC3EyDq//xlN7GCwXICCDykv7Bhitw==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org,  Jonathan Corbet <corbet@lwn.net>,  Shuah
- Khan <skhan@linuxfoundation.org>,  linux-doc@vger.kernel.org,  David
- Hildenbrand <david@kernel.org>,  Andrew Morton
- <akpm@linux-foundation.org>,  Jason Gunthorpe <jgg@nvidia.com>,  Leon
- Romanovsky <leonro@nvidia.com>,  linux-mm@kvack.org,  Jaroslav Kysela
- <perex@perex.cz>,  Takashi Iwai <tiwai@suse.com>,
-  linux-sound@vger.kernel.org,  Jens Axboe <axboe@kernel.dk>,
-  linux-block@vger.kernel.org,  Marcel Holtmann <marcel@holtmann.org>,
-  Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-  linux-bluetooth@vger.kernel.org,  Willem de Bruijn
- <willemdebruijn.kernel@gmail.com>,  Jason Wang <jasowangio@gmail.com>,
-  David Heidelberg <david@ixit.cz>,  oe-linux-nfc@lists.linux.dev,  Chas
- Williams <3chas3@gmail.com>,  "David S. Miller" <davem@davemloft.net>,
-  Eric Dumazet <edumazet@kernel.org>,  Jakub Kicinski <kuba@kernel.org>,
-  Paolo Abeni <pabeni@redhat.com>,  netdev@vger.kernel.org,  Helge Deller
- <deller@gmx.de>,  linux-fbdev@vger.kernel.org,
-  dri-devel@lists.freedesktop.org,  MPT-FusionLinux.pdl@broadcom.com,
-  "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,  "Martin
- K. Petersen" <mkp@kernel.org>,  linux-scsi@vger.kernel.org,  Richard
- Weinberger <richard@nod.at>,  Vignesh Raghavendra <vigneshr@ti.com>,
-  Zhihao Cheng <chengzhihao1@huawei.com>,  linux-mtd@lists.infradead.org,
-  Neill Kapron <nkapron@google.com>,  Andrey Konovalov
- <andreyknvl@gmail.com>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-  linux-usb@vger.kernel.org,  Juergen Gross <jgross@suse.com>,  Stefano
- Stabellini <sstabellini@kernel.org>,  xen-devel@lists.xenproject.org,
-  Hans de Goede <hansg@kernel.org>,  Arnd Bergmann <arnd@arndb.de>,
-  "Michael S. Tsirkin" <mst@redhat.com>,  Eugenio =?utf-8?Q?P=C3=A9rez?=
- <eperezma@redhat.com>,  Sean Christopherson <seanjc@google.com>,  Paolo
- Bonzini <pbonzini@redhat.com>,  kvm@vger.kernel.org,
-  virtualization@lists.linux.dev,  Jan Kara <jack@suse.cz>,
-  linux-fsdevel@vger.kernel.org,  "Theodore Ts'o" <tytso@mit.edu>,
-  linux-ext4@vger.kernel.org,  Mike Marshall <hubcap@omnibond.com>,
-  devel@lists.orangefs.org,  Paulo Alcantara <pc@manguebit.org>,  Namjae
- Jeon <linkinjeon@kernel.org>,  linux-cifs@vger.kernel.org,  Jaegeuk Kim
- <jaegeuk@kernel.org>,  Chao Yu <chao@kernel.org>,
-  linux-f2fs-devel@lists.sourceforge.net,  Florian Fainelli
- <florian.fainelli@broadcom.com>,  Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,  Tzung-Bi Shih
- <tzungbi@kernel.org>,  Benson Leung <bleung@chromium.org>,  David Airlie
- <airlied@gmail.com>,  Simona Vetter <simona@ffwll.ch>,  Alex Deucher
- <alexander.deucher@amd.com>,  Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,
-  amd-gfx@lists.freedesktop.org,  Jani Nikula
- <jani.nikula@linux.intel.com>,  Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>,  Rodrigo Vivi <rodrigo.vivi@intel.com>,
-  Tvrtko Ursulin <tursulin@ursulin.net>,  intel-gfx@lists.freedesktop.org,
-  Matthew Brost <matthew.brost@intel.com>,  Thomas =?utf-8?Q?Hellstr=C3=B6?=
- =?utf-8?Q?m?=
- <thomas.hellstrom@linux.intel.com>,  intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH v2 07/12] docs: ioctl-number: update MTD entries
-In-Reply-To: <20261119053514.255348-8-rdunlap@infradead.org> (Randy Dunlap's
-	message of "Wed, 18 Nov 2026 21:35:08 -0800")
-References: <20261119053514.255348-1-rdunlap@infradead.org>
-	<20261119053514.255348-8-rdunlap@infradead.org>
-User-Agent: mu4e 1.12.12; emacs 30.2
-Date: Thu, 19 Nov 2026 10:34:37 +0100
-Message-ID: <87bj7lf9le.fsf@bootlin.com>
+	dkim=pass (2048-bit key, unprotected) header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=JilNpQL1;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=lPuSvrgM
+Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id C50EA20BD290;
+	Thu, 19 Nov 2026 18:47:09 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114; t=1795081630;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WBEHu4DEjCVhl6ZgliAFGwGo+qGlwuitZqHdVLEx500=;
+	b=JilNpQL1nULap2pu/am5a4KDJ8SNNA/RVzZad04e3FW7DUv7X9TmxhCd6Z7pBK3VgQ7ohd
+	FeEDWqmbCuLMbD4fpavsLYYWbqoZNtnWWF7zi45HoD7WtyoQenL0hntUXdshYvbDh8Wbts
+	rRpWqXHXdp2GLmkIQdAABgVflUQNH/vzz2yg1u3LVfNUO3wZOveK2asPkHXnPt3Zt8GB1q
+	NOzNeIEAl81xXE27MbXm/DdCQVgrP2uJXY9bXzBsrQ2QqEErnn6BP73kPA3Bq/f1iU5xCe
+	z9QvLuqOcumsbGiTVVK2kuXN/fVut1t0idx3KfkS10S8IR3udgBT8OBVPgKccw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114-ed25519; t=1795081630;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WBEHu4DEjCVhl6ZgliAFGwGo+qGlwuitZqHdVLEx500=;
+	b=lPuSvrgM3hY/v56M6B7pzn9LwgkJFDa70v7PEJdxEARMRDh8vJBFyLBgwWJjeEotqC7MGv
+	0IuMNIJPn9vCD6DA==
+Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 362DDE00181;
+	Thu, 19 Nov 2026 18:47:09 +0900 (JST)
+Received: by devron.myhome.or.jp (Postfix, from userid 1000)
+	id 2D0B92200214; Thu, 19 Nov 2026 18:47:09 +0900 (JST)
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: Jan Kara <jack@suse.cz>
+Cc: Josef Bacik <josef@toxicpanda.com>,  Miklos Szeredi <miklos@szeredi.hu>,
+  Amir Goldstein <amir73il@gmail.com>,  Christian Brauner
+ <brauner@kernel.org>,  Alexander Viro <viro@zeniv.linux.org.uk>,
+  Christoph Hellwig <hch@infradead.org>,  Chris Mason <mason@kernel.org>,
+  Chengguang Xu <cgxu519@mykernel.net>,  linux-unionfs@vger.kernel.org,
+  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 4/7] fs: add write_inode_for_sync()
+In-Reply-To: <vafoz7tqboipgnsotuqbv27a2ywgiihbxqtlbegctyoygfbi7a@i4gmvgmj7wnd>
+References: <20261118-b4-ovl-containerized-sync-v7-0-54f45743fe55@toxicpanda.com>
+	<20261118-b4-ovl-containerized-sync-v7-4-54f45743fe55@toxicpanda.com>
+	<vafoz7tqboipgnsotuqbv27a2ywgiihbxqtlbegctyoygfbi7a@i4gmvgmj7wnd>
+Date: Thu, 19 Nov 2026 18:47:09 +0900
+Message-ID: <87a4n517c2.fsf@mail.parknet.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -119,26 +86,70 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain
 
-Hi Randy,
+Jan Kara <jack@suse.cz> writes:
 
-On 18/11/2026 at 21:35:08 -08, Randy Dunlap <rdunlap@infradead.org> wrote:
-
-> Update the list of files where MTD ioctls are defined and update
-> the ranges of function numbers that are used.
+> On Wed 18-11-26 17:03:27, Josef Bacik wrote:
+>> sync_inodes_sb() has the flusher write every dirty inode of a superblock
+>> with WB_SYNC_ALL and for_sync set.  That writes the pages without waiting
+>> for them, hands over the timestamps that lazytime has deferred while it
+>> holds I_SYNC, and calls ->write_inode() in a way that tells the filesystem
+>> that ->sync_fs() follows, so ext4 does not commit a transaction for every
+>> inode.
+>> 
+>> overlayfs is about to sync some of the inodes of its upper filesystem, and
+>> none of the exported functions does that for one inode.  write_inode_now()
+>> and sync_inode_metadata() either do not wait for somebody else who is
+>> writing the inode and leave deferred timestamps alone, or they wait for the
+>> pages, clear the error flags of the mapping and make ext4 commit.
+>> 
+>> Add a function that writes one inode the way a sync does.
+>> 
+>> Nothing calls it yet.
+>> 
+>> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 >
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Looks good. Feel free to add:
+>
+> Reviewed-by: Jan Kara <jack@suse.cz>
+>
+> Actually Ogawa wanted the very same function for FAT flushing of dirty data
+> on close so it looks like a generally useful primitive to have. Just the
+> description of the function is really hard to parse (at least to me as a
+> non-native speaker). 
+>
+>> +/**
+>> + * write_inode_for_sync - write an inode like a sync of its filesystem does
+>> + * @inode: inode to write to disk
+>> + *
+>> + * This does for one inode what sync_inodes_sb() has the flusher do for every
+>> + * dirty inode of a superblock.  It writes all dirty pages, the timestamps that
+>> + * lazytime has deferred and the inode.  It waits for somebody else who is
+>> + * writing the inode, but not for the pages it writes, and it does not ask the
+>> + * filesystem to commit anything.
+>> + *
+>> + * This is for a caller that syncs some of the inodes of a filesystem.  It has
+>> + * to wait for the pages with filemap_fdatawait_keep_errors(), like
+>> + * wait_sb_inodes() does, and to call sync_fs_and_bdev() in the end.
+>
+> I'd write:
+> This writes out inode like e.g. sync(2) would do it. On high level that
+> means we make sure anything dirty is submitted to the storage but we don't
+> wait for any completion. In particular, it means we wait if there's
+> somebody else submitting writeback for the inode (I_SYNC state set), we
+> make sure all dirty pages are submitted for writeback waiting for locks,
+> and we treat the inode as dirty if it has dirty timestamps. However we
+> don't wait for any IO to complete and we don't persist other inode-related
+> metadata through ->sync_inode_metadata(). If the caller wants data
+> persistency guarantee, it has to wait for IO completion (e.g. using
+> filemap_fdatawait_keep_errors()) and also persist common filesystem
+> metadata using sync_fs_and_bdev().
 
-Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
+Looks good (except the name of function though). What I want is, not
+emulate sync, it is flushing dirty stuff. Now both are same usage
+though, may not be same by future changes.
 
-> [Since having multiple maintainers trying to merge these would
-> cause some conflicts, it would be more manageable for Jon to
-> take all of these through the docs-next tree.]
-
-Agreed.
-
-Thanks,
-Miqu=C3=A8l
+Thanks.
+-- 
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
