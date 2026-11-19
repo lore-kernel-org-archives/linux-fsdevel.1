@@ -1,58 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.224
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795059983;
-	b=QYt4A8VEMNU2nDiWBjzUQ7PEbKtbfaSd2D4AekzpAzCU4GvL+3+YoXkX6+g0vEvwzx9+
-	 Gf6lw0N0abtxb2Sid24/YKLVoBglkGEbv2POOON+Q7aAVGSfKg9ipmcJmRbOpm3XJ2CtY
-	 t++GrXGtHF4cXHxc0FSsPR+SYj1HwhQ9QbTjrgYGKPh4UOOADFtTAxrvZ3u0Rb9QqfgkB
-	 PfGCHwT1lM5PNwto0BLkoJcmgRqw9v4/4dgdihNEnKQlnpVfInOiyXrfzhDgCMhbWGDkC
-	 AUG0icYznYOT6p0xUdjrgX3PLZmeYtfAHEC8bVZkqoTmtiItMDEItwmMfXs2Bz9Xj0Q==
+	t=1795060378;
+	b=psxJOpD5rjrNMAKuB6IibSOszsCcK9MrcQdXRNMcZ8Xa9HnsMUkzdbDpaQAnuYZfaYsW
+	 mlX3prdhMYD0pj6MFADpIpKHdhnwpt5tvEQlH/2NNYGJ8m4NfBeol2Zr96dsQvxpZk3IF
+	 H7ABStsC2Ug80iXaUzRDaJywtM3bgui1N0nWacZ/Edbff9zOmMP5MZcHdQ8Ro1bE/wcXs
+	 2XI430qYHL8ndW84gRv/NGHpWP83PgoTm+4VxSviDoJGrtClrJvu7aWdDG2lFppVzDmxC
+	 4dSKXFRNuMRpanRZhJ9uFpNUjb9kjBZqOcXJubfPLxKKXQ2T5Mxa3nbdk93tFFSjOdw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795059983;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-	bh=OAbbp57riKGI1fZlq88CcOSg3koPqPRG3juTd/UX3uo=;
-	b=QaeNr5+xsg9u+Rf7J/e/9IDeo3uOfhzzOj8w1nwr4kfUk9+lX7pcWpnvwf4ki60o2Vxp
-	 waauT8pMaEmjFG6oMJwkIKgMuSK4SEPEIM8f5tBySDtSu/BZkC8dN9tQKto/F2a/WhWkQ
-	 puw01L5uYn+S3+hb4TM5Teq86DtGgKLpSqcsSIYtXIBD5Q+qNJAHTIUqiDB4DSXkfuKyu
-	 5xn8Z8hc3h6miOabyk83/zB8L5KNR1CbXYBK28HyMVCaAazkHH4TkK7kTzGv9MwsvfIMh
-	 o4flW/mnYDnxoiEyKn+x5Hu2XrwY2rwjlIabDzSvd5ZVIdlZDgBmE6N2ArXhodyDHeA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795060378;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=XSIy9FLQysYTgaYYrX+1jyfQu2/aKcX5jVQ/CvHepYI=;
+	b=KTka34fYUahMJSwfUL/LnPs02mGDQouXKqOetsoNMuABWMby0/gusN2UgKNMuZvkt1Sm
+	 1+fY4Vvlk63irVnmkZSLo753FzDt85D6C0K9mOyVKmqSF+wIcbmfrYOtM2gwYPz3yFudv
+	 WUwk2zikkW1UQKh3f7Vm/UCaBnvHz8L6GYIIewKajJgBA3v3lb8s32y/DCqEPLvsYVFmH
+	 oOIKkaJoqv5+YMM7TX+WPWhCIlaawYjHHeGz41SnqsXmcUHxxcYis2UInlci4Y6S1FMpQ
+	 UBvtKO8dbYeySgYZ9N6hDRftUiRrfKpHHCznPxFq5nJtsPfoA6vWXTTAmgNDCBGtCsg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b="V/52GJjf";
-	arc=none smtp.remote-ip=113.46.200.224
-Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oNH10dt1;
+	arc=none smtp.remote-ip=74.125.82.176
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA36606A325;
-	Thu, 19 Nov 2026 03:46:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CA36606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA9A606A32A
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 03:52:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7BA9A606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=V/52GJjf
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=OAbbp57riKGI1fZlq88CcOSg3koPqPRG3juTd/UX3uo=;
-	b=V/52GJjfwvVK8DnDIvM5IQVRHWD6bWwP9aQgdIQW3zyiANrSaj0DY2j7nFjPaV7CdoJkRPEs9
-	j5P3307aBbCQKc9UtkmeUFvURRjxT+IUgrgDq+974N8dU9cb6StPqSQAXioAda0lAeeDVSXW/cF
-	zoa53Mrhki2F1QPx2mEV1j0=
-Received: from mail.maildlp.com (unknown [172.19.163.15])
-	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4jVPWm3pc4z1cyPH;
-	Thu, 19 Nov 2026 11:45:56 +0800 (CST)
-Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
-	by mail.maildlp.com (Postfix) with ESMTPS id C65134058E;
-	Thu, 19 Nov 2026 11:46:16 +0800 (CST)
-Received: from [10.67.110.140] (10.67.110.140) by
- whupemk100010.china.huawei.com (7.152.184.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Thu, 19 Nov 2026 11:46:09 +0800
-Message-ID: <9787bc85-5b1c-4f13-9b0c-cd027548efa0@huawei.com>
-Date: Thu, 19 Nov 2026 11:46:07 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oNH10dt1
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-381d542bc29so3323425eec.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 19:52:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795060377; x=1795665177; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=XSIy9FLQysYTgaYYrX+1jyfQu2/aKcX5jVQ/CvHepYI=;
+        b=oNH10dt1e8x/FdQ7ISHmN6efg4LzNr9C6Zis4UYcCMxvIxiApI2aBhEi3TloEkhy9/
+         HagANDUFLz/jPUyi15EqM4derslz3zTe935YIGWto1R2pBHRCo1KrbpW29HPR7Xhjdtl
+         ZMUDtOSRr+66Cann/rlKZLz1Q+mfD4Y1b/8FS1URhsxOa9+esmRV7A4i1HbPaFoaJCTj
+         weBQy19o32Uk5AT7Ycrcpgw+/Iqjt6+axHPqVtQ5KggHGjJsr1IPwctdOTFVzYHPdRKS
+         WAZCT0w7ZPh4Vap2EmbXYc9fqUwBBN8+WC+akiriNVUUQjLaUE4SXbRl/a1kEn9lbBAo
+         qMgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795060377; x=1795665177;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=XSIy9FLQysYTgaYYrX+1jyfQu2/aKcX5jVQ/CvHepYI=;
+        b=jdMSue8erFSEpR8c2sf3nPTnzO/JJCFm42kw58jaByOTk1Mv8aEz1TvEGhD9DnO5Tz
+         eiCa4FOc2dsaZQtPVg4Prn2TfC5FN+siMCcexZpFHhxgPMj1jiIAautKKVGybRpbOXAj
+         x0qvZNVtJDtjM0R421V412GyphlrEzntwtdlg1TdR12M0vOfYAbsKSmE82kdwL+VyHE/
+         9DH422xGd9frdspUGbG80fk/uamgu53hClHPiQ8HnYAT4D7Daa03kdUo1L1+33Ajyj9M
+         J3kpNcW21TO5xM25XBKZvpv8rshcZfH7GajfEOzB+nMp7EooHPqNlsz58SkssFiRUX+Z
+         U7xQ==
+X-Forwarded-Encrypted: i=1; AL+hErFj6mcDqiAtgsKkVMC27auEazhmedDskAgpxFEzQ9sTn8kTXNe23KNfADGRWl8W99zFy7rtzUA01FXPd+2x@vger.kernel.org
+X-Gm-Message-State: APuU4Z8ba3Um4t46HO0y4IV+AOwZ+VpuckFEOPRxeq9ZSGUinfe2HFdq
+	5YikywnikrtOAHZhtz893MVkfBx0lHKFHSgBpSp3jU2khDVk9TVcT8Z9VKuSmQ==
+X-Gm-Gg: AZFdTZfxtZSWt87FWecy0TCqtg/1lEZNGaz75rNJMoBM4ncyDKtXaTYKoh5MQ0XNoms
+	osCzL6umt3crh6Eyxv/E/LvNzBmxtEiFVJHuisQVeUc1VtJ8RLp6JreXuJjYprwYfu0Xm3u2E1+
+	OP/vKlvhULpH5fF/W6JV9IqZ5hDwZmzGIcGhQDSQz41fAM40Tg692sJ8wLCDx6kuvf13Ipvm06N
+	ijZlFyHkZ5lHf1uwN0XGITKBXOqcGW/lL184wMIeyc+zCSzSgpFr1vkG/JkWXhEmHR7BSQqorrF
+	jKCFw8nOY7sL9WOncbABpZ8EsHRAmY10mZU2DDOe4iP9qEpkF4GyxQu4a91yK+BqouXVy/Bc/Hj
+	annHDvYsPh2PYzg302b9/NRg0t71atwbduObwfbESdszDiAFz0DNeA+0Nti4v0yuOZRFROHyuAz
+	6xR7/Za8FBNDvQ4WV6tOQBTDuQ0d1hK5ebQAfSDDQFPmr4vwLLnNhEb6IVoxa8FF6Uw57DFOF6R
+	vzNo6vaVAVQ7AFg5ebjgXrRwSLolsEXT6JlzRD+5PkX45VzU3NaqXGLcBLAAPJce/IaoxDccNo9
+	CKQi4pxFn6qHJkLuz96hUz6hdMwVs6zdW483h6RC6FMibug6thfhQ4jCJvcUWyM=
+X-Received: by 2002:a05:7301:6184:20b0:36c:a44c:1763 with SMTP id 5a478bee46e88-38281813f4emr4287341eec.32.1795060377432;
+        Wed, 18 Nov 2026 19:52:57 -0800 (PST)
+Received: from qiwenjie-ThinkCentre-M760t.mioffice.cn ([43.224.245.241])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-382a6800338sm13049206eec.11.2026.11.18.19.52.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 19:52:56 -0800 (PST)
+From: Wenjie Qi <qwjhust@gmail.com>
+To: xiang@kernel.org,
+	chao@kernel.org
+Cc: linux-erofs@lists.ozlabs.org,
+	linux-fsdevel@vger.kernel.org,
+	shengyong1@xiaomi.com,
+	yangyongpeng@xiaomi.com,
+	qiwenjie@xiaomi.com,
+	qwjhust@gmail.com
+Subject: [PATCH] erofs: enable buffered RWF_DONTCACHE reads
+Date: Thu, 19 Nov 2026 11:52:50 +0800
+Message-ID: <b168501806b41e3f0be15efec4b54b371d8dd4e1.1795059802.git.qiwenjie@xiaomi.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -62,78 +99,146 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -next -v4 02/17] LSM: pass struct path to the
- inode_setsecctx hook
-To: Christian Brauner <brauner@kernel.org>
-CC: Al Viro <viro@zeniv.linux.org.uk>, <mic@digikod.net>, <gnoack@google.com>,
-	<paul@paul-moore.com>, <jack@suse.cz>, <amir73il@gmail.com>,
-	<andrii@kernel.org>, <apparmor@lists.ubuntu.com>, <ast@kernel.org>,
-	<axboe@kernel.dk>, <bpf@vger.kernel.org>, <casey@schaufler-ca.com>,
-	<cel@kernel.org>, <cem@kernel.org>, <chenxiaosong@chenxiaosong.com>,
-	<code@tyhicks.com>, <corbet@lwn.net>, <Dai.Ngo@oracle.com>,
-	<dakr@kernel.org>, <daniel@iogearbox.net>, <dhowells@redhat.com>,
-	<dlemoal@kernel.org>, <dmitry.kasatkin@gmail.com>,
-	<driver-core@lists.linux.dev>, <dsterba@suse.com>,
-	<ecryptfs@vger.kernel.org>, <eddyz87@gmail.com>, <emil@etsalapatis.com>,
-	<eric.snowberg@oracle.com>, <exfat@lists.linux.dev>,
-	<georgia.garcia@canonical.com>, <gregkh@linuxfoundation.org>, <hch@lst.de>,
-	<hirofumi@mail.parknet.co.jp>, <hyc.lee@gmail.com>,
-	<ihor.solodrai@linux.dev>, <jlayton@kernel.org>, <jmorris@namei.org>,
-	<johan@kernel.org>, <john.fastabend@gmail.com>,
-	<john.johansen@canonical.com>, <jolsa@kernel.org>, <kpsingh@kernel.org>,
-	<linkinjeon@kernel.org>, <linux-api@vger.kernel.org>,
-	<linux-block@vger.kernel.org>, <linux-btrfs@vger.kernel.org>,
-	<linux-cifs@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-nfs@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
-	<linux-trace-kernel@vger.kernel.org>, <linux-unionfs@vger.kernel.org>,
-	<linux-xfs@vger.kernel.org>, <liubaolin12138@163.com>,
-	<martin.lau@linux.dev>, <mason@kernel.org>, <mathieu.desnoyers@efficios.com>,
-	<matt@bobrowski.net>, <memxor@gmail.com>, <mhiramat@kernel.org>,
-	<miklos@szeredi.hu>, <neil@brown.name>, <netfs@lists.linux.dev>,
-	<ntfs@lists.linux.dev>, <okorniev@redhat.com>, <omosnacek@gmail.com>,
-	<penguin-kernel@i-love.sakura.ne.jp>, <rafael@kernel.org>,
-	<rdunlap@infradead.org>, <roberto.sassu@huawei.com>, <rostedt@goodmis.org>,
-	<selinux@vger.kernel.org>, <senozhatsky@chromium.org>, <serge@hallyn.com>,
-	<sj1557.seo@samsung.com>, <skhan@linuxfoundation.org>, <song@kernel.org>,
-	<stephen.smalley.work@gmail.com>, <takedakn@nttdata.co.jp>, <tom@talpey.com>,
-	<yonghong.song@linux.dev>, <yuezhang.mo@sony.com>, <zohar@linux.ibm.com>,
-	<utilityemal77@gmail.com>, <lujialin4@huawei.com>
-References: <20261117150542.1169451-1-caixinchen1@huawei.com>
- <20261117150542.1169451-3-caixinchen1@huawei.com>
- <20261117184342.GR989762@ZenIV> <20261118001641.GA1669148@ZenIV>
- <bdc22808-9f22-46f7-b42d-e6bd8e1eeaca@huawei.com>
- <20261118-nordlicht-badeort-daumen-813a1e9fd0b3@brauner>
-Content-Language: en-US
-From: Cai Xinchen <caixinchen1@huawei.com>
-In-Reply-To: <20261118-nordlicht-badeort-daumen-813a1e9fd0b3@brauner>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- whupemk100010.china.huawei.com (7.152.184.41)
+Content-Transfer-Encoding: 8bit
 
-o, you are right, dentry is borned *self-parented*, and 
-d_alloc()/d_alloc_parallel allocate
-from parent->d_sb, __d_move only re-parent withon on sb. So 
-dget_parent() cannot
-leave the sb.
+From: Wenjie Qi <qiwenjie@xiaomi.com>
 
-On 11/18/2026 5:35 PM, Christian Brauner wrote:
-> On Wed, Nov 18, 2026 at 04:59:29PM +0800, Cai Xinchen wrote:
->> There are two places that violate (1), both introduced by this series of
->> patches in ksmbd:
->>
->> smb2_parent_compressed() and smb_inherit_dacl() pair the directory entry
->> returned by dget_parent()
->>
->> with path->mnt, and problems arise once that directory entry becomes the
->> root of its mount point.
-> No, (1) holds there. dget_parent() never leaves the superblock so the
-> parent has the same ->d_sb as path->dentry.
->
-> What happens at the root of a mount is that the parent isn't below
-> path->mnt->mnt_root anymore. That's a different property and struct path
-> doesn't guarantee that (open_by_handle_at(), nfsd with
-> no_subtree_check). So there's nothing to fix for (1) in those two.
+EROFS uses filemap_read() for buffered reads, including the inode-sharing
+path, which preserves request flags when cloning the kiocb.
+
+Advertise FOP_DONTCACHE in both file operation tables so preadv2() callers
+can request that newly instantiated file-cache folios be dropped after
+consumption. This is useful for one-pass reads that need not retain data
+in the page cache.
+
+For compressed reads, retain trailing readmore and propagate dropbehind
+to the single-folio neighbor lookup. Readahead expansion already marks
+new folios through readahead_control. Suppress prefix readmore so it
+cannot refill pages already consumed and evicted. Ordinary readmore is
+unchanged.
+
+Tested sequential reads of 1-GiB files with 1-MiB requests on NVMe-backed
+LZ4 and Zstd EROFS images in x86-64 QEMU/KVM with two vCPUs and 2 GiB RAM.
+Each reader ran with memory.max=255852544 (244 MiB) and
+memory.swap.max=0. Normal and dontcache ran in ten paired rounds per
+layout, alternating their order and using a fresh guest for each run.
+
+Results are arithmetic means of ten runs. Memory values average the
+run-level time-weighted memory.current means. Percentage changes are
+relative to normal reads:
+
+                    MiB/s                  Mean memory, MiB
+ Layout   normal/dontcache  change    normal/dontcache  change
+ LZ4      2513.57/6350.61  +152.65%      169.53/17.39   -89.74%
+ Zstd     2535.57/4066.49   +60.38%      179.01/18.17   -89.85%
+
+In this test, dontcache reduced average cgroup memory by about 90%,
+left no consumed file pages resident and recorded no memcg reclaim
+scans or steals. Both layouts were faster in all ten pairs. This
+offers a smaller cache footprint for one-pass reads on memory-constrained
+systems.
+
+Signed-off-by: Wenjie Qi <qiwenjie@xiaomi.com>
+Signed-off-by: Sheng Yong <shengyong1@xiaomi.com>
+Reviewed-by: Yongpeng Yang <yangyongpeng@xiaomi.com>
+---
+ fs/erofs/data.c     |  1 +
+ fs/erofs/internal.h |  5 +++--
+ fs/erofs/ishare.c   |  1 +
+ fs/erofs/zdata.c    | 10 +++++++++-
+ 4 files changed, 14 insertions(+), 3 deletions(-)
+
+diff --git a/fs/erofs/data.c b/fs/erofs/data.c
+index 968303afd..db0bac732 100644
+--- a/fs/erofs/data.c
++++ b/fs/erofs/data.c
+@@ -537,4 +537,5 @@ const struct file_operations erofs_file_fops = {
+ 	.get_unmapped_area = thp_get_unmapped_area,
+ 	.splice_read	= filemap_splice_read,
+ 	.setlease	= generic_setlease,
++	.fop_flags	= FOP_DONTCACHE,
+ };
+diff --git a/fs/erofs/internal.h b/fs/erofs/internal.h
+index 8363c0c05..cbe58576b 100644
+--- a/fs/erofs/internal.h
++++ b/fs/erofs/internal.h
+@@ -321,10 +321,11 @@ static inline unsigned int erofs_inode_datalayout(unsigned int ifmt)
+ 
+ /* reclaiming is never triggered when allocating new folios. */
+ static inline struct folio *erofs_grab_folio_nowait(struct address_space *as,
+-						    pgoff_t index)
++						    pgoff_t index, bool dropbehind)
+ {
+ 	return __filemap_get_folio(as, index,
+-			FGP_LOCK|FGP_CREAT|FGP_NOFS|FGP_NOWAIT,
++			FGP_LOCK | FGP_CREAT | FGP_NOFS | FGP_NOWAIT |
++			(dropbehind ? FGP_DONTCACHE : 0),
+ 			readahead_gfp_mask(as) & ~__GFP_RECLAIM);
+ }
+ 
+diff --git a/fs/erofs/ishare.c b/fs/erofs/ishare.c
+index ea146fa8a..585bf4614 100644
+--- a/fs/erofs/ishare.c
++++ b/fs/erofs/ishare.c
+@@ -190,6 +190,7 @@ const struct file_operations erofs_ishare_fops = {
+ 	.get_unmapped_area = thp_get_unmapped_area,
+ 	.splice_read	= erofs_ishare_splice_read,
+ 	.fadvise	= erofs_ishare_fadvise,
++	.fop_flags	= FOP_DONTCACHE,
+ };
+ 
+ struct inode *erofs_real_inode(struct inode *inode, bool *need_iput)
+diff --git a/fs/erofs/zdata.c b/fs/erofs/zdata.c
+index e981e371d..19e6051f5 100644
+--- a/fs/erofs/zdata.c
++++ b/fs/erofs/zdata.c
+@@ -512,6 +512,7 @@ struct z_erofs_frontend {
+ 	struct page *candidate_bvpage;
+ 	struct z_erofs_pcluster *pcl, *head;
+ 	enum z_erofs_pclustermode mode;
++	bool dropbehind;
+ 
+ 	erofs_off_t headoffset;
+ 
+@@ -1807,6 +1808,10 @@ static void z_erofs_pcluster_readmore(struct z_erofs_frontend *f,
+ 	erofs_off_t cur, end, headoffset = f->headoffset;
+ 	int err;
+ 
++	/* Avoid repopulating a prefix that dropbehind has already evicted. */
++	if (f->dropbehind && !backmost)
++		return;
++
+ 	if (backmost) {
+ 		if (rac)
+ 			end = headoffset + readahead_length(rac) - 1;
+@@ -1836,7 +1841,8 @@ static void z_erofs_pcluster_readmore(struct z_erofs_frontend *f,
+ 		pgoff_t index = cur >> PAGE_SHIFT;
+ 		struct folio *folio;
+ 
+-		folio = erofs_grab_folio_nowait(f->sharedinode->i_mapping, index);
++		folio = erofs_grab_folio_nowait(f->sharedinode->i_mapping, index,
++						f->dropbehind);
+ 		if (!IS_ERR_OR_NULL(folio)) {
+ 			if (folio_test_uptodate(folio))
+ 				folio_unlock(folio);
+@@ -1860,6 +1866,7 @@ static int z_erofs_read_folio(struct file *file, struct folio *folio)
+ 	int err;
+ 
+ 	trace_erofs_read_folio(realinode, folio, false);
++	f.dropbehind = folio_test_dropbehind(folio);
+ 	z_erofs_pcluster_readmore(&f, NULL, true);
+ 	err = z_erofs_scan_folio(&f, folio, false);
+ 	z_erofs_pcluster_readmore(&f, NULL, false);
+@@ -1890,6 +1897,7 @@ static void z_erofs_readahead(struct readahead_control *rac)
+ 	int err;
+ 
+ 	trace_erofs_readahead(realinode, readahead_index(rac), nrpages, false);
++	f.dropbehind = rac->dropbehind;
+ 	z_erofs_pcluster_readmore(&f, rac, true);
+ 
+ 	/* traverse from last to first for best metadata I/O performance */
+
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+-- 
+2.43.0
+
