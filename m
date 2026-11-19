@@ -1,104 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795119091;
-	b=ZespSNrTOI8Qe5FKISWsVI2h5t3ySym/onbdTqb9tW9hfG4iOSiOssDvvwWbC6WHgsdK
-	 mIKhS0q1gAgDb1btlaj+y7Ya6TBXJLC0E/q83ScbLsmpYd1YnNIdS3lMdKDRR7oH4VXuE
-	 99Ntg0H1+bQhRBYGLIEDpxnd84q+7MVtW3md6KM5QcwHGefgLuOyzh+DJQtyQAyr30PxD
-	 eYT3xhDf/Hk3g/coIMjGguoQrK6LSssYL3KTRxnSvhhi71BPU14bTHCA/wVOYYHth3pXZ
-	 23ZFcAF5/RjuXOAQKt9PijJuzvhJKVFLBAQeHabjyvjAyc9rMVstUXbp+jY9LvUjzRw==
+	t=1795119087;
+	b=puLGSVQasN8aaAMtu4CnTsxL4eLbETn9gfRaSWtx9XYLFbZYt2fQ6piMNeXK8l5pokU/
+	 xqkhbez2bTQXScOEGu9/1fFSgfXiusCfg/XpXt79rcGRZHxIMWgdeW5wE6U2cz30nN39f
+	 cj7dVJ0CXDa8dMA0OxERqz+fmImwioNNvp8ZvhLhHVhrGT++d1R0E6L/jlSpGF7hJMA/3
+	 yxNK38SRgztmdmQDKbY2fLO4A94xvBah62QDUfm1TXGkHuxJ20TZmqpkrpa5c38hnanns
+	 qS++/ZcOw3ENPasFdzvi1BEtPhou/9inwL61f4lpMEBijRLwmZzNruw9tSUmdsiO2lw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795119091;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:
-	 X-Spam-Score;
-	bh=Uo8Olo98zjikgX57G69RkSYYgroY5lrc04l+gH4JzoI=;
-	b=0PojVmwh6CZJYw9B1X5I/fTUnPC91q3Wq8fD2AaFI9vLmwSw6C4Bl2xARHENQXsrf6Wj
-	 KCHr2qTepXdRLVoAuOQY70qDAsVaCzqZ+P2gmYvbSw4w7UBYO59qcEPq81uNMnF17+tDI
-	 nCD4m+TV/Pe9MHh7jQykAYDZZFBkWzk3WZk71rWHLbGa60rOeyCDjZL8K4nsvckdqOn1H
-	 H6jAZmCPDOt3ArCQE5ZUbVWW2zAJmwsIpWReZiOiYANdn5aHu5iGR1gEmQP+Wke36sjCW
-	 t4rJdZG6jMIMezwmTYjENEvk4WK3HyYD20DQFzHEMeaHECTgwKsAMsyLzYIm08Turxg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795119087;
+	h=DMARC-Filter:Received:Received:Received:From:Date:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
+	 References:In-Reply-To:To:Cc:X-Mailer:X-Rspamd-Pre-Result:
+	 X-Rspamd-Server:X-Spamd-Result:X-Spam-Flag:X-Spam-Score:X-Spam-Level:
+	 X-Rspamd-Queue-Id:X-Rspamd-Pre-Result:X-Rspamd-Action;
+	bh=/7+jDmw9PPr5XQtRbOeCRcxjCTyR2570BzVPmXYCK3M=;
+	b=B1wuAAGdeh6YRQIEksH96ijKbFJj/JxfPeSGPLKLwv5o8MWhkrjlbtzs/+Cnw1yWGx5g
+	 7chfFODaptaU9K2RqxtPvLpiqGQoCWI1UMFKr2On3NtcQ0FxK4VDkTcBZhFvQLpsiTs7b
+	 eAmu6+2I/TouErPUKFe7tiBXSNpnT7cIl7nLvQGSYtPRRVQtDwPK8wm0a7U71FOjUpXna
+	 mLiLZzmTSrKTJnKRzRmgc3+3C9JZhkyhNiBjsafYaHohSOx+It+fz6NBEsK2TnuUCuooK
+	 3Bwxskt/4SXl0EgXL4oiAUGio1l40LPT9DIzpD7nFvO18xYoEQGW05F82gXRI9v+0tw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=eUas+9Ii;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=9uOMWgZ7;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=eUas+9Ii;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=9uOMWgZ7;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C510E60A2615;
-	Thu, 19 Nov 2026 20:11:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C510E60A2615
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2CA760A263D;
+	Thu, 19 Nov 2026 20:11:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2CA760A263D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=eUas+9Ii;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=9uOMWgZ7;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=eUas+9Ii;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=9uOMWgZ7
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 157D521DE6;
-	Thu, 19 Nov 2026 20:11:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795119089; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Uo8Olo98zjikgX57G69RkSYYgroY5lrc04l+gH4JzoI=;
-	b=eUas+9Ii0hUYbJmdigy5WcIR6MFLbDG4Q9+MkKg469E/fJUfE5s9LcwEWCZ3ugZSzJbQ5E
-	G227ThVtEgjDER5qFmK1F/+icKCjUX8+0fRswIRqHMGNAHJfdWh4NdyBomb3k1h29ogcpA
-	wLvJ+2nCJSl6+n/ZHpjZrYGuTlwOUM4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795119089;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Uo8Olo98zjikgX57G69RkSYYgroY5lrc04l+gH4JzoI=;
-	b=9uOMWgZ7LG+LRni/R/J6QJ0QU42oZZHseqFgpO9phvi749VDZI6fswGtgIFGlShqu3eqYu
-	vCHCaUFOxZdKZxAg==
-Authentication-Results: smtp-out1.suse.de;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F2E4B1FCEE;
+	Thu, 19 Nov 2026 20:11:24 +0000 (UTC)
+Authentication-Results: smtp-out2.suse.de;
 	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795119089; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Uo8Olo98zjikgX57G69RkSYYgroY5lrc04l+gH4JzoI=;
-	b=eUas+9Ii0hUYbJmdigy5WcIR6MFLbDG4Q9+MkKg469E/fJUfE5s9LcwEWCZ3ugZSzJbQ5E
-	G227ThVtEgjDER5qFmK1F/+icKCjUX8+0fRswIRqHMGNAHJfdWh4NdyBomb3k1h29ogcpA
-	wLvJ+2nCJSl6+n/ZHpjZrYGuTlwOUM4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795119089;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Uo8Olo98zjikgX57G69RkSYYgroY5lrc04l+gH4JzoI=;
-	b=9uOMWgZ7LG+LRni/R/J6QJ0QU42oZZHseqFgpO9phvi749VDZI6fswGtgIFGlShqu3eqYu
-	vCHCaUFOxZdKZxAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0B280134F6;
-	Thu, 19 Nov 2026 20:11:26 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E409A134F6;
+	Thu, 19 Nov 2026 20:11:22 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OqV1JuRX/2pPYQAAD6G6ig:T6
-	(envelope-from <pfalcato@suse.de>); Thu, 19 Nov 2026 20:11:26 +0000
+	id OqV1JuRX/2pPYQAAD6G6ig:T4
+	(envelope-from <pfalcato@suse.de>); Thu, 19 Nov 2026 20:11:22 +0000
 From: Pedro Falcato <pfalcato@suse.de>
-Date: Thu, 19 Nov 2026 20:10:48 +0000
-Subject: [PATCH RFC 5/5] mm/filemap: refuse releasing maybe_dma_pinned
- folios
+Date: Thu, 19 Nov 2026 20:10:46 +0000
+Subject: [PATCH RFC 3/5] mm/vmscan: avoid releasing FS metadata for
+ !FOLL_PIN gup folios
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -110,7 +65,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261119-gup-dirty-what-v1-5-236d69f25c24@suse.de>
+Message-Id: <20261119-gup-dirty-what-v1-3-236d69f25c24@suse.de>
 References: <20261119-gup-dirty-what-v1-0-236d69f25c24@suse.de>
 In-Reply-To: <20261119-gup-dirty-what-v1-0-236d69f25c24@suse.de>
 To: David Hildenbrand <david@kernel.org>, 
@@ -133,67 +88,69 @@ Cc: linux-ext4@vger.kernel.org, linux-nfs@vger.kernel.org,
  Michal Hocko <mhocko@kernel.org>, linux-fsdevel@vger.kernel.org, 
  Pedro Falcato <pfalcato@suse.de>, stable@vger.kernel.org
 X-Mailer: b4 0.15.2
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
 X-Spam-Flag: NO
+X-Spam-Score: -4.00
 X-Spam-Level: 
-X-Spamd-Result: default: False [-17.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_TWELVE(0.00)[37];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RL8d8xedm6iu8o66torxsk6bwd)];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -17.30
+X-Rspamd-Queue-Id: F2E4B1FCEE
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
 
-Some callers, like folio_unmap_invalidate(), call filemap_release_folio()
-without any care for folio refcounts. This is on purpose. As
-folio_unmap_invalidate() states, invalidate_inode_pages2() needs stronger
-guarantees, and "can't afford to leave folios behind because
-shrink_folio_list() has a temp ref on them". Ok.
+The check added in commit d824ec2a1546
+("mm: do not reclaim private data from pinned page")
+is correct. However, it only handles pages pinned for DMA, using
+pin_user_pages(). It completely skips any other get_user_pages() user,
+that does not pass FOLL_PIN.
 
-Use folio_maybe_dma_pinned() universally, in filemap_release_folio(). This
-has a much lower false positive rate, and should be ok enough for most
-serious cases.
+Replace the folio_maybe_dma_pinned() check with
+filemap_may_release_folio().
 
-While here, properly assert that no folio passed to release_folio is
-mapped.
-
+Reported-by: David Hildenbrand <david@kernel.org>
 Cc: stable@vger.kernel.org
 Fixes: d824ec2a1546 ("mm: do not reclaim private data from pinned page")
 Signed-off-by: Pedro Falcato <pfalcato@suse.de>
 ---
- mm/filemap.c | 3 +++
- 1 file changed, 3 insertions(+)
+ mm/vmscan.c | 13 ++-----------
+ 1 file changed, 2 insertions(+), 11 deletions(-)
 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index f9e34144c53c..4fa75663b7f3 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -4571,8 +4571,11 @@ bool filemap_release_folio(struct folio *folio, gfp_t gfp)
- 	struct address_space * const mapping = folio->mapping;
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index 6a1af9b92349..d80bbb607a15 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -1464,16 +1464,6 @@ static unsigned int shrink_folio_list(struct list_head *folio_list,
+ 			}
+ 		}
  
- 	BUG_ON(!folio_test_locked(folio));
-+	VM_WARN_ON_FOLIO(folio_mapped(folio), folio);
- 	if (!folio_needs_release(folio))
- 		return true;
-+	if (folio_maybe_dma_pinned(folio))
-+		return false;
- 	if (folio_test_writeback(folio))
- 		return false;
- 
+-		/*
+-		 * Folio is unmapped now so it cannot be newly pinned anymore.
+-		 * No point in trying to reclaim folio if it is pinned.
+-		 * Furthermore we don't want to reclaim underlying fs metadata
+-		 * if the folio is pinned and thus potentially modified by the
+-		 * pinning process as that may upset the filesystem.
+-		 */
+-		if (folio_maybe_dma_pinned(folio))
+-			goto activate_locked;
+-
+ 		mapping = folio_mapping(folio);
+ 		if (folio_test_dirty(folio)) {
+ 			if (folio_is_file_lru(folio)) {
+@@ -1566,7 +1556,8 @@ static unsigned int shrink_folio_list(struct list_head *folio_list,
+ 		 * the folio on the LRU so it is swappable.
+ 		 */
+ 		if (folio_needs_release(folio)) {
+-			if (!filemap_release_folio(folio, sc->gfp_mask))
++			if (!filemap_may_release_folio(folio, 1) ||
++			    !filemap_release_folio(folio, sc->gfp_mask))
+ 				goto activate_locked;
+ 			if (!mapping && folio_ref_count(folio) == 1) {
+ 				folio_unlock(folio);
 
 -- 
 2.56.1
