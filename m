@@ -1,95 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.224
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795058930;
-	b=eQ8E93oRo0WskA477Zb/8XKaxbex0Hr9bAhDBoOGQFTvfqBFiCuMA9U2FfowPRt5xLzE
-	 uBxCvckfVxL7FcukTyDjgw+dQWzdI9OfwIfXxQfgrIYcnSB3idAsB9LOUDvcogyKpmCwh
-	 rMBBXm5+74y5T2eNEBGu3ZvxND9NdixoLn9aW5YszR5S4PkGtIRCGtYdmi7PZokks8IHN
-	 NlSOC7onBd7YM5uZ0syn7xOXGqLWwnbmC5XqLTyLUag7NoAdqd3hJOttjJEhslV9tjCEW
-	 GPWfJu+iBq6AgDQfRI6iiGtY0XyKSJHiZEGcHYxKvCXUt/rzQ5nxEaXhBTtgjMf8oLQ==
+	t=1795059983;
+	b=QYt4A8VEMNU2nDiWBjzUQ7PEbKtbfaSd2D4AekzpAzCU4GvL+3+YoXkX6+g0vEvwzx9+
+	 Gf6lw0N0abtxb2Sid24/YKLVoBglkGEbv2POOON+Q7aAVGSfKg9ipmcJmRbOpm3XJ2CtY
+	 t++GrXGtHF4cXHxc0FSsPR+SYj1HwhQ9QbTjrgYGKPh4UOOADFtTAxrvZ3u0Rb9QqfgkB
+	 PfGCHwT1lM5PNwto0BLkoJcmgRqw9v4/4dgdihNEnKQlnpVfInOiyXrfzhDgCMhbWGDkC
+	 AUG0icYznYOT6p0xUdjrgX3PLZmeYtfAHEC8bVZkqoTmtiItMDEItwmMfXs2Bz9Xj0Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795058930;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=CYlgoWlQjoEhGqZTHu9yMtGAoHutdZN/vbViahm757M=;
-	b=gMEh1fOuCD1KL7YPyozE6VM4zi04Go5qSp4YWcnvWPBiN1Pcx7hy5GINUbNQMdmMYN7+
-	 Ya7rLt2/rWzn7KHXOnzaNjjj+8IoXEjMV623UtZBmyG9v1ClKlM66jpLoYl7My2KB3k7B
-	 GaI/MtvYn0NaqjELALAMXpJ7yQih39nfjYDcL3yVkGXMsfq5h4KrhB6QdOHEZBLm4y/rY
-	 Lr8gHMD1v1a+7nIx/UX4rQUJQdS5id5aCu/E58pfLylBRed8zi4JZUD5w8vqJCIJDjxT3
-	 u6uGiP7hR7PIntz87AalkH9lVrNP0JzsUYIbychMrnvMqRElnrar9T/NNdsjaSSR36Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795059983;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+	bh=OAbbp57riKGI1fZlq88CcOSg3koPqPRG3juTd/UX3uo=;
+	b=QaeNr5+xsg9u+Rf7J/e/9IDeo3uOfhzzOj8w1nwr4kfUk9+lX7pcWpnvwf4ki60o2Vxp
+	 waauT8pMaEmjFG6oMJwkIKgMuSK4SEPEIM8f5tBySDtSu/BZkC8dN9tQKto/F2a/WhWkQ
+	 puw01L5uYn+S3+hb4TM5Teq86DtGgKLpSqcsSIYtXIBD5Q+qNJAHTIUqiDB4DSXkfuKyu
+	 5xn8Z8hc3h6miOabyk83/zB8L5KNR1CbXYBK28HyMVCaAazkHH4TkK7kTzGv9MwsvfIMh
+	 o4flW/mnYDnxoiEyKn+x5Hu2XrwY2rwjlIabDzSvd5ZVIdlZDgBmE6N2ArXhodyDHeA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pXfCUbWL;
-	arc=none smtp.remote-ip=209.85.215.172
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b="V/52GJjf";
+	arc=none smtp.remote-ip=113.46.200.224
+Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67EDE606A325
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 03:28:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 67EDE606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA36606A325;
+	Thu, 19 Nov 2026 03:46:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CA36606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pXfCUbWL
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-cde4b4e936fso244528a12.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 19:28:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795058930; x=1795663730; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=CYlgoWlQjoEhGqZTHu9yMtGAoHutdZN/vbViahm757M=;
-        b=pXfCUbWLnxs76b/MfQ8RKnylzDz7BaKSoLAaNcVZVMp953cz1o5DWBgqMUqrMA5yIe
-         F0UIBUgtJhZnSrfhRc18S6FvTkI3jq+cwTs98vwytkqQiKzFMdic4cKdjXY9PkmjqT6P
-         /isOEoBUk6GSkGLO2jwxL3fumT6AWaEYB2yFtH+9VmokuBRVJw9wK6gfSQA95Y6YyEi2
-         lt3Mpo/45zTNEnR6QccgMGVVZi34CU9IlSiBO6PmjuWmgr77sGAaGcwS1hIkR3XqXelH
-         ANFDsSg6Tl6F6ORfTI4Vv6h4ZjSYGXGR8jxrw7KEjOSI6EW6enHkwxFiEeuuTZ1oUoeC
-         sLcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795058930; x=1795663730;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CYlgoWlQjoEhGqZTHu9yMtGAoHutdZN/vbViahm757M=;
-        b=0UDkyHRch9f3RKCp6pwiC39Y/weRyY5vy7W0xApv51gtjiAOXUtnvFTfN55uXqV5kZ
-         YGj4Hqfr+dgNI8//FBivDqOPN6ZVb1d0x2DyT14g2Yn6a1mfgns5NB5B8Decrb86mFWx
-         oVnKiYzKx19O6GaPeU4I2jzAbd/J22DJc5BKLRBAS/qS3mZfOO6juhxRs3gEtPuyrVGY
-         YQ4lA3s/OZ+a/EsuBeqeSB5218p9Y2o+BeEm1zivm8kZWITBO2q6Gzrkj6LOVBB6zVx1
-         4ldb2k8zsfpKJ0e9df/E19MyEBbA2AhwbJvQIbzguRDf4klCvxJeYkxad6kIikP3s/af
-         WUXw==
-X-Forwarded-Encrypted: i=1; AL+hErEZfScfXUCOzSRzOWxhFBLFlkGDUBbfHbajQDh9/2x2HNer/dF5PnCUO5cCQR524CrSthfAdj6KZ8ncUT1p@vger.kernel.org
-X-Gm-Message-State: APuU4Z/6yEZtdPaK84z6OFGUxFYMQLWIOtuR5ek9owIiCxGYXuWl1pkQ
-	yH2XmdObiavvaO0qJqtyl6zwd5Tz1T3TEajwJIJqoB1OAcf0hWstUzmh
-X-Gm-Gg: AZFdTZctif/aUx/CgExxjA0xqk4XoK4j0qFbRrS25rCZJhT1idUMamgv2PMsOVIYt5N
-	cvdncolwDcuDc+ja4mN0j6I2b5wK16oift//92fZzsOl9N7HfqaBj/zfPgoXQSGBPUzqO0b8AZD
-	s4pO2GGWNfGPZPKfcRm9epcLf3tf0s9LusvCQk6/wJIb0Ftmd0/vy2Uun43oAJMWcM5RX2NusbV
-	1eJg6lzL3maaNNcxyoEdP6fOOy14yNia5XseUkNoK/qQj8Tb4JqNHYb/Q1a4fADwmn+rWWxtLhE
-	ZV4MBWTgkoBvI+VFDwsANUxLdLmR5ccLL2q3w/nrqVXnQ/704LMrAe3Bt4PRZVKuTMH0oIDRbKA
-	U3XKWAa0GJ99sMsG5m89qLcd/qdGraqsjzVNFbLtuU1fo63L+lgHcZPx2nhOwsmEPyHXc6ZOng3
-	IxmuiEDT2GAsYELMKHgxOplscBKJPjWLqX9MMqQZgVM1hELMWVMb2y5cws9LpEMj3kKP0u35wO8
-	tW3Spvm9zsP7XrIA2SIfGK0z0gHsmGopFngueNhu7TKFhNJfeebAUtfYXOUvJYc51AnCcnGbw5I
-	SqildVx4M5aEh09sjNiv3411BFHQuZ8x8DIopVtFZnj5/Jup/A==
-X-Received: by 2002:a17:90b:2487:b0:3b1:6e2:3693 with SMTP id 98e67ed59e1d1-3b3ffa1d30fmr268271a91.17.1795058929793;
-        Wed, 18 Nov 2026 19:28:49 -0800 (PST)
-Received: from MacBook-Pro-8.lan ([27.125.146.195])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b402aa8555sm319488a91.3.2026.11.18.19.28.47
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 18 Nov 2026 19:28:49 -0800 (PST)
-From: Ding Feng <dingf3ng@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] fs: ignore RLIMIT_FSIZE above LLONG_MAX in generic_write_check_limits()
-Date: Thu, 19 Nov 2026 11:28:42 +0800
-Message-ID: <20261119032842.34297-1-dingf3ng@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261119031026.7985-2-dingf3ng@gmail.com>
-References: <20261119031026.7985-2-dingf3ng@gmail.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=V/52GJjf
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=OAbbp57riKGI1fZlq88CcOSg3koPqPRG3juTd/UX3uo=;
+	b=V/52GJjfwvVK8DnDIvM5IQVRHWD6bWwP9aQgdIQW3zyiANrSaj0DY2j7nFjPaV7CdoJkRPEs9
+	j5P3307aBbCQKc9UtkmeUFvURRjxT+IUgrgDq+974N8dU9cb6StPqSQAXioAda0lAeeDVSXW/cF
+	zoa53Mrhki2F1QPx2mEV1j0=
+Received: from mail.maildlp.com (unknown [172.19.163.15])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4jVPWm3pc4z1cyPH;
+	Thu, 19 Nov 2026 11:45:56 +0800 (CST)
+Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
+	by mail.maildlp.com (Postfix) with ESMTPS id C65134058E;
+	Thu, 19 Nov 2026 11:46:16 +0800 (CST)
+Received: from [10.67.110.140] (10.67.110.140) by
+ whupemk100010.china.huawei.com (7.152.184.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Thu, 19 Nov 2026 11:46:09 +0800
+Message-ID: <9787bc85-5b1c-4f13-9b0c-cd027548efa0@huawei.com>
+Date: Thu, 19 Nov 2026 11:46:07 +0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -99,14 +62,78 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next -v4 02/17] LSM: pass struct path to the
+ inode_setsecctx hook
+To: Christian Brauner <brauner@kernel.org>
+CC: Al Viro <viro@zeniv.linux.org.uk>, <mic@digikod.net>, <gnoack@google.com>,
+	<paul@paul-moore.com>, <jack@suse.cz>, <amir73il@gmail.com>,
+	<andrii@kernel.org>, <apparmor@lists.ubuntu.com>, <ast@kernel.org>,
+	<axboe@kernel.dk>, <bpf@vger.kernel.org>, <casey@schaufler-ca.com>,
+	<cel@kernel.org>, <cem@kernel.org>, <chenxiaosong@chenxiaosong.com>,
+	<code@tyhicks.com>, <corbet@lwn.net>, <Dai.Ngo@oracle.com>,
+	<dakr@kernel.org>, <daniel@iogearbox.net>, <dhowells@redhat.com>,
+	<dlemoal@kernel.org>, <dmitry.kasatkin@gmail.com>,
+	<driver-core@lists.linux.dev>, <dsterba@suse.com>,
+	<ecryptfs@vger.kernel.org>, <eddyz87@gmail.com>, <emil@etsalapatis.com>,
+	<eric.snowberg@oracle.com>, <exfat@lists.linux.dev>,
+	<georgia.garcia@canonical.com>, <gregkh@linuxfoundation.org>, <hch@lst.de>,
+	<hirofumi@mail.parknet.co.jp>, <hyc.lee@gmail.com>,
+	<ihor.solodrai@linux.dev>, <jlayton@kernel.org>, <jmorris@namei.org>,
+	<johan@kernel.org>, <john.fastabend@gmail.com>,
+	<john.johansen@canonical.com>, <jolsa@kernel.org>, <kpsingh@kernel.org>,
+	<linkinjeon@kernel.org>, <linux-api@vger.kernel.org>,
+	<linux-block@vger.kernel.org>, <linux-btrfs@vger.kernel.org>,
+	<linux-cifs@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-nfs@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <linux-unionfs@vger.kernel.org>,
+	<linux-xfs@vger.kernel.org>, <liubaolin12138@163.com>,
+	<martin.lau@linux.dev>, <mason@kernel.org>, <mathieu.desnoyers@efficios.com>,
+	<matt@bobrowski.net>, <memxor@gmail.com>, <mhiramat@kernel.org>,
+	<miklos@szeredi.hu>, <neil@brown.name>, <netfs@lists.linux.dev>,
+	<ntfs@lists.linux.dev>, <okorniev@redhat.com>, <omosnacek@gmail.com>,
+	<penguin-kernel@i-love.sakura.ne.jp>, <rafael@kernel.org>,
+	<rdunlap@infradead.org>, <roberto.sassu@huawei.com>, <rostedt@goodmis.org>,
+	<selinux@vger.kernel.org>, <senozhatsky@chromium.org>, <serge@hallyn.com>,
+	<sj1557.seo@samsung.com>, <skhan@linuxfoundation.org>, <song@kernel.org>,
+	<stephen.smalley.work@gmail.com>, <takedakn@nttdata.co.jp>, <tom@talpey.com>,
+	<yonghong.song@linux.dev>, <yuezhang.mo@sony.com>, <zohar@linux.ibm.com>,
+	<utilityemal77@gmail.com>, <lujialin4@huawei.com>
+References: <20261117150542.1169451-1-caixinchen1@huawei.com>
+ <20261117150542.1169451-3-caixinchen1@huawei.com>
+ <20261117184342.GR989762@ZenIV> <20261118001641.GA1669148@ZenIV>
+ <bdc22808-9f22-46f7-b42d-e6bd8e1eeaca@huawei.com>
+ <20261118-nordlicht-badeort-daumen-813a1e9fd0b3@brauner>
+Content-Language: en-US
+From: Cai Xinchen <caixinchen1@huawei.com>
+In-Reply-To: <20261118-nordlicht-badeort-daumen-813a1e9fd0b3@brauner>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ whupemk100010.china.huawei.com (7.152.184.41)
 
-Jan reviewed v1 of this patch after I had prepared v2:
+o, you are right, dentry is borned *self-parented*, and 
+d_alloc()/d_alloc_parallel allocate
+from parent->d_sb, __d_move only re-parent withon on sb. So 
+dget_parent() cannot
+leave the sb.
 
-https://lore.kernel.org/linux-fsdevel/hwwtflqzbga65oxvo7bw44xuhpbqseyfww62kyzko5az4gdnxy@4wxsl465nvp5/
-
-The only change in v2 is the type of the limit (u64 instead of
-unsigned long).
-
-Thanks,
-Ding Feng
+On 11/18/2026 5:35 PM, Christian Brauner wrote:
+> On Wed, Nov 18, 2026 at 04:59:29PM +0800, Cai Xinchen wrote:
+>> There are two places that violate (1), both introduced by this series of
+>> patches in ksmbd:
+>>
+>> smb2_parent_compressed() and smb_inherit_dacl() pair the directory entry
+>> returned by dget_parent()
+>>
+>> with path->mnt, and problems arise once that directory entry becomes the
+>> root of its mount point.
+> No, (1) holds there. dget_parent() never leaves the superblock so the
+> parent has the same ->d_sb as path->dentry.
+>
+> What happens at the root of a mount is that the parent isn't below
+> path->mnt->mnt_root anymore. That's a different property and struct path
+> doesn't guarantee that (open_by_handle_at(), nfsd with
+> no_subtree_check). So there's nothing to fix for (1) in those two.
