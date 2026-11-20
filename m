@@ -1,52 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795173548;
-	b=H0wo4Og2kx7E60NHRFikDi2e6N/Am/ZnWPMCZ5RywH4EJJmx/ozckBeEV2s8AvwJeqR4
-	 k/UBZ0utEw8ZZXZlxG5uwrncjebFeV476XxE0aUH237L3a90TNP9Ei/yacDUgqlnHkcem
-	 1EGNw7JLGXXy7BUHIpOD5JW/zjVqmzhD34uTrxLFhE8XDdoPQhghpMaYnP5S7sIYmVbCW
-	 2OPFUXuklC9jlSoU0HQytH1lFh8z1IoJ3EyqFrm3uWxLaIZ+kAC4hMIbpLKzSj7PxS2t1
-	 qv79NAvfyidJhdn1a9eSoqT/FWckBWMTGAGZQnRtGAxbGDOQZ80jjHNyL2webRkd0Bw==
+	t=1795173598;
+	b=nW2sncu545cKiqU9wmQHPOA335se+mkM7dUhkKizQjY52VOZlK/YbCdhL3oA90z7/Hh7
+	 8j3iLtzoETvW1Rxo1rLJf54Y4J0ZC5+fVqIaVkvHi2NEZUKUhpARO3trL8qTIQ93og4ic
+	 0Z+mVQBNxLHXaHL8zXYUBREpFQJmWmpjHnjDMTiySF6QL0vdyIhCBn0/doQIaCCt9LvuE
+	 PHzcSChUWvEHf6vB79A6hZF6xwmtd+I403tqrhwGS52k2gKnnhAQwpDUSRcjI1SCVuZO6
+	 r0ODUSX6H5RtDGz/C6b6+Z42cNpSb4JQdx+0kdwpwHLKo/7uHvOagOVrqH7YzkjCtWA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795173548;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=jNhasqcl3/2+gu9SZ9NYc2vIUcbgEHQXO5UU6309jn8=;
-	b=0bxT9SQzZGeS41Ch67RMJFSoYYPAnpAAmJdV6pXBSu2DSodFoptG9f4wwVhocb++CKmX
-	 6vOl4HId+LflvqqersJEmxheiyaFkgqy7hiVTSJ05e0oGh1uGEhOXwOtAnqsEXx8NsQ3S
-	 JHUEIbq2+Oq4npoSSfLiPUvUbbipbEUqzQiEdhu/dDt/on/fdQcP7yflwWCi5Mnd51x+g
-	 2I26A4CwJnLyDBJhvv5qyPiw+dsTUKkQ/xE52OxN0Dh3ms3XguClusbx/INLRuHKBUddH
-	 9hBzEYrCmg42FmJ1WZ0hm/U8+jPvX5giwXCMC6rjQeBUFUTeufHi+fZs4aTQd8sWQiQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795173598;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=svddqoV3Ly3xh24WZbUpNnjtB7dnR/ALWSPjqd0L+s8=;
+	b=jUH9F/3r5W4fx4bXHC5M21K3VidiPD7ZiA8uYPiZpaiBvyBDz9NDAT3xiu/UPqw0ul7W
+	 sLd22dX1bDn+NwQ8sKheRZrWoWL0ZzKz2ZiEy42xskJsabfxd8bX4CGo4+d0uzpKiMRWc
+	 VlrSGdEcg4E9hJ24MdiY0nt7xd3IWXP2OcCwbyx7b7kMAEfiqXX4C+fTXeDkHmrO8A2HJ
+	 lWyh6m3KZOhzjxKHr5iBlhRUATIKkrKR4JVQXpqhI234R+YwfIe1f2HRfgVS/DM2gJVD9
+	 Xys2ZRuERVuUubdc8YUT6tBHVBM4KgJ31veSl/5kTCMHV2jV6z2wbgWeF2QHovI7E2w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OE3CaUOI;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="y1k/j2d3";
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=z3Z0shYT;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="y1k/j2d3";
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=z3Z0shYT;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8397606A32C
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 11:19:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E410606A320;
+	Fri, 20 Nov 2026 11:19:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E410606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OE3CaUOI
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 205311F000D2;
-	Fri, 20 Nov 2026 11:19:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795173547;
-	bh=jNhasqcl3/2+gu9SZ9NYc2vIUcbgEHQXO5UU6309jn8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OE3CaUOIwnI5bkJ7z8xTgLOc6dqqjEiF3igf/HnZuuL5190BoSSr5ICy4iKvuEXJz
-	 BBCZDws7UpUNEDwO3XHU98l/ZebmP+qoQ2thi7nqCAL9bKIVS9A2wJX9AcdRRuDbPB
-	 NURmytbtgpKuPDJsTpgvUg2gnEQSuDKRq2Px73jLYp8Kk6xdCReG6uHN6NkGv1+Hag
-	 wqexsExFZ+yX6oihxsmiXqPiikul5kV6jvJMbV1eS68d9oeYZpyOZ2Y9dYNH0hLAcD
-	 YQDSABz/0vPRdqFIcWPxPKcFaHcGrMXy9om3zQAE7TXr1OARLkqWV0pSLW0t9VNrpr
-	 nSDTkOWE9JfXw==
-Date: Fri, 20 Nov 2026 12:19:03 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Ye Bin <yebin@huaweicloud.com>
-Cc: viro@zeniv.linux.org.uk, jack@suse.cz, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] fs: hold freeze protection across writable regular file
- ->open()
-Message-ID: <20261120-zehnfach-flugfeld-textil-72ab74773d45@brauner>
-References: <20261112135245.3347102-1-yebin@huaweicloud.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=y1k/j2d3;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=z3Z0shYT;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=y1k/j2d3;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=z3Z0shYT
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9CD931F441;
+	Fri, 20 Nov 2026 11:19:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795173595; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=svddqoV3Ly3xh24WZbUpNnjtB7dnR/ALWSPjqd0L+s8=;
+	b=y1k/j2d3GrMgMjiy4lzvR+MNH0uBpP45GD1za82IX5ZtXVRYDAIkQlxAHbLC5DPgI3QBLP
+	a5FxfTX9mfdl+05P9JArLaW7hi2ZoSahpPkjtoz/seTeg7XXpWIVrN+qEI7CP8NEtzgYpe
+	yNxwf9ioDb45XNgN/oAsjwI8I6T3vGQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795173595;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=svddqoV3Ly3xh24WZbUpNnjtB7dnR/ALWSPjqd0L+s8=;
+	b=z3Z0shYTcV7bR32/yGoPEFQdxMqD2Zf+7VMhtlNSBMCYjD57xlgPR1vRLukV88pDO1LsvF
+	VYQldct+ihmRFwDw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795173595; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=svddqoV3Ly3xh24WZbUpNnjtB7dnR/ALWSPjqd0L+s8=;
+	b=y1k/j2d3GrMgMjiy4lzvR+MNH0uBpP45GD1za82IX5ZtXVRYDAIkQlxAHbLC5DPgI3QBLP
+	a5FxfTX9mfdl+05P9JArLaW7hi2ZoSahpPkjtoz/seTeg7XXpWIVrN+qEI7CP8NEtzgYpe
+	yNxwf9ioDb45XNgN/oAsjwI8I6T3vGQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795173595;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=svddqoV3Ly3xh24WZbUpNnjtB7dnR/ALWSPjqd0L+s8=;
+	b=z3Z0shYTcV7bR32/yGoPEFQdxMqD2Zf+7VMhtlNSBMCYjD57xlgPR1vRLukV88pDO1LsvF
+	VYQldct+ihmRFwDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 74BE71342D;
+	Fri, 20 Nov 2026 11:19:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ME+iFNssAGvzaQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 20 Nov 2026 11:19:55 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id 057C225F29; Fri, 20 Nov 2026 12:19:55 +0100 (CET)
+Date: Fri, 20 Nov 2026 12:19:54 +0100
+From: Jan Kara <jack@suse.cz>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] fs: use multigrain timestamps only with nanosecond
+ granularity
+Message-ID: <srvvl6jszz33iwi3qumqh2rle6vwg6fcqp2j7u6u62tb63se35@eycek35vou22>
+References: <20261119-mgtime-v1-1-fd28399a5557@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -56,97 +112,103 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261112135245.3347102-1-yebin@huaweicloud.com>
+In-Reply-To: <20261119-mgtime-v1-1-fd28399a5557@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
+X-Spam-Score: -12.80
 
-On Thu, Nov 12, 2026 at 09:52:45PM +0800, Ye Bin wrote:
-> From: Ye Bin <yebin10@huawei.com>
+On Thu 19-11-26 16:41:01, Jeff Layton wrote:
+> Multigrain timestamps promise that a change after the ctime was
+> queried shows a later ctime: inode_set_ctime_current() takes a
+> fine-grained time when the coarse one isn't past the queried value.
+> But it truncates that time to s_time_gran, and on a superblock with
+> coarse granularity, such as ext4 with 128-byte inodes (one second),
+> the truncated fine-grained time is no later than the coarse one, and
+> the update is skipped. The inode is still flagged IOP_MGTIME, so a
+> caller relying on is_mgtime() for that promise, such as nfsd deciding
+> whether it can move the change attribute by moving ctime, is misled,
+> and the multigrain machinery only costs a fine-grained clock read.
 > 
-> A writable open of a regular file reaches the filesystem's ->open()
-> callback without holding any superblock write (freeze) protection.
-> ->open() can nevertheless write to the filesystem: ext4_file_open() ->
-> dquot_file_open() -> dquot_initialize() may acquire a dquot and write
-> the quota file, which starts a jbd2 transaction.  If the filesystem
-> reaches SB_FREEZE_COMPLETE in that window, ext4_journal_check_start()
-> hits
+> Set IOP_MGTIME only on a superblock whose s_time_gran is 1. Every
+> FS_MGTIME filesystem (btrfs, ext4, f2fs, tmpfs, xfs) sets s_time_gran
+> before it allocates an inode; document that it must.
 > 
-> 	WARN_ON(sb->s_writers.frozen == SB_FREEZE_COMPLETE);
-> 
-> and the open then sleeps in jbd2 until the filesystem is thawed.
-> 
-> The hole was created over time:
-> 
->   - Commit 907f4554e252 ("dquot: move dquot initialization responsibility
->     into the filesystem") moved quota initialization into ->open() and
->     introduced dquot_file_open(), making ->open() a potentially writing
->     operation for writable opens.
-> 
->   - Commit eb04c28288bb ("fs: Add freezing handling to mnt_want_write() /
->     mnt_drop_write()") added sb_start_write() to mnt_want_write() but
->     deliberately kept the write reference held by an open file on the
->     non-freezing __mnt_want_write() variant, so the file's own write
->     reference does not protect its ->open().
-> 
->   - Commit 64894cf84327 ("simplify lookup_open()/atomic_open() - do the
->     temporary mnt_want_write() early") moved the temporary write count
->     into do_last() and dropped it before finish_open(), so a writable
->     open that is not O_TRUNC reaches ->open() with no sb write count at
->     all.
-> 
-> Since then only O_TRUNC opens take mnt_want_write() in do_open().
-> 
-> Fix this by taking mnt_want_write() for any writable open of a regular
-> file and holding it across vfs_open()/->open().  Regular files are
-> checked explicitly so that opening device nodes on a read-only mount is
-> not newly rejected.  Read-only opens are unaffected.
-> 
-> Fixes: eb04c28288bb ("fs: Add freezing handling to mnt_want_write() / mnt_drop_write()")
-> Signed-off-by: Ye Bin <yebin10@huawei.com>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+
+Looks good. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
 > ---
->  fs/namei.c | 16 ++++++++++++++--
->  1 file changed, 14 insertions(+), 2 deletions(-)
+> When I originally did the multigrain timestamp work, I missed the fact
+> that ext4 can have an s_time_gran of NSEC_PER_SEC. I think this is a
+> very uncommon setup, so I don't see a need for a huge rush for this one.
+> Please consider for v7.5.
+> ---
+>  Documentation/filesystems/multigrain-ts.rst | 6 ++++++
+>  fs/inode.c                                  | 2 +-
+>  2 files changed, 7 insertions(+), 1 deletion(-)
 > 
-> diff --git a/fs/namei.c b/fs/namei.c
-> index f573fd0aacaf..0ee4cf282cf5 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -4906,6 +4906,7 @@ static int do_open(struct nameidata *nd,
->  	const struct mnt_idmap *idmap;
->  	int open_flag = op->open_flag;
->  	bool do_truncate;
-> +	bool got_write;
->  	int acc_mode;
->  	int error;
->  
-> @@ -4935,12 +4936,23 @@ static int do_open(struct nameidata *nd,
->  		return -ENOTDIR;
->  
->  	do_truncate = false;
-> +	got_write = false;
->  	acc_mode = op->acc_mode;
->  	if (file->f_mode & FMODE_CREATED) {
->  		/* Don't check for write permission, don't truncate */
->  		open_flag &= ~O_TRUNC;
->  		acc_mode = 0;
->  	} else if (d_is_reg(nd->path.dentry) && open_flag & O_TRUNC) {
-> +		do_truncate = true;
-> +	}
+> diff --git a/Documentation/filesystems/multigrain-ts.rst b/Documentation/filesystems/multigrain-ts.rst
+> index c779e47284e8..81ea632c7a4b 100644
+> --- a/Documentation/filesystems/multigrain-ts.rst
+> +++ b/Documentation/filesystems/multigrain-ts.rst
+> @@ -123,3 +123,9 @@ inode_set_ctime_current(). If the filesystem has a ->getattr routine that
+>  doesn't call generic_fillattr, then it should call fill_mg_cmtime() to
+>  fill those values. For setattr, it should use setattr_copy() to update the
+>  timestamps, or otherwise mimic its behavior.
 > +
-> +	/*
-> +	 * ->open() can write to the filesystem, e.g. when it initializes
-> +	 * quota, so writable opens of regular files need freeze protection
-> +	 * as well.  O_TRUNC opens already need it for handle_truncate().
-> +	 */
-> +	if (do_truncate ||
-> +	    (d_is_reg(nd->path.dentry) && (file->f_mode & FMODE_WRITE))) {
->  		error = mnt_want_write(nd->path.mnt);
-
-No, I don't think that's the right thing to do. Every
-open(O_WRONLY|O_RDWR) would now block for a regular file on a frozen
-filesystem even if it never writes. That's not acceptable. Log files,
-editors, backup tools, they all would hang rather than fail on write.
-It's a drastic uapi change.
-
-The write in ->open() is from the quota stuff. So that should be a quota
-fix and not penalize the whole VFS layer.
+> +Multigrain timestamps are only enabled on a superblock whose s_time_gran is 1:
+> +a fine-grained timestamp truncated to a coarser granularity can be no later
+> +than the coarse-grained one, so the kernel can't guarantee a visible change.
+> +The filesystem must set s_time_gran before it allocates any inode, since
+> +whether an inode uses multigrain timestamps is decided when it is allocated.
+> diff --git a/fs/inode.c b/fs/inode.c
+> index de207f2f95a9..9cc28306feda 100644
+> --- a/fs/inode.c
+> +++ b/fs/inode.c
+> @@ -239,7 +239,7 @@ int inode_init_always_gfp(struct super_block *sb, struct inode *inode, gfp_t gfp
+>  	inode->i_opflags = 0;
+>  	if (sb->s_xattr)
+>  		inode->i_opflags |= IOP_XATTR;
+> -	if (sb->s_type->fs_flags & FS_MGTIME)
+> +	if ((sb->s_type->fs_flags & FS_MGTIME) && sb->s_time_gran == 1)
+>  		inode->i_opflags |= IOP_MGTIME;
+>  	i_uid_write(inode, 0);
+>  	i_gid_write(inode, 0);
+> 
+> ---
+> base-commit: 65e4fd942f72a9dba0e4e257290c4fa1aa756854
+> change-id: 20261119-mgtime-fc070b268bdf
+> 
+> Best regards,
+> -- 
+> Jeff Layton <jlayton@kernel.org>
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
