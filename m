@@ -1,63 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795167522;
-	b=OpkBCQa+hyguvi92icHIP8TNeqUYSEyPd9qN5b0vicJ410LO1LWtvzmfwfb3Ms2JfrAZ
-	 lkwIKRUOYhyDdo/6xvA59eTpurKsOrhIY0dAYgtfWl2UqL453N8sxv9wcOUCYT6hBco5J
-	 TRQr0PCs5WevktPQ52n0TY5TbfESwI0XL1+zzZc+GlyJm0HuyG8+NDFQLFdDQ/B8i4wEH
-	 8OvvKPZMjGrGR/Gy729oyo2Ckqp1XrTi5Z00mnaDPx3PI5f/cd49vcemoJOTKWo6Mj8iH
-	 vZ48N+54b+V24LkV7yWE6kb9oKSlXt0uy3sVZdMBmfMPiCGjFUYb79vf10yDRx1w4RA==
+	t=1795168089;
+	b=LBtXz1I8wQxCnHZQJsM0xDkSJbxtA31iPxEaikx7x4InPrFIcyMw7KXnyEZX9I8wWLrv
+	 rQy5ikzv+lUCjRYXa5dvD3XUBAFzDi5Bli1HaL3Ex5my3Mg7r/ecU1q41BUSpRJH87sDb
+	 1VnOnog7nMw4BCBYYBF4ncVxr0LaJos3yxI27bB2DxhQYi6gy4XeJ467D/1rwW+xmEGi8
+	 nstJq23FWSwSPKSfS2cab15CksHyreVEBl8gahToIcEkUfEkg6eIGeOaHNdGFFH4UVMWi
+	 rEoG/Bop+68VLwL7uokVOTSgvCIo8Nk4PyrryFH5JHDjVRRzEoXRXZYATuuFZvgJGCA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795167522;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=Afd1H3HLHSzEfHiPoIegI1/ZAbqBna+yrjuMxmwAVis=;
-	b=jm6BIZKBbRd72vwuc+dOpELu7YHRywoTj3Y08SkcighrlOVVW7QS2Y7tjuE+CT/AZPvJ
-	 dAcQv/1sjcPXgtaFsFLI6Q5naMScxS3BNRQ8UoWiBLWsBNnV5VDNTLR8yXzkSBQW1Ujse
-	 TsGUuFDPRr1vRXWdYAOkDO3GgNedGwrY3Y7b/6yQRToTMTnHQbcrlnvLxaaIG2Uc/dNB7
-	 i+xBxEcJy1RqW9iRRpmIL17ldY8T8x5YG3otHAi25ddfCD0MdjPro2Ug9fJFqkUgo+Jx3
-	 yPImE8XKgeTxuuoFpDZKsp9fv5EVOjzTPuQaaEts1zbZ3HXk/F1Nl3zXAyDp7/Sh0qw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795168089;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
+	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=NsT9uGoRAnST8Pf5uIEVETCgQNmLf9ZA3DnJoUPyAPk=;
+	b=Dsdc6DGnCImvzMPo07pe3blxkZur0DD3gLGAtKQvD0wcteXPlcVwqJUYEjYI3WcTbMXl
+	 wLZU/tfxdYrK1R1fs6z6yfa4/QzsLDIR8NIfRX9/M/jaINkgTWbM69UMWULJS3OPqFHHF
+	 Em5QjsUdiCB8D36PXqqlf6EqpVOXxQKyGmt5eIvotmdoTRoCDJ1aVhJU59aKdILaohpPe
+	 2/c6Cuz+OZCjQW+b8tCBr7SkK2RNRWnSPvdJz5rpn5UN3RvBEqY9yv6aUjmMwE5ihFbZ8
+	 YwKNg9tQz1VxdWkNh/pSqjI4IhSQfo6glwNHqi79Vz0bHSkjhG0/Tfpoe/EWjfNQwkw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P9BgjAry;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=W7mBB1rI;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ckfE1+iC;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=qmOyU1K6;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ylBmmDe7;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A995606A33B;
-	Fri, 20 Nov 2026 09:38:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F0F606A320;
+	Fri, 20 Nov 2026 09:48:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6F0F606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P9BgjAry
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 243BC1F000D1;
-	Fri, 20 Nov 2026 09:38:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795167522;
-	bh=Afd1H3HLHSzEfHiPoIegI1/ZAbqBna+yrjuMxmwAVis=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=P9BgjAryBt+3bY5m/SLXSxDvgSE1J5cTrN85T5FlspUqiGiRY+TDcTEQ2pB+Nk2WU
-	 s/l3tIaGXPJB9IOZTFkyiZ/fF365eqlMfnnqd9D0DGZLkjU75jkjP13P+Vod8jrI39
-	 jZfj5MkeQITq6V0NHMDic6D3NOk7jBAj1QlAmaX/Nn3pDgRjqlJSpkvDN475/j2XI/
-	 MOBD20m1QYazNVzMBEAmFRDMGtM5LG2aKs6GgBN0tPDHSP9WcIbF3Hq6WccgG0xPE+
-	 T544xi1ba+5i3xtr7VaobdBha5xS9kHMn/K70pDpAY83IRBB3VM8IhXEWr08NU0OBe
-	 Uln8HSiREyYaA==
-From: Christian Brauner <brauner@kernel.org>
-To: Christian Brauner <brauner@kernel.org>, 
- David Howells <dhowells@redhat.com>
-Cc: Paulo Alcantara <pc@manguebit.org>, 
- Matthew Wilcox <willy@infradead.org>, Namjae Jeon <linkinjeon@kernel.org>, 
- Marc Dionne <marc.dionne@auristor.com>, Stefan Metzmacher <metze@samba.org>, 
- Eric Van Hensbergen <ericvh@kernel.org>, 
- Dominique Martinet <asmadeus@codewreck.org>, 
- Ilya Dryomov <idryomov@gmail.com>, netfs@lists.linux.dev, 
- linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org, 
- linux-nfs@vger.kernel.org, ceph-devel@vger.kernel.org, v9fs@lists.linux.dev, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261119083851.3306418-1-dhowells@redhat.com>
-References: <20261119083851.3306418-1-dhowells@redhat.com>
-Subject: Re: [PATCH v19 00/17] netfs, iov_iter: Use a chain of bio_vec
- arrays instead of folio_queue
-Message-Id: <20261120-koriander-wohnform-parolen-1f10ac9dbc4e@brauner>
-Date: Fri, 20 Nov 2026 10:38:35 +0100
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=W7mBB1rI;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ckfE1+iC;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=qmOyU1K6;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ylBmmDe7
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7688B2250F;
+	Fri, 20 Nov 2026 09:48:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795168086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NsT9uGoRAnST8Pf5uIEVETCgQNmLf9ZA3DnJoUPyAPk=;
+	b=W7mBB1rI97/a7khCj6LW80l0akIq9P+AS9U4MLNkVpuIvplJT7soJMCvMDthMhaODZuuok
+	9zilELAamfLDJMMjPVB87BZ11OwVjxKhL8pvTyWzjW4wkr8DhMP5PGUHGMLerscqPgVdp8
+	LwLgf7JBUB8Gzds7fAi+vX5Yj9v3hUc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795168086;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NsT9uGoRAnST8Pf5uIEVETCgQNmLf9ZA3DnJoUPyAPk=;
+	b=ckfE1+iCBSu4X5UWFKlYkQbjqIhwdl1fQbrEgYLPEHuJpQfwvHAF4Lw5Ms6SMpgFgAcEbc
+	7DZBQ6gLnKN8JzDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=qmOyU1K6;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=ylBmmDe7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795168085; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NsT9uGoRAnST8Pf5uIEVETCgQNmLf9ZA3DnJoUPyAPk=;
+	b=qmOyU1K6Eoi3N6obv7hQasA7mJnlGPMtC3UJREt6WvaWKXS/ITLOEU43iAVg4Kbb0brPFW
+	aCMx4MhUQjsSnuWNIQWqm7zxihpsOorsYaTxXtztsoYrbWEmte96Ew8NAKFOwfMsgEFSY4
+	oyLnswDfPdCm4kwWBCT1XkN+BdrWRM0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795168085;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NsT9uGoRAnST8Pf5uIEVETCgQNmLf9ZA3DnJoUPyAPk=;
+	b=ylBmmDe7fTVCdds8LM2YkbF6OAk08f7rCggbLw4STiWXyz3r+TJzWcLJkyQj29aZ7NPAWs
+	pDO0Q+tnIoz+VUCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4B9061348F;
+	Fri, 20 Nov 2026 09:48:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id K2KqCVUXAGtYDAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 20 Nov 2026 09:48:05 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id CBF9425EED; Fri, 20 Nov 2026 10:48:04 +0100 (CET)
+Date: Fri, 20 Nov 2026 10:48:04 +0100
+From: Jan Kara <jack@suse.cz>
+To: NeilBrown <neil@brown.name>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Ian Kent <raven@themaw.net>, 
+	Jake Edge <jake@lwn.net>
+Subject: Re: [PATCH v5 2/5] fsnotify: update children flags only when adding
+ mask bits
+Message-ID: <mk7u4brorzgbyol7x4nyolufk3s3piqwqd5hnya3nhoq43d5ui@x5sdqeyrhde6>
+References: <20261119025942.2848130-1-neilb@ownmail.net>
+ <20261119025942.2848130-3-neilb@ownmail.net>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -67,73 +115,105 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-04696
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261119025942.2848130-3-neilb@ownmail.net>
+X-Rspamd-Queue-Id: 7688B2250F
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-13.01 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_THREE(0.00)[3];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,gmail.com,vger.kernel.org,themaw.net,lwn.net];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,brown.name:email,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -13.01
 
-On Thu, 19 Nov 2026 08:38:31 +0000, David Howells wrote:
-> Could you pull these patches please into your vfs-7.5.netfs branch?  This
-> is the third of five batches (two already having gone upstream), in this
-> case replacing the folio_queue struct with a bvecq struct.  It has been
-> rebased on v7.4-rc3.  This was split from v11 of a larger netfslib
-> series[1].
+On Thu 19-11-26 13:57:02, NeilBrown wrote:
+> From: Amir Goldstein <amir73il@gmail.com>
 > 
-> This series adds a new type, struct bvecq.  This points to a bounded array
-> of bio_vecs with information about how to clean up the memory they point
-> to.  A number of bvecq structs can be linked together to form a chain and
-> an iterator type, ITER_BVECQ, is provided that can be pointed at the chain
-> and can walk it.  Netfslib is then switched to use the new type and
-> folio_queue is removed along with ITER_FOLIOQ.
+> Since we only ever set the PARENT_WATCHED flag from
+> fsnotify_recalc_mask(), there is never a need to update children flags
+> when removing mark mask bits only when adding them.
 > 
-> [...]
+> Add a helper fsnotify_recalc_mask_and_update_children() to be called
+> in cases where updating children flags may be needed (i.e. add mark).
+> 
+> Also avoid update children walk with mark spinlock held.
+> This was only done by dnotify and can be easily avoided.
+> 
+> neilb: added update_children flag in fcntl_dirnotify() so we only
+>   do the update when needed.
+> 
+> Fixes: 172e422ffea20 ("fsnotify: clear PARENT_WATCHED flags lazily")
+> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> Signed-off-by: NeilBrown <neil@brown.name>
 
-Applied to the vfs-7.5.netfs branch of the vfs/vfs.git tree.
-Patches in the vfs-7.5.netfs branch should appear in linux-next soon.
+One question to Amir below. Otherwise I like it.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+> +/*
+> + * Recalculate mask and update children dentry PARENT_WATCHED flags if the
+> + * connector started watching children.  When parent stops watching, we
+> + * clear false positive PARENT_WATCHED flags lazily in __fsnotify_parent().
+> + *
+> + * The caller must make sure connector and connector->obj cannot disappear
+> + * under us.  This is achieved by holding mark->group->mark_mutex for a
+> + * mark on this list.  mark->lock must not be held by the caller.
+> + */
+> +void fsnotify_recalc_mask_and_update_children(
+> +					struct fsnotify_mark_connector *conn)
+> +{
+> +	if (fsnotify_recalc_mask(conn))
+>  		fsnotify_conn_set_children_dentry_flags(conn);
+>  }
+>  
+> @@ -367,8 +383,8 @@ void fsnotify_modify_mark_mask(struct fsnotify_mark *mark, u32 set, u32 clear)
+>  		recalc = true;
+>  	spin_unlock(&mark->lock);
+>  
+> -	if (recalc)
+> -		fsnotify_recalc_mask(mark->connector);
+> +	if (recalc && fsnotify_recalc_mask(mark->connector) && set)
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+Amir, why is the '&& set' check here? Under normal circumstances if
+fsnotify_recalc_mask() return's true, 'set' is true as well. We can be
+racing with other updates to the connector list of marks and in that case our
+fsnotify_recalc_mask() call could be the first one that noticed the marks
+attached to the inode are now watching children and is thus resposible for
+setting children dentry flags even if 'set' was false. So I think it can do
+only harm...
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+And for similar reasons I believe fsnotify_recalc_mask() call in
+fanotify_remove_mark() needs to be updated to
+fsnotify_recalc_mask_and_update_children() as well. Standalone
+fsnotify_recalc_mask() is simply never safe unless it is followed by the
+update children later - perhaps make it __must_check?
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.5.netfs
+								Honza
 
-[01/17] iov_iter: Fix kunit test to remove __init and __refdata marks
-        https://git.kernel.org/vfs/vfs/c/1bce9def76dd
-[02/17] block: Add a function to kmap one page of a multipage bio_vec
-        https://git.kernel.org/vfs/vfs/c/14e2292a9706
-[03/17] iov_iter: Add a segmented queue of bio_vec[]
-        https://git.kernel.org/vfs/vfs/c/5f1dd24265f0
-[04/17] netfs: Add some tools for managing bvecq chains
-        https://git.kernel.org/vfs/vfs/c/b4e0ea3853e5
-[05/17] iov_iter: Add an API document for the bvecq structure
-        https://git.kernel.org/vfs/vfs/c/ca90a27f2d94
-[06/17] iov_iter: Add a bvecq kunit test
-        https://git.kernel.org/vfs/vfs/c/0a2f9551262e
-[07/17] afs: Fix an inconsistency in the symlink code
-        https://git.kernel.org/vfs/vfs/c/44921a81054c
-[08/17] netfs: Explicitly pass tail padding to netfs_writeback_single()
-        https://git.kernel.org/vfs/vfs/c/7a3a80623cca
-[09/17] netfs: Change netfs_writeback_single() to not look inside the iterator
-        https://git.kernel.org/vfs/vfs/c/6703bfa120ef
-[10/17] netfs: Pass the write length to request creation where appropriate
-        https://git.kernel.org/vfs/vfs/c/c7496c6ed431
-[11/17] afs: Use a bvecq to hold dir content rather than folioq
-        https://git.kernel.org/vfs/vfs/c/65752f84cf61
-[12/17] cifs: Use a bvecq for buffering instead of a folioq
-        https://git.kernel.org/vfs/vfs/c/145d329f12ee
-[13/17] smbdirect: Support ITER_BVECQ in smbdirect_map_sges_from_iter()
-        https://git.kernel.org/vfs/vfs/c/adf3cafd9933
-[14/17] netfs: Switch folioq to bvecq
-        https://git.kernel.org/vfs/vfs/c/5b95afa0aeaf
-[15/17] smbdirect: Remove support for ITER_FOLIOQ from smbdirect_map_sges_from_iter()
-        https://git.kernel.org/vfs/vfs/c/c7879d1a4e06
-[16/17] iov_iter: Remove ITER_FOLIOQ
-        https://git.kernel.org/vfs/vfs/c/3d9d0bbb7fcd
-[17/17] netfs: Remove folio_queue
-        https://git.kernel.org/vfs/vfs/c/d6d5b8979e5d
-
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
