@@ -1,55 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795176813;
-	b=HGHhQsRdCi+bAz9xIjOJNNn4PELI4IdTfTZtBPHBkD9ZMl3K87dUQSfT3aFEnTdLTiZ7
-	 LpfP3BwIPtej4C1gKA56OeajdM0XD2VUmHx/ZlvLs/IZ45AvO/GZLL3HHf8Vl0iXiq+7S
-	 6qKnle1G7QcEjVZ7jyG1dt+yiDlPs1ME7y/jUmyWJspA4ueiAjQsnaQ1t1fZiB8TBN+Gz
-	 uDQ5WFp+qLqUbRPcrY07LGbYZ37zK82g96uGzonFO/23Dy+2Z3sEV7uTSN+OSWzmKyaOT
-	 pWoHYBfTS2Df3RxiZT7CyDjw10DB+sKtPHuBg/xjg6kqQhjs6A1tVASTy+0exDTCEnw==
+	t=1795177650;
+	b=yFPuAkQ8fNETlXC8FfJX0Jiy2AkztdSLiE1KJahwpFgxJuLZbOFA4LgGZp/IaXRrCHiC
+	 qccqMtWBD4RDdcVOuKYJXRFEIZoMM/NAU9kQdY4ojdy1IPK825bpuxPabjQr4lqm3IjzW
+	 8lhb4wM3h275q0LsSIIyTHmaSJjCupdLBL5l/CBn4OeXnwl/oYVMw1M9W0+DhLh/WAuMP
+	 P6Oee8IbRewD4sdK0j6PhSmxQG6y/EttiLlQskL7jKln1COcK5VW4bumLfyc+fBWXLufc
+	 2cdnniSfCUWKt+yvco14ixqeZE14gtNX7J7DUp9kQ3t2OepNgs66KZQJEg8M2lzEAag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795176813;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795177650;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=x0vGzRPs92f89CgI3Njfue5EhkkprE6lD4JkRb+Vbmc=;
-	b=NIcgrevd8bKiIBChgPqxOgRISkJzOI2rYhJKdN8n8Gf+fDl0NXM2pOiXfz+B0a3h6NkU
-	 SkdYlqEXMFjeiMqEpVGXZabHQR+wCLd4OQWX+GQNm3ccsFlS9r3ldVkibHn5Ey1LLnyNX
-	 GAl4bqtM7hn/HLs9/XXvi7WKxnveltJ9nlT+YxKhgPgMeEtSkLYxPAI8KQynnD+g2faMP
-	 esu9li9vFrZdZh1XlhBhXFVrenGDmSf9phu/cz/EUcT5LA9Fg3B99XgwAi/aG+zYif0Pw
-	 ogfZZd6P/Aa0zQ/QWnu4qu8QLDlJ+NqDSI8NOxl8s+vIofzDvmSV4RfoCGtBiA8hATw==
+	bh=kvgctjI9KPuDJg2N/GrQ1LU6SS0k8fTXknYzvILwoCo=;
+	b=3LEW3HV9UFnCQ12xfJtx8F1cACuy1nTQPQYxcPyi+EWNZAvPJnroupogi834wpDvS9ae
+	 cJAd4C+uiYnLiD7zE1dTL02RYXS548REN3sfChjnSnW7ITEO1iaGB/YmLoq9SkV1U9WO8
+	 X+9GCt7+nNUAoou5DSCJWIXInxzGkf2OkWVYj/Q7Gg0kuk5PFe7qjkc2YJ+MpY2tLiD3O
+	 8YukxEC6iNDTHiL1gWGU/1rUFrkFB23zlQ14a7NxzncfwCtRcDORc+QKlGb01QKWI1HwP
+	 V6Z6aR9A6YFnoiKM59Dm+rvZR/B3EuK0pr/7XuROrL0K5GzGJb3vpv1bH9U/sDcAigQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TshYVSCG;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YkHvcm6l;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D479606A320;
-	Fri, 20 Nov 2026 12:13:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417B3606A320;
+	Fri, 20 Nov 2026 12:27:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TshYVSCG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C4C41F000C0;
-	Fri, 20 Nov 2026 12:13:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YkHvcm6l
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10F061F000D2;
+	Fri, 20 Nov 2026 12:27:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795176813;
-	bh=x0vGzRPs92f89CgI3Njfue5EhkkprE6lD4JkRb+Vbmc=;
+	s=k20260515; t=1795177649;
+	bh=kvgctjI9KPuDJg2N/GrQ1LU6SS0k8fTXknYzvILwoCo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=TshYVSCGCcdqwCrlEsnpn5EjqKpbRkab5aX78uJpCQ1sCJbGp6a0HuKRcLhJSG/Ug
-	 Mk9PuQZrUNE6U4vE/osaEEvO05lLdcPh1oq7CYIVDd6XwGlkv/HRMNdh9Khm4zulkP
-	 i6YDME7SBtXuZANtf4g+EuXheunFrh0HuK1DaFrMlZof4MQqaUZfOffiQ50VK+wAtE
-	 ZEVG7mQrxilN+M14zd8z7sUoAsIwUVqsP+4XXfHGLEoSaNfWMqbpRIT3HJqdTcL/LE
-	 i2+7KmQPEe1gandTXttHYjKDYTSdmP6fz/kd1dXl1hJDSRxk6dRRurQYoP/EmTOnEI
-	 +KOKWQ/GpbR2Q==
-Date: Fri, 20 Nov 2026 13:13:27 +0100
+	b=YkHvcm6ldyMuVWFZeilRQvbC0SFtOpk7wJkjBou4AE06ubZzK69ombKyI/ooJlYzd
+	 ErIf4j/lFGSVAnvHczKm0eI17hf3pJuERUi7U8E2ESO9DqLvn6PMtleLSCe9Cve0fq
+	 AWSUoz8UHqQ/d7BRVIgiC30zqiCe9QJkAGIMthYbFTe92rQcky6XrKdDpVlXRsWOhX
+	 0pzCJu4EIP1hV6vXUdjase903T46dqNiYxaha5yhjQvrVHuX9toRESiahKB4iuznc1
+	 P23Qhua+5WMnDD/kf7zGp6iM2UWNuAdyH8RBbYHkA+QFPiTzJKnB1jbudMWfjEZCOX
+	 G775gDDCYG7Qg==
+Date: Fri, 20 Nov 2026 13:27:23 +0100
 From: Christian Brauner <brauner@kernel.org>
-To: Ismael Luceno <ismael@iodev.co.uk>, linux-kernel@vger.kernel.org, 
-	linux-btrfs@vger.kernel.org
-Cc: David Sterba <dsterba@suse.com>, Chris Mason <mason@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/8] btrfs: assemble a multi-device root filesystem
- without an initrd
-Message-ID: <20261120-rentier-einfuhr-riefen-31ec13d7abf5@brauner>
-References: <20261116224316.11237-10-ismael@iodev.co.uk>
+To: Chris Down <chris@chrisdown.name>
+Cc: Breno Leitao <leitao@debian.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-block@vger.kernel.org, kernel-team@meta.com, Mateusz Guzik <mjguzik@gmail.com>
+Subject: Re: [PATCH RFC 0/3] fs/pipe: copy a run of pipe buffers in one user
+ access section
+Message-ID: <20261120-kochbuch-dortig-schaben-2a60fb232a2e@brauner>
+References: <20261113-pipe-pool-regression-smap-v1-0-b0dc69558ab3@debian.org>
+ <avwYnDc2Au4mnHTd@chrisdown.name>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -61,28 +64,12 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261116224316.11237-10-ismael@iodev.co.uk>
+In-Reply-To: <avwYnDc2Au4mnHTd@chrisdown.name>
 
-On Mon, Nov 16, 2026 at 11:43:16PM +0100, Ismael Luceno wrote:
-> This series lets btrfs assemble such a root filesystem in the kernel:
-> 
->   * mount devtmpfs on the initial root before the root filesystem, so
->     device nodes exist to open the other devices by name (init);
->   * let a filesystem tell whether it is mounting the root device and read
->     rootwait, and resolve root=UUID=/root=LABEL= values that name the
->     filesystem rather than a partition (init/VFS);
+> Based on that discussion, I'd think that the better way would be to make
+> x86's unsafe_copy_to_user() use the rep movs body from patch 1 for
+> larger copies. Then copy_bvecs_to_iter_full() can be written with
+> scoped_user_write_access_size() and unsafe_copy_to_user() for every
+> architecture, without the #ifdef.
 
-Nope, sorry. The init and VFS parts of this are not acceptable. Scanning
-for devices and resolving filesystem UUIDs and labels is exactly what an
-initramfs is for. That's userspace policy and it doesn't belong in the
-kernel.
-
-The kernel can already find its root without an initrd: root=PARTUUID=
-and root=PARTLABEL=. If you need a multi-device root, use an initramfs.
-
-A ->find_by_spec() method in struct file_system_type that only exists to
-parse root= isn't going to happen either. And with BTRFS_ROOT_SCAN
-defaulting to y and selecting DEVTMPFS, 2/8 changes early boot for
-everyone who has btrfs enabled.
-
-So I agree with Qu.
+Yes.
