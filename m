@@ -1,63 +1,146 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.67.36.66
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795182074;
-	b=rDdvz5HDa3mvnKL2jjBgM+G0j5/LQmW240fL9eJ0QA4wptcTUh6+PaqquVx/QczTh+Y4
-	 e09kIhlsoh5fMdM4d9ZmP6+5T7pZU9jj3cb/AhjqQdY0bpeM7R2aUnREb78w478s4SBN9
-	 Z1KgTMEV8qU7RDGB8SUI3Ap6QkQZb4O0sFoHcEDpwaFcjX7cfmvzsvb4A2oTbZV7fi63X
-	 ovVPXaRBcTbRWPyLMMgowGYwcDKlWEcTfjEty0lgA6km3SdIrvwUWR9BOFMaMla4GEKVx
-	 jw4fpsTL11dSOwTe4l9vtm+6rSbpfBSu9JPvex9aleLXPvaE/ZzLZSME71CpTUWu9WA==
+	t=1795182075;
+	b=iVD3+oJs/rYSqWbLbHY1IN3ZMpumSHTGvQEHKwd4Vf/cL2dgLL5136SeB68z7CEus8dc
+	 iz0E7NiyveHoHFE1PyRVviwdwk0Bh1FnwkMKa2uRNEAznvd0e7x2/bpkuSNYjS7xGd+MH
+	 mjQCOvoRLYAhl4HISixD5iRC1yUggMfT7I6HidxTFkiZ861egnHYJrL8SaN77NU+9VUt6
+	 z66ERpbg2CNuzWqNBeyq1cesU3ywZ8XXd9HRe3M9OxiQo/SquKmxcXc/+zYKF8s+sA1tt
+	 5+jwFv5tV4segiTI1lrARGItZ/lJQdatSXeOVZ8aXMHGOtftzaOAoRb+yk2d6ORIFog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795182074;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=FwxNyVQvyR6u1ITlGByMJm+FIMkbiLq8smwLlAPk+KY=;
-	b=E1gSkdQTzW5ihd8+Mz0pfg59eOJe1KTbUqoAQNZZo4gbSAZ8Um/ba89Vl1vVJLncBkIf
-	 0yelNWQBnebOXe2iDXqj1PFBswIf3n/I7ev2Yd7XSfToxO1Wtq7uwHLDK+x7fP/Xi58fl
-	 8/EOJWfDRHqv0DqyD7jjs+Mwxeq9jhlqZCB2hoRdn/WcnLxuty+gpXTgyDYsKKq9M4JhC
-	 EWmMoVhQSOIKbLom7QsnPKrM+YZNymulRt0EmcEOtr5Wi61BJsyegyASRyFM0sJpLs4VI
-	 /99UEPzGxtRsmAonvBUAEuDv8a0R39ampb8W77CzhK3CSSj7NtAHAkvWMBtmZpFsl3A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795182075;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Message-ID:Subject:
+	 From:To:Cc:Date:In-Reply-To:References:Autocrypt:Content-Type:
+	 MIME-Version:OpenPGP;
+	bh=YW4oRhO1MuXRHyeWQ9Lx5ixnye7cuXD9in5rMS24y2A=;
+	b=wOjc4/Ryxp9MnkwBk80i8dkIQLMlUNlHBvQHu8bmqVGCFlm/qQTap3kWMYGYUlG/CxMX
+	 IdNy7i3pAlk1ISatDxb4daeBQ55H8VExd4szFG5ZA+rw1JgTquN9ocOsJGKna38HxJ176
+	 TZgFvCSEk3pwXvO+PUbWxYcqWlU/Gwsm90A53phHz8ErYWthGxKmkpqC0dmsGwDGUGziq
+	 8tbGGi9XYa0KqxWZkZ8IkYcebldYaoy6r4JKx0iKKbDFGrurQh60kKRhUf6IUJ5drsafD
+	 YGSJwVFpkfvQ0j5lcZmWsyIUJ1IdpcRIsDseduZaiCIDMzVUk0L5Mz60zTCMS8v+VGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=UOqy7u37;
-	arc=none smtp.remote-ip=90.155.50.34
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	dmarc=pass header.from=posteo.de;
+	spf=pass smtp.mailfrom=posteo.de;
+	dkim=pass header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=hWh+t93A;
+	arc=none smtp.remote-ip=185.67.36.66
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E31606A320;
-	Fri, 20 Nov 2026 13:41:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2E31606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A52B8606A337
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 13:41:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A52B8606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=UOqy7u37
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=FwxNyVQvyR6u1ITlGByMJm+FIMkbiLq8smwLlAPk+KY=; b=UOqy7u37mhnP61kkn7RZKKf6H9
-	ZaRrcOD2JPqTkLdVXkZFf7j4ccv0mAxGi6d4e2WZFmka0wbHvdEKRRkB35KpnDNy4RcWF5720e+sy
-	6QjfODHYDOwWiXb5CgpNQW1shlCFB71Kw8AVusaWKoUw1w1k4UVKwYuWmoVP2AL4Cb4pHMKrYpLYA
-	es9IbEn1MJdQ4UkrL+xJgrF9FR/qlmTXq82cGmIkR1JOOiZyNE+Kdx4aauaHlWFzcp9eoGq9RXFOr
-	mht4nuZCmfhBYCmGxJLYGNCLJZbGt1eYE0NApUE3fgoX9sHgUA67S/rDvOzaxbQYNBKZUZdVjAAe4
-	mChXJ0dg==;
-Received: from willy by casper.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xUOrV-00000005Gv3-3N0b;
-	Fri, 20 Nov 2026 13:41:09 +0000
-Date: Fri, 20 Nov 2026 13:41:09 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Xavier Xia <xavier.qyxia@gmail.com>
-Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
-	mhocko@kernel.org, roman.gushchin@linux.dev, muchun.song@linux.dev,
-	jack@suse.cz, david@kernel.org, brauner@kernel.org,
-	linux-mm@kvack.org, cgroups@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm: batch per-task lruvec stat updates on the writeback
- path
-Message-ID: <awBN9VvV6yM6Cjut@casper.infradead.org>
-References: <20261120095559.429515-1-xavier.qyxia@gmail.com>
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=hWh+t93A
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id 23046240103
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 14:41:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
+	s=1984.8680eb; t=1795182067;
+	bh=YW4oRhO1MuXRHyeWQ9Lx5ixnye7cuXD9in5rMS24y2A=;
+	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
+	 MIME-Version:OpenPGP:From;
+	b=hWh+t93AQ89D3y7Q9jrCyuBHB12xO/fjpp2KbQYXJeT2L3X6wH/D4DMbcDgYcqtgT
+	 pePRFyBthjOtirmgOI5czcXW1Xr1VnxH6GfasweXjJm4J9Mm4Hw+mn7yRccYA1M89r
+	 ckxYsVMo6pN37AZxMbKEL4i2LBGKnzK6/RJiaHheArZW644ZeQGqGoyhhM2h3T4JFH
+	 Dk2Hxfv0uSl3GCmBxQb7acaV1ilGCR5zeH72IlA7Ii3mLlwUcevf0AERKWuKOWgNhS
+	 bpETuEoWTvJyWgDofyUyxOmTRbCQ1514fODehAyVg1kPoYini/8kpChbhDu6bw685P
+	 5EShivwIQiQoA==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4jWGgr36MZz6tyT;
+	Fri, 20 Nov 2026 14:40:56 +0100 (CET)
+Message-ID: <e4c77581b1c09f8e0c8be570283f653a2a7e2147.camel@posteo.de>
+Subject: Re: [PATCH v22 4/5] rust: rename `AlwaysRefCounted` to `RefCounted`
+From: Markus Probst <markus.probst@posteo.de>
+To: Andreas Hindborg <a.hindborg@kernel.org>, Danilo Krummrich
+ <dakr@kernel.org>,  Lorenzo Stoakes	 <ljs@kernel.org>, Vlastimil Babka
+ <vbabka@kernel.org>, "Liam R. Howlett"	 <liam@infradead.org>, Uladzislau
+ Rezki <urezki@gmail.com>, Miguel Ojeda	 <ojeda@kernel.org>, Boqun Feng
+ <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,  =?ISO-8859-1?Q?Bj=F6rn?=
+ Roy Baron	 <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Alice Ryhl	 <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Daniel Almeida	 <daniel.almeida@collabora.com>, Tamir Duberstein
+ <tamird@kernel.org>,  Alexandre Courbot <acourbot@nvidia.com>, Onur
+ =?ISO-8859-1?Q?=D6zkan?= <work@onurozkan.dev>, Lyude Paul	
+ <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Christian Brauner	 <brauner@kernel.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Dave Ertman	 <david.m.ertman@intel.com>, Leon
+ Romanovsky <leon@kernel.org>, Paul Moore	 <paul@paul-moore.com>, Serge
+ Hallyn <sergeh@kernel.org>, David Airlie	 <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Alexander Viro	 <viro@zeniv.linux.org.uk>, Jan
+ Kara <jack@suse.cz>, Igor Korotin	 <igor.korotin@linux.dev>, Viresh Kumar
+ <vireshk@kernel.org>, Nishanth Menon	 <nm@ti.com>, Stephen Boyd
+ <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,  Krzysztof
+ =?UTF-8?Q?Wilczy=C5=84ski?=	 <kwilczynski@kernel.org>, Pavel Tikhomirov
+ <ptikhomirov@virtuozzo.com>,  Michal Wilczynski <m.wilczynski@samsung.com>,
+ Ira Weiny <iweiny@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+ Thomas =?ISO-8859-1?Q?Hellstr=F6m?=	 <thomas.hellstrom@linux.intel.com>,
+ Johan Hovold <johan@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,  Dave Jiang
+ <dave.jiang@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>, Saeed Mahameed
+ <saeedm@nvidia.com>,  Zhi Wang <zhiw@nvidia.com>, Jonathan Cameron
+ <jic23@kernel.org>
+Cc: Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ driver-core@lists.linux.dev, 	linux-block@vger.kernel.org,
+ linux-security-module@vger.kernel.org, 	dri-devel@lists.freedesktop.org,
+ linux-fsdevel@vger.kernel.org, 	linux-pm@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org, linux-serial@vger.kernel.org, Oliver
+ Mangold	 <oliver.mangold@pm.me>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=	 <ukleinek@kernel.org>
+Date: Fri, 20 Nov 2026 13:41:05 +0000
+In-Reply-To: <20261116-unique-ref-v22-4-12029383206d@kernel.org>
+References: <20261116-unique-ref-v22-0-12029383206d@kernel.org>
+	 <20261116-unique-ref-v22-4-12029383206d@kernel.org>
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+ keydata=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
+ jfGillcaQOqFZ3WwVqyzG1BUfTow==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-1bC6az0UrhT7nf2a398O"
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -67,23 +150,75 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261120095559.429515-1-xavier.qyxia@gmail.com>
+OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-On Fri, Nov 20, 2026 at 05:55:58PM +0800, Xavier Xia wrote:
-> The writeback path updates two lruvec stats per folio through the memcg
-> rstat machinery: NR_FILE_DIRTY when a folio is dirtied and again when
-> writeback clears it, and NR_WRITEBACK when writeback starts on it.
-> Consecutive folios almost always share a lruvec, so the same counters
-> are updated over and over.  On a 4k buffered write + fsync workload
-> __mod_memcg_lruvec_state() is about 8% of the profile.
 
-Is this a realistic benchmark?  Does it represent some real life workload,
-or did you just choose it because it shows the best benefit of this patch?
-This is a fairly significant chunk of extra code, and it'd be nice to
-know that it benefits a real-world use-case before applying it.
+--=-1bC6az0UrhT7nf2a398O
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-If the real world usecase is more "there's some pretty high overhead
-when flushing accumulated megabytes of dirtied page cache", then there
-are simpler solutions that don't involve messing with task_struct.
+On Mon, 2026-11-16 at 15:21 +0100, Andreas Hindborg wrote:
+> From: Oliver Mangold <oliver.mangold@pm.me>
+>=20
+> There are types where it may both be reference counted in some cases and
+> owned in others. For such types, obtaining an `ARef<T>` from a `&T` may b=
+e
+> unsound, as it allows creation of an `ARef<T>` from a `&Owned<T>`.
+>=20
+> Therefore, we split `AlwaysRefCounted` into `RefCounted` (which `ARef<T>`
+> would require) and a marker trait to indicate that the `&T` -> `ARef<T>`
+> conversion is sound for the type. A type that implements `Ownable` may
+> only implement the marker trait if it allows an `ARef<T>` to exist
+> together with an `Owned<T>`.
+>=20
+> - Rename `AlwaysRefCounted` to `RefCounted`.
+> - Add a new unsafe trait `AlwaysRefCounted`.
+> - Implement the new trait `AlwaysRefCounted` for the newly renamed
+>   `RefCounted` implementations. This leaves functionality of existing
+>   implementers of `AlwaysRefCounted` intact.
+>=20
+> Suggested-by: Alice Ryhl <aliceryhl@google.com>
+> Signed-off-by: Oliver Mangold <oliver.mangold@pm.me>
+> [ Andreas: Updated commit message, rebased on v7.4-rc2, converted new
+>   implementers, relaxed the `ForeignOwnable` bound for `ARef<T>`, updated
+>   safety comments. ]
+> Acked-by: Igor Korotin <igor.korotin.linux@gmail.com>
+> Acked-by: Danilo Krummrich <dakr@kernel.org>
+> Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+> Co-developed-by: Andreas Hindborg <a.hindborg@kernel.org>
+> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+> Acked-by: Uwe Kleine-K=C3=B6nig <ukleinek@kernel.org> # for pwm.rs
+
+I haven't unterstood yet what use case this has, so I am trusting the
+other ACKs here. Maybe a precise example would help?
+
+For serdev:
+
+Acked-by: Markus Probst <markus.probst@posteo.de>
+
+Thanks
+- Markus Probst
+
+--=-1bC6az0UrhT7nf2a398O
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmsATecbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPSANQP/R1hB8C5F3mypETYwCgo
+/31OX6ODiCHu568feU0OwqqnH1gKua6thOPxdUzO4oz9uHEvJOy9k0pAUuqhIoUR
+cwWGFajvqbq0iEcbMMls3ezTo63QhALeYKpaK+p4wCU6HqazGDnsTiqXqIBnSMFF
+/zhMCLHxApAYueLhRzmTe9z4DIEhOaUdcOowPIV35HlxhghSQZ/uaZclBwv6h+xn
+PDpQAKnR2JxW4CcyT1Fm62hItTX+Djvef/Q6aac3xdMq1JSPlsbNUlThWsY+EjbX
+eBTAO766WENw3Hw3SxnX/pcUQwUVsRa3bxxgBxSfwZtm6nSfhxmBzAHsiR7aA4wq
+hrI46P32JW6WcL+jToQJC/QjQienV9rV/QTWrfp83Z59ce3lL43XtMlofu0EoK6W
+IWoX/O4IoSM3YDlzHsSYGQR7KG+VGDXyJAb6HhVyNdMTiegz8UxWwYqGviS9mTON
+a3YA8htdMngXmkwT5CQKhsNbS0sLqGb3nDrqmLV2hSDpjGkdUe86bahObcVCXonf
+7Gdl1/15c46K0QRbEf7q5kgreejRoLqFdi2eyw406ruUxE7Bd71t9faF5zWzaJRK
+ewr2s+IremZr522ABFhIX0SFkqu1sPzXqNLKXQa5fz5XxTh6jQziddGf3Q2z71dB
+79I2PETkcl5NqkNBz+UkmsCH
+=iSw7
+-----END PGP SIGNATURE-----
+
+--=-1bC6az0UrhT7nf2a398O--
