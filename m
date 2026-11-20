@@ -1,77 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795191753;
-	b=ABBW0HVqitHX0nsiZPIDBLNmmhs2mYbLsIWpIQiIkMyCnOIDay9EOyTCuZPvnTmblFWa
-	 hE0+BUEGMUcM5PklizYtD+sPRTpUeqlL81GOHj0lBCdvmYyk9UUI1frtD2wTp3K4JmNyf
-	 h8WsLfoLsc1oZ/M5iYHfkiDAjKasK2H+K6nsI89DVVsDrzGruAf5Yirus+kpIiPPYu8Su
-	 Kj9CDpdA4e29JylaW8Tr9zZpG/6Qz60ATD+6D7gdivQOhOVzQVKTQKM4O53+GKpPLcBWx
-	 qDTybOsCcZ2zXWjMwMOPeTwsUO6z+QZswhUrthEnPvLIO8AFS+y9IVklpqI/HuO4OoA==
+	t=1795191878;
+	b=vNG08YmXoB9mzibXGLvemrlhcw08c8VOG7Xel7ghZEPpfM61EEz//uk9cQv9djwgXLGZ
+	 0Q2KLknfU9t5VwMZ7NfflgUuSkOspDX76Ke3UNaM16w+4BuHDtC/ZL9EQb15dZS2I0qog
+	 8duGtPq0AlsvdMLQZwpr6RIv6itYxYKjO1mdf27nL8kOPT7ENQHMje3TfW5sNsUgGDAKX
+	 iB944xYkEuW5myqwhUTaPi5ZmkOXPh0B4M8Mie0N5QrSKFiCdMkZVRDiq1gKlf7p5NxSx
+	 +U94GTclJT2jT0XTtcqQ7RErA3FSA2+Fd9kgmVpOxPs/ckJlvHdayoQPiQSj0ARDEXw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795191753;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Scanned-By;
-	bh=vFrxkYlbffnn1oFL/jywinkH4FaLHpHlb6I6Aq54CHs=;
-	b=vPTDUvA2vPIQADoCzcXkbtGbbctqJjlHT/ZlOu8BSWwc2LMeFbY9/X5vXZc23T2KLg8s
-	 8uRPejIHSZ7KttgIS3PuSmh9XU8Hc6gtCdNupZ0ElXEi8112cRtXnUpfDFYvMKyd5SuMd
-	 mvKe8Uv4IRTssXY1ObGIDDSHAjHcdtWyl+qOtZqD0mVYcillvWMY3YsJIUNsCMGtyn42s
-	 b9zELBj1EtInb3AJzBvtccx1kEmyTx8XrD00aat1vkn98v3JG+Tms9NqS5bmtn4gZ1WAf
-	 OFVNBPY9dp2sJClOMVOQOt+34wnMrBjmILUFpEP6iAHp7N61FwOK3K6Hm3Nmndl2/Cw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795191878;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-SRS-Rewrite;
+	bh=uSgRzooWOEmqd5/DTLNzENLKgDWTPQQQifi1iVejMuY=;
+	b=XggnCRjI3FqrjHjSVhkKKa4CgASRrIDgIyfFjOQBZxTgugePHf91nOy9aOil1JDJM5QN
+	 /n/0v3FTDG2E1Q1raMAceqFCJiYOKmPH4KfuTk5l2OUIF7Owzsd83Wo9w+a+KlWaDoQj/
+	 mIsjOvpwsfK4fiGGmaGaxqtadINcW0YW42H7lPgTb/IPoKG55oG4jgKC4mDhgsY9cRms4
+	 Dnl4XtLh/+jrBDz2a3sqwqEM+gf163q+jCFO3TUhhNC3JfXHTT+Nz36BjUMoUIhKFgMt6
+	 TFWUkmrfbCneqNMy0ntVplOsH6hu7SgngRvWhNddlM98asC3kIJgi2QLV3V+YFd/kUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=AGkQ0ZcJ;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	dmarc=pass header.from=infradead.org;
+	spf=none smtp.mailfrom=bombadil.srs.infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=mzq9xopm;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274E9606A32A
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 16:22:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 274E9606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF3F0606A330;
+	Fri, 20 Nov 2026 16:24:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF3F0606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=AGkQ0ZcJ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795191752;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vFrxkYlbffnn1oFL/jywinkH4FaLHpHlb6I6Aq54CHs=;
-	b=AGkQ0ZcJd1poWuLV6SEXHqiEhEz64Q48Wh6pjrn/P7QRT4DXYnFqgAJwrdrSG44ef1K7fm
-	A3j1LRi3veHxByBUvf0TlCONFOHTfranabYfV12l9NOZeZ9smgJ5wfqZhRh9HGxEaBccQD
-	BoPGtHSbUbyK3gK6LbAY61WMqMZuPX8=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-407-wX-z_3wnP92GD2JkyzEneQ-1; Fri,
- 20 Nov 2026 16:22:28 +0000
-X-MC-Unique: wX-z_3wnP92GD2JkyzEneQ-1
-X-Mimecast-MFC-AGG-ID: wX-z_3wnP92GD2JkyzEneQ_1795191746
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B49221955F08;
-	Fri, 20 Nov 2026 16:22:25 +0000 (UTC)
-Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 1960B1956049;
-	Fri, 20 Nov 2026 16:22:22 +0000 (UTC)
-Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
-	oleg@redhat.com; Fri, 20 Nov 2026 17:22:25 +0100 (CET)
-Date: Fri, 20 Nov 2026 17:22:21 +0100
-From: Oleg Nesterov <oleg@redhat.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=mzq9xopm
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=uSgRzooWOEmqd5/DTLNzENLKgDWTPQQQifi1iVejMuY=; b=mzq9xopmMML85eMYVGtHh/BSu/
+	NPK9swukjrGk5twYPSiLxE9l3BS57cYOq0UXcdX1Ehblo4jLcozzfpLHcUNB4HUqApeBIcRgjnufF
+	VZRwdx4Kw2G9kEnGUHhHzfObn6hXBKBDgkxtP3ofxD5QAqFTgD5yb/xFdF1i2ginyhtnFxfIZiY/Q
+	M2EOns+2TQZzR0mOaDpFVvPgcAalZ1ldBQGPL/vb9fMwwPyaS5kJ1DRUBDlaE0iXqme5IU4E+MM2Y
+	fo0guCrGWhcQCsx3ohuvC5Inybzg3P/cCIyzZuIs1Z6ciNbiuxK0HX8uSFReWrlCkeIH3CS9qwR+9
+	362rbg+g==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xURPg-0000000FYPz-0qrd;
+	Fri, 20 Nov 2026 16:24:36 +0000
+Date: Fri, 20 Nov 2026 08:24:36 -0800
+From: Christoph Hellwig <hch@infradead.org>
 To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Jiwoo Kim <arpe1618@gmail.com>, Chen Linxuan <me@black-desk.cn>,
-	linux-mm@kvack.org
-Subject: Re: [PATCH 0/3] pidfd: use one helper for pid namespace visibility
- checks
-Message-ID: <awBzvXKHePLzjABf@redhat.com>
-References: <20261120-work-pidfd-pidns_visible-v1-0-0e82d08469ae@kernel.org>
+Cc: Qing Zhang <diasyzhangqing@gmail.com>, viro@zeniv.linux.org.uk,
+	jack@suse.cz, raven@themaw.net, djwong@kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Dave Chinner <dgc@kernel.org>
+Subject: Re: [RFC PATCH] namei: revalidate the symlink dentry before invoking
+ get_link in RCU-walk
+Message-ID: <awB0RE6WN_v4YBbn@infradead.org>
+References: <20261118083945.1449264-1-diasyzhang@tencent.com>
+ <20261120-desillusionieren-holzhammer-mieten-8ec8551ef2b0@brauner>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -83,21 +69,32 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261120-work-pidfd-pidns_visible-v1-0-0e82d08469ae@kernel.org>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+In-Reply-To: <20261120-desillusionieren-holzhammer-mieten-8ec8551ef2b0@brauner>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On 11/20, Christian Brauner wrote:
->
-> Christian Brauner (3):
->       pid: move pid_in_current_pidns() into kernel/pid.c
->       pidfd: convert remaining visibility checks to pid_in_current_pidns()
->       pidfd: restrict pidfd_get_task() to the caller's pid namespace
->
->  fs/pidfs.c          | 12 +-----------
->  include/linux/pid.h |  1 +
->  kernel/pid.c        | 31 +++++++++++++++++++++++++++++--
->  kernel/signal.c     | 23 +----------------------
->  4 files changed, 32 insertions(+), 35 deletions(-)
+On Fri, Nov 20, 2026 at 02:59:42PM +0100, Christian Brauner wrote:
+> This only makes the window smaller.
+> 
+> XFS can still reinitialize the inode right after this check and while
+> get() is running. Then ->get_link() operates on an inode that is being
+> reset underneath it. And the !get check only catches the case where the
+> that re-init already finished before we loaded ->get_link.
+> 
+> RCU pathwalk relies on inode memory not being reused before a grace
+> period has passed. XFS itself frees inodes via call_rcu() but the
+> recycle path hands the same struct inode out again without waiting for
+> existing RCU walkers.
+> 
+> So that should be fixed in XFS, either by not recycling an inode in
+> place while RCU walkers can still see it or by keeping i_op and the link
+> state valid across a recycle.
 
-Reviewed-by: Oleg Nesterov <oleg@redhat.com>
+Not recycling the inode really isn't an option, as that means there
+would cause duplicate inodes in the xfs inode cache.  Keeping i_op and
+state in place sounds a bit more feasibly, but could be iffy as well.
 
+The best thing would be to find a way to keep the inode alive at the VFS
+level when XFS marks it reclaimable.  That would be a huge an invasive
+change, but it would solve this and many other problems as well.
+
+A good reproducer for the issue would help either way.
