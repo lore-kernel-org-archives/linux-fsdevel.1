@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795190036;
-	b=BOa3J592wLWirqK7AJSPwuovgbDLRKFHtwzxIbRfY/8/21P6dJY2Xg5Aj0ZVtJSVMqn8
-	 x6zGzresnLPP1LBU9tpiDHQMqFcNP5Md3yoN+JP3mDW6B4togb3RqYLAbdsCyJEYRUuye
-	 ljnTUR/x8c9vksfJlpBvu5JOemJ2kgva3Uvk79NdqUB7W4q0f+Ivf8mNqPnC16LZkrIwo
-	 FPfiXmEciH3WxdVI5QeM2pWQ6Z0qziQNsc5OJo/BXj8qgvhaEU6KSaKyPAfizYTTAjno2
-	 ErvWFQjDzTHPN4/iqXj80kfdNnqLCvCGiXomA5xRJPbtmqQJK6Lz4LTC+r0M7mkdgHA==
+	t=1795190044;
+	b=ga3e2K7NThvVlb9YM3+AdLtmCATm5ym/rFrXqIYhK+IbkNAkOtsyM+qrZaXypCSk7+Bu
+	 1l5Gci/gzfwuEeKWsHVjUA19MScL3kg9kdIkE1Jq+XQfxv7x4pMFnEl1Oihb1oaUsA1fF
+	 7en5Yndv5lX5gXqpbHMnTtIgaZTgygBnaXhUh1hH8vpubT9ok0QbruAqHBdnBXP8ZNGY2
+	 YLbNdy1Ad4n5SQzPANvRD4Br4qOklX6WfC1AYxSJM4unXkIJ1EDn02QcfIlvtH+xndJ0O
+	 2GPijPiXAjvqj95CUotSUEwHKa6kc4kK4/BIA3rixKN9F5f4Y9j22+TPhE8GZ+GgxXg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795190036;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795190044;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=ETEjCRJqTj2rcNQGoOiUFzLxZ0618BE5SBDlsxU9kIQ=;
-	b=cyzY4MNWFp9SOHsjpBtLkZdBXb0ZDTxcVBBpGWXkLvV9ZnMN6gx15bDyYwVvoxUC4jyR
-	 4QCYx3G5eaB8riqkSNBUmLPvcTjZW85gCvDmG/reDu8HY1im6QvQxXkvkpAuDJJXJsOzE
-	 jP4tGdgXqo40o85tk+j/GsrJt4AUHdJXfMbSGyor9NSvcd5qlUiCNmcXiHRD777+ffjOZ
-	 sZiOy2msl7idxppL7mfK9iH6CuTD5vd5OiT7bDuB9SwRp6XOk427qQC3LYN4RYddpChVC
-	 YFvWoMugN0EURsXNIakHexbtoUztMXg05555dlmfUvlk9Cgk4jh111f8SsVrDqU002w==
+	bh=d64oy+cTLXmeYoVqPxnHx95FYIWBNAnJoC4BVDuan+U=;
+	b=jVJ+bbDTLO8HVM3bNojVOJf903aRQj0ZSwisn7yKXhcTQHfVbeJrKX2jQM/mQHgYSg3x
+	 xhqH8hFa/nN2Upkajde8b9WwuqpXQX0y0HAreNt+xRCRRReIwYKRKpRuW7YDnuGiy1syS
+	 xfQX9FlF+JdfMXGmo1zowo5vYK3nSQVh8LfsHYnfCJDRABgCjti1eJ1OAnUxaRAr5CLDZ
+	 1M+ms4us0BxulTbCq4byra5aTabC8E3tuUffAnpRGE7X6Z77+T3C8kox8QyAXqmcJdm9w
+	 hzD39SVHA65Yo66k0usBdZI0QDhTNb/HbPGcFomVSx4/1hB1PGtPe2LRpBFR4Rr+HZQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ik3ISORV;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z67BRIpI;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5560560A2600;
-	Fri, 20 Nov 2026 15:53:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7118A60A2600;
+	Fri, 20 Nov 2026 15:54:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ik3ISORV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E1FA1F000C4;
-	Fri, 20 Nov 2026 15:53:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z67BRIpI
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6A581F000E1;
+	Fri, 20 Nov 2026 15:54:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795190035;
-	bh=ETEjCRJqTj2rcNQGoOiUFzLxZ0618BE5SBDlsxU9kIQ=;
+	s=k20260515; t=1795190044;
+	bh=d64oy+cTLXmeYoVqPxnHx95FYIWBNAnJoC4BVDuan+U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ik3ISORVw1eoMJOwfI0KgGK5y31QoAyanFb4Y3ShFXUYimJxc2d+lHdECp6wbpq/X
-	 +bGCs1jwb/rlqfI6/FUiKQbdeEyHzVLGB1b7X+86YfAF6dajtzPI2BMboiez0JfozO
-	 im55TIYLktdcPKj/QB6YFAlC8Q8P/h6+bXLM5OM2/67VAeOuhCxwszEC8j1A1nvGqD
-	 LwkNma1hLPoNfH93m71sTQOQ1oGZyjsAsdJkop1aYgGr3A1/9LKPQfihMLfF0S8kVN
-	 n+FfHX2l1SB7cu1rcBxaf8vbzQM526/l/njvCIDv3GSodQeQ+BFsxtjgelGFaSGEgH
-	 JqeRlGV7msHZA==
+	b=Z67BRIpIOVAM0LHS7fHGKmS5m2/l5JJqzXdbkyXd2XkWDGuFUOGdpxWlyWA2FNVTa
+	 x/LAqJqHMSru5710+GExPrz4v17uGZMGuLODrcL3MRYowsVCgeEgq3rpRKeTwCiTBJ
+	 O7eOdE2ccLiZhUMBCJF2xBZORxMn5bQygFv3fMMBikRRl6EukeA6nAc/NJ8O+pV80L
+	 InwrJhbpK4urgQVLC8emFR6Dl1xoY0ToXZZuxT2DZqlMPikif2IMmSS95Y5oZ4V/Mb
+	 JcKF4vx82iI4k3uH9CVWzXOozq/wMR2yeLaYM3J5/lQWDIbvcRNqxkmVzqZBWv09+k
+	 kAVD1evrBv31A==
 From: Andrey Albershteyn <aalbersh@kernel.org>
 To: "fsdevel" <linux-fsdevel@vger.kernel.org>,
 	"fsverity" <fsverity@lists.linux.dev>,
@@ -53,12 +53,10 @@ Cc: Andrey Albershteyn <aalbersh@kernel.org>,
 	tytso@mit.edu,
 	chao@kernel.org,
 	jaegeuk@kernel.org,
-	viro@zeniv.linux.org.uk,
-	Boris Burkov <boris@bur.io>,
-	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v3 2/7] fs: strip FS_VERITY_FL from FS_IOC_SETFLAGS
-Date: Fri, 20 Nov 2026 16:50:24 +0100
-Message-ID: <20261120155032.187246-3-aalbersh@kernel.org>
+	viro@zeniv.linux.org.uk
+Subject: [PATCH v3 4/7] iomap: use fsverity_is_building() to check for fsverity IO
+Date: Fri, 20 Nov 2026 16:50:26 +0100
+Message-ID: <20261120155032.187246-5-aalbersh@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261120155032.187246-1-aalbersh@kernel.org>
 References: <20261120155032.187246-1-aalbersh@kernel.org>
@@ -73,49 +71,30 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The common use of FS_IOC_GETFLAGS/SETFLAGS is get-modify-set loop.
-Filesystems could return verity status with GETFLAGS, attempting to then
-pass FS_VERITY_FL to SETFLAGS is not allowed.
+Recently, inode gained new I_VERITY_BUILDING flag. This flag indicates
+that inode is undergoing fsverity metadata construction. Previously, it
+was indicated by stale iomap flag on the IO, now we can check the inode
+instead. As fsverity inodes are read-only, the only write IO happening
+during I_VERITY_BUILDING is fsverity metadata.
 
-The ext4 and f2fs already treat FS_VERITY_FL in the set path as no-op,
-however, BTRFS returns -EOPNOTSUPP. So, the modification of other flags
-doesn't work on BTRFS for fsverity inodes.
-
-Fix it for BTRFS and anyone else, the ext4 and f2fs masking becomes
-no-op. The file_get/setattr() path is fine here as this flag is cleared
-right before fileattr_set_prepare(). The future fsverity support in XFS
-would also need it.
-
-Cc: Boris Burkov <boris@bur.io>
-Cc: David Sterba <dsterba@suse.com>
-Fixes: 146054090b08 ("btrfs: initial fsverity support")
 Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/file_attr.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ fs/iomap/buffered-io.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/file_attr.c b/fs/file_attr.c
-index 833e03810b24..81bf55f9b255 100644
---- a/fs/file_attr.c
-+++ b/fs/file_attr.c
-@@ -199,6 +199,16 @@ static int fileattr_set_prepare(struct inode *inode,
- 	if (err)
- 		return err;
+diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+index 6d843b168d5f..0a176741e7b0 100644
+--- a/fs/iomap/buffered-io.c
++++ b/fs/iomap/buffered-io.c
+@@ -1930,7 +1930,7 @@ static bool iomap_writeback_handle_eof(struct folio *folio,
+ 	struct inode *inode = wpc->inode;
+ 	u64 isize = i_size_read(inode);
  
-+	/*
-+	 * FS_VERITY_FL is settable only via FS_IOC_ENABLE_VERITY; never through
-+	 * fileattr
-+	 *
-+	 * Treat it as a no-op so the FS_IOC_GETFLAGS/SETFLAGS round-trip
-+	 * doesn't break for other flags
-+	 */
-+	fa->flags &= ~FS_VERITY_FL;
-+	fa->fsx_xflags &= ~FS_XFLAG_VERITY;
-+
- 	/*
- 	 * Project Quota ID state is only allowed to change from within the init
- 	 * namespace. Enforce that restriction only if we are trying to change
+-	if (wpc->iomap.flags & IOMAP_F_FSVERITY) {
++	if (fsverity_is_building(inode)) {
+ 		WARN_ON_ONCE(folio_pos(folio) < isize);
+ 		return true;
+ 	}
 -- 
 2.54.0
 
