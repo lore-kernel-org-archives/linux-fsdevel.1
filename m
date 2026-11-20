@@ -1,78 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795186487;
-	b=zvpg3MrZFkIyYz4dLJ+F9DMmLa+N7Uv0Dk91X1f7lrSIrjIe+1CqY5FMlWsxKF6rJ/xi
-	 XWTaQ337InXHd8g1tsnsfsyEoeRYtAf0scobzG+cTHJxzEZHwyq32YB6LQxUcAZjL5qr6
-	 NqtvZXVr7x+n45MnCqW6YEtwZYPJaEpKXUpXOmeFt7Xpr8IhV7lhHaR20iGK43kd9kIhW
-	 adczOAbo5UNwvqy3B2zhpHJnVOd7GukeSev/+KW0y8lZfUpuC1hp00hLi9MNgpO2Cs7JG
-	 I5zAfaLNmwvHCgiIUA633wGEBobO5bp9v+7vh6uGOA7+0opPw1ovERK/TqDbVFh3B7g==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795186487;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=YXkMF49tfbR1XrNxSmARw9QjbBb1TVrWgTfXHrV4vhQ=;
-	b=h8n9c45ZgApTZBwWhrUrsYH05LiDNrPlNaXaarzf25K8iCrMM5PuCa+ugY6cUK61RRm9
-	 4ZTmW6EJF9Q3chBwhD+HKqA9kr0A1JiFrhFaFdirb9S366giEN21v4zCGAKehgPfmCjqq
-	 YZsbg0a9Ml52K+HxOuZw43L7bvWTf5RnBLhj3eNvmlZcFz90jzaB2W+UdXf0taTHaQnZF
-	 F/1RNplwWK3hkpslAEEjlNyPCqeIZDJOR1DKe/liu8bGxHojNPDCxzPXaoLfgT8qnNT0R
-	 M8Fp22IOmHb/5RTtz3eYqK7ZvZu3nU4+V9AgrblX1xdSyWlzW4oAXxtDeU9qqaKzbGg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eIK9EkYL;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.45
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795186533;
+	b=npxexuVXL3xYxQBwVUqm0HSTlaNCI0iEOOAchmR1iUl5gIKwtSg9Ev6ajiM6DUHU/YDI
+	 saJz8ImNmqDf36vKoysZjnFRDvPKu/jpFBN+cLV8E0IIW+G7ysHY6WT1vBp2NcYXmoCwM
+	 Hm/2B6DYjeFDWAhXgTaNyEvXuAilfLTqDOxvjQEwlx6Rh1BBzdOCL8IkqoksAuCT/l9P3
+	 UKj6hvzMZEHXCPR2LlmqL1Jp5pSoQ9biFUoTOg6q7HX07n+wsK75D3M0BXp6CGIsDlEeY
+	 +Ns+oqDZrdugnTYDk+S9EOSussy0N4fmAEWT9SklNKq+EG/qKnkO8UnMcZHyg9N6L5w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795186533;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=zpoWzG1+g8sYeNmdw7RPLfc/0HSn9Ajkmbs7oAG/5Qs=;
+	b=m3E3fwf+ZqsTK7e/dUYoXqmowUnYLEJ2IaOxwQ+YOxVN0eDWGdyFAmFVe/z/yPkd0R2x
+	 JQbFaqpp+j9VyFRQuPYwUH0XUJbR0wwbHbikEfokhnTAtAT+KohO/cfXExax3DJWri3rE
+	 fZGRMyz085W9SdEJys2JElBVTezHUwMRNc8f0DaoA2l+SZretaPimrARZoCaeQ8pPJi+x
+	 3UQ4PEIzRE9TTJRvmNDvjjGwt6oR8dVpqDtGUwZKp5fNq67lEoFw5E+9z9ql7JBT+9AOO
+	 p1x0DT3531SdxtzpG8HdBd0ZyNbRqJpzHEEtIscPBkcxwHYsAwmXLwYyAu+Slj358Tw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="XT71/E4r";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.45
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF93606A320;
-	Fri, 20 Nov 2026 14:54:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D78B606A336
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 14:55:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8D78B606A336
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eIK9EkYL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B33C1F000C4;
-	Fri, 20 Nov 2026 14:54:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795186486;
-	bh=YXkMF49tfbR1XrNxSmARw9QjbBb1TVrWgTfXHrV4vhQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eIK9EkYL6YNouxCKFKo9gIUK8cO1ySdVl96yCE1rq7wuTOlqRE8qknkbshPl1xlLN
-	 3KOF85Pf3JIzT9160NLAIzPpvBOu/y5o20cpMVSCUStMQJpajDPpxv0xql8onEzdc1
-	 Bq24F74qyQyPCe3a0Ub8zjMBlGHRVua3XzC8HlMSh7rc0w+6ewtdOPqMpNqlgASYYX
-	 tJIZWZMaiMxfw2qlE06Mu17u4Y3J4CbVNpMEF7mMNe9qziuMXKmrwuDoSUkQLv6pn3
-	 yDWp8beOFg/IBB5aoUMH03jJAr+YJNYE609fue5l1rTTHi12txxpruqZ/ms1Gg8eZ0
-	 dnkEtvuXJwE/w==
-Date: Fri, 20 Nov 2026 14:54:35 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Luigi Rizzo <lrizzo@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Jens Axboe <axboe@kernel.dk>, "David S . Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Luigi Rizzo <rizzo.unipi@gmail.com>, 
-	"Liam R . Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, Harry Yoo <harry@kernel.org>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, Matthew Wilcox <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Simon Horman <horms@kernel.org>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
-	Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Alexander Lobakin <aleksander.lobakin@intel.com>, Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Dragos Tatulea <dtatulea@nvidia.com>, Naman Gulati <namangulati@google.com>, 
-	Pranjal Shrivastava <praan@google.com>, Mostafa Saleh <smostafa@google.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org, iommu@lists.linux.dev, 
-	netdev@vger.kernel.org, linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-api@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v3 00/25] PISA: Pre-mapped IOVA Superpage Allocator
- for DMA and CoCo
-Message-ID: <awBYFhnpFGtEXZ6r@gremlin>
-References: <20261109182533.3594984-1-lrizzo@google.com>
- <20261120010655.467825-1-lrizzo@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XT71/E4r
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6b88bc47e23so1231317a12.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 06:55:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795186532; cv=none;
+        d=google.com; s=arc-20260327;
+        b=VbaNhQtfqlqrwcvqbsx0XfOkEtinDDDXHh4GmOzryUzlwShRJbt1OGkxlJxVUgdunY
+         83y4F3wPhbmO9zeRgsfr/ol/Crhou/CyzUATs2MSlMFk7UCDjNNSlaOGKh4h+s1/PZp0
+         dn7g/OLC8jho4zdHrkTc1hno0M2YdP+sR4LJKHnyGoHst92VVui34/PeMP7jNQ23OyYf
+         9cz3cDNGSPXqmLl+yeAdax0XIpKWcpOq+5zhEfcX8RQlqery6Uuze8KPIekI4kV/HdTf
+         38T0Wx0pQrlnAxuoZZUpTCJPK4wod82al7LX6JyeScDYhMOtdLI+bol33LyPimoXE0vu
+         HX4w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=zpoWzG1+g8sYeNmdw7RPLfc/0HSn9Ajkmbs7oAG/5Qs=;
+        fh=39J4a72t7IrDu5THo2prWhZWZLKEcju1H8/Kizsuv0I=;
+        b=DKhjCy+hrI67SFtclJ0djk56zmqTxjrbN7V/B+XsWX9kA9gakaWbNP/wMomtPE9G5k
+         f+lsCBlUm4Nc3kVAlSy/xdBplIyDP785qHcUw3+kbZmU6X8WWZLINoDqSF4vhEcLM+hy
+         NCidemYZ7XRWN63eNGbibGYfvGsQz5AQ7KXdrG0ToCNwsgN+sYvv5tn1PxPgW+UzBaGS
+         0XFO2FvhqcU3GzSohY2h2vwEu75Y0/mYYe3pIrfqTD/OXG2x5/gj2IqRib5UuKRo561i
+         pAd4cPFsHYhD9WLYcpas8ro+nnomltJqWwmv6/y+T3SbEu5MkG4DX6xxZjy/dMDfLPYn
+         fQaw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795186532; x=1795791332; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=zpoWzG1+g8sYeNmdw7RPLfc/0HSn9Ajkmbs7oAG/5Qs=;
+        b=XT71/E4radr+V0uXgPEtpy0gTEoHCeyDzLAY8K94G59n90O+uv++nCc8LBTX/toK/0
+         oCtVL35qsDqsHFCvztHPd6HhjbqSJ8Vwc8ZJfStI7YYUhYzRNmLNpBIQMkc69ILk7c36
+         ZDgsLeuC7kJXyHt7GV7DGWfHYIq4655Im+cirBeI+iUHoUj7bKjfKZyUnrONaVl4D44J
+         ww0U5x8tM0ESZ2EwqzQw4R3/0gUwPfGJym0p5b3otFIF//GO/UwhtCfcmLJW/40OkP+W
+         CdiJIaGOl4B0ABFgWYbTFah8knh1vRGWghRZ7vMT9mim8VxC0/RTV9tBJ5cW6vANuiQ4
+         lwrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795186532; x=1795791332;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zpoWzG1+g8sYeNmdw7RPLfc/0HSn9Ajkmbs7oAG/5Qs=;
+        b=zngBzBeVpSrEL+8Z9UMXPpDmKnL9m4PVrTWQ83wRDltcMghBvn6rkn3o53JUPQtEwQ
+         DtR1Zpa/0L51HJk1cgWW9p15JPOHQlCBuNLqhj5YYXZC+Xg76EY5AXoXrrdblCk5UChR
+         cdLuHRogQwK/UIHB7fSAprZn78qKXXrz2TMquPJYexNh7R8mz1wyz+vFD2kslVnHOgus
+         XdPeNXVUGZ26ayh6QPXjE6UPV/JxX5q1RHuWb4kdujOoypReIsCr8BFNpVebtnvZhr6d
+         timvbG7N9viEwnLATGqUvU1EiNr6RueeYHfwh/serJJQuYuqaXjFa3vruEvasArULJ/B
+         HGYQ==
+X-Forwarded-Encrypted: i=1; AL+hErH3C2eSkxkrIeWb2tdtAokGXhlBWP8J2Z2gyuGgEd/e5EA01rFLYaeoWlEpN7xnJdaMykMAdCCIpgFVxF80@vger.kernel.org
+X-Gm-Message-State: APuU4Z8tkrlGXqmBg1L3QjlQilwEHZTF4TLuMsTBfSjWqqRW9W9kT3QR
+	e68HAaTmOYuuls9DUtD9fsEgyuL9spAfIpQ3qpiIczR4Bi8DDUT+eY8k4PEAKeZhg9jQMsQpdjB
+	GwEInAbqyKlxZkyLWr9hwIuZitxxCyFY=
+X-Gm-Gg: AZFdTZfTqnqh54cTWp2nDAEmJanseUjya25Mi8hwP9vrnbpv9BlVjFsUFwXAT2bBwZo
+	CXoshgK9YNKTha8FIx/HFg/VATfL1CHO9YBZkK0g/iDMZTUiT7d+NjT8UimoNubLURb0fsweGc3
+	kdYCrfYg20M12NSfo0kAfpBGG2/cns4Uux/AUGTF8XcRb7Bhq9WEzjC8vIuHH2MmEsgKtgrrdeY
+	b1wBTz7EBXiBST2FwAyv6ExvjNsn+PjkLSdvBgTt1HdBEkypX7nsSRICDOCo0lvxdddpVMFa5Se
+	9dta8DdUPnkfXclRVMKQWIj9wZTckzc3DAY0+UUT7M7aEkUrolm8Sp8zWWrUlTzNGPUj7IYH12I
+	2p1/uB1fHFpvgqBUUDG2teZSUlvSI6KopYZllU+6U2UCG8bzxnRMEPntX53M+JGTnhPve1w==
+X-Received: by 2002:a05:6402:3223:b0:6b8:5f08:931b with SMTP id
+ 4fb4d7f45d1cf-6ba37ea44b2mr2503989a12.26.1795186531571; Fri, 20 Nov 2026
+ 06:55:31 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -82,222 +104,84 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261120010655.467825-1-lrizzo@google.com>
+References: <20261115180343.576773-1-koray.fra@gmail.com> <20261115180343.576773-9-koray.fra@gmail.com>
+ <CAOQ4uxgoNsOH82FyrCxc+qSoid_CFmbmpL0qgWFw-e8E689fFA@mail.gmail.com>
+ <DMZJ4PL1JVA4.2YEB7EPYJR5Q7@gmail.com> <CAOQ4uxi6h9BBP7pf4sR+gc2+4XtkEgbxXZha45iZzdB_wGFVgQ@mail.gmail.com>
+ <DN02S2XNGRZD.1KNOZJ0GGDJNG@gmail.com>
+In-Reply-To: <DN02S2XNGRZD.1KNOZJ0GGDJNG@gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 20 Nov 2026 15:55:19 +0100
+X-Gm-Features: Aa3M54om4CtJTUNd2Te8u7pI-ZPclkwXdtuzgdSJLpiBpdV9ZiFnAJvfZll4Px8
+Message-ID: <CAOQ4uxh+d-wNC0aWLEexPFz7zj=TZjLyu61kaEmwBx9_hKn2gg@mail.gmail.com>
+Subject: Re: [RFC PATCH v4 08/10] nfs: add provenance time (ptime) via FATTR4_TIME_CREATE
+To: koraynilay <koray.fra@gmail.com>
+Cc: David Sterba <dsterba@suse.com>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Sungjong Seo <sj1557.seo@samsung.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Trond Myklebust <trondmy@kernel.org>, 
+	Anna Schumaker <anna@kernel.org>, Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+	Paulo Alcantara <pc@manguebit.org>, Chris Mason <mason@kernel.org>, Yuezhang Mo <yuezhang.mo@sony.com>, 
+	Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+	Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, 
+	Bharath SM <bharathsm@microsoft.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	ChenXiaoSong <chenxiaosong@chenxiaosong.com>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Sean Smith <defendthedisabled@gmail.com>, Andrey Albershteyn <aalbersh@kernel.org>, 
+	Pedro Falcato <pfalcato@suse.de>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+	linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, exfat@lists.linux.dev, ntfs3@lists.linux.dev, 
+	linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-api@vger.kernel.org, Theodore Tso <tytso@mit.edu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-TL;DR: NAK. All of it. (And yeah, I'm steeling myself for the inevitable 'oh
-Lorenzo' :)
+On Fri, Nov 20, 2026 at 2:34=E2=80=AFPM koraynilay <koray.fra@gmail.com> wr=
+ote:
+>
+> On Fri Nov 20, 2026 at 7:45 AM CET, Amir Goldstein wrote:
+> > On Thu, Nov 19, 2026 at 11:10=E2=80=AFPM koraynilay <koray.fra@gmail.co=
+m> wrote:
 
-Sigh. You know, it's hard being a maintainer, and it's twice as hard lately,
-given the endless surge of AI-generated stuff we see every day.
+> >> >                    fa->fsx_xflags |=3D FS_XFLAG_CASENONPRESERVING;
+> >> > +                 fa->fsx_xflags_mask |=3D FS_XFLAG_CASENONPRESERVIN=
+G;
+> >> > +                 fa->fsx_xflags_ro_mask |=3D FS_XFLAG_CASENONPRESER=
+VING;
+> >> Uhm, why both in _mask and _ro_mask? If it's a RDONLY flag shouldn't
+> >> it *only* be in _ro_mask? (same for CASEFOLD)
+> >>
+> >
+> > Good question. Maybe
+> > I guess if you want to follow some percent
+> > FS_FL_USER_MODIFIABLE is a subset of FS_FL_USER_VISIBLE
+> > but I think that exporting ro_mask and _mask is going to be easier and
+> > cleaner than rw_mask but not sure.
+>
+> Hmm I asked that also because you said in the xfs shared extent thread:
+>
+> > The advantage being that it makes the interface symmetric.
+> > User can alway setattr() with the buffer they got from getattr()
+> > and instead of randomly ignoring flags in set, the fsx_ro_mask
+> > along with fsx_mask defines the behavior exactly.
+>
+> But by putting the ro flags in _mask too, a user would have to clean
+> them out or vfs will reject the call with -EINVAL/something else, since
+> in that case the vfs would see the user say "I want to change this [ro]
+> flag".
+>
 
-But I am especially frustrated that I have to ask people to do the _absolute
-basics_. And from people who are not helping with any of that. Quite the
-opposite.
+That's just a matter of interpretation.
 
-So the basics - you haven't cc'd the right people here and you're sending a
-massive new series in-reply-to another. See below for some automatically
-generated feedback on that.
+You could say that if flag FS_XFLAG_CASENONPRESERVING
+is in ro_mask then its value may not be modified and fs needs to
+fail the set if the user given value is not a match to the current
+kernel's value.
 
-In any case, the courteous thing to do would be to familiarise yourself with how
-series are sent in mm. And that goes so much more for a series that is so
-invasive. And seemingly, AI generated...
+Could be used for an "atomic flag set" operation, but I think
+this is taking this too far.
 
-And you're sending it when
-https://lore.kernel.org/linux-mm/a2f584f6-e382-4876-aa6d-d5a34de6ee59@kernel.org/
-is in effect.
+I am fine with xflags_ro_mask and xflags_rw_mask I guess this
+is the less ambiguous option.
 
-Anyway, to the series itself....
-
-This is ludicrous:
-
->  .../admin-guide/kernel-parameters.txt         |    7 +
->  Documentation/core-api/index.rst              |    1 +
->  Documentation/core-api/pisa.rst               |  485 +++++
->  arch/arm64/include/asm/pgtable.h              |   28 +-
->  block/bio.c                                   |    9 +
->  drivers/base/core.c                           |   78 +
->  drivers/iommu/Makefile                        |    3 +
->  drivers/iommu/dma-iommu.c                     |   49 +-
->  drivers/iommu/iommu.c                         |    7 +-
->  drivers/iommu/pisa-map.c                      |  488 +++++
->  .../ethernet/google/gve/gve_buffer_mgmt_dqo.c |    8 +-
->  drivers/net/ethernet/google/gve/gve_rx.c      |   40 +-
->  include/linux/device.h                        |   32 +
->  include/linux/gfp_types.h                     |   14 +-
->  include/linux/huge_mm.h                       |    7 +
->  include/linux/netdevice.h                     |    4 +
->  include/linux/pisa-iommu.h                    |  141 ++
->  include/linux/pisa-mm.h                       |  205 ++
->  include/linux/pisa.h                          |  356 ++++
->  include/linux/sched.h                         |    4 +
->  include/linux/slab.h                          |   10 +
->  include/linux/swap.h                          |    1 +
->  include/net/libeth/rx.h                       |   11 +-
->  include/net/pisa.h                            |  204 ++
->  include/trace/events/mmflags.h                |   11 +-
->  include/uapi/asm-generic/mman-common.h        |    2 +
->  kernel/dma/direct.c                           |   11 +
->  kernel/exit.c                                 |    2 +
->  kernel/fork.c                                 |    2 +
->  mm/Kconfig                                    |   35 +
->  mm/Makefile                                   |    3 +
->  mm/filemap.c                                  |   12 +-
->  mm/huge_memory.c                              |   36 +-
->  mm/ksm.c                                      |    3 +-
->  mm/madvise.c                                  |   19 +
->  mm/memory.c                                   |    8 +-
->  mm/migrate.c                                  |    3 +-
->  mm/page-writeback.c                           |    9 +
->  mm/page_alloc.c                               |   10 +
->  mm/pisa-alloc.c                               | 1758 +++++++++++++++++
->  mm/pisa-kunit.c                               |  778 ++++++++
->  mm/pisa-meta.c                                |  834 ++++++++
->  mm/pisa-node.c                                |  567 ++++++
->  mm/pisa-priv.h                                |  319 +++
->  mm/pisa-user.c                                |  898 +++++++++
->  mm/readahead.c                                |    3 +-
->  mm/slab.h                                     |    3 +-
->  mm/slab_common.c                              |    2 +-
->  mm/slub.c                                     |   23 +-
->  mm/swapfile.c                                 |    3 +-
->  mm/userfaultfd.c                              |    7 +-
->  net/core/Makefile                             |    1 +
->  net/core/datagram.c                           |   17 +-
->  net/core/page_pool.c                          |    3 +
->  net/core/pisa-net.c                           |  264 +++
->  net/core/skbuff.c                             |   33 +-
->  net/core/sock.c                               |   31 +-
->  net/ipv4/esp4.c                               |    7 +-
->  net/ipv4/ip_output.c                          |   20 +-
->  net/ipv4/raw.c                                |    6 +-
->  net/ipv4/tcp.c                                |   17 +-
->  net/ipv4/tcp_output.c                         |   14 +-
->  net/ipv6/esp6.c                               |    7 +-
->  net/ipv6/ip6_output.c                         |   20 +-
->  net/ipv6/raw.c                                |    6 +-
->  65 files changed, 7907 insertions(+), 92 deletions(-)
-
-I mean ~ +8ksloc. 65 files. These should be clues for you.
-
->  create mode 100644 Documentation/core-api/pisa.rst
->  create mode 100644 drivers/iommu/pisa-map.c
->  create mode 100644 include/linux/pisa-iommu.h
->  create mode 100644 include/linux/pisa-mm.h
->  create mode 100644 include/linux/pisa.h
->  create mode 100644 include/net/pisa.h
->  create mode 100644 mm/pisa-alloc.c
->  create mode 100644 mm/pisa-kunit.c
->  create mode 100644 mm/pisa-meta.c
->  create mode 100644 mm/pisa-node.c
->  create mode 100644 mm/pisa-priv.h
->  create mode 100644 mm/pisa-user.c
-
-And here is a perfect clue. 'pisa-mm.h'. 'pisa-alloc.c'. You are creating
-parallel implementations of core mm mechanics _just for your feature_.
-
-And you didn't even update MAINTAINERS :) though, moving implementation to your
-own files and adding hooks elsewhere is its own kind of anti-pattern.
-
->  create mode 100644 net/core/pisa-net.c
-
-What I'm trying to say, constructively, is that you have gone down the wrong
-road here. And it's one we've seen many times before.
-
-You have decided that this feature is exciting and important and really special
-and unlike anything else, so it must be implemented through hooks into other
-stuff, new special GFP flags, an madvise() hook which amounts to 'I can do what
-I want here', your own allocator, your own node code, your own everything.
-
-And I'm sorry but we've seen this before, and it's been a disaster. Hugetlb and
-uffd are examples of code like this.
-
-Every feature of this nature imposes a tax. It means that you 'just have to
-remember' to consider and deal with feature X when you write code touching Y
-because feature X sits outside of the core mm code.
-
-So my constructive suggestion to you (and this is an RFC, so you're asking for
-this kind of feedback right? :) is as follows:
-
-Firstly - please rethink using AI to generate massive series like this. You are
-not going to get anything like that merged, and it disinclines maintainers from
-even looking at your code.
-
-Secondly - think about the problem at an architectural level. Listen to people
-like Jason and David who are giving you highly valuable feedback, seriously you
-are lucky to get it.
-
-Thirdly - rework it so it _fits in with the existing core mm architecture_.
-
-Finally, please don't send it as an +8 ksloc 65 file monster. Nobody is going to
-take a series like that frankly, especially not from a newcomer to the
-subsystem who may or may not stick around to maintain it.
-
-IOW - try to find ways to implement it incrementally.
-
-Thanks!
-
-~~
-
-FYI: Issues my scripts picked up:
-
-1. New revisions sent in-reply-to mail
-
-Please always send new revisions of series individually, not in-reply-to
-any other email.
-
-The easiest way of accomplishing this is to use b4 [0] (the recommended
-way of sending patches to mm), otherwise format patches like this:
-
-For a patch series, e.g. at v2:
-
-$ git format-patch -v2 --cover-letter --thread ...
-
-For an individual patch, e.g. at v2:
-
-$ git format-patch -v2 HEAD~1
-
-[0]: https://b4.docs.kernel.org/en/latest/contributor/send.html
-
-2. Missing cc's
-
-You are missing cc's. Fixing this is easy with b4 [0] (the recommended way
-of sending patches to mm):
-
-$ b4 prep --auto-to-cc
-
-Alternatively, you can use scripts/get_maintainer.pl:
-
-$ scripts/get_maintainer.pl --nogit-fallback <files-or-patches>
-
-[0]: https://b4.docs.kernel.org/en/latest/contributor/send.html
-
-Specifically, the following appear to be missing:
-
-  chrisl@kernel.org
-  kasong@tencent.com
-  apopple@nvidia.com
-  baohua@kernel.org
-  baolin.wang@linux.alibaba.com
-  baoquan.he@linux.dev
-  byungchul@sk.com
-  chengming.zhou@linux.dev
-  dev.jain@arm.com
-  gourry@gourry.net
-  joshua.hahnjy@gmail.com
-  kas@kernel.org
-  lance.yang@linux.dev
-  matthew.brost@intel.com
-  nico.pache@linux.dev
-  nphamcs@gmail.com
-  peterx@redhat.com
-  ryan.roberts@arm.com
-  shikemeng@huaweicloud.com
-  usama.arif@linux.dev
-  xu.xin@linux.dev
-  ying.huang@linux.alibaba.com
-  youngjun.park@lge.com
-
---
-Cheers, Lorenzo
+Thanks,
+Amir.
