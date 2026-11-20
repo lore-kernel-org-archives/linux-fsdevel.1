@@ -1,50 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795182150;
-	b=pCvLvR1e9YPPePy7I7zAZP1Risyqi6byobPjbICH/cYg2QJ8lRdBatPHIxTyqF8JtHmO
-	 s7xHYH9VYCtNuiIbFvzj2+SuLerIQQB7dAC4AEyxTMFSryFKEIx8OnD3uGHRiKqJAL0Yr
-	 PBWcr2z0oKaO4dfF3HfGXmzCZ4Qiuzm2A9JNc5Qd1fWqlIOxflUaT6QGpSD2jEUkVBaki
-	 Bx1+c7mTuNTeESvvxFcKy0cslAZzpVZ8PqqdjBQlgcdNst/4/7chBmPvAqz/B7shXxMRZ
-	 yHtf084qj2v7bMqIdlHV0tsbKTR/JIUW68ovmnbvL8uZhXfFAPOtcBfVAtP5BgKSGNQ==
+	t=1795182153;
+	b=3lIWIufdUmuKElgWmDf4EviDsLjhLfrrprQ7RyNPHWP5EJDtW/Q+FCfRN30Z5nMD8jSS
+	 3vnJmhAvbCRayaQnK3JekGu53CFtvCvZ1hI+Xo868zwL3W2dR8ywdqhnXI0bd1el5eygv
+	 5ox7VumRTjkBkpuW0geeg6Vxd7aUT5qLYglGyRXFDF0+e2KjCo5syZhcLOf8oR8g4g0d7
+	 UkMTE/Eee8W7tmsAQBKZ7GKuMDfNvf/8jTVoncg0qHHxNiLoq99g92ndzp48g2wXVj+ba
+	 GGeKNcjTO6on9DkfMZamG2j4g8VL+CsAKcrfurEi+iJYHn7MoVxbG/TWkRsc9Vz+LUQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795182150;
-	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=PxknjzXyKlIZbBI8K2Iy/IF94QOe7DF6NOjeL9QzLkc=;
-	b=WZt3aq7SPWhoohmiPl/cndragdpyKo42rd7s6VLXeL51vgZ7zfclUIHb5gTlVqIE1FCF
-	 r/BemOaeINd5vxzBgYl9vRJUTLj2wZlS8GGUtGUz4G93ALuRvHw1Dwi0va/+RLAxecrd9
-	 nqoOrjJkF855J88dbJznl+xnUWcLRysKxVbLr61YfviyP6uvFkP3Lu4V7U6aWK7OoFVB1
-	 bRZloJpbT31NUclu304I939QbByqQzxyyaCt5O6UNL+Kwb8WogjE1VWjc6Q0Xibje069K
-	 4H+wlcQgvZio+o6SK3JS/fwjnuy8LNKgD8A18hMXSLKahRzmeRj6l5gzQPWBUKOgAag==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795182153;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=EyU8IUWPHTCgRPl42Jjqqg6MmBy+29h9LlcoVLoowqM=;
+	b=KmcmPC0RmWpwz+Ja8VEAx2XtRGNlkgRkeo6Fdzbdp47RGSR5sZnejWjC4r80Zrb+9K5P
+	 P88iz5IVmgiY1mYRW7gQ+OEle60SAYBEEtjmO9pImZ8mbkDlWEZy4dyFEGZYMylNh1opq
+	 B4ApMFDm884FBz7/LTF6khffm9lHa7ntIaHU93gkmfbabykyGH5/B7ZZm0onFgE8QPiZa
+	 2Y3ZPKe0IahdcKkSCYZR779k6ZJlwwd0iynzcmcLv8HVLFjdWpuezOppGkWEnB6Plqjdd
+	 rY458dpu6xtfLLocG4Sx3hdh9xNGBcl/qhlD8YeO8axtYsBf1hy2K2SGG7phXBWYBBQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aE7K5lkT;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IT3qkdyO;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B95606A334
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 13:42:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C32606A32C
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 13:42:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aE7K5lkT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6545C1F000C0;
-	Fri, 20 Nov 2026 13:42:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IT3qkdyO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E2761F000C0;
+	Fri, 20 Nov 2026 13:42:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795182149;
-	bh=PxknjzXyKlIZbBI8K2Iy/IF94QOe7DF6NOjeL9QzLkc=;
-	h=From:Subject:Date:To:Cc;
-	b=aE7K5lkTR4egrzTaxc5ukEBMPXht8pKpIjSsNFY4eWV3ZaAzQHqS9nFg5eau1aT4S
-	 HTF5bcFYvtEhabzME3ixN1AUu3F3rJR6cFOsM6qIONmCH2z43SZB9/iWVFu6Yc1uNL
-	 9ucX6qweiQzi2NyXbEir3ti801+p/gnpyS7ekr/AtCKD25FStr0KjeHMfCM5imLwM4
-	 cuYPXlSGvSMUPu/e+Te1QwMZirfJbPQqmEQlYcVD5Sgsy6F4MYLpoAF5AQzET8EFTl
-	 SmeVLdGPa5o0sImRMPoEUygkADzh0Es3ZPWlMRegTSBhhH39/LtsvxUqhoEb3Nqi/v
-	 TMJRSzvjdrfMQ==
+	s=k20260515; t=1795182152;
+	bh=EyU8IUWPHTCgRPl42Jjqqg6MmBy+29h9LlcoVLoowqM=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=IT3qkdyOjenbnZjjh6oTAOqIA0GVob6KTnVxDfvTbarYDp5UUhOuUkmXra19JQJ/P
+	 /kv85iUdEbJN4QiYgxz+cP9ydLdt23e5X3+rNAllzBmzFd9ZEqjyP6KIy1XUnSmPqq
+	 QFGpIH4tRJREJDwwUBtmgetjZCr8TQ6S7uEdAcCMgjx2Rz/L7m6VldAlhj6T61dgQ2
+	 v685od1YzezKiNzg0IQTScBdchZw3su/+VD0+dNqPFLDJ7ZyKDYjYa9Gc1Q97WQrNK
+	 7kQD/X3soXV84TyuWiMslwM7pXwWg4uxcDl0xQaKXsPrwr1BhWa9ZobjQD1mKDfBC3
+	 wmQNka1HpTShg==
 From: Christian Brauner <brauner@kernel.org>
-Subject: [PATCH 0/3] pidfd: use one helper for pid namespace visibility
- checks
-Date: Fri, 20 Nov 2026 14:42:08 +0100
-Message-Id: <20261120-work-pidfd-pidns_visible-v1-0-0e82d08469ae@kernel.org>
+Date: Fri, 20 Nov 2026 14:42:09 +0100
+Subject: [PATCH 1/3] pid: move pid_in_current_pidns() into kernel/pid.c
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -56,55 +54,125 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMUQrCMBBEr1L22y1NjLZ4FRFpko1dlbRktQqld
- zepPwNvmHkLCCUmgVO1QKKZhceYQe0qcEMfb4TsM4Nu9FEp3eBnTA+c2AdfMsq1fOyTUHXOGBX
- 0vu0M5PuUKPB3U58vf5a3vZN7FV9Z2F4IbeqjG0o1B8G2PtSbHNb1B17xI1icAAAA
-X-Change-ID: 20261120-work-pidfd-pidns_visible-18c441f23784
+Message-Id: <20261120-work-pidfd-pidns_visible-v1-1-0e82d08469ae@kernel.org>
+References: <20261120-work-pidfd-pidns_visible-v1-0-0e82d08469ae@kernel.org>
+In-Reply-To: <20261120-work-pidfd-pidns_visible-v1-0-0e82d08469ae@kernel.org>
 To: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>
 Cc: Oleg Nesterov <oleg@redhat.com>, 
  Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
  Jiwoo Kim <arpe1618@gmail.com>, Chen Linxuan <me@black-desk.cn>, 
  linux-mm@kvack.org, "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-04696
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1564; i=brauner@kernel.org;
- h=from:subject:message-id; bh=avi2yEAxjJ5v1EMR55Cx9mpcbWIvVTDxij2cio+1u1k=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQz+Nm8vD1f553U9adnDUXYOatWae9mYMvcm2DvrZl56
- Pr+iz+tOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZScYzhf3DB3/Ljf700GXu3
- MMQ9sZDQ9Zt05Jro/bD2iVIZRjd+aTL8j3vAEsQ72+rF2S1qBYYND2V/xLYyFzpekd8zgaU+erU
- 4IwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3561; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=AAqjJa+Lt7I0UGE2nk14kuF0ZHp1hs12+suAI1lRIK0=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQz+Nle/FntmX/n5pnm3ezOWaevloRbv7bXdGL0EBcJX
+ NP3ZDlXRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwEQUxBkZVn0uPeyvJ3VXgf3H
+ m/MxlQ3FinL7389fU+K3/Hroj39TzzH8FQw49fP3S7fLO/8m/wlJjnq2QETAwIL59klX7pfvhXr
+ 3sQMA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-The pidfd api checks in a bunch of places whether the target of a pidfd
-is visible in the caller's pid namespace. pidfs has
-pid_in_current_pidns() for PIDFD_GET_INFO and the namespace and task
-path ioctls. The pidfs file handle lookup open-codes pid_vnr() and
-pidfd_getfd() does the same since Jiwoo's fix [1]. pidfd_send_signal()
-walks the pid namespace hierarchy in its own access_pidfd_pidns().
-Yuck, unify it.
+The pidfd api checks in various places whether the target is visible in
+the caller's active pid namespace. pidfs has pid_in_current_pidns() for
+PIDFD_GET_INFO and the ioctls that hand out namespaces and task paths,
+the pidfs file handle lookup uses pid_vnr() directly, pidfd_getfd()
+uses pid_vnr() as well, and pidfd_send_signal() walks the pid namespace
+hierarchy in access_pidfd_pidns(). That's all the same check.
 
-The rule is the one we settled on a while ago [2]: anything that hands
-out resources of the target requires the target to be visible in the
-caller's pid namespace. That doesn't turn pid namespaces into a security
-boundary. It just means a pidfd doesn't get you more than you could get
-by naming the process yourself.
+Move pid_in_current_pidns() into kernel/pid.c so it can be used outside
+of pidfs and convert the pidfs file handle lookup to it while at it.
 
-[1]: https://patch.msgid.link/20261117152332.1221-1-arpe1618@gmail.com
-[2]: https://lore.kernel.org/all/20260925-gewischt-auftrag-tierzucht-c153cb3f9f74@brauner
+pid_vnr() returns pid->numbers[ns->level].nr if ns->level <= pid->level
+and pid->numbers[ns->level].ns == ns, and 0 otherwise. That's exactly
+the condition pid_in_current_pidns() checks. Pid numbers handed out by
+alloc_pid() are always >= 1 and only pids allocated by alloc_pid() end
+up in the pidfs inode hashtable. So pid_vnr(pid) == 0 is the same as
+!pid_in_current_pidns(pid) in the file handle lookup.
+
+No functional changes.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
-Christian Brauner (3):
-      pid: move pid_in_current_pidns() into kernel/pid.c
-      pidfd: convert remaining visibility checks to pid_in_current_pidns()
-      pidfd: restrict pidfd_get_task() to the caller's pid namespace
-
  fs/pidfs.c          | 12 +-----------
  include/linux/pid.h |  1 +
- kernel/pid.c        | 31 +++++++++++++++++++++++++++++--
- kernel/signal.c     | 23 +----------------------
- 4 files changed, 32 insertions(+), 35 deletions(-)
----
-base-commit: 0a5864ad213c9fb2cf627a2dcd6f448a1fb7e065
-change-id: 20261120-work-pidfd-pidns_visible-18c441f23784
+ kernel/pid.c        | 21 +++++++++++++++++++++
+ 3 files changed, 23 insertions(+), 11 deletions(-)
+
+diff --git a/fs/pidfs.c b/fs/pidfs.c
+index a2a0691cf1310..85b160923177c 100644
+--- a/fs/pidfs.c
++++ b/fs/pidfs.c
+@@ -327,16 +327,6 @@ static __poll_t pidfd_poll(struct file *file, struct poll_table_struct *pts)
+ 	return poll_flags;
+ }
+ 
+-static inline bool pid_in_current_pidns(const struct pid *pid)
+-{
+-	const struct pid_namespace *ns = task_active_pid_ns(current);
+-
+-	if (ns->level <= pid->level)
+-		return pid->numbers[ns->level].ns == ns;
+-
+-	return false;
+-}
+-
+ static __u32 pidfs_coredump_mask(enum task_dumpable dumpable)
+ {
+ 	switch (dumpable) {
+@@ -1028,7 +1018,7 @@ static struct pid *pidfs_ino_get_pid(u64 ino)
+ 	if (test_bit(PIDFS_ATTR_BIT_EXIT, &attr->attr_mask))
+ 		return NULL;
+ 	/* Within our pid namespace hierarchy? */
+-	if (pid_vnr(pid) == 0)
++	if (!pid_in_current_pidns(pid))
+ 		return NULL;
+ 	return get_pid(pid);
+ }
+diff --git a/include/linux/pid.h b/include/linux/pid.h
+index 185bf0cde2d14..1b463921d2ed0 100644
+--- a/include/linux/pid.h
++++ b/include/linux/pid.h
+@@ -239,6 +239,7 @@ static inline pid_t pid_nr(struct pid *pid)
+ 
+ pid_t pid_nr_ns(struct pid *pid, struct pid_namespace *ns);
+ pid_t pid_vnr(struct pid *pid);
++bool pid_in_current_pidns(const struct pid *pid);
+ 
+ /*
+  * Needs tasklist_lock if type > PIDTYPE_TGID. A lockless reader can:
+diff --git a/kernel/pid.c b/kernel/pid.c
+index 4f9a29eb29de7..aa3ed6b5d4a9d 100644
+--- a/kernel/pid.c
++++ b/kernel/pid.c
+@@ -559,6 +559,27 @@ pid_t pid_vnr(struct pid *pid)
+ }
+ EXPORT_SYMBOL_GPL(pid_vnr);
+ 
++/**
++ * pid_in_current_pidns - check whether a pid is visible to the caller
++ * @pid: the pid to check
++ *
++ * A pid is visible to the caller if it has a number in the caller's active
++ * pid namespace, i.e., if it was allocated in the caller's active pid
++ * namespace or in one of its descendants.
++ *
++ * Return: true if @pid is visible in the caller's active pid namespace,
++ *         false otherwise.
++ */
++bool pid_in_current_pidns(const struct pid *pid)
++{
++	const struct pid_namespace *ns = task_active_pid_ns(current);
++
++	if (ns->level <= pid->level)
++		return pid->numbers[ns->level].ns == ns;
++
++	return false;
++}
++
+ pid_t __task_pid_nr_ns(struct task_struct *task, enum pid_type type,
+ 			struct pid_namespace *ns)
+ {
+
+-- 
+2.53.0
 
