@@ -1,88 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795191445;
-	b=5GIr7P0I2vbx6+MaZHl6JJdt0wlfU337f4Ikrdwkxl/+mjb4LhJtvxvxgf8qiO3FD32O
-	 hS/SALYSD3/gTDk/33c4st3321jBdOyWo2zJf4vq4Koj3YqqS6MU4LeIJV+jjULMnu9BG
-	 V3Vp890w2HuWxDWk8Gcat3kVpFh0LN2mNnX3RqNqY4PYAX/4NdLvO/LTtR+DX350rUqQh
-	 kDhFWG51eEIU0GGF8pUDTKuuwK5C8YqoOYfNEYvuZ6Dt20yQ+AA6w8IwihG1TNo7uH/W8
-	 fZ+z3ICyWecIBwp46/wJ5OhH6OIHsq6o9QH0RF7kYESzzMx3FCKVy/N/aJmBt1W+8KQ==
+	t=1795191753;
+	b=ABBW0HVqitHX0nsiZPIDBLNmmhs2mYbLsIWpIQiIkMyCnOIDay9EOyTCuZPvnTmblFWa
+	 hE0+BUEGMUcM5PklizYtD+sPRTpUeqlL81GOHj0lBCdvmYyk9UUI1frtD2wTp3K4JmNyf
+	 h8WsLfoLsc1oZ/M5iYHfkiDAjKasK2H+K6nsI89DVVsDrzGruAf5Yirus+kpIiPPYu8Su
+	 Kj9CDpdA4e29JylaW8Tr9zZpG/6Qz60ATD+6D7gdivQOhOVzQVKTQKM4O53+GKpPLcBWx
+	 qDTybOsCcZ2zXWjMwMOPeTwsUO6z+QZswhUrthEnPvLIO8AFS+y9IVklpqI/HuO4OoA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795191445;
-	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
-	bh=7oWxZkJSIrIvDRuijxJDq8O8Wh3VfFr0MJdwdp0vWdE=;
-	b=Vrr1lx/SrmEIHVr83135uWBcVVSOxj5zKZ8DtZgHiK/t1hwvRaSIzYPi3gRNhWzBLrAv
-	 W6xWy7i7kTO01dYTNVvH7e1o5M3kiPtTLDIe20wRGO3k0CpD1W/QSl9ylXXzJzriOj4kN
-	 xeEHZpmIybIDFepYw9TgLPP8OqLF2Yfh5z8HO9Z/Ka9qmWv7pDoTL00m/vWzXEVgN0g88
-	 +yJfkhWUmwlgOJG68i+Cd+Py1DNkzBbn2aKvJn+AmU+nFqGdFet7td0ofIoJe9ZN+ffay
-	 VDZSIOLEKJQV0ZeHDjPfvuHqdYwa853JZnVEpN910iq7MdFu/8g8P089syVmedMhjAg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795191753;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Scanned-By;
+	bh=vFrxkYlbffnn1oFL/jywinkH4FaLHpHlb6I6Aq54CHs=;
+	b=vPTDUvA2vPIQADoCzcXkbtGbbctqJjlHT/ZlOu8BSWwc2LMeFbY9/X5vXZc23T2KLg8s
+	 8uRPejIHSZ7KttgIS3PuSmh9XU8Hc6gtCdNupZ0ElXEi8112cRtXnUpfDFYvMKyd5SuMd
+	 mvKe8Uv4IRTssXY1ObGIDDSHAjHcdtWyl+qOtZqD0mVYcillvWMY3YsJIUNsCMGtyn42s
+	 b9zELBj1EtInb3AJzBvtccx1kEmyTx8XrD00aat1vkn98v3JG+Tms9NqS5bmtn4gZ1WAf
+	 OFVNBPY9dp2sJClOMVOQOt+34wnMrBjmILUFpEP6iAHp7N61FwOK3K6Hm3Nmndl2/Cw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lst.de;
-	spf=pass smtp.mailfrom=lst.de;
-	arc=none smtp.remote-ip=213.95.11.211
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=AGkQ0ZcJ;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FBA606A320;
-	Fri, 20 Nov 2026 16:17:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 58FBA606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 095346732A; Fri, 20 Nov 2026 17:17:16 +0100 (CET)
-Date: Fri, 20 Nov 2026 17:17:15 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Luigi Rizzo <lrizzo@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Vlastimil Babka <vbabka@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Luigi Rizzo <rizzo.unipi@gmail.com>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Brendan Jackman <brendan.jackman@linux.dev>,
-	Zi Yan <ziy@nvidia.com>, Harry Yoo <harry@kernel.org>,
-	Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Hao Li <hao.li@linux.dev>, Matthew Wilcox <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Simon Horman <horms@kernel.org>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Willem de Bruijn <willemb@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Joshua Washington <joshwash@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Dragos Tatulea <dtatulea@nvidia.com>,
-	Naman Gulati <namangulati@google.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Mostafa Saleh <smostafa@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org,
-	iommu@lists.linux.dev, netdev@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v3 12/25] block, mm: Support PISA for disk I/O and
- scrub migration
-Message-ID: <20261120161715.GA31401@lst.de>
-References: <20261109182533.3594984-1-lrizzo@google.com> <20261120010655.467825-1-lrizzo@google.com> <20261120010655.467825-13-lrizzo@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274E9606A32A
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 16:22:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 274E9606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=AGkQ0ZcJ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1795191752;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vFrxkYlbffnn1oFL/jywinkH4FaLHpHlb6I6Aq54CHs=;
+	b=AGkQ0ZcJd1poWuLV6SEXHqiEhEz64Q48Wh6pjrn/P7QRT4DXYnFqgAJwrdrSG44ef1K7fm
+	A3j1LRi3veHxByBUvf0TlCONFOHTfranabYfV12l9NOZeZ9smgJ5wfqZhRh9HGxEaBccQD
+	BoPGtHSbUbyK3gK6LbAY61WMqMZuPX8=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-407-wX-z_3wnP92GD2JkyzEneQ-1; Fri,
+ 20 Nov 2026 16:22:28 +0000
+X-MC-Unique: wX-z_3wnP92GD2JkyzEneQ-1
+X-Mimecast-MFC-AGG-ID: wX-z_3wnP92GD2JkyzEneQ_1795191746
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B49221955F08;
+	Fri, 20 Nov 2026 16:22:25 +0000 (UTC)
+Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 1960B1956049;
+	Fri, 20 Nov 2026 16:22:22 +0000 (UTC)
+Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
+	oleg@redhat.com; Fri, 20 Nov 2026 17:22:25 +0100 (CET)
+Date: Fri, 20 Nov 2026 17:22:21 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Jiwoo Kim <arpe1618@gmail.com>, Chen Linxuan <me@black-desk.cn>,
+	linux-mm@kvack.org
+Subject: Re: [PATCH 0/3] pidfd: use one helper for pid namespace visibility
+ checks
+Message-ID: <awBzvXKHePLzjABf@redhat.com>
+References: <20261120-work-pidfd-pidns_visible-v1-0-0e82d08469ae@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -94,27 +83,21 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261120010655.467825-13-lrizzo@google.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20261120-work-pidfd-pidns_visible-v1-0-0e82d08469ae@kernel.org>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Fri, Nov 20, 2026 at 01:06:42AM +0000, Luigi Rizzo wrote:
-> Extend PISA user/page-cache allocators to support O_DIRECT and buffered
-> disk I/O, gated per block/controller device through pisa_rx_bufs (read)
-> and pisa_tx_bufs (write):
-> 
-> - Split per-node user_pa into DMA_BIDIRECTIONAL, DMA_TO_DEVICE, and
->   DMA_FROM_DEVICE allocators, promoting pages to DMA_BIDIRECTIONAL if
->   later accessed in the opposite direction.
-> - Upgrade pinned O_DIRECT user pages in bio_iov_iter_get_pages(), and
->   allocate/promote order-0 page-cache folios for buffered I/O when PISA
->   is enabled on the target block device.
-> - Add pisa.scrub_migrate to compact or demote lingering folios off old,
->   sparse user_pa 2MB pages.
+On 11/20, Christian Brauner wrote:
+>
+> Christian Brauner (3):
+>       pid: move pid_in_current_pidns() into kernel/pid.c
+>       pidfd: convert remaining visibility checks to pid_in_current_pidns()
+>       pidfd: restrict pidfd_get_task() to the caller's pid namespace
+>
+>  fs/pidfs.c          | 12 +-----------
+>  include/linux/pid.h |  1 +
+>  kernel/pid.c        | 31 +++++++++++++++++++++++++++++--
+>  kernel/signal.c     | 23 +----------------------
+>  4 files changed, 32 insertions(+), 35 deletions(-)
 
-No, doing MM migrations in an (any) I/O path makes no sense at all.
+Reviewed-by: Oleg Nesterov <oleg@redhat.com>
 
-Can we all please go back to actually thinking about problems instead
-of generating giants amounts of shit code without the slightest
-reflection.
-
-Than you very much for your attention.
