@@ -1,91 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795212274;
-	b=x78KQgZYodVE3Kq2uI1fj9qFq0zER7x+5IsxNDFxjASNBjkE1CYnt/5JgBHaW041B5vN
-	 l3RnM3/dMKxtDM486P23uKJ15TxN+zy/lxX13aYJWQ07EdXWaxfGtXyBNSJxEj9qCi5l5
-	 sTKutReaxX5t+xFwKBvrjnTFxY4ETL/p/7GGGX9nUkOH2ujPOsnU/39B/pfSdzCMA2wk7
-	 8djxLjnLjh30/kA68KkYoFDF3vLevUodU0Y75qB6gs498dHPdkpHY/EMPTSg8gwk6DNSk
-	 YuvChalPjOTbSNNO1UMWni5uHv1kNejKgqjT04kPbx4IkdNV0THOcETq9vy0qo5ibTA==
+	t=1795212995;
+	b=wlpwurkixcFFTr7N8WoVF5Xhl6sTRJG5zpGEFevb80JbgAspy+/d1xUXnfliikwO+cPc
+	 FL+Zh/iQ0zFSFpIX2vyoyHgDK66MaRFTpZzDVfYQy0YHWsqaF9xeqiZ6NWNVuWbkJJZMT
+	 5C3I7lxrAN9+xV3N6qxaxptOPdp4frax8cxLYYv5sma7+5Td6O/yU5oQuiwlxkRUMQZFz
+	 75vNJuyGTD17U8FQ2/ts8O7zgppxSs6sf6S4RYLwFyqkw+K8GXoKDuu9cmqgsFnAx8gO3
+	 5xyM8iHimvg1iDM/YrHuALup9mm7ioZ9SjI9/ouCEB6kUWXNlF52GIbVUHuNmTnG6DA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795212274;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=aa7qEaxeOlG6UrT9v6iaZAnn/jfDxPey+mYNfYgCTvs=;
-	b=RRna+Ub44ucvfik+Q3hdfL4dBHLvNUsDtOaZDTdWxFCOUmed5QNEqZe6OsEaPeMZ1a0A
-	 vKSHuUSlyFoiuhFA87Dzg5eqDLCICYjWtqhn+Vc/ghIRkv8R9rNypPK4wIpXtXcsH5dSe
-	 ufi+VSDyYhYgjRVHVav4w4HQZgJnvq1P1UTgV6j8CvMhLv31CspulLl6+4UYRVspyW5Ls
-	 efG31KgPh8LnBvNsbwt3NCQixDvxvZF+dYvt0jNAsN0lvmIGNkOG6IcV7Ex2jayAWeW7j
-	 RLSoqU0uXCO25eIEuBkCwxlyDO/LbwC+Kbz4B5emMMuG8PitneN3eNJWb7NWuXbLBGQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795212995;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=tWQrNtFyfIXnHGI2fRFmH9GGodaYvK+4ToZmzZlpeLU=;
+	b=Tr8ocZ4XdNf7L4cINFOC3B9zKVH+bVyjss8kUofIpRX9484Rj6ZvBjTtXRAJWNKURnN6
+	 KaNRgYDvaHx70pzJUs2LElvrJEjQbGS0Z2y+kJKjMn20IP50y91FUvSOlbRXBAP1WVdO3
+	 wC5MdDAEYP2pA06xYBme79oQou5KW5dg+g/Fe8TSk5MaOtqnNjqWI9ws94+dlnVgeyzhD
+	 ryPyR3dN/JdAZBFs0ft4/bdOohSkSSD5AGjgKLfYtalvlYm6DWLS6RdFxg4b5kobumdgb
+	 z9LUzmLws+mAojBxNkWYNMvtDGB/lZBWe8n5psmyYaaE582huxE/nboWY1sLyJiUaNQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cg+8Bhwg;
-	arc=none smtp.remote-ip=209.85.221.50
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=FQkQmRsM;
+	arc=none smtp.remote-ip=90.155.50.34
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9C6606A6A6
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 22:04:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A9C6606A6A6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58ACA606A698
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 22:16:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 58ACA606A698
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cg+8Bhwg
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48e3b22e971so777669f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 14:04:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795212263; x=1795817063; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=aa7qEaxeOlG6UrT9v6iaZAnn/jfDxPey+mYNfYgCTvs=;
-        b=cg+8BhwgWbN2VZWtTAwg5us6kIYKWVDH3XaOE5L7EweTD2fWI4FPIVM5Gpk3DZ0Dz5
-         uAQOwVFUx4wAO6fS+ImuvU1Irf84hJ9Wdd1qy0HBJx/JKpLVUNXbFEuU8Pdfmyfgg2W1
-         ecX0vZQo/hmo2KrLnsd/kHP3Ub3QbLLYxraLlMQGCxaC/ZT/TtIpmS7blfidlkF7/OY2
-         GX9R2t2F//APRQXoeZYDiFg1I3q/LXrsZxOeoiyISxjt/ybh6IwjY70Li7N3j9GcnN8i
-         7LmDxTrITawHLsTvrgwpVe+FMaea4NuPEuXt8D+rDQ4Bi5GzfuKFRr47kpGG/sTWmmeH
-         6mGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795212263; x=1795817063;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=aa7qEaxeOlG6UrT9v6iaZAnn/jfDxPey+mYNfYgCTvs=;
-        b=J7DCxwLj6puJA9EnW+YmpCepF5MjHD7H4bOtZyv6miau42EK3UjGknni10HWs7b+l4
-         fJJ2/yTX7ON68u0OuevzoFmrPlBPl9JkQCAWpiRt2v68wk6xLh0R7jQQXzK0HTGjccpL
-         sZZgwaiCSDCG7gJcjz4vWuvj3Vbu+SDU4KbvmiV7WjrXyXXF2EP49xK0mBQ99MFeT7wC
-         OoepstM2KIhrO+ovBSvEHRpIXQ+x0VURDjdzI5zx+20J4oBU+PNGOazI3vcjkz8r5EW1
-         2mzbQh6KKURKtMN6nxYELXTCo4m1yubOs3vRNFuG6DROWN6YNc8rW5ZKxDNTvHaUQKmO
-         0IHw==
-X-Gm-Message-State: APuU4Z+c6hnAa81aTxGnd/mwr6ksnaVoJn89SqgffySS6FlIskRoJPmF
-	db5uNVBijDtdt+DdjbFnAE6cq0WGrfsK5jBCOOnSiDZYSOX3SMkEZTG7fFGhPYzd
-X-Gm-Gg: AZFdTZdkbr+Jygilq65mUjMVE3a44RGtbVRMd9PFH3lv2DT3XhMmcjXWWzt5JiRMUEG
-	j3Zqu2/RW6Vq5epBEr7V+GLexa4ITpXtXalVluS2THt7MvQj7f16PrIv0euo7jG23gif8oPDCqW
-	vYCYoUflvRE02VKPF/PlwQ7uy26IlyKe4bj6u5UqwDV4ITeOPB4/+smbybcf4piDPZ6hzvetMcf
-	+H+AtXgn18+5zWalHv9THzhtiYPgH0tbyXU9NrjI1cYU3UWXq4XRWECBudX2POOpNnSWgSsmrqp
-	V2vRWw40ZUq4nCKGxt2WKUmLAGQBWUZre7FZOKGxkDBMpDogr6F3+6Ni3hbwSYVOCINB8p2PaeW
-	HVhcIfPcMFz21FFxAl4xPYvfk6/YkSbHKzKdXcnIvYAob8BT4HWWXpEFsuwCfNwWdwdVcLmPoeI
-	QanccR4c3eRnP6Ff9ijwgqQ/kNdj58QvAW1PFCuFQYJVpm5pealdcTjzfcMSKWtmyZj1o403Nip
-	4SSkbZTyoj8iUdiIwcaT7ClEzu1JYEjv6rcUCyFZp8CJv5HopvFkDS8uoCSHTP7uU3QXHh2fnOI
-	pUg4kedsF+c4Uh5d9UGUWd5AfQdzRfMAtHeyLf178AzjiLaZBSacNt+eqw==
-X-Received: by 2002:a5d:588b:0:b0:48e:66d0:664c with SMTP id ffacd0b85a97d-4abaf64be12mr10171630f8f.15.1795212262648;
-        Fri, 20 Nov 2026 14:04:22 -0800 (PST)
-Received: from DESKTOP-V28CTA4.localdomain ([103.125.177.105])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6a67fe48sm7156629f8f.23.2026.11.20.14.04.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 14:04:22 -0800 (PST)
-From: Arbab Haider <arbabhaider649@gmail.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org,
-	syzbot+6a0633f11d3fb88860bf@syzkaller.appspotmail.com,
-	stable@vger.kernel.org,
-	Arbab Haider <arbabhaider649@gmail.com>
-Subject: [PATCH] qnx6: fix divide-by-zero and silent magic check in qnx6_mmi_fill_super()
-Date: Sat, 21 Nov 2026 03:03:54 +0500
-Message-ID: <20261120220355.137600-1-arbabhaider649@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=FQkQmRsM
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=tWQrNtFyfIXnHGI2fRFmH9GGodaYvK+4ToZmzZlpeLU=; b=FQkQmRsMZzJVVSot5NtT3VpROy
+	9IYHajkK2iNAP0E44KiGPStuPGv/oU9aQRsIikSD9/8OzUDBp41S+XZBWKFUIEvlEvq+g3ye+X0Sb
+	3Ie3KEmgLvsC03wA7MT61P/wiXuZ9aIfm7IllWctx4Hk6TaudOeuw8+WK8Z3edhZuxLvV+x2B3HN1
+	6OmXWZ/hdHhzwieWL8XtYZ/Z/RsJ1sQc+cbjMtL7oaAttwrzfDAqXxgJPVIej6ldnfzdaGrnIKUhO
+	ANqtjLDihyjUBnzaviLMdHNfrph5loPAshN0YPmlXezfUrirKby3HXXywH7bAV/XAjv/zLx0kyAEv
+	5WyKOspw==;
+Received: from willy by casper.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xUWu2-0000000DBrk-2nDY;
+	Fri, 20 Nov 2026 22:16:18 +0000
+Date: Fri, 20 Nov 2026 22:16:18 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Tal Zussman <tz2294@columbia.edu>
+Cc: Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>,
+	Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, Tianyi Chen <hi@tychen.cc>
+Subject: Re: [PATCH] mm/filemap: only drop dropbehind folios on uncached reads
+Message-ID: <awDGsqkIaasAjaNB@casper.infradead.org>
+References: <20261120-filemap-dropbehind-read-v1-1-a373ac3fd993@columbia.edu>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -95,84 +64,31 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261120-filemap-dropbehind-read-v1-1-a373ac3fd993@columbia.edu>
 
-syzbot reported a divide error in qnx6_mmi_fill_super() when mounting an
-all-zero block device with MS_SILENT and the "mmi_fs" mount option:
+On Fri, Nov 20, 2026 at 02:51:17PM -0500, Tal Zussman wrote:
+> An RWF_DONTCACHE read marks the folios it brings into the page cache as
+> dropbehind, and filemap_read() drops them from the page cache once it
+> has copied from them. Readahead can bring in folios past the end of the
+> read, and those stay in the page cache with the flag set.
 
-  Oops: divide error: 0000 [#1] SMP KASAN PTI
-  RIP: 0010:qnx6_mmi_fill_super+0x228/0x870 fs/qnx6/super_mmi.c:68
+I like your patch, but now I'm wondering whether RWF_DONTCACHE should
+trigger readahead.  Yes, I'm sure we want to use the ->readahead entry
+point for filesystems, but I think that an uncached read should not
+bring in pages that weren't specifically requested.
 
-Two issues combine to trigger this crash:
+Something like this, maybe?
 
-1. When sb1->sb_magic does not match QNX6_SUPER_MAGIC, "goto out;" is
-   nested inside "if (!silent)", so mounting with MS_SILENT falls
-   through instead of aborting. An all-zero superblock then passes the
-   crc32_be() check because crc32_be(0, zeros, 504) == 0.
-
-2. The second superblock offset divides QNX6_SUPERBLOCK_AREA by
-   fs32_to_cpu(sbi, sb1->sb_blocksize) before sb_set_blocksize()
-   validates the blocksize, causing a divide-by-zero when
-   sb_blocksize is 0.
-
-Fix both by moving "goto out;" outside "if (!silent)" (matching the sb2
-magic check) and validating sb1->sb_blocksize against
-QNX6_SUPERBLOCK_AREA and sb_set_blocksize() before computing the second
-superblock offset using a 64-bit addition and s->s_blocksize_bits,
-matching qnx6_fill_super().
-
-Reported-by: syzbot+6a0633f11d3fb88860bf@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=6a0633f11d3fb88860bf
-Fixes: 5d026c724220 ("fs: initial qnx6fs addition")
-Cc: stable@vger.kernel.org
-Signed-off-by: Arbab Haider <arbabhaider649@gmail.com>
----
- fs/qnx6/super_mmi.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/fs/qnx6/super_mmi.c b/fs/qnx6/super_mmi.c
-index b8afb6f38..bb4243872 100644
---- a/fs/qnx6/super_mmi.c
-+++ b/fs/qnx6/super_mmi.c
-@@ -51,10 +51,9 @@ struct qnx6_super_block *qnx6_mmi_fill_super(struct super_block *s, int silent)
- 	sb1 = (struct qnx6_mmi_super_block *)bh1->b_data;
- 	sbi = QNX6_SB(s);
- 	if (fs32_to_cpu(sbi, sb1->sb_magic) != QNX6_SUPER_MAGIC) {
--		if (!silent) {
-+		if (!silent)
- 			pr_err("wrong signature (magic) in superblock #1.\n");
--			goto out;
--		}
-+		goto out;
- 	}
- 
- 	/* checksum check - start at byte 8 and end at byte 512 */
-@@ -64,12 +63,9 @@ struct qnx6_super_block *qnx6_mmi_fill_super(struct super_block *s, int silent)
- 		goto out;
- 	}
- 
--	/* calculate second superblock blocknumber */
--	offset = fs32_to_cpu(sbi, sb1->sb_num_blocks) + QNX6_SUPERBLOCK_AREA /
--					fs32_to_cpu(sbi, sb1->sb_blocksize);
--
- 	/* set new blocksize */
--	if (!sb_set_blocksize(s, fs32_to_cpu(sbi, sb1->sb_blocksize))) {
-+	if (fs32_to_cpu(sbi, sb1->sb_blocksize) > QNX6_SUPERBLOCK_AREA ||
-+	    !sb_set_blocksize(s, fs32_to_cpu(sbi, sb1->sb_blocksize))) {
- 		pr_err("unable to set blocksize\n");
- 		goto out;
- 	}
-@@ -80,6 +76,10 @@ struct qnx6_super_block *qnx6_mmi_fill_super(struct super_block *s, int silent)
- 		goto out;
- 	sb1 = (struct qnx6_mmi_super_block *)bh1->b_data;
- 
-+	/* calculate second superblock blocknumber */
-+	offset = (u64)fs32_to_cpu(sbi, sb1->sb_num_blocks) +
-+		(QNX6_SUPERBLOCK_AREA >> s->s_blocksize_bits);
-+
- 	/* read second superblock */
- 	bh2 = sb_bread(s, offset);
- 	if (!bh2) {
--- 
-2.53.0
++++ b/mm/readahead.c
+@@ -590,7 +590,7 @@ void page_cache_sync_ra(struct readahead_control *ractl,
+         * readahead will do the right thing and limit the read to just the
+         * requested range, which we'll set to 1 page for this case.
+         */
+-       if (!ra->ra_pages || blk_cgroup_congested()) {
++       if (!ra->ra_pages || blk_cgroup_congested() || ractl->dropbehind) {
+                if (!ractl->file)
+                        return;
+                req_count = 1;
 
