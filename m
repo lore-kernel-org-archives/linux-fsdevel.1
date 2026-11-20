@@ -1,83 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795181033;
-	b=DJxzpbbMQKBRgfqwlNaDuatY06WhVH+eySQzokem96fxuZ9PYgJ6dnaUv72lBM2TwmpT
-	 KY8nqOiOL7qj0Q3DcmZVfjy1vD65oRH4yY3DO3gVXEXG91wEDUl8B2e2pASUa/7FjeN8l
-	 hh9nwKf+klSh4Ywgrm+DklORCQ5+ZK1d0c8zeGumDtkjx4V+6ZeWVIRE8TSPdp01/pCTL
-	 juTfomU/Xd+eHTpb2zBvuKJgEZt+fgnHR4nf0CnLs4fOYBgzWXvkHD86KiSJ8eU0nxYbh
-	 SxFjXrChkT18IbSUy5F/IIPOARZEQbKw8TKn5iTJhzEvCVMj7HM0vtmASNcXmgU9HxA==
+	t=1795181101;
+	b=Ib0I9P/DlNwiHIUQUwBVQyJZX2N+H/l90c7jChjggXEKv/BLNWOMDNbbmUSPj8ci7Ew+
+	 m57JN0xCnwiwgLMDUNoD6nggW4CxQXHpj8WsHfNJo4wzjqrpOrMjs7E4lN7aw+fxl2RoA
+	 e049+/InVrR5HYqe0V6eI2+MiOsL5c6OCFOaikDxyZLkIfrJdPuN1Cdzdzo1Hbx4TQVbl
+	 NmHz5jM5mH53em5brJuhIkmOMZW+9HiyNZX8dxZUnJOrIJ6Fj+GnuNipYeavLbUiwi9ws
+	 oNOPN/eSrGVOg404GV+JJUyhmqJWbK2+G9h9vrZE2NdOAJi9uopytBxAqPmsSMvodSQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795181033;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795181101;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:X-Mailer:
-	 References:In-Reply-To;
-	bh=U9t5C73ir3/3QySglAwAwVOJ69q66296+82EjWEvxrc=;
-	b=xRfllGa7Bgb5qEcU5fZBNdktKt4/70K9KtoPjnRpJ8Op1md7ZOXKTy9cvvB7riQQdrn/
-	 hfVbxO4A2jRNgA0FvtnJdjl7snZQZTh7MKeQgWJbViIPmT4+zf1pP1rYVO7dxBJsx9tgQ
-	 qYfXoXvY/3fOlLjLhvqCZycPUn/PdxHArEM5kQmlILYNlwFy2bxip0AssvkjUi8G0hBFk
-	 NWFiYHkihbZn41M2h5SyZw9Bt7ELA13Yat9o088TK1YSHdhe3gcwYYkQPPThlE/g60XxY
-	 k24re7FfrrgtlU3Sr+XDGwvpJtnnGTF6rbsddzt6Ysut0tABsftntY+lPi6gqJEJD+Q==
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=EJxOk2iAhlxJO8mQMHPBSXYYr7Hb6Bmk1S6vLMr+MZ8=;
+	b=KIW11cSyc+tdRrbtOcH99r4DDU5y0GPWU7BsU7JrLEk+wZG5b8CujYIMXuw8dPgqm8EL
+	 /vQSwi7Tpwilzc62IL6BgKvrlizQMNUsfWwda97vZc2Rq+Zi63nti0b+XA+VxkcA12OZt
+	 prKiH6K145PZEfQcdSHxZ351Vg+Qtu8xMqGdcUlhGE5EIsvGgh0vVoDmG10kIgWXDKKiZ
+	 dcMT4oq56D0MjnpDycdusyHFEePBZn+Velq6OstPZuOsYefM0G6fcpGyUIHtxA3qkvbD9
+	 ME/yazOTR2shGKUKB48ovYxGMaSZ/D83HhfALTzaxDFJb+CFgpcySXWNPB9AZMfb71A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TUVe1kLT;
-	arc=none smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	dmarc=none header.from=amutable.com;
+	spf=pass smtp.mailfrom=amutable.com;
+	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=dCkPrHYz;
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9818760A2616
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 13:23:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9818760A2616
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF9D606A326
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 13:25:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5DF9D606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TUVe1kLT
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4b79502c27aso8128315e9.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 05:23:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=dCkPrHYz
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a2153c8525so6744035e9.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 05:25:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795181031; x=1795785831; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-type:mime-version:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=U9t5C73ir3/3QySglAwAwVOJ69q66296+82EjWEvxrc=;
-        b=TUVe1kLTe1RrGjkZcB0Jll6qRkbhub5RAYrrBdXYAW7cCWc5ZfKjmtHsxejUWkMmqG
-         JzPS+ZpHkP7wYDJTT9lXMucUyvaeiJXactdfcKWcDDB8coLAUlZ+SLxV/1HOPt72Y8vR
-         ZlJc2GAvUJ9zeSXBUpYabS2EM7tBgAyo4jIeTRVyCxLex4cLnS2ZffMAZOHSFIBuAhgb
-         IhJ9TGzBnVeS+qk3W+h/M+Afxb+UT1xmww35AkhR+sZmys0qIASFOsZUqQF5VUqAX1D4
-         CPz+yTqfhss6B38ZRKGfmP0RMlFT5D9wepGDZqnoCfxFFAl5qcguvOeWnzTzLCK4pe1x
-         4Yxg==
+        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1795181100; x=1795785900; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=EJxOk2iAhlxJO8mQMHPBSXYYr7Hb6Bmk1S6vLMr+MZ8=;
+        b=dCkPrHYzS+fdPuPuKwS/olhuHCxYtIb0sFo9PQ+SKkZchMrhIdpW2EL9a0SvblZHZl
+         6Dxb+/8GGtx377OqpkItP5QDaPJL24HSTEooQb1Oh8rqfcLAAQ4L3UeiVwGuYSAOpOcx
+         ZhVg537cx17T2tuC72cgWskMTRuesNMFWD/i3wDku7j8MLPu9G7dWsmjzg9mx1/fiYjm
+         +XjPTHGCtTemoqUoqxYrB+hO6G/npZZ0dVWw26L72Noru2ONn4q+r7RaGKuge2WLE+fU
+         U9uS79+Q1vOGklxtomAQ2OmUTslQ64f/EWs8HLBPSvH7JWiVWjzaumj27CjfBYhRD6qp
+         XWaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795181031; x=1795785831;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=U9t5C73ir3/3QySglAwAwVOJ69q66296+82EjWEvxrc=;
-        b=qrTLOVds0d7XTrVDX+UKajtIptaYwPtb9NMCp1ueAJHaU6StW+T3iBwOChObxLgAsE
-         pCC9nj3urMscs4+BHeFptXDSYALukMaPkE1GyPdAVW23C8nWF3CH8/f3lWUHZrxzSQBs
-         xLvTAQ3GoM85G+lAPW1ikXrEummSZu5ZrMNTNX9Ufr3QFUmNWHMU+Goc+bqsMMwpbM6u
-         3MhtcRQtUKm0f4+wiVQRV/a714wkfMpG0TNbjac60BERx8zXjZTYRAkB724POOqUfc7X
-         037+JdJCeXp0ToNjos/WoCWU3kWbQaj1V9gIxNH0lgNM4fM1HBPqqRHTDwrjXtiUEmKy
-         chbQ==
-X-Forwarded-Encrypted: i=1; AL+hErGFZgLIjawejt5LvHdwGY6f4pXeeyqtX0M7sxpQUphWpv0M8J01G1RJxS0RQZFDNNgtbkZzytBRykBgCquV@vger.kernel.org
-X-Gm-Message-State: APuU4Z9HneKr4gz920GchW4OLTAp3eeI74DWOonDci6D2AIMoxpsJpZd
-	7juB/tve+GkI4h+qF83KlOxAGzp1YLmQjmN/vsEDrvyst8TqXkt/ejpP
-X-Gm-Gg: AYBFou2lcA+NeXdxBEEhDfRz5VSBaDRk8fAvXWamztDbIfao1XwGQRrTQggMmAvmKjl
-	T1P7B3M1qhowyM4DlTbpaPvCB75qMvvfux8edFqQ5V+YLUbK9T6HLPR6R9ilgB3eItyUi7/1Fki
-	kbF+GAdhtQ8/80cx2wOGN58HnSi+9YT9eCoB+2aoWoPMOE2dR0EFT5ryAZotnB6v+GcqbsbjmnU
-	XLtwFuo/2HXI3Q2wIc/v/2ltQpSUHJqQs35Zn+3EAfNQ/TykMPQmA/S7ts9MnPhjaWGGZZm8Np7
-	ehG6ueClLRknsPcPggkspoUhLAKtdxbrUz/xvZIp84UD9x4XAjrN0DF7ki70+9reYVp81+6nlHC
-	WhzjvJ0CFjIoqRYBA2RMqrR6s0POgZOkPuAFEy6jjU2sk6R8br0JwyH5H1I0zGEyYtDloA1rEh3
-	aoesAKBj1vwSKl52YMttcif6qAtKsdKUwct4LmbbI7Yatwz6N0BLeYL+WatkyTBDsBrgx1S7ZTV
-	3lrt7BolUrGqPfEOoKSi1PjojR20klyPnpNLEOrgLlfsaJBS5/VxNWZ3ei/YZ21BNp0/1DKGo4t
-	fHB3ZUr40BLbayYMGjTaAkgmOGfgBM0D/ffkMWYnaS9JTrRj
-X-Received: by 2002:a05:600c:3b83:b0:4b7:6b96:e431 with SMTP id 5b1f17b1804b1-4bb88822242mr75040685e9.28.1795181030668;
-        Fri, 20 Nov 2026 05:23:50 -0800 (PST)
-Received: from localhost ([130.192.98.149])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab65cb41f4sm5518234f8f.7.2026.11.20.05.23.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Nov 2026 05:23:49 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795181100; x=1795785900;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=EJxOk2iAhlxJO8mQMHPBSXYYr7Hb6Bmk1S6vLMr+MZ8=;
+        b=HGYUu5OaXA1dxbmeiviY01hG/UU6A/4gRviZINYABFoEoLry7jeuTvFfqYURsFjBPY
+         zaYA/C8eOSJGPklWPbXqXYrt7xK3/SrPN0dgxROHE800N1qTJ1IcsNnOk2gj9noBUWfu
+         K5QuPVsunCkpgjRQ7g5cu1ls/RWsOW7sbQKlRd4ibRPUPbA7TtNvy+Z+Cr39FZMJbnqY
+         JNpSiN6F/7vtRat4JT53zJS/SPk8o6+zqGNvdi18/f9i2sVuoGAhfarRJqSH7iJmvy38
+         FdJ2sjtaahei2sD7Kp4sOuc2UtUqmlAvJK71CuvPKrGH3q9QD01YFoiOkFt+flUurs/F
+         BH6w==
+X-Forwarded-Encrypted: i=1; AL+hErGV2WeVQ9CxRijd4oOkqcppcs9sNadfnLNKbEcOKbQSw+fAfN0qQWufIYRlt02C9YxHjR5gte6LCmJsDyJL@vger.kernel.org
+X-Gm-Message-State: APuU4Z+Hlf7rl1yD3BsBx3QO01cYO5eU/YeihKPlPfw2Dvk+DrFGJudv
+	7dxQ5fm8qyg0XyWhZKLOTi5jwjfRAPG0EpFVXACBKJoLo7uAf4R41QhVHgbKD75tE0Dh
+X-Gm-Gg: AYBFou3L1+9YxS87d+I0Q9QGYBYUCCjdYWlIHYtGoF4CMKPehmXGoMatyg7c6zUPOLQ
+	RmZha2BVX/l+LQH+OmEH4KyYg9a+1qZntpLtjdSDWRwcbVc+gkS2GOxAFISMeh1HC8nXs1oc+6k
+	JpBx/AcNiEIhKRxvRXRrq4xpp4RVc19aSFywD71l8dLuBp2ZWadVAPAm3gkVUTz09V3iCr3KbUl
+	KegtxxJUJLc8enG5F69Hf17gWmpuKOAuUf/TrE+BsKHyny/uyHCj+4IrA7CcWBlHTL5Kyc6bWom
+	XW5qPjGSdBmffCnZdsxw/pVFNKsQQAQ6Q0N2xJF5RacVTe72dIkt49Zp5t7PMz6jmzgZ5rEPrUI
+	lnl8iQIlm1L2vleLFD6FTghtOXCjYVnuSNY4zszkV0tWIN+Moz35nyGOgtdi3hbSjm15CCxJeZU
+	8sLWR/Psv1yDhYghDDU4XP4xcqA7j6+EK7/RYrD3DYOLZOWHB9Tk40OQi5tTZojzeuqCSB8snoA
+	mL4mvd7anSUFNrOGAm23tqgjRbkLFVkAoY3nkPTyVpb8mb4OHUcSy0ruq3UF+gQFo9yPDRXl6ES
+	St8aMIZU2dleG2TP2ADAAfBQkXjjtNpuHsDAHKeFxqk7mRAoURz4P/lYXFmXYALaOQ==
+X-Received: by 2002:a05:600c:46d0:b0:4bb:7987:fbc4 with SMTP id 5b1f17b1804b1-4bb88817eb2mr65637465e9.19.1795181099572;
+        Fri, 20 Nov 2026 05:24:59 -0800 (PST)
+Received: from [10.0.0.233] (tmo-084-188.customers.d1-online.com. [80.187.84.188])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6a67fe75sm6280903f8f.24.2026.11.20.05.24.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2026 05:24:59 -0800 (PST)
+Message-ID: <1f12636403bb7af3759cd933b2612d8a5d7317a2.camel@amutable.com>
+Subject: Re: [RFC PATCH v2 00/13] Namespace for namespace roots
+From: Alexander Mikhalitsyn <alex@amutable.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>, Josef Bacik
+ <josef@toxicpanda.com>,  Christian Brauner	 <brauner@kernel.org>, Alexander
+ Viro <viro@zeniv.linux.org.uk>, David Howells	 <dhowells@redhat.com>, Jan
+ Kara <jack@suse.cz>, Serge Hallyn <sergeh@kernel.org>,  Kees Cook
+ <kees@kernel.org>, Paul Moore <paul@paul-moore.com>,
+ linux-fsdevel@vger.kernel.org, 	linux-api@vger.kernel.org,
+ linux-security-module@vger.kernel.org, 	linux-kernel@vger.kernel.org
+Date: Fri, 20 Nov 2026 14:24:57 +0100
+In-Reply-To: <awBHZO2VwWyJzvBN@kernel.org>
+References: <20261117231352.3816603-1-jarkko@kernel.org>
+	 <CALCETrVUkbpoFjwSAejyA4b_9qEauAP_36i=O8Op1ifp8aUkqA@mail.gmail.com>
+	 <av3akYFOYaeQZauZ@kernel.org> <av3bkDnwmjunTleX@kernel.org>
+	 <CALCETrXPLeUgxyhjP4XuWS46FKB0TUHF5PcMkdMf+qeEXbyXRA@mail.gmail.com>
+	 <9463a969d35a7d5ec5a56aeb67644b94.josef@toxicpanda.com>
+	 <CALCETrXt-Do28BHDpbrA98kEy-tQuorxD8c2XsW24Tt8Vspdtg@mail.gmail.com>
+	 <CALCETrUbe8rBoxrC+Q66AMsrJ8Fow7xt5KJKRAmobtXBvHWdqg@mail.gmail.com>
+	 <c301fff20a4920fcd3baa31dda2e31ad99c93436.camel@amutable.com>
+	 <awBHZO2VwWyJzvBN@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -86,151 +112,194 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=7e8bd4a9c12ebb9d8a66b83f0766d89a19a194b2b3f96510da164a6c43d9;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Fri, 20 Nov 2026 14:23:41 +0100
-Message-Id: <DN02K8EYWHSW.1FP154N0I9QCK@gmail.com>
-From: "koraynilay" <koray.fra@gmail.com>
-To: "Amir Goldstein" <amir73il@gmail.com>, "koraynilay"
- <koray.fra@gmail.com>
-Cc: =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, "David Sterba"
- <dsterba@suse.com>, "Namjae Jeon" <linkinjeon@kernel.org>, "Sungjong Seo"
- <sj1557.seo@samsung.com>, "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Trond Myklebust"
- <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>, "Chuck Lever"
- <cel@kernel.org>, "Jeff Layton" <jlayton@kernel.org>, "Konstantin Komarov"
- <almaz.alexandrovich@paragon-software.com>, "Paulo Alcantara"
- <pc@manguebit.org>, "Chris Mason" <mason@kernel.org>, "Yuezhang Mo"
- <yuezhang.mo@sony.com>, "Jan Kara" <jack@suse.cz>, "NeilBrown"
- <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo"
- <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>, "Ronnie Sahlberg"
- <ronniesahlberg@gmail.com>, "Shyam Prasad N" <sprasad@microsoft.com>,
- "Bharath SM" <bharathsm@microsoft.com>, "Sergey Senozhatsky"
- <senozhatsky@chromium.org>, "ChenXiaoSong" <chenxiaosong@chenxiaosong.com>,
- "Darrick J . Wong" <djwong@kernel.org>, "Sean Smith"
- <defendthedisabled@gmail.com>, "Andrey Albershteyn" <aalbersh@kernel.org>,
- "Pedro Falcato" <pfalcato@suse.de>, <linux-btrfs@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
- <exfat@lists.linux.dev>, <ntfs3@lists.linux.dev>,
- <linux-cifs@vger.kernel.org>, <linux-nfs@vger.kernel.org>,
- <linux-api@vger.kernel.org>
-Subject: Re: [RFC PATCH v4 09/10] ksmbd: add provenance time (ptime) and map
- it to CreationTime
-X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
-References: <20261115180343.576773-1-koray.fra@gmail.com>
- <20261115180343.576773-10-koray.fra@gmail.com>
- <CAOQ4uxhjxp5sxYphWoB=8sgX3XHOv9zLVYf+8ZjYbS_gQDxO3w@mail.gmail.com>
- <DMZIQG4U1NTH.2IN0S2YIWEYTG@gmail.com>
- <20261119220936.mssmaixcorn2gzli@pali> <DMZJGB07CO56.IZ20OCGGH6C@gmail.com>
- <CAOQ4uxhqgsh9ahJsX7C4YyZH2n_r8VwOe9X9jZwsKALCoYvyag@mail.gmail.com>
-In-Reply-To: <CAOQ4uxhqgsh9ahJsX7C4YyZH2n_r8VwOe9X9jZwsKALCoYvyag@mail.gmail.com>
+MIME-Version: 1.0
 
---7e8bd4a9c12ebb9d8a66b83f0766d89a19a194b2b3f96510da164a6c43d9
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On Fri, 2026-11-20 at 15:13 +0200, Jarkko Sakkinen wrote:
+> On Fri, Nov 20, 2026 at 01:32:57PM +0100, Alexander Mikhalitsyn
+> wrote:
+> > On Thu, 2026-11-19 at 15:27 -0800, Andy Lutomirski wrote:
+> > > On Thu, Nov 19, 2026 at 2:50=E2=80=AFPM Andy Lutomirski
+> > > <luto@amacapital.net>
+> > > wrote:
+> > > >=20
+> > > > On Thu, Nov 19, 2026 at 9:30=E2=80=AFAM Josef Bacik
+> > > > <josef@toxicpanda.com>
+> > > > wrote:
+> > > > >=20
+> > > > > On Wed, Nov 18, 2026 at 9:46 AM Andy Lutomirski
+> > > > > <luto@amacapital.net> wrote:
+> > > > > > cells: The dance where I create an anonymous mountns, mount
+> > > > > > stuff into
+> > > > > > it, and then attach it to the cell is cute.=C2=A0 But I think
+> > > > > > the
+> > > > > > userns
+> > > > > > interaction is wrong: you are making me assemble all the
+> > > > > > mounts
+> > > > > > in
+> > > > > > *my* userns and then clone the entire tree into a fresh,
+> > > > > > non-
+> > > > > > anonymous
+> > > > > > mountns bound to the current userns.=C2=A0 And that clone
+> > > > > > operation
+> > > > > > is not
+> > > > > > free and serves no actual practical purpose.
+> > > > >=20
+> > > > > The copy buys us nothing, agreed.=C2=A0 That's just what the moun=
+t
+> > > > > API
+> > > > > gives
+> > > > > me to work with today, it's not something cells wants.=C2=A0 If I
+> > > > > could make
+> > > > > an empty mount namespace and fill it by fd I'd use that, the
+> > > > > "root" slot
+> > > > > takes a mount namespace fd already.=C2=A0 Extending the API for
+> > > > > that
+> > > > > makes
+> > > > > sense to me on its own.
+> > > > >=20
+> > > > > The mount namespace staying with the builder's userns is on
+> > > > > purpose
+> > > > > though, that's what keeps the cell from mounting anything no
+> > > > > matter what
+> > > > > capabilities it was given.=C2=A0 The builder sets the tree up and
+> > > > > hands it
+> > > > > over, so the cell only ever has what it was given, and the
+> > > > > mount
+> > > > > code
+> > > > > isn't something it can attack from the inside.
+> > > >=20
+> > > > I don't get it.
+> > > >=20
+> > > > Using the builder's user namespace means that the contained
+> > > > processes
+> > > > can't be ns_capable on mntns->userns.=C2=A0 But this solves very fe=
+w
+> > > > problems unless you also deny the contained processes the
+> > > > ability
+> > > > to
+> > > > unshare userns and make a new mountns, and if you can do that,
+> > > > surely
+> > > > you can also deny the ability to modify the mount namespace.
+> > > >=20
+> > > > As just one example, a mount namespace could have a little flag
+> > > > to
+> > > > say
+> > > > that it's *in* one userns but its owner is a different userns.
+> > > >=20
+> > > > >=20
+> > > > > > cells: I find it *incredibly annoying* that one generally
+> > > > > > cannot put
+> > > > > > new mounts into an existing container using most existing
+> > > > > > container
+> > > > > > managers.=C2=A0 I hit this on a surprisingly regular basis.=C2=
+=A0 You
+> > > > > > seem to be
+> > > > > > baking this into the whole cells design.=C2=A0 Why?
+> > > > >=20
+> > > > > By design.=C2=A0 Allowing changes to a running container is what
+> > > > > causes the
+> > > > > problems.=C2=A0 If you need another mount, tear it down and build
+> > > > > it
+> > > > > again.
+> > > >=20
+> > > > What problems?
+> >=20
+> > Dear friends,
+> >=20
+> > Dear Andy,
+> >=20
+> > >=20
+> > > I'll add:
+> > >=20
+> > > On a non-container Linux system, you can hot-add a removable
+> > > drive.
+> > > On a Linux-hosted VM, you can hot-add all kinds of devices, with
+> > > or
+> > > without the help of the hypervisor.=C2=A0 (The hypervisor can hot-add
+> > > a
+> > > device, and the guest can mount network devices or newly added
+> > > USB
+> > > devices on a port that was already assigned, etc.)
+> > >=20
+> > > For some reason, on Docker and its sort-of-clones, approximately
+> > > the
+> > > best you can do is rbind in a directory and then mount things
+> > > into
+> > > that directory from outside.=C2=A0 This is sad.
+> >=20
+> > +1
+> >=20
+> > I guess the root reason here is what you've mentioned - for VMs we
+> > have
+> > a clear separation of the host-side (hypervisor can hot-plug a
+> > device
+> > to be visible on a PCI bus, for example) and some agent on the
+> > guest
+> > side can react on this change and do something depending on how
+> > VM's
+> > owner has configured it.
+> >=20
+> > For containers, we usually don't have an agent (at least in LXC,
+> > OpenVZ
+> > and Docker too). So it is a container manager's work to figure out
+> > how
+> > to hotplug a new filesystem for example and where to place the
+> > mount.
+> > And this was always a reason for some crazy security issues, when
+> > some
+> > privileged process on the host was entering a container's
+> > namespaces
+> > (partially) and then suddenly become trace-able or bring some host
+> > FDs
+> > (and these FDs could be a way to escape via (struct file*)->f_cred
+> > permission delegation model).
+> >=20
+> > Another reason is that in VM you hotplug a device, while in
+> > container
+> > you can only hotplug a mounted filesystem. And for devices we don't
+> > care under which major/minor they land and so on - again, because
+> > we
+> > have systemd for example and it can figure this out. For filesystem
+> > we
+> > need to know where to place in in a mount namespace tree from the
+> > beginning (we still don't allow mounting a block-device based
+> > filesystems inside user namespaces).
+> >=20
+> > I really like your point and that would be great if we can solve
+> > this
+> > somehow in a new design.
 
-On Fri Nov 20, 2026 at 7:03 AM CET, Amir Goldstein wrote:
-> On Thu, Nov 19, 2026 at 11:25=E2=80=AFPM koraynilay <koray.fra@gmail.com>=
- wrote:
->>
->> On Thu Nov 19, 2026 at 11:09 PM CET, Pali Roh=C3=A1r wrote:
->> > On Thursday 19 November 2026 22:51:26 koraynilay wrote:
->> >> On Thu Nov 19, 2026 at 6:34 PM CET, Amir Goldstein wrote:
->> >> > On Sun, Nov 15, 2026 at 7:04=E2=80=AFPM koraynilay <koray.fra@gmail=
-.com> wrote:
->> >> >>
->> >> >> Implement provenance time (ptime) in ksmbd, as introduced in a
->> >> >> previous commit ("vfs: add provenance time (ptime)").
->> >> >>
->> >> >> Map it to SMB's CreationTime, making it settable by SMB clients. W=
-hen
->> >> >> reporting CreationTime to clients, prioritize ptime over da.create=
-_time
->> >> >> memorized in the user.DOSATTRIB xattr.
->> >> >
->> >> > That doesn't sound like the right thing to do.
->> >> >
->> >> > If the server stored a CreationTime that client had set, you cannot
->> >> > override this.
->> >>
->> >> Ah, yes, but how would we handle older files which get a custom
->> >> CreationTime both before (in the xattr) and after (in ptime) a kernel
->> >> upgrade?
->> >
->> > Just to note that this problem is already there. ksmbd can export for
->> > example ntfs filesystem on removable disk. And this removable disk can
->> > be connected to Windows machine which will always only touch
->> > CreationTime and ignores xattr DOSATTRIB.
->> >
->> >> > When the client sets CreationTime, the server can decide if it can =
-and wants
->> >> > (may be a policy decision) to store CreationTime in PTIME and not s=
-tore
->> >> > it in user.DOSATTRIB.
->> >>
->> >> To fix the above problem we should probably keep storing it in both
->> >> ptime and the xattr though.
->> >
->> > IMHO for a long term solution it is better to not have duplicated
->> > information in xattr. Because duplicated information are going to be
->> > out-of-sync. Windows NTFS driver will not update xattr DOSATTRIB.
->>
->> Yeah, to avoid out-of-sync issues is why I made ksmbd prefer ptime over
->> the xattr's CreationTime.
->>
->> >
->> > For me it looks like that this needs some policy / configuration
->> > decision done by user. We do not know if the user will replug that dis=
-k
->> > also to Windows NTFS driver (and then those xattr DOSATTRIB could caus=
-e
->> > out-of-sync issues) or will only use it from Linux or Samba and then
->> > xattr DOSATTRIB is probably fine.
->>
->> I'm not sure if this is the best solution, it doesn't feel too right
->> to me, but maybe there isn't a better one.
->>
->
-> If you ask me, this is not your problem and I agree with Pali that
-> this is a policy decision.
->
-> I would not include this patch at all in the series if I were you.
-> Maybe as a demo user, but you could just as well include a demo
-> user application.
+Dear Jarkko,
 
-Ah, ok, fair.
+>=20
+> This is for v4 (latest).
+>=20
+> MOVE_MOUNT_T_MNTNS takes any nsfs CLONE_NEWNS fd, and populates
+> CLONE_EMPTY_MNTNS directly and attaches live submounts without
+> setns()
+> and FSCONFIG_SET_ROOTNS mounts FS_USERNS_MOUNT filesystems
+> unprivileged
+> without entering userns.
+>=20
+> The gaps would be open_tree(OPEN_TREE_CLONE) gating (it's now against
+> host), uid_map/gid_map prepopulation and a flag to deny mount table
+> changes inside rootns() container while keeping external hot-mounts
+> enabled.
+>=20
+> Those are totally addressable issues.
 
-> The nfsd user is a simpler demo, so as long as the nfsd maintainers
-> are on the same page wrt the mutable btime plan, you could include
-> it in your series.
->
-> The problem you raise with DOSATTRIB xattr is similar to the problems
-> that Chuck raised for ptime vs. btime as the source of FATTR4_TIME_CREATE
+Yeah, detached mounts API solves a security issue here, but it does not
+fully enable the use-case Andy describes (if I understood it
+correctly). My interpretation here is that to fully cover it we need
+some well-isolated communication channel between container and
+container manager (vsock for containers? :-D). And some well-defined
+agreement of how PID 1 inside the container can get an information
+about a hotplugg-ed stuff. [ But it could be that I completely
+misunderstood and Andy meant something much more simple here. ]
 
-Ah right, I can see the parallel, tho before the ptime change you
-couldn't modify the creation time at all from linux with nfsd, so in
-that case unless a user manually changed it after a kernel upgrade, it
-wouldn't have this desync problem (apart from a kernel downgrade).
+Kind regards,
+Alex
 
-Thanks,
-koraynilay
-
-> Thanks,
-> Amir.
-
-
-
---7e8bd4a9c12ebb9d8a66b83f0766d89a19a194b2b3f96510da164a6c43d9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRJ2XvJtXGwULYEerQ0bnTtJTDoOAUCawBJ3gAKCRA0bnTtJTDo
-OJc/AQCn/pvK3+PSezucUXa1GtiKLjE7oMlXGStcJfzdnlWtcAD9GPZFH0ccIs4C
-afAlaO9nsoqLSUJ3Hk7qioPrnGVqrQM=
-=CBTM
------END PGP SIGNATURE-----
-
---7e8bd4a9c12ebb9d8a66b83f0766d89a19a194b2b3f96510da164a6c43d9--
+>=20
+> Br, Jarkko
+> =C2=A0
