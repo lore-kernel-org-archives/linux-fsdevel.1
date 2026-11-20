@@ -1,100 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.49
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795207638;
-	b=kRrK9VZS6qFiHyqp8bKvSO4yo2GelnLEnLJcvhHKB9xzdzxI6Igme7SANIEBP3+FC5UN
-	 4MGoY9GeA3Wz661HYjUEl5fvQvwgRONV6gceTaKF13sbi9Gk/KB9OgNvEvvDuYXXGcts5
-	 uXWrz5RFP+S6BCgAb7PvsxFyJgDgnNOeO6yfLRxaK5ahL3Pevp4momc6B9nXR35JFXFMJ
-	 /xFNYWBR7NuoMYxu6hub+Bwne6mOpMolWIwz9s+MsNOgvQ2KRt328v8zlpTb21FC0eLJ7
-	 AEQXk/t0e7W11oqTK2qj6huR8pq8ZB5VumURasoOc8/qRayv6RzeH5xtvVcC4iFqN+g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795207638;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=llVEsGyf8yGSEqiwg3JqL+nGjFux4pEvwSi5fD2JB/g=;
-	b=YE57vstB+1t2Mbw95PWcXC+2CaKbMDyINfXuT2e5g1yG1+Kdd05NrOpa8o41plEbRY8N
-	 7OJp4zDv0noEgYSNQaGjkFz6mHLOE7C8SvFpCAOZjtskN/MwMa05MQ8adfLfVI8ByaIjV
-	 fb10iiKN0afZ8ClSkucY+fgzLPvwWxVGst1t9YyZz9VZtBQYFoPmdq5zbly+2vYC80D/p
-	 HahfVbZusmiTtbbj1AM/UF+9q+2C6vUsADX6f+/4UPhNT2hAYTHKRsM7/478a6cf0dnYf
-	 JMXsZvlc99K62PzPBURXfxWZZvBpi4bP3DjP1eYmwV8skqLctRjnIwsDQ71ftNwW8tg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mDAOssts;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.49
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795207652;
+	b=cPmznuKDIImdO7jHpegnRG4OFEBNKG/CiN7twXKSKWgRvG1y2bsqsSVq8l3xwLuSQCkF
+	 TGXNQa+VNt9nBNJxZQn+6ABVPHKDcJUufvFj3PwB5kb1QwGch68oPxKKTi7osZsMdJ48G
+	 aigBBB9HUyWyVbPAn+LLdpN3XnxBwzOH3rYpOxgroofo8XL2WHC2vXspBtWSJDz+BQIIt
+	 GWHOn++wOyY1aB1HXjSy9YqAgFRrJYUroVEN/qko79XOWV8Y4vO9mYkPmRUi65TGFBNLS
+	 33KhvvCCtzNmlZCqmYi+aCTI5ivFwnS2J2XVGl6Axzpq/HwyfLD1jBFeqvEEHvd/65g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795207652;
+	h=DMARC-Filter:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Debian-User;
+	bh=QB3DQkHKewxyAlfXCuIaA2xVKs4/vXc3oiydASgPqyM=;
+	b=HLRZGdyRwSSQe6ojOnGQVeeGilpJeHhxNAI6RcLixAu6wfJ2kUBKDs2iEEo42kyUQiKU
+	 hWWK7/Ba8hxs/36oEfHh9bV0EAPxZ4RZKFoEjFqVQ1On18IXPQLXnKv8JwoIZesxPRTgV
+	 mCBREWcPoAjDUzdNFjxRd8rFnJ/WIw6ObI6XK6IRbfdhcx//cuRuuaqV6W2G+GUXk8+7D
+	 pzfLPQkDfGiOYgRD6NHRYoCMsax06vPRNrGeChtjLF2NasCAAtnSCPdMGd6xQDVvQtFZU
+	 tRB9rE7BhZMI7tOvLcsP2sLj8zpDxgHqyV9cPzT2nML3/W0XSy7/PN71mn4MoFGAegA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=debian.org;
+	spf=pass smtp.mailfrom=debian.org;
+	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b="nVT2P7/B";
+	arc=none smtp.remote-ip=82.195.75.108
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBE7606A6D6
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 20:47:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EBBE7606A6D6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4331606A70B;
+	Fri, 20 Nov 2026 20:47:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4331606A70B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mDAOssts
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6a642495d81so2161436a12.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 12:47:16 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795207635; cv=none;
-        d=google.com; s=arc-20260327;
-        b=PDibtoCgH6jty9x3Vw7QinZB4fIBN38VdZ29T4FVTz4dZoOjNpOzW5b4URecz+ko74
-         gCuSRR0aTHlurVL8mEI2Ce1JYyYanslHIPJmka+WDjwHe/IwmqjrGSwY6OpaBkFxDvhB
-         d86PatA2mWREMcFWejLWdv6xAFH8RZq1vxS799Yw+fqjqxk9VoGKo/qpqnTXb0kLg2pS
-         e21W7BIeG1jVWaewUjV9syWHh9x/Ggdz29EVGSMfcx4gD78RIRJkNPU3XWbQeYry8edl
-         LqcLCS7UvGJVjqTxKsqhi6i4GhNr3gLhNAJ17u3DBlWkse/ZJVxw7tA6vQt45ihRdkvg
-         T3vw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=llVEsGyf8yGSEqiwg3JqL+nGjFux4pEvwSi5fD2JB/g=;
-        fh=WYgpe/SCU9H6/bv5xNgO7JRskryFK8IRXhC8JSQQ+60=;
-        b=FVBT2/kCG1KApdEKtDcQyP8Z+/z3EQ+EBw0Y6zmfXDGtUBGHJePYaCSXNr8kpG93AY
-         wVPy4nxbH/DC1k6wV1mQilJ5yAMKtSxh9D/x5FB5P7jd7JITQVJs0Zqu0Urn9hQNvahw
-         K56HHWTwtj/h4SOzi+RK+XZUc9qBrvp8x74e2BjEuzCKvt5NQokeYAj0rCEnZu++wFrj
-         DpUskve3E5MD0UGWE/Rm/Y5Lzo8TvH98gfKkGV2rM/nGZX4yzhHgFP1T1hQ67ajCuzHO
-         IVref8La73FuLn5KExS+FI/wl3IGeFIx7b0chIK679Bcwjlucm3dj7WBTZiYRBdny8lz
-         ZndQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795207635; x=1795812435; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=llVEsGyf8yGSEqiwg3JqL+nGjFux4pEvwSi5fD2JB/g=;
-        b=mDAOsstsayaGpVN5mrt0WHqYfJMxVl4xNjlphbORMQuqB4zPnUbAH8YaL5zKoIC4Eu
-         F9LqIsRSKgJhEV5v03T+Ql0DWyROGQUMSOMG9rXiKslwSVX+DZGe95zlEpbsvPZ12/Oe
-         /1Lg9q5g9eiw4avDt19dm+doGHj/TFoidHrkLUVkXu0NzjOf7FppJD0z5wgyVLDT0o42
-         scAWYbqIDKZbrzNtxRz2nSVGye/JKaL+ET7lrUtqhawwd240uLRGeYfjniCwwZ0qBqw2
-         Dq3r649QkfCvJq+cnC0iuLmcHbOL56jN1SyeI49SzjDaOGrK6m96yCsK6VRP7oVSXgeL
-         mnRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795207635; x=1795812435;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=llVEsGyf8yGSEqiwg3JqL+nGjFux4pEvwSi5fD2JB/g=;
-        b=rnU1hHd9frQywmHgAKjbrcEE0FMTCPV0LURRjMuBj8qMloG64q6W6/mLHe/MjLnYIv
-         ZXrevmV+bpdqJnz5N93rw2jCneaxT1qKEaPXDrJrEWdqDcbQvud5nW0Xgs4N+0lPuQ7e
-         uGjWxzxPF16dmde25C9Sp/ROS/S4fhxksaY029Q1wBHlks2KXJEBvSuEcRK90eBBn1S9
-         Xi2cCuuTD3c3M1B4SpS7G0KXKVe54nzANVKlYDZUxHhNB6LrDoR2l7ZQG8TA6HjZQmkB
-         l+gwf/17wZuD8cO8+n81n5IrsnXi/GI5MHGL9G/Uqv0UDdUINoB66yZDXYSmH2KvLt6+
-         lvfg==
-X-Forwarded-Encrypted: i=1; AL+hErF3QS71K6YjysGig1kj1DjBWM7k/kIV8v5cmu6HSjmDLxdWxHf3bOXdVDSzqq1Kg9l6KcpeAADH9GqqH1pj@vger.kernel.org
-X-Gm-Message-State: APuU4Z+sodrz0JxMy9HUS1B54cxkacSn5NJ2xgxHA8tJmsHzXTMZpKOB
-	c67F3KuG7eyZVguZ1bn8qnRei1v77tybwyVxFs6BLcjNurOVeJWEjzn2zVlfqegvET+SxDXj+HD
-	J5p4WQd1kasuD3t2B+rzyXEyA50hE2/k=
-X-Gm-Gg: AZFdTZcJ7rR2BxwoCxXbJZZB3V3jFBwHkZuDdmDC8jd7e97zxPl+Dpxvx7u9wANK+/H
-	MNwjPCVwMUU5LCYuJKeugUdcCyTmutJ8PRwISgpRA/inQVcPx72cCOGbhfZKupGlIyB0taaztVP
-	fIPQuCe0S/7hrt+vX2/RhZDFVguqFISyrS8WfK3xBfP9+0LKuSwsWoRFH1aw3Fgj83tTI/uDdXA
-	uWzNlgQWVN/QgASr0UdgP9s09rM2ml7fWDDm9BPo/IQ1+4bluDGzQWAFTKKZHfFeCcpWXNCEoQd
-	5Ne7XJOe0Mpz6Xu1yN9Fip36UCxRCPJVKv9S3nkNT14JdvGrjGgXqm8/3nTJ87/7+5JFdq9Co8f
-	WEeuYNt7hp/+4IgHqTRICkDkVVz5/qMZfK6VUaBmyi7QglPmI6j3MaRCK/5Ec
-X-Received: by 2002:a05:6402:a507:10b0:6b8:f674:e089 with SMTP id
- 4fb4d7f45d1cf-6ba37e876f1mr2474697a12.36.1795207635126; Fri, 20 Nov 2026
- 12:47:15 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=nVT2P7/B
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
+	Reply-To:Content-ID:Content-Description:In-Reply-To:References;
+	bh=QB3DQkHKewxyAlfXCuIaA2xVKs4/vXc3oiydASgPqyM=; b=nVT2P7/Bs452hZaK/VqjLiX+R/
+	NSRhKMvDeo9euErshbHfv88yqYhDYFxfBcR/3nszgAZigyMzZ8+9qwxQep8o6LJx0xh+0ncHesY2f
+	L34n9y114SCHc8mpXvAtalNIKuyzFLHOWNWIsjJEjaIsiYPHAvT5qz9fLOOczJ60XFwFA3H1ELzyx
+	MGd7oYZ4kRzAtqpQpycChvsz+vQ0g/R60zQ3mSAn17zFh4svdVsibLuFJPQRUk+cVkCcaqOLCNPUD
+	KG6XdL9NyJFlolakVleDHPhDsBHyOyME80CkL7UScMWL/cVwnZ/JnqqtIh0UshKX1LscAxxrscnAU
+	IilsvSFQ==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xUVVs-0038lG-1l;
+	Fri, 20 Nov 2026 20:47:17 +0000
+From: Breno Leitao <leitao@debian.org>
+Date: Fri, 20 Nov 2026 12:24:39 -0800
+Subject: [PATCH v2] iomap: don't update i_size of block devices on buffered
+ write
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,67 +63,117 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261120184225.257554-1-technoboy85@gmail.com> <9cabfb96-21d5-46a7-a0e5-df0908fa67c5@cs.ucla.edu>
-In-Reply-To: <9cabfb96-21d5-46a7-a0e5-df0908fa67c5@cs.ucla.edu>
-From: Matteo Croce <technoboy85@gmail.com>
-Date: Fri, 20 Nov 2026 21:46:38 +0100
-X-Gm-Features: Aa3M54rNdpAi_ZPAGzdrjgQEZILfET328P0IFMfa2C4FAQfNHEVsWA64zuH6c6A
-Message-ID: <CAFnufp1ec4hDOoXCy_NdCEhkYgZzQktvN5RizyEkMQQ9MneRbA@mail.gmail.com>
-Subject: Re: [PATCH] fs: shorten I/O that would extend past the maximum file offset
-To: Paul Eggert <eggert@cs.ucla.edu>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-fsdevel@vger.kernel.org, 
-	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Ding Feng <dingf3ng@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261120-iomap-bdev-isize-v2-1-f25cc668fbc1@debian.org>
+X-B4-Tracking: v=1; b=H4sIAIasAGsC/32NQQ6CMBBFr0Jm7RgGYmtdeQ/DoqUjzMKWtKZRC
+ Xe3cgCX7+f/91fInIQzXJoVEhfJEkOF7tDAONswMYqvDF3bKSLqUeLDLug8F6zlD6NVmpQajSa
+ noc6WxHd57crbUHmW/IzpvT8U+qV/ZIWQUBmj2t6dzsbbq2cnNhxjmmDYtu0LKJPIdrEAAAA=
+X-Change-ID: 20261113-iomap-bdev-isize-a67166c971b7
+To: Christian Brauner <brauner@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Hannes Reinecke <hare@suse.de>, Pankaj Raghav <p.raghav@samsung.com>, 
+ Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, 
+ Christoph Hellwig <hch@infradead.org>, linux-xfs@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ kernel-team@meta.com, Breno Leitao <leitao@debian.org>
+X-Mailer: b4 0.15-dev-47773
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3415; i=leitao@debian.org;
+ h=from:subject:message-id; bh=OeqcVAltHM4RtPQZXAK+e1A+oZ2XU3m4yMm6IB1Ax4E=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBrALHRlQvyjp+VC8HvnqlGkW++MaT+b7D97kq34
+ iG11+f/00+JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCawCx0QAKCRA1o5Of/Hh3
+ beEoD/9ZzAYRp4F4Gkw7NJ+WslnwPRyCx8Q2Q2nl9miIDVxpp2gUM8XHJgtLkAMVHd/JW4HgM3m
+ 7DcMaz7+WKeqNmGi9wJ+2dVDgHQ3WdkORU1xD0zS0cJ9fPRCpkzOAKFfmtybry96PAHEmbeXXVS
+ Zs2+GGO2hsjTNh2vWzPcyTH3p3Qi2MJ8fr8+KgAacXD6zR6Ag5vICgahCzhkq4F0hqbvqJ5aCdX
+ cGZPiFfvrwJF+uicrUZOHktiv+pXXkW8xMA4a4+YUaRb9IaJ1hMv2bUap+0dO6PxZAXQ8ciXyf2
+ qEmuGYeXSUXNlSHKJIsPIsqr0MX6ijvl2AoR74dAWZ1ikz98ICXygf+ejJclshFMaFiZ0uXp4U0
+ nN2cbIG4jrJGDdJ2+80vKgKzExuQrD1akdCz9rmj+3l+pVXu6fo/3Ys4PHOXbuZktZNiRla81VN
+ GOqJ1pgsmNjd1axhZEElECcwmHS0Sqeg0+mlCe7oLgJajrqLbwFUBDaBfmZmfg+eF+OMfhEd5ED
+ FG+Rzwn5Yzxd6plXk3tWSvL0TV1Zzdao9fGSzmux3MhXGAPBIYrD03f2FCr+lyo0jVnYyzKCyFp
+ yAF/RtwWAnbnC4ZC35ytsSJGtZz9LbVUfXwbQ31D1TfNyTCyFayxke19SmWIvQIW2RgJiLOD3p7
+ IFQQ1+JrCuMkLgQ==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+X-Debian-User: leitao
 
-Il giorno ven 20 nov 2026 alle ore 21:03 Paul Eggert
-<eggert@cs.ucla.edu> ha scritto:
->
-> On 2026-11-20 10:42, Matteo Croce wrote:
-> > +     if (file->f_op->fop_flags & FOP_UNSIGNED_OFFSET)
-> > +             return count;
->
-> This means there's still a problem when reading past the maximum file off=
-set of /dev/mem and other files with FOP_UNSIGNED_OFFSET, right? If FOP_UNS=
-IGNED_OFFSET is set, are the file's own read/write methods expected to shor=
-ten I/O requests in this situation?
->
-> Thanks for looking into this, by the way.
+We are seeing this warning on an arm64 linux-next host while the ublk
+selftests run (stress_01 deletes the ublk disks under fio buffered
+writes):
 
-Right. For files with FOP_UNSIGNED_OFFSET the limit is the unsigned
-one, 2^64 - 1, and crossing LLONG_MAX is already allowed for them.
-At that limit rw_verify_area() still returns -EOVERFLOW instead of
-shortening the request, and this patch deliberately leaves them
-untouched.
+  WARNING: mm/truncate.c:902 at pagecache_isize_extended+0x37c/0x490, CPU#40: iou-wrk-3496756/3497370
+  Call trace:
+   pagecache_isize_extended+0x37c/0x490 (P)
+   iomap_file_buffered_write+0x38c/0x5d0
+   blkdev_buffered_write+0xcc/0x138
+   blkdev_write_iter+0x32c/0x4e0
+   io_write+0x77c/0xff8
 
-As things stand the VFS only guarantees that pos + count doesn't wrap
-past 2^64, and everything else is up to the file's own methods. They
-don't behave consistently: /dev/mem returns -EFAULT for a range that
-goes past the end of RAM, while /proc/pid/mem returns a short count
-at the first page it can't access.
+The theory is that the disk shrank under the write. del_gendisk() sets
+the capacity to 0, which writes the bdev inode's i_size under
+bd_size_lock only. A writer whose mapping predates that reads
+old_size == 0 in iomap_write_iter(), sets i_size to pos + written and
+calls pagecache_isize_extended(inode, 0, pos). blkdev_buffered_write()
+holds i_rwsem shared, so a writer at a lower offset can store a smaller
+i_size in between, and WARN_ON(to > inode->i_size) fires. Even without
+the warning, the write path regrows the size of a dead disk. The block
+layer owns that size (bdev_set_nr_sectors()), and blkdev_write_end()
+never touched it before the switch to iomap.
 
-I can extend rw_clamp_count() to shorten the count so the range ends
-at 2^64 - 1 for these files too, so that the behaviour is the same at
-both limits. In practice none of these files has data near 2^64, so it
-would only be for consistency. I'll do it in v2 if you think it's
-worth it.
+A reproducer on linux-next supports the theory: 128 threads doing 64K
+buffered writes to a loop device, while another thread flips its
+capacity between 1M and 1G with LOOP_SET_STATUS64, hit the warning 6
+to 18 times per 30 second run (4 runs). With this patch it never fires,
+and data written through the page cache still reads back intact.
 
-Thanks for the review.
+Skip the size update and pagecache_isize_extended() for block devices.
 
-One correction to the commit message. The second reproducer is wrong
-as written: with "dd ... | cat" it is dd itself that does the read at
-LLONG_MAX and fails, not cat. The intended example has dd only move
-the shared file offset of stdin, so that cat then reads from
-LLONG_MAX:
+Fixes: 487c607df790 ("block: use iomap for writes to block devices")
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+Changes in v2:
+- Use a function-scope update_isize variable instead of duplicating the
+  S_ISBLK and IOMAP_F_FSVERITY checks (hch)
+- Link to v1: https://patch.msgid.link/20261113-iomap-bdev-isize-v1-1-699603b589da@debian.org
+---
+ fs/iomap/buffered-io.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-  $ (dd bs=3D1 skip=3D$((2**63 - 1)) count=3D0 status=3Dnone; cat) < hugefi=
-le
-  cat: -: Invalid argument
+diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+index 6d843b168d5f7d..d3311e7066c13f 100644
+--- a/fs/iomap/buffered-io.c
++++ b/fs/iomap/buffered-io.c
+@@ -1191,6 +1191,8 @@ static int iomap_write_iter(struct iomap_iter *iter, struct iov_iter *i,
+ {
+ 	int status = 0;
+ 	struct address_space *mapping = iter->inode->i_mapping;
++	bool update_isize = !S_ISBLK(iter->inode->i_mode) &&
++			    !(iter->iomap.flags & IOMAP_F_FSVERITY);
+ 	size_t chunk = mapping_max_folio_size(mapping);
+ 	unsigned int bdp_flags = (iter->flags & IOMAP_NOWAIT) ? BDP_ASYNC : 0;
+ 
+@@ -1256,14 +1258,13 @@ static int iomap_write_iter(struct iomap_iter *iter, struct iov_iter *i,
+ 		 * unlock and release the folio.
+ 		 */
+ 		old_size = iter->inode->i_size;
+-		if (pos + written > old_size &&
+-		    !(iter->iomap.flags & IOMAP_F_FSVERITY)) {
++		if (pos + written > old_size && update_isize) {
+ 			i_size_write(iter->inode, pos + written);
+ 			iter->iomap.flags |= IOMAP_F_SIZE_CHANGED;
+ 		}
+ 		__iomap_put_folio(iter, write_ops, written, folio);
+ 
+-		if (old_size < pos && !(iter->iomap.flags & IOMAP_F_FSVERITY))
++		if (old_size < pos && update_isize)
+ 			pagecache_isize_extended(iter->inode, old_size, pos);
+ 
+ 		cond_resched();
 
-The code is not affected. If you apply this version, could you please
-replace that example while applying? Otherwise I'll fix it in v2.
+---
+base-commit: 6d582d78fad9d828e575ca0cdcff8ea47a77220b
+change-id: 20261113-iomap-bdev-isize-a67166c971b7
 
-Regards,
---=20
-per aspera ad upstream
+Best regards,
+--  
+Breno Leitao <leitao@debian.org>
+
