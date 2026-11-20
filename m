@@ -1,100 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.52
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795160986;
-	b=VHVaNqM8X3owncV5slCZm/0h0mye83NM4Ax8xHnVpvtCluoJ7WL6d43A3CBgKkC5om5u
-	 jaE/1b5a/v3wHcFsVAA7ks4R9cgTduS82NrBLXlKFKoOm2+Ux7KQBsEFrbc+vlPbjvBCO
-	 yzX+VHjDS5QdDSyzHUbkMD/y/iQvSrPEsUjIblYRL/NknxNo/IxeabEcGCk4KWCkCfWwc
-	 0Y4ngJ4qEaYakv7wog0NOWeqV2tCR1bOCWyGApPAC9EKGFHvzIKpUwQpMXIjYfklZIqhE
-	 GKH3ek8rZKqU4ej/QcH+XTMeDKiuqpYW3lMPDE/E1/fsQ+qkulcuy0RU1tuvtD7Xw3g==
+	t=1795161584;
+	b=a/FdIRR4qse1z7HiC4eBlK4YPhJRAn/3wzK1EKk9PuwaT2gyGAcMpRSi5+TTz+2cVyV1
+	 3WgkX83LX1jSJe7mKs/AIi2wq2rwIOABiM8LhPWGRNwxAuzOg6zMaAhmBJq7mXZX49oPO
+	 eb4J+PBRpPf6H7FHco2TT7FWlmoc6f6TZyGQ33u+N9LesrznWxaLBExa9+n7DlH3yBOav
+	 a0N27BNoJi3zTCEJpdsKeiWT3bJWR2Uyq8verfo3Gi2LB8kZkcHzL6xkrUNh67xHIN5wQ
+	 L38UNBZ9JitIUrB2lj906616G+hSpSUqpoET78KLAJZet6Avq7JK1MlEZOGPcmE4hAg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795160986;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795161584;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=PKfh3kaU0G0rUT/geWuCPv0s5ju8c8DPCj+FrnIkKs4=;
-	b=Z473jNHKHZsMYTh+sYaQMyH2kWSXuYaHv6rwduv9FbJxiJuTfuacrXRVKfQotTpCJ4El
-	 +5zkJzO9srJYshKx1oFLOywM34J4YTaamUS36Y1n74Tv/lzoodelNkxnzafvN7rlimLyB
-	 jCd3EaGWs4/2JvHuP5BgepxG7A8nQUvh9GQrojvhuBI+MZW5WAKsxmIPDFpik4mMX5XOE
-	 XAE60enWNe23G/IGFEzgEYXhBjRENWVpw8R/Cn9vxHKErBKsiBowdS5lgMXzdV2YTUsSm
-	 phGCxp80f09toJBjpEgbirxsSJCKTa8sIpquF4OCwm+HBU4HQc6o/wRCZRBXtppYHvQ==
+	bh=aA5k+rmEhdyHwcnWrQk+xAlhNO+jF98wTQXFKpkmDY4=;
+	b=GjGJOdp8nWO6qTDKkBLxmYSqJg/EGESlR2SWq6DCEwiCSjvAI/CkKnQC2lTZPQC9Biy5
+	 g85fdQs3yU8VXzlrHSh4nT1Yk4oNY/jJYabW1R1ryolbZbZCchyaL9e4kySmOtaOQttbP
+	 T64jFn5wq2yOndA2uG20nBCxGQ/JtGEPT22/pjmLFvcOq/oN4bdae14xK0eE049rb8H8j
+	 BPU0al+NvmEwq4F6CNyoTWzISPGqnSrsm3XgNhhuW5QvMsc8nEMCk6LIbfkHiMQroJW8Q
+	 a4pl7XRnlZCSz/iVlrK2YCN8qf+ukTCdo98ODTj8Ue/Qw3BkxTQxBXtBfm94FK67ISg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mW3WMEgU;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.41
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=e94eVXt0;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.52
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1356E606A325
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 07:49:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1356E606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490D2606A325
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 07:59:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 490D2606A325
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mW3WMEgU
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6b7ddb99db4so757007a12.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 23:49:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795160984; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=e94eVXt0
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6b587538a37so874587a12.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 23:59:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795161583; cv=none;
         d=google.com; s=arc-20260327;
-        b=MKxfm0YVgas9+lkuHR0MJaSFdj8cQ+j2fkZr8AZMCUb6q4ME2hMcKCsFdwJoOaxujh
-         cD+bzUwkW2hmGUWcTiuaKXIjJyEpCNEWlUlXPOQP1YkATCZF2UTMwWS+Wo3TySUSj2Cl
-         saRwhjU+htzRFqStonjzTDGRWTI7/XrTlotm86HL3WlmGm3y8boVeOysnb236cuuX9XG
-         Dw42zDil2qoIyZvDJRU/yiz04WPAn0EIj00da6QbpHTSdIecwggSkuQe/BFNhkOVeqH+
-         spJCP9aJBiddXVLmGnZefqAHecPeTV+GMXhwUJ6uZGWSjmm8cuDaSztxuv4dOts4vxjm
-         qI8w==
+        b=OpKTFRx1bbSBiNt/uqG/IxQYS9LgXob8sonb1gijx4jGqKL7vy3L+t5MNIZALT9rso
+         J9oHRspl7u0GmwpMcPjOvHMi+7hXRewubqYSPn8cx8gs4oxpj+ZtcxN40bi6KXYzGX9m
+         uX1pjTaY9Yjx8L2gEC8fgaBvdr/zyMvNpUp5pR5aamRRx/sQ+BmHeZ+xpniD1FxbYwDC
+         JrLRLWbaOZzcAiVHX93njDUPr4b4Hu9chppERlMokWBkOtgOGp5RMfl670bZxCf6u/SJ
+         8ek03F5RiJsIlNxHdR3xB9us1Ns+lQeUaulgJapdkSbaCpi4G+jwGqHJbekNx78pVPhr
+         ybcg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=PKfh3kaU0G0rUT/geWuCPv0s5ju8c8DPCj+FrnIkKs4=;
-        fh=b+tCNT4Ww3UC8qDLrkQL46EygzsYwXzJ6l+jNVeZV/Y=;
-        b=o1dmMvd9InYUk1Z1iG1NE7pJdHFaPmd4c4sDJOzyi0cXTksh4o16akeI36GUa2tUHa
-         4gK2F5qPTI18xYeNk20Eg5FHawk2BXTmD/xfQti12SjGd5B3K0gGT6ueYFltBJzdw1RO
-         Vw1rCwlkSge+HIqNfY7nvq4wy5k/VMaSasCO7owXfoDFxrFXZ5ZJNlw9i6BNzd6rE9yd
-         YJWtvA1eX36R5eHyOw9z1cHEsQ3WIfPKjbqKkYG6/aTs4dwjVWOGEccRV3raxGLai9LV
-         vqLsqZ29aOZNU+qjyzqxGmOY5aAFZdfA9WKtxHv2x6R3LQ26iViylfZmvLOIt0QLsLUL
-         D/+g==;
+        bh=aA5k+rmEhdyHwcnWrQk+xAlhNO+jF98wTQXFKpkmDY4=;
+        fh=PC4BMMXmELzvrXbn58s2JPEggJjFo4sGiNivkn1HZz4=;
+        b=MiV2pm1E2JC4/HTxRS1q39a8EK5x2R894iNRdGxJwWkX39pmS91CdvdoFM+dH8XkTr
+         sfVbPRrU/WBin2GNXVLVz0zuDqRFGBPvnWKNXJfjYMmzgJCHNRps9Zz4fJLE/q22qJgF
+         iXkrQnItCRD/qQeSPVeIwRGPy7gFFH67GyujyiE+DtTFSfz7sK3se7M9fZP5J7ktmD00
+         byHkPFJCP2YC1WQtZfOETJsJW//UDAS8WU1obtf8vLGYXGfP+ch9AvPFRuMLQN59sDFJ
+         ztSJy9HlQcTXPiWmetn8M0VJFjH751Idsw0nCLffEZ+k/qbdMBw8Dez3tHkKqvMC7dXV
+         5u5A==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795160984; x=1795765784; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795161583; x=1795766383; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=PKfh3kaU0G0rUT/geWuCPv0s5ju8c8DPCj+FrnIkKs4=;
-        b=mW3WMEgUD7JxWrK0tDYJP86u4bhgYy7GpbQgMpG2Wci9ADVKI/VSjhSR9kqUPb0x9W
-         53uhMZ32TdRHcMos72JJdUvFUO21lPqaZyELkv2MUA7IxDz19Qc2C+m2XAEBU/dc4bQm
-         2CDrdlxYF8IglAThc2xqmrXUsHCXiYicI6+Hwy1l5pRkHAOYGW2eLn9tUu0kK2oVJMvx
-         7rKO0mXhF9T2TQv5dlep+6ADg4BWUVJSnBkp+jaxXiB8kArorfh1EZeqD+Qlw3jTrlFX
-         1mW8fCeiZhQSD2v2JBC0YnpanTKel9Jf5FBFxb7pqUSyrwXVzBbRaV8SymAOpuMVRyo+
-         UmIw==
+        bh=aA5k+rmEhdyHwcnWrQk+xAlhNO+jF98wTQXFKpkmDY4=;
+        b=e94eVXt0AbzL5sLKMSsPql7RGfCEigY0b63RU9ZpRLW8/G1/JhhN2c9Ag8L7M3LV9+
+         xypY2KFpegk8RFUAV5khGlz6GdAN1hDTq7tdHUjk3qtUBW0nKJcLVw6keFB98c1n5UO/
+         Oo7XoKUMlOOXJNyZCBJ9NES1NAnkYuNgPbVIjwy5WpNLgiwMjjIJ9xmnL1FRHyNCQk2C
+         kAu6cL86j5Z2/toO5/ilgFbLwrfonjrR65SsVKK9UIsMJK9ePPCphYWJbQsdhjeWgHiW
+         UW+kACVgdvhFYnSwFnnwMKZ4w/y4nHTKHPEFIqKyab/qmf5j83J6iYX2MWdJGXIPpOoC
+         dxHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795160984; x=1795765784;
+        d=1e100.net; s=20260707; t=1795161583; x=1795766383;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=PKfh3kaU0G0rUT/geWuCPv0s5ju8c8DPCj+FrnIkKs4=;
-        b=sAC3GpQDWl/r6MTFhYaLdDdDqbyePgFdVcsiVJyjtHQz22X11BfoaHJyJiOEL6GAV/
-         qRWArSMLW9QYgKHn+R45ofQizn3O5IuRmqQAkL56JS8XGNvAn3zDepIzf1xliHnvcM5F
-         B2XGJFokME+bjIymrPMpBBrrg9aAj83Ms5UglszppfWQuv1QyIC9YRgGV/DUCYjCcA/9
-         482j+yTKzmflxT2salz9aiZmEkRnGDrhzXEq6AYKM0mGaBHEHIZ7U2omKKvWvW0RTigT
-         T55X+NbYVqnQR6vLor4xxl3xga2AR4FmFzrEEaearubCGuC1koYl8Y2CSb5uJAItquvt
-         hwjQ==
-X-Forwarded-Encrypted: i=1; AL+hErG+B7LMZmVMZCcWBTBE0qVHqIcGL2sofmx+OvxOQefHjM9x95uIrDTaJ0dV1rRLGKad++qsquyBOWy6+ZQO@vger.kernel.org
-X-Gm-Message-State: APuU4Z/VK/ILhjBlT/UAAoPo5RM+dZ484NfZTTo6gVwTR6jVLVbdwu5f
-	f9j7/YbcoIDKVDM6ENTtq/4Z6spjjvW8cZMzoTSk+6MH+/IyqyRLm6TYVp3tw/P21IuvPU2dYiD
-	IHCssjz/gf845ZWhJaWf/1TqoaXaNFWc=
-X-Gm-Gg: AZFdTZd92ugzsq9IiKVZxubvebbuIy5DMugkA5n14D53s+olw0YnK5U+x+9HIVfPKl2
-	XystVOZl8OQhzOWqeVybNLuv4zvIy6l7supWiJLtsLmOpYxYcmyAvodRdMMuB8ef60L9fzJKOZX
-	DbY6YQg2DGa80zWSgrytQCMYOatCb40Jzw1DP+ZEAidLiS7IFttHNrJ9sJbdSesp8ddler/bw5y
-	u4sr4rZ1UTcddb13yCymOo91OWvJCbbF7K1mZF2PlnlK4CWGDowTbwUhRBP/Va+hElOTrR48nEz
-	29Hk6OyI80v28EpICPviJuRnTKhGZwJdkAwe2xUc98HUX2SkTBGiON/X9L0LG3lOhdJAz7L1gwi
-	HfdAtEIfl6nAp3frcqExoxHV1woF+Jmstu4JrtQgiZdShq13jc3hFOugW2Thtc5jiL9mBBg==
-X-Received: by 2002:a05:6402:51d4:b0:6b5:8cb3:5e19 with SMTP id
- 4fb4d7f45d1cf-6ba37e8826emr1567455a12.38.1795160983956; Thu, 19 Nov 2026
- 23:49:43 -0800 (PST)
+        bh=aA5k+rmEhdyHwcnWrQk+xAlhNO+jF98wTQXFKpkmDY4=;
+        b=MhS8cv4LV/M7qg7QcUByyyU8khora0aKClYnT6lIS3SAdXz/++LP/YBbf52pc4Gp0M
+         nYX7Q9UmHml+d+vMrr7RADpc5+iC5dzIFXkRP6hgLHWvdSFzCfN2gGbVYfY4D0nbwCh3
+         6uTugbwN/u63kMTBwPfAhbhd8peaSibgkKJVzWVbhb7tYu+iDEReSRnEQaWKZ3pk1fYL
+         YrGSPyImE7p5XxXHi79AKgT/qpbu2GIwcsQ4kAByw6xILFphtlJNl/DHYUgmxu/LzX+3
+         fl/F2biwxYgEQVb1xd9XAUU+aXdLhIFUIqg+lk9lgbDk6QCl19YdbeZakrmS1zi5f9Ce
+         7cOg==
+X-Forwarded-Encrypted: i=1; AL+hErGKjmb3hXZumApZER4RP3ZgYln10caps18ObgxkPUmyaaU8rMc32+11L9A2a+8kavXye4kfRiEnC18ZHijz@vger.kernel.org
+X-Gm-Message-State: APuU4Z99UNk2oGL5+UkLpAdPVZT1iVuIOik9L3d/rO4tcMttB0iuZy9R
+	Y/hKgI8/2YAUabBXABXyoV0ENBLKd4/+gSqJdonqghkRDfE0LLjjBqYi//58tMJ743r19+uGGyy
+	Pzd9CdOYuHpxEjx6L4ryUbTNV+9SKgLM=
+X-Gm-Gg: AZFdTZcIbKDMeZCeW/Kv6XTMdDRQZWu34s0/o2LB+8UKZu9x1QyXqokIiQTWZWH/lSJ
+	crrqEzjNt4Aj0121dHRVnUO8XAbljPnZ9xMqKnpS78U/r9gsbJd5jzatcqzzeg9vHPHDWiM5Mlv
+	do9VQ9m+97qOp/g1X6QU3C0Y+h+m8orVI5e7pRwGhIrrUKexmL0z5mvWH2ncG3OienSvDjfOcpj
+	l9vVsie8sHmmcazds1yzFlU8bsvmsR+z8m1ZWSa+6Hy+Imvw7MkQAQptBHXAmZoYJCAt1HS3OsH
+	WfUurgYoswq2DXUdcEPeq3iAMss7buCfCUAhHTPV5cA7EJUwvQDUdAUHiFj/yC/jazvskj4uwPS
+	HCromY1lfVQuzte6qxZxkLzOs5X8v9cLWnqnmFMJ5qLSmlSziRh1YTNOCi33HPzy8Rlbg4g==
+X-Received: by 2002:a05:6402:2745:b0:6ba:1347:5cf with SMTP id
+ 4fb4d7f45d1cf-6ba37cc07e6mr1431968a12.2.1795161582368; Thu, 19 Nov 2026
+ 23:59:42 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,14 +104,13 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261119025942.2848130-1-neilb@ownmail.net> <20261119025942.2848130-5-neilb@ownmail.net>
- <CAOQ4uxgan=mpQ9yHOyZwZZp8E69+oH3uaPJ5CBkP7Z5BCO-5jA@mail.gmail.com> <179513093550.1728055.17648674323193416652@noble.neil.brown.name>
-In-Reply-To: <179513093550.1728055.17648674323193416652@noble.neil.brown.name>
+References: <20261119025942.2848130-1-neilb@ownmail.net> <20261119025942.2848130-2-neilb@ownmail.net>
+In-Reply-To: <20261119025942.2848130-2-neilb@ownmail.net>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 20 Nov 2026 08:49:32 +0100
-X-Gm-Features: AclHuK92Odp_LX6Yi_Upic4sX2AvoYnwQkl4O4i6nLgkGpqLV9L63P1FdN9RHzY
-Message-ID: <CAOQ4uxjECTaXaeH_cfgikrWF3jrg-knhSJuC0voVxdajAzH5-Q@mail.gmail.com>
-Subject: Re: [PATCH v5 4/5] Add d_for_each_positive_child family of iterators
+Date: Fri, 20 Nov 2026 08:59:30 +0100
+X-Gm-Features: AclHuK8z9GrtZEu_wntP7i6NsuYSR0h-8HuMM7V7cKM0I-uLZ7WO8s4PozWdTVI
+Message-ID: <CAOQ4uxgK7FL9WSEF4U3Ba=-tVyEBfe+2EFprSywS6W=guBSqsg@mail.gmail.com>
+Subject: Re: [PATCH v5 1/5] VFS: don't count references through ->d_parent
 To: NeilBrown <neil@brown.name>
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
@@ -119,113 +118,145 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 20, 2026 at 12:29=E2=80=AFAM NeilBrown <neilb@ownmail.net> wrot=
-e:
+On Thu, Nov 19, 2026 at 4:00=E2=80=AFAM NeilBrown <neilb@ownmail.net> wrote=
+:
 >
-> On Fri, 20 Nov 2026, Amir Goldstein wrote:
-> > On Thu, Nov 19, 2026 at 4:00=E2=80=AFAM NeilBrown <neilb@ownmail.net> w=
-rote:
+> From: NeilBrown <neil@brown.name>
 >
-> > > +
-> > > +/**
-> > > + * d_next_sibling_sched - return next sibling, but schedule() first
-> > > + * @child:  current child
-> > > + *
-> > > + * This behaves like d_next_sibling(), but drops the parent d_lock
-> > > + * and calls cond_resched() to avoid any soft-lockup.  A cursor
-> > > + * is inserted as place holder.
-> > > + *
-> > > + * Caller must hold the parents d_lock, and must hold a counted
-> > > + * reference on the parent.
-> > > + *
-> > > + * Returns: the next sibling, or %NULL if there is none.
-> > > + */
-> > > +struct dentry *d_next_sibling_sched(struct dentry *child)
-> > > +__must_hold(&child->d_parent->d_lock)
-> > > +{
-> > > +       struct dentry cursor;
-> > > +
-> > > +       /* always skip cursors to ensure we make some real progress *=
+> The number of negative child dentries that a given dentry can have is
+> effectively unbounded, so counting the references through ->d_parent can
+> overflow ->d_lockref.count.
+>
+> We only use this count so that we can know when there are no remaining
+> references including from children.  However most children appear on the
+> ->d_children list and the few remaining children (inactive
+> DCACHE_DENTRY_CURSORs) only exist in a context were a separate reference
+> is held on the parent.
+>
+> So if we count whether d_children is nonempty (i.e.  dget() when it
+> becomes non-empty, dput() when it comes empty) and require children not
+> on ->d_children to have a reference on the parent some other way (which
+> they already do), then ->d_lockref.count will not overflow and we can
+> still know exactly when all references, including through ->d_parent,
+> are gone.
+>
+> __d_move() allows that dentries might not be on any d_children list as
+> is the case for IS_ROOT() dentries.  Rather than track when this is the
+> case we dget() either parent if they have an empty d_children before
+> children are moved around, then dput() if they turn out to be empty
+> afterwards.  This will increment dentry if it IS_ROOT(), and then
+> decrement it afterwards, and will decrement the refcount on old_parent
+> if its ->d_children becomes empty.
+>
+> To help with this, dput_dlock() is added which warns rather than
+> decrementing to zero (which should never happen).
+>
+> When a DCACHE_CURSOR dentry is added to d_children, it is only ever
+> added "before" or "behind" an existing child, so it will never be the
+> first child added, and so never needs to adjust the refcount on the
+> parent.  If it remains on the list until dput() it could be the last
+> child to be removed, in which case normal handling applies in
+> dentry_unlist() (where it has been moved from dentry_kill().  When a
+> cursor is deliberately removed from the d_children list the refcount
+> must be decremented if that leaves the list empty.
+>
+> hlist_move_behind() and hlist_move_before() are added to simplify moving
+> a cursor within the d_children list.  This results in some duplicate code
+> as they share a common prefix with d_detach_cursor() (hlist_del)
+> which is currently factored out.  We can expect the compiler to optimise
+> this away and don't need to clutter the C code with it.
+>
+> autofs compares d_count() with the number of known children of a dentry
+> to detect if there are any concurrent references to a dentry.  These
+> comparisons must be changed to reflect that we now only count "one" for
+> any children rather than "one" for each child.
+>
+> Signed-off-by: NeilBrown <neil@brown.name>
+> ---
+>  fs/autofs/expire.c     | 25 ++++++++++++++++---------
+>  fs/dcache.c            | 40 +++++++++++++++++++++++++++++++++-------
+>  fs/internal.h          | 10 ++++++++++
+>  fs/libfs.c             | 14 +++++++-------
+>  include/linux/dcache.h | 17 ++++++++++++++++-
+>  include/linux/list.h   | 30 ++++++++++++++++++++++++++++++
+>  6 files changed, 112 insertions(+), 24 deletions(-)
+>
+> diff --git a/fs/autofs/expire.c b/fs/autofs/expire.c
+> index 5c2d459e1e48..cd276bce28c9 100644
+> --- a/fs/autofs/expire.c
+> +++ b/fs/autofs/expire.c
+> @@ -208,15 +208,18 @@ static int autofs_tree_busy(struct vfsmount *mnt,
+>                         }
+>                 } else {
+>                         struct autofs_info *ino =3D autofs_dentry_ino(p);
+> -                       unsigned int ino_count =3D READ_ONCE(ino->count);
+> +                       unsigned int use_count;
+> +
+> +                       /* allow for 1 if there are any children */
+> +                       use_count =3D READ_ONCE(ino->count) > 0;
+>
+>                         /* allow for dget above and top is already dgot *=
 /
-> > > +       while (child && (child->d_flags & DCACHE_DENTRY_CURSOR))
-> > > +               child =3D d_next_sibling(child);
-> > > +       if (!child)
-> > > +               return child;
-> >
-> > Why is this skip loop here and not after the resched?
-> >
-> > As this is written, if the caller passed @child which is another cursor=
-,
-> > now child the next real dentry after another cursor and hlist_add_behin=
-d()
-> > below will insert our cursor after the real dentry.
+>                         if (p =3D=3D top)
+> -                               ino_count +=3D 2;
+> +                               use_count +=3D 2;
+>                         else
+> -                               ino_count++;
+> +                               use_count++;
 >
-> You are right of course - that is the wrong way to address the problem.
->
-> I think moving the test into d_next_positive(), like with this
-> incremental patch, will work better.
->
-
-Oh yeh, that's much better.
-
-> Thanks!
-> NeilBrown
->
->
-> diff --git a/fs/dcache.c b/fs/dcache.c
-> index bacb218400a8..46aca619a9a3 100644
-> --- a/fs/dcache.c
-> +++ b/fs/dcache.c
-> @@ -2095,6 +2095,9 @@ static void d_init_cursor(struct dentry *dentry, st=
-ruct dentry *parent)
->   * Caller must hold the parents d_lock, and must hold a counted
->   * reference on the parent.
->   *
-> + * @child should not be a cursor, else two threads could potentially
-> + * live-lock, each only stepping over each others cursors.
-> + *
->   * Returns: the next sibling, or %NULL if there is none.
->   */
->  struct dentry *d_next_sibling_sched(struct dentry *child)
-> @@ -2102,12 +2105,6 @@ __must_hold(&child->d_parent->d_lock)
+> -                       if (d_count(p) > ino_count) {
+> +                       if (d_count(p) > use_count) {
+>                                 top_ino->last_used =3D jiffies;
+>                                 dput(p);
+>                                 return 1;
+> @@ -321,7 +324,7 @@ static struct dentry *should_expire(struct dentry *de=
+ntry,
+>                                     unsigned int how)
 >  {
->         struct dentry cursor;
+>         struct autofs_info *ino =3D autofs_dentry_ino(dentry);
+> -       unsigned int ino_count;
+> +       unsigned int use_count;
 >
-> -       /* always skip cursors to ensure we make some real progress */
-> -       while (child && (child->d_flags & DCACHE_DENTRY_CURSOR))
-> -               child =3D d_next_sibling(child);
-> -       if (!child)
-> -               return child;
-> -
->         d_init_cursor(&cursor, child->d_parent);
->         hlist_add_behind(&cursor.d_sib, &child->d_sib);
->         spin_unlock(&cursor.d_parent->d_lock);
-> diff --git a/include/linux/dcache.h b/include/linux/dcache.h
-> index 7150ecd81d72..c384b0f8743e 100644
-> --- a/include/linux/dcache.h
-> +++ b/include/linux/dcache.h
-> @@ -697,7 +697,10 @@ struct dentry *d_next_sibling_sched(struct dentry *c=
-hild);
->  static inline struct dentry *d_next_positive(struct dentry *child)
->  {
->         do {
-> -               if (need_resched())
-> +               /* Don't schedule on cursors to ensure we make some real
-
-Hurts my eyes. Please add a newline. or shorten to ...ensure we make progre=
-ss */
-
-> +                * progress between scheduling
-
-the between scheduling part is kind of obvious
-
-> +                */
-> +               if (need_resched() && !(child->d_flags & DCACHE_DENTRY_CU=
-RSOR))
->                         child =3D d_next_sibling_sched(child);
->                 else
->                         child =3D d_next_sibling(child);
+>         /* No point expiring a pending mount */
+>         if (ino->flags & AUTOFS_INF_PENDING)
+> @@ -375,9 +378,11 @@ static struct dentry *should_expire(struct dentry *d=
+entry,
+>         if (!(how & AUTOFS_EXP_LEAVES)) {
+>                 /* Not a forced expire? */
+>                 if (!(how & AUTOFS_EXP_FORCED)) {
+> +                       /* dentry has any children? */
+> +                       use_count =3D READ_ONCE(ino->count) > 0;
+>                         /* ref-walk currently on this dentry? */
+> -                       ino_count =3D READ_ONCE(ino->count) + 1;
+> -                       if (d_count(dentry) > ino_count)
+> +                       use_count +=3D 1;
+> +                       if (d_count(dentry) > use_count)
+>                                 return NULL;
+>                 }
 >
+> @@ -392,9 +397,11 @@ static struct dentry *should_expire(struct dentry *d=
+entry,
+>
+>                 /* Not a forced expire? */
+>                 if (!(how & AUTOFS_EXP_FORCED)) {
+> +                       /* dentry has any children? */
+> +                       use_count =3D READ_ONCE(ino->count) > 0;
+>                         /* ref-walk currently on this dentry? */
+> -                       ino_count =3D READ_ONCE(ino->count) + 1;
+> -                       if (d_count(dentry) > ino_count)
+> +                       use_count +=3D 1;
+> +                       if (d_count(dentry) > use_count)
+>                                 return NULL;
+>                 }
+>
+
+AI review claims that ino->count starts at 1 and (ino->count > 0) is
+always true,
+so use_count should be:
+
+                       use_count =3D READ_ONCE(ino->count) > 1;
+
+It sounds right, but I did not look closely.
 
 Thanks,
 Amir.
