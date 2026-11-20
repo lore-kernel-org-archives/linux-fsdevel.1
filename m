@@ -1,72 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795193250;
-	b=YhOW4+bTTMZwmmQOD0GhYqLYRdKJgzDqz2xDXYTCZUUIDoVblWKSEVj8GlEG+e2IEv6k
-	 93/wwY4Ok5j83CkTd19NXb87bILzH3Ky5sdgvlPQQ4VmtHyTQU9KpNO/b30xiUxl8pAmy
-	 9WhcqN/VqUya9c7KbwjhjKmzmZWrE89TgQyE3OXzv1a6eDq5t7XsdGSS0sg34xzBWpJDG
-	 Ir9+Sf3x/KC306sYrRZSWAAwqRd4uU/BsC0uccnV0ulxIAOjfb2DaLjoRe0JWA+n4VlHZ
-	 HlX3nCLpK+vUirljRJvmhVJNN2xS++xBii0TRnkY1yvpjO3AvLMT9Oe7P8VDc+/fVAw==
+	t=1795193467;
+	b=pfE71bkbxuEt+SX/SFUBpdohugtN826y2lRC2apCekUEY/42wlRVSfqg4L+uNl3Yf04Y
+	 pmYrzLbeVAfPW1eyPgP3lhhlnnVUv5vk6ig8djmQqwwrRH2GeKt+Fd0/hpc4X4d12enEM
+	 vljtHM/GiM1hd8sJxb0nj54QzHmzSluFDLXPXrdQ65Fs7PoXtlpmcLXKIbecZGEtoHQ3A
+	 oZlF7MbyVJnv+YOAn5TNU7OcFrgjvYVT77/d15bPC9RN8nsVaujLI1EINkeAuZ8mhRGM+
+	 lN0hmFF2I5pmIYAcKIIUlWaLzsz3F2UU9ezd/mROxr8LzewxyfaFUJpbmO4gf2IFkCg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795193250;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-SRS-Rewrite;
-	bh=aHGMMibfTK3B84l7c2TFfwJFc+Ej1l9rQZD53EE9TDc=;
-	b=uLe3s9WpMDNeOPa1MXcFs1LeJhzPTFExJ58ynecLEEGaa4IFifqTMk9QwzGFpnCkO3X9
-	 KE9c/jPdnaY9Ff+RhRwSTwb8yH7AYD3ULFM8Tt/svo9Ruf5FqgZY7/D/jphrIDdH1qIk5
-	 NXqOY2TU8ZPHEFhj5v5W/Tv2zplNjWR7p05VjGjNyaq9ZAPr8jinpeO2rfZSu1bzpnZs9
-	 ADOiJmCDIGXWl3Bp9xcJ/yKwEVdLGT758ub7LaLuE0yNlhj0r8ErQWF2yzPMVbL3E54YX
-	 XBLUVVWoDoQGj7SebVr7+KrTwctD1LzCWm6SE/8fCrdIZ/K/VorHIOY7Md0vMCoSRYA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795193467;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:CC:Subject:In-Reply-To:
+	 References:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=K0ndYaDZoYcWVoVC7S2A9Vrq7y6IxfYnkplM3Ym75uw=;
+	b=gUx3JPG3h5yOSwtxLZWYifHIKI742x+voTmPafvt2tmQWN2tvbg1HB1Jq/Hq2HCO12Ow
+	 k1EB58A7QT+dP3wBFs4q8FF407GNSghbPT43NPX4JyJIDYnFn66MZf/ByeMOhHtR5DTHQ
+	 /PDZe8pS9XAVsV5PNsbZDeb41wtDDa3gAeOh3L7gtUnsnSuwdM7lnVMb1QjzZGTP60wlc
+	 C5uHsxh7xIxWcCp5+uDgK7Eovb5I3yFbHexyQITVpeixdlwKMLxBKviQvKnth7smhmXfi
+	 VqPA8V/CHv6F2Ttu5Rc/fLutIHU6gSK6NmpcKMQqoXg1dMw70GysWnlzRT93lvDO+Pw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=none smtp.mailfrom=bombadil.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=rHXDFNV+;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=BSyJJR+c;
+	arc=none smtp.remote-ip=95.215.58.131
+Received: from mta1.migadu.com (out-131.mta1.migadu.com [95.215.58.131])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17012606A325;
-	Fri, 20 Nov 2026 16:47:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 17012606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F65606A32A
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 16:51:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4F65606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=rHXDFNV+
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=aHGMMibfTK3B84l7c2TFfwJFc+Ej1l9rQZD53EE9TDc=; b=rHXDFNV+eK+JiP8QYJDc3TQZYU
-	jPLq+AlFkeEL4XXv1xtjfkB7sCeLCFD9e35oFzVxWKTIZHn/hWcp1M77tE0Jil9ufkzz7/eTKP6vL
-	afUamsFU7/ddP/NekWhhcg+y5dYEcAsnvGgZAr4r41lazc2yb2UyQXB5YXOWMDeSTQWisAb3b+BOX
-	5XkxNxtFp4hsunzPEvh8WPJk1dFCH3caxa3+JyFI1aP6RGG4I/hqPGGZS6GbhKRSQqzf7FPyhSZ/J
-	3uQa3kjsEUEjBHvSC3EwhW+GNuV0nZVMt2jbO1hMqW6w9DRsgWHulgTVGOaeETkXlv5RGsxYszx8B
-	QhtPZzyQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xURlg-0000000FaOf-1Kar;
-	Fri, 20 Nov 2026 16:47:22 +0000
-Date: Fri, 20 Nov 2026 08:47:20 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: NeilBrown <neil@brown.name>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu,
-	Jan Kara <jack@suse.cz>, Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>, Carlos Maiolino <cem@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>, linux-kernel@vger.kernel.org,
-	codalist@coda.cs.cmu.edu, linux-fsdevel@vger.kernel.org,
-	linux-um@lists.infradead.org, ntfs@lists.linux.dev,
-	linux-xfs@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] VFS/xfs/ntfs: drop parent lock across
- d_alloc_parallel() in d_add_ci()
-Message-ID: <awB5mAWm9h1ksRFI@infradead.org>
-References: <20261117000115.1433875-1-neilb@ownmail.net>
- <20261117000115.1433875-2-neilb@ownmail.net>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=BSyJJR+c
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=23aotKbVmZZK5ma89rsXnDW+52IBOiyRWRcBtbK9USc=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795193465; v=1; x=1795798265;
+ b=BSyJJR+cYbWVVAp0IkQW1yxkmzztJIqOdC8iaxFtBLJM3P8W/dDoRWUyR1mNw8eA44LXrt89
+ hUAyXI2J+U/w7r7KGlo/7W+EqJJ77QGrtVTslygiDkuQYfxmnXjpZyprjcReU6MgMn97nyANfGT
+ 7F6/jSWdjgQ3CjoFKh8yRuDo=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 2f79ea2b221504db;
+	Fri, 20 Nov 2026 16:51:04 +0000
+X-Mizu-Trace-ID: 2f79ea2b221504db
+X-Migadu-Flow: FLOW_OUT
+Date: Fri, 20 Nov 2026 16:51:05 +0000
+From: Bradley Morgan <bradley.morgan@linux.dev>
+To: Christian Brauner <brauner@kernel.org>, Serge Hallyn <serge@hallyn.com>,
+ Paul Moore <paul@paul-moore.com>, Josef Bacik <josef@toxicpanda.com>
+CC: James Morris <jmorris@namei.org>, David Howells <dhowells@redhat.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>, "Andrew G. Morgan" <morgan@kernel.org>,
+ Serge Hallyn <sergeh@kernel.org>, linux-security-module@vger.kernel.org,
+ linux-kernel@vger.kernel.org, keyrings@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ linux-kselftest@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v11_0/3=5D_capabilities=3A_close_the?=
+ =?US-ASCII?Q?_ways_around_the_CAP=5FSETFCAP_rule_for_uid_0?=
+In-Reply-To: <20261120-zutun-ausgearbeitet-erregen-ebd3834404ea@brauner>
+References: <20261117-b4-setfcap-userns-v11-0-2be11a2c32f4@toxicpanda.com> <20261120-zutun-ausgearbeitet-erregen-ebd3834404ea@brauner>
+Message-ID: <167100D4-9E3B-4412-A554-E3D09B5BE9DA@linux.dev>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -76,17 +71,65 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261117000115.1433875-2-neilb@ownmail.net>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 17, 2026 at 10:54:58AM +1100, NeilBrown wrote:
->  					  const struct dentry_operations *);
-> -extern struct dentry * d_add_ci(struct dentry *, struct inode *, struct qstr *);
-> +extern struct dentry * d_add_ci(struct dentry *, struct inode *, struct qstr *,
+On 20 November 2026 10:11:34 GMT, Christian Brauner <brauner@kernel.org>
+wrote:
+>On Tue, 17 Nov 2026 19:54:23 +0000, Josef Bacik wrote:
+>> v1:
+>https://lore.kernel.org/all/20261006-b4-setfcap-userns-v1-0-f47e7ed66072@toxicpanda.com/
+>> v2:
+>https://lore.kernel.org/all/20261014-b4-setfcap-userns-v2-0-fac4d19281d7@toxicpanda.com/
+>> v3:
+>https://lore.kernel.org/all/20261021-b4-setfcap-userns-v3-0-97c7ed4e43e1@toxicpanda.com/
+>> v4:
+>https://lore.kernel.org/all/20261022-b4-setfcap-userns-v4-0-88aa0ffaa08f@toxicpanda.com/
+>> v5:
+>https://lore.kernel.org/all/20261023-b4-setfcap-userns-v5-0-0620223be951@toxicpanda.com/
+>> v6:
+>https://lore.kernel.org/all/20261026-b4-setfcap-userns-v6-0-25f10b7ca497@toxicpanda.com/
+>> v7:
+>https://lore.kernel.org/all/20261026-b4-setfcap-userns-v7-0-bf8a576f7259@toxicpanda.com/
+>> v8:
+>https://lore.kernel.org/all/20261027-b4-setfcap-userns-v8-0-2674adc63f3c@toxicpanda.com/
+>> v9:
+>https://lore.kernel.org/all/20261109-b4-setfcap-userns-v9-0-0d3f00976ce2@toxicpanda.com/
+>> v10:
+>https://lore.kernel.org/all/20261112-b4-setfcap-userns-v10-0-84f6f7faa903@toxicpanda.com/
+>> 
+>> [...]
+>
+>Applied to the namespace-7.5.misc branch of the vfs/vfs.git tree.
+>Patches in the namespace-7.5.misc branch should appear in linux-next soon.
+>
+>Please report any outstanding bugs that were missed during review in a
+>new review to the original patch series allowing us to drop it.
+>
+>It's encouraged to provide Acked-bys and Reviewed-bys even though the
+>patch has now been applied. If possible patch trailers will be updated.
+>
+>Note that commit hashes shown below are subject to change due to rebase,
+>trailer updates or similar. If in doubt, please check the listed branch.
+>
+>tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+>branch: namespace-7.5.misc
+>
+>[1/3] userns: don't let setns() lend CAP_SETFCAP
+>      https://git.kernel.org/vfs/vfs/c/711bc24f1d8f
+>[2/3] capabilities: don't let ptrace borrow CAP_SETFCAP
+>      https://git.kernel.org/vfs/vfs/c/c1e5f4d36d2a
+>[3/3] selftests/namespaces: test the CAP_SETFCAP rule for user namespaces
+>      https://git.kernel.org/vfs/vfs/c/cbe977960cb3
 
-Please drop the extern and fix up the formatting if you touch the code.
-Bonus points for spelling out the arguments to actually make it
-readable.
+Oops! Couldn't get to it. I had a look, looks ^Wsane^W
 
+Reviewed-by: Bradley Morgan <bradley.morgan@linux.dev>
+
+
+
+
+>
+
+--- Thanks!
