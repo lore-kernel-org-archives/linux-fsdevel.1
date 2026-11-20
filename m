@@ -1,79 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795198279;
-	b=gOyuhfrsK5bDsUWGvYWfdopLI05F3g7QOXqMzDxisO7VFKk+rxz+f95wa472Mu0WFxVM
-	 8ODiQe02WiP29NxOOeGsTqSA1UtnW1ybSr3Cw+2oUGe5oDNk0yDilbyeNqUwcXLhPo8XY
-	 TObI3sCBp5wOCmua0DxS9UlXKBfVnNrDoIx8WFMs8tK4OddLfviNTi4FA3+eYUaWk/ctm
-	 DyDKPOqJM3xKuY8HBwweMIS0hX3bTjPuQVUrBCsZZfZHDuGNDpr3+2k3IJaSGgoEIJSRb
-	 XfNd7T4XS7Fzbf9WQwdHaM9WJFPpey3Jw3nPKZ0MjQ/W/jbl71N5uMu7EHFZX6kFkoA==
+	t=1795198299;
+	b=Sn4TRNln28eUG88Awd1WdBIm0FGAhhY4DdcpQ9cs7J+ee7VIoAHapvI8PgU+0dnRmhEv
+	 q09ERuJGn1MPZM2D/HRemtYBU160olUABKgMQs5BawKbPyT+MVKSshgMWHneFGSUqGrvZ
+	 hO0u6oo82QCYP7EVRD73EslZPvtPutgIb3w4QqANnHhHnfLIETdO1e9zJ9Lyb0gEfXCm+
+	 nYyarwAqZOYA+HE3bmdaF4Od2KFbMGzKYgqzdyG8p+rz3egaEdUH3YD/EZjYJ0gfCbPpS
+	 AAv6RGUSEFYqpbAe2KDlTTgtT0zgwxXqHNnbMcvicfr19aFTq9Y3T3GvEAh/LLHAQeA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795198279;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795198299;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=6ZIvh780Er1fFAiiG/5dzmAinodD1fFI24Yf0GcsOag=;
-	b=lkDGv8eTDxBXG38kiYwpwquvQ8S+GYMk1ju9ZEv2PGllv73DPpeV7UOgzAbMRFy9rOIr
-	 mOkOVeOsrgeYZvzRETVtiBGdVp39oavIuRG9G7OUhK/IO6W1QSsz3T2YsUHM9D0GA/BYU
-	 wwqUpHFIB/pqpffy5scTaZlz1T82fJiY0+HEqWyI8ooYBkTAMFXMbavijp5tXg+kR0DLl
-	 RTsyRABs557f8uq6YWQESSGfqL9XRQdCvTKYKSLl/V8Pwu/sVw1hLQ32jH6B34GuGfNMx
-	 sI0L0v3gF5o6YR6LnunM+77IWzW7BTSRGd90Cf0LfzDljkof1Uzxf4zT4AOZvJMxHjw==
+	bh=ucJJo35EhYc8uBblcAl6XMSIzkyavztIGCd0YleD0jU=;
+	b=gi2AiNuJxhH13MtBP+2NYUcp/2zgerGtrUnc1jO5t1PXi4AY6Z6cRUaNemf7ERS70hB3
+	 mHm9DlFQF+9Lyq2d0bgqyo87GFhYhhIXUeyDGqV5rhSeOxG/sCbxEQlWjVEofVqGBcBL4
+	 TkM8P5GcG4SJon4VxMWHnxgFxVDu2Cq05CE+QvW+tnysq0JK2GXLM9QXSSRr/M9FYydK+
+	 dQY4rn5o8LjPdlPHCKK+Nr7kB6i/3KRKAbGrdKnUq756c1EqTkuUFh6zpF1E+vrUYMB0x
+	 RttUHfb2uyjD8LAsLNU0nyNDp7adjElQiJZ0PDOgTW0WVN86fZweQwy0YsVS7ZmIaKQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xx2LbsDg;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mNnqvyQ2;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1791B606B98D;
-	Fri, 20 Nov 2026 18:11:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F777607AB60;
+	Fri, 20 Nov 2026 18:11:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xx2LbsDg
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mNnqvyQ2
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795198278;
-	b=1lcde/aZQBCroOsDLusBaTAuwEG9GCzg8AKrS4Rclc8ZvGglPnsStGvj2H3kT2iw1h0D
-	 F2MQkUiSu0WvS+k2uuZXCwKhUKfH+7ZW0FXRQW4SSiixtJ1MoHBWz4LTuO8MRQUK+mAmb
-	 uTDScJS3xsN4O736Xh3HRQ1+u5V8YMfIDVnKM4fP5jREN04KzcA24FoPV+Pt8Doa7evkX
-	 3I+V2cmPnO0LLng4VfJlFPtTTtC1GYXNWAF3h1zBGTX4k3jfHmv80sYKAtQBgU6wZ98e0
-	 I2Kn30TVp+EYLy62dev7tKLnjilQNutuyK7S1k7YsvN1xO4hx+wForbDcEbk7Dr/ohg==
+	t=1795198298;
+	b=HlWepT8N/RcO2s/f52O1bBRbe0iOHUMPaPhR87xFs9tXetsWsOyy0xjWxpodNqsUUhUi
+	 hL/BYTSSDXGYthe5iyihrD00g7DeHSknGuL5gtJYVkw8g0RsuP/fBdFmIlQJSxTS36niK
+	 jFN8iwpToh3ykHu3hMKlhLz4QcbjFH18N5x1pgNmqXPJq6aSMQ/S0bFGWhPyIs9Merwnj
+	 xvcjY332d7H+BMAmXUsalrPv1KARYJGy9wbdD+M9CHhIKX6HHpw0fmcovuqRRAYpHupeO
+	 ly+B18ry6T6nhOesYjS/feLBdyiJBwVKHYjtl2NQTrj1Eoy5jyV6iz+9e94fr750xMQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795198278;
+	c=relaxed/relaxed; t=1795198298;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=6ZIvh780Er1fFAiiG/5dzmAinodD1fFI24Yf0GcsOag=;
-	b=LrxwbxL24yWMbH0+8laG3aiEGMN3EdUho3Cq1eWYpYqg/nvpeSUMFqgSrCbKKd6vaKVj
-	 2cMuXWuvzJItbmFzFryviioIvP7lhpf4jPdYWcmeeo2S+KMCV5HFEeUedyp8PwSs2N5KE
-	 9aMr/m2u46v+POTH4+zOxRdP59WaLo7pGq6+hpejh38O5LFNeq1iz7r091xYYPTrl+/1N
-	 1CCMwJoCmbLfTihQCHs6LtXrPWccREX90pnq7j8iptLsurKTi14PinyfUZGHHMc0uxl/B
-	 3OCiI5J0SnCa/8hsrXAU2WQ4f4WqQrEDCydqbuHpij6/iACUodqyIZBG0BlqlwokVFw==
+	bh=ucJJo35EhYc8uBblcAl6XMSIzkyavztIGCd0YleD0jU=;
+	b=qwok757q/8PPHCg1OCK4PIvyTBUXJFw/zbbxwpt80Sd5HHp1kfGPy4GH8KJeqkMZ9Vz8
+	 rEyd3Tf/jLapKhFXxJZMCn7jmRMVPM2IULIputNpijTXiJxgvNpjSmSKnmQ2kFBZOgdNt
+	 6xzPoS6HB5j+mlzpVuDhBauXjnQxAhEEv7w/2ZqatQlckTz40zPxTmDhDwNiE17WjPVBn
+	 ijG+s/VKyGyM3CMd1xqNVvTPGy9CUCq8bdtNX2v+thMksqvM8P+s8yxAqfVgsv1n1Ivu8
+	 Sb6iFLVDNIvVRkV0KH7AyM38e/GPo+3ptajIxr2YPfo1L9FaiSCwkGwHMB97z+M7Qow==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id C65151F000EB;
-	Fri, 20 Nov 2026 18:10:49 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 797A21F01808;
+	Fri, 20 Nov 2026 18:11:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795198278;
-	bh=6ZIvh780Er1fFAiiG/5dzmAinodD1fFI24Yf0GcsOag=;
+	s=k20260515; t=1795198298;
+	bh=ucJJo35EhYc8uBblcAl6XMSIzkyavztIGCd0YleD0jU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=Xx2LbsDgf7lG4BF45ma7TAkYGEqdqIRCraobimDvRaPMADYxEWbuImUGrZF5dh/kC
-	 K7TrPGRPDRB0iVcjmXRneECVoNttNy/AceODw1Akmz7wdj/RlRvIHbt4+cvL98k7YX
-	 BF85k+Ld7AZsjCPsph+m4htx9XP1yNaRB0JjoCI/QpmSdceelLh9bSWvWOqblX9Tr0
-	 deCQt6Y2pOlc5Dygck4gn8vIRDRSzwlCEIqSWNaEHIR3vUJ8TdMawX2nL1hqNA+UH4
-	 TbZ6v3PlvdQHPslKVhaniJYsyx+P3jbyL5vDwixJGKO7tKdRBuWtlEMh04Y5PuXajl
-	 IwBSvB1+ZHc2A==
+	b=mNnqvyQ2S/y5CQ3mA5UeNg8lnQsxvgEbK0ggeNADbf2ogUHqJSfhZ3ENv/Vg2GWC1
+	 Wb7mlVDUg4pb40GH/JQifTMpHDe76E6vaoT3/lMl4/KNJsfSm/JF+vTSfrFFLSn7yd
+	 AJ0eGUuryC6mV4lNFEupta1pomX90P7oS1wEoPqVP6D9ZObc9sZk5qcn0IGCvqH8tL
+	 I5/RpB3ClDRRGgk8r6EK8V6lw8/Fv2girBsKMVnOj4yXl2gu0kY92UPW0d7GOFtOA8
+	 U8k9bctBc1HARihAhDOScJXhd0vCwRnCWri9+aKuSwlkMUDGPkyp4Uqbd0rinLZ1Dy
+	 e5NY8tLWjxr9w==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id D38034B981;
-	Fri, 20 Nov 2026 18:09:22 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id D3BA84B9A0;
+	Fri, 20 Nov 2026 18:09:23 +0000 (UTC)
 From: Gregory Price via B4 Relay <devnull+gourry.gourry.net@kernel.org>
-Date: Fri, 20 Nov 2026 13:09:39 -0500
-Subject: [PATCH 48/60] mm/madvise: restrict reclaim advice to
- reclaim-capable memory
+Date: Fri, 20 Nov 2026 13:09:47 -0500
+Subject: [PATCH 56/60] dax/kmem: add a private memory mode
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,7 +83,7 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261120-private_nodes_v6-v1-48-74f5f9a115c2@gourry.net>
+Message-Id: <20261120-private_nodes_v6-v1-56-74f5f9a115c2@gourry.net>
 References: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
 In-Reply-To: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
 To: Yury Norov <yury.norov@gmail.com>, 
@@ -141,11 +140,11 @@ Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  cgroups@vger.kernel.org, nvdimm@lists.linux.dev, 
  linux-kselftest@vger.kernel.org, "Gregory Price (Meta)" <gourry@gourry.net>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795198153; l=2519;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795198154; l=5242;
  i=gourry@gourry.net; s=20261120; h=from:subject:message-id;
- bh=/7n8Y7BJF+n1w6zg34qEl4WSAk5zs5lFqc/saob4yDc=;
- b=x5v1UZjZD7NavKPzy3gZFJ4vk2PBUASf1WJMKcO8I8rh0UDg9n2rwb6VVYJJEjpdeaXC+C4/N
- 8FX/kkSJcmcBGbIA1sklk5dsK0Xt7WZPXHmG0HW7LdpXEcbdkmZLRkY
+ bh=zrM1qpXNDU0W3OEbrrofBX3aJ+CtXsUD9H1wIf9M9+I=;
+ b=R6sNzzY6t+TWBdJe7KJBQcoH3BsMwxDWl4rWxlfetNYs3LP+oZXkDWdpnsHICyDBXQ4HWIrdL
+ DUshXIHhLEGAEndhFx3dYv0seeaJh6E4Ar1fYAuHjKqy+U87r8NL2cs
 X-Developer-Key: i=gourry@gourry.net; a=ed25519;
  pk=BZWDlx4htkR5KcvGjGtSDfx1tM0E5dlyBR43FEhjWVc=
 X-Endpoint-Received: by B4 Relay for gourry@gourry.net/20261120 with
@@ -156,85 +155,157 @@ Content-Transfer-Encoding: 7bit
 
 From: "Gregory Price (Meta)" <gourry@gourry.net>
 
-MADV_COLD, MADV_PAGEOUT and MADV_FREE reclaim or age folios directly,
-bypassing the node filter reclaim uses, so they act only on common
-memory.
+Add a `private` boolean sysfs attribute, defaulting to false and
+changeable only while memory is unplugged.
 
-Add folio_allows_reclaim(), which requires the folio's node to permit
-reclaim, and use it instead for those advices, including their
-huge-page paths.
+When true, dax/kmem onlines the node as private memory with
+NODE_MEMORY_FEAT_MEMPOLICY, NODE_MEMORY_FEAT_RECLAIM and
+NODE_MEMORY_FEAT_COMPACTION.
 
-No behavior change to common nodes.
+Userspace targets private capacity via single-node MPOL_F_PRIVATE_NODES
+bindings on anonymous and shmem-backed mappings. Reclaim and compaction
+manage the memory, and the system does not otherwise use it.
+
+The attribute is hidden without CONFIG_NUMA or CONFIG_MEMORY_HOTREMOVE,
+since selecting private mode requires unplugging the memory first, and
+the default behavior of dax/kmem probe creates the memory blocks (an
+unfortunately backward compatibility wart).
 
 Signed-off-by: Gregory Price (Meta) <gourry@gourry.net>
 ---
- mm/huge_memory.c | 2 +-
- mm/internal.h    | 7 +++++++
- mm/madvise.c     | 6 +++---
- 3 files changed, 11 insertions(+), 4 deletions(-)
+ Documentation/ABI/testing/sysfs-bus-dax | 19 ++++++++++++
+ drivers/dax/kmem.c                      | 55 +++++++++++++++++++++++++++++++--
+ 2 files changed, 72 insertions(+), 2 deletions(-)
 
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index cae28513b121..00c72b91ed30 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -2452,7 +2452,7 @@ bool madvise_free_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
+diff --git a/Documentation/ABI/testing/sysfs-bus-dax b/Documentation/ABI/testing/sysfs-bus-dax
+index 60703fffa99e..d024cf8e5ae0 100644
+--- a/Documentation/ABI/testing/sysfs-bus-dax
++++ b/Documentation/ABI/testing/sysfs-bus-dax
+@@ -175,3 +175,22 @@ Description:
+ 		A device can only be onlined from the "unplugged" state, so a
+ 		device must be returned to "unplugged" before it can be onlined
+ 		into a different state.
++
++What:		/sys/bus/dax/devices/daxX.Y/private
++Date:		October, 2026
++Contact:	nvdimm@lists.linux.dev
++Description:
++		(RW) Select private memory when a device is bound to kmem.
++		Accepts boolean values and defaults to 0. The value can only
++		change while state is "unplugged", before memory blocks exist.
++		The attribute is hidden without CONFIG_NUMA or
++		CONFIG_MEMORY_HOTREMOVE.
++
++		With private=1, the next online enables userspace NUMA
++		placement, together with the reclaim and compaction it
++		requires. The memory is excluded from ordinary allocations
++		and from other memory management services.
++
++		Userspace can bind anonymous and shmem-backed mappings to it
++		with a single-node mbind() policy using
++		(MPOL_BIND | MPOL_F_PRIVATE_NODES).
+diff --git a/drivers/dax/kmem.c b/drivers/dax/kmem.c
+index 5ec653bc88f0..2954f22ececf 100644
+--- a/drivers/dax/kmem.c
++++ b/drivers/dax/kmem.c
+@@ -46,6 +46,7 @@ struct dax_kmem_data {
+ 	const char *res_name;
+ 	int mgid;
+ 	int state;
++	bool private;
+ 	struct mutex lock; /* protects hotplug state transitions */
+ 	struct resource *res[];
+ };
+@@ -89,9 +90,15 @@ static int dax_kmem_do_hotplug(struct dev_dax *dev_dax,
+ 			       int online_type)
+ {
+ 	struct device *dev = &dev_dax->dev;
++	unsigned long features;
+ 	int i, rc, added = 0;
+ 	mhp_t mhp_flags;
  
- 	folio = pmd_folio(orig_pmd);
++	features = data->private ? NODE_MEMORY_FEAT_MEMPOLICY |
++				   NODE_MEMORY_FEAT_RECLAIM |
++				   NODE_MEMORY_FEAT_COMPACTION :
++				   NODE_MEMORY_FEAT_ALL;
++
+ 	if (dax_kmem_state_is_online(data->state))
+ 		return -EINVAL;
  
--	if (!folio_is_common_memory(folio))
-+	if (!folio_allows_reclaim(folio))
- 		goto out;
+@@ -126,7 +133,7 @@ static int dax_kmem_do_hotplug(struct dev_dax *dev_dax,
+ 		 */
+ 		rc = __add_memory_driver_managed(data->mgid, range.start,
+ 				range_len(&range), kmem_name, mhp_flags,
+-				online_type, NODE_MEMORY_FEAT_ALL);
++				online_type, features);
  
- 	/*
-diff --git a/mm/internal.h b/mm/internal.h
-index 9c162ded5305..fa1ae221564e 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -80,6 +80,13 @@ static inline bool page_is_common_memory(struct page *page)
- 	return folio_is_common_memory(page_folio(page));
+ 		if (rc) {
+ 			dev_warn(dev, "mapping%d: %#llx-%#llx memory add failed\n",
+@@ -380,6 +387,33 @@ static ssize_t state_store(struct device *dev, struct device_attribute *attr,
+ 	return len;
  }
  
-+/* May reclaim act on this folio's memory? */
-+static inline bool folio_allows_reclaim(struct folio *folio)
++static ssize_t private_show(struct device *dev,
++			    struct device_attribute *attr, char *buf)
 +{
-+	return !folio_is_zone_device(folio) &&
-+	       node_state(folio_nid(folio), N_MEMORY_RECLAIM);
++	struct dax_kmem_data *data = dev_get_drvdata(dev);
++
++	guard(mutex)(&data->lock);
++	return sysfs_emit(buf, "%d\n", data->private);
 +}
 +
- /* mm/vmscan.c */
- unsigned long zone_reclaimable_pages(struct zone *zone);
- unsigned long try_to_free_pages(struct zonelist *zonelist, int order,
-diff --git a/mm/madvise.c b/mm/madvise.c
-index 0f1648526f15..a5fa3b948a20 100644
---- a/mm/madvise.c
-+++ b/mm/madvise.c
-@@ -404,7 +404,7 @@ static int madvise_cold_or_pageout_pte_range(pmd_t *pmd,
- 		if (!folio)
- 			goto huge_unlock;
++static ssize_t private_store(struct device *dev, struct device_attribute *attr,
++			     const char *buf, size_t len)
++{
++	struct dax_kmem_data *data = dev_get_drvdata(dev);
++	bool private;
++	int rc;
++
++	rc = kstrtobool(buf, &private);
++	if (rc)
++		return rc;
++
++	guard(mutex)(&data->lock);
++	if (data->private != private && data->state != DAX_KMEM_UNPLUGGED)
++		return -EBUSY;
++	data->private = private;
++	return len;
++}
++
+ static int dev_dax_kmem_probe(struct dev_dax *dev_dax)
+ {
+ 	struct device *dev = &dev_dax->dev;
+@@ -560,12 +594,29 @@ static void dev_dax_kmem_remove(struct dev_dax *dev_dax)
+ #endif /* CONFIG_MEMORY_HOTREMOVE */
  
--		if (!folio_is_common_memory(folio))
-+		if (!folio_allows_reclaim(folio))
- 			goto huge_unlock;
+ static DEVICE_ATTR_RW(state);
++static DEVICE_ATTR_RW(private);
  
- 		/* Do not interfere with other mappings of this folio */
-@@ -485,7 +485,7 @@ static int madvise_cold_or_pageout_pte_range(pmd_t *pmd,
- 			continue;
+ static struct attribute *dev_dax_kmem_attrs[] = {
+ 	&dev_attr_state.attr,
++	&dev_attr_private.attr,
+ 	NULL,
+ };
+-ATTRIBUTE_GROUPS(dev_dax_kmem);
++
++static umode_t dev_dax_kmem_visible(struct kobject *kobj,
++				    struct attribute *attr, int n)
++{
++	/* Selecting private memory needs an unplug, which needs hot-remove. */
++	if (attr == &dev_attr_private.attr &&
++	    (!IS_ENABLED(CONFIG_NUMA) || !IS_ENABLED(CONFIG_MEMORY_HOTREMOVE)))
++		return 0;
++	return attr->mode;
++}
++
++static const struct attribute_group dev_dax_kmem_group = {
++	.attrs = dev_dax_kmem_attrs,
++	.is_visible = dev_dax_kmem_visible,
++};
++__ATTRIBUTE_GROUPS(dev_dax_kmem);
  
- 		folio = vm_normal_folio(vma, addr, ptent);
--		if (!folio || !folio_is_common_memory(folio))
-+		if (!folio || !folio_allows_reclaim(folio))
- 			continue;
- 
- 		/*
-@@ -715,7 +715,7 @@ static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
- 		}
- 
- 		folio = vm_normal_folio(vma, addr, ptent);
--		if (!folio || !folio_is_common_memory(folio))
-+		if (!folio || !folio_allows_reclaim(folio))
- 			continue;
- 
- 		/*
+ static struct dax_device_driver device_dax_kmem_driver = {
+ 	.probe = dev_dax_kmem_probe,
 
 -- 
 2.56.1
