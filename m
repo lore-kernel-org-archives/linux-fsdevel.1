@@ -1,60 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.63.66.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795190340;
-	b=LIrB+SM35G9H3R1voKYJjJIHL1hnZNg0laY+VpQJ4vRGCsfbEz+QSX51wABjBIYOuebW
-	 OBt3c2BI0W1L5qL1Mq4KIO2plPtEEgr+W5dy5X9KSuxoswUDrfH/DjnrGDsH2FW20LaGs
-	 NiQzJjEGX1p/ovu60sXVrkiWCA05bDvMowo7DwhWQCCyh1sB4te9LlsTJDu0SPqUG50i4
-	 u6Y+biftjyB/RdJUSWRhYwTqrlbUsZNNHp04gx5+wiDogdFQiEGdJl5QNgW760Jqu0anS
-	 sfAoYp3Hax9l7QQO7+3GJKE4pc75FeAOGXbc6Hp4r0Qki6D7KTqSdSOOF/LvUJjvTyg==
+	t=1795190684;
+	b=Ot7nv7fZdw++j/v5pDYc7pUCa8siOEnSqE4cZFn2EoN8t2C/SibmLLdmg1klyl+rVYRf
+	 fYjHcR/JMSOVpI/3t06+1zpRF3YyjCCPFnf7fNk1Z4Yur5mzcQ9bxQaG7T6QBnaJOsrKW
+	 nGuFdyk1h3BoQCKZfaXbpHhLgGUzIVhoNPIRvqoAP9nX5E76iPmTEKaRgrFFN1A513N54
+	 5qz1T1jIsAw0eorx1nl1ZB3GN0elxhnUGbGi4qxaddWkhZD/tR8ciJFvttDZCgwV5M9aG
+	 XlLo+Oc5JZFtEh7yE0FZKNlLhNR4PZudTTAcA7gUDIZLCkzFgUR6Wm8/TPKmu3RF7FA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795190340;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=HWvx8N4WhHxV9SNACTiKXoUrK6GfLUS7x77BYlIs/1o=;
-	b=bns3012mmFFmGQEsBb04uY4IzQv9d8CvnCcX504BvX+z5NxXqQffVKZu3WfBXkutuPnF
-	 Gu6M6lN4U/mLzQyQa8AXOCOP2MqeDPrsVpr8SB86RyP3NTIKOUzh1ElaQ03VS4Qxq57ud
-	 mU9BFehkEJDqTSBg/4UYcoQ6OIzvAOowpY5zjLing/nypY91mWQHY35Alv5Uy7MHgph0x
-	 OsmYLYbSQRkRqj27shitCXzdh/EyRUVbyOvfxbKIJWTRpMZxVC3zFvfC0A4LNZ8DQJd08
-	 K+Zl51i84d/7tQwiMHD7Kjq9I5y0TMLnTagi+7FYJahnup8yqRj3/P2xg85Oxox0Xrw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795190684;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=q9YON1OyDdbhVmSZ3qNdPEZ9E1LMVZlQqEKChXlKUBA=;
+	b=RY+X1KUjtT3Qk4lEEFQ7Y4wOvOPTBVKxGzNac5hZU9CfFKkcAx+sipSBKyAMlC6s61WL
+	 snjUVC4nJue4AsDJIsEHgtBVB0k6D5B4/ok8bCUT/pZZOE5tLRKJdjesGffbJQ9venui7
+	 M1PUkdrX/eJxBq+KvGEBix/KyL8RRzHeYz97p2L4p+yz25XpPMT9C71m45r+373oKnpLX
+	 ED7dfZOmt1uqHhsAlstWxhOnjbnhIHlH9dZwuh2NInS3ypIZgCCaND51x5XiamDXC1kag
+	 LZ/pPrtnrbyAAw4TTqTc6cSJE2XASowcensW0RVg7rMp3Xt3CgFpZz1gPmiauQ7Irbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TPqtNUyv;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=hallyn.com;
+	spf=pass smtp.mailfrom=hallyn.com;
+	dkim=pass header.d=hallyn.com header.i=@hallyn.com header.a=rsa-sha256 header.s=mail header.b=M9qBDG2c;
+	arc=none smtp.remote-ip=178.63.66.53
+Received: from mail.hallyn.com (mail.hallyn.com [178.63.66.53])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE24A60A2605;
-	Fri, 20 Nov 2026 15:59:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B222C606A325;
+	Fri, 20 Nov 2026 16:04:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B222C606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hallyn.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hallyn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TPqtNUyv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81CA51F00AD3;
-	Fri, 20 Nov 2026 15:58:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795190340;
-	bh=HWvx8N4WhHxV9SNACTiKXoUrK6GfLUS7x77BYlIs/1o=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=TPqtNUyvvikrfudBMNWrMk65twBI3rSsLx8gA2FAIH9SxYTXF08TT3kNtOQFYftef
-	 zJPXcJoX9sVQT8ot+bBM7rJ1/lIWZW6ISqeYhdNoNnkoTSPbycBHz/eba4yt6iQAog
-	 biAvBEXXSl2TAi6CbwwOBdfSdJs/VF+ViEoP0w8p3Z4pus9g5fXS1o4q1JlghYMDpM
-	 rVP1/2F9AxoYB18x+bwqaF1Tvv2yOXXC1BnUkvaPLCt+4hwiXL+KaVUSU784W5fVC7
-	 IEJ7tsOhJzlAulvIlWgIUWTRINz08Iq787iopzdY0l4Wj9zXLbqAhAyzvySoKSYO/S
-	 TT8/BykRTfdxQ==
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: "Eric Biggers" <ebiggers@kernel.org>,
-	"Christoph Hellwig" <hch@lst.de>,
-	"Carlos Maiolino" <cem@kernel.org>,
-	"fsverity" <fsverity@lists.linux.dev>,
-	"linux-xfs" <linux-xfs@vger.kernel.org>
-Cc: Andrey Albershteyn <aalbersh@kernel.org>,
-	"fsdevel" <linux-fsdevel@vger.kernel.org>,
-	david@fromorbit.com,
-	"Darrick J. Wong" <djwong@kernel.org>
-Subject: [PATCH v19 15/15] xfs: enable ro-compat fs-verity flag
-Date: Fri, 20 Nov 2026 16:57:49 +0100
-Message-ID: <20261120155752.192025-16-aalbersh@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261120155752.192025-1-aalbersh@kernel.org>
-References: <20261120155752.192025-1-aalbersh@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=hallyn.com header.i=@hallyn.com header.a=rsa-sha256 header.s=mail header.b=M9qBDG2c
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hallyn.com; s=mail;
+	t=1795190675; bh=JO6QMaohqpOpnglO+nbRvEH2R5s3p7FIcS9bHnt3aqI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=M9qBDG2cZM7LjFCfgpszJGBKKgicC0/vAIeHCbRTCISq50F4PiFn5sf6TBxNXtW+Y
+	 REgUYE3FsvLHP3fPuimDvBL6iD0fUqR9mJ+QAoXeNmFaV44OO7jsAHVQAdJrTl4KVG
+	 n/TEBCpTQpM6vi8XIZuzy0CRIkYsmktCtJSKW3+tGLDRWQ0gHr+C7viSVpoWGajpkP
+	 Eb9kgR6J/Md0jjzPLS2YA18PUp+6HDzOSgZ4sN8aMH824Ye51d/IBcPCImDsxNmOZd
+	 kUNxSPtlEm55pJGrXGRbmuOotLkN0toTYn2o1dgrloEzd6g7TVVwiYRPOxICb0i8mk
+	 ljWWZTYtcKo7g==
+Received: by mail.hallyn.com (Postfix, from userid 1001)
+	id 941D71C4E; Fri, 20 Nov 2026 10:04:35 -0600 (CST)
+Date: Fri, 20 Nov 2026 10:04:35 -0600
+From: "Serge E. Hallyn" <serge@hallyn.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	bpf@vger.kernel.org, Zhiqi Zhang <zhiqizhangg@gmail.com>
+Subject: Re: [PATCH 0/2] ns: don't call the namespace LSM hooks for
+ kernel-internal namespaces
+Message-ID: <awBvk4BlFqT4jukk@hallyn.com>
+References: <20261120-work-ns-mount_subtree-v1-0-06337377f94a@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -64,36 +63,63 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261120-work-ns-mount_subtree-v1-0-06337377f94a@kernel.org>
 
-Finalize fs-verity integration in XFS by making kernel fs-verity
-aware with ro-compat flag.
+On Fri, Nov 20, 2026 at 01:29:57PM +0100, Christian Brauner wrote:
+> mount_subtree() allocates a private anonymous mount namespace so that
+> automounts during the path lookup have somewhere to go. btrfs goes
+> through it on every mount and NFS on every NFSv4 mount and whenever it
+> follows a referral.
+> 
+> Since the namespace LSM hooks went in that namespace goes through
+> security_namespace_init() like any other. Landlock enforces
+> LANDLOCK_PERMISSION_NAMESPACE_USE in its namespace_init hook. So a
+> sandbox that handles that permission without allowing CLONE_NEWNS can't
+> mount btrfs or NFSv4 anymore. mount(2) fails with EPERM even though
+> nobody asked for a mount namespace. Zhiqi reported that and sent a fix
+> that skips namespace_init for this namespace (cf. [1]).
+> 
+> But namespace_free needs to be skipped as well. Otherwise a bpf program
+> attached to namespace_free would see these namespaces go away without
+> ever having seen them being created. Right now that can't happen but
+> only because security_namespace_free() skips the hook if no LSM
+> requested a namespace blob. So mark such namespaces as kernel-internal
+> and keep them away from both hooks. The first patch turns the anon
+> argument of alloc_mnt_ns() into flags so we don't end up with two
+> booleans.
+> 
+> The anonymous mount namespaces created by open_tree(OPEN_TREE_CLONE)
+> and fsmount() are handed to userspace and keep going through the hooks.
+> Landlock covers them on purpose.
+> 
+> I tested this on v7.4-rc3 with a btrfs loop mount and an NFSv4 mount
+> in a Landlock domain that handles LANDLOCK_PERMISSION_NAMESPACE_USE but
+> doesn't allow CLONE_NEWNS. Both fail with EPERM without this series and
+> work with it. unshare(CLONE_NEWNS), clone(CLONE_NEWNS),
+> open_tree(OPEN_TREE_CLONE), fsmount() and setns() are still denied and
+> the Landlock namespace selftests pass.
+> 
+> [1]: https://lore.kernel.org/20261114141323.19029-1-zhiqizhangg@gmail.com
 
-Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-[djwong: add spaces]
-Signed-off-by: Darrick J. Wong <djwong@kernel.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
----
- fs/xfs/libxfs/xfs_format.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Thanks, both look good to me.
 
-diff --git a/fs/xfs/libxfs/xfs_format.h b/fs/xfs/libxfs/xfs_format.h
-index 2cb375bdbd76..16d6e8931df0 100644
---- a/fs/xfs/libxfs/xfs_format.h
-+++ b/fs/xfs/libxfs/xfs_format.h
-@@ -378,8 +378,9 @@ xfs_sb_has_compat_feature(
- #define XFS_SB_FEAT_RO_COMPAT_ALL \
- 		(XFS_SB_FEAT_RO_COMPAT_FINOBT | \
- 		 XFS_SB_FEAT_RO_COMPAT_RMAPBT | \
--		 XFS_SB_FEAT_RO_COMPAT_REFLINK| \
--		 XFS_SB_FEAT_RO_COMPAT_INOBTCNT)
-+		 XFS_SB_FEAT_RO_COMPAT_REFLINK | \
-+		 XFS_SB_FEAT_RO_COMPAT_INOBTCNT | \
-+		 XFS_SB_FEAT_RO_COMPAT_VERITY)
- #define XFS_SB_FEAT_RO_COMPAT_UNKNOWN	~XFS_SB_FEAT_RO_COMPAT_ALL
- static inline bool
- xfs_sb_has_ro_compat_feature(
--- 
-2.54.0
+Acked-by: Serge Hallyn <serge@hallyn.com>
 
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+> Christian Brauner (2):
+>       mount: pass flags to alloc_mnt_ns()
+>       ns: don't call the namespace LSM hooks for kernel-internal namespaces
+> 
+>  fs/namespace.c                     | 31 +++++++++++++++++++++----------
+>  include/linux/ns/ns_common_types.h |  2 ++
+>  include/linux/ns_common.h          | 20 +++++++++++++-------
+>  kernel/nscommon.c                  |  9 ++++++---
+>  4 files changed, 42 insertions(+), 20 deletions(-)
+> ---
+> base-commit: 666539eecdf4db623f5e3c3e55cf9f2dfad24aa4
+> change-id: 20261120-work-ns-mount_subtree-d429ad72f8ac
+> 
