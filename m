@@ -1,83 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795183561;
-	b=vlJldMD0G3wew8d+RqmxMJwS/O2hFNxG7O6AqP/S3x0S7YvdgkeyPUE7vqdCB/UxVvjW
-	 Ki5+29G415IC26Aiko51PhRUGjLjSv6jw9STqKGh2bRTCmk8kNsGhP0wL5LdKOt5B462Z
-	 pKykxqu11KNkg7eUnL4goAVkv3+e8AlPy15g7cvQzkCloVvlAj90hkF/lGnlGOImFpKPI
-	 wYyp0wyzLNH1G3z0ywASiyMIcOYQmFt54QXpFTGJ+3TE7+2zGDnIurqPqJhCPfmMIeefK
-	 eBSWqK7Z8n8mhFYC94V7JXvJGBgp5ijv/7bILjaaSZ2RSHAghtG5O6G3BcgPYmQS//A==
+	t=1795183825;
+	b=lJnmA+YGdMCO+Q93fJd58Ex9rwdLrTBnqfCHg3199J/ghI2VBXcIIogZNY7L6rjg6qa2
+	 Z5kZBqmXsWd9p+I2aAvaE/gPgTLxpAZCcTo2JI1uT9EghpmaGZm0oHzWTYRd/39wlL3yP
+	 2fWsVCYIDLWpSHab+nH6p+P9bTcbERw5EGOj8MZj3jINqyFa5Lw7WLmCS5403ysxA17wu
+	 LXc09rX1fUdz7xyndHLttenRHNkkYhtVHhfx1X4cp2MpzcJXZwSQdPNGjLr6tyR81E6gT
+	 JqxxuDatULuaieUaCRd5/xR7rQaR4ohKiFKEyrHg0N3AXmEPfoBWmpVBzIerv/qHVAw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795183561;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:X-Mailer:
-	 References:In-Reply-To;
-	bh=lQXWhNQQlhPXEIIcGVoxJddlPdJJNSTkNAUDZ7QCuXs=;
-	b=pUYBmWwgseFyXSHJKW3X0DMq9TWIpJo+1qaiABJTDGyApMS1JlSh3bJACCHAdbUkd6X2
-	 fk1duSmKOYyrZDq3N6uA5wl1vj7j6Is2XZicR72ifn3k9iHZnIYlOW9Mlz5/BiicggvPe
-	 CL3Srh/iY/PXxZ7pRfCC7ZKeuVksMeo32xixLro5UQQuYTBUTaoI32rt7BN6rn9oLchvs
-	 91EHZqOPtFBJGmxB7O5DEX//fzLzHIpmW9RAUL4nIHxU30v/RJdJfrAwK0rElDEo1VKu0
-	 T19YebuOWYapP9ZrkuV3PYRlU7NWg5XCy3SbYomT6Ip0emlhT4A+VMwRb+rEA2Nil4Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795183825;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=5cMka++9FgI6SwfLQeaYxr5wwbW+CS32qzbR7n0A0CY=;
+	b=X8xytI0R/mKMAl+2pYcFu+i9Q9P49MwH+wjs0tOjOQAJdbkx1lVd5JEDwZ8r/wOW5jmr
+	 qw0GnglxEs6LfpR/wy2DqQwo/a2/GI1Qt+E/XylaGeQckg3jkDt1njOVH5APNgMJzaU3m
+	 4VllR1gZx8XD3y3NV7dtQIg+yVAeIYxy+VmyFZWAaN/fYYWdcmqLiRE1AKu6dq56UYM09
+	 zzTGp5YO8FiZcCw13Uioxfu1S0way9kCLe8HMCJx08G4qq/jS9o3uLFz5UKUuKGXju/24
+	 qkxcYyJJ5KPZ86CGafkONBtEB8LSgI+b3TjDiapWZ7naN85pjpjVatFQdKz+peYh2mA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="gpLZb0Z/";
-	arc=none smtp.remote-ip=209.85.221.46
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hOUr5zyk;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B23606A334
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 14:06:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A1B23606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71CC0606A325;
+	Fri, 20 Nov 2026 14:10:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gpLZb0Z/
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-498f5fa4f70so744215f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 06:06:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795183559; x=1795788359; darn=vger.kernel.org;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-type:mime-version:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=lQXWhNQQlhPXEIIcGVoxJddlPdJJNSTkNAUDZ7QCuXs=;
-        b=gpLZb0Z/dRVHbMoXZrh+kzP5ioym8u6jETVmOgUHiTsO0gHBZvjaY1u8xn9vZYPjI3
-         HlADiDIbW85273oCtZNkS/gSMZj7KDnEn2FCDAQplgZJNRBrG8J9zrvGJt5nkEQ6W9mF
-         fyOtpp1IFic0Xu2tcDpKrH6QzUNu+5abygtChqmqZyNkLbL0LOGVwoaOpODRNVGjAFvj
-         k86yIOI2k6HAthLvLU42zksjw+fJO5ba8Jqt7Q7/f94IEHSHQAXazZxeQGEOHaejOQg0
-         KlroNHqPtg8w0ywi+z661oXiBCqpbpJqy0269kS0oz/lBVQ4wbPIsmv7FRbzRIsX7nVg
-         1l4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795183559; x=1795788359;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=lQXWhNQQlhPXEIIcGVoxJddlPdJJNSTkNAUDZ7QCuXs=;
-        b=vVy+X6/AdixoTjQ0ZPDhLHJHPufl/CJJq6TscHRtBtAygf1hiseXkDyVBe/T/iYs4g
-         8c14DwtJOtNM6IqLDxatEaRb8e9sCSXGSc6FTZVnLBnX1DYmi2zBZGPJOF6zzbYBZZRd
-         GV7cxqzzAj7yzLMj4ggtLGcJDN5iQl9M5PJut0C4G2bwZP/PUjdLVa7Ng2yMP+VNU2tK
-         /4m/CFPTOTdvxWOOosFub4jLFSUYbSuMr4gXmqBdyiKtFBlJD6vQO1rI0Aj+LiuvFmqP
-         Oca805bfReKe22WQk6qhU+WXlz0hPEbWGclnFXb6LT2DIjjnSlLXD0FsYEVWTlSF7Qud
-         zwzg==
-X-Forwarded-Encrypted: i=1; AL+hErEUj3R9hsFt/EFclVX3/xcsXEEnHNjS2PwRkrgKt3EPE93U+t5OWMng8GKXvrKLMPiOsjD8Qrns9auzzb96@vger.kernel.org
-X-Gm-Message-State: APuU4Z8QnQzBkyYHpTKuI2k3+uRWwnktW5vKdp49MzghKoslA2SeUTSe
-	zgnoHWasvrMjQdRpjDe4eG9lq0ycpkIhFS2mC3SjTebc19EeWhA0D4Iw
-X-Gm-Gg: AZFdTZfFazj51GFLbK7Ii0Kq693qOnr8iS94GdS3XcEck+Y3/TYkVf6vb6h053wRKyZ
-	+FRHdlRyxRPLeXoA6kWNcOadBRG30Xh4y6tFATFd7ASR8/p4yI8dJEFOzlLaz3aXeLhrJ5z3JUf
-	DfG0wV5ON/Im5r9zCzHozSa+cxWT7YUN6fcsI3cz0d9abwlY4/BkmWy7+TcHQ1Vtq9bEVHaXHFW
-	nsO4ogtdmcXM7wlAiklc2yN0K9pAhzsebR0KOqk6x3yupGMKtQhObNL4yJTJMLmI1DLwLm++cZO
-	stzKyPLeUe40XSk3gGt1uQlI62D6yQNxdCDJgAFlepQZYQiNeWJ6h9ont2tJp9FyNcKgmsdvq4s
-	YM9zk2efgexe44Prfte+pROn786AWoWwxmr0swzyGSzSudj9g/SLCejwoBfz/+gbdgV4RheYGH7
-	lFZJrghUEZUG4SnN9RAAr8vx9nSsPOX35Wbl0Kacj08x7difXGCeC8C48kd+V73qRiisFIZ5KdM
-	Qihu/4G/eW4Vel1yx59Ih0Jo+M47KUyorQ4AWcMvfCdplNiGyliW4GAH8jfG4a144/Ar01UgLjh
-	P0fFqTRjhuxz/bsmMPI/wn3eBFBzPtUNl6EJ8DyXAJnZg6Xg+ZAI314/W716xmjSsnxvQg==
-X-Received: by 2002:a05:6000:24c3:b0:4a4:368:409d with SMTP id ffacd0b85a97d-4abaa9769d3mr7118563f8f.3.1795183558599;
-        Fri, 20 Nov 2026 06:05:58 -0800 (PST)
-Received: from localhost ([130.192.98.149])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab658e2d1bsm6110394f8f.8.2026.11.20.06.05.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Nov 2026 06:05:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hOUr5zyk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 549111F000C0;
+	Fri, 20 Nov 2026 14:10:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795183824;
+	bh=5cMka++9FgI6SwfLQeaYxr5wwbW+CS32qzbR7n0A0CY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hOUr5zykayAZfx9Utf1WxEc4cwwU/QfDhE1QBWgf9vUOBmvK4ULZYH8eugJ42jBEj
+	 EId9K4YAD+/dyXD3vyoSflc1SDnia+PjPpyUcZ4PKEGOw67uZOJwsx2s/Rt0RtmHMH
+	 UeEqiHs6+56qG9B3ZOA6tTF8keVAetaWRxWpNUtCx8362Bjy0DCjn3ZWNCqt3Ta9Uf
+	 yW9Uy5UeVvPMo1x3SMj/+O/SmBxfGQ7L6Ja1IlrvIz3prAyfJBN/ltfU2aYda+RCkg
+	 p1bIpXKbFErmRYeN8uuJn2OMBxgEZJOzyOgbrgVIeMO2no2lv7NCcAvl9DvzROaQRW
+	 kNWIDNMHM5ZKw==
+Date: Fri, 20 Nov 2026 14:10:13 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Luigi Rizzo <lrizzo@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Jens Axboe <axboe@kernel.dk>, "David S . Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Luigi Rizzo <rizzo.unipi@gmail.com>, 
+	"Liam R . Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, Harry Yoo <harry@kernel.org>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, Matthew Wilcox <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Simon Horman <horms@kernel.org>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+	Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
+	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Alexander Lobakin <aleksander.lobakin@intel.com>, Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Dragos Tatulea <dtatulea@nvidia.com>, Naman Gulati <namangulati@google.com>, 
+	Pranjal Shrivastava <praan@google.com>, Mostafa Saleh <smostafa@google.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org, iommu@lists.linux.dev, 
+	netdev@vger.kernel.org, linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-api@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v3 11/25] mm: Migrate user pages into PISA
+Message-ID: <awBUG15auEfX2Uc6@gremlin>
+References: <20261109182533.3594984-1-lrizzo@google.com>
+ <20261120010655.467825-1-lrizzo@google.com>
+ <20261120010655.467825-12-lrizzo@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -86,396 +81,803 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=9e5986ede954feecad11ad001d02150c5a356196d013aeccc838f4a9c70a;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Fri, 20 Nov 2026 15:05:53 +0100
-Message-Id: <DN03GJ80ZWNZ.9GM35HM4T48N@gmail.com>
-To: "Amir Goldstein" <amir73il@gmail.com>, "koraynilay"
- <koray.fra@gmail.com>
-Cc: "David Sterba" <dsterba@suse.com>, "Namjae Jeon"
- <linkinjeon@kernel.org>, "Sungjong Seo" <sj1557.seo@samsung.com>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner"
- <brauner@kernel.org>, "Trond Myklebust" <trondmy@kernel.org>, "Anna
- Schumaker" <anna@kernel.org>, "Chuck Lever" <cel@kernel.org>, "Jeff Layton"
- <jlayton@kernel.org>, "Konstantin Komarov"
- <almaz.alexandrovich@paragon-software.com>, "Paulo Alcantara"
- <pc@manguebit.org>, "Chris Mason" <mason@kernel.org>, "Yuezhang Mo"
- <yuezhang.mo@sony.com>, "Jan Kara" <jack@suse.cz>, "NeilBrown"
- <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo"
- <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>, "Ronnie Sahlberg"
- <ronniesahlberg@gmail.com>, "Shyam Prasad N" <sprasad@microsoft.com>,
- "Bharath SM" <bharathsm@microsoft.com>, "Sergey Senozhatsky"
- <senozhatsky@chromium.org>, "ChenXiaoSong" <chenxiaosong@chenxiaosong.com>,
- "Darrick J . Wong" <djwong@kernel.org>, "Sean Smith"
- <defendthedisabled@gmail.com>, "Andrey Albershteyn" <aalbersh@kernel.org>,
- "Pedro Falcato" <pfalcato@suse.de>, =?utf-8?q?Pali_Roh=C3=A1r?=
- <pali@kernel.org>, <linux-btrfs@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
- <exfat@lists.linux.dev>, <ntfs3@lists.linux.dev>,
- <linux-cifs@vger.kernel.org>, <linux-nfs@vger.kernel.org>,
- <linux-api@vger.kernel.org>, "Miklos Szeredi" <miklos@szeredi.hu>
-Subject: Re: [RFC PATCH v4 10/10] cifs: add provenance time (ptime) and map
- it to SMB's CreationTime
-From: "koraynilay" <koray.fra@gmail.com>
-X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
-References: <20261115180343.576773-1-koray.fra@gmail.com>
- <20261115180343.576773-11-koray.fra@gmail.com>
- <CAOQ4uxg2gpC99ohuvKm-SgPzuffJy1fSvXorbuBnYZ=OFSxT3w@mail.gmail.com>
- <DMZIZ05H7MMB.1WYNR4X44BPGR@gmail.com>
- <CAOQ4uxg8aVcWyNiFDk8djdn-M3xJcu_7-kRxVq9jjFsbcGp1ew@mail.gmail.com>
-In-Reply-To: <CAOQ4uxg8aVcWyNiFDk8djdn-M3xJcu_7-kRxVq9jjFsbcGp1ew@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261120010655.467825-12-lrizzo@google.com>
 
---9e5986ede954feecad11ad001d02150c5a356196d013aeccc838f4a9c70a
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-
-On Fri Nov 20, 2026 at 7:34 AM CET, Amir Goldstein wrote:
-> On Thu, Nov 19, 2026 at 11:02=E2=80=AFPM koraynilay <koray.fra@gmail.com>=
- wrote:
->>
->> On Thu Nov 19, 2026 at 7:32 PM CET, Amir Goldstein wrote:
->> > On Sun, Nov 15, 2026 at 7:04=E2=80=AFPM koraynilay <koray.fra@gmail.co=
-m> wrote:
->> >>
->> >> Implement provenance time (ptime) in cifs, as introduced in a
->> >> previous commit ("vfs: add provenance time (ptime)").
->> >>
->> >> Map it to SMB's CreationTime, making it settable from userspace and
->> >> propagating it to the SMB server via FILE_BASIC_INFO.
->> >>
->> >> Support reading ptime via statx(2) and fileattr_get() from the cached
->> >> CreationTime.
->> >>
->> >> Update cifs_fileattr_set() to check xflags instead of only legacy fla=
-gs
->> >> and add the cifs_set_file_crtime() helper to wrap the RPC call to the
->> >> SMB server.
->> >>
->> >> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.7
->> >> Signed-off-by: koraynilay <koray.fra@gmail.com>
->> >> ---
->> >>  fs/smb/client/cifsfs.c |   8 +++
->> >>  fs/smb/client/inode.c  |   7 ++-
->> >>  fs/smb/client/ioctl.c  | 109 ++++++++++++++++++++++++++++++---------=
---
->> >>  3 files changed, 94 insertions(+), 30 deletions(-)
->> >>
->> >> diff --git a/fs/smb/client/cifsfs.c b/fs/smb/client/cifsfs.c
->> >> index 8cff7857b450..c2f557e406d3 100644
->> >> --- a/fs/smb/client/cifsfs.c
->> >> +++ b/fs/smb/client/cifsfs.c
->> >> @@ -1307,6 +1307,14 @@ int cifs_fileattr_get(struct dentry *dentry, s=
-truct file_kattr *fa)
->> >>         if (READ_ONCE(CIFS_I(inode)->cifsAttrs) & ATTR_COMPRESSED)
->> >>                 fa->flags |=3D FS_COMPR_FL;
->> >>
->> >> +       /* Report provenance time (ptime) to userspace */
->> >> +       if (CIFS_I(inode)->createtime) {
->> >> +               fa->fsx_xflags |=3D FS_XFLAG_PTIME;
->> >> +               fa->fsx_xflags_mask |=3D FS_XFLAG_PTIME;
->> >> +               fa->fsx_ptime =3D
->> >> +                     cifs_NTtimeToUnix(cpu_to_le64(CIFS_I(inode)->cr=
-eatetime));
->> >> +       }
->> >> +
->> >>         /*
->> >>          * FS_CASEFOLD_FL is defined by UAPI as a folder attribute,
->> >>          * and userspace tools (e.g., lsattr) display it only on
->> >> diff --git a/fs/smb/client/inode.c b/fs/smb/client/inode.c
->> >> index 2647785ec1e4..f0b20a72b9c2 100644
->> >> --- a/fs/smb/client/inode.c
->> >> +++ b/fs/smb/client/inode.c
->> >> @@ -222,6 +222,7 @@ cifs_fattr_to_inode(struct inode *inode, struct c=
-ifs_fattr *fattr,
->> >>
->> >>         cifs_i->cifsAttrs =3D fattr->cf_cifsattrs;
->> >>         cifs_i->reparse_tag =3D fattr->cf_cifstag;
->> >> +       cifs_i->createtime =3D fattr->cf_createtime;
->> >>
->> >>         if (fattr->cf_flags & CIFS_FATTR_NEED_REVAL)
->> >>                 cifs_i->time =3D 0;
->> >> @@ -2958,7 +2959,8 @@ int cifs_getattr(const struct mnt_idmap *idmap,=
- const struct path *path,
->> >>          * We need to be sure that all dirty pages are written and th=
-e server
->> >>          * has actual ctime, mtime and file length.
->> >>          */
->> >> -       if ((request_mask & (STATX_CTIME | STATX_MTIME | STATX_SIZE |=
- STATX_BLOCKS)) &&
->> >> +       if ((request_mask & (STATX_CTIME | STATX_MTIME | STATX_PTIME
->> >> +                            | STATX_SIZE | STATX_BLOCKS)) &&
->> >>             !CIFS_CACHE_READ(CIFS_I(inode)) &&
->> >>             inode->i_mapping && inode->i_mapping->nrpages !=3D 0) {
->> >>                 rc =3D filemap_fdatawait(inode->i_mapping);
->> >> @@ -2992,6 +2994,9 @@ int cifs_getattr(const struct mnt_idmap *idmap,=
- const struct path *path,
->> >>                 stat->result_mask |=3D STATX_BTIME;
->> >>                 stat->btime =3D
->> >>                       cifs_NTtimeToUnix(cpu_to_le64(CIFS_I(inode)->cr=
-eatetime));
->> >> +               stat->result_mask |=3D STATX_PTIME;
->> >> +               stat->ptime =3D
->> >> +                     cifs_NTtimeToUnix(cpu_to_le64(CIFS_I(inode)->cr=
-eatetime));
->> >>         }
->> >>
->> >>         stat->attributes_mask |=3D (STATX_ATTR_COMPRESSED | STATX_ATT=
-R_ENCRYPTED);
->> >> diff --git a/fs/smb/client/ioctl.c b/fs/smb/client/ioctl.c
->> >> index bb8808289a46..19a9556d39b4 100644
->> >> --- a/fs/smb/client/ioctl.c
->> >> +++ b/fs/smb/client/ioctl.c
->> >> @@ -181,6 +181,41 @@ static int cifs_set_compression(unsigned int xid=
-, struct dentry *dentry,
->> >>                                             compression_state);
->> >>  }
->> >>
->> >> +static int cifs_set_file_crtime(unsigned int xid, struct dentry *den=
-try,
->> >> +                               struct cifs_tcon *tcon, u64 crtime)
->> >> +{
->> >> +       struct inode *inode =3D d_inode(dentry);
->> >> +       struct TCP_Server_Info *server =3D tcon->ses->server;
->> >> +       FILE_BASIC_INFO info_buf =3D {};
->> >> +       const char *full_path;
->> >> +       void *page;
->> >> +       int rc;
->> >> +
->> >> +       if (!server->ops->set_file_info)
->> >> +               return -EOPNOTSUPP;
->> >> +
->> >> +       info_buf.CreationTime =3D cpu_to_le64(crtime);
->> >> +
->> >> +       page =3D alloc_dentry_path();
->> >> +       full_path =3D build_path_from_dentry(dentry, page);
->> >> +       if (IS_ERR(full_path)) {
->> >> +               rc =3D PTR_ERR(full_path);
->> >> +               goto out;
->> >> +       }
->> >> +
->> >> +       rc =3D server->ops->set_file_info(inode, full_path, &info_buf=
-, xid);
->> >> +       if (rc =3D=3D 0) {
->> >> +               CIFS_I(inode)->createtime =3D crtime;
->> >> +               CIFS_I(inode)->time =3D 0;
->> >> +               inode_set_ctime_current(inode);
->> >> +       }
->> >> +
->> >> +out:
->> >> +       free_dentry_path(page);
->> >> +       return rc;
->> >> +}
->> >> +
->> >> +#define CIFS_SUPPORTED_XFLAGS (FS_XFLAG_PTIME)
->> >>  int cifs_fileattr_set(const struct mnt_idmap *idmap, struct dentry *=
-dentry,
->> >>                       struct file_kattr *fa)
->> >>  {
->> >> @@ -193,49 +228,65 @@ int cifs_fileattr_set(const struct mnt_idmap *i=
-dmap, struct dentry *dentry,
->> >>         bool enable_compression;
->> >>         struct cifs_tcon *tcon;
->> >>         unsigned int xid;
->> >> -       int rc;
->> >> +       int rc =3D 0;
->> >>
->> >> -       if (!fa->flags_valid)
->> >> +       if (fileattr_has_fsx_mask(fa, CIFS_SUPPORTED_XFLAGS))
->> >>                 return -EOPNOTSUPP;
->> >
->> > What is this supposed to check that is not already checked
->> > explicitly with fsx_xflags_mask below?
->>
->> It should work for FS_IOC_FSSETXATTR, where mask is 0... but it's also
->> there because when I started writing the various filesystems code I
->> hadn't added _mask yet, so I'll need to take a little step back and
->> revisit.
->>
+On Fri, Nov 20, 2026 at 01:06:41AM +0000, Luigi Rizzo wrote:
+> Zero-copy DMA paths (such as O_DIRECT disk I/O and MSG_ZEROCOPY sockets)
+> map each user page with a per-buffer IOMMU mapping and IOTLB flush.
+> Moving user buffers into PISA blocks once allows subsequent DMA
+> operations to reuse pre-mapped 2MB IOMMU entries.
 >
-> Yes, I see.
-> I think the helper may still have value for fs that still parse the
-> two types of flags.
+> Add mm/pisa-user.c to migrate private anonymous order-0 user pages into
+> per-node DMA_TO_DEVICE PISA allocators, controlled by
+> pisa.user_max_pages (0 = disabled), via madvise(MADV_PISA) /
+> MADV_NOPISA (also supported via process_madvise()) and
+> pisa_upgrade_user_pages().
 
-Yeah maybe, I'll see after I the first vfs-only patch I think.
+No, this isn't how madvise works. It's not a place to stuff custom hooks for a
+feature you want.
 
-> To reduce the scope of your patch set this may be better.
 >
->> >>
->> >> -       /*
->> >> -        * chattr writes back all flags returned by fileattr_get(). A=
-ccept
->> >> -        * FS_CASEFOLD_FL only when it reflects the share's casefold =
-state.
->> >> -        */
->> >> -       if (fa->flags & FS_CASEFOLD_FL) {
->> >> -               rc =3D cifs_fileattr_get(dentry, &current_fa);
->> >> -               if (rc)
->> >> -                       return rc;
->> >> -               if (current_fa.flags & FS_CASEFOLD_FL)
->> >> -                       allowed |=3D FS_CASEFOLD_FL;
->> >> -       }
->> >> -       if (fa->flags & ~allowed)
->> >> +       if (fa->fsx_xflags_mask & ~CIFS_SUPPORTED_XFLAGS)
->> >>                 return -EOPNOTSUPP;
->> >>
->> >> -       enable_compression =3D fa->flags & FS_COMPR_FL;
->> >> -       compression_state =3D enable_compression ? COMPRESSION_FORMAT=
-_DEFAULT :
->> >> -                                                COMPRESSION_FORMAT_N=
-ONE;
->> >> +       if (fa->flags_valid) {
->> >> +               /*
->> >> +                * chattr writes back all flags returned by fileattr_=
-get(). Accept
->> >> +                * FS_CASEFOLD_FL only when it reflects the share's c=
-asefold state.
->> >> +                */
->> >> +               if (fa->flags & FS_CASEFOLD_FL) {
->> >> +                       rc =3D cifs_fileattr_get(dentry, &current_fa)=
-;
->> >> +                       if (rc)
->> >> +                               return rc;
->> >> +                       if (current_fa.flags & FS_CASEFOLD_FL)
->> >> +                               allowed |=3D FS_CASEFOLD_FL;
->> >> +               }
->> >> +               if (fa->flags & ~allowed)
->> >> +                       return -EOPNOTSUPP;
->> >
->> > This whole mess could be sorted out by switching the cifs
->> > implementation to the new API
->>
->> ("new API" you mean _mask right?)
->>
+> Large anonymous folios are split to order 0 first, while budget remains,
+> with split_folio_to_list_keep_zero(): a variant of split_folio_to_list()
+> that leaves zero-filled subpages mapped instead of remapping them to the
+> shared zeropage, so that pages the caller is about to write to (e.g. the
+> target of an O_DIRECT read) are still there to migrate.
 >
-> Yes and ro_mask, but it probably also means converting all the
-> read-only CASEFOLD fs to new api, so that FS_XFLAG_CASEFOLD
-> could be taken out of FS_XFLAG_RDONLY_MASK
+> Signed-off-by: Luigi Rizzo <lrizzo@google.com>
 
-Can all flags currently in FS_XFLAG_RDONLY_MASK be rw for some
-filesystems or only some?
-Should they all be removed from FS_XFLAG_RDONLY_MASK and left to each
-filesystem to define them as ro (to put in _ro_mask)?
+No thanks. This whole approach seems completely wrong.
 
->> > and implementing a generic vfs
->> > helper which does something like the above code to handle the
->> > old ioctls.
->> > FS_XFLAG_CASEFOLD would then be removed from
->> > FS_XFLAG_RDONLY_MASK and set explicitly in xflags_ro_mask
->> > by fs which don't allow to set if (e.g. nfs) and added to
->> > FS_COMMON_FL/FS_XFLAG_COMMON
->> >
->> > cifs would advertise FS_XFLAG_CASEFOLD in its ro_mask
->> > and then the generic helper would mask it and the new syscall
->> > will not allow it.
->> >
->> >> +       }
->> >> [...]
->> >> +               cifs_dbg(FYI, "set compress flag rc %d\n", rc);
->> >
->> > I think that the roadmap should be to slowly define all the old FS_*_F=
-L
->> > flags as FS_XFLAGS_* and let the generic helpers deal with the convers=
-ion.
->>
->> > But it is not so hard to convert one filesystem at a time in a way tha=
-t
->> > fa->fsx_valid will have to be true, because, for example, here
->> > all the relevant flags would be supported by the new xflags API.
->>
->> So, something like what fileattr_fill_{x,}flags() do now, but for
->> file_attr_to_fileattr()?
->>
+> ---
+>  include/linux/huge_mm.h                |   7 +
+>  include/linux/pisa-mm.h                |   8 +
+>  include/linux/pisa.h                   |  18 ++
+>  include/linux/swap.h                   |   1 +
+>  include/uapi/asm-generic/mman-common.h |   2 +
+>  mm/Makefile                            |   2 +-
+>  mm/huge_memory.c                       |  36 ++-
+>  mm/madvise.c                           |  19 ++
+>  mm/pisa-alloc.c                        |   2 +
+>  mm/pisa-priv.h                         |   2 +
+>  mm/pisa-user.c                         | 394 +++++++++++++++++++++++++
+>  11 files changed, 483 insertions(+), 8 deletions(-)
+>  create mode 100644 mm/pisa-user.c
 >
-> Yes, something like this (maybe)
+> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+> index fac05120ab774..d679de8cf261d 100644
+> --- a/include/linux/huge_mm.h
+> +++ b/include/linux/huge_mm.h
+> @@ -404,6 +404,7 @@ int __split_huge_page_to_list_to_order(struct page *page, struct list_head *list
+>  int folio_split_unmapped(struct folio *folio, unsigned int new_order);
+>  unsigned int min_order_for_split(struct folio *folio);
+>  int split_folio_to_list(struct folio *folio, struct list_head *list);
+> +int split_folio_to_list_keep_zero(struct folio *folio, struct list_head *list);
+>  int folio_check_splittable(struct folio *folio, unsigned int new_order,
+>  			   enum split_type split_type);
+>  int folio_split(struct folio *folio, unsigned int new_order, struct page *page,
+> @@ -671,6 +672,12 @@ static inline int split_folio_to_list(struct folio *folio, struct list_head *lis
+>  	return -EINVAL;
+>  }
 >
->  void fileattr_fill_flags(struct file_kattr *fa, u32 flags)
+> +static inline int split_folio_to_list_keep_zero(struct folio *folio, struct list_head *list)
+> +{
+> +	VM_WARN_ON_ONCE_FOLIO(1, folio);
+> +	return -EINVAL;
+> +}
+> +
+>  static inline int folio_split(struct folio *folio, unsigned int new_order,
+>  		struct page *page, struct list_head *list)
 >  {
->         fa->flags_valid =3D true;
-> +       fa->fsx_valid =3D !(flags & ~FS_COMMON_FL);
-> +       fa->fsx_xflags_mask =3D FS_XFLAG_COMMON;
->         fa->flags =3D flags;
-
-So, for the filesystems that switch to the new API, these new/changed
-helpers should handle giving userspace the legacy FS_*_FL flags (if
-userspace uses FS_IOC_GETFLAGS) by converting them from the FS_XFLAG_*
-reported by the filesystem?
-
-But did you write this
-> +       fa->fsx_valid =3D !(flags & ~FS_COMMON_FL);
-> +       fa->fsx_xflags_mask =3D FS_XFLAG_COMMON;
-while thinking about FS_IOC_SETFLAGS, so from userspace to filesystem,
-and this would be needed because that filesystem wouldn't know what
-FS_*_FL are, so it will use the _mask and the converted xflags?
-
-But why the opposite of (flags & ~FS_COMMON_FL) as fsx_valid?
-
-Why fsx_valid =3D 0 if the passed flags also contain non-FS_COMMON_FL
-flags and fsx_valid =3D 1 if the passed flags contain only FS_COMMON_FL
-flags?
-(if I understood correctly)
-
-> But in this model FS_XFLAG_COMMON are only the ones that
-> are mutable from the old ioctl.
+> diff --git a/include/linux/pisa-mm.h b/include/linux/pisa-mm.h
+> index d55a42397c4b3..1e82e081b4004 100644
+> --- a/include/linux/pisa-mm.h
+> +++ b/include/linux/pisa-mm.h
+> @@ -11,6 +11,8 @@ unsigned long __pisa_alloc_pages_bulk(gfp_t gfp, unsigned int order,
+>  				      int preferred_nid, int nr_pages,
+>  				      struct page **page_array, bool frozen);
+>  bool __pisa_free_page(struct page *page, unsigned int order);
+> +int pisa_madvise(struct vm_area_struct *vma, unsigned long start,
+> +		 unsigned long end, bool to_pisa);
 >
-> We would need to define FS_READONLY_FL to deal with the
-> group of read-only legacy flags, if some fs needs them and wants
-> to use the new API.
-
-So the those filesystems can put it in _ro_mask on GET you mean?
-
->> > No need to do that now, as part of this patch set which is complicated
->> > enough, just need to see the road ahead of us that we have a way
->> > forward out of this messy flags_valid/fsx_valid inside filesystem
->> > implementations.
->>
->> I think it's probably better to clean up the API now, before introducing
->> new flags (like FS_XFLAG_BTIME/PTIME or the shared extent one in the
->> other thread) and as I'll say in that reply (I'll write it in a bit) I
->> think it's even better to first split the _mask changes into their own
->> RFC PATCH series, then have a separate one for ptime/btime.
->>
+>  /*
+>   * ============================================================================
+> @@ -77,5 +79,11 @@ static inline bool pisa_free_page(struct page *page, unsigned int order)
+>  	return false;
+>  }
 >
-> Agree.
+> +static inline int pisa_madvise(struct vm_area_struct *vma, unsigned long start,
+> +			       unsigned long end, bool to_pisa)
+> +{
+> +	return -EINVAL;
+> +}
+> +
+>  #endif /* CONFIG_PISA */
+>  #endif /* _LINUX_PISA_MM_H */
+> diff --git a/include/linux/pisa.h b/include/linux/pisa.h
+> index edd34771ad1c4..9321e7ff00042 100644
+> --- a/include/linux/pisa.h
+> +++ b/include/linux/pisa.h
+> @@ -14,6 +14,7 @@
 >
-> It's even two different changes -
-> The vfs internal _mask change and the UAPI _mask change.
-> chattr -p implementation with new API would be the perfect
-> champion to drive this UAPI change IMO.
-
-Ah, right, they could even be made in 2 separate patches but it's
-probably better to keep both in only one, since otherwise there would
-need to be temporary vfs functions to convert xflags to xflags_mask and
-back.
-
->> > My understanding is that Miklos introduced those hints to reduce the
->> > work needed per filesystem for the initial implementation of the
->> > vfs methods.
->>
->> Ah yeah that would make sense.
->>
+>  struct iommu_domain;
+>  struct iova_domain;
+> +struct iov_iter;
 >
-> BTW the trigger for the vfs interface was ovl_copy_fileattr()
-> so this is a user of the new vfs _mask API that we need to
-> pay attention to.
+>  /**
+>   * struct pisa_iova - A domain's IOVA window reserved for PISA pages
+> @@ -70,9 +71,11 @@ enum {
+>   * Static keys guarding all kernel hooks:
+>   * - @pisa_key: enabled on first device opt-in (pisa_meta_init()).
+>   * - @pisa_recycle_check_key: enabled when pisa.compact or pisa.target_usage_percent > 0.
+> + * - @pisa_user_key: enabled when pisa.user_max_pages > 0.
+>   */
+>  DECLARE_STATIC_KEY_FALSE(pisa_key);
+>  DECLARE_STATIC_KEY_FALSE(pisa_recycle_check_key);
+> +DECLARE_STATIC_KEY_FALSE(pisa_user_key);
+>
+>  extern u32 *pisa_pfn2slot;
+>  extern unsigned int pisa_nr_slots;
+> @@ -89,12 +92,19 @@ void *__pisa_alloc_map_coherent_dev(struct device *dev, size_t size,
+>  				    unsigned long attrs);
+>  bool __pisa_has_free_blocks_rx(unsigned int order, int nid);
+>  bool __pisa_page_can_recycle(const struct page *page);
+> +bool pisa_upgrade_user_pages(struct iov_iter *iter, struct page **pages,
+> +			     size_t size, size_t offset);
+>
+>  static inline bool pisa_enabled(void)
+>  {
+>  	return static_branch_unlikely(&pisa_key);
+>  }
+>
+> +static inline bool pisa_user_enabled(void)
+> +{
+> +	return static_branch_unlikely(&pisa_user_key);
+> +}
+> +
+>  static inline u32 pisa_pfn_flags(unsigned long pfn)
+>  {
+>  	unsigned long frame = pfn >> PISA_ORDER;
+> @@ -195,6 +205,7 @@ static inline bool pisa_page_can_recycle(const struct page *page)
+>
+>  static inline int pisa_meta_init(void) { return -EOPNOTSUPP; }
+>  static inline bool pisa_enabled(void) { return false; }
+> +static inline bool pisa_user_enabled(void) { return false; }
+>  static inline bool is_pisa_pfn(unsigned long pfn) { return false; }
+>  static inline bool is_pisa_page(const struct page *page) { return false; }
+>  static inline bool is_pisa_phys(phys_addr_t phys) { return false; }
+> @@ -228,6 +239,13 @@ static inline bool pisa_page_can_recycle(const struct page *page)
+>  	return true;
+>  }
+>
+> +static inline bool pisa_upgrade_user_pages(struct iov_iter *iter,
+> +					   struct page **pages, size_t size,
+> +					   size_t offset)
+> +{
+> +	return false;
+> +}
+> +
+>  #endif /* CONFIG_PISA */
+>
+>  #if defined(CONFIG_PISA) && defined(CONFIG_IOMMU_DMA)
+> diff --git a/include/linux/swap.h b/include/linux/swap.h
+> index 4f686709d71f0..3736786ccc5a3 100644
+> --- a/include/linux/swap.h
+> +++ b/include/linux/swap.h
+> @@ -314,6 +314,7 @@ extern unsigned long totalreserve_pages;
+>  /* linux/mm/folio.c */
+>  void folio_add_lru(struct folio *folio);
+>  void folio_mark_accessed(struct folio *folio);
+> +void lru_add_drain(void);
+>  void lru_add_drain_all(void);
+>
+>  enum lru_cache_drained {
+> diff --git a/include/uapi/asm-generic/mman-common.h b/include/uapi/asm-generic/mman-common.h
+> index ef1c27fa3c570..c4332db8e56ff 100644
+> --- a/include/uapi/asm-generic/mman-common.h
+> +++ b/include/uapi/asm-generic/mman-common.h
+> @@ -81,6 +81,8 @@
+>
+>  #define MADV_GUARD_INSTALL 102		/* fatal signal on access to range */
+>  #define MADV_GUARD_REMOVE 103		/* unguard range */
+> +#define MADV_PISA		210	/* move pages into PISA memory */
+> +#define MADV_NOPISA		211	/* move pages out of PISA memory */
+>
+>  /* compatibility flags */
+>  #define MAP_FILE	0
+> diff --git a/mm/Makefile b/mm/Makefile
+> index 7d624e4bad456..d6b54a6eb3dc0 100644
+> --- a/mm/Makefile
+> +++ b/mm/Makefile
+> @@ -147,7 +147,7 @@ obj-$(CONFIG_GENERIC_IOREMAP) += ioremap.o
+>  obj-$(CONFIG_SHRINKER_DEBUG) += shrinker_debug.o
+>  obj-$(CONFIG_EXECMEM) += execmem.o
+>  obj-$(CONFIG_PISA) += pisa.o
+> -pisa-y := pisa-meta.o pisa-alloc.o pisa-node.o
+> +pisa-y := pisa-meta.o pisa-alloc.o pisa-node.o pisa-user.o
+>  obj-$(CONFIG_PISA_META_KUNIT_TEST) += pisa-kunit.o
+>  obj-$(CONFIG_TMPFS_QUOTA) += shmem_quota.o
+>  obj-$(CONFIG_LAZY_MMU_MODE_KUNIT_TEST) += tests/lazy_mmu_mode_kunit.o
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 7791872f14af7..ffa3912f2418b 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -4113,7 +4113,8 @@ static void folio_reset_partially_mapped(struct folio *folio)
+>
+>  static int __folio_freeze_split_anon(struct folio *folio,
+>  		unsigned int new_order, struct page *split_at, bool do_lru,
+> -		struct list_head *list, enum split_type split_type)
+> +		struct list_head *list, enum split_type split_type,
+> +		bool keep_zero)
+>  {
+>  	struct folio *end_folio = folio_next(folio);
+>  	struct swap_cluster_info *ci = NULL;
+> @@ -4207,7 +4208,13 @@ static int __folio_freeze_split_anon(struct folio *folio,
+>  out_no_split:
+>  	local_irq_enable();
+>  	if (anon_vma) {
+> -		if (!ret && !folio_is_device_private(folio))
+> +		/*
+> +		 * Zero-filled anon subpages are normally unmapped, freed and
+> +		 * replaced by the shared zeropage. A @keep_zero caller needs
+> +		 * the subpages themselves, e.g. to migrate them before a
+> +		 * device writes to them.
+> +		 */
+> +		if (!ret && !folio_is_device_private(folio) && !keep_zero)
+>  			ttu_flags = TTU_USE_SHARED_ZEROPAGE;
+>  		remap_anon_folio(folio, 1 << old_order, ttu_flags);
+>  	}
+> @@ -4387,6 +4394,7 @@ static int __folio_freeze_split_file(struct folio *folio,
+>   * @lock_at: a page within @folio to be left locked to caller
+>   * @list: after-split folios will be put on it if non NULL
+>   * @split_type: perform uniform split or not (non-uniform split)
+> + * @keep_zero: do not remap zero-filled anon subpages to the shared zeropage
+>   *
+>   * It calls __split_frozen_folio() to perform uniform and non-uniform split.
+>   * It is in charge of checking whether the split is supported or not and
+> @@ -4402,7 +4410,8 @@ static int __folio_freeze_split_file(struct folio *folio,
+>   */
+>  static int __folio_split(struct folio *folio, unsigned int new_order,
+>  		struct page *split_at, struct page *lock_at,
+> -		struct list_head *list, enum split_type split_type)
+> +		struct list_head *list, enum split_type split_type,
+> +		bool keep_zero)
+>  {
+>  	struct folio *end_folio = folio_next(folio);
+>  	const bool is_anon = folio_test_anon(folio);
+> @@ -4432,7 +4441,8 @@ static int __folio_split(struct folio *folio, unsigned int new_order,
+>
+>  	if (is_anon)
+>  		ret = __folio_freeze_split_anon(folio, new_order, split_at,
+> -						true, list, split_type);
+> +						true, list, split_type,
+> +						keep_zero);
+>  	else
+>  		ret = __folio_freeze_split_file(folio, new_order, split_at,
+>  						list, split_type);
+> @@ -4495,7 +4505,7 @@ int folio_split_unmapped(struct folio *folio, unsigned int new_order)
+>  	VM_WARN_ON_ONCE_FOLIO(!folio_test_anon(folio), folio);
+>
+>  	return __folio_freeze_split_anon(folio, new_order, &folio->page,
+> -					 false, NULL, SPLIT_TYPE_UNIFORM);
+> +					 false, NULL, SPLIT_TYPE_UNIFORM, false);
+>  }
+>
+>  /*
+> @@ -4551,7 +4561,7 @@ int __split_huge_page_to_list_to_order(struct page *page, struct list_head *list
+>  	struct folio *folio = page_folio(page);
+>
+>  	return __folio_split(folio, new_order, &folio->page, page, list,
+> -			     SPLIT_TYPE_UNIFORM);
+> +			     SPLIT_TYPE_UNIFORM, false);
+>  }
+>
+>  /**
+> @@ -4582,7 +4592,7 @@ int folio_split(struct folio *folio, unsigned int new_order,
+>  		struct page *split_at, struct list_head *list)
+>  {
+>  	return __folio_split(folio, new_order, split_at, &folio->page, list,
+> -			     SPLIT_TYPE_NON_UNIFORM);
+> +			     SPLIT_TYPE_NON_UNIFORM, false);
+>  }
+>
+>  /**
+> @@ -4617,6 +4627,18 @@ int split_folio_to_list(struct folio *folio, struct list_head *list)
+>  	return split_huge_page_to_list_to_order(&folio->page, list, 0);
+>  }
+>
+> +/*
+> + * As split_folio_to_list(), but zero-filled subpages of an anon folio stay
+> + * mapped instead of being remapped to the shared zeropage. For callers that
+> + * are about to take write references on the subpages: PISA uses it to migrate
+> + * the pages of an I/O buffer, e.g. the target of an O_DIRECT read.
+> + */
+> +int split_folio_to_list_keep_zero(struct folio *folio, struct list_head *list)
+> +{
+> +	return __folio_split(folio, 0, &folio->page, &folio->page, list,
+> +			     SPLIT_TYPE_UNIFORM, true);
+> +}
+> +
+>  /*
+>   * __folio_unqueue_deferred_split() is not to be called directly:
+>   * the folio_unqueue_deferred_split() inline wrapper in mm/internal.h
+> diff --git a/mm/madvise.c b/mm/madvise.c
+> index 0214efd2a014f..46981ad295aa5 100644
+> --- a/mm/madvise.c
+> +++ b/mm/madvise.c
+> @@ -6,6 +6,7 @@
+>   * Copyright (C) 2002  Christoph Hellwig
+>   */
+>
+> +#include <linux/pisa-mm.h>
+>  #include <linux/mman.h>
+>  #include <linux/pagemap.h>
+>  #include <linux/syscalls.h>
+> @@ -1393,6 +1394,11 @@ static int madvise_vma_behavior(struct madvise_behavior *madv_behavior)
+>  		return madvise_guard_install(madv_behavior);
+>  	case MADV_GUARD_REMOVE:
+>  		return madvise_guard_remove(madv_behavior);
+> +#ifdef MADV_PISA
+> +	case MADV_PISA:
+> +	case MADV_NOPISA:
+> +		return pisa_madvise(vma, range->start, range->end, behavior == MADV_PISA);
+> +#endif
+>
+>  	/* The below behaviours update VMAs via madvise_update_vma(). */
+>
+> @@ -1582,6 +1588,11 @@ madvise_behavior_valid(int behavior)
+>  	case MADV_HWPOISON:
+>  #endif
+>  		return true;
+> +#ifdef MADV_PISA
+> +	case MADV_PISA:
+> +	case MADV_NOPISA:
+> +		return IS_ENABLED(CONFIG_PISA);
+> +#endif
+>
+>  	default:
+>  		return false;
+> @@ -1596,6 +1607,10 @@ static bool process_madvise_remote_valid(int behavior)
+>  	case MADV_PAGEOUT:
+>  	case MADV_WILLNEED:
+>  	case MADV_COLLAPSE:
+> +#ifdef MADV_PISA
+> +	case MADV_PISA:
+> +	case MADV_NOPISA:
+> +#endif
+>  		return true;
+>  	default:
+>  		return false;
+> @@ -1782,6 +1797,10 @@ static enum madvise_lock_mode get_lock_mode(struct madvise_behavior *madv_behavi
+>  	case MADV_POPULATE_READ:
+>  	case MADV_POPULATE_WRITE:
+>  	case MADV_COLLAPSE:
+> +#ifdef MADV_PISA
+> +	case MADV_PISA:
+> +	case MADV_NOPISA:
+> +#endif
+>  		return MADVISE_MMAP_READ_LOCK;
+>  	case MADV_GUARD_INSTALL:
+>  	case MADV_GUARD_REMOVE:
+> diff --git a/mm/pisa-alloc.c b/mm/pisa-alloc.c
+> index ccba2bf01bd59..2213a56de1242 100644
+> --- a/mm/pisa-alloc.c
+> +++ b/mm/pisa-alloc.c
+> @@ -1432,6 +1432,8 @@ static int __init pisa_init(void)
+>  				  "pisa_ro_o%u_n%d", SKB_FRAG_PAGE_ORDER, nid);
+>  	}
+>
+> +	pisa_user_boot_enable();
+> +
+>  	/* Dedicated WQ_MEM_RECLAIM workqueue so reclaim never blocks behind system_wq. */
+>  	pisa_wq = alloc_workqueue("pisa", WQ_MEM_RECLAIM, 0);
+>  	if (!pisa_wq)
+> diff --git a/mm/pisa-priv.h b/mm/pisa-priv.h
+> index 9f01173d30f5f..b18d461198ac5 100644
+> --- a/mm/pisa-priv.h
+> +++ b/mm/pisa-priv.h
+> @@ -133,6 +133,7 @@ static inline long pisa_alloc_held_pages(const struct pisa_alloc *pa)
+>  struct pisa_node {
+>  	unsigned long		next_alloc;	/* atomic alloc backoff jiffies */
+>  	struct pisa_alloc	*pa[2][PISA_MAX_ALLOC_ORDER + 1]; /* [0]=RW, [1]=RO */
+> +	struct pisa_alloc	*user_pa;	/* user page migration pa */
+>
+>  	spinlock_t		lock;		/* protects @pages and @nr_pages */
+>  	unsigned int		nr_pages;	/* entries in @pages */
+> @@ -245,6 +246,7 @@ void pisa_schedule_scrub_all(void);
+>  struct pisa_meta *pisa_reservoir_pop(int nid, gfp_t gfp, bool *clean);
+>  unsigned long pisa_reservoir_count(void);
+>  unsigned long pisa_reservoir_shrink(struct list_head *release_list, unsigned long nr_to_scan);
+> +void pisa_user_boot_enable(void);
+>
+>  #endif /* CONFIG_PISA */
+>  #endif /* _MM_PISA_PRIV_H */
+> diff --git a/mm/pisa-user.c b/mm/pisa-user.c
+> new file mode 100644
+> index 0000000000000..6c3efaee4ecda
+> --- /dev/null
+> +++ b/mm/pisa-user.c
+> @@ -0,0 +1,394 @@
+> +// SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
+> +/*
+> + * PISA user and page-cache folios: allocate or migrate order-0 folios into
+> + * per-node PISA allocators so zero-copy TX and block I/O use the PISA IOMMU mappings.
+> + */
+> +#include <linux/pisa.h>
+> +#include <linux/gfp.h>
+> +#include <linux/huge_mm.h>
+> +#include <linux/migrate.h>
+> +#include <linux/mm.h>
+> +#include <linux/moduleparam.h>
+> +#include <linux/nodemask.h>
+> +#include <linux/pagewalk.h>
+> +#include <linux/swap.h>
+> +#include <linux/uio.h>
+> +
+> +#include "pisa-priv.h"
+> +
+> +/* Soft cap on user (PTE) pages held in PISA blocks, in PISA pages (0 = disabled). */
+> +static unsigned long pisa_user_max_pages __read_mostly;
+> +DEFINE_STATIC_KEY_FALSE(pisa_user_key);
+> +
+> +/* Create per-node user allocators and enable pisa_user_key (serialized by param_lock/init). */
+> +static int pisa_user_init(void)
+> +{
+> +	int nid;
+> +
+> +	if (pisa_user_enabled())
+> +		return 0;
+> +	if (pisa_meta_init())
+> +		return -ENOMEM;
+> +	for_each_node_state(nid, N_MEMORY) {
+> +		if (!pisa_alloc_ensure(&pisa_nodes[nid].user_pa, nid, 0,
+> +				       DMA_TO_DEVICE, false, "user_tx_n%d", nid))
+> +			return -ENOMEM;
+> +	}
+> +	static_branch_enable(&pisa_user_key);
+> +	return 0;
+> +}
+> +
+> +static int pisa_user_max_set(const char *val, const struct kernel_param *kp)
+> +{
+> +	unsigned long max_pages;
+> +	int ret;
+> +
+> +	ret = kstrtoul(val, 0, &max_pages);
+> +	if (ret)
+> +		return ret;
+> +	WRITE_ONCE(pisa_user_max_pages, max_pages);
+> +	if (!max_pages) {
+> +		static_branch_disable(&pisa_user_key);
+> +	} else if (pisa_nodes[first_memory_node].pa[0][0] && pisa_user_init()) {
+> +		WRITE_ONCE(pisa_user_max_pages, 0);
+> +		return -ENOMEM;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static const struct kernel_param_ops pisa_user_max_ops = {
+> +	.set = pisa_user_max_set,
+> +	.get = param_get_ulong,
+> +};
+> +module_param_cb(user_max_pages, &pisa_user_max_ops, &pisa_user_max_pages, 0644);
+> +
+> +/*
+> + * Initialize per-node user allocators if pisa.user_max_pages was set on
+> + * the kernel command line before pisa_init() ran.
+> + */
+> +void __init pisa_user_boot_enable(void)
+> +{
+> +	if (READ_ONCE(pisa_user_max_pages))
+> +		pisa_user_init();
+> +}
+> +
+> +/* User pages currently held in PISA blocks. */
+> +static unsigned long pisa_user_in_use(void)
+> +{
+> +	unsigned long used = 0;
+> +	int nid;
+> +
+> +	for_each_node_state(nid, N_MEMORY) {
+> +		/* Pairs with smp_store_release() in pisa_user_init(). */
+> +		const struct pisa_alloc *pa = smp_load_acquire(&pisa_nodes[nid].user_pa);
+> +
+> +		used += pa ? READ_ONCE(pa->blocks_in_use) : 0;
+> +	}
+> +	return used;
+> +}
+> +
+> +/* Pages that can still be moved in before reaching pisa.user_max_pages. */
+> +static long pisa_user_budget(void)
+> +{
+> +	return (long)((READ_ONCE(pisa_user_max_pages) << PISA_ORDER) - pisa_user_in_use());
+> +}
+> +
+> +/* Is @folio worth moving into (@to_pisa) or out of PISA memory? */
+> +static bool pisa_user_want(struct folio *folio, bool to_pisa)
+> +{
+> +	if (!folio_test_anon(folio) || folio_is_zone_device(folio) ||
+> +	    folio_test_ksm(folio) || is_huge_zero_folio(folio) ||
+> +	    (folio_test_large(folio) && !to_pisa) ||
+> +	    folio_maybe_mapped_shared(folio))
+> +		return false;
+> +	return is_pisa_pfn(folio_pfn(folio)) != to_pisa;
+> +}
+> +
+> +/* Return true if @folio has references beyond its mappings, swap cache, and @extra. */
+> +static bool pisa_user_busy(struct folio *folio, int extra)
+> +{
+> +	return folio_ref_count(folio) > folio_expected_ref_count(folio) + extra;
+> +}
+> +
+> +struct pisa_user_mtc {
+> +	gfp_t	gfp;
+> +	long	budget;
+> +};
+> +
+> +/* new_folio_t for migration into PISA memory. */
+> +static struct folio *pisa_user_new_folio(struct folio *src, unsigned long private)
+> +{
+> +	struct pisa_user_mtc *mtc = (void *)private;
+> +	int nid = folio_nid(src);
+> +	struct page *page;
+> +
+> +	/* Callers split large folios first (see pisa_user_split()); none is expected here. */
+> +	if (mtc->budget <= 0 || folio_test_large(src))
+> +		return NULL;
+> +	page = pisa_alloc(pisa_nodes[nid].user_pa, mtc->gfp);
+> +	if (!page)
+> +		return NULL;
+> +	mtc->budget--;
+> +	return page_folio(page);
+> +}
+> +
+> +/* free_folio_t: give back an unused destination block and the budget it was charged. */
+> +static void pisa_user_put_folio(struct folio *dst, unsigned long private)
+> +{
+> +	struct pisa_user_mtc *mtc = (void *)private;
+> +
+> +	mtc->budget++;
+> +	folio_put(dst);
+> +}
+> +
+> +/* new_folio_t for migration out of PISA memory: allocators never serve these. */
+> +static struct folio *pisa_user_old_folio(struct folio *src, unsigned long private)
+> +{
+> +	return __folio_alloc_node(GFP_HIGHUSER_MOVABLE | __GFP_NOWARN, 0, folio_nid(src));
+> +}
+> +
+> +/* Migrate the isolated folios on @list; failures are put back. */
+> +static void pisa_user_migrate(struct list_head *list, bool to_pisa, gfp_t gfp)
+> +{
+> +	struct pisa_user_mtc mtc = { .gfp = gfp, .budget = LONG_MAX };
+> +	enum migrate_mode mode = MIGRATE_SYNC;
+> +
+> +	if (list_empty(list))
+> +		return;
+> +	if (to_pisa) {
+> +		mtc.budget = pisa_user_budget();
+> +		if (!gfpflags_allow_blocking(gfp))
+> +			mode = MIGRATE_ASYNC;
+> +	}
+> +	if (migrate_pages(list, to_pisa ? pisa_user_new_folio : pisa_user_old_folio,
+> +			  to_pisa ? pisa_user_put_folio : NULL, (unsigned long)&mtc,
+> +			  mode, MR_SYSCALL, NULL))
+> +		putback_movable_pages(list);
+> +}
+> +
+> +/*
+> + * Split large anon @folio to order 0, with the caller holding the only extra
+> + * reference. Zero-filled subpages stay mapped instead of being replaced by the
+> + * shared zeropage, so that a GUP for write that follows (e.g. an O_DIRECT
+> + * read) finds them. After-split folios go to @list, or to the LRU if NULL.
+> + */
+> +static bool pisa_user_split(struct folio *folio, struct list_head *list, bool can_wait)
+> +{
+> +	int ret;
+> +
+> +	if (can_wait)
+> +		folio_lock(folio);
+> +	else if (!folio_trylock(folio))
+> +		return false;
+> +	ret = split_folio_to_list_keep_zero(folio, list);
+> +	folio_unlock(folio);
+> +	return !ret;
+> +}
+> +
+> +/*
+> + * Split isolated large @folio and move to @out the subpages found in @pages.
+> + * The others, or all of @folio if @split is false or the split fails, go back
+> + * to the LRU. Returns the number of subpages moved to @out.
+> + */
+> +static unsigned int pisa_user_split_isolated(struct folio *folio, struct list_head *out,
+> +					     struct page **pages, unsigned int nr, bool split)
+> +{
+> +	const struct page *lo = NULL, *hi = NULL;
+> +	unsigned int kept = 0;
+> +	struct folio *f, *next;
+> +	LIST_HEAD(pieces);
+> +
+> +	/* @folio is held isolated, so page_folio() of its subpages is stable. */
+> +	for (unsigned int i = 0; i < nr; i++) {
+> +		if (page_folio(pages[i]) != folio)
+> +			continue;
+> +		if (!lo || pages[i] < lo)
+> +			lo = pages[i];
+> +		if (!hi || pages[i] > hi)
+> +			hi = pages[i];
+> +	}
+> +	list_move(&folio->lru, &pieces);
+> +	if (split && pisa_user_split(folio, &pieces, false)) {
+> +		list_for_each_entry_safe(f, next, &pieces, lru) {
+> +			if (!folio_test_large(f) && &f->page >= lo && &f->page <= hi) {
+> +				list_move_tail(&f->lru, out);
+> +				kept++;
+> +			}
+> +		}
+> +	}
+> +	putback_movable_pages(&pieces);
+> +	return kept;
+> +}
+> +
+> +/**
+> + * pisa_upgrade_user_pages - Migrate extracted user @pages into PISA
+> + * @iter: Iterator from which @pages were just extracted
+> + * @pages: Extracted page array, one reference each
+> + * @size: Number of bytes extracted from @iter
+> + * @offset: Byte offset within @pages[0]
+> + *
+> + * Return: false if no pages were isolated (@pages and @iter are untouched);
+> + * true otherwise, so the caller must re-extract @pages from the reverted @iter.
+> + */
+> +bool pisa_upgrade_user_pages(struct iov_iter *iter, struct page **pages,
+> +			     size_t size, size_t offset)
+> +{
+> +	unsigned int nr = DIV_ROUND_UP(offset + size, PAGE_SIZE);
+> +	unsigned int want = 0;
+> +	struct folio *f, *next;
+> +	bool drained = false;
+> +	LIST_HEAD(small);
+> +	LIST_HEAD(list);
+> +	long budget;
+> +
+> +	if (!pisa_user_enabled())
+> +		return false;
+> +	/*
+> +	 * First pass: check if any page needs migration and whether budget is
+> +	 * available before draining per-CPU LRU caches or isolating folios.
+> +	 */
+> +	for (unsigned int i = 0; i < nr; i++)
+> +		want += pisa_user_want(page_folio(pages[i]), true);
+> +	if (!want || pisa_user_budget() <= 0)
+> +		return false;
+> +	for (unsigned int i = 0; i < nr; i++) {
+> +		struct folio *folio = page_folio(pages[i]);
+> +		unsigned int refs = 0;
+> +
+> +		if (!pisa_user_want(folio, true))
+> +			continue;
+> +		/* Drain per-CPU LRU batches once so freshly faulted folios can be isolated. */
+> +		if (!drained && !folio_test_lru(folio)) {
+> +			lru_add_drain();
+> +			drained = true;
+> +		}
+> +		if (!folio_test_lru(folio))
+> +			continue;
+> +		for (unsigned int j = 0; j < nr; j++)
+> +			refs += page_folio(pages[j]) == folio;
+> +		/* The references from iov_iter_get_pages2() are expected. */
+> +		if (folio_maybe_dma_pinned(folio) || pisa_user_busy(folio, refs))
+> +			continue;
+> +		if (isolate_folio_to_list(folio, &list))
+> +			list_move_tail(&folio->lru, &list);
+> +	}
+> +	if (list_empty(&list))
+> +		return false;
+> +	/*
+> +	 * Release the caller's references on @pages before migrating
+> +	 * (migrate_pages() rejects folios with extra references).
+> +	 */
+> +	for (unsigned int i = 0; i < nr; i++)
+> +		put_page(pages[i]);
+> +	/*
+> +	 * Split large folios while budget remains and keep only their subpages
+> +	 * that are in @pages: migrate_pages() would split them regardless of
+> +	 * the budget, migrate every subpage and drop the zero-filled ones.
+> +	 */
+> +	budget = pisa_user_budget();
+> +	list_for_each_entry_safe(f, next, &list, lru) {
+> +		if (folio_test_large(f))
+> +			budget -= pisa_user_split_isolated(f, &small, pages, nr, budget > 0);
+> +		else
+> +			budget -= !is_pisa_pfn(folio_pfn(f));
+> +	}
+> +	list_splice_tail(&small, &list);
+> +	pisa_user_migrate(&list, true,
+> +			  GFP_NOWAIT | __GFP_HARDWALL | __GFP_NOWARN);
+> +	/* Rewind @iter so the caller re-extracts the updated page pointers. */
+> +	iov_iter_revert(iter, size);
+> +	return true;
+> +}
+> +
+> +#define PISA_USER_BATCH	512
+> +
+> +struct pisa_madvise_walk {
+> +	struct list_head	list;	/* isolated folios waiting to be migrated */
+> +	unsigned int		n;	/* pages on @list */
+> +	bool			to_pisa;
+> +};
+> +
+> +#define PISA_MADVISE_GFP	(GFP_USER | __GFP_NOWARN)
+> +
+> +/* Isolate the wanted folios mapped in one PMD's range, splitting the large ones first. */
+> +static int pisa_madvise_pmd_entry(pmd_t *pmd, unsigned long addr, unsigned long end,
+> +				  struct mm_walk *walk)
+> +{
+> +	struct pisa_madvise_walk *w = walk->private;
+> +	bool to_pisa = w->to_pisa;
+> +	struct folio_walk fw;
+> +	struct folio *folio;
+> +
+> +	while (addr < end) {
+> +		unsigned long nr = 1;
+> +
+> +		if (fatal_signal_pending(current))
+> +			return -EINTR;
+> +		/* Stop the walk, without an error, once the cap is reached. */
+> +		if (to_pisa && pisa_user_budget() <= (long)w->n)
+> +			return 1;
+> +		folio = folio_walk_start(&fw, walk->vma, addr, 0);
+> +		if (folio) {
+> +			bool want = pisa_user_want(folio, to_pisa) && folio_test_lru(folio);
+> +			bool busy = want && pisa_user_busy(folio, 0);
+> +			bool split = want && !busy && folio_test_large(folio);
+> +
+> +			/* A PMD mapping covers the rest of the range, a PTE maps one page. */
+> +			if (fw.level != FW_LEVEL_PTE)
+> +				nr = (end - addr) >> PAGE_SHIFT;
+> +			if (split) {
+> +				folio_get(folio);
+> +			} else if (want && !busy && isolate_folio_to_list(folio, &w->list)) {
+> +				list_move_tail(&folio->lru, &w->list);
+> +				w->n++;
+> +			}
+> +			folio_walk_end(&fw, walk->vma);
+> +			if (split) {
+> +				split = pisa_user_split(folio, NULL, true);
+> +				folio_put(folio);
+> +				/* Look at @addr again: it now maps an order-0 folio. */
+> +				if (split)
+> +					continue;
+> +			}
+> +		}
+> +		if (w->n >= PISA_USER_BATCH) {
+> +			pisa_user_migrate(&w->list, to_pisa, PISA_MADVISE_GFP);
+> +			w->n = 0;
+> +		}
+> +		addr += nr << PAGE_SHIFT;
+> +		cond_resched();
+> +	}
+> +	return 0;
+> +}
+> +
+> +static const struct mm_walk_ops pisa_madvise_walk_ops = {
+> +	.pmd_entry	= pisa_madvise_pmd_entry,
+> +	.walk_lock	= PGWALK_RDLOCK,
+> +};
+> +
+> +/**
+> + * pisa_madvise - MADV_PISA / MADV_NOPISA on [@start, @end) of @vma
+> + * @vma: VMA, with the mmap lock held for reading
+> + * @start: Start address
+> + * @end: End address
+> + * @to_pisa: true to move present pages into PISA, false to move them out
+> + *
+> + * Return: 0, -EINVAL for unsupported mappings, or -EOPNOTSUPP if disabled.
+> + */
+> +int pisa_madvise(struct vm_area_struct *vma, unsigned long start, unsigned long end, bool to_pisa)
+> +{
+> +	struct pisa_madvise_walk w = { .list = LIST_HEAD_INIT(w.list), .to_pisa = to_pisa };
+> +	int ret;
+> +
+> +	if (vma->vm_flags & (VM_SHARED | VM_IO | VM_PFNMAP | VM_HUGETLB))
+> +		return -EINVAL;
+> +	if (to_pisa && !pisa_user_enabled())
+> +		return -EOPNOTSUPP;
+> +	if (!pisa_enabled() && !to_pisa)
+> +		return 0;
+> +	lru_add_drain();
+> +	/* The page walker skips the unpopulated page-table levels of sparse mappings. */
+> +	ret = walk_page_range_vma(vma, start, end, &pisa_madvise_walk_ops, &w);
+> +	pisa_user_migrate(&w.list, to_pisa, PISA_MADVISE_GFP);
+> +	return ret < 0 ? ret : 0;
+> +}
+> --
+> 2.56.1.809.ga0b61035b5-goog
+>
 
-Ah ok, I'll look into that too then.
-
-> Thanks,
-> Amir.
-
-
-
---9e5986ede954feecad11ad001d02150c5a356196d013aeccc838f4a9c70a
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRJ2XvJtXGwULYEerQ0bnTtJTDoOAUCawBTwQAKCRA0bnTtJTDo
-OAhLAQD6MiOLbbybL5wy9alM14eREvB1XFf4dJYhOSWBa9LYCQD+OXKSMpjBKzE6
-Qide56j5p8y/OESAy2MNJBjIhpYtBQU=
-=hD6S
------END PGP SIGNATURE-----
-
---9e5986ede954feecad11ad001d02150c5a356196d013aeccc838f4a9c70a--
+--
+Cheers, Lorenzo
