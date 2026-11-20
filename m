@@ -1,59 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795207652;
-	b=cPmznuKDIImdO7jHpegnRG4OFEBNKG/CiN7twXKSKWgRvG1y2bsqsSVq8l3xwLuSQCkF
-	 TGXNQa+VNt9nBNJxZQn+6ABVPHKDcJUufvFj3PwB5kb1QwGch68oPxKKTi7osZsMdJ48G
-	 aigBBB9HUyWyVbPAn+LLdpN3XnxBwzOH3rYpOxgroofo8XL2WHC2vXspBtWSJDz+BQIIt
-	 GWHOn++wOyY1aB1HXjSy9YqAgFRrJYUroVEN/qko79XOWV8Y4vO9mYkPmRUi65TGFBNLS
-	 33KhvvCCtzNmlZCqmYi+aCTI5ivFwnS2J2XVGl6Axzpq/HwyfLD1jBFeqvEEHvd/65g==
+	t=1795208418;
+	b=RAh1YqSrfo2U8iU64A2Sl8PJgmLPT/wDHR1G9540srQVbZzJgNvOiTDVdKwU0FguX1KV
+	 94qAuU/ADrq0Nhs5yhGQ2EhPSO4w1khCLibKMTZRvl3NNDVe/O0LdoFlWLdNLdYnzv5Vv
+	 cSdKeQnsWVjJJPrGBPuunXBoO8i09s477t0SoE/drKlpllDguk49A7bLjOOEBQcTvaRXH
+	 TAnibqsqjMltGTMsTH8DD/J12QqpRm+HL4ta2V/jICutXW/SDaEzVvzkIhSn1swUHv5mW
+	 eLnktm65GkoHu8oIS5nMwP5SnMkDMl/82JsCFJaAquE1CULUtwNK5xj5NA2SMamhBOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795207652;
-	h=DMARC-Filter:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Debian-User;
-	bh=QB3DQkHKewxyAlfXCuIaA2xVKs4/vXc3oiydASgPqyM=;
-	b=HLRZGdyRwSSQe6ojOnGQVeeGilpJeHhxNAI6RcLixAu6wfJ2kUBKDs2iEEo42kyUQiKU
-	 hWWK7/Ba8hxs/36oEfHh9bV0EAPxZ4RZKFoEjFqVQ1On18IXPQLXnKv8JwoIZesxPRTgV
-	 mCBREWcPoAjDUzdNFjxRd8rFnJ/WIw6ObI6XK6IRbfdhcx//cuRuuaqV6W2G+GUXk8+7D
-	 pzfLPQkDfGiOYgRD6NHRYoCMsax06vPRNrGeChtjLF2NasCAAtnSCPdMGd6xQDVvQtFZU
-	 tRB9rE7BhZMI7tOvLcsP2sLj8zpDxgHqyV9cPzT2nML3/W0XSy7/PN71mn4MoFGAegA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795208418;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=+ouoWf0jPxz4lOByrM5BHp1+040jp+3W6jzF7j7K964=;
+	b=2wvFpFnK1UYZpJugiLl3Z15oY9I/LYHc0DSWKOqAEDQ8pW0JED0RXYugc6KBb9fo0r1+
+	 kKipo8OeBY9Extm7aTVZlcAprSsFvgyJjLrLT8rXFhJiJ0AsaP/HNWB2TZencf0BEvCM8
+	 2GxYW21j+c8XkuZjwidAPNJEwXwgn5ylO7xM0WvUQE42yl9X2Yndxc39R95bEu5GVp2wg
+	 ofOz8B0Irjqhjgzwx9fUUv++UJ3eTSkKam5TB58wL6C7gKe2TjL3gztyYmGDJNu1Mrcmf
+	 iwkN56U44qEiU6YwdhXjVWxw9ebCMeZu/5Hp+uJvWNgIXUOF0xN3G4YN0cgkKUQr6+Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=debian.org;
-	spf=pass smtp.mailfrom=debian.org;
-	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b="nVT2P7/B";
-	arc=none smtp.remote-ip=82.195.75.108
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h7YIxuIS;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4331606A70B;
-	Fri, 20 Nov 2026 20:47:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4331606A70B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550FC606A685;
+	Fri, 20 Nov 2026 21:00:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=nVT2P7/B
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Message-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
-	Reply-To:Content-ID:Content-Description:In-Reply-To:References;
-	bh=QB3DQkHKewxyAlfXCuIaA2xVKs4/vXc3oiydASgPqyM=; b=nVT2P7/Bs452hZaK/VqjLiX+R/
-	NSRhKMvDeo9euErshbHfv88yqYhDYFxfBcR/3nszgAZigyMzZ8+9qwxQep8o6LJx0xh+0ncHesY2f
-	L34n9y114SCHc8mpXvAtalNIKuyzFLHOWNWIsjJEjaIsiYPHAvT5qz9fLOOczJ60XFwFA3H1ELzyx
-	MGd7oYZ4kRzAtqpQpycChvsz+vQ0g/R60zQ3mSAn17zFh4svdVsibLuFJPQRUk+cVkCcaqOLCNPUD
-	KG6XdL9NyJFlolakVleDHPhDsBHyOyME80CkL7UScMWL/cVwnZ/JnqqtIh0UshKX1LscAxxrscnAU
-	IilsvSFQ==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1xUVVs-0038lG-1l;
-	Fri, 20 Nov 2026 20:47:17 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Fri, 20 Nov 2026 12:24:39 -0800
-Subject: [PATCH v2] iomap: don't update i_size of block devices on buffered
- write
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h7YIxuIS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75E431F000C0;
+	Fri, 20 Nov 2026 21:00:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795208417;
+	bh=+ouoWf0jPxz4lOByrM5BHp1+040jp+3W6jzF7j7K964=;
+	h=From:Date:Subject:To:Cc;
+	b=h7YIxuIS4hpZS/90gMheyz9EkItqLE/U5lNaXPNdN67z9zuSi6sA1284eeHsDAOI3
+	 pGvJwY6NBMLXj8VSUPxEgxVZnsB3yq8yBfNTq2QJd/DyMGL/qT1zD/R0R/+x5jGEUb
+	 DaUcKnOsZpZBjrjuTLVMifhCn3sEd6LBDMoY2oEucLcdTRTWU15/32BvD3zuQQTKP5
+	 HHQ6RJhD3wXM5AS/sFRco95nXkG5Jp8Z1vN7ciWPDaCJFQXevPmgvJdTh3UHeMpwq2
+	 bqwmtR+oper+YUUu+WsdazbMNx1kjQWdfi1wtMMtXKwveGH8bz7fL1WDJAZM5dkhKP
+	 uLa6yQQEQMxeA==
+From: Christian Brauner <brauner@kernel.org>
+Date: Fri, 20 Nov 2026 21:59:59 +0100
+Subject: [PATCH] kernfs: clear i_nlink before deactivating removed nodes
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -65,115 +54,108 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261120-iomap-bdev-isize-v2-1-f25cc668fbc1@debian.org>
-X-B4-Tracking: v=1; b=H4sIAIasAGsC/32NQQ6CMBBFr0Jm7RgGYmtdeQ/DoqUjzMKWtKZRC
- Xe3cgCX7+f/91fInIQzXJoVEhfJEkOF7tDAONswMYqvDF3bKSLqUeLDLug8F6zlD6NVmpQajSa
- noc6WxHd57crbUHmW/IzpvT8U+qV/ZIWQUBmj2t6dzsbbq2cnNhxjmmDYtu0LKJPIdrEAAAA=
-X-Change-ID: 20261113-iomap-bdev-isize-a67166c971b7
-To: Christian Brauner <brauner@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
- Hannes Reinecke <hare@suse.de>, Pankaj Raghav <p.raghav@samsung.com>, 
- Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, 
- Christoph Hellwig <hch@infradead.org>, linux-xfs@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- kernel-team@meta.com, Breno Leitao <leitao@debian.org>
-X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3415; i=leitao@debian.org;
- h=from:subject:message-id; bh=OeqcVAltHM4RtPQZXAK+e1A+oZ2XU3m4yMm6IB1Ax4E=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBrALHRlQvyjp+VC8HvnqlGkW++MaT+b7D97kq34
- iG11+f/00+JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCawCx0QAKCRA1o5Of/Hh3
- beEoD/9ZzAYRp4F4Gkw7NJ+WslnwPRyCx8Q2Q2nl9miIDVxpp2gUM8XHJgtLkAMVHd/JW4HgM3m
- 7DcMaz7+WKeqNmGi9wJ+2dVDgHQ3WdkORU1xD0zS0cJ9fPRCpkzOAKFfmtybry96PAHEmbeXXVS
- Zs2+GGO2hsjTNh2vWzPcyTH3p3Qi2MJ8fr8+KgAacXD6zR6Ag5vICgahCzhkq4F0hqbvqJ5aCdX
- cGZPiFfvrwJF+uicrUZOHktiv+pXXkW8xMA4a4+YUaRb9IaJ1hMv2bUap+0dO6PxZAXQ8ciXyf2
- qEmuGYeXSUXNlSHKJIsPIsqr0MX6ijvl2AoR74dAWZ1ikz98ICXygf+ejJclshFMaFiZ0uXp4U0
- nN2cbIG4jrJGDdJ2+80vKgKzExuQrD1akdCz9rmj+3l+pVXu6fo/3Ys4PHOXbuZktZNiRla81VN
- GOqJ1pgsmNjd1axhZEElECcwmHS0Sqeg0+mlCe7oLgJajrqLbwFUBDaBfmZmfg+eF+OMfhEd5ED
- FG+Rzwn5Yzxd6plXk3tWSvL0TV1Zzdao9fGSzmux3MhXGAPBIYrD03f2FCr+lyo0jVnYyzKCyFp
- yAF/RtwWAnbnC4ZC35ytsSJGtZz9LbVUfXwbQ31D1TfNyTCyFayxke19SmWIvQIW2RgJiLOD3p7
- IFQQ1+JrCuMkLgQ==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+Message-Id: <20261120-work-kernfs-delete_self-v1-1-514a35d04431@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/03MywrCMBCF4Vcps3ZCE6QLX0VEkvTExpZUMvUCp
+ e9uYjcu/+HMt5IgRwidmpUyXlHinEroQ0N+sOkGjn1pMq3ptDYtv+c88oicgnCPCQuugimw1aF
+ 33RHOe1D5fmSE+PnJ58ve8nR3+KVydeGsgF22yQ/1VGG1w+oPVnVG2/YFuIeWMqoAAAA=
+X-Change-ID: 20261120-work-kernfs-delete_self-a1fdb64ebcce
+To: linux-fsdevel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Tejun Heo <tj@kernel.org>, "T.J. Mercier" <tjmercier@google.com>, 
+ driver-core@lists.linux.dev, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Jori Koolstra <jkoolstra@xs4all.nl>, Ian Kent <raven@themaw.net>, 
+ Meta kernel team <kernel-team@meta.com>, stable@vger.kernel.org, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.17-dev-04696
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3579; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=dkJEe6C91+RBAXIsLzOWlu37yZyrsLcvZX9OOfeNnWo=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQzbLlTdsetcNrbNbOU9qtzWn5Nrm7nFNjEFvVw25JP4
+ kK3VZjPd5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzkhSAjw+Zehh8PNv3J8uq9
+ GjTHQWKarJnx97VhD0wf3tirZTRTbQvD/1SGu98s3VVaJO5GrTR5xh3TU/S+u630y0YpDamXWi6
+ KfAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-We are seeing this warning on an arm64 linux-next host while the ublk
-selftests run (stress_01 deletes the ublk disks under fio buffered
-writes):
+__kernfs_remove() deactivates the whole subtree first and only clears
+i_nlink on a node's inodes later, once it unlinks the node from its
+parent. In between kernfs_dop_revalidate() already fails for the node,
+so a lookup that runs into one of its cached dentries kills the dentry
+while i_nlink is still 1. For a file of a cgroup that is being removed:
 
-  WARNING: mm/truncate.c:902 at pagecache_isize_extended+0x37c/0x490, CPU#40: iou-wrk-3496756/3497370
-  Call trace:
-   pagecache_isize_extended+0x37c/0x490 (P)
-   iomap_file_buffered_write+0x38c/0x5d0
-   blkdev_buffered_write+0xcc/0x138
-   blkdev_write_iter+0x32c/0x4e0
-   io_write+0x77c/0xff8
+  rmdir("cg")                          stat("cg/cgroup.events")
+  css_clear_dir()
+    __kernfs_remove(cgroup.events)
+      deactivate the node
+                                       kernfs_dop_revalidate() == 0
+                                       d_invalidate()
+                                       dput()
+                                         dentry_unlink_inode()
+                                           i_nlink == 1, no IN_DELETE_SELF
+      kernfs_unlink_sibling()
+      kernfs_clear_inode_nlink()
+        i_nlink == 0, but the inode has no dentry left
 
-The theory is that the disk shrank under the write. del_gendisk() sets
-the capacity to 0, which writes the bdev inode's i_size under
-bd_size_lock only. A writer whose mapping predates that reads
-old_size == 0 in iomap_write_iter(), sets i_size to pos + written and
-calls pagecache_isize_extended(inode, 0, pos). blkdev_buffered_write()
-holds i_rwsem shared, so a writer at a lower offset can store a smaller
-i_size in between, and WARN_ON(to > inode->i_size) fires. Even without
-the warning, the write path regrows the size of a dead disk. The block
-layer owns that size (bdev_set_nr_sectors()), and blkdev_write_end()
-never touched it before the switch to iomap.
+The inotify watch keeps the inode alive, so nothing ever sends
+IN_DELETE_SELF for it and the watch only goes away once the watcher
+closes the inotify fd.
 
-A reproducer on linux-next supports the theory: 128 threads doing 64K
-buffered writes to a loop device, while another thread flips its
-capacity between 1M and 1G with LOOP_SET_STATUS64, hit the warning 6
-to 18 times per 30 second run (4 runs). With this patch it never fires,
-and data written through the page cache still reads back intact.
+The window covers everything between the two loops in
+__kernfs_remove(). kernfs_drain() drops kernfs_rwsem and waits for the
+active references and open files of the node, and the clear itself
+waits for kernfs_iattr_rwsem behind every concurrent permission check
+and stat(). In a VM with a few threads stat()ing a cgroup and one of
+its files while the cgroup is removed, IN_DELETE_SELF for the watched
+file got lost in 16 to 33 out of 150 rmdirs, and it didn't show up even
+after dropping the dcache.
 
-Skip the size update and pagecache_isize_extended() for block devices.
+So clear i_nlink in the loop that marks the subtree as being removed,
+before a node turns inactive. kernfs_rwsem is held for writing there, so
+no new inode can show up for these nodes while the loop runs, and once
+a node is inactive kernfs_get_inode_locked() refuses to attach one. Two
+overlapping removals may clear the same inode twice, which is fine.
 
-Fixes: 487c607df790 ("block: use iomap for writes to block devices")
-Signed-off-by: Breno Leitao <leitao@debian.org>
+Fixes: eea5d2bb34ba ("kernfs: Send IN_DELETE_SELF and IN_IGNORED")
+Cc: stable@vger.kernel.org # v7.1+
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
-Changes in v2:
-- Use a function-scope update_isize variable instead of duplicating the
-  S_ISBLK and IOMAP_F_FSVERITY checks (hch)
-- Link to v1: https://patch.msgid.link/20261113-iomap-bdev-isize-v1-1-699603b589da@debian.org
----
- fs/iomap/buffered-io.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ fs/kernfs/dir.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index 6d843b168d5f7d..d3311e7066c13f 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -1191,6 +1191,8 @@ static int iomap_write_iter(struct iomap_iter *iter, struct iov_iter *i,
- {
- 	int status = 0;
- 	struct address_space *mapping = iter->inode->i_mapping;
-+	bool update_isize = !S_ISBLK(iter->inode->i_mode) &&
-+			    !(iter->iomap.flags & IOMAP_F_FSVERITY);
- 	size_t chunk = mapping_max_folio_size(mapping);
- 	unsigned int bdp_flags = (iter->flags & IOMAP_NOWAIT) ? BDP_ASYNC : 0;
+diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
+index fb1dcf35d900d..aab5f5f12036d 100644
+--- a/fs/kernfs/dir.c
++++ b/fs/kernfs/dir.c
+@@ -1604,10 +1604,18 @@ static void __kernfs_remove(struct kernfs_node *kn)
  
-@@ -1256,14 +1258,13 @@ static int iomap_write_iter(struct iomap_iter *iter, struct iov_iter *i,
- 		 * unlock and release the folio.
- 		 */
- 		old_size = iter->inode->i_size;
--		if (pos + written > old_size &&
--		    !(iter->iomap.flags & IOMAP_F_FSVERITY)) {
-+		if (pos + written > old_size && update_isize) {
- 			i_size_write(iter->inode, pos + written);
- 			iter->iomap.flags |= IOMAP_F_SIZE_CHANGED;
- 		}
- 		__iomap_put_folio(iter, write_ops, written, folio);
+ 	pr_debug("kernfs %s: removing\n", kernfs_rcu_name(kn));
  
--		if (old_size < pos && !(iter->iomap.flags & IOMAP_F_FSVERITY))
-+		if (old_size < pos && update_isize)
- 			pagecache_isize_extended(iter->inode, old_size, pos);
+-	/* prevent new usage by marking all nodes removing and deactivating */
++	/*
++	 * Prevent new usage by marking all nodes removing and deactivating.
++	 *
++	 * Clear i_nlink before a node turns inactive.  From then on
++	 * kernfs_dop_revalidate() fails and a lookup can kill the node's
++	 * dentries, and only a dentry dying with i_nlink at 0 sends
++	 * IN_DELETE_SELF.
++	 */
+ 	down_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
+ 	pos = NULL;
+ 	while ((pos = kernfs_next_descendant_post(pos, kn))) {
++		kernfs_clear_inode_nlink(pos);
+ 		pos->flags |= KERNFS_REMOVING;
+ 		if (kernfs_active(pos))
+ 			atomic_add(KN_DEACTIVATED_BIAS, &pos->active);
+@@ -1638,8 +1646,6 @@ static void __kernfs_remove(struct kernfs_node *kn)
  
- 		cond_resched();
+ 			down_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
+ 
+-			kernfs_clear_inode_nlink(pos);
+-
+ 			/* update timestamps on the parent */
+ 			if (ps_iattr) {
+ 				ktime_get_real_ts64(&ps_iattr->ia_ctime);
 
 ---
-base-commit: 6d582d78fad9d828e575ca0cdcff8ea47a77220b
-change-id: 20261113-iomap-bdev-isize-a67166c971b7
-
-Best regards,
---  
-Breno Leitao <leitao@debian.org>
+base-commit: ccf2a4692fed0fa77751d32d2690585127a152c5
+change-id: 20261120-work-kernfs-delete_self-a1fdb64ebcce
 
