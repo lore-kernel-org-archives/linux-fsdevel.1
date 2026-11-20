@@ -1,100 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.230.74
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795174821;
-	b=r4ehrkerSmQHSw4SbWg2ZMPACRqV5FkuJV2PAT9J5Xiv1HAsSIvDp44iSa7+3zkm81Y1
-	 CJ7lHjUfJfKvcZ9xiczo6FwetUc+3Nm0nVNC2Ts4jMY1wzx9WzJ1umt6QxbIWZgZFpyGc
-	 cOQRA7I0TyJXqSxCE4Sh2RBZ9A2DF430Sdig/WdzfhNZ879hk4zUXS6qGQM+a/cBXnLxw
-	 INyudHSfzE9XFVf6ttUtt8y3MuJqfT5QkJAyJDj4douBHiGhXCCaFhh+WmMKWgVc48pph
-	 cuMMF0QORA0WJ9u8q2M9UJy98N78LiMUwVEgiVpcyva62VEnhcWVYHnpII90l4k/klA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795174821;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=Z4Hs0AMb1kMW4WdTQeE3PCBfUoM3AfjkJbzZFN5bqrs=;
-	b=yk6ep7G/35ELI33eYs8NgqOXmGZdqLVz0d6NGksHn3vKkYdluWWUx06NgUbcT1NPbv/e
-	 Bm4hKQGeO2LbsUcafs3SaQZUNw9LAoGRK+b/qC6m6+8H0aAbpIVRC0TkNCOEUb4MDsmqX
-	 2E3bevI0s0eVxpoJhLH57NArEqzLWulsORNXBEIsJLl0CLs3yYy0cFrd9i0k+UgpaRtay
-	 PbCZSlLRFuhmsJa6+BMe9SeJ1SvBF5gXs2bH9Lk1pytSXtaLPNczrQMBJAnfg0gMLJwUW
-	 pt1zE5Hv44RtWcOgrOJM5VxqO4mqd7CRaEbMJvujb7inPeR/YhOxE23D6MZAboS2KQg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IjGMij+x;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.230.74
-Received: from mail-lr2-f10.google.com (mail-lr2-f10.google.com [74.125.230.74])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C220360A2603
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 11:40:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C220360A2603
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IjGMij+x
-Received: by mail-lr2-f10.google.com with SMTP id 38308e7fff4ca-3acff0d1090so2009361fa.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 03:40:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795174819; cv=none;
-        d=google.com; s=arc-20260327;
-        b=frr4yPF3an5wPa9MSS62+RmYhKSiEj8jN8A5ucW094zuV2rK3Jhf5RTvCZx5V2yBZ8
-         bdEW1J4WvxCCPbNXIUx2+K6ZZbozk/ku/djs+IpauHSlOmA+GI7XaRFtolGkdhi2WlTX
-         NlJQEsRczy8n1xUzhKEMkH2sAOZF5o+oLLig4TPJIufWq8fOzwDGuYx/bbSBraxZCIxZ
-         A1IfA3399pY0RsSQkxeDQayd0n+O6+DC6TdgJUVEPaux1+RaM0Mt7sk+2BL3to8nKwiP
-         fr8J8JCUJB8yb6RhAb3RYfE/Gd/KJB4yruvtq1y43uVYyTItVhQQ9FSIqXdtS3kH8x0D
-         gq5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Z4Hs0AMb1kMW4WdTQeE3PCBfUoM3AfjkJbzZFN5bqrs=;
-        fh=S4ZEW9JIMBWhrpp26uuBfW5jIkyEDiArmc7S6bILHw4=;
-        b=dP9goEzfgyf0eKj1t+E4nF9GZQSwFK5WL5OFnXWkzcC3skjNIAleeLuH3XeqT6DHJU
-         K6gAhw5zXDXPzp+2YmQQv5Ueno+rxrF9I1xfet9LYwsk2tIt+oqr/8/lfqGg4fKd4h3R
-         N2WTk08vhUFJQJo6nM6gJ6IlumlVz5h3rtKo9xTJfYG0qD4xpg9cdqDLYTPhMk7DW/wc
-         oG8lsDpBQYQSh8CU5yRqG1c+DVnA3+GJLLr0j59I7aZk5QhNOkPc9WFSOZlENjrXVWxo
-         CDJEceMhAJ87A9aHjd/J2wif1s5q2/dZAF9H0RE+zBO/w+mQ/Xx5uo3dxwE0qLIYxFEU
-         6kVw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795174819; x=1795779619; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Z4Hs0AMb1kMW4WdTQeE3PCBfUoM3AfjkJbzZFN5bqrs=;
-        b=IjGMij+xQiahRALuhL3J8vSuiYjSYYcm3uzqxGbtOVRTSLzmTn2E0f9TGBP0nfT8qU
-         myll0GYzH1AEqExS/32o/T/LeMPU4LdqTCkfYwD3hOctVeKsHzrpCQZes+qtc3oWwCsI
-         DRsbwCM6BkzA0HoXjAGcx8EoxcM5rH7Y9IOfqg1JUO39e0+rVxBjBex+w/vKPwBJFqKL
-         WXIdI2OjP0vEBn6FtVFYxg1CJ9MdA4LJb3UnoxmIYsZ2TpYs6OOFTRSmAWeX4Gq1s1q5
-         /3/A2h1MiRBjyCKotMhV0PmsctM9W2ClkLO6X0hg4pn2j6UdZXIvDtugFfKLhyVXO3Z9
-         SMZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795174819; x=1795779619;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Z4Hs0AMb1kMW4WdTQeE3PCBfUoM3AfjkJbzZFN5bqrs=;
-        b=Gk7hUEgETmYrH/zx/Be7xYt3eQFD8p2WNjAEb9bRJeXM/RUTip4ogufgogh2ZMabQa
-         Ck6LkMY5P/lgi11LHfn1Ro2KeO7NbyJJS4+fyNzWhuXhvowbzRJJWYLw3ZxZ2eSIgjXG
-         DJr/E6Dbuyr9621ArezBLcARHGd2BZfx2LkGorRtUzmU+NZ1mbtDbkhlCzXxSmFhL9BS
-         koXw02HbazowTEffoKl4XLnu32MLI4cEEpOIUCgRBHFXnWs8N4mAINS98Gh/22C9Phd6
-         A9NeXlEjOJlfnuOuTvJKJFWw1Snwc9QRhusR+D6Gu2GOJWvifZqOyn9wP2hRfzEveWHf
-         GqlA==
-X-Forwarded-Encrypted: i=1; AL+hErGfgiV6CKPNkmKE27OmsVA7mPsO4uu7+yb2M4L4dq77YyXhMN8CCR4+t+8Fk/Wt1vmA8OkIjJU7fvFQLRQB@vger.kernel.org
-X-Gm-Message-State: APuU4Z+kBFd0+qQuHn9lmQ9KgMwqw33rFuzozp+DjlWKNUDylLS+CYKs
-	Xi3UOIiZetoFK4PBQ41RxviQQQjXekzvWr+GwyWfyRqGGCMf6FVKbjvDML201C+/ciCnVgROLS3
-	opo9o46CD77MuZLJII1kpElPJ8w+tToKJjwgL4/eaIsfy
-X-Gm-Gg: AZFdTZfJOrjuGa6IYdrnm8VzFrlNNKPLgFAl9aed7duZyUYm3+a10suWvHylMYIuorV
-	VgY/MgkNa3MiF7pLSsfzNbbGT1QIRp5BjBBlF/+c0twe7zTvb9RrPkFB7Zttv1Z54sNwPenXlFw
-	NryX/5qhLIBGlsTwE2JSjU89nZF/XSZnavJj7RoiyKEgwPxIN7O9ME1NneRWeuwHqLT2zC/iSBo
-	K5oWOvnc164HZmwjnk/xTcCKQ0a39tba6OcfBLW0gIZo9TNKgcrDOVU6ADg3hmcLM7oihkxAkmu
-	H7E5jUX7WJEE7GvlZPgoIk54jp7/0NheGOLkd5iveiksuzy2gizEppnV6o8WLIoF/RuWh0RMXJe
-	Ech9+lwceOvZvVgUsreFQNt5PiE1uO7outntA7lo6behCQJd/6Jg6WNNIheozFJ8bs5yg
-X-Received: by 2002:a05:651c:a149:b0:3ac:a2b0:ac56 with SMTP id
- 38308e7fff4ca-3ae7fa8395dmr9647241fa.29.1795174818719; Fri, 20 Nov 2026
- 03:40:18 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=101.204.27.37
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795175004;
+	b=nOC6OBuQ112cQngMQO2wJDhGI/22a6Xd7p5AHMpAl/mQS1AuGD6G1yDxVSLTHp5QUQyi
+	 7DJN7BBjsuGYXIBZF8ybLx8C+R62JIS8aPrJxtk+CeSfs6JOI2hrgo0A7ZFhhWigBBxnQ
+	 WzQTckJt+o8jP88636H+eqFKl2NLfVpfAr9lO3ZkrK5YQ177SDiccT73Xc1zEki3Lm2yA
+	 ZeF9vnMpOm2FNskkYO81K223idMOZ/fyTDtrsGwY9L63dkFDUNKpV3+eRGopxFw9uKs2I
+	 RhwHVXrfWSNdjpKslRUiA+n/BwJCxrJR1ThzqmVkjRwznbjKLC1wCobbhGcA/4Gjumw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795175004;
+	h=DMARC-Filter:Received:Received:Received:Received:Date:From:To:CC:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
+	 X-Originating-IP:X-ClientProxiedBy;
+	bh=8HrHU6q7cUwC44mKCqsCYf3Tfsp+5D/gKCLIsZFQVSA=;
+	b=sJLm4O8FSo5uUdxIi7yQt8qy7To3dvbB/W1moychMY64ZQ6MbBtIFVHpjUwNRxfSsJi6
+	 gWV2gZuQS5dhrH/rkqdUc3wJv0JhbtL9S1i1W5iI/3Mh4VUcKGDHa6Jol1wsJWWXR8U8c
+	 sb2ghEFXm9kswOT+uXvZb890gEwkkaXhA+iQZNonwQJPXrdYlatOwecQCHT7rRe2Tt8oI
+	 v6ngHe53PvPJh/1C/kh4d9iHh8Ohxqq+t+rzpH3x/C8xTu8bBasu9Gbp4UUgQIyr8VBaw
+	 Wk6GNMAS/z5260/byavz0zk5nyu5pgoUQ2MoubUkHo7S7rNwpq+3sQInR/18XAIiJpA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=hygon.cn;
+	spf=pass smtp.mailfrom=hygon.cn;
+	arc=none smtp.remote-ip=101.204.27.37
+Received: from spam01.hygon.cn (unknown [101.204.27.37])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2A08606A326;
+	Fri, 20 Nov 2026 11:43:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2A08606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
+Received: from maildlp1.hygon.cn (unknown [127.0.0.1])
+	by spam01.hygon.cn (Postfix) with ESMTP id 4jWD3t14szzVcB6;
+	Fri, 20 Nov 2026 19:43:06 +0800 (CST)
+Received: from maildlp1.hygon.cn (unknown [172.23.18.60])
+	by spam01.hygon.cn (Postfix) with ESMTP id 4jWD3s0Pp3zVcB6;
+	Fri, 20 Nov 2026 19:43:05 +0800 (CST)
+Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
+	by maildlp1.hygon.cn (Postfix) with ESMTPS id 3E53A16E7;
+	Fri, 20 Nov 2026 19:42:56 +0800 (CST)
+Received: from hsj-2U-Workstation (172.19.24.226) by cncheex04.Hygon.cn
+ (172.23.18.114) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Fri, 20 Nov
+ 2026 19:43:03 +0800
+Date: Fri, 20 Nov 2026 19:43:01 +0800
+From: Huang Shijie <huangsj@hygon.cn>
+To: Christian Brauner <brauner@kernel.org>
+CC: Christoph Hellwig <hch@infradead.org>, <axboe@kernel.dk>,
+	<viro@zeniv.linux.org.uk>, <jack@suse.cz>, <zhongyuan@hygon.cn>,
+	<fangbaoshun@hygon.cn>, <yingzhiwei@hygon.cn>, <agruenba@redhat.com>,
+	<mic@digikod.net>, <gnoack@google.com>, <paul@paul-moore.com>,
+	<jmorris@namei.org>, <serge@hallyn.com>, <aleksa@amutable.com>,
+	<legion@kernel.org>, <david@kernel.org>, <sandeen@redhat.com>,
+	<ebiggers@kernel.org>, <linux-block@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<gfs2@lists.linux.dev>, <linux-security-module@vger.kernel.org>,
+	<sunjunchao@bytedance.com>, <shijie8@gmail.com>
+Subject: Re: [PATCH v2 1/3] vfs: add inode iteration methods
+Message-ID: <awAyRVD3URaBPhw7@hsj-2U-Workstation>
+References: <20261113115702.586594-1-huangsj@hygon.cn>
+ <20261113115702.586594-2-huangsj@hygon.cn>
+ <avcBTMvzFWuCkwkn@infradead.org>
+ <avqmmP4dbwu4ziKz@hsj-2U-Workstation>
+ <20261120-mitverantwortlich-drehbaren-kantholz-241300d20168@brauner>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,210 +70,101 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <CAO-4RZ2pjEOpTBzqca5UxZHtaFS2Dj9zmNj1BtjvKm1yFE7_Jg@mail.gmail.com>
- <CAKFNMokyeDzig1aJMjTN0nid4DGdnFPKC9G-xk3L30yMikgpRQ@mail.gmail.com>
-In-Reply-To: <CAKFNMokyeDzig1aJMjTN0nid4DGdnFPKC9G-xk3L30yMikgpRQ@mail.gmail.com>
-From: Zheng Zheng <fengaojigui88@gmail.com>
-Date: Fri, 20 Nov 2026 19:40:04 +0800
-X-Gm-Features: Aa3M54qglGJrDvJZPC1gUzztSx0PK6Osv1KqvrmSSZZLkAw2iBCT1CCmRAI_gdk
-Message-ID: <CAO-4RZ2qK+6GQhzKwf5DO8aW0y22U4ePy5+erkfjY9YsVtex9A@mail.gmail.com>
-Subject: Re: [BUG] INFO: task hung in nilfs_transaction_begin
- (fs/nilfs2/segment.c:221, v7.4-rc3)
-To: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Cc: slava@dubeyko.com, linux-nilfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261120-mitverantwortlich-drehbaren-kantholz-241300d20168@brauner>
+X-ClientProxiedBy: cncheex06.Hygon.cn (172.23.18.116) To cncheex04.Hygon.cn
+ (172.23.18.114)
 
-Hi Ryusuke,
+在 Fri, Nov 20, 2026 at 12:14:24PM +0100，Christian Brauner 写道：
+> On Mon, Nov 16, 2026 at 02:45:44PM +0800, Huang Shijie wrote:
+> > > 	struct inode_iter_contex ctx = INODE_ITER_CTX_INIT;
+> > > 
+> > > 	while ((inode = sb_inode_iter()))) {
+> > > 		/* do stuff */
+> > > 	}
+> > > 
+> > How to manage the sb->s_inode_list_lock in this code?
+> > 
+> > I have no idea how to hide the sb->s_inode_list_lock in this code.
+> 
+> I think Christoph is right. The lock shouldn't be held across
+> iterations. Let the iterator take it, grab a reference to the next
+> inode, drop the lock again and hand the inode out. The reference keeps the
+okay. 
 
-Thank you for your explanation and for tracking these issues.
+If we can accept this method, I can change the code following it in future.
 
-I thought reporting these findings would be helpful to the NILFS2
-development effort.
+> inode on s_inodes so the next call can continue from there.
+> 
+> This is how drop_pagecache_sb() does it today. Sm like (UNTESTED and not
+> nice-ified):
+> 
+> struct sb_inode_iter {
+> 	struct super_block *sb;
+> 	struct inode *inode;
+> 	bool done;
+> };
+> 
+> struct inode *sb_inode_iter_next(struct sb_inode_iter *it)
+> {
+> 	struct super_block *sb = it->sb;
+> 	struct inode *prev = it->inode, *inode;
+> 
+> 	if (it->done)
+> 		return NULL;
+> 
+> 	spin_lock(&sb->s_inode_list_lock);
+> 	inode = list_prepare_entry(prev, &sb->s_inodes, i_sb_list);
+> 	list_for_each_entry_continue(inode, &sb->s_inodes, i_sb_list) {
+> 		spin_lock(&inode->i_lock);
+> 		if (inode_state_read(inode) & (I_FREEING | I_WILL_FREE | I_NEW)) {
+> 			spin_unlock(&inode->i_lock);
+> 			continue;
+> 		}
+> 		__iget(inode);
+> 		spin_unlock(&inode->i_lock);
+> 		spin_unlock(&sb->s_inode_list_lock);
+> 		it->inode = inode;
+> 		iput(prev);
+> 		return inode;
+> 	}
+> 	spin_unlock(&sb->s_inode_list_lock);
+> 	it->inode = NULL;
+> 	it->done = true;
+> 	iput(prev);
+> 	return NULL;
+> }
+> 
+> void sb_inode_iter_end(struct sb_inode_iter *it)
+> {
+> 	iput(it->inode);
+> 	it->inode = NULL;
+> 	it->done = true;
+> }
+> 
+> and then drop_pagecache_sb() becomes:
+> 
+> 	struct sb_inode_iter it = { .sb = sb };
+> 	struct inode *inode;
+> 
+> 	while ((inode = sb_inode_iter_next(&it))) {
+> 		invalidate_mapping_pages(inode->i_mapping, 0, -1);
+> 		cond_resched();
+> 	}
+> 
+> Make it a cleanup class and a caller that breaks out early doesn't have
+> to remember sb_inode_iter_end() either.
+> 
+> This will end because new inodes are added at the head and the cursor
+> stays on the list. So these assumptions should get
+> VFS_WARN_ON_ONCE()-es.
+> 
+> Walkers that can't take a reference might need different solution.
+> I'm not sure if there are any?
+I will think about it.
 
-I will hold off on submitting further reports related to NILFS2 GC
-ioctl until the initial fixes land.
+Thanks
+Huang Shijie
 
-Thank you for your time and efforts!
-
-Best regards,
-Zheng Zheng
-
-On Fri, Nov 20, 2026 at 7:24=E2=80=AFPM Ryusuke Konishi
-<konishi.ryusuke@gmail.com> wrote:
->
-> On Fri, Nov 20, 2026 at 7:59=E2=80=AFPM Zheng Zheng wrote:
-> >
-> > Hi Ryusuke, Viacheslav,
-> >
-> > We found a reproducible NILFS2 hang on v7.4-rc3 with syzkaller.  The
-> > supplied recipe reproduced on independent fresh VMs.
-> >
-> > Note: This hang may share the same underlying root cause as the
-> > previously reported nilfs_segctor_thread hang (issue #182):
-> > https://github.com/nilfs-dev/nilfs2/issues/182
-> >
-> > Repository and reproducer:
-> >
-> >   https://github.com/Zheng-zheng-codes/nilfs2-transaction-begin-hang
-> >   commit f1065fd59515bd55bbb5141b45e979bc0b3c9993
-> >
-> > Hung-task report
-> > ----------------
-> >
-> >   INFO: task syz.7.24:13081 blocked for more than 142 seconds.
-> >   task:syz.7.24        state:D stack:23176 pid:13081 tgid:13075 ppid:10=
-344
-> >   Call Trace:
-> >    rwsem_down_read_slowpath
-> >    __down_read
-> >    down_read
-> >    nilfs_transaction_begin+0x323/0xa00 fs/nilfs2/segment.c:221
-> >    nilfs_write_begin+0x78/0x1b0 fs/nilfs2/inode.c:228
-> >    generic_perform_write
-> >    vfs_write
-> >    ksys_write
-> >
-> > A second thread of the same process (PID 13109) is blocked on the
-> > f_pos_lock held by PID 13081.
-> >
-> > An NMI backtrace of the semaphore holder (PID 13190) shows that it is
-> > executing the NILFS2 segment-constructor path through
-> > nilfs_clean_segments(), including btree/bmap propagation:
-> >
-> >   nilfs_segctor_apply_buffers fs/nilfs2/segment.c:1010
-> >   nilfs_collect_file_data fs/nilfs2/segment.c:589
-> >   nilfs_bmap_propagate fs/nilfs2/bmap.c:329
-> >   nilfs_btree_propagate fs/nilfs2/btree.c:2128
-> >
-> > The lock dump identifies the semaphore holder:
-> >
-> >   locks held by syz.7.24/13190: 3:
-> >    #0: (sb_writers#17)                at: nilfs_ioctl_clean_segments
-> >                                           fs/nilfs2/ioctl.c:869
-> >    #1: (&nilfs->ns_segctor_sem) WRITE at: nilfs_transaction_lock
-> >                                           fs/nilfs2/segment.c:357
-> >    #2: (&bmap->b_sem)                 at: nilfs_bmap_assign
-> >                                           fs/nilfs2/bmap.c:373
-> >
-> > So a NILFS_IOCTL_CLEAN_SEGMENTS task is inside the segment-constructor
-> > path, holding ns_segctor_sem for writing while doing bmap assignment,
-> > and normal writers cannot acquire the semaphore for reading.  In this
-> > report the segctord thread itself is not among the blocked tasks.
-> >
-> > Relation to the earlier nilfs_segctor_thread hang
-> > -------------------------------------------------
-> >
-> > We previously reported a related NILFS2 hang:
-> >
-> >   INFO: task hung in nilfs_segctor_thread (fs/nilfs2/segment.c:357, v7.=
-4-rc3)
-> >   https://github.com/nilfs-dev/nilfs2/issues/182
-> >   https://github.com/Zheng-zheng-codes/nilfs2-segctor-thread-hang
-> >
-> > Its hung-task report showed the constructor thread blocked acquiring
-> > the same semaphore for writing:
-> >
-> >   INFO: task segctord:35823 blocked for more than 183 seconds.
-> >   task:segctord state:D
-> >   Call Trace:
-> >    rwsem_down_write_slowpath
-> >    __down_write
-> >    down_write
-> >    nilfs_transaction_lock+0x25d/0x410 fs/nilfs2/segment.c:357
-> >    nilfs_segctor_thread_construct fs/nilfs2/segment.c:2601 [inline]
-> >    nilfs_segctor_thread+0x600/0xa60 fs/nilfs2/segment.c:2716
-> >    kthread
-> >
-> > The two reports involve different blocked tasks:
-> >
-> > - In the earlier report, the segctord kernel thread waits
-> >   for ns_segctor_sem in write mode in nilfs_transaction_lock().
-> >
-> > - In this report, a normal file writer waits for the same
-> >   semaphore in read mode in nilfs_transaction_begin().
-> >
-> > In both reports, the lock dump identifies a task executing
-> > NILFS_IOCTL_CLEAN_SEGMENTS as the semaphore holder.
-> >
-> > The new external verification logs also repeatedly report:
-> >
-> >   NILFS (loop0): error -28 cleaning segments
-> >
-> > This resembles the repeated -ENOSPC errors observed in the
-> > earlier report.
-> >
-> > We suspect that both hangs may be manifestations of the same
-> > GC error-handling problem, but the root cause has not yet
-> > been established.
-> >
-> > We would appreciate your analysis of this additional
-> > reproduction alongside issue #182.
-> >
-> > Reproduction
-> > ------------
-> >
-> >   git clone https://github.com/Zheng-zheng-codes/nilfs2-transaction-beg=
-in-hang
-> >   cd nilfs2-transaction-begin-hang
-> >
-> >   # boot v7.4-rc3 with the supplied kernel config
-> >   # using a Debian trixie x86_64 guest
-> >
-> >   # in the guest, as root:
-> >   syz-execprog -procs=3D1 -threaded -repeat=3D1 \
-> >       -executor ./syz-executor \
-> >       reproducer/repro.kernsight.prog
-> >
-> > The recipe requires sequential execution with -procs=3D1.
-> > Using -procs=3D8 did not reproduce the hang under our tests.
-> >
-> > The recipe is a state-reconstruction sequence (72 replay programs plus
-> > one model-selected priming program, followed by the crashing testcase).
-> > The crash depends on the kernel state built by the recipe; the testcase
-> > alone is not sufficient.
-> >
-> > Verification:
-> >
-> > - reproduction run: two attempts verified (confirmed=3Dtrue,
-> >   status=3Dverified), 2026-11-20T07:17:00Z and 2026-11-20T08:05:31Z
-> > - independent fresh-VM verification inside that run: 2/2 target hits
-> >   (2026-11-20T07:46:46Z and 07:50:15Z)
-> > - stability on fresh VMs: 5/5 reproductions, 187-194 s to the
-> >   hung-task dump in every run (2026-11-20, external-verify/)
-> > - evidence: reproducer/repro.outcomes.jsonl, external-verify/,
-> >   logs/external-manager-session.log
-> > - C reproducer: not generated; the syzkaller recipe is the primary
-> >   reproducer
-> >
-> > Kernel/guest details:
-> >
-> >   kernel: v7.4-rc3, bzImage sha256
-> >     0c16409f8aec508ac44a63e631c2bd352536401f3fd0856df1d839fb953a1882
-> >   guest: Debian trixie x86_64, 6 GiB RAM, 4 vCPU, QEMU/KVM
-> >   boot: oops=3Dpanic panic_on_warn=3D1 hung_task_panic=3D0
-> >   config: CONFIG_KASAN=3Dy, CONFIG_PROVE_LOCKING=3Dy, CONFIG_NILFS2_FS=
-=3Dy
-> >
-> > Thanks,
-> > Zheng
->
-> Hi Zheng Zheng,
->
-> I have filed it separately at:
-> https://github.com/nilfs-dev/nilfs2/issues/183
->
-> Since these GC ioctl reports involve destructive corner cases that do
-> not occur under normal userland usage, we are addressing them
-> step-by-step at a pace that does not disrupt other tasks.
->
-> As these reports seem to stem from the same underlying error-handling
-> issues that I am about to investigate, it would be helpful if you
-> could hold off on further reports until the initial fixes land.  That
-> will help avoid duplicates and allow us to process the reports more
-> effectively.
->
-> Thanks,
-> Ryusuke Konishi
