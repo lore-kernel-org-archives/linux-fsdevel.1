@@ -1,60 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795181931;
-	b=geeOsXrOIGnV7BpdPVGy9Cai2ULTwQQxf79smLaQFMv9PfbQjPMID0PsHmHTKcqHGOyd
-	 XB/tAVqnGlol0UYOcxEgGFoHdwO/u7lcX+s5FO3e75rRLDvx7BwPiGB0/tDvKd3ERH5SE
-	 VSLjCn0iUPiCaDKhaPuDaQdsFg3Vh3+VKzwjEhSkUQUkfHJGmMYYmaHXB3WDZ6ZXvnEdQ
-	 7mpq/1rsgG1K1ZkdncV9Umuv2b249AAAUFIxw02ivRnepAnppseXy3QXRl4qPbN8SNOJm
-	 EAbiXTGCQOOFo3JjNjjktODrpGrdffBIFIY+Xmwf+qe1YuEn+gxBzaCVYofxMN1Mjjw==
+	t=1795182074;
+	b=rDdvz5HDa3mvnKL2jjBgM+G0j5/LQmW240fL9eJ0QA4wptcTUh6+PaqquVx/QczTh+Y4
+	 e09kIhlsoh5fMdM4d9ZmP6+5T7pZU9jj3cb/AhjqQdY0bpeM7R2aUnREb78w478s4SBN9
+	 Z1KgTMEV8qU7RDGB8SUI3Ap6QkQZb4O0sFoHcEDpwaFcjX7cfmvzsvb4A2oTbZV7fi63X
+	 ovVPXaRBcTbRWPyLMMgowGYwcDKlWEcTfjEty0lgA6km3SdIrvwUWR9BOFMaMla4GEKVx
+	 jw4fpsTL11dSOwTe4l9vtm+6rSbpfBSu9JPvex9aleLXPvaE/ZzLZSME71CpTUWu9WA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795181931;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=qZNnoG+Fb9/W4ISE55dTt9q7EvNYjApPu7ZJ7FyZ+gg=;
-	b=pclD1DI3fRYP5h2blMsWKJUEpLQ9Ra3SGU60i2VwjeDU9Pr0XmMo8r4T7wnyk2ggqR4u
-	 eRvQb3SzY8EwY1M79LXQS3T14jTBuS5ZGykXoeb4q/P8P58tX35IWKJAPnvIHkKoHFP7I
-	 JG717ofENdLKQNLRp43wma/zhFGhXrO8Xtfuu6fpET6mKgXdtIPGPHXGpHR50PNh7YfhR
-	 y3amB+uN2DVPM9BH9+ZFVqSCaYFAhbaAC/yEkHYBx2OW0+zfEVaaUxuj1wEh63XxWFU3y
-	 2bwT3GD0MV2w1PIvT8vsGJefQbFL6O4K8UjDYYBa2vLR0BIg2iDEFmZZg0zVcjlPUSA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795182074;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=FwxNyVQvyR6u1ITlGByMJm+FIMkbiLq8smwLlAPk+KY=;
+	b=E1gSkdQTzW5ihd8+Mz0pfg59eOJe1KTbUqoAQNZZo4gbSAZ8Um/ba89Vl1vVJLncBkIf
+	 0yelNWQBnebOXe2iDXqj1PFBswIf3n/I7ev2Yd7XSfToxO1Wtq7uwHLDK+x7fP/Xi58fl
+	 8/EOJWfDRHqv0DqyD7jjs+Mwxeq9jhlqZCB2hoRdn/WcnLxuty+gpXTgyDYsKKq9M4JhC
+	 EWmMoVhQSOIKbLom7QsnPKrM+YZNymulRt0EmcEOtr5Wi61BJsyegyASRyFM0sJpLs4VI
+	 /99UEPzGxtRsmAonvBUAEuDv8a0R39ampb8W77CzhK3CSSj7NtAHAkvWMBtmZpFsl3A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="ZVt/gpeT";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=UOqy7u37;
+	arc=none smtp.remote-ip=90.155.50.34
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B957606A320;
-	Fri, 20 Nov 2026 13:38:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E31606A320;
+	Fri, 20 Nov 2026 13:41:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2E31606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZVt/gpeT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D5DE1F000CA;
-	Fri, 20 Nov 2026 13:38:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795181930;
-	bh=qZNnoG+Fb9/W4ISE55dTt9q7EvNYjApPu7ZJ7FyZ+gg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZVt/gpeT+QwOmnfJsc/3ftB9+K4CjZ3YSI88OOCcUEyqT8stAjszp+96a1oJ8+0Ns
-	 tJ28EUnrlrLw9TlUOid9CZzjfn9sO4YAFQTD69kTlmyLwU5FrG5okc44xqgyYHPO9k
-	 72COaeHn+Gxg6/5DfuobCFUQxlXa/5iZuMi/kBejSCtB4CLtllAXZ9ODJZwsH/NGBR
-	 me1qLoTncPhWjF3BwjgrOy0tCk4+03m+KRYy5i/BYG3pC+wuQs7E2NKAfbcsFxCgsT
-	 UgMCojc7Jqf5gf7TYm5o8CJidfwqwilfz1646EEe12O0PTjnF7rI/OQf91AzOYM3w9
-	 eAvB4es4XUd3A==
-Date: Fri, 20 Nov 2026 14:38:43 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: NeilBrown <neil@brown.name>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, Jan Kara <jack@suse.cz>, 
-	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
-	Johannes Berg <johannes@sipsolutions.net>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Hyunchul Lee <hyc.lee@gmail.com>, Carlos Maiolino <cem@kernel.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	linux-kernel@vger.kernel.org, codalist@coda.cs.cmu.edu, linux-fsdevel@vger.kernel.org, 
-	linux-um@lists.infradead.org, ntfs@lists.linux.dev, linux-xfs@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] procfs: drop parent lock for d_alloc_parallel()
- in iterate_shared()
-Message-ID: <20261120-visier-dortig-gutachten-7a478b74ea10@brauner>
-References: <20261117000115.1433875-1-neilb@ownmail.net>
- <20261117000115.1433875-5-neilb@ownmail.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=UOqy7u37
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=FwxNyVQvyR6u1ITlGByMJm+FIMkbiLq8smwLlAPk+KY=; b=UOqy7u37mhnP61kkn7RZKKf6H9
+	ZaRrcOD2JPqTkLdVXkZFf7j4ccv0mAxGi6d4e2WZFmka0wbHvdEKRRkB35KpnDNy4RcWF5720e+sy
+	6QjfODHYDOwWiXb5CgpNQW1shlCFB71Kw8AVusaWKoUw1w1k4UVKwYuWmoVP2AL4Cb4pHMKrYpLYA
+	es9IbEn1MJdQ4UkrL+xJgrF9FR/qlmTXq82cGmIkR1JOOiZyNE+Kdx4aauaHlWFzcp9eoGq9RXFOr
+	mht4nuZCmfhBYCmGxJLYGNCLJZbGt1eYE0NApUE3fgoX9sHgUA67S/rDvOzaxbQYNBKZUZdVjAAe4
+	mChXJ0dg==;
+Received: from willy by casper.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xUOrV-00000005Gv3-3N0b;
+	Fri, 20 Nov 2026 13:41:09 +0000
+Date: Fri, 20 Nov 2026 13:41:09 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Xavier Xia <xavier.qyxia@gmail.com>
+Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
+	mhocko@kernel.org, roman.gushchin@linux.dev, muchun.song@linux.dev,
+	jack@suse.cz, david@kernel.org, brauner@kernel.org,
+	linux-mm@kvack.org, cgroups@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mm: batch per-task lruvec stat updates on the writeback
+ path
+Message-ID: <awBN9VvV6yM6Cjut@casper.infradead.org>
+References: <20261120095559.429515-1-xavier.qyxia@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -64,101 +67,23 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261117000115.1433875-5-neilb@ownmail.net>
+In-Reply-To: <20261120095559.429515-1-xavier.qyxia@gmail.com>
 
-On Tue, Nov 17, 2026 at 10:55:01AM +1100, NeilBrown wrote:
-> +	if (child == ERR_PTR(-EWOULDBLOCK)) {
-> +		/*
-> +		 * Need to drop directory lock, which isn't really
-> +		 * needed here anyway.  As rmdir never happens in procfs
-> +		 * we don't need to be concerned about S_DEAD being set
-> +		 * while unlocked.
-> +		 */
-> +		inode_unlock_shared(dir->d_inode);
->  		child = d_alloc_parallel(dir, &qname);
-> [...]
-> +		inode_lock_shared(dir->d_inode);
-> +	}
+On Fri, Nov 20, 2026 at 05:55:58PM +0800, Xavier Xia wrote:
+> The writeback path updates two lruvec stats per folio through the memcg
+> rstat machinery: NR_FILE_DIRTY when a folio is dirtied and again when
+> writeback clears it, and NR_WRITEBACK when writeback starts on it.
+> Consecutive folios almost always share a lruvec, so the same counters
+> are updated over and over.  On a 4k buffered write + fsync workload
+> __mod_memcg_lruvec_state() is about 8% of the profile.
 
-I think this can deadlock.
-If we're colliding with the failed lookup because the fd was closed, the
-task exited or the sysctl unregistered then the  dentry is unhashed and
-d_alloc_parallel() hands us a new in-lookup dentry.
+Is this a realistic benchmark?  Does it represent some real life workload,
+or did you just choose it because it shows the best benefit of this patch?
+This is a fairly significant chunk of extra code, and it'd be nice to
+know that it benefits a real-world use-case before applying it.
 
-We then retake the lock while still owning it. But the VFS waits for
-in-lookup dentries with the lock held, e.g., open() with O_CREAT:
-
-P1: getdents(/proc/$pid/fd)         P2: open("/proc/$pid/fd/5", O_CREAT)
-proc_fill_cache("5")
--> d_alloc_trylock() == -EWOULDBLOCK
--> inode_unlock_shared(dir)
-                                    lookup_open()
-                                    -> inode_lock(dir)
-                                    -> d_lookup("5") == NULL
--> child = d_alloc_parallel("5")
-                                    -> d_alloc_parallel("5")
-                                       -> d_wait_lookup(child)
--> inode_lock_shared(dir)
-
-Both sleep uninterruptibly.
-A shell redirect to /dev/fd/5 is enough for P2.
-
-I don't tink it even needs O_CREAT. Any queued writer like a mkdir in
-the directory or chmod on it plus a lookup_slow() of the same name that
-holds the lock shared and waits on the child has the asme issue.
-
-And under /proc/sys/net it doesn't need a failing lookup either.
-proc_sys_compare() matches any in-lookup dentry but after the wait
-sysctl_is_seen() rejects a dentry from another netns and we get our
-own.
-
-d_add_ci() in 1/4 gets this right and finishes all in-lookup dentries
-before relocking. So I think procfs needs to do the same, sm like
-(UNTESTED):
-
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index 5f9ec52..d30f877 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -2105,19 +2105,19 @@ bool proc_fill_cache(struct file *file, struct dir_context *ctx,
- 	struct inode *inode;
- 	unsigned type = DT_UNKNOWN;
- 	ino_t ino = 1;
-+	bool relock = false;
- 
- 	child = d_alloc_trylock(dir, &qname);
--
- 	if (child == ERR_PTR(-EWOULDBLOCK)) {
- 		/*
--		 * Need to drop directory lock, which isn't really
--		 * needed here anyway.  As rmdir never happens in procfs
--		 * we don't need to be concerned about S_DEAD being set
--		 * while unlocked.
-+		 * Wait for the other lookup without the directory lock and
-+		 * don't take it back while @child is in-lookup: lookup_open()
-+		 * waits for in-lookup dentries with the lock held exclusive.
-+		 * procfs never sets S_DEAD.
- 		 */
- 		inode_unlock_shared(dir->d_inode);
-+		relock = true;
- 		child = d_alloc_parallel(dir, &qname);
--		inode_lock_shared(dir->d_inode);
- 	}
- 	if (IS_ERR(child))
- 		goto end_instantiate;
-@@ -2137,6 +2137,8 @@ bool proc_fill_cache(struct file *file, struct dir_context *ctx,
- 	type = inode->i_mode >> 12;
- 	dput(child);
- end_instantiate:
-+	if (relock)
-+		inode_lock_shared(dir->d_inode);
- 	return dir_emit(ctx, name, len, ino, type);
- }
- 
-
-The sysctl side needs the same.
-
-This also has the same lookup_one_qstr_excl() problem as the earlier
-patch.
+If the real world usecase is more "there's some pretty high overhead
+when flushing accumulated megabytes of dirtied page cache", then there
+are simpler solutions that don't involve messing with task_struct.
