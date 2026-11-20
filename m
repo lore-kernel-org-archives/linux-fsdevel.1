@@ -1,117 +1,126 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795169353;
-	b=LlfuTKxrAT/E20jQEGCj+cA9HTI4x3O4YW0/hhjJBG77Glgug7yBDii68kX/l/nmlIZW
-	 bDwl/oisoe8IGq4vrPCbvrfOX31VdSfGnZk4w2brhizSyyVAdXQNBj4MKFFLP75mmMHt9
-	 B3DR6N8Cgi8L4BcI0mmhbxKhtm+isM32fBHVqtkVxFd3dCyvDR9Us1UB/ZIysxraiqzE0
-	 MpEDhrx/7IgkrYIe/r1K05JmA2/iPJnmRJShUSCjIJ67CgqjFvkz0kkBo2lBNdbdp21Vt
-	 AzDLXvM1czNyoKaFg9kMcx4v9h3gXJj9ZU2iHeRRtMe+lAVyZ9DzoKK8sfXAiHxn71w==
+	t=1795169448;
+	b=pdG+XpP68a5DAkgbvq3GMY5LhgPAWgO0GEcgTHByaPFBBFZQVNa4VEiIlYXV2GrRoi3o
+	 pTggopVzMUVZ90cy3Af8GtoqQVtvT8eE1fo5VbFZUD0zRmjdwqypGydx/PgrdUDSaSwpY
+	 Tx4FXahTYFMsxC+V8CG0KcTPiVacSwRIfWDhSfGBv0OFAFHiUtK0ljgDaXmDYTAYQMy/z
+	 TAPGjHmgQ60qEiLLlYg+5K43hrtM6Xt/wmKSKr/51gvGfF7qk/o30PjwCsDeMSn055O0z
+	 gsPyBcqvwm1CLlqu3UE3Nn010z1/L9E40DfVn47fECBTIto15UavDn9Ns98M9ML6MYg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795169353;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:X-Spamd-Result:X-Rspamd-Server:
-	 X-Rspamd-Action:X-Spam-Flag:X-Spam-Score:X-Spam-Level:
-	 X-Rspamd-Queue-Id;
-	bh=YXUPlOtVsHyGsAvN0gcRfJ7d4p2UrmspQBy4CnwR4Kc=;
-	b=aNm1K+HA9BRpOwOS397a1oDs0kwWr5fHkuWIMz2NgE6IGnSfJ4a6Zq1UZKi3NBEkYqTK
-	 5x28pF4358kHmT/qeLHROC1ZmqwYC0k7N0Sbf0i+QLBpAtXFQG/8ah9ja0ixqdqipQUb9
-	 kW6oezq+Bzb198VMPROYalZscQbk/ZQz1l3RIrbUa9M0KpPpV7KY7p1vahJg59IGFO4Ni
-	 MmB2N+5HE7+EqYNV7vhIQM8SyRDEDr+8mMWQiOMorWhvSCZ5jEt0mkOnuHnNYLSns8Nch
-	 MJ39ObBPeL4194KDM5+O9eipN9czlYpiTbmbaWS30PgFfkf0rzZEb/XBU2VFTWEeG9w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795169448;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=1Kw4d8+8FfNGzuUvFVQgRzSXtdZBgru3fPHEEea4jN0=;
+	b=e3FFuWaL8B+VFfH2yazkIjxXwn2B2i3QoI7yIELvAw/6ylIg8HQSJbQuUjlgeYOczTuL
+	 zfrQXj86EAQnTFlH43LjgyiEBNjUKLkFfVpC5jaqJidf7GBMJ9nSpZRn43HJOHlE7IP8o
+	 tO3dYU+0po4meGJNl2m2G3xshI6d1NZBCO9i4tqxD3tnMP/Xr+qUS8vzW8eZADXRn7ioO
+	 Gr+ztxt5s5xebnRJMeEBk0I/fCATwFUU57x+Xm4/2OLGpJMfBXncsJpelNjHOrHD7YO57
+	 LS/OL2WEPalx6PIf8P4g+OFbjggcKLf7ZicB87d/hK/lcQofZT4FPYMu//cfIry2hcQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=tjRe2pYX;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=5dqb+r4V;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=tjRe2pYX;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=5dqb+r4V;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VLToh1Ti;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F83B606A334;
-	Fri, 20 Nov 2026 10:09:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5F83B606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 326E9606A334;
+	Fri, 20 Nov 2026 10:10:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=tjRe2pYX;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=5dqb+r4V;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=tjRe2pYX;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=5dqb+r4V
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 654811FB61;
-	Fri, 20 Nov 2026 10:09:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795169350; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YXUPlOtVsHyGsAvN0gcRfJ7d4p2UrmspQBy4CnwR4Kc=;
-	b=tjRe2pYXkVOCWboxAQ4I4+y7F+QkNEyWHKPPVMe7ZwLYsY2RrfkHhCB3c59c6UK9F3Kw4K
-	+FP2Br7+68+PoGJztTqdoOFcCSk1oUPpW3yK66JXE589IN9aYzl7htut9tKNuzBG52uPCm
-	kUqfX+avw4NGICu/y7HHv8pTSyJIcYo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795169350;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YXUPlOtVsHyGsAvN0gcRfJ7d4p2UrmspQBy4CnwR4Kc=;
-	b=5dqb+r4VQwzwTXN2IGy2oYFOudbr/K7deRp20h6X8LAVgTVidcR0Und2pphSugg2okZQBy
-	YdPx43uLmbQjeIAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=tjRe2pYX;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=5dqb+r4V
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795169350; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YXUPlOtVsHyGsAvN0gcRfJ7d4p2UrmspQBy4CnwR4Kc=;
-	b=tjRe2pYXkVOCWboxAQ4I4+y7F+QkNEyWHKPPVMe7ZwLYsY2RrfkHhCB3c59c6UK9F3Kw4K
-	+FP2Br7+68+PoGJztTqdoOFcCSk1oUPpW3yK66JXE589IN9aYzl7htut9tKNuzBG52uPCm
-	kUqfX+avw4NGICu/y7HHv8pTSyJIcYo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795169350;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YXUPlOtVsHyGsAvN0gcRfJ7d4p2UrmspQBy4CnwR4Kc=;
-	b=5dqb+r4VQwzwTXN2IGy2oYFOudbr/K7deRp20h6X8LAVgTVidcR0Und2pphSugg2okZQBy
-	YdPx43uLmbQjeIAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3DF801348F;
-	Fri, 20 Nov 2026 10:09:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id imEhB0YcAGu9IQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 20 Nov 2026 10:09:10 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id D8FF825EFF; Fri, 20 Nov 2026 11:09:09 +0100 (CET)
-Date: Fri, 20 Nov 2026 11:09:09 +0100
-From: Jan Kara <jack@suse.cz>
-To: NeilBrown <neil@brown.name>
-Cc: Amir Goldstein <amir73il@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Ian Kent <raven@themaw.net>, 
-	Jake Edge <jake@lwn.net>
-Subject: Re: [PATCH v5 4/5] Add d_for_each_positive_child family of iterators
-Message-ID: <t2pgbjenemfhv7oz3wpy2eplpc627bns5dot7ly43hrczvd4yz@caeyfokaqycw>
-References: <20261119025942.2848130-1-neilb@ownmail.net>
- <20261119025942.2848130-5-neilb@ownmail.net>
- <CAOQ4uxgan=mpQ9yHOyZwZZp8E69+oH3uaPJ5CBkP7Z5BCO-5jA@mail.gmail.com>
- <179513093550.1728055.17648674323193416652@noble.neil.brown.name>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VLToh1Ti
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 4C75D1F000C4;
+	Fri, 20 Nov 2026 10:10:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795169448;
+	bh=1Kw4d8+8FfNGzuUvFVQgRzSXtdZBgru3fPHEEea4jN0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VLToh1Tir6uts0SeGlRBl//X3cQJoCaOibbyKUftV/xZRya+3eHAXARr/zlGfQJG1
+	 96+YnolWtf79XnmuP/cEtT2oo4SB6P1X8t4EEPYW/euBeUEbDAFZcbJIh1TqNDq/E7
+	 XcD/RZlWcRQ+s8UD4RoJRfLJuNJ2LNXNXRKDUGekphW3p0+myAouyeQaDDnSaVACkf
+	 GG6y3TV9D/MpwaM84YeVA1DLAF6Epea0TMvALLytGBEWt86XWG9tzdo7walppFaVvg
+	 iKO0zvpb2DjakRigJ9ylC4EshMVPUB2SSGdHaXfJUVSXeS1Q2CADCy2eAy5FZVtLCk
+	 swVQMahF+CrKg==
+Date: Fri, 20 Nov 2026 12:10:44 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+	linux-security-module@vger.kernel.org,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Lutomirski <luto@amacapital.net>,
+	Andy Lutomirski <luto@kernel.org>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Arnd Bergmann <arnd@arndb.de>, Ben Segall <bsegall@google.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Christian Brauner <brauner@kernel.org>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Chris Zankel <chris@zankel.net>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Hildenbrand <david@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	"David S. Miller" <davem@davemloft.net>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	"Hallgrimur H. Gunnarsson" <halg@google.com>,
+	Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
+	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Jan Kara <jack@suse.cz>,
+	John Johansen <john.johansen@canonical.com>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Juri Lelli <juri.lelli@redhat.com>, Kees Cook <kees@kernel.org>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Magnus Lindholm <linmag7@gmail.com>,
+	Manfred Spraul <manfred@colorfullife.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
+	Mel Gorman <mgorman@suse.de>, Michael Ellerman <mpe@ellerman.id.au>,
+	Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
+	Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Moore <paul@paul-moore.com>, Paul Walmsley <pjw@kernel.org>,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Rich Felker <dalias@libc.org>,
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Serge Hallyn <sergeh@kernel.org>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Vlastimil Babka <vbabka@kernel.org>, Will Deacon <will@kernel.org>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+Subject: Re: [RFC PATCH v4 00/14] Namespace for namespace roots
+Message-ID: <awAcpPQtM4hYHP-D@kernel.org>
+References: <20261119224312.1037966-1-jarkko@kernel.org>
+ <av_hbgzwo-1FcAPZ@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -121,134 +130,52 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <179513093550.1728055.17648674323193416652@noble.neil.brown.name>
-X-Spamd-Result: default: False [-13.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,zeniv.linux.org.uk,kernel.org,suse.cz,vger.kernel.org,themaw.net,lwn.net];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email,suse.cz:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -13.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 654811FB61
+In-Reply-To: <av_hbgzwo-1FcAPZ@kernel.org>
 
-On Fri 20-11-26 10:28:55, NeilBrown wrote:
-> On Fri, 20 Nov 2026, Amir Goldstein wrote:
-> > On Thu, Nov 19, 2026 at 4:00 AM NeilBrown <neilb@ownmail.net> wrote:
+On Fri, Nov 20, 2026 at 07:58:10AM +0200, Jarkko Sakkinen wrote:
+> I've now re-sliced these into a bit more sane pieces:
 > 
-> > > +
-> > > +/**
-> > > + * d_next_sibling_sched - return next sibling, but schedule() first
-> > > + * @child:  current child
-> > > + *
-> > > + * This behaves like d_next_sibling(), but drops the parent d_lock
-> > > + * and calls cond_resched() to avoid any soft-lockup.  A cursor
-> > > + * is inserted as place holder.
-> > > + *
-> > > + * Caller must hold the parents d_lock, and must hold a counted
-> > > + * reference on the parent.
-> > > + *
-> > > + * Returns: the next sibling, or %NULL if there is none.
-> > > + */
-> > > +struct dentry *d_next_sibling_sched(struct dentry *child)
-> > > +__must_hold(&child->d_parent->d_lock)
-> > > +{
-> > > +       struct dentry cursor;
-> > > +
-> > > +       /* always skip cursors to ensure we make some real progress */
-> > > +       while (child && (child->d_flags & DCACHE_DENTRY_CURSOR))
-> > > +               child = d_next_sibling(child);
-> > > +       if (!child)
-> > > +               return child;
-> > 
-> > Why is this skip loop here and not after the resched?
-> > 
-> > As this is written, if the caller passed @child which is another cursor,
-> > now child the next real dentry after another cursor and hlist_add_behind()
-> > below will insert our cursor after the real dentry.
-> 
-> You are right of course - that is the wrong way to address the problem.
-> 
-> I think moving the test into d_next_positive(), like with this
-> incremental patch, will work better.
+> $ git log --oneline master..
+> d8e24a6bc14e (HEAD -> rootns, origin/rootns) MAINTAINERS: Add entry for ROOT NAMESPACE
+> f2569e56a267 selftests/rootns: Add root namespace test suite
+> bea05e758f8e docs: Document root namespace uAPI
+> dd05a49aff77 arch: Wire up rootns() system call
+> 2dee7a5fddec bpf: Register rootns LSM hooks
+> 73c51e02b830 security: Add rootns LSM hooks
+> 3cfd6576a037 mount: Support MOVE_MOUNT_T_MNTNS in move_mount()
+> 9ed7387038ea ipc/mqueue: Implement ->set_rootns() fs_context operation
+> 624f0ed9c1c7 proc: Implement ->set_rootns() fs_context operation
+> 1085e6ae2eb3 fs: Support FSCONFIG_SET_ROOTNS in fsconfig()
+> d2898dbdc39b fork: Support CLONE_INTO_ROOTNS in clone3()
+> 42dbccb5890e rootns: Add ROOTNS_KILL ioctl
+> 14cbda3e5bca rootns: Add ROOTNS_WAIT ioctl
+> b2cc82539b75 rootns: Add rootns() system call
+> d29215aa7f0f rootns: Track init lifecycle via copy_process() and pid_namespace
+> 0f9ce7febb49 rootns: Add core infrastructure for root namespaces
+> 7a0e8f969fc7 mount: Enforce mount_too_revealing() for foreign mntns
+> 8c61aee3afbf mount: Add mnt_ns_get_root()
+> 07d239d0287c userns: Factor out install_user_ns_cred()
+> bf74588e706d nsfs: Add nsproxy_open_namespace()
+> 645d31a1c516 nsproxy: Pass nsproxy to create_new_namespaces()
 
-With this change it looks good to me. Feel free to add:
+A "small" fact correction: rootns itself is not actually a namespace. It
+was at some point during the course of doing something over alonger time
+span :-)
 
-Reviewed-by: Jan Kara <jack@suse.cz>
-								Honza
+I'll adjust the language and documentation.
 
-> diff --git a/fs/dcache.c b/fs/dcache.c
-> index bacb218400a8..46aca619a9a3 100644
-> --- a/fs/dcache.c
-> +++ b/fs/dcache.c
-> @@ -2095,6 +2095,9 @@ static void d_init_cursor(struct dentry *dentry, struct dentry *parent)
->   * Caller must hold the parents d_lock, and must hold a counted
->   * reference on the parent.
->   *
-> + * @child should not be a cursor, else two threads could potentially
-> + * live-lock, each only stepping over each others cursors.
-> + *
->   * Returns: the next sibling, or %NULL if there is none.
->   */
->  struct dentry *d_next_sibling_sched(struct dentry *child)
-> @@ -2102,12 +2105,6 @@ __must_hold(&child->d_parent->d_lock)
->  {
->  	struct dentry cursor;
->  
-> -	/* always skip cursors to ensure we make some real progress */
-> -	while (child && (child->d_flags & DCACHE_DENTRY_CURSOR))
-> -		child = d_next_sibling(child);
-> -	if (!child)
-> -		return child;
-> -
->  	d_init_cursor(&cursor, child->d_parent);
->  	hlist_add_behind(&cursor.d_sib, &child->d_sib);
->  	spin_unlock(&cursor.d_parent->d_lock);
-> diff --git a/include/linux/dcache.h b/include/linux/dcache.h
-> index 7150ecd81d72..c384b0f8743e 100644
-> --- a/include/linux/dcache.h
-> +++ b/include/linux/dcache.h
-> @@ -697,7 +697,10 @@ struct dentry *d_next_sibling_sched(struct dentry *child);
->  static inline struct dentry *d_next_positive(struct dentry *child)
->  {
->  	do {
-> -		if (need_resched())
-> +		/* Don't schedule on cursors to ensure we make some real
-> +		 * progress between scheduling
-> +		 */
-> +		if (need_resched() && !(child->d_flags & DCACHE_DENTRY_CURSOR))
->  			child = d_next_sibling_sched(child);
->  		else
->  			child = d_next_sibling(child);
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+It's like SGX enclave i.e., an isolated and opaque object with *nothing*
+at Epoch. Similarly as enclaves there's a build phase for building the
+memory environment, and a live phase that follows.
+
+Those are the glasses that I've looked at the topic all the time; not
+so much with namespace glasses, as it's not my main beef and actually
+doing this has very little to do with namespaces and so much more on how
+you manage and control the threads and memory.
+
+This is more like cross-cutting feature with no obvious subsystem
+ownership more than anything else.
+
+Br, Jarkko
