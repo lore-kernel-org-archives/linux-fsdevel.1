@@ -1,96 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795131683;
-	b=fkaB9XiMirCcL5jjswDLYck7c+m4SWwxbpuVnJkZlPSrvRXP97qWUdXhn2yivn44L9cV
-	 MlSQGSYUo5oM/k8oUFE2hujBrsSxla9L8bMvnxxCeGo0FFVhQNKDL3SQolFoj9p2GD5kJ
-	 wS/M6Pk6Q1rf97SYmOF9xAnWMHApiDlYsENLPyuz7n54bB1BwT42Yv4K6lVy1yyP/uCKj
-	 VlYJrmpMz9NmyC5NOlIIvUiKUBZ8EeiHqeZ6ktjOZNG43cYsN0eja3+ETfFr+KZy/52lA
-	 DkaU4A4jehiqItD6Vulqi0dkbLWwRsXH1DBmTWXSFaDqlWWe2cAUm2TYa0/254mU+3w==
+	t=1795133309;
+	b=wciiXsniVTwV0ekeE33sWlSUrCNScSRmj51zaRb5zGogOub/2SbD0z/3I9wy0+TKo0BC
+	 l10ZfdHPVNYGr1qqusDfpKpIItx2k4MokGGqmOv7s7Rxs16gm8BZ4AeW2LXsDIjAxeiAO
+	 3jAImTH2t0hRXIbOU+4pcubyEiAY2kiBGJi0xKEdZwil8QqYc9Di2V+ZSF3Gyspyaynm9
+	 OrwjKnV1HYQ795X2I5mVlwu8zRdX2GhUQkoTQp0yqz//YPkBZVrMsvyykVkSL3YU1vneO
+	 PQ2myiDtriOSkjnMk1b7tps2TEh9N+FchBNOC2TnyH9d9mpqvkwvhs4RB1YdQsfG/mg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795131683;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=/bBpAqV6vKIYvVAXxXWFQ3lwfUYXqc1KvZzM1h1nZSo=;
-	b=YHSoDmLX7+RSZGZ+EWfaHIljP+tNyHTKEGbL/gDs6wJl/Nu/HKRyiU012/dSR1ngpDhW
-	 K2UUH4zRG1e9xPYSwi6fEgQSsUxeKBwmUlYk929F4/jkk3Sy9jgWYGON/SOAkuYzHlDdP
-	 FLXbHoHHbFG5IKGglbOgUhEttJs3z6r6Rqj/8ynfGd1X/Zw62nONCUW7Pkv75aEBMNoOS
-	 PzGWVS1s8CZ4x4YsPuHzHhN5gWwwZxjmYYcfKkjwBztsttvXyFFAQ7mgDE1TeaNu7T6N8
-	 W5P62NwNNFbcZFeZAf8q9Din2DMxr5LqzdMqE69Fiz+sNsuRPOzL8YF7/zzChjuWIZQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795133309;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=cY4KOKijAqTkogDXZA4A0T9x7IyNskoXx3Xzbyw+6r8=;
+	b=raSBX0alUZCyg2UwxEj69KjD0zscpgD01pHpCIhTIx++5D7qACkAK5qHPBQL5CWG82br
+	 3huWLx8a5B24E65w2las/v505P7j/RhA5C/dDayVeAPFnBE0v+7Se2Fp0hA+mNisqpw2G
+	 ltJp4qOdSEsUnjlWgIejanyGnR9h/Sm71Ka5PWpvVDpzeeRE/8rFllUulfl/FCRxjoS3Q
+	 hqXc3c9YoTIi6tYCN5bgKcpVSQDfJWwRGitoGCSDwgUcOsKQrPGQLbq/XeydPLhUj9r0w
+	 CL0c6pn9L4u12YyPcORuUI8bB+MVyuUCPVJ2AWhCGrziJcpa+6UqCG8mXh86T6OyJ9g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=dubeyko.com;
-	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=auFLyBTn;
-	arc=none smtp.remote-ip=74.125.224.54
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e+yMDDFL;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A3960A2638
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 23:41:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52A3960A2638
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7915606A74F
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 00:08:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=auFLyBTn
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-67db8985419so520450d50.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 15:41:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1795131682; x=1795736482; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/bBpAqV6vKIYvVAXxXWFQ3lwfUYXqc1KvZzM1h1nZSo=;
-        b=auFLyBTnc+OU0Af5z2ALEYZwf+jLBIma9RB4NffGVhAWF64YbWiXh2L8BhkEttnzc5
-         TGmfG7/5Eh2DAXYwmOWiuqqlNeCdtuJPeApkpm9S4f9oOuoNXvKA64puEIZkAXRoTgaC
-         R6w43OfpNbaqrXXiBLmqpLkUpf0NOyElgB31YXPoYZEy3trjUoNakJfpZtCo8mZNxykq
-         gHx8yP3ZTvW7Z9qqKdIfiTLB7PwKt3DcnVb1MEslTAJnhg2eSLHMfvxoLd7Lhv+1+eKw
-         69WH7W+O5HLISkT1/EohyVQmRk0Hj7mqZ4LTsYmhl4lIew9jEqDZMZ7Mq8yoUGQy2fIX
-         svrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795131682; x=1795736482;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/bBpAqV6vKIYvVAXxXWFQ3lwfUYXqc1KvZzM1h1nZSo=;
-        b=qOzzS/0HkU+JYOoi3NwXp+3bY4ezT9XjeXDIqomb1oxoWLdKdJZML/5NXJYZAItFgy
-         J87gXKCGnDIEZ+TpRLrdQtMd6cMOFu52+DTA9zx6E0DI2i8YLfSpquMsIlJUMko0QuS7
-         +mLcxJkvGCKO6iAwXCeb2KIOmsK5b8P/K9EyReoY09+RI7UHqtrkLqtXvMP2DpBtMmlc
-         HfdaRCZwzcHE3v9JSi/wd5xgKePfDVpjYvpV+8Mlv0dWwmuei9RhLylYT4r2Ffr7XbdU
-         WgeqkLeQA9NUP9k0+AjPMFOwAlwb/z/KpXM7O0ppI+Koh4E2+QVolhGw0gxD3cir7+tf
-         Cwug==
-X-Gm-Message-State: APuU4Z9Yr7w4UM21vfHLVeDbUZ9oLMoYZu/AzJhnQqu03kbhjL1OU/UK
-	KO7CF45Tc+H98TgJYTXIy4DSQmWmHm7ovcGLw2HDdRXQm26ojalpuRo8nB3WsDeTnMQ=
-X-Gm-Gg: AZFdTZd1iSS6q3v3VEVZh3gjqwBGpvw4MvuvkE3Unllv87WzUI/9Qpzaz+wfTGXUSHG
-	Y7ZbIryvB0v7sos6iuvMophP8BYL7k5XhV+XF72v4B7sjWCJe15oItkZLELZ/EIn0TPGz6zCrwi
-	3tN3RhW4tOk13F9+LOon2Pmdk+EI+1rIlJW0z4xHZztYzWKjHCgSL04ypkqeO3Hdz1yCk80sfKW
-	6aN8xbKue7M2p9V3HqlZeiAGP2N5qNxR3hjlEYk/sZWdQ0OyWcrgIUgMBGx9+RRPPbElMFRmSvS
-	Uwd3H9dtifomxtjtpNtZquST7WPe00zoUQLbvrZz2ZJC/Q1cXJe3Q49q6KtHWF5+DZqErxt6zWr
-	C9Ixj5KkdBB1ivCoMq0bSn8YRukTbioZfG0NtPm9bz+dwvZ6hf3JrA82lCXsSFygX/HMcVCNp69
-	3Oa4bR7Sxctp6jUecltV6eGjHevmIVj221Sa8tpNzdPpuOwoKL4jU9+VnawjKbkdod6pAjA0dsH
-	qxlo3g5Y7JB/CpWVdOM/JsSwE6mBGY6GnXe10+6yqO1B4Ogy7svJ9/JiRB8XQnM0sxfOFltSW5U
-	kI2M0U6Q4HXtD5UFUv+4dimMWXe1VSomZkRbXN1XPwlLNPrD9NTCKENrAuSYbEfCqdDZskeBxkQ
-	lBUAEC/UECECGrOW/74D6JnIotXe9HFDsaRhXdgqNKQR4PFpkywJ7kkzxioVH7cckb0GcQ5A=
-X-Received: by 2002:a05:690e:1489:b0:679:5bea:d3fb with SMTP id 956f58d0204a3-67df44ff2a3mr507091d50.98.1795131682495;
-        Thu, 19 Nov 2026 15:41:22 -0800 (PST)
-Received: from system76-laptop.attlocal.net ([2600:1700:6476:1430:1932:ad09:1827:11fb])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67df338e8fesm796893d50.16.2026.11.19.15.41.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2026 15:41:22 -0800 (PST)
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: glaubitz@physik.fu-berlin.de,
-	frank.li@vivo.com
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	vdubeyko@coreweave.com,
-	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH 5/5] hfsplus: name the constants of the allocation bitmap check
-Date: Thu, 19 Nov 2026 15:41:12 -0800
-Message-ID: <20261119234112.720963-6-slava@dubeyko.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261119234112.720963-1-slava@dubeyko.com>
-References: <20261119234112.720963-1-slava@dubeyko.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e+yMDDFL
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 073AF1F000CF;
+	Fri, 20 Nov 2026 00:08:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795133309;
+	bh=cY4KOKijAqTkogDXZA4A0T9x7IyNskoXx3Xzbyw+6r8=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=e+yMDDFLGB8vZJ7qCLQnRx0XeOJv1Xuuog+f0ZV+Eg5q3nwnJSYM2JiF2qHJ40KTJ
+	 597/n7PU36jXl8u+E+TEGksC2GAcq/o874NIkg0jkEuLapGqNSMvdeacrE9e6BWM2y
+	 cSsLtDd7Ne6ElWDsuEqr/L8z5CLo9ajqkCPzgFOVVUhcwZf2MvpatdqYSUW5LvJvT5
+	 n0IvV1gE39ZceEjlPZU3h58pf+f+r09d91JMrheTdyV97gJXV9suCh7odLQ0I1afgy
+	 EjAZ+i/U1CwGdtwuUO1Ap+gj9JK+W1Qj/lPdJFtfXKojJdOXqfv++HeosqVPbroOuL
+	 X3151UCLfkEUA==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 1678EF40066;
+	Thu, 19 Nov 2026 19:08:28 -0500 (EST)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Thu, 19 Nov 2026 19:08:28 -0500
+X-ME-Sender: <xms:fI__ag8_-NuJ-ReCnoxaNYbHYbkU7EbkPdgpv3t7nFEteasuUHisgg>
+    <xme:fI__ajgnvbA0k45UpqIqyXg7258p2VbLNatwYWPCgr1uslLA-IG0glGK4B2T6wiWu
+    Mlid21KrJ4YVLy9cVypgZn5JXjlhdWLr_rbDXbpX05ZcxwLrEKRKmbr>
+X-ME-Proxy-Cause: dmFkZTGwE8ab5+73AgA18L75IUrv/V0PMeXfwC0gtXP2ujZyAQkq1KiG5x3GZZrEnA2ggY
+    t4OlYbdiglv0Ji6batwgFDZ05JFOs3rrH/stiPCy4R1s9TGQXy7UjCgsczkGcE0WambDfz
+    G4ZSd0C9exEUrTSycoVv17TXyz3YpAfbAjetJ/l0ZzeIfLUVBkbGxyG9kvBsaVVj+Ttqd2
+    8KrVLa4OUKYdx+T7+M3o5oEIQkEO9mcy0oN4vK4Eey6CCSJRLnzgTF3Wm1b1OtBhhvm+LK
+    /ha12CxgyBwWOgAJw43qdYldd0B+Je+bcpLJpTDopiG92Rinr2AptcSKtdNyeWURcXBNPF
+    Xsq4RWV5LOW+0LyylKTNBp8GSlePxNiHepfB8KabxLb5Z2IlwZvgT3ZxlBV31E1ErLlVPj
+    FeY55TsXUqlbohHo0lMI3OWbhiqeHHV/DDf43m1GTDLmf0b6DnPO5Y6U78KD95Rt8c6POJ
+    HSyhmhMls4Lh8aJQzOVFlEHzrl2v0jIINY6wNfKUkGUkjLGtgnynzuOQxHstInsDY1/9FT
+    ZLQFxJZIiR43/1/ZLS6k3iaZckkozJ/uDJxo0+GWSXiXDghfrsQfJS7maQ5+IC5V91PeRa
+    H8iO43cbwYgzZDLFMAqIWpfLT68QII7GHJMkHSey6ImW0rUuhgZUbmFY3lpQ
+X-ME-Proxy: <xmx:fI__auil3BDIB3L6_5umbz4SYDTlx26Qoi7u8eiy89gGkW4GH3GD8w>
+    <xmx:fI__aglRj7-WvLu7z7ipDy4mBlx2AuYP2HBYMRWsUBoDmbmro0egSw>
+    <xmx:fI__alUtqhuxZDU2rS7689M6ZTQMzLj0bj2mr05Oat9fysK2nFiaiw>
+    <xmx:fI__att8ilfwEjeQF5AoGkq4W3DooNNRwrjSO2_OQXHr3yDwKLEN0g>
+    <xmx:fI__ag75oH_AHuAXqXohtSyz1O1CtXxPwo-pb95x3QYDQVuoWj0UJQ7T>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id EB52F780070; Thu, 19 Nov 2026 19:08:27 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,76 +77,40 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: AfOMpxdIrCIR
+Date: Thu, 19 Nov 2026 19:08:07 -0500
+From: "Chuck Lever" <cel@kernel.org>
+To: "Dominik Maier" <dmnk@google.com>
+Cc: "Jeff Layton" <jlayton@kernel.org>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>,
+ NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
+ "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
+ linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Message-Id: <c029dfb0-0745-4b63-9577-1a373f7ff184@slotpi15m67>
+In-Reply-To: <20261119192311.2684978-2-dmnk@google.com>
+References: <20261119192311.2684978-1-dmnk@google.com>
+ <20261119192311.2684978-2-dmnk@google.com>
+Subject: Re: [PATCH 2/2] nfsd: enforce cross-export and may_linkat() checks in
+ nfsd_link()
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-hfsplus_file_extend() refuses to allocate when the allocation bitmap
-has fewer than eight bits beyond the blocks in use, written as
+Hi Dominik-
 
-  i_size * 8 < total_blocks - free_blocks + 8
+The may_linkat() gap is confirmed, and NFSD should enforce
+fs.protected_hardlinks the same way linkat(2) and rename does.
 
-where the first 8 is the number of bits per byte and the second one is
-a margin. Use BITS_PER_BYTE for the first and a new constant,
-HFSPLUS_ALLOC_BITMAP_SPARE_BITS, for the second, and name the two sides
-of the comparison. The number of blocks in use plus the margin is now
-computed in 64 bits, as the bitmap size already was; there is no other
-functional change.
+Unfortunately there are some conflicts. There is already a
+patch in nfsd-testing that addresses one of the gaps your patch
+2 closes. So it does not apply to my nfsd-testing branch, and
+if Christian takes these two, it will conflict with what I'm
+planning to submit for v7.5.
 
-Tested on a KASAN and lockdep kernel: filling a volume whose allocation
-file is exactly as large as the volume needs fails with -ENOSPC at 0
-free blocks and fsck.hfsplus reports the volume as OK; generic/001,
-002, 013, 075 and 112 pass.
+I'd rather not drop Daejun's fix. I think the only thing that
+could be done is for you to wait for v7.5-rc and rebase your
+two patches for Christian to take cleanly via the VFS tree.
 
-cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-cc: Yangtao Li <frank.li@vivo.com>
-cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
----
- fs/hfsplus/extents.c    | 9 +++++----
- fs/hfsplus/hfsplus_fs.h | 6 ++++++
- 2 files changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/fs/hfsplus/extents.c b/fs/hfsplus/extents.c
-index da6ab85a64ae..f910699338e5 100644
---- a/fs/hfsplus/extents.c
-+++ b/fs/hfsplus/extents.c
-@@ -552,15 +552,16 @@ int hfsplus_file_extend(struct inode *inode, bool zeroout)
- 	struct super_block *sb = inode->i_sb;
- 	struct hfsplus_sb_info *sbi = HFSPLUS_SB(sb);
- 	struct hfsplus_inode_info *hip = HFSPLUS_I(inode);
-+	u64 bitmap_bits = (u64)sbi->alloc_file.inode->i_size * BITS_PER_BYTE;
-+	u32 used_blocks = sbi->total_blocks - sbi->free_blocks;
- 	u32 start, len, goal;
- 	int res;
- 
--	if (sbi->alloc_file.inode->i_size * 8 <
--	    sbi->total_blocks - sbi->free_blocks + 8) {
-+	if (bitmap_bits < (u64)used_blocks + HFSPLUS_ALLOC_BITMAP_SPARE_BITS) {
- 		/* extend alloc file */
- 		pr_err_ratelimited("extend alloc file! (%llu,%u,%u)\n",
--				   sbi->alloc_file.inode->i_size * 8,
--				   sbi->total_blocks, sbi->free_blocks);
-+				   bitmap_bits, sbi->total_blocks,
-+				   sbi->free_blocks);
- 		return -ENOSPC;
- 	}
- 
-diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
-index 9a304d946297..4f604c664cb9 100644
---- a/fs/hfsplus/hfsplus_fs.h
-+++ b/fs/hfsplus/hfsplus_fs.h
-@@ -120,6 +120,12 @@ struct hfsplus_alloc_file {
- 	struct hfsplus_overflow_extents overflow;
- };
- 
-+/*
-+ * Bits the allocation bitmap must have beyond the blocks in use for
-+ * hfsplus_file_extend() to allocate more blocks.
-+ */
-+#define HFSPLUS_ALLOC_BITMAP_SPARE_BITS	8
-+
- struct hfsplus_sb_info {
- 	void *s_vhdr_buf;
- 	struct hfsplus_vh *s_vhdr;
 -- 
-2.53.0
-
+Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
