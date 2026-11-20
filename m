@@ -1,78 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795198170;
-	b=RYS94LFQo8KmowxcPLU1YxDyewCeB/SJYONMtfdcGYAV3XqbHzRULyuwmR/1v6NACUwP
-	 AM0q6cUvb6YvXHSkWBArHzIf3612xtOLfyEfZtWVqB94Rz/4q8ODwgcAgn0OkQzlrBu2x
-	 Wlx9dn8DG9nxgmCnXYIWOM3s91xU6G7PwioemBqildOhJiYUVzbWQYJnK0rS9MiQVTtw4
-	 WjxfS0k2xhZa7TpC8d1/s7aR2frdErV/hWINPp71XBQ8cSkpEmU9q+K+skI3Gnrn59cRK
-	 zHJq9wUazqVIIB2OiuGtjK1AqqfeD5bPRgEdkCNkr1/fIACQU4RLLNP1hsjnx/Z0suA==
+	t=1795198185;
+	b=Q8vycmeUjyTJH2gbIhK5n0xTkZv+FyX+XpsRQ+ROBgpDlqUtrxgwfuCsaG41ca1IEhLP
+	 eEunytUyboUmTYSar9RwSP7sQPw82Fz4Jk76Mw2mA4nQfzaRNr/dlJ+eUCMFzSpN9Pk1d
+	 htDwKyyJq3Ny71t1Kvuito3MkDYv+HqyhwbkdkVHMvN1Mebies2Wuu/YfqneXppBQy6yp
+	 B4Z8/+nEaGEaBsCdu4tyqYDMZF7io8544CD5G9lte3UL+r4LyRByYingw7JD/Nk8dFdIf
+	 jPG2PqmeWrm2Ltjso6iHDkSf4szEhIN+hokEv9mw8wUQdnXKWERxtHvdRaNzdreYOug==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795198170;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795198185;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=NTsNDMBuz7zPhiY5EdCthhkTLILbhAv/FdI9gjXNQX4=;
-	b=09joYTU4NEQEkqaO5lifnx0QmtpSjHGDQrB6AexiC3wtanAzM5aCJ81VQc8SjqtTxkZK
-	 1EhQt9LZsXhffJz2QPUM2C5InJ5c+NafznpRu/ZZ0Vmpdi9lp6uOSroDipWW/zWR2PdSr
-	 dCo3rLtzCZDd9Ar1plTKt/W01oq+XL8E7ckZY/qxlcjauk8t4ft/Be+VpYGuaqtfsQ49q
-	 U0JALq3CP4M1qdKmEtmmBTvTQybb9wrkgPuDQ0BVgf1+4qkrv5dc9C7JiOHYs3iZjcKsB
-	 S3rmqieOi0TZPkfz8W0AOxam7d2bo6jrnKJ255l/MuVT9abApoodx4cFNYo8ioMyF6g==
+	bh=zjE3RPeHs8dyfLzrDcCaKSay9Q5D+YG1hmYrydQv15g=;
+	b=A+QW7YcEokBXHXsYSybN3Ap9XHuoegMEN1NX1SBqj3/0jilWh5yA0Qu2Nd3fLisdd3yi
+	 G/IVmcCEKbwCkpbd8ffNLP+SigBJa7k3RMiWgE2F9TTM2qEdrI91nXFOtGSr0SXvA3opD
+	 dde6NbcuxH71fC6pwpP8weH/IZe4gQDLy8MTRlIL2IJjzKNY23IEgQfLLDQhdIgVPX1dz
+	 AMF4ap9fZ6iS4j0MtZ14MMtr/y+saIg4xkZJhUM3TxF1Eoqy2WSyV8b+g28ufoP+dHDzB
+	 9II10CvGyiyzeQakwgLTgWQiG+MX6VmtGDqEiLdqWKpJ9Rgv+HtIX2zzd85VgEhsbBA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="l5V/+EuU";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GRAIa4Ol;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C34606A335;
-	Fri, 20 Nov 2026 18:09:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E17460A2638;
+	Fri, 20 Nov 2026 18:09:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l5V/+EuU
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GRAIa4Ol
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795198169;
-	b=2fm3oJIfacRV58tKr04+SjQjMgImPzFLABofcMO1aHpUdC9kBYP0m3RljKh2gdP3nlgb
-	 55wWHmckTLkwcoIHxkxqsZ5tZ4HHtEgAlMErealMjIoKIEqQCTpMhy24G0xdjAlWgg0pE
-	 Xcm3QE6CgufIwHs/vpqtNAkxTAm7qEHq84x5Vz27pP26M3EMoDC50j0isf320mIaKNaUT
-	 QA6hQ0SQ9WVmXnX8VaTZ7YCIvVOhDyhZo45lIoo2acQoOtiEUs/tFCYrocBtctFQOBD3Z
-	 bZWNo9ugj0QyPNfXiwEQPdYqETWwtKCJl/1e4Xn+Vdgn4EscvSK9tt9DJ1/snCG0qKQ==
+	t=1795198184;
+	b=jK3LkGVFA2RmXXX0J/DPifTlZhIqARmBhfMC+h07BjCf07TQcbjPVlOxD5nB93EDJk5d
+	 0NN4doSNK4f+1NT6GsjqtzZAZ19Xsxzb0jWLj3YJqBs9MBTJRthT9TGWBViD7MGcHCE+4
+	 ootinPbrRWPwtchOCrMPbSt/4dXjGDdzjMdp9rW4lXJ1+/0H9vGP/hJ92zCzfSokOb0mh
+	 AicFU4ggqR9Pal2JBpbn6aoTBAEXBR9f2u0244hT7x/RuPUSmx2RXvp2o/fmc1BXur2Sn
+	 CM95Puu5eKdq5G62ce/Ie76OuPWBRnKVo2DY1E77bbCMBaMCgPWX808Yuvllai5UA0Q==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795198169;
+	c=relaxed/relaxed; t=1795198184;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=NTsNDMBuz7zPhiY5EdCthhkTLILbhAv/FdI9gjXNQX4=;
-	b=LJoIBWBFUvpUJrpm17RNmyFzxgu+lnaz0+GBXz7ntuzt06i3N0MCEp4CDhOjR2UQwOsA
-	 e5xXve3wzj0seFIStGNRb5mjSFW6VcLyPbz+Jk/FCREtfuLzk9QLFyaptxG0YRSSAG7SG
-	 y/QvplTB8MvM+edaSl/uit8iun7LxDnNsZCxl0tDoolpwOAYmWK+15S0ibjx1+nZcZTP5
-	 OBEiAQbihcGI1szIsvGro3XGfGCvESujPoFgDv77sZudeXh9/NA+B+ZQfJtz39mSHqgzd
-	 4kIGGHg7/i64kHItu/AVV4/N1XA2sxJy5ROtKtTQOr60PMD/eIXw7B2RkkRilEZULKA==
+	bh=zjE3RPeHs8dyfLzrDcCaKSay9Q5D+YG1hmYrydQv15g=;
+	b=DP4HuYekXMeNzKye58fgRH/Y17e6RGfy3/pxwvUN9Muu+rx4H5LXgtiSMSk7h6f2QedX
+	 f/aovpuQWIqmemdEkam3HNuHYOZUTYRCxpu8bKABlg5ZwNfKCkQPoQNQDDa3NFgfSd9/T
+	 /Adly8bk6rj5QATRDfmFwGLNQj5JeXU4rRenEwc86zKVV/t7zc42STGCMuInzjRIxC24D
+	 K7TBa7TnJSWaq8IcTqppogqMjy5/tSDpv8eB6F3XiP9cSdZSnY+nednbUOJpOeDmkjV/3
+	 CJSmRbfXSXKuHGS1FY3Gbg0NPp0l4uwu1dkG0HS/boQCzrNiST9s1cfS41G1paMnrPA==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A20D41F000D1;
-	Fri, 20 Nov 2026 18:09:17 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id BEE921F000C0;
+	Fri, 20 Nov 2026 18:09:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795198169;
-	bh=NTsNDMBuz7zPhiY5EdCthhkTLILbhAv/FdI9gjXNQX4=;
+	s=k20260515; t=1795198184;
+	bh=zjE3RPeHs8dyfLzrDcCaKSay9Q5D+YG1hmYrydQv15g=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=l5V/+EuU4PvP0RiYrfLT3SAD6U0KHvuf8qFxU309jSif57nh8Q0kGkmO7OPyCYr0q
-	 xbfFznMM+Rqz9WIWIl7p6AkSSmv4OXaITj37z1Z64zPRjTIjI3x2ePMyPViiqBtKIv
-	 tB1yxIe0zridNxcKT1HYPTrvCG19lO5fk3WiT2wrXmI2YE3qs4p29+bUMh3+OnUb+v
-	 YMGpWtO24FIJ8Ye2j0cUBzu9SKjH9PAIGHaQS8YPTTUYxLp+YTa70ZCXxSQp2/4CVH
-	 B78U1I1xMApAe4FrDnZw4c1bUfl1u4ifFc4AiOypCExWG6d8IS+xvJVEakaynbeP8I
-	 0iJeg6O21zthw==
+	b=GRAIa4OlNMIpN5B9CNuVwnnyb2CQm0GTAHyT1tzl02V9LmO783SQnP8+eOkI0CIII
+	 NJueXpJ20aevpi6BskxLQsy+UdlRE/zlgsCKXwe0ya8/CljT9OuyNMZknUV5xPUcgl
+	 rDfyYKdA+0Rv4fNq+eWVFpMuGI8txU3H+SvcWraG0wtgX6QwCxqEl0DPhSXGFmZznj
+	 PScUYXLeaSvn/ES010Oez/bE6sJIaqY4ARBBUP4p7TcQ1vZDu4dhSrHckipK0goZlz
+	 i+DkKbii224Tanh4igYLNBI3fw2BgCE6CSHpVMrtC5MPAFoXcwhkJN+U7uB+V8FbQ+
+	 Y6T5GKBpI8Hug==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 26D6D4B8C9;
+	by lkml.kernel.org (Postfix) with ESMTP id B46A04B8D9;
 	Fri, 20 Nov 2026 18:09:17 +0000 (UTC)
 From: Gregory Price via B4 Relay <devnull+gourry.gourry.net@kernel.org>
-Date: Fri, 20 Nov 2026 13:08:52 -0500
-Subject: [PATCH 01/60] nodemask: add node-state iterators
+Date: Fri, 20 Nov 2026 13:08:57 -0500
+Subject: [PATCH 06/60] mm/memory_hotplug: migrate offlined pages to common
+ memory
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -83,7 +84,7 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261120-private_nodes_v6-v1-1-74f5f9a115c2@gourry.net>
+Message-Id: <20261120-private_nodes_v6-v1-6-74f5f9a115c2@gourry.net>
 References: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
 In-Reply-To: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
 To: Yury Norov <yury.norov@gmail.com>, 
@@ -140,11 +141,11 @@ Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  cgroups@vger.kernel.org, nvdimm@lists.linux.dev, 
  linux-kselftest@vger.kernel.org, "Gregory Price (Meta)" <gourry@gourry.net>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795198152; l=2119;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795198152; l=2066;
  i=gourry@gourry.net; s=20261120; h=from:subject:message-id;
- bh=G4ssD0bod7vgjZxwR56nCucNo1kgkEnObUnor5Z23Ok=;
- b=RjAl7uvfEf4NqVkoeEx7BN6LIu7ylgrHkEUd9mkFu97o60NZ4EyCUrePrl7IYTdG0pVE3cvIL
- Tfn22wnQtSZAtJ0uk4weMboEXWaQLw3lMEAfCsBn1GD/x5mvmm8mTel
+ bh=y+LG+FO6STODgbMk2P9Neg6dWT2V0RZ4aCGZDdcA1iI=;
+ b=rF4QRfdnyeirN8cavwU1rBXmaiGs7/MuKraaTxIZF6cFZOTMnmNLGqUa7ewdFKbgEAKZSsWhS
+ Nj0dPmjAPUKA3opSJvkIGXOZYeu3uu/WCfCgJJA/K1WyJMnnUOPr45Y
 X-Developer-Key: i=gourry@gourry.net; a=ed25519;
  pk=BZWDlx4htkR5KcvGjGtSDfx1tM0E5dlyBR43FEhjWVc=
 X-Endpoint-Received: by B4 Relay for gourry@gourry.net/20261120 with
@@ -155,60 +156,55 @@ Content-Transfer-Encoding: 7bit
 
 From: "Gregory Price (Meta)" <gourry@gourry.net>
 
-Add first_node_state() and next_node_state(), so callers can walk any
-node state the way first_memory_node and next_memory_node walk N_MEMORY.
+do_migrate_range() / alloc_migration_target() is only capable of
+allocating memory on N_MEMORY_COMMON nodes. The destination nodemask
+presently starts with N_MEMORY and removes the source-node.
 
-Add for_each_node_mask_state(), which iterates a nodemask intersected
-with a node state using the bitmap intersection helpers, without a
-temporary nodemask.
+In the current code, if the destination mask becomes empty, the source
+node is restored to allow migration during partial offlining.
+
+Consider this configuration:
+  Node0 = N_MEMORY_COMMON
+  Node1 = N_MEMORY, not N_MEMORY_COMMON
+
+Node 1 keeps the destination mask non-empty, despite being unreachable.
+This leaves migration with no usable destination because the source
+node is not an eligible allocation target.
+
+Restrict the hot-unplug migration target-list to N_MEMORY_COMMON so it
+reflects the nodes the allocator can reach.
 
 Signed-off-by: Gregory Price (Meta) <gourry@gourry.net>
 ---
- include/linux/nodemask.h | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ mm/memory_hotplug.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/nodemask.h b/include/linux/nodemask.h
-index 607373bd83ee..90bdcffa42ea 100644
---- a/include/linux/nodemask.h
-+++ b/include/linux/nodemask.h
-@@ -411,6 +411,11 @@ enum node_states {
+diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+index e5cb770e4b09..1d3d1792074c 100644
+--- a/mm/memory_hotplug.c
++++ b/mm/memory_hotplug.c
+@@ -1926,7 +1926,7 @@ static void do_migrate_range(unsigned long start_pfn, unsigned long end_pfn)
+ 		folio_put(folio);
+ 	}
+ 	if (!list_empty(&source)) {
+-		nodemask_t nmask = node_states[N_MEMORY];
++		nodemask_t nmask = node_states[N_MEMORY_COMMON];
+ 		struct migration_target_control mtc = {
+ 			.nmask = &nmask,
+ 			.gfp_mask = GFP_KERNEL | __GFP_MOVABLE | __GFP_RETRY_MAYFAIL,
+@@ -1941,9 +1941,9 @@ static void do_migrate_range(unsigned long start_pfn, unsigned long end_pfn)
+ 		mtc.nid = folio_nid(list_first_entry(&source, struct folio, lru));
  
- extern nodemask_t node_states[NR_NODE_STATES];
- 
-+/* Iterate the nodes in a mask that also belong to the specified state. */
-+#define for_each_node_mask_state(node, mask, state)			\
-+	for_each_and_bit(node, nodes_addr(mask),			\
-+			 nodes_addr(node_states[state]), MAX_NUMNODES)
-+
- #if MAX_NUMNODES > 1
- static __always_inline int node_state(int node, enum node_states state)
- {
-@@ -435,6 +440,12 @@ static __always_inline int num_node_state(enum node_states state)
- #define for_each_node_state(__node, __state) \
- 	for_each_node_mask((__node), node_states[__state])
- 
-+#define first_node_state(state)	first_node(node_states[state])
-+static __always_inline unsigned int next_node_state(int nid, enum node_states state)
-+{
-+	return next_node(nid, node_states[state]);
-+}
-+
- #define first_online_node	first_node(node_states[N_ONLINE])
- #define first_memory_node	first_node(node_states[N_MEMORY])
- static __always_inline unsigned int next_online_node(int nid)
-@@ -481,6 +492,12 @@ static __always_inline int num_node_state(enum node_states state)
- #define for_each_node_state(node, __state) \
- 	for ( (node) = 0; (node) == 0; (node) = 1)
- 
-+#define first_node_state(state)	0
-+static __always_inline unsigned int next_node_state(int nid, enum node_states state)
-+{
-+	return MAX_NUMNODES;
-+}
-+
- #define first_online_node	0
- #define first_memory_node	0
- #define next_online_node(nid)	(MAX_NUMNODES)
+ 		/*
+-		 * try to allocate from a different node but reuse this node
+-		 * if there are no other online nodes to be used (e.g. we are
+-		 * offlining a part of the only existing node)
++		 * try to allocate from a different common node but reuse this
++		 * node if there are no other common nodes to be used (e.g. we
++		 * are offlining a part of the only common node)
+ 		 */
+ 		node_clear(mtc.nid, nmask);
+ 		if (nodes_empty(nmask))
 
 -- 
 2.56.1
