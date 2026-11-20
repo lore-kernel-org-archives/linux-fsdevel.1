@@ -1,47 +1,63 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795189515;
-	b=pdLrxA2+VhgJJq/ZREFGqVIV6o2eZ9di+SoRNN+KMTRj0Bjc1Djcy5ScrzRfXZNgAXVr
-	 I+voqfoKl0XM1Zk1jlLt4b6BdtOaRTwNazf87QpTrauwAGr6o/JTf0LIXFcSvkzhk8dSr
-	 8+uS+uB9eq0dOLN32xWpyAfdWOtO8ltu2OQvwXov2Gb/KYTPY9eG9JK3e5+UwAOB7Gx2U
-	 L4WIXXSG1L+MYd2ImHOTCXXyae86zhWP1H4pDCOjCbMo1B9HLUluX5bMjQs8U+v95kJxh
-	 87X2TA0/1iq+mXZGf/0XEiA8tNdK5/M1Gbxu0Y58iqXgGL7lyDcGzZKO9zq75mQ9Gkg==
+	t=1795190024;
+	b=jk6KTE62wy6dVfk6XpUWDiXuzfxz4adVwtX9u1BG7BCg5LdtZFMgN0P4kHeMfzAkiBLg
+	 qQm5UBgBTWHdEzazsdHngj62lQR4vYmlW6l+JUlA+RtQ8DfpH2ZiMjKTjrQBbyg25jK1T
+	 QKJ3XL6AnSrIZaCxyb92uOPfFZfEq12qZYnjWPW7MKHAH9VgQxt/HbLSbCPjEZGFxP++2
+	 1GnigY6y22Y8pDSlEglxXAu3aNNKkHzM2uQ2LQzvM0uKXRc7/ZM98sDQloYUjwMMk78ue
+	 GhMtX34EfJrx2eMG0pxHjLj6tPEoanM/8gzXhKvI7nYBc5rd66hvVvj+Dk1pizFm7Uw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795189515;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Organization:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=apWQglMZ3WR6Lq4/1VhlQe/yInFiYTe1Kqw3Bxr/zls=;
-	b=kKwdfmoNg6jYRdPwtRJpXdpYZGIZCN44KWMJ6cSXcgT3j+ID7fDLoDeo5SMaqt+tJzQC
-	 5uhw9tKE/GSoYHhVgd+RxCNy28hnuVfAxsZGKFnvmVDyHxwAytWbmN/RtNz46rNa6nA+1
-	 cwGcuaNqaKcewxb9uzkDVAFyyB1N7Qf+7VrgcrUsbuYTj350QbOIvDjwM7RPZyWTXABcD
-	 WhiafhRfpUg5kwLiAbTHZ+pIJoYfVZNIEjjGK0MhfJmtlp3NZNtRXy0Ot3k6dHQEuoZVU
-	 jxvBdgIykaEcKXsQt14ObSp51SYh3sSfaNeyETbmdanTCuFd5E36o7WAUiPi30GiEHw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795190024;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=v+LHSOGcYG6qwjHdgPt0+XZc2oJGKJ+L7kW/ZhoRQBc=;
+	b=zLpUkR3yNHxTKamX/ajH4aYQElGzfIKMrOyely8dNTjV4KIFUU+XCRChZHRd9hjgkeBu
+	 a4ql0Yzg2g7CLFGQII5fejp7tPASpTW1Fs4BlGOm9UuYllJfwbGkLos6/D7u38vr0p8Vf
+	 HO2SqsNWiHInz2uDXz+/CLnM4K59KBw3NQuqCucsQgcj3WrIi684Gwxpnn5XSvu5Eqcfz
+	 Ib+CvdYLghcUT8Qm5iFfCW5+dQj//UUHjURYY3cQW8RSypx520r+XQv2htanjpCvNsswg
+	 kbY+OJA2b0Wss2wMOtzuEnfCjZyHCoB7n8itsO168UyAh7IUizyRX/3P49FTVt8tgFg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UX8pBjDO;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DTWV4yfc;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D1C0606A334;
-	Fri, 20 Nov 2026 15:45:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC09E606A334;
+	Fri, 20 Nov 2026 15:53:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UX8pBjDO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F04EA1F000CA;
-	Fri, 20 Nov 2026 15:45:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DTWV4yfc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05D3D1F000D0;
+	Fri, 20 Nov 2026 15:53:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795189514;
-	bh=apWQglMZ3WR6Lq4/1VhlQe/yInFiYTe1Kqw3Bxr/zls=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=UX8pBjDOnjLtEHZ5XE8CaPe0jP6PgAbXPkboIZzJ0jT3CprDUZjsJF78WumNAra73
-	 rId9XFyQaiyJb21WKGZz+COrDoHg3uYirXYVEiQiHdnJboXwp4TSAH4PbGrc+T4OQ5
-	 L4ot4SEhMHZREESAhmwdB9jYiFvi2g8ak6mCnFv5MhwZyfeSPaOkh772UnmkY7xwLl
-	 UZb21N2I+fkPP5s46acmKzhtzUPIDsEUFWQsN+15k9GiQL7kH5Jn9fu6GxXu0HnMxZ
-	 7/HBJDiqix1cePPZ0r0ReoiQvwW6tkrkTCqaqBKqDmQ9UaBPuyVFCaQFoOsOKZel/y
-	 kfDY2Sq/ARs+w==
-Message-ID: <f40f3cf8-73ea-4d77-b0d4-8e7afca54cd7@kernel.org>
-Date: Fri, 20 Nov 2026 07:45:13 -0800
+	s=k20260515; t=1795190024;
+	bh=v+LHSOGcYG6qwjHdgPt0+XZc2oJGKJ+L7kW/ZhoRQBc=;
+	h=From:To:Cc:Subject:Date;
+	b=DTWV4yfch6T4GKNBEDPtPRjXNy936zjSMDhrGuKJvN/8SwkSNSYDzrCPcYZwfLb3l
+	 1slRfaMzRiOXOxdJpAkxti4i6T2MFR3Nv3huXUy/H/jQBkb5ljZe7YtCK9rIE5qYap
+	 mh+RxfXvSz5RVEtdOTN3PqKgv9/a9jykomEYe2TrmIIYxFhBg76PlhYbpiq3dSNTmc
+	 oIOed94Q+baMMwrVDIjpZoS0xWYmt/adIw0ZFOzTAsJDDKTxlKbZY6XJOurL8F3r0/
+	 PxVhTTSv2Nl8tJnJbGWy/yZHAalZgK5QGFuikwrI1iVwJiPw7Ido60UMggXtPTwffK
+	 D+Vw5QInfdfcg==
+From: Andrey Albershteyn <aalbersh@kernel.org>
+To: "fsdevel" <linux-fsdevel@vger.kernel.org>,
+	"fsverity" <fsverity@lists.linux.dev>,
+	"linux-ext4" <linux-ext4@vger.kernel.org>,
+	"linux-btrfs" <linux-btrfs@vger.kernel.org>,
+	"linux-f2fs" <linux-f2fs-devel@lists.sourceforge.net>,
+	"linux-xfs" <linux-xfs@vger.kernel.org>,
+	dsterba@suse.com,
+	"Eric Biggers" <ebiggers@kernel.org>,
+	"Christian Brauner" <brauner@kernel.org>
+Cc: Andrey Albershteyn <aalbersh@kernel.org>,
+	tytso@mit.edu,
+	chao@kernel.org,
+	jaegeuk@kernel.org,
+	viro@zeniv.linux.org.uk
+Subject: [PATCH v3 0/7] fsverity: lift ioctl() input masking and runtime inode flag to VFS
+Date: Fri, 20 Nov 2026 16:50:22 +0100
+Message-ID: <20261120155032.187246-1-aalbersh@kernel.org>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -51,42 +67,69 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] zonefs: ignore RLIMIT_FSIZE above LLONG_MAX in
- zonefs_write_check_limits()
-To: Ding Feng <dingf3ng@gmail.com>, Christian Brauner <brauner@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20261119031026.7985-1-dingf3ng@gmail.com>
- <20261119031026.7985-3-dingf3ng@gmail.com>
-From: Damien Le Moal <dlemoal@kernel.org>
-Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <20261119031026.7985-3-dingf3ng@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2026/11/18 19:10, Ding Feng wrote:
-> zonefs_write_check_limits() follows generic_write_check_limits() and
-> has the same problem: it stores rlimit(RLIMIT_FSIZE), an unsigned long,
-> in a loff_t, so a soft limit between 2^63 and RLIM_INFINITY is negative
-> and every write fails with -EFBIG and raises SIGXFSZ.
-> 
-> Keep the limit unsigned and apply it only when it is at most LLONG_MAX,
-> as the generic helper now does.
-> 
-> Fixes: ebfd68cd0c1e ("zonefs: Fix O_APPEND async write handling")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Claude:claude-opus-5-5 Frama-C
+Hi folks,
 
-Not needed...
+This patchset lifts two things from filesystems to VFS level:
+- No-op'ing FS_VERITY_FL in FS_IOC_SETFLAGS ioctl()
+- Runtime fsverity construction flag on inode
 
-> Signed-off-by: Ding Feng <dingf3ng@gmail.com>
+The second patch fixes BTRFS get-modify-set loop with
+FS_IOC_GETFLAGS/SETFLAGS ioctl()s, as it does return fsverity flag but
+not mask it out.
 
-I queued up this version in zonefs tree for-7.4-fixes. Thanks!
+Testing, -g verity passes for all fs, except btrfs/277 and
+btrfs+generic/574.
+
+The btrfs/277 seems to fail due to difference between what kernel
+and userspace versions support (btrfs-progs v7.1 doesn't seem to
+support latest streams v3).
+
+The generic/574 on BTRFS fails only for 1024 block size no matter
+the change (fails on v7.3 too). I haven't checked why.
+
+Based on v7.3-rc3.
+
+Changes in v3:
+- Add comment that I_VERITY_BUILDING is set over enable
+- Revert comment changes in ext4 and f2fs
+- Added I_VERITY_BUILDING to show_inode_state()
+- Updated comment in begin_enable; dropped -EBUSY
+- Added patch changing inode_state_read_once() to const
+- Use fsverity_is_building() around ->begin_enable() call
+- Use fsverity_is_building() in iomap
+Changes in v2:
+- Return ret in btrfs_begin_enable_verity()
+- Include linux-fsdevel
+
+Andrey Albershteyn (7):
+  fs: constify inode argument of inode_state_read_once()
+  fs: strip FS_VERITY_FL from FS_IOC_SETFLAGS
+  fs,fsverity: add I_VERITY_BUILDING inode state flag
+  iomap: use fsverity_is_building() to check for fsverity IO
+  btrfs: use I_VERITY_BUILDING instead of private flags
+  ext4: use I_VERITY_BUILDING instead of private flags
+  f2fs: use I_VERITY_BUILDING instead of private flags
+
+ fs/btrfs/btrfs_inode.h           |  7 -------
+ fs/btrfs/verity.c                | 12 ++----------
+ fs/ext4/ext4.h                   |  7 -------
+ fs/ext4/file.c                   |  2 +-
+ fs/ext4/inode.c                  | 17 +++++++++--------
+ fs/ext4/ioctl.c                  |  3 +--
+ fs/ext4/verity.c                 | 19 ++++++-------------
+ fs/f2fs/data.c                   | 10 +++++-----
+ fs/f2fs/f2fs.h                   |  7 -------
+ fs/f2fs/verity.c                 | 12 +++---------
+ fs/file_attr.c                   | 10 ++++++++++
+ fs/iomap/buffered-io.c           |  2 +-
+ fs/verity/enable.c               | 22 +++++++++++++++++++---
+ include/linux/fs.h               |  8 +++++++-
+ include/linux/fsverity.h         | 26 ++++++++++++++++++++++++--
+ include/trace/events/writeback.h |  3 ++-
+ 16 files changed, 90 insertions(+), 77 deletions(-)
 
 -- 
-Damien Le Moal
-Western Digital Research
+2.54.0
+
