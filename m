@@ -1,69 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795180284;
-	b=buHVgfH+MYjbyDbGIYS2ZLy7k3OoaEB5nz6NlHLAZK3cl2HOZb6BHfMvvAt7CE1LrjLU
-	 vR85yOciWFq3MfvRC7LgvRzFwAIyLxnv/UzzmlcmICVsdFVmxSprDnpVJdgjptEj5G7ZA
-	 7NFUZW0FEKPi0+Iljehdi96jw1TRYRmhjb740BPyBYSXngJVNLMIvQoOVQeBeiIFgQot4
-	 nNsq9+IVwrzVFGNDydgd7XGlkaLD+UF12gJ3X/OhS3+wpnN3Bi+n4VTbwNFbkca6vomBi
-	 wAChuVJn3tTg2ilugnFVvyDvwE7D6GIYhfe33FBiXDrzBnTMAl1RxIlypChHmxUW2iQ==
+	b=F6KeMN9RgGatef8THp+NnbvZMuRAsRxZHThgYx/jl4e6nwer6CwO74x2/5cs4jFyCtaQ
+	 Z4X/+Foc2MpSfTaAppAID/VtQeukNJOq6p5WyGAVs8a96cGvClqmgLMwRg7Q1mEG6iazL
+	 N/3AiQr3oB3xBwp4GlMESPjVvFKruiw8H9+DOrbBHjT3ZCAwl2uIQeh9eizJK30+gmMVI
+	 30ZRQkj+OnxQp+fRq05/uBMgIxdmBuu1NjVrwJyQd4N6d8soPkkG+JAPgTOOvXjNOwSP/
+	 1MmXNITbnq1xhTfjwQffexor2Edm76dW924zw8JLCoT3kQrsP07HfiXoJyCEMORAbRQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795180284;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=11EUqqsBHqKJhSEKaLjedxJRvUSCpiSlKRotGWVYopQ=;
-	b=bxIld30OiK8isxP4D1Z8foQf7WjSmSDuqRBvmj78nbHFTpYVKkOfFpu2EorkbDWTKGnp
-	 +jvDjwKv3oHYQpCunw3kuv3lCPSeM4KnxlFnZ8wAhRI8VWycpfv2TEEHj8wlbdgY7SN3z
-	 TXWD5DtAiLOXzFa4TdqXhiH0Mc97XkeHFdwur6f4SbjhfjpHyZf+GhFC4xs5XGsc1ZR6k
-	 SvYnL2crWfklaq9R1uZvbm6t0xlCFn88w1vsQzNzeeWebk0bbqwmLzm7HUzsQkZsDyZNv
-	 spMxi/fOUTb/X3BZaAlFtlBWlbBf4gSU6iP+JIzIJcilOu5ySs/rSqyt6T/WJW0axZA==
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=A/+gZzyL81rIhTfQl485EM05rto2HhCWsUis8cJpLtM=;
+	b=oIImkhDk14oQ2qoDyjFhnGqaObdqpzVe7YoWfiB21ik6z/invCkhdVWH3P2UvKv3wM3q
+	 j450A+/ZDDc5iTsS5oEs2sddhAeGSuCTvCKfCFZy04hnp+0WGH+MPqq4y54g7tAW3rtak
+	 2XjYAJVTW1MW7ek8JoYeqedvS3XtHdbuhL18aN9L3ON0DSyDkfiL94Z27nGD2u+6Phcuz
+	 F2Z8xEesV4DlGW1JsSCvL+MzW4bmcucFEkg5oVvKrFykUJLA3BWq7YQJzm8eU576OM1W3
+	 U2CC4FO4EzMJeOZnGI+3d17inTcvwcKpP8sqbyjOh33ZhYUyzoQaypNgwuuDwuhBlEw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=pcpMXMRk;
-	arc=none smtp.remote-ip=95.215.58.13
-Received: from mta1.migadu.com (out-13.mta1.migadu.com [95.215.58.13])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ij+IgiF7;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90AB606A335
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 13:11:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C90AB606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A09460A2611;
+	Fri, 20 Nov 2026 13:11:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=pcpMXMRk
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=AFN9OOtQlK1HJO8cWelVMtGeAQ6PKLi87EwwnhaP1iY=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795180281; v=1; x=1795785081;
- b=pcpMXMRkQ4Ns6fd064vPWWatVGroU9IVtkGO3ROe58Y6pOfgmdrRaA8URbSyfTUF5AbEgZhD
- i68/L46VO8eq6YVzH9zTsvTRNPM0a79tLxALqyXzHBnW3aN7CqxWw7P6596t4l+BKqmEoxYpK8c
- D1wn0Zhz0yPrczpYDf0gH1hM=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 1d043ee31403846b;
-	Fri, 20 Nov 2026 13:11:20 +0000
-X-Mizu-Trace-ID: 1d043ee31403846b
-X-Migadu-Flow: FLOW_OUT
-Date: Fri, 20 Nov 2026 14:11:11 +0100
-From: "Pankaj Raghav (Samsung)" <pankaj.raghav@linux.dev>
-To: Jan Kara <jack@suse.cz>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	Andreas Gruenbacher <agruenba@redhat.com>, gfs2@lists.linux.dev, Mike Marshall <hubcap@omnibond.com>, 
-	Martin Brandenburg <martin@omnibond.com>, devel@lists.orangefs.org, Dave Kleikamp <shaggy@kernel.org>, 
-	jfs-discussion@lists.sourceforge.net, Carlos Maiolino <cem@kernel.org>, linux-xfs@vger.kernel.org, 
-	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
-	linux-afs@lists.infradead.org, Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, 
-	linux-block@vger.kernel.org, Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
-	linux-nfs@vger.kernel.org, Eric Biggers <ebiggers@kernel.org>, 
-	Jaegeuk Kim <jaegeuk@kernel.org>, linux-fscrypt@vger.kernel.org, 
-	Carlos Maiolino <cmaiolino@redhat.com>
-Subject: Re: [PATCH 02/13] xfs: Drop pointless I_DIRTY_PAGES check in
- xfs_can_free_cowblocks()
-Message-ID: <awBGYTkywYFOaYOI@quentin>
-References: <20261116171044.6938-1-jack@suse.cz>
- <20261118145941.1063127-15-jack@suse.cz>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ij+IgiF7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3C841F01566;
+	Fri, 20 Nov 2026 13:11:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795180284;
+	bh=A/+gZzyL81rIhTfQl485EM05rto2HhCWsUis8cJpLtM=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=Ij+IgiF7PHYNpwNc92yJuJt87XUOL/CmbXVr5DjpF9qJfdOVNVAlXaBuIWkpx3sPX
+	 PHaUng495YTQN+wIQceCjtMVbfAUougzkdJRflY41SyKb4jdZQlwU0Yt3+D8j0gWiz
+	 +c/zpihzO+pwvgK9nWb9Qi+07x5lfGke2DpOjSVIED5jqp9MsVkgcQQ0n3HR2ZkyMB
+	 hu55iMX3BHiJw/Se/bg8pO96BnQixbBqiTgZDjFwBOGaCBExO4t/hQb4WVBCuA80ai
+	 +ewmynKEeussF/o/Wbyy0zvaIaieFopK3HoEwkEXGHzdO9hSP3ArHVLwfsWRW3gFGP
+	 YrLYfNL9dX11Q==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+Date: Fri, 20 Nov 2026 14:10:14 +0100
+Subject: [PATCH v6 03/12] xarray: move xas_result() and xa_zero_to_null()
+ to the header
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -73,40 +53,137 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261118145941.1063127-15-jack@suse.cz>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261120-xarray-entry-send-v6-3-1f69d7385f70@kernel.org>
+References: <20261120-xarray-entry-send-v6-0-1f69d7385f70@kernel.org>
+In-Reply-To: <20261120-xarray-entry-send-v6-0-1f69d7385f70@kernel.org>
+To: Tamir Duberstein <tamird@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+ Matthew Wilcox <willy@infradead.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>, 
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+ Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Andreas Hindborg <a.hindborg@kernel.org>, 
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2723; i=a.hindborg@kernel.org;
+ h=from:subject:message-id; bh=ca+4WUJBKKfPYSZI2hkWUZre4cjwUXs8x7GoxKkJ+V0=;
+ b=owEBbQKS/ZANAwAKAfpQKQiqxb3QAcsmYgBrAEbFnFw9rCz1Jelb3iakHInaQsNRR8kKr+7GN
+ w8gpl0GTkCJAjMEAAEKAB0WIQRXitnI2WZ2JirAaob6UCkIqsW90AUCawBGxQAKCRD6UCkIqsW9
+ 0J3CEACzMsK+m4Dg1xcrEbxsQuJ6A2tsRgSLRenMoZVnVmZCFXa91CIJAJjAHGYufxyjSiRNGaf
+ CMTMgh3au4y1+w0CNdn7IQsHpCZnesqFIGkSx30ONJgijxCvMn29faGLvUvIcsGLlbLq/0INZgj
+ GGjeMJlMIMklMIPq6OSmyg8/ghAc8X2AksxqSolcQJJVS2n7/MhoxbNnHvP9utkfuf63XwmkbU+
+ 6PchkUVhgUleFswDlr6LxZcKHpRXeWa6eNiG5e1ve6RG9hiLg6LgKJ47eBXMi+pApUP7Oko5g06
+ NopeANniQ9yf5eyTCQsOK7omt59/0XEINdHIBxhQyn0RMLIxCwB/7HhePp9ygHM2i4R+hdFV+Cu
+ qDIfInt3M5EO5hutxnt7ZRtCiFVMyz1ZX9RZh3HZ7mbjcWccuWSk1oNIYa1W03MQvlNZp46M0Ps
+ xvXcqFMThGzNONErsCDC234+Rc8VIPFNKU0xw0oLg/1YP2zEvf1Y8HP6mvnv1ize2Gezc01Hgl9
+ +xy9vogiSrovDdiJ+YM1xCuTgOq8UmsM/SReX1qSWhU9ouI8kzkBB203ikD60m1tyHBnAtKyDbl
+ xNn1PlYt2XXB0LWYvXCJuOmVSx6qN6qoPhY0Z4u75vKT2Sq4FqTKx64bVxPBG7oeaAOvpoz8Ulj
+ IGBeCmbtnUUpmhw==
+X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
+ fpr=3108C10F46872E248D1FB221376EB100563EF7A7
 
-On Wed, Nov 18, 2026 at 03:59:36PM +0100, Jan Kara wrote:
-> PAGECACHE_TAG_DIRTY is the authoritative source of information about any
-> folio being dirty in the mapping. I_DIRTY_PAGES is just an approximation
-> used by writeback code that can get stale under certain situations. So
-> just rely on the authoritative check.
-> 
-> Reviewed-by: Carlos Maiolino <cmaiolino@redhat.com>
-> Signed-off-by: Jan Kara <jack@suse.cz>
+The functions xas_result() and xa_zero_to_null() are static in
+lib/xarray.c. Upcoming Rust XArray changes need to call them from
+Rust helper functions. Move them to include/linux/xarray.h as static
+inline functions, following the approach of commit 79ada2ae6615
+("xarray: extract helper from __xa_{insert,cmpxchg}").
 
-Looks good,
-Reviewed-by: Pankaj Raghav (Samsung) <pankaj.raghav@linux.dev>
+No functional change.
 
-> ---
->  fs/xfs/xfs_reflink.h | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/fs/xfs/xfs_reflink.h b/fs/xfs/xfs_reflink.h
-> index 683c1841e640..1310cc9fe829 100644
-> --- a/fs/xfs/xfs_reflink.h
-> +++ b/fs/xfs/xfs_reflink.h
-> @@ -17,8 +17,7 @@ xfs_can_free_cowblocks(struct xfs_inode *ip)
->  {
->  	struct inode *inode = VFS_I(ip);
->  
-> -	if ((inode_state_read_once(inode) & I_DIRTY_PAGES) ||
-> -	    mapping_tagged(inode->i_mapping, PAGECACHE_TAG_DIRTY) ||
-> +	if (mapping_tagged(inode->i_mapping, PAGECACHE_TAG_DIRTY) ||
->  	    mapping_tagged(inode->i_mapping, PAGECACHE_TAG_WRITEBACK) ||
->  	    atomic_read(&inode->i_dio_count))
->  		return false;
-> -- 
-> 2.53.0
-> 
+Suggested-by: Tamir Duberstein <tamird@kernel.org>
+Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+---
+ include/linux/xarray.h | 26 ++++++++++++++++++++++++++
+ lib/xarray.c           | 12 ------------
+ 2 files changed, 26 insertions(+), 12 deletions(-)
+
+diff --git a/include/linux/xarray.h b/include/linux/xarray.h
+index be850174e802..db2520864aaa 100644
+--- a/include/linux/xarray.h
++++ b/include/linux/xarray.h
+@@ -191,6 +191,17 @@ static inline bool xa_is_zero(const void *entry)
+ 	return unlikely(entry == XA_ZERO_ENTRY);
+ }
+ 
++/**
++ * xa_zero_to_null() - Convert an internal zero entry into a NULL pointer.
++ * @entry: XArray entry.
++ *
++ * Return: %NULL if @entry is a zero entry, @entry otherwise.
++ */
++static inline void *xa_zero_to_null(void *entry)
++{
++	return xa_is_zero(entry) ? NULL : entry;
++}
++
+ /**
+  * xa_is_err() - Report whether an XArray operation returned an error
+  * @entry: Result from calling an XArray function
+@@ -1437,6 +1448,21 @@ static inline int xas_error(const struct xa_state *xas)
+ 	return xa_err(xas->xa_node);
+ }
+ 
++/**
++ * xas_result() - Extract the result of an XArray operation.
++ * @xas: XArray operation state.
++ * @curr: Entry returned by the operation.
++ *
++ * Return: @curr if the operation succeeded, the error encoded in @xas
++ * otherwise.
++ */
++static inline void *xas_result(struct xa_state *xas, void *curr)
++{
++	if (xas_error(xas))
++		curr = xas->xa_node;
++	return curr;
++}
++
+ /**
+  * xas_set_err() - Note an error in the xa_state.
+  * @xas: XArray operation state.
+diff --git a/lib/xarray.c b/lib/xarray.c
+index bfe7bef80f34..49fbec5f6c38 100644
+--- a/lib/xarray.c
++++ b/lib/xarray.c
+@@ -437,11 +437,6 @@ static unsigned long max_index(void *entry)
+ 	return (XA_CHUNK_SIZE << xa_to_node(entry)->shift) - 1;
+ }
+ 
+-static inline void *xa_zero_to_null(void *entry)
+-{
+-	return xa_is_zero(entry) ? NULL : entry;
+-}
+-
+ static void xas_shrink(struct xa_state *xas)
+ {
+ 	struct xarray *xa = xas->xa;
+@@ -1627,13 +1622,6 @@ void *xa_load(struct xarray *xa, unsigned long index)
+ }
+ EXPORT_SYMBOL(xa_load);
+ 
+-static void *xas_result(struct xa_state *xas, void *curr)
+-{
+-	if (xas_error(xas))
+-		curr = xas->xa_node;
+-	return curr;
+-}
+-
+ /**
+  * __xa_erase() - Erase this entry from the XArray while locked.
+  * @xa: XArray.
+
+-- 
+2.54.0
+
+
