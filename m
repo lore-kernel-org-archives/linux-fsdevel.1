@@ -1,58 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795207347;
-	b=ILChicGNk59ztsozkcnH9SQsVovnSlkEE+01DzDERrWYMPIVfDqCDZZ0fDfCTrJNHPeW
-	 v/PaXbuHtxpg5jj/OmjYh7bcNvUd/cW6mLSkE3RKNwpNxGBXp081iHAsuQLY9XrcO5v8X
-	 4KavYLXRmuZ9ZcyIbNn3Vw5DCPTiJs1I8GLtr2vWyNdSsQR6cW320HjRX2qwlQDYjn6dQ
-	 VEhjoWBIo1+Puj44MxRu0SrosXhI40oKmPacJomFD9jSYTgJ7eEkHnExujxFHptOoHJ8s
-	 KALPMbggxiJbcKi1CE36fehHa6D/O/7O1qvFlCEflav6pyrx3bF5CgSwZ7bwKo+CgOQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795207347;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=JY1vZIgRiM5NsJl1wPNeOXCDiP+um8a3m9EeDgiFiVk=;
-	b=pP488opwcssJTSCcR4jcP7xQT12JT47g92UDzOMw9xc7Z2/pPr0jSW0FDybCDopUwkV+
-	 PiI3rz9sRCMVV+eacH4kEtwHApsNtNeAK7ktqp4bCd7yWXR96abdFRsDStqow7kkHvYTC
-	 H7K1Q82RlFS4DLjKwZII38hoNacUoqbFzFvYhbw/fA9Rb0iOieJ/usemMypZyD+sMLvw/
-	 EmQGmRQd6TVoriSasE13i6KzQeuVpvNMuQfRD8GR/u2DBkLXcSfJJmhWAR2FXEIxRTDz4
-	 +jxg+JkgJx0lqSCSg2BGs8+EI9r518LEQHvIvcwdNOcNpJzVEVH/iG0sn78SuaNElzQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=miAF077r;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.49
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795207638;
+	b=kRrK9VZS6qFiHyqp8bKvSO4yo2GelnLEnLJcvhHKB9xzdzxI6Igme7SANIEBP3+FC5UN
+	 4MGoY9GeA3Wz661HYjUEl5fvQvwgRONV6gceTaKF13sbi9Gk/KB9OgNvEvvDuYXXGcts5
+	 uXWrz5RFP+S6BCgAb7PvsxFyJgDgnNOeO6yfLRxaK5ahL3Pevp4momc6B9nXR35JFXFMJ
+	 /xFNYWBR7NuoMYxu6hub+Bwne6mOpMolWIwz9s+MsNOgvQ2KRt328v8zlpTb21FC0eLJ7
+	 AEQXk/t0e7W11oqTK2qj6huR8pq8ZB5VumURasoOc8/qRayv6RzeH5xtvVcC4iFqN+g==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795207638;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=llVEsGyf8yGSEqiwg3JqL+nGjFux4pEvwSi5fD2JB/g=;
+	b=YE57vstB+1t2Mbw95PWcXC+2CaKbMDyINfXuT2e5g1yG1+Kdd05NrOpa8o41plEbRY8N
+	 7OJp4zDv0noEgYSNQaGjkFz6mHLOE7C8SvFpCAOZjtskN/MwMa05MQ8adfLfVI8ByaIjV
+	 fb10iiKN0afZ8ClSkucY+fgzLPvwWxVGst1t9YyZz9VZtBQYFoPmdq5zbly+2vYC80D/p
+	 HahfVbZusmiTtbbj1AM/UF+9q+2C6vUsADX6f+/4UPhNT2hAYTHKRsM7/478a6cf0dnYf
+	 JMXsZvlc99K62PzPBURXfxWZZvBpi4bP3DjP1eYmwV8skqLctRjnIwsDQ71ftNwW8tg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mDAOssts;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.49
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31434606A6C0;
-	Fri, 20 Nov 2026 20:42:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBE7606A6D6
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 20:47:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EBBE7606A6D6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=miAF077r
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FB071F000D4;
-	Fri, 20 Nov 2026 20:42:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795207346;
-	bh=JY1vZIgRiM5NsJl1wPNeOXCDiP+um8a3m9EeDgiFiVk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=miAF077rNHBJFZ94WMh0jZKYrv63/zQCEj0mvtqPPDsVAO/btg7Z+us2vw9xaRlcC
-	 uFc+yGUdKIWIqV4RRQ+qk8z/YySG03TZNGuPNO7kGgjFXbCq8AKwoQa3p+RVJrbUYV
-	 f5nPwESmQ+f8KznDodGIie3Ag+PIvnTqoYzcpk5oA6i0PQBcV8XkBGe1S0PAuloe0Q
-	 qVXL4w/PEaR4r3/DssUW++y+HidB/ZkV+sV/RwSiht9mFEhrBC7pXnZLcEhCBrjGxN
-	 js5m2UwjP63W+m6uPX0P8N5QmMiOIzDud95rdAowgTMFJj/P4WwiXiYjpu7YPF/HYH
-	 bto4uHiWsyzFQ==
-From: Christian Brauner <brauner@kernel.org>
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Tejun Heo <tj@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
- Ian Kent <raven@themaw.net>, "T . J . Mercier" <tjmercier@google.com>, 
- Meta kernel team <kernel-team@meta.com>, linux-fsdevel@vger.kernel.org, 
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20261118220154.2965621-1-shakeel.butt@linux.dev>
-References: <20261118220154.2965621-1-shakeel.butt@linux.dev>
-Subject: Re: [PATCH 0/6] kernfs: stop taking kernfs_iattr_rwsem for writing
- in mkdir/rmdir
-Message-Id: <20261120-taverne-tonband-bunker-6b0699c075d4@brauner>
-Date: Fri, 20 Nov 2026 21:42:22 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mDAOssts
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6a642495d81so2161436a12.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 12:47:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795207635; cv=none;
+        d=google.com; s=arc-20260327;
+        b=PDibtoCgH6jty9x3Vw7QinZB4fIBN38VdZ29T4FVTz4dZoOjNpOzW5b4URecz+ko74
+         gCuSRR0aTHlurVL8mEI2Ce1JYyYanslHIPJmka+WDjwHe/IwmqjrGSwY6OpaBkFxDvhB
+         d86PatA2mWREMcFWejLWdv6xAFH8RZq1vxS799Yw+fqjqxk9VoGKo/qpqnTXb0kLg2pS
+         e21W7BIeG1jVWaewUjV9syWHh9x/Ggdz29EVGSMfcx4gD78RIRJkNPU3XWbQeYry8edl
+         LqcLCS7UvGJVjqTxKsqhi6i4GhNr3gLhNAJ17u3DBlWkse/ZJVxw7tA6vQt45ihRdkvg
+         T3vw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=llVEsGyf8yGSEqiwg3JqL+nGjFux4pEvwSi5fD2JB/g=;
+        fh=WYgpe/SCU9H6/bv5xNgO7JRskryFK8IRXhC8JSQQ+60=;
+        b=FVBT2/kCG1KApdEKtDcQyP8Z+/z3EQ+EBw0Y6zmfXDGtUBGHJePYaCSXNr8kpG93AY
+         wVPy4nxbH/DC1k6wV1mQilJ5yAMKtSxh9D/x5FB5P7jd7JITQVJs0Zqu0Urn9hQNvahw
+         K56HHWTwtj/h4SOzi+RK+XZUc9qBrvp8x74e2BjEuzCKvt5NQokeYAj0rCEnZu++wFrj
+         DpUskve3E5MD0UGWE/Rm/Y5Lzo8TvH98gfKkGV2rM/nGZX4yzhHgFP1T1hQ67ajCuzHO
+         IVref8La73FuLn5KExS+FI/wl3IGeFIx7b0chIK679Bcwjlucm3dj7WBTZiYRBdny8lz
+         ZndQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795207635; x=1795812435; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=llVEsGyf8yGSEqiwg3JqL+nGjFux4pEvwSi5fD2JB/g=;
+        b=mDAOsstsayaGpVN5mrt0WHqYfJMxVl4xNjlphbORMQuqB4zPnUbAH8YaL5zKoIC4Eu
+         F9LqIsRSKgJhEV5v03T+Ql0DWyROGQUMSOMG9rXiKslwSVX+DZGe95zlEpbsvPZ12/Oe
+         /1Lg9q5g9eiw4avDt19dm+doGHj/TFoidHrkLUVkXu0NzjOf7FppJD0z5wgyVLDT0o42
+         scAWYbqIDKZbrzNtxRz2nSVGye/JKaL+ET7lrUtqhawwd240uLRGeYfjniCwwZ0qBqw2
+         Dq3r649QkfCvJq+cnC0iuLmcHbOL56jN1SyeI49SzjDaOGrK6m96yCsK6VRP7oVSXgeL
+         mnRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795207635; x=1795812435;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=llVEsGyf8yGSEqiwg3JqL+nGjFux4pEvwSi5fD2JB/g=;
+        b=rnU1hHd9frQywmHgAKjbrcEE0FMTCPV0LURRjMuBj8qMloG64q6W6/mLHe/MjLnYIv
+         ZXrevmV+bpdqJnz5N93rw2jCneaxT1qKEaPXDrJrEWdqDcbQvud5nW0Xgs4N+0lPuQ7e
+         uGjWxzxPF16dmde25C9Sp/ROS/S4fhxksaY029Q1wBHlks2KXJEBvSuEcRK90eBBn1S9
+         Xi2cCuuTD3c3M1B4SpS7G0KXKVe54nzANVKlYDZUxHhNB6LrDoR2l7ZQG8TA6HjZQmkB
+         l+gwf/17wZuD8cO8+n81n5IrsnXi/GI5MHGL9G/Uqv0UDdUINoB66yZDXYSmH2KvLt6+
+         lvfg==
+X-Forwarded-Encrypted: i=1; AL+hErF3QS71K6YjysGig1kj1DjBWM7k/kIV8v5cmu6HSjmDLxdWxHf3bOXdVDSzqq1Kg9l6KcpeAADH9GqqH1pj@vger.kernel.org
+X-Gm-Message-State: APuU4Z+sodrz0JxMy9HUS1B54cxkacSn5NJ2xgxHA8tJmsHzXTMZpKOB
+	c67F3KuG7eyZVguZ1bn8qnRei1v77tybwyVxFs6BLcjNurOVeJWEjzn2zVlfqegvET+SxDXj+HD
+	J5p4WQd1kasuD3t2B+rzyXEyA50hE2/k=
+X-Gm-Gg: AZFdTZcJ7rR2BxwoCxXbJZZB3V3jFBwHkZuDdmDC8jd7e97zxPl+Dpxvx7u9wANK+/H
+	MNwjPCVwMUU5LCYuJKeugUdcCyTmutJ8PRwISgpRA/inQVcPx72cCOGbhfZKupGlIyB0taaztVP
+	fIPQuCe0S/7hrt+vX2/RhZDFVguqFISyrS8WfK3xBfP9+0LKuSwsWoRFH1aw3Fgj83tTI/uDdXA
+	uWzNlgQWVN/QgASr0UdgP9s09rM2ml7fWDDm9BPo/IQ1+4bluDGzQWAFTKKZHfFeCcpWXNCEoQd
+	5Ne7XJOe0Mpz6Xu1yN9Fip36UCxRCPJVKv9S3nkNT14JdvGrjGgXqm8/3nTJ87/7+5JFdq9Co8f
+	WEeuYNt7hp/+4IgHqTRICkDkVVz5/qMZfK6VUaBmyi7QglPmI6j3MaRCK/5Ec
+X-Received: by 2002:a05:6402:a507:10b0:6b8:f674:e089 with SMTP id
+ 4fb4d7f45d1cf-6ba37e876f1mr2474697a12.36.1795207635126; Fri, 20 Nov 2026
+ 12:47:15 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -62,45 +104,67 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-04696
+References: <20261120184225.257554-1-technoboy85@gmail.com> <9cabfb96-21d5-46a7-a0e5-df0908fa67c5@cs.ucla.edu>
+In-Reply-To: <9cabfb96-21d5-46a7-a0e5-df0908fa67c5@cs.ucla.edu>
+From: Matteo Croce <technoboy85@gmail.com>
+Date: Fri, 20 Nov 2026 21:46:38 +0100
+X-Gm-Features: Aa3M54rNdpAi_ZPAGzdrjgQEZILfET328P0IFMfa2C4FAQfNHEVsWA64zuH6c6A
+Message-ID: <CAFnufp1ec4hDOoXCy_NdCEhkYgZzQktvN5RizyEkMQQ9MneRbA@mail.gmail.com>
+Subject: Re: [PATCH] fs: shorten I/O that would extend past the maximum file offset
+To: Paul Eggert <eggert@cs.ucla.edu>
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-fsdevel@vger.kernel.org, 
+	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Ding Feng <dingf3ng@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 18 Nov 2026 14:01:47 -0800, Shakeel Butt wrote:
-> In the Meta fleet, cgroup mkdir and rmdir can stall cgroup operations
-> on the whole host.  They hold cgroup_mutex and kernfs_rwsem while they
-> wait for kernfs_iattr_rwsem, which every path walk takes for reading,
-> and they take it once or twice for every file of the cgroup.  systemd,
-> clone3() into a cgroup, BPF queries and the OOM daemon all wait behind
-> them.
-> 
-> [...]
+Il giorno ven 20 nov 2026 alle ore 21:03 Paul Eggert
+<eggert@cs.ucla.edu> ha scritto:
+>
+> On 2026-11-20 10:42, Matteo Croce wrote:
+> > +     if (file->f_op->fop_flags & FOP_UNSIGNED_OFFSET)
+> > +             return count;
+>
+> This means there's still a problem when reading past the maximum file off=
+set of /dev/mem and other files with FOP_UNSIGNED_OFFSET, right? If FOP_UNS=
+IGNED_OFFSET is set, are the file's own read/write methods expected to shor=
+ten I/O requests in this situation?
+>
+> Thanks for looking into this, by the way.
 
-Applied to the vfs-7.5.kernfs branch of the vfs/vfs.git tree.
-Patches in the vfs-7.5.kernfs branch should appear in linux-next soon.
+Right. For files with FOP_UNSIGNED_OFFSET the limit is the unsigned
+one, 2^64 - 1, and crossing LLONG_MAX is already allowed for them.
+At that limit rw_verify_area() still returns -EOVERFLOW instead of
+shortening the request, and this patch deliberately leaves them
+untouched.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+As things stand the VFS only guarantees that pos + count doesn't wrap
+past 2^64, and everything else is up to the file's own methods. They
+don't behave consistently: /dev/mem returns -EFAULT for a range that
+goes past the end of RAM, while /proc/pid/mem returns a short count
+at the first page it can't access.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+I can extend rw_clamp_count() to shorten the count so the range ends
+at 2^64 - 1 for these files too, so that the behaviour is the same at
+both limits. In practice none of these files has data near 2^64, so it
+would only be for consistency. I'll do it in v2 if you think it's
+worth it.
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+Thanks for the review.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.5.kernfs
+One correction to the commit message. The second reproducer is wrong
+as written: with "dd ... | cat" it is dd itself that does the read at
+LLONG_MAX and fails, not cat. The intended example has dd only move
+the shared file offset of stdin, so that cat then reads from
+LLONG_MAX:
 
-[1/6] kernfs: report times and link count from the node in getattr
-      https://git.kernel.org/vfs/vfs/c/793fdbff8747
-[2/6] kernfs: don't copy times and link count into the inode on refresh
-      https://git.kernel.org/vfs/vfs/c/98d1b8f98844
-[3/6] kernfs: don't take kernfs_iattr_rwsem for the directory counters
-      https://git.kernel.org/vfs/vfs/c/77e95f59b821
-[4/6] kernfs: don't take kernfs_iattr_rwsem to publish KERNFS_REMOVING
-      https://git.kernel.org/vfs/vfs/c/ead252b9937f
-[5/6] kernfs: update a directory's times without kernfs_iattr_rwsem
-      https://git.kernel.org/vfs/vfs/c/992996523359
-[6/6] kernfs: don't take kernfs_iattr_rwsem in __kernfs_remove()
-      https://git.kernel.org/vfs/vfs/c/af421cafc6ce
+  $ (dd bs=3D1 skip=3D$((2**63 - 1)) count=3D0 status=3Dnone; cat) < hugefi=
+le
+  cat: -: Invalid argument
 
+The code is not affected. If you apply this version, could you please
+replace that example while applying? Otherwise I'll fix it in v2.
+
+Regards,
+--=20
+per aspera ad upstream
