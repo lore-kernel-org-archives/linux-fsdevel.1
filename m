@@ -1,146 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.67.36.66
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795182075;
-	b=iVD3+oJs/rYSqWbLbHY1IN3ZMpumSHTGvQEHKwd4Vf/cL2dgLL5136SeB68z7CEus8dc
-	 iz0E7NiyveHoHFE1PyRVviwdwk0Bh1FnwkMKa2uRNEAznvd0e7x2/bpkuSNYjS7xGd+MH
-	 mjQCOvoRLYAhl4HISixD5iRC1yUggMfT7I6HidxTFkiZ861egnHYJrL8SaN77NU+9VUt6
-	 z66ERpbg2CNuzWqNBeyq1cesU3ywZ8XXd9HRe3M9OxiQo/SquKmxcXc/+zYKF8s+sA1tt
-	 5+jwFv5tV4segiTI1lrARGItZ/lJQdatSXeOVZ8aXMHGOtftzaOAoRb+yk2d6ORIFog==
+	t=1795182150;
+	b=pCvLvR1e9YPPePy7I7zAZP1Risyqi6byobPjbICH/cYg2QJ8lRdBatPHIxTyqF8JtHmO
+	 s7xHYH9VYCtNuiIbFvzj2+SuLerIQQB7dAC4AEyxTMFSryFKEIx8OnD3uGHRiKqJAL0Yr
+	 PBWcr2z0oKaO4dfF3HfGXmzCZ4Qiuzm2A9JNc5Qd1fWqlIOxflUaT6QGpSD2jEUkVBaki
+	 Bx1+c7mTuNTeESvvxFcKy0cslAZzpVZ8PqqdjBQlgcdNst/4/7chBmPvAqz/B7shXxMRZ
+	 yHtf084qj2v7bMqIdlHV0tsbKTR/JIUW68ovmnbvL8uZhXfFAPOtcBfVAtP5BgKSGNQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795182075;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Message-ID:Subject:
-	 From:To:Cc:Date:In-Reply-To:References:Autocrypt:Content-Type:
-	 MIME-Version:OpenPGP;
-	bh=YW4oRhO1MuXRHyeWQ9Lx5ixnye7cuXD9in5rMS24y2A=;
-	b=wOjc4/Ryxp9MnkwBk80i8dkIQLMlUNlHBvQHu8bmqVGCFlm/qQTap3kWMYGYUlG/CxMX
-	 IdNy7i3pAlk1ISatDxb4daeBQ55H8VExd4szFG5ZA+rw1JgTquN9ocOsJGKna38HxJ176
-	 TZgFvCSEk3pwXvO+PUbWxYcqWlU/Gwsm90A53phHz8ErYWthGxKmkpqC0dmsGwDGUGziq
-	 8tbGGi9XYa0KqxWZkZ8IkYcebldYaoy6r4JKx0iKKbDFGrurQh60kKRhUf6IUJ5drsafD
-	 YGSJwVFpkfvQ0j5lcZmWsyIUJ1IdpcRIsDseduZaiCIDMzVUk0L5Mz60zTCMS8v+VGw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795182150;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=PxknjzXyKlIZbBI8K2Iy/IF94QOe7DF6NOjeL9QzLkc=;
+	b=WZt3aq7SPWhoohmiPl/cndragdpyKo42rd7s6VLXeL51vgZ7zfclUIHb5gTlVqIE1FCF
+	 r/BemOaeINd5vxzBgYl9vRJUTLj2wZlS8GGUtGUz4G93ALuRvHw1Dwi0va/+RLAxecrd9
+	 nqoOrjJkF855J88dbJznl+xnUWcLRysKxVbLr61YfviyP6uvFkP3Lu4V7U6aWK7OoFVB1
+	 bRZloJpbT31NUclu304I939QbByqQzxyyaCt5O6UNL+Kwb8WogjE1VWjc6Q0Xibje069K
+	 4H+wlcQgvZio+o6SK3JS/fwjnuy8LNKgD8A18hMXSLKahRzmeRj6l5gzQPWBUKOgAag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=posteo.de;
-	spf=pass smtp.mailfrom=posteo.de;
-	dkim=pass header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=hWh+t93A;
-	arc=none smtp.remote-ip=185.67.36.66
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aE7K5lkT;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A52B8606A337
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 13:41:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A52B8606A337
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B95606A334
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 13:42:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=hWh+t93A
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id 23046240103
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 14:41:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
-	s=1984.8680eb; t=1795182067;
-	bh=YW4oRhO1MuXRHyeWQ9Lx5ixnye7cuXD9in5rMS24y2A=;
-	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
-	 MIME-Version:OpenPGP:From;
-	b=hWh+t93AQ89D3y7Q9jrCyuBHB12xO/fjpp2KbQYXJeT2L3X6wH/D4DMbcDgYcqtgT
-	 pePRFyBthjOtirmgOI5czcXW1Xr1VnxH6GfasweXjJm4J9Mm4Hw+mn7yRccYA1M89r
-	 ckxYsVMo6pN37AZxMbKEL4i2LBGKnzK6/RJiaHheArZW644ZeQGqGoyhhM2h3T4JFH
-	 Dk2Hxfv0uSl3GCmBxQb7acaV1ilGCR5zeH72IlA7Ii3mLlwUcevf0AERKWuKOWgNhS
-	 bpETuEoWTvJyWgDofyUyxOmTRbCQ1514fODehAyVg1kPoYini/8kpChbhDu6bw685P
-	 5EShivwIQiQoA==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4jWGgr36MZz6tyT;
-	Fri, 20 Nov 2026 14:40:56 +0100 (CET)
-Message-ID: <e4c77581b1c09f8e0c8be570283f653a2a7e2147.camel@posteo.de>
-Subject: Re: [PATCH v22 4/5] rust: rename `AlwaysRefCounted` to `RefCounted`
-From: Markus Probst <markus.probst@posteo.de>
-To: Andreas Hindborg <a.hindborg@kernel.org>, Danilo Krummrich
- <dakr@kernel.org>,  Lorenzo Stoakes	 <ljs@kernel.org>, Vlastimil Babka
- <vbabka@kernel.org>, "Liam R. Howlett"	 <liam@infradead.org>, Uladzislau
- Rezki <urezki@gmail.com>, Miguel Ojeda	 <ojeda@kernel.org>, Boqun Feng
- <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,  =?ISO-8859-1?Q?Bj=F6rn?=
- Roy Baron	 <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Alice Ryhl	 <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Daniel Almeida	 <daniel.almeida@collabora.com>, Tamir Duberstein
- <tamird@kernel.org>,  Alexandre Courbot <acourbot@nvidia.com>, Onur
- =?ISO-8859-1?Q?=D6zkan?= <work@onurozkan.dev>, Lyude Paul	
- <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Christian Brauner	 <brauner@kernel.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Dave Ertman	 <david.m.ertman@intel.com>, Leon
- Romanovsky <leon@kernel.org>, Paul Moore	 <paul@paul-moore.com>, Serge
- Hallyn <sergeh@kernel.org>, David Airlie	 <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Alexander Viro	 <viro@zeniv.linux.org.uk>, Jan
- Kara <jack@suse.cz>, Igor Korotin	 <igor.korotin@linux.dev>, Viresh Kumar
- <vireshk@kernel.org>, Nishanth Menon	 <nm@ti.com>, Stephen Boyd
- <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,  Krzysztof
- =?UTF-8?Q?Wilczy=C5=84ski?=	 <kwilczynski@kernel.org>, Pavel Tikhomirov
- <ptikhomirov@virtuozzo.com>,  Michal Wilczynski <m.wilczynski@samsung.com>,
- Ira Weiny <iweiny@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
- Thomas =?ISO-8859-1?Q?Hellstr=F6m?=	 <thomas.hellstrom@linux.intel.com>,
- Johan Hovold <johan@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,  Dave Jiang
- <dave.jiang@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>, Saeed Mahameed
- <saeedm@nvidia.com>,  Zhi Wang <zhiw@nvidia.com>, Jonathan Cameron
- <jic23@kernel.org>
-Cc: Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- driver-core@lists.linux.dev, 	linux-block@vger.kernel.org,
- linux-security-module@vger.kernel.org, 	dri-devel@lists.freedesktop.org,
- linux-fsdevel@vger.kernel.org, 	linux-pm@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org, linux-serial@vger.kernel.org, Oliver
- Mangold	 <oliver.mangold@pm.me>, Viresh Kumar <viresh.kumar@linaro.org>,
- Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=	 <ukleinek@kernel.org>
-Date: Fri, 20 Nov 2026 13:41:05 +0000
-In-Reply-To: <20261116-unique-ref-v22-4-12029383206d@kernel.org>
-References: <20261116-unique-ref-v22-0-12029383206d@kernel.org>
-	 <20261116-unique-ref-v22-4-12029383206d@kernel.org>
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
- keydata=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
- jfGillcaQOqFZ3WwVqyzG1BUfTow==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-1bC6az0UrhT7nf2a398O"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aE7K5lkT
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6545C1F000C0;
+	Fri, 20 Nov 2026 13:42:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795182149;
+	bh=PxknjzXyKlIZbBI8K2Iy/IF94QOe7DF6NOjeL9QzLkc=;
+	h=From:Subject:Date:To:Cc;
+	b=aE7K5lkTR4egrzTaxc5ukEBMPXht8pKpIjSsNFY4eWV3ZaAzQHqS9nFg5eau1aT4S
+	 HTF5bcFYvtEhabzME3ixN1AUu3F3rJR6cFOsM6qIONmCH2z43SZB9/iWVFu6Yc1uNL
+	 9ucX6qweiQzi2NyXbEir3ti801+p/gnpyS7ekr/AtCKD25FStr0KjeHMfCM5imLwM4
+	 cuYPXlSGvSMUPu/e+Te1QwMZirfJbPQqmEQlYcVD5Sgsy6F4MYLpoAF5AQzET8EFTl
+	 SmeVLdGPa5o0sImRMPoEUygkADzh0Es3ZPWlMRegTSBhhH39/LtsvxUqhoEb3Nqi/v
+	 TMJRSzvjdrfMQ==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH 0/3] pidfd: use one helper for pid namespace visibility
+ checks
+Date: Fri, 20 Nov 2026 14:42:08 +0100
+Message-Id: <20261120-work-pidfd-pidns_visible-v1-0-0e82d08469ae@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -150,75 +54,57 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMUQrCMBBEr1L22y1NjLZ4FRFpko1dlbRktQqld
+ zepPwNvmHkLCCUmgVO1QKKZhceYQe0qcEMfb4TsM4Nu9FEp3eBnTA+c2AdfMsq1fOyTUHXOGBX
+ 0vu0M5PuUKPB3U58vf5a3vZN7FV9Z2F4IbeqjG0o1B8G2PtSbHNb1B17xI1icAAAA
+X-Change-ID: 20261120-work-pidfd-pidns_visible-18c441f23784
+To: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>
+Cc: Oleg Nesterov <oleg@redhat.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Jiwoo Kim <arpe1618@gmail.com>, Chen Linxuan <me@black-desk.cn>, 
+ linux-mm@kvack.org, "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.17-dev-04696
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1564; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=avi2yEAxjJ5v1EMR55Cx9mpcbWIvVTDxij2cio+1u1k=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQz+Nm8vD1f553U9adnDUXYOatWae9mYMvcm2DvrZl56
+ Pr+iz+tOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZScYzhf3DB3/Ljf700GXu3
+ MMQ9sZDQ9Zt05Jro/bD2iVIZRjd+aTL8j3vAEsQ72+rF2S1qBYYND2V/xLYyFzpekd8zgaU+erU
+ 4IwA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
+The pidfd api checks in a bunch of places whether the target of a pidfd
+is visible in the caller's pid namespace. pidfs has
+pid_in_current_pidns() for PIDFD_GET_INFO and the namespace and task
+path ioctls. The pidfs file handle lookup open-codes pid_vnr() and
+pidfd_getfd() does the same since Jiwoo's fix [1]. pidfd_send_signal()
+walks the pid namespace hierarchy in its own access_pidfd_pidns().
+Yuck, unify it.
 
---=-1bC6az0UrhT7nf2a398O
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The rule is the one we settled on a while ago [2]: anything that hands
+out resources of the target requires the target to be visible in the
+caller's pid namespace. That doesn't turn pid namespaces into a security
+boundary. It just means a pidfd doesn't get you more than you could get
+by naming the process yourself.
 
-On Mon, 2026-11-16 at 15:21 +0100, Andreas Hindborg wrote:
-> From: Oliver Mangold <oliver.mangold@pm.me>
->=20
-> There are types where it may both be reference counted in some cases and
-> owned in others. For such types, obtaining an `ARef<T>` from a `&T` may b=
-e
-> unsound, as it allows creation of an `ARef<T>` from a `&Owned<T>`.
->=20
-> Therefore, we split `AlwaysRefCounted` into `RefCounted` (which `ARef<T>`
-> would require) and a marker trait to indicate that the `&T` -> `ARef<T>`
-> conversion is sound for the type. A type that implements `Ownable` may
-> only implement the marker trait if it allows an `ARef<T>` to exist
-> together with an `Owned<T>`.
->=20
-> - Rename `AlwaysRefCounted` to `RefCounted`.
-> - Add a new unsafe trait `AlwaysRefCounted`.
-> - Implement the new trait `AlwaysRefCounted` for the newly renamed
->   `RefCounted` implementations. This leaves functionality of existing
->   implementers of `AlwaysRefCounted` intact.
->=20
-> Suggested-by: Alice Ryhl <aliceryhl@google.com>
-> Signed-off-by: Oliver Mangold <oliver.mangold@pm.me>
-> [ Andreas: Updated commit message, rebased on v7.4-rc2, converted new
->   implementers, relaxed the `ForeignOwnable` bound for `ARef<T>`, updated
->   safety comments. ]
-> Acked-by: Igor Korotin <igor.korotin.linux@gmail.com>
-> Acked-by: Danilo Krummrich <dakr@kernel.org>
-> Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
-> Co-developed-by: Andreas Hindborg <a.hindborg@kernel.org>
-> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
-> Acked-by: Uwe Kleine-K=C3=B6nig <ukleinek@kernel.org> # for pwm.rs
+[1]: https://patch.msgid.link/20261117152332.1221-1-arpe1618@gmail.com
+[2]: https://lore.kernel.org/all/20260925-gewischt-auftrag-tierzucht-c153cb3f9f74@brauner
 
-I haven't unterstood yet what use case this has, so I am trusting the
-other ACKs here. Maybe a precise example would help?
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Christian Brauner (3):
+      pid: move pid_in_current_pidns() into kernel/pid.c
+      pidfd: convert remaining visibility checks to pid_in_current_pidns()
+      pidfd: restrict pidfd_get_task() to the caller's pid namespace
 
-For serdev:
+ fs/pidfs.c          | 12 +-----------
+ include/linux/pid.h |  1 +
+ kernel/pid.c        | 31 +++++++++++++++++++++++++++++--
+ kernel/signal.c     | 23 +----------------------
+ 4 files changed, 32 insertions(+), 35 deletions(-)
+---
+base-commit: 0a5864ad213c9fb2cf627a2dcd6f448a1fb7e065
+change-id: 20261120-work-pidfd-pidns_visible-18c441f23784
 
-Acked-by: Markus Probst <markus.probst@posteo.de>
-
-Thanks
-- Markus Probst
-
---=-1bC6az0UrhT7nf2a398O
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmsATecbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPSANQP/R1hB8C5F3mypETYwCgo
-/31OX6ODiCHu568feU0OwqqnH1gKua6thOPxdUzO4oz9uHEvJOy9k0pAUuqhIoUR
-cwWGFajvqbq0iEcbMMls3ezTo63QhALeYKpaK+p4wCU6HqazGDnsTiqXqIBnSMFF
-/zhMCLHxApAYueLhRzmTe9z4DIEhOaUdcOowPIV35HlxhghSQZ/uaZclBwv6h+xn
-PDpQAKnR2JxW4CcyT1Fm62hItTX+Djvef/Q6aac3xdMq1JSPlsbNUlThWsY+EjbX
-eBTAO766WENw3Hw3SxnX/pcUQwUVsRa3bxxgBxSfwZtm6nSfhxmBzAHsiR7aA4wq
-hrI46P32JW6WcL+jToQJC/QjQienV9rV/QTWrfp83Z59ce3lL43XtMlofu0EoK6W
-IWoX/O4IoSM3YDlzHsSYGQR7KG+VGDXyJAb6HhVyNdMTiegz8UxWwYqGviS9mTON
-a3YA8htdMngXmkwT5CQKhsNbS0sLqGb3nDrqmLV2hSDpjGkdUe86bahObcVCXonf
-7Gdl1/15c46K0QRbEf7q5kgreejRoLqFdi2eyw406ruUxE7Bd71t9faF5zWzaJRK
-ewr2s+IremZr522ABFhIX0SFkqu1sPzXqNLKXQa5fz5XxTh6jQziddGf3Q2z71dB
-79I2PETkcl5NqkNBz+UkmsCH
-=iSw7
------END PGP SIGNATURE-----
-
---=-1bC6az0UrhT7nf2a398O--
