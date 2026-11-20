@@ -1,56 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795165182;
-	b=zgEvuhr2U8jTM9NUlRZSLFLqPyZqZBdeSj89Er8GVbkVHEbJAdAw6xqDpzwz/SR4l8dM
-	 Q/yi4OyU0ebDFmyoGeirJHxRfzXrhhLU4LGqXiYPR7vVTGujq4ZmsYe77UNKCt2OZnU2b
-	 p4b2mLKI9iCZYx/I7dEN+2iTGbdKHvrhTYhtWDMhB5XsKC86491jE94WGe7SS6YK0qpQS
-	 0POkjylhXa2xziN+HLeewBsIbjVx8sZlWBoPGRewEZM9VKlZ1fQT2VwR1yh1+8iiJkdgk
-	 AtRKfM56kWKkHbqb8LOHajcILZrI0L20odSzfCyRXwxbeFdTPGvSdxXVk+RVEVSmHeQ==
+	t=1795165482;
+	b=Vvz17fu8Fc46E/n5SRfgVjKff6GrOODqSO7Qrs46vDxQa8uyI/tdB0FOfoexkLoCR8Ov
+	 UYtv89DGuznjPVZ4CDDLIrSlHMUJWHg7Mo2M5R7ya0/hEPOP+63BCnqwp1flj6pQCJ/qk
+	 c7dknDcsuRlxnuEWgyWdHZUUZYuRZ1OVUItNi8nWqQRCnfDvPL2Ur4FKHB9ytrSvWa0xX
+	 TTO2lMU2GLBfgZn2AIB4NCp9TeY2793gEn+muFAU1F9KbpPUVPzuqFT6lLRsJQwKBh7IV
+	 /mX+7LCwfcBFqsXFCQb5gntTyzd1T4L3oJP0vuJf8syJltWo0GDF8C7UubkgMWcJR1g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795165182;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795165482;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=2ccnweT/dXUZnBEt2kANRtABkZdQMfgjKD0LcKfebxQ=;
-	b=4fWlA8koM/8zLtIlSznmkU+U7uZ8XyQSj+akdU16s2AMrii8YBJ6EatZSWy33TuvHPim
-	 KKngYww2i7AcsjnSCf8qN62WIIoKUMDwGIudmQQ0AOOT0VaDaOI3UF0BRBWgVGkrVX27n
-	 Ziua+wmQ+MHToT9AU2cHbpaFb7dAdqoZ4/h4E7RdLhDMmYfNEQPMoE+pBsfNplmTzmA0h
-	 de59jgcm4pviviziByo/FAiwC8EPQ3CJwR5Wxt3rMxaS6pmj+YjJO8Wpxw1V6mO/dQAq/
-	 qBCnG1e4foCUppJVXVWmBXLLfqCH3vslFTWSaTZOh39qdEC4umlx4/vC3aDwRgnuXGg==
+	bh=0i1q7QXoQpyw7U+kbS9CbTzSUpFctyuEhoMiaekUXV0=;
+	b=N7qyMagp6UgA648wmNwEaXsOOq54zqx6kr5iDOkHkXOiwUDGjlglyL0MunKKyQEiOMrq
+	 RDPc6ZMlgKuTioB88HXuyQoqLVd4pXXyowr63URTTJmMN87RHI4axn06RGL5G+PHPeA0y
+	 jSrLkm7q/7DbeQ46GUeLEMvgvF26lfJvSLKcMQ7zkhTGeNx8il6TRXd6gvnxlMxDy2lYo
+	 idmG4H0Wkjt0j+nrQNU1ipxCDwLEQKFdHjHfuVvEILyuO4YBPrvuSJULuzualtAMqBZ6K
+	 tH9dO6iAy7ltod4bMrFS6XxjZYXSe9gDfsPcOEiQqd9KKk28W2ssj5l9Tmbe61TZwuA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bTgP8oc7;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IhrGSlie;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1705606A33C;
-	Fri, 20 Nov 2026 08:59:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2E6606A333;
+	Fri, 20 Nov 2026 09:04:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bTgP8oc7
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B329E1F000CA;
-	Fri, 20 Nov 2026 08:59:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IhrGSlie
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C384A1F000C6;
+	Fri, 20 Nov 2026 09:04:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795165182;
-	bh=2ccnweT/dXUZnBEt2kANRtABkZdQMfgjKD0LcKfebxQ=;
+	s=k20260515; t=1795165481;
+	bh=0i1q7QXoQpyw7U+kbS9CbTzSUpFctyuEhoMiaekUXV0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bTgP8oc7MznmCSpH1M6XjrNMtHy+szYjRB2CiT5DyR/c6I9yFd/hDffzc87GAtzLE
-	 5OdLrwugRdy2r4poGAJ1MQ132kIFAw1dcXyICT9v9c1FjDK5RaOoiy45s3E04TyEQU
-	 REBtzS9O77iD6CsDYzgBXUP8oUlFwFMHUZDyR4KavOvEu+KSBR+OyEe5Ku6WwrLcYX
-	 AcidueS6sDErdg4gxx1d/YirwPbZBAL4/kN6fLQRTKRtQ6nkWNMhezu31LJ9lvE/sI
-	 i/uz4elWGPio01/QaWDUwHRp3OHDcUZZEgd7rzFD1pNXTIUhxbb2EFtX2ri3jI1pKZ
-	 ywx9JxWUQw0aA==
-Date: Fri, 20 Nov 2026 09:59:37 +0100
+	b=IhrGSlieICNdpQD+S2EFBPZbistZAhe5LomuJdvVVJj61IRoirzeBTM3qemoO3lT9
+	 GqcetHnecqBmRhrcqPij5z1BQxNa1TyVn1qfoBM1Gyb1w3ztBVQlo1I0YcFSgX45yn
+	 ke2ZY7lMRlDk0uJpweHBGJ9TjQc2t57B+g5DSUWxzvfgc205/yGI8O7A1MA1zuUHUo
+	 2LgFe1yV6EBsqFLvqu3Fj26GWae9y28vu9qeGXs5KjD2BC6XZeeiAIGLH9Eey8NKjB
+	 hQen8Th96khGc/3hFyKwHZEA2+1KYvbMQuvnh6W7Vdm5dOXC8itUEuHsN2Ri35Ownd
+	 8lPa2Yq34KlmQ==
+Date: Fri, 20 Nov 2026 10:04:37 +0100
 From: Christian Brauner <brauner@kernel.org>
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>, viro@zeniv.linux.org.uk, 
-	jack@suse.cz, neil@brown.name, cyphar@cyphar.com, jlayton@kernel.org, 
-	amir73il@gmail.com, gregkh@linuxfoundation.org, tj@kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 00/12] vfs: add O_CREAT|O_DIRECTORY to open*(2)
-Message-ID: <20261120-archaisch-angleichen-wucht-037d8888abf0@brauner>
-References: <20261024213539.1307600-1-jkoolstra@xs4all.nl>
- <20261118-moment-gehhilfe-gefangen-ce4618af6b54@brauner>
- <av3U2jLO8Q01swyg@linux.dev>
+To: Tal Zussman <tz2294@columbia.edu>, Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, John Garry <john.garry@linux.dev>, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 0/2] block: fail short atomic bounce bios in
+ bio_iov_iter_bounce_write()
+Message-ID: <20261120-gratwanderung-wickeln-mitkommen-1fa50bede59a@brauner>
+References: <20261107-blkdev-atomic-bounce-v1-0-f66344262096@columbia.edu>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -62,42 +60,19 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <av3U2jLO8Q01swyg@linux.dev>
+In-Reply-To: <20261107-blkdev-atomic-bounce-v1-0-f66344262096@columbia.edu>
 
-On Wed, Nov 18, 2026 at 08:42:47AM -0800, Shakeel Butt wrote:
-> On Wed, Nov 18, 2026 at 05:30:20PM +0100, Christian Brauner wrote:
-> > On Sat, Oct 24, 2026 at 11:35:27PM +0200, Jori Koolstra wrote:
-> > > This series implements new semantics for the O_CREAT|O_DIRECTORY flag
-> > > combination for open*(2): perform a mkdir and open the resulting
-> > > directory; return a pinning fd (which mkdir does not).
-> > 
-> > I've applied this to vfs-7.5.directory and folded a bunch of fixes into
-> > it. Each fixup is attached as a git note to the commit I folded it into
-> > so you can see what I massaged:
-> > 
-> > git fetch https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git \
-> >     +vfs-7.5.directory:refs/remotes/vfs/vfs-7.5.directory \
-> >     +refs/notes/vfs-7.5.directory:refs/notes/vfs-7.5.directory
-> > git log --notes=vfs-7.5.directory v7.4-rc1..vfs/vfs-7.5.directory
-> > 
-> > The biggest change is kernfs. kernfs_iop_mkdir() now just looks up the
-> > new node by name so the kernfs_syscall_ops change is gone and cgroup and
-> > resctrl aren't touched at all anymore.
-> > 
-> > The kernfs patches are in vfs-7.5.kernfs as "kernfs: instantiate the
-> > dentry in kernfs_iop_mkdir()". I'll sent that out soon.
-> > 
-> > I split out of 09/12, your kernfs_iattr_rwsem fix and the kernfs part of
-> > 11/12. vfs-7.5.directory is based on the first one.
-> > 
-> > I dropped "vfs: move ->create check in lookup_open() to before
-> > try_break_deleg()". vfs_create_no_perm() does that check itself now.
-> > 
-> > Let me know if I messed something up.
+On Sat, Nov 07, 2026 at 11:24:34PM -0500, Tal Zussman wrote:
+> bio_iov_iter_get_pages() fails a short REQ_ATOMIC bio. In contrast,
+> bio_iov_iter_bounce_write() doesn't, so a bounced atomic write that runs
+> into a folio allocation failure triggers a WARN_ON_ONCE() in
+> iomap_dio_bio_iter_one().
 > 
-> Just a heads up from my side. I will be sending couple of kernfs series over the
-> next couple of weeks. First one will be removing kernfs_iattr_rwsem from
-> mkdir/rmdir paths and later ones will be trying to make open, lookup, stat and
-> readdir operations lockless for kernfs.
+> The first patch makes bio_iov_iter_bounce_write() also check that a
+> REQ_ATOMIC bio covers the whole iterator, and clean up and return
+> -EINVAL if it doesn't. With both paths covered the iomap check can't
+> trigger, so the second patch removes it, as suggested by John Garry.
+> 
+> ---
 
-Sounds good!
+No objections per se, I just would like see Christoph take a look first.
