@@ -1,100 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.44
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795201092;
-	b=RKvbhVcATPSXRcu4fzuXfu+I+3g7ugpOugM1ybuQQpOfAM8zcf0mb8vLEr8n1Tjgf3cv
-	 W9o3FxChwUuIu66xuYNAZBplVflhgPSLuq1c3jhPZbI18iVUj9wei8k2K2CIm7yWbRIo0
-	 f8LKep/f8Q2x05mmb83KGyLxIlIZQx21bUwk7eCSu0jeBHUEqW+qbC9UiLsr2WMSLItH8
-	 IShl+oI1A0R/Cf3XG/77qrHdqguy0jY1pARedREWYImAte82anJQejsMeQtOSH76x52pU
-	 8zYWVGv4eMESP4WQRSh3xZ/nAjhGPUs8A/NxaMQCd6ntbZKbYdHeR8WFMF3HL5Io7Vg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795201092;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.178
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795201157;
+	b=QU3VklVYuIxZxZtm8XsRYDlrAtNQx/s7L5hTiKCBI/D1qXp5YrbMVa4Ys4gjIembOgl2
+	 sHSzA6QS4qXipyWsxYlG7UL8Qp3scAK43O8H6VaEwtdYfO8YJs1Uvnf7mJJAYnSmut/Bf
+	 bxyND4Zzd6nr4+FySvoCrNzcOEmawzINt2pptOOmzaGdMibktP+zCg+TgsvI/YlAwPX58
+	 iguBLd2w0lruoAnMT6Qw+FKQY6z+Itn10flUzIlCrPKSHqK3Chctq/A14BCVMwjFFdjyt
+	 iYMJeRzbl+seC26OPZz0lXB2Tk62cRFYHBu16zXEFFvgJc/0y0/DJXTahmUAW9ak2Pg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795201157;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=SUSmUAsFropF9N/rs+U4cpsjS2D8qF6cpjMI0ccZ0f4=;
-	b=JbmZpWk4mTccYmduwxcm/8cvLBJ7ospmvcY+qMtj2J1V9/T0TGKg6d2fdkE+zRLPVaRb
-	 qMEw6RcF9vyTNlMUqFSLpQEHhLgLMecMxPThLuDBahrDyGfMM7j5c3Y3uvQoIvGGt4+1A
-	 /ISDdAgcrBfIX74cL4qlE+xbsb+gdkcePE8KfX9v2zQeAi/DnjtK4wX9LvHTBf+gfOt6Q
-	 ZgSgX6+IeDh6epf9h/jbYwnnQ7S0SnHgTzDzpTB3ghNBh4Ju6ZeGl8h0zl/UHbMqHAmdy
-	 IZcSp6DccgojFKywwZRG40h4mw7zXi/IpqXuLf3+sWwqAWIieMD35dDv+i/fLbjT2dw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=a6Rz3SFw;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=QpjWV7nVPK4jNL88HvKbtHJ/44FkOvQPFo/KHrxl1Aw=;
+	b=QMqsWyjqQrudvwu+3vGFAoP/z63UVdWWyulsiGsysPEbC3KlrXCimAm0ovLFY1OXxTAm
+	 8mM3iQyZ7ef3rMsYCB3fZYrS8D6oWyIN25kw28OvVmrMxxdiF6JjJAy33HuuHKrxpu34y
+	 C8xZmyz5o8vzhw/JAKogc2a8lGVtKdWl9i2XF+WRfQ8WsmdET1m9BcJMXIoxrbIOtKANY
+	 0DtfnyF34YLH9QUomPKs/t09cTBQJvKdawORJg1rlomCRMQqQLWyt1Tmc4+EHzHMA9FJo
+	 s8L/foqI0Hu87QqDVECPBvPw2pMWwwxo7IVyL1Q1EVE75iXpkn8xw8oW+GPA+WnLTfA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=jP9mDgSk;
+	arc=none smtp.remote-ip=209.85.160.178
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C7160A263A
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 18:58:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49C7160A263A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C689260A261D
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 18:59:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C689260A261D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=a6Rz3SFw
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4bb6860f867so4685e9.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 10:58:07 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795201086; cv=none;
-        d=google.com; s=arc-20260327;
-        b=shPK7reGb3QtmupC4c0vkJO0gourzWweK3LxmUTN7Sd4SpKcsQjIje5hnajXEIwi5Q
-         zyeYqQ1qjcI7O22wPC6FfBcQ0wQXrlQCj84VRuXZBpLnIt3YRNoIRVya+NA2Y78IK75e
-         h4IpxtXU2I/oj2jYjLnZQMbi1QTSvlMed8+v4cx32xXvsxUFlb3FRbl4BboFXh0M+UhK
-         og29N5sbUPsiR7wKN/GNP2ammEzX5isEWYS3vnhHWtNgrLVAEJbC+qW+hL7iZ21wVwpi
-         PZ0DmwPbm0R+gl7krDEgQgEBjUmwG2fK4TVmyTZHBq7lDW7uwIvEnA8pycDER7ATKbCA
-         foVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=SUSmUAsFropF9N/rs+U4cpsjS2D8qF6cpjMI0ccZ0f4=;
-        fh=1quAEPRDTsr5GZqtSFEetLQcVXWrFTxLIfScj6XvK7A=;
-        b=FYaJRaK8MFBaWf7nBGz52sz2iFlp7zBZTuHTXlPrbqO181t8XoZqvTTZIRe0AoMn2B
-         ommlPSj/Ig5PU/nVg/jgfLNLBDECCSaOR5FdQhkkvAYC/b10rPnVsjuBnTHUD0kZdnN6
-         9Z1Qt8RjlNJfdfzDHC7JIF/8cw65GnQspLKYHRpzjVTprKnzKCncX49T5mRLtTnSPotP
-         xH4b4fhsnMGouX752I9b2lz+mjdDEl49Vyq7WUBSYU0x4cLrbhawFTJ89ADi/HXh017K
-         vbRp+OCpnAhV4fV4HQODrKXfenXOPwf3CRPWTY0neR041e9o+ogfIm0Hxu+K+lOJmY31
-         34Cg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=jP9mDgSk
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-53644b28706so19849521cf.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 10:59:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795201086; x=1795805886; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=SUSmUAsFropF9N/rs+U4cpsjS2D8qF6cpjMI0ccZ0f4=;
-        b=a6Rz3SFwLU/l85Z6gFtgpiNGTLOXe8g79Sw3flJHb7F6ccuFn63e+a/y2x7Px9F7cT
-         N9ml4MzoD3m9ZHlntSy6L4+Qj3TO7Dk02QL64xw02D6ED3fvky9if8fI+prvPjlbbFaA
-         UfqlFTHfE5hgx3Rd1Vt2wKbRbhOU/LrBYmw5tuJ2dgpH9J7txXgeu8yO9O5RcsttCPZD
-         Aci0XPIkCb1+FF9WSxwNVVmVVIt8yqydwS5jeF1zYDK42+NCZ3QFwE78LN4I6KBHYsLg
-         I4ur610HDRWXLXhc4cRf0squcxXUFgThZehO06h+wB6GZuORX5eWvsGz9FX+ePDAmBmb
-         1AUQ==
+        d=gourry.net; s=google; t=1795201146; x=1795805946; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=QpjWV7nVPK4jNL88HvKbtHJ/44FkOvQPFo/KHrxl1Aw=;
+        b=jP9mDgSkXq83tjLxbrSbvJK4VhOzYkMGnT1Jm7gDQe/tOWOQWw88VffPoBHzpHtdXZ
+         AtKDL72AvMbm6K8+SFolZTdZsq5YCre7TYo+p4r5NsYo5qfix5Rkg5grOkKDHVKVNOAS
+         7oCG+E2fpkpUAmmLwq+0Xp2+UXqhc1fXlcHYaL5btJezkYRzJilsdIXdINfLoFlm9DO8
+         6CbBfgZVvOJVM+JRwdAK0Dvz71rzy7UBvr/rr8US3Cw4d/p7KopxcO/pFRWbieVCQcWx
+         SzmzqLmCMHfM5PgM23TucdXta6FY4M5TN5xDVyML6rCM56A5+RYnYnryKZHICDqx3uzd
+         4qmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795201086; x=1795805886;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1795201146; x=1795805946;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=SUSmUAsFropF9N/rs+U4cpsjS2D8qF6cpjMI0ccZ0f4=;
-        b=ReIecv4AzVZk6f26INDzZfP0xwVm1BFqQYCJ9O5P6jP2HyJjddlV5Gr2TLlv2D3m8k
-         2ySin2AqqW0pTGP+g5aaEJxgZ3bVyYBQiMDeu6lmx+ijrYznOEfeUCD+y0qdMq9BQDnc
-         MooEzhKlB2Y0ssoL6iFCPJJO2NUHTOfuF6fosikUkcdslXDb0ZF5E+srN1WhGOpusN+g
-         a1qYs9oHynN9bRzBw0zB/Ozf4gphIc0LdUOp/LIendC6x9fYKpO/UlIdcaGu23jgtPs6
-         co0wv4b/lemYhuFqvhAtu//HwHAA0V2P4s94LaiuxlX8+agBGml93bNfRB6p4b4PaNO+
-         Rg8w==
-X-Forwarded-Encrypted: i=1; AL+hErFHAMkRwkdhOsi3Hkjuqyrwnwpj+/OD+0f3c3MS6YV4hu6AoDtwWw50Xur+KdwO84pab4aMhrFIhbv0CJ35@vger.kernel.org
-X-Gm-Message-State: APuU4Z8GgsmUn2AMINfyvVosbjKB3Bm0en/e3nF+lYA5nXFM6jCLOhFk
-	rtaEeWOpedEoAZ5KQ4ISvSKLPewuszXVBN1Ksuiyz91+3ZHaYKwwfdUhN0FnuEo8lnSUxmHaJXH
-	GCq8JV+z+Ovbv9p6Q8sGB9nliwaKcK25oWKOt7cSr
-X-Gm-Gg: AYBFou3DEz5GQwn8oOdMB75pxziRFGE6hC8UyLnpIIpAhS6Oj5JAeFEbeELdd4xk6iB
-	3Ysw+oq/zV1MsYwdBwnjL/2U3fWKJGj58rLhUofwWcH5R/aFFVDKaqokQ3qjbnaBq0Ci7XoNARL
-	NjF9jmGQI64DoTeGm+8D+WOfL7wqUvmR2Ti527Tgy9fjBizcHThxWBJPdyXtW4BdmIJ5T8TKds8
-	brVwYd/rLdPwZb6HpdoaW15xW9oMRkUIz9U8QI3TEIOs2OAGCDItQqYlw0lEEBBsqNbNoPBUlyW
-	EYTl8IouXFCD/3br7JlpvHEAAWtyaX0EDgpTU4wpLJFMy9B9xyadXcHbHBxmwSXDQLV7eNL153b
-	8aqq3wqPsoH2git2WytcLfk2OAWV8MxmQiwImWnvF26oe5kvHTTeW2EBSwfYZMr+Zi6Q=
-X-Received: by 2002:a7b:c013:0:b0:4a7:1116:2065 with SMTP id
- 5b1f17b1804b1-4bb851bd399mr1347485e9.15.1795201085271; Fri, 20 Nov 2026
- 10:58:05 -0800 (PST)
+        bh=QpjWV7nVPK4jNL88HvKbtHJ/44FkOvQPFo/KHrxl1Aw=;
+        b=Y6bROClpQ/cr5Vd4IbEZNvFFZ5l69fYjmW+INC91CwDMHNz1AT4xcmP+uB195LoR0b
+         PyvqUpCrxSygUK0VLN1HbwQeMFow63Zvb/rWkIL4wkB56tr6sq7SPxO54ER3kd7R3oMe
+         5iFGZmxSgEkjHUP6Ame4iYNvWkoxgwTIzAFyQlpGq/8TxMYv/5fXtLR348XtPlc/ufKn
+         BhuZRfcsZ9P40ZJnJukXfBKek4eB2jwC/mAyA5UGhb7cumAPwJ5v7rwwTHZO3NtvdPmT
+         NE0RRECaKkXSwI9XUzvRAcGnnxs1SbNXErfbrm6BIjTpT5RBCXqmi8Z2LJ8aoUvoLXJx
+         +lQg==
+X-Forwarded-Encrypted: i=1; AL+hErGeJZj2D+pRdM4/CDZ0dmvJc+egGUEnOyLOeTtSAaaN07I5DfKMTF0Am1V5HOAT3n0UtW1GleUyc38C9oP1@vger.kernel.org
+X-Gm-Message-State: APuU4Z8cU17+5VNwXAhmbpyNRL/Ii07GCbZoGsSR+eTjDdSURnkxr6ET
+	NSlGWBG6U77JwYqJe2OyJURyCC6hge4VKYNrTPf0CMUbheKziVJwm7fzwZIUuTGVWcg=
+X-Gm-Gg: AYBFou2MsrhF/je1t97U0oN2t/xqO7UFWc2EVRpk1tt3mmpk5FKECw5Qo/T+MsHBGAy
+	R9rewluOBejAzkLET+e+S3nHRGHrgaC1II0W8V1pLf8jOW2xxlqVeSZLIbKeJAdI6ZfCNK53ESj
+	HNfG/GYymeRc16H1jQDboAzx2cQxvex7Xxba8ydKoIUd+5aL4QyNxOglGe/sTkoOFMlLfDXGnHr
+	xq6db8HO/fFoRqWvs1kCMgkW0d0oLb0D9BDE13cDmA6k/zcPfWnaZj1mkprOs4LTKxwv1xywK9p
+	9YS06jLyBNu85FZ3E6/LgnP7erfAs5pUqP89GwQb3s86Ga0IBI+E5SMtpFzocSZDveoxqE9cW+N
+	gv1S/Von5BwotkZff6uvqrwZLCuOK1YYvhSY4suT7G24XE2DoIPzN46hauSSG+ZombEJequ+8qL
+	nKXtUEUZ8rp5iZblBrngdqMZZGEM+K0iDaCzIvx2o1d+h5R/JitWmB6V2zs4S2NYfvJBhKttwk4
+	aVAlX0vQXyIOfhi9bVvy1gK234W9No6Vv6M5kKM8x1Vv5JfJV9757Q0yDLNw0i2LEaaRDXD6jFf
+	i5CA4b5fO4XANIFHHY8NlKlkbx3K8IRYqlOEnTIwOrW7eRsUkgybGHFykPNPKMAEHSwNmoIuf7+
+	d8fPQadQ=
+X-Received: by 2002:a05:622a:1a89:b0:55d:2c9a:3776 with SMTP id d75a77b69052e-55d76a811c8mr74428711cf.65.1795201145651;
+        Fri, 20 Nov 2026 10:59:05 -0800 (PST)
+Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d7884d01csm30305771cf.21.2026.11.20.10.59.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2026 10:59:05 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,104 +89,99 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261118220154.2965621-1-shakeel.butt@linux.dev>
-In-Reply-To: <20261118220154.2965621-1-shakeel.butt@linux.dev>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Fri, 20 Nov 2026 10:57:53 -0800
-X-Gm-Features: Aa3M54oeme_MbHCPj8QJ7UbZJ3gKz6ac7ZgfFvJPWhUpehNdFPXUV52bzquf-SQ
-Message-ID: <CABdmKX3DUR72jcgaH6zzEO54iFDpbAf8vGzpEi_tXEV+hJ6-mg@mail.gmail.com>
-Subject: Re: [PATCH 0/6] kernfs: stop taking kernfs_iattr_rwsem for writing in mkdir/rmdir
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Christian Brauner <brauner@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Tejun Heo <tj@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, Ian Kent <raven@themaw.net>, 
-	Meta kernel team <kernel-team@meta.com>, linux-fsdevel@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 00/60] Private NUMA nodes
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: "Gregory Price (Meta)" <gourry@gourry.net>
+Cc: Yury Norov <yury.norov@gmail.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ David Hildenbrand <david@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Oscar Salvador <osalvador@suse.de>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Suren Baghdasaryan <surenb@google.com>, 
+ Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Johan Hovold <johan@kernel.org>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+ Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>, 
+ Matthew Brost <matthew.brost@intel.com>, Byungchul Park <byungchul@sk.com>, 
+ Alistair Popple <apopple@nvidia.com>, SJ Park <sj@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ K Prateek Nayak <kprateek.nayak@amd.com>, Kees Cook <kees@kernel.org>, 
+ Kairui Song <kasong@tencent.com>, Barry Song <baohua@kernel.org>, 
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Michal Hocko <mhocko@kernel.org>, David Rientjes <rientjes@google.com>, 
+ Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
+ Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, 
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+ Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
+ Lorenzo Stoakes <ljs@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
+ Jann Horn <jannh@google.com>, Chris Li <chrisl@kernel.org>, 
+ Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
+ Youngjun Park <youngjun.park@lge.com>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Waiman Long <longman@redhat.com>, Ridong Chen <ridong.chen@linux.dev>, 
+ Tejun Heo <tj@kernel.org>, 
+ =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+ Dan Williams <djbw@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+ Dave Jiang <dave.jiang@intel.com>, 
+ Alison Schofield <alison.schofield@intel.com>, 
+ Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org, 
+ driver-core@lists.linux.dev, damon@lists.linux.dev, 
+ linux-pm@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ cgroups@vger.kernel.org, nvdimm@lists.linux.dev, 
+ linux-kselftest@vger.kernel.org
+In-Reply-To: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
+References: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
+Date: Fri, 20 Nov 2026 13:59:03 -0500
+Message-Id: <179520114342.412063.6068641130948664600.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-On Wed, Nov 18, 2026 at 2:02=E2=80=AFPM Shakeel Butt <shakeel.butt@linux.de=
-v> wrote:
->
-> In the Meta fleet, cgroup mkdir and rmdir can stall cgroup operations
-> on the whole host.  They hold cgroup_mutex and kernfs_rwsem while they
-> wait for kernfs_iattr_rwsem, which every path walk takes for reading,
-> and they take it once or twice for every file of the cgroup.  systemd,
-> clone3() into a cgroup, BPF queries and the OOM daemon all wait behind
-> them.
->
-> - Our lock monitor saw a kernfs_rwsem writer blocked on
->   kernfs_iattr_rwsem several thousand times on a large number of hosts
->   in 29 days (in mkdir and rmdir), for up to 1.8 s at a time.
->
-> - Under memory and CPU pressure the waits become host-wide stalls.  In
->   one week, we observed several cases where the OOM daemon and the
->   monitoring agent were stuck for up to 22 minutes.  In October, one
->   batch job caused these stalls on a large number of hosts.  On the
->   sampled hosts with current kernels, the cgroup_mutex owner was always
->   waiting for kernfs_iattr_rwsem (in mkdir and rmdir).  One specific
->   stall lasted 90 minutes and ended in a reboot.
->
-> The write lock is not needed for most of what it covers:
->
-> - kernfs_rwsem already serialises the parent's two counters and
->   KERNFS_REMOVING (patches 3 and 4).
-> - The parent's times get a seqlock of their own (patch 5).
-> - Only inode setup needs to set a directory's i_nlink, so removal can
->   clear it without the lock (patches 2 and 6).
->
-> The lock also kept times and link counts stable while getattr and
-> permission copied them into the shared inode.  Patches 1 and 2 make
-> getattr report them from the node and stop copying them, so stat()
-> cannot return a stale or torn value.
->
-> After the series, mkdir and rmdir take no kernfs_iattr_rwsem for
-> writing.  Write acquisitions, from lock_stat:
->
->                                           before   after
->   5 dummy netdevs created and removed       1850       0
->   100 cgroup mkdirs and 100 rmdirs          7500       0
->
-> Latency in a VM with 8 vCPUs, while 32 threads walk cgroupfs paths
-> (worst of three 20 s runs; mkdir and rmdir by a SCHED_FIFO thread):
->
->                          before                  after
->                     p50     p99     max     p50    p99    max
->   cgroup mkdir     2.8ms   9.0ms  20.1ms    25us   37us   84us
->   cgroup rmdir     4.2ms  12.7ms  26.6ms    28us   38us  107us
->
-> A write that only needs cgroup_mutex waited up to 23 ms before and up
-> to 34 us after.  With 8 threads and no writer, stat() and access() on
-> a path whose directories have iattrs are 12-14% faster, since the
-> refresh copies less.
->
-> Tested with the kernfs selftests on lockdep + KASAN and KCSAN kernels;
-> with extra checks of link counts, times and IN_DELETE_SELF; with
-> concurrent mkdir/rmdir, setattr, stat, readdir and netdev churn; and
-> with test-only delays that force the stale stat(), lost time update,
-> backwards time, overwritten setattr and stat()-during-removal races.
-> KCSAN reports nothing new, and its set_nlink() reports from the refresh
-> are gone.
->
-> Based on vfs-7.5.kernfs.  It also applies to v7.4-rc3.
->
-> Shakeel Butt (6):
->   kernfs: report times and link count from the node in getattr
->   kernfs: don't copy times and link count into the inode on refresh
->   kernfs: don't take kernfs_iattr_rwsem for the directory counters
->   kernfs: don't take kernfs_iattr_rwsem to publish KERNFS_REMOVING
->   kernfs: update a directory's times without kernfs_iattr_rwsem
->   kernfs: don't take kernfs_iattr_rwsem in __kernfs_remove()
->
->  fs/kernfs/dir.c             |  48 +++++---------
->  fs/kernfs/inode.c           | 125 ++++++++++++++++++++++++++++++------
->  fs/kernfs/kernfs-internal.h |   2 +
->  3 files changed, 124 insertions(+), 51 deletions(-)
->
->
-> base-commit: ccf2a4692fed0fa77751d32d2690585127a152c5
-> --
-> 2.53.1-Meta
+On 2026-11-20 13:08 -0500, Gregory Price (Meta) wrote:
+> This is v6 of the Private NUMA node series. The series falls into four
+> parts, each building on the one before:
+> 
+>    1-18  mm: introduce N_MEMORY_COMMON
+>   19-26  restrict folio-walking MM services to common memory
+>   27-44  N_MEMORY_PRIVATE, kept out of cpusets, mempolicy, accounting
+>          and the page allocator's ordinary paths
+>   45-61  private node features, memory hotplug of private memory,
+>          dax/kmem private mode, selftests and documentation
+> 
+> Patches 1-26 change no behavior on any system and can be reviewed and
+> merged on their own. Without private nodes, every path in patches 27-61
+> behaves as before.
+> 
+> The full stack is also available at:
+> https://github.com/gourryinverse/linux/tree/scratch/gourry/managed_nodes/private_nodes_v6
 >
 
-Reviewed-by: T.J. Mercier <tjmercier@google.com>
-for the whole series
+Apologies - my b4 prep dropped a commit from the stack because I made
+the mistake of filtering on author (myself) and it stripped out this
+commit:
+
+https://lore.kernel.org/linux-mm/20260923211041.3127588-4-gourry@gourry.net/
+
+The commit is one the branch listed above, and should be otherwise
+indepedent of the series (can be pulled in ahead of everything else).
+
+Sorry for the noise / compilation error, won't happen again.
+
+-- 
+~Gregory
+
