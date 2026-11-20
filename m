@@ -1,60 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795190316;
-	b=3CFKxI9DdfnLNhDgpKu4Z8wzz+3gRrkhwqHU4nASf7j1lhFOLGN4cFpyMhCOeVlFIMBy
-	 w5vnsvGljy4A0bUdET+0rcDskpmJwbtjIWH3zpZ/3353Vr+p2SoC4iL7B9c7lgArXKjuZ
-	 UQwpz4npjY8sXiwccqkpftBfuEp/8eZf+Iu2jiRIfduJb7fxmcrleYSn9SHdU47IlGmrZ
-	 qcwwSqCo0kDX3dq2ls+4WCgbFpnLAocCtDFRPeK4IdtVugFVsCQsxql8G+0jG/VAxTgHo
-	 ErNeQ7hWAPHJfHB7GaH58R5tPrq4VOB4AsDxOLoowd86pIjFhVChumuFwY8s6EzTxCw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795190316;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=0GRF4szdTQx2tPRYFJ4gnZN+nH74SF0ck2Adu/0U3S0=;
-	b=l6O52/uIqaMPT/ySuqpGUDfGgDwsFtFmYXIpbGiLjeyPYXPd2rFhwpxjvgDwYISgLABQ
-	 iQfasVPPaLPGQtvqisFnViB+PfS8Gyi01cCqOWuhd6vMj1VCgYq045yGc5135PK8/B/Bh
-	 A6BTgAelarH6k4rB2kP+T4LqCB69Rn/qXsesAWrlG6L0UBxYnq9Mh6nzPL/Tcaz1u0zNS
-	 JHSF9TIkH9RaYkIt+B+wbMXhoWEqEbn8VA5WC79cBd+kt+Lt9gIJq4MJilzUWSCs3V+8J
-	 I5PJBPQSxGMzHfDkvNd1b4L1bSVc4ERBWDrf8tODwLjmAC645+OyOo7CqpNN1zSg5Ig==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Wx51WsQ8;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.42
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795190318;
+	b=EZZBAEMnAN0HfRu5ejBfnKjsudG3l3WTnvL+8BaIHRGFdd3CNOx6aZk33wWI4a3F01CK
+	 bzj1HBd97al3EtkRFgAsd33+bftS9PjU68eNxhtLxYH3sLVk4i69FES7wN5qLpnNnuGny
+	 gvoTSzF3UjlzUxUG3J+KGekaNQsrlGFP7hc3yYKLo9BsXYgYrjKd86DFZMW4/LKT4Ewmq
+	 vPY94hzPIXTKaxSAtKGXmjmz1h0vry7phkYoDfsuYDfi9NwA92yHufRihQZy81tMrajJh
+	 fOLpjtEhNg955hN1u/oYAiDChK0XWLBRiy/5lHAMrEKxVrDT+ouumvqFXPBy794BFcg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795190318;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=6kM0KOtHeHKXYurgzFZtJQepqztK7z7Hv0tSSDFAXAE=;
+	b=vCUDEv6Gq+vhfPMHJQ/jELruVPeN0L5mGWiqiXMgLRMmrwpegcJJ2c5NijY1aiFGaibE
+	 8HqCojB/VHP0sWXptbkPrukX/4B73uy96Q1m40HjyAK4O2Zb25ZJKBuida7EJoeaCTSsu
+	 JJ4vSyeJs6Axx8vbogBGKlFo7GVbNaKi0WTd9cLwlvzjEVjN2dhOk19Za3OjMKpbn8F4g
+	 loSoWEzLqlexc759gzSs7DNNqq/OCN+Yalah8yyugYRzn+ykbhl38xJn4zcl7uzUwOaIY
+	 RfEA7Jm9/Fgu2sxW0SjWT70g7Y4oApdWdO56sQnTHHa9l2UD+svzTP5fLrJ5a9xh5og==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eTc+eMp4;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.42
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10DE260A2603;
-	Fri, 20 Nov 2026 15:58:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068C7606A332
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 15:58:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 068C7606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Wx51WsQ8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C69251F00ADE;
-	Fri, 20 Nov 2026 15:58:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795190315;
-	bh=0GRF4szdTQx2tPRYFJ4gnZN+nH74SF0ck2Adu/0U3S0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Wx51WsQ80d4JonKHfzQCrX/+tM/1blH/Dq7eZhhu0jj5rRH0FDmgKaCp1xg5VU4gv
-	 9f1SNC6S9M93Ze8nTuuHfXziH/cZ/hibmcd64Bx6NqsUhdDOOg729HD8bnEyoDt8KE
-	 QGDD5ATsQ9fCgNyKn6IZIb/okSU7fiMPDhqlqYqYjaD7ErbThQUMxiG4PISXUdxCk3
-	 foOxWyujIM7g254AdLky15ZHXhvhM5jpwvcI8X63VDdn+2lQULAzE/yq6gJ75g5XkC
-	 Z5Db4hRI9pIHAwBoLZ+ifNu6GDkY4iU8vCivCMgK2CYNP9oJbFLb+Av+x8iDyRvjed
-	 cU+U3RSV1uY8w==
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: "Eric Biggers" <ebiggers@kernel.org>,
-	"Christoph Hellwig" <hch@lst.de>,
-	"Carlos Maiolino" <cem@kernel.org>,
-	"fsverity" <fsverity@lists.linux.dev>,
-	"linux-xfs" <linux-xfs@vger.kernel.org>
-Cc: Andrey Albershteyn <aalbersh@kernel.org>,
-	"fsdevel" <linux-fsdevel@vger.kernel.org>,
-	david@fromorbit.com,
-	"Darrick J. Wong" <djwong@kernel.org>
-Subject: [PATCH v19 07/15] xfs: add XFS_BMAPI_UNWRITTEN to unmap unwritten extents in __xfs_bunmapi()
-Date: Fri, 20 Nov 2026 16:57:41 +0100
-Message-ID: <20261120155752.192025-8-aalbersh@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261120155752.192025-1-aalbersh@kernel.org>
-References: <20261120155752.192025-1-aalbersh@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eTc+eMp4
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6ba38c41804so1125104a12.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 07:58:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795190316; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Y+TJTzqbetDveME9OOq5bRGFeZLh4fV4gHWBgz3ARLS3EY9yZffLUFp6cc/c7pMNfI
+         anZizxOFMnb8mnQlnrQ2FNtkryQk5pwUoF7iFoA3m7Czc9oArY/VvYIUbYMguchsHkSG
+         zlFEk1fgP7YdAxRZoPlV/Xf35dA62dp5mrGBjSmz/mpOkOSwyG2UbXr9ZWkv/j7omy3B
+         peoNcFNYl5QQpAeSqBLuQCGO7Re1Ty1X7npD7KEgAFUI00K8tu2w/HRQKPrTqKbjYrbu
+         +TMcec9LMV3scQ/ybfVBaFH5A9vc0DmIxQArWxnPSzOlect+BbraHntEug2RFSVvY/AO
+         1mqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=6kM0KOtHeHKXYurgzFZtJQepqztK7z7Hv0tSSDFAXAE=;
+        fh=pNWhrkY4GWy9PSU7A1g3cNKyl6VqJs87A4+i6Gkrw8Y=;
+        b=l2no/A7AmTTKZXqleS5RSoubWBqo70D8B2Xpv+oSrGJ8z2B5zDop1viz5nc9Gedjv/
+         gD2Zu77vtaWvx45LroahxlU2umUtBFE/ZETN5zfzNN+z11nx0jxC3hB4AbpnyaFMkTwg
+         Y+hr6nIfviwYbdFEvmWMv0n2b7086xZKteExAirUosj1Isic7DJOAin4cKdlcnoUlKeY
+         +FG/P72OuTSTe+LWSCErWHhjBLnLiYRQjtnqiDNWDHbG3hxAKHsc5wcx0I9m+xUXEkuO
+         x3TverolFWuUyUdLNsygKGhsFa9RMfzPBTOKlNXk2cX3vnimgfFHMPpfEupS2IdSbKcX
+         vEBA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795190316; x=1795795116; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=6kM0KOtHeHKXYurgzFZtJQepqztK7z7Hv0tSSDFAXAE=;
+        b=eTc+eMp4bITMI7jgx5jM4l7NyEFh1c9lTC1VxvFXF9G+vcYBoZB53yLQdKfrQOpf6F
+         Mtz8FTmSSTw6Ei7un/2M30yiLReetEhAe/lO4dm/xLE7CcivvqjbhlK/KCKhN5ARxijZ
+         ChezPcoSYPSGA4dYvVLO7Yd9kb7uDyVuUiuKTqgzbCAKx1XbYJKzxg+Mx7ccVg34Vcwt
+         Sq2087h5YZQNFE89KJ0Ys4A0dIfGzwnygs4zE++uxupxXjpFy9vZB08cycp+xBcweq9+
+         96UTqALXMzvyeJr5t/bjHIhkmiHd4xvEUtcz6apgxXUf6gRVWrykVKb8LpEbPe+pU8hS
+         b+2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795190316; x=1795795116;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6kM0KOtHeHKXYurgzFZtJQepqztK7z7Hv0tSSDFAXAE=;
+        b=lytXQ47i01yc5eT+6lg4vYMT5w6ZX+alC9oWtl7eZ2CDsHsOXQWT2Vmwy6eUBy+vyY
+         IeM+ES97juYxe/Gl7SanhD6s6mCF0dTmyJ7Hii85aZfiNVHQ2vsZm8qdIisCmnwwr1de
+         fwlR/3iIrV4lYwJKGFYxDLNEOBQ1ymte87ut6mkT7Zyx7X1De0Y9oUWZI6cDSXbJ2VEe
+         L8cDx5UDJPuJM0I525aiRxOvsi7V/TPWsXSEm511VsUGm0lrDghG4Vw9GpJ739ullms+
+         jtSv/83Ph821xvqqnpVfAwdIpu1ELPombmhBgunrfwvjtudvq4+Cg+mBxSW4wdyozZ18
+         N01Q==
+X-Forwarded-Encrypted: i=1; AL+hErFpspzrTwnlmL68qXzbv8sJafsmr8fCbTlztnPwbSe4iqOEG1V2zYRYMI293UzzbTbNc7RXC2xPWXpBhgMq@vger.kernel.org
+X-Gm-Message-State: APuU4Z/BAsAg/CewM2K6u6Sg9p6EYrxy/t7TsEi1BrGk1UKgSQTOsaxF
+	xR+NUep8OTcNSeSOUwdFYRektzwqPRoIal/M+3ypGnxUOU72PPz0gsYLrhHrCGWdnTlyK6VEIxD
+	WqyOOY+ejQhl3uJBWHWzwtlYSOOgl5ag=
+X-Gm-Gg: AZFdTZcJEoqrPY3GkYfAAXEqEIGYbuSk+UzYlgL24ypge4vte7dqo/b/o1aw0i9Oy1J
+	yd1JLKO1tpZEfCp2aq7G8ueyH9hzEBy958UOcq6brOW/wnlAeImomQSNuz7FrPFssuwwHKSW5nf
+	83WMbHMDwj330yQwi0DAtuAlg+sDPmyxAO0SkFECsHiVztzCIkG8/IarJSeuFru3bLkpjwM42qT
+	pNEffUd9EfC05lHZCIs48b/JFznFxvqG9aLxfTQ+NDVEQxBmwJIRIanJeMjPmr4ZkKF/aaP61w1
+	nh835XoqsFxFgO/LGTEuqOTJ1P/omHpvTCPXwYJm+UW4AtDVHtP/rY0D+ZG8YOj5WJJ5Wpf8Trr
+	lpvswLTP1EILp26a2e74mstR4Jk9EMayfamE7cI9pBPBgYnWcIYeTh/+uadikLX0LxzBeoQ==
+X-Received: by 2002:a05:6402:52c8:b0:6b8:5aba:6c06 with SMTP id
+ 4fb4d7f45d1cf-6ba37d652f3mr2090064a12.14.1795190315774; Fri, 20 Nov 2026
+ 07:58:35 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -64,91 +104,58 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261115180343.576773-1-koray.fra@gmail.com> <20261115180343.576773-4-koray.fra@gmail.com>
+In-Reply-To: <20261115180343.576773-4-koray.fra@gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 20 Nov 2026 16:58:24 +0100
+X-Gm-Features: Aa3M54pideZA7GJITw5PojgxjktVU6GBxKullq4dSyaJ0XYgg1VLGv1zO6-iMnU
+Message-ID: <CAOQ4uxjdEiuJMQxtSL8XrPYHSamtfMh+BM8kS1wj_PVME4JynQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v4 03/10] ntfs3: make crtime user-settable using ptime
+To: koraynilay <koray.fra@gmail.com>
+Cc: David Sterba <dsterba@suse.com>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Sungjong Seo <sj1557.seo@samsung.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Trond Myklebust <trondmy@kernel.org>, 
+	Anna Schumaker <anna@kernel.org>, Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+	Paulo Alcantara <pc@manguebit.org>, Chris Mason <mason@kernel.org>, Yuezhang Mo <yuezhang.mo@sony.com>, 
+	Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+	Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, 
+	Bharath SM <bharathsm@microsoft.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	ChenXiaoSong <chenxiaosong@chenxiaosong.com>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Sean Smith <defendthedisabled@gmail.com>, Andrey Albershteyn <aalbersh@kernel.org>, 
+	Pedro Falcato <pfalcato@suse.de>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+	linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, exfat@lists.linux.dev, ntfs3@lists.linux.dev, 
+	linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The __xfs_bunmapi() is used to remove all extents past EOF. Add
-XFS_BMAPI_UNWRITTEN to remove only unwritten extents, while leaving
-written ones in place. This will be used in following patch to clean up
-unwritten extents on fsverity inodes.
+On Sun, Nov 15, 2026 at 7:04=E2=80=AFPM koraynilay <koray.fra@gmail.com> wr=
+ote:
+>
+> Since NTFS supports user-settable file creation timestamps, map
+> provenance time (ptime) to NTFS file creation time (crtime) by using the
+> newly introduced ptime API (in commit "vfs: add provenance time
+> (ptime)").
+>
+> To do this, update ntfs_fileattr_[gs]et(), ntfs_getattr() and make it
+> persist to disk in ni_write_inode().
+>
+> The timestamp is now retrievable by using file_getattr() or statx(), and
+> is settable by using file_setattr() with the FS_XFLAG_PTIME flag.
+>
+> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.4.7
+> Signed-off-by: koraynilay <koray.fra@gmail.com>
+> ---
+>  fs/ntfs3/file.c    | 20 ++++++++++++++++++--
+>  fs/ntfs3/frecord.c |  8 +++++++-
+>  2 files changed, 25 insertions(+), 3 deletions(-)
 
-Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
----
- fs/xfs/libxfs/xfs_bmap.c | 22 +++++++++++++++++++++-
- fs/xfs/libxfs/xfs_bmap.h |  6 +++++-
- 2 files changed, 26 insertions(+), 2 deletions(-)
+Please don't change the unmaintained ntfs3 driver.
 
-diff --git a/fs/xfs/libxfs/xfs_bmap.c b/fs/xfs/libxfs/xfs_bmap.c
-index f74411312901..667b693aacb8 100644
---- a/fs/xfs/libxfs/xfs_bmap.c
-+++ b/fs/xfs/libxfs/xfs_bmap.c
-@@ -5220,6 +5220,22 @@ __xfs_bunmapi(
- 	ASSERT(len > 0);
- 	ASSERT(nexts >= 0);
- 
-+	/*
-+	 * XFS_BMAPI_UNWRITTEN is only used by fs-verity to drop unwritten
-+	 * blocks past EOF while keeping written ones (fsverity metadata).
-+	 *
-+	 * The XFS_BMAPI_UNWRITTEN could not be used with realtime inodes with
-+	 * realtime extent larger than 1 filesystem block. This is because the
-+	 * realtime inode with larger extents could have EOF in the middle of
-+	 * the extent. Removing these unwritten extent beyond EOF could lead to
-+	 * removal of data before EOF.
-+	 *
-+	 * fs-verity is not allowed to be enabled on realtime files whose
-+	 * extent size is larger than 1.
-+	 */
-+	ASSERT(!((flags & XFS_BMAPI_UNWRITTEN) &&
-+		 xfs_inode_has_bigrtalloc(ip)));
-+
- 	error = xfs_iread_extents(tp, ip, whichfork);
- 	if (error)
- 		return error;
-@@ -5281,6 +5297,10 @@ __xfs_bunmapi(
- 		if (del.br_startoff + del.br_blockcount > end + 1)
- 			del.br_blockcount = end + 1 - del.br_startoff;
- 
-+		if ((flags & XFS_BMAPI_UNWRITTEN) &&
-+		    del.br_state != XFS_EXT_UNWRITTEN)
-+			goto skip;
-+
- 		if (!isrt || (flags & XFS_BMAPI_REMAP))
- 			goto delete;
- 
-@@ -5415,7 +5435,7 @@ __xfs_bunmapi(
- 			if (error)
- 				goto error0;
- 		}
--
-+skip:
- 		end = del.br_startoff - 1;
- nodelete:
- 		/*
-diff --git a/fs/xfs/libxfs/xfs_bmap.h b/fs/xfs/libxfs/xfs_bmap.h
-index fb7481e8190c..f1df6b4b695e 100644
---- a/fs/xfs/libxfs/xfs_bmap.h
-+++ b/fs/xfs/libxfs/xfs_bmap.h
-@@ -97,6 +97,9 @@ struct xfs_bmalloca {
-  */
- #define XFS_BMAPI_CONVERT_ONLY	(1u << 12)
- 
-+/* Process unwritten extents only. Used for unmapping */
-+#define XFS_BMAPI_UNWRITTEN	(1u << 13)
-+
- #define XFS_BMAPI_FLAGS \
- 	{ XFS_BMAPI_ENTIRE,	"ENTIRE" }, \
- 	{ XFS_BMAPI_METADATA,	"METADATA" }, \
-@@ -110,7 +113,8 @@ struct xfs_bmalloca {
- 	{ XFS_BMAPI_NODISCARD,	"NODISCARD" }, \
- 	{ XFS_BMAPI_NORMAP,	"NORMAP" },\
- 	{ XFS_BMAPI_EXTSZALIGN,	"EXTSZALIGN" }, \
--	{ XFS_BMAPI_CONVERT_ONLY,	"CONVERT_ONLY" }
-+	{ XFS_BMAPI_CONVERT_ONLY,	"CONVERT_ONLY" }, \
-+	{ XFS_BMAPI_UNWRITTEN,	"UNWRITTEN" }
- 
- 
- static inline int xfs_bmapi_aflag(int w)
--- 
-2.54.0
+If you want to include an ntfs patch work on the new fs/ntfs driver.
 
+Thanks,
+Amir.
