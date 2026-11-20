@@ -1,111 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795168460;
-	b=PqylpGQtdIY2j3st4vYVT0YjR4SoEsbpA9rBbwCL/pL7WVTybxUUTFT3ic/e9k84Io+w
-	 2a0akPo4nYu4BeZE1uPuw5kk1zl8s0qNdLasVIUTOri5jSZsSXd/B9MFs1XFI+0NIW6Cn
-	 JLkvWnZKGSXkNI4nWhMf1AYJtac8BBbwTOyNHdhO1+p58zuT+miza3UK31a9EPT6FIgvG
-	 tpa8xjEW2O78O7/3EcU2yRmaOgo4LtM8JQ82Zb/AXI+t5gjlVH/3tGyWrkkM14AYLY36M
-	 stxCMQ0G0TV9mK/X+bnYwBlhC7ehmkfmDVIB8+1FHYGTXudVzNATr95NW/5p/hEII7A==
+	t=1795168551;
+	b=1A6e/1zRT6c+nSeQD+Xw7FUBkJW/AOJBZglrBwxKJSrZKBPpOL1ijenKtivhxwZRWHkG
+	 B5WmBuSzLUgxn0SiKCZAz/a5kScdIF1TNVFHO/4mbVAlrj+eo9W3+PClFBozC9/iB5+gO
+	 HSw5IhuLXl5iEMWLTxv2VFcnW0VT4u8Up+E7ku9keH4/kjL0G86aGWufOZrj+A+ootl9e
+	 szoKlTxw99qJizoZOuv89xrAIJ3MjqghAsYyhYIY0zrQ/3jFK9/kO/qu56AP3sWTRJG60
+	 fZrLKMRjbbtfbjSlbGd2T/3pQ0/1YDZDzZX7T44rWiUXqKPAUeSQq0mqdIEiT9OxqBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795168460;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
-	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=d3D04tBr+eCbfuUo2ou5/gCrrIth6zAmWBOJCJ9S6kY=;
-	b=hc57/UPqdlZIVLPGmp3riiJ7n7NGidPgzI/lvM7Ek5ZP0mOJuxiP+mwR8z6sPA1qRPEE
-	 41jtU54xH3bt29r0bvNpCjr9YYC7YdW44o4TwUni8oU8pJpcLNWwiQEMTjDVgjpfpgpYV
-	 Hz6uGGEEw3OVa+1dAJe8MBcQI90rvJQc57RsxDzGS1Wo4TxtWXY6a3LNvg408LSywOAL5
-	 S906e+N6kLB9vVocuvKNOjl91VdwoMk4LxbGf0oj08L5lYItwhwSXccfBfvuKqxd3co7v
-	 b/zxGXsoLC99PhjdLnMv0HM2rl1WpSpn04mKPr8iS+vFoKpCMFCiUtJlkem8kui+vWw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795168551;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=qyrgnqyAtWqlxuswsMQE0t4cgrkAkoCIR2wECYGDFYE=;
+	b=li6U8S1NLATVZM1ovYIcgfX/BnXQb4M4fTqbzjjFfcWZQmOSziBzmVvrwcBYnKc0hP8l
+	 evEo5q12opBA/3sLxWsGKQsJzhviVX6jk/+76HJcy0rxFJ7UdPZn0hAC1IoRFBjkrETzY
+	 MS6wj2M/VH33Nkn3v6cWuVPiP81pY1rRjxCnJAuBW7onkE2Qvw0RPxmeZOEQvRB382nuw
+	 YrZ2rWphhK2YjO1vk3X1EE4xtH/SqKhBjovSpp7snmOSpPvtdBNYDmb3eeoo0iy1fuEUG
+	 Woz/ekvGAHXJusevuyiNVa1ZMaSRo/rD/ioOSWF+u9gw+eKzsaBbH2iM1XO5NWvsoIw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=YDnOWLrE;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Hl8aSTTs;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=NuOn9MTZ;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=O4Hv3Wo5;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GP0u4gdA;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D915B60A2615;
-	Fri, 20 Nov 2026 09:54:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D915B60A2615
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0482D60A260B;
+	Fri, 20 Nov 2026 09:55:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=YDnOWLrE;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Hl8aSTTs;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=NuOn9MTZ;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=O4Hv3Wo5
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BE2471FB70;
-	Fri, 20 Nov 2026 09:54:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795168458; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d3D04tBr+eCbfuUo2ou5/gCrrIth6zAmWBOJCJ9S6kY=;
-	b=YDnOWLrEQ1GyjOb7spHxMuLUiMbJWJ/9UZ7xRmZVW+ddDiPblnWf50j+sVNlQJl6iPwgC5
-	layiTbgtvaJOieRADqAv+td+fzBzTPRoV2v7DoxRZZ22lJwF/61mA9jXL7uEuaB1YNwURG
-	NHVYDupx3jjc32hzjNkDtxHYOX1Yn/A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795168458;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d3D04tBr+eCbfuUo2ou5/gCrrIth6zAmWBOJCJ9S6kY=;
-	b=Hl8aSTTsH8bxVNYcmdcTxg0jaz6qeFkF/7uA6Qm6aGaAfaSay7EDzOZLVs1+YJACdTwAi4
-	6mdNl2GeliP6CXDg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=NuOn9MTZ;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=O4Hv3Wo5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795168456; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d3D04tBr+eCbfuUo2ou5/gCrrIth6zAmWBOJCJ9S6kY=;
-	b=NuOn9MTZ477iqxcuG3N9ne1uK4SAqYb2pvwxht77Qqlcesfwl9yk/j7ln/ypDyo5f+/iug
-	jLY/ZyAaTH7YM30yU6pa89esewECTcsjBult1FTIVxTYOF/NWRbFTak4NbKKFcfRtr4zlP
-	7Iwbiofe0Hsesgu3nFZN+pvzRaO6xi0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795168456;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d3D04tBr+eCbfuUo2ou5/gCrrIth6zAmWBOJCJ9S6kY=;
-	b=O4Hv3Wo5VUUtcaMg+nxx17Em53mfEpXzARyPUEFitAll7Y5BJ2kkNcSMYiWaFSS+BEjv/L
-	45hj2bQVck0M06BA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 972CD1348F;
-	Fri, 20 Nov 2026 09:54:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id NuXKG8gYAGt/EgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 20 Nov 2026 09:54:16 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 2252025EF6; Fri, 20 Nov 2026 10:54:16 +0100 (CET)
-Date: Fri, 20 Nov 2026 10:54:16 +0100
-From: Jan Kara <jack@suse.cz>
-To: NeilBrown <neil@brown.name>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Ian Kent <raven@themaw.net>, 
-	Jake Edge <jake@lwn.net>
-Subject: Re: [PATCH v5 3/5] fsnotify: don't hold i_lock while walking
- d_children in  fsnotify_set_children_dentry_flags()
-Message-ID: <ht3jmmlbvijg75kvpdv7rnjcytw2ndnlikg3n5qveekaqr55em@oivgxe27lhmu>
-References: <20261119025942.2848130-1-neilb@ownmail.net>
- <20261119025942.2848130-4-neilb@ownmail.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GP0u4gdA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1E9F1F000C4;
+	Fri, 20 Nov 2026 09:55:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795168550;
+	bh=qyrgnqyAtWqlxuswsMQE0t4cgrkAkoCIR2wECYGDFYE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=GP0u4gdAojIMgPsbZyvPNMOhmUxd/MzlJD8JRl9D77ESr9JnULCKtvoWeSgrMzj5e
+	 BM4BXyoib7MJcqQH8cMnqHclQIjzDlbR35ErJtS9NDuSSAxyxnktr3EzRENR1LD7wB
+	 kZYJe4gaZY7uQSw/SqL/Ml/+78Uog0rd4NblK7ZlADqxwvR/D4RcSoVmrV8+CwuiOP
+	 bJ39TDLj1Fl5fdgpN7RRBsTDMP4RTTWhgV71BHM29aCcOjpJanTD/ymlXCmfBVGA8o
+	 LF0JjU29TF1fr57T/VklvVc7mSKTCIAIu8y43985XxKsyq/QG98YmBlJJ0XvzdhHzg
+	 8Vj11qV+C2oGg==
+Date: Fri, 20 Nov 2026 10:55:40 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Mengmeng Zhao <mengmeng.zhao@linux.dev>, 
+	Christoph Hellwig <hch@lst.de>
+Cc: Anuj Gupta <anuj1072538@gmail.com>, 
+	Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com, Philipp Stanner <phasta@kernel.org>, 
+	Dan Williams <djbw@kernel.org>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, tytso@mit.edu, Andreas Dilger <adilger.kernel@dilger.ca>, 
+	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>, asml.silence@gmail.com, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, linux-ext4@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Li Wang <liwang@kylinos.cn>, 
+	Mengmeng Zhao <zhaomengmeng@kylinos.cn>
+Subject: Re: [RFC PATCH v2 6/8] fs: add FMODE_CAN_DMABUF_IO and require it
+ for dma-buf I/O contexts
+Message-ID: <20261120-faust-bohnenkraut-reduzieren-a30811186a15@brauner>
+References: <20261113070621.273953-1-mengmeng.zhao@linux.dev>
+ <20261113070621.273953-7-mengmeng.zhao@linux.dev>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -115,125 +70,147 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261119025942.2848130-4-neilb@ownmail.net>
-X-Rspamd-Queue-Id: BE2471FB70
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-13.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,gmail.com,vger.kernel.org,themaw.net,lwn.net];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,brown.name:email,suse.cz:dkim,suse.cz:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -13.01
+In-Reply-To: <20261113070621.273953-7-mengmeng.zhao@linux.dev>
 
-On Thu 19-11-26 13:57:03, NeilBrown wrote:
-> From: NeilBrown <neil@brown.name>
+On Fri, Nov 13, 2026 at 03:06:19PM +0800, Mengmeng Zhao wrote:
+> From: Mengmeng Zhao <zhaomengmeng@kylinos.cn>
 > 
-> Rather than hold i_lock across a d_children walk, dget() a reference to
-> the dentry and drop the i_lock before the walk.  This is easily done
-> with d_find_alias().
+> Add a file mode bit for files that can be the target of dma-buf I/O and
+> require it when a buffer is registered.  Block device files set it when
+> the backing disk supports dma-buf I/O, and filesystems can set it for
+> inodes whose data can be reached without the page cache.  The bit is
+> coarse: a driver that installs ->init_dma_buf_io_ctx for every
+> namespace, like nvme, still decides per device at registration.
 > 
-> This requires that we dput() which can sleep.  Now that no locks are
-> held across calls to fsnotify_set_children_dentry_flags(), this is safe.
+> dma_buf_io_ctx_create() is the only caller of ->init_dma_buf_io_ctx, so
+> the capability and the O_DIRECT requirement are checked there for every
+> file type rather than in each helper; O_DIRECT belongs at registration
+> because F_SETFL can change it afterwards.  Add bdev_can_dmabuf_io() so
+> the open-time and registration checks share one predicate.
 > 
-> Signed-off-by: NeilBrown <neil@brown.name>
-
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
+> Signed-off-by: Mengmeng Zhao <zhaomengmeng@kylinos.cn>
+> Signed-off-by: Li Wang <liwang@kylinos.cn>
 > ---
->  fs/notify/fsnotify.c | 40 ++++++++++++++++++++--------------------
->  1 file changed, 20 insertions(+), 20 deletions(-)
+>  block/bdev.c                 |  8 ++++----
+>  block/fops.c                 |  2 +-
+>  drivers/dma-buf/dma-buf-io.c | 13 +++++++++----
+>  include/linux/blkdev.h       |  7 ++++++-
+>  include/linux/fs.h           |  8 +++++++-
+>  5 files changed, 27 insertions(+), 11 deletions(-)
 > 
-> diff --git a/fs/notify/fsnotify.c b/fs/notify/fsnotify.c
-> index 8657bb94dfa8..58566e6b9679 100644
-> --- a/fs/notify/fsnotify.c
-> +++ b/fs/notify/fsnotify.c
-> @@ -71,32 +71,32 @@ void fsnotify_sb_free(struct super_block *sb)
->   */
->  void fsnotify_set_children_dentry_flags(struct inode *inode)
+> diff --git a/block/bdev.c b/block/bdev.c
+> index 88e3f552f5d4..4e7a7f7e1e8b 100644
+> --- a/block/bdev.c
+> +++ b/block/bdev.c
+> @@ -61,14 +61,12 @@ struct block_device *file_bdev(struct file *bdev_file)
+>  }
+>  EXPORT_SYMBOL(file_bdev);
+>  
+> -int bdev_init_dma_buf_io_ctx(struct file *file, struct block_device *bdev,
+> +int bdev_init_dma_buf_io_ctx(struct block_device *bdev,
+>  			     struct dma_buf_io_ctx *ctx)
 >  {
-> -	struct dentry *alias;
-> +	struct dentry *alias, *child;
+> -	if (!(file->f_flags & O_DIRECT))
+> -		return -EINVAL;
+>  	if (ctx->dmabuf->size > UINT_MAX)
+>  		return -EINVAL;
+> -	if (!bdev->bd_disk->fops->init_dma_buf_io_ctx)
+> +	if (!bdev_can_dmabuf_io(bdev))
+>  		return -EOPNOTSUPP;
+>  	return bdev->bd_disk->fops->init_dma_buf_io_ctx(bdev, ctx);
+>  }
+> @@ -1041,6 +1039,8 @@ int bdev_open(struct block_device *bdev, blk_mode_t mode, void *holder,
 >  
->  	if (!S_ISDIR(inode->i_mode))
->  		return;
->  
-> -	spin_lock(&inode->i_lock);
-> -	/* run all of the dentries associated with this inode.  Since this is a
-> -	 * directory, there damn well better only be one item on this list */
-> -	for_each_alias(alias, inode) {
-> -		struct dentry *child;
-> -
-> -		/* run all of the children of the original inode and fix their
-> -		 * d_flags to indicate parental interest (their parent is the
-> -		 * original inode) */
-> -		spin_lock(&alias->d_lock);
-> -		hlist_for_each_entry(child, &alias->d_children, d_sib) {
-> -			if (!child->d_inode)
-> -				continue;
-> +	/* Find the dentry for inode - there can only be one */
-> +	alias = d_find_alias(inode);
-> +	if (!alias)
-> +		return;
->  
-> -			spin_lock_nested(&child->d_lock, DENTRY_D_LOCK_NESTED);
-> -			child->d_flags |= DCACHE_FSNOTIFY_PARENT_WATCHED;
-> -			spin_unlock(&child->d_lock);
-> -		}
-> -		spin_unlock(&alias->d_lock);
-> +	/*
-> +	 * run through all of the children of the original inode and fix
-> +	 * their d_flags to indicate parental interest (their parent is
-> +	 * the original inode)
-> +	 */
-> +	spin_lock(&alias->d_lock);
-> +	hlist_for_each_entry(child, &alias->d_children, d_sib) {
-> +		if (!child->d_inode)
-> +			continue;
-> +
-> +		spin_lock_nested(&child->d_lock, DENTRY_D_LOCK_NESTED);
-> +		child->d_flags |= DCACHE_FSNOTIFY_PARENT_WATCHED;
-> +		spin_unlock(&child->d_lock);
->  	}
-> -	spin_unlock(&inode->i_lock);
-> +	spin_unlock(&alias->d_lock);
-> +	dput(alias);
+>  	bdev_file->f_flags |= O_LARGEFILE;
+>  	bdev_file->f_mode |= FMODE_CAN_ODIRECT;
+> +	if (bdev_can_dmabuf_io(bdev))
+> +		bdev_file->f_mode |= FMODE_CAN_DMABUF_IO;
+>  	if (bdev_nowait(bdev))
+>  		bdev_file->f_mode |= FMODE_NOWAIT;
+>  	if (mode & BLK_OPEN_RESTRICT_WRITES)
+> diff --git a/block/fops.c b/block/fops.c
+> index 86bf1f298b79..7e5702e047a2 100644
+> --- a/block/fops.c
+> +++ b/block/fops.c
+> @@ -1008,7 +1008,7 @@ static int blkdev_mmap_prepare(struct vm_area_desc *desc)
+>  static int blkdev_init_dma_buf_io_ctx(struct file *file,
+>  				      struct dma_buf_io_ctx *ctx)
+>  {
+> -	return bdev_init_dma_buf_io_ctx(file, file_bdev(file), ctx);
+> +	return bdev_init_dma_buf_io_ctx(file_bdev(file), ctx);
 >  }
 >  
->  /*
-> -- 
-> 2.50.0.107.gf914562f5916.dirty
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+>  const struct file_operations def_blk_fops = {
+> diff --git a/drivers/dma-buf/dma-buf-io.c b/drivers/dma-buf/dma-buf-io.c
+> index 8440151de860..9575b7d65ec5 100644
+> --- a/drivers/dma-buf/dma-buf-io.c
+> +++ b/drivers/dma-buf/dma-buf-io.c
+> @@ -152,9 +152,11 @@ static void dma_buf_io_ctx_shutdown(struct dma_buf_io_ctx *ctx)
+>   * @out_ctx:	[out]	resulting ctx
+>   *
+>   * Create a new I/O context from the given DMA buffer for the given file.
+> - * It only works with files implementing ->init_dma_buf_io_ctx and fails
+> - * with -EOPNOTSUPP otherwise. Once created, the user can create a map
+> - * and use it to issue I/O, such as read/write requests, to @file.
+> + * It only works with files implementing ->init_dma_buf_io_ctx,
+> + * advertising FMODE_CAN_DMABUF_IO and currently opened for direct I/O,
+> + * and fails with -EOPNOTSUPP or -EINVAL otherwise. Once created, the
+> + * user can create a map and use it to issue I/O, such as read/write
+> + * requests, to @file.
+>   */
+>  int dma_buf_io_ctx_create(struct file *file,
+>  			   struct dma_buf *dmabuf,
+> @@ -164,8 +166,11 @@ int dma_buf_io_ctx_create(struct file *file,
+>  	struct dma_buf_io_ctx *ctx;
+>  	int ret;
+>  
+> -	if (!file->f_op->init_dma_buf_io_ctx)
+> +	if (!file->f_op->init_dma_buf_io_ctx ||
+> +	    !(file->f_mode & FMODE_CAN_DMABUF_IO))
+>  		return -EOPNOTSUPP;
+> +	if (!(file->f_flags & O_DIRECT))
+> +		return -EINVAL;
+>  
+>  	ctx = kzalloc_obj(*ctx);
+>  	if (!ctx)
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index b98f43478cc0..0cfb6fb6b4e2 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -1610,9 +1610,14 @@ struct block_device_operations {
+>  	int (*alternative_gpt_sector)(struct gendisk *disk, sector_t *sector);
+>  };
+>  
+> -int bdev_init_dma_buf_io_ctx(struct file *file, struct block_device *bdev,
+> +int bdev_init_dma_buf_io_ctx(struct block_device *bdev,
+>  			     struct dma_buf_io_ctx *ctx);
+>  
+> +static inline bool bdev_can_dmabuf_io(struct block_device *bdev)
+> +{
+> +	return !!bdev->bd_disk->fops->init_dma_buf_io_ctx;
+> +}
+> +
+>  #ifdef CONFIG_COMPAT
+>  extern int blkdev_compat_ptr_ioctl(struct block_device *, blk_mode_t,
+>  				      unsigned int, unsigned long);
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 99caef43ff3c..f5524fc770d4 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -121,7 +121,13 @@ typedef int (dio_iodone_t)(struct kiocb *iocb, loff_t offset,
+>  /* File supports atomic writes */
+>  #define FMODE_CAN_ATOMIC_WRITE	((__force fmode_t)(1 << 7))
+>  
+> -/* FMODE_* bit 8 */
+> +/*
+> + * File can be the target of dma-buf I/O.  Set it for files whose data can be
+> + * reached with direct I/O without the page cache: a dma-buf iterator has no
+> + * pages to copy, so a buffered path cannot serve it.  The bit is coarse; both
+> + * the device behind it and O_DIRECT are checked when a buffer is registered.
+> + */
+> +#define FMODE_CAN_DMABUF_IO	((__force fmode_t)(1 << 8))
+
+This is stealing yet another FMODE_* bit for special-purpose stuff.
+We're really really short of them. Did Christoph suggest this?
