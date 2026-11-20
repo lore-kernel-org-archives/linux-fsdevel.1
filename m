@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.69
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795136839;
-	b=3y/1rC1xlgBmVIXMNBH7+fJjpQ+TR6ImNR+tjqRurC26MdnVQ5AOcJFkxD0+E2jiyF8o
-	 XCaxuCmZSDlqnsHBeOc75EYd7UqiH/KmTSU69trNvtAwqkw4mBBYsjafhNZS+e5wV8QMZ
-	 VrhHR2aaUlqVBcelQ1mlesX8HR4F5Jp4d/ICHbt+K9siDj/uXJ+fkkpOA8ZqrG7sufrax
-	 vyj4rky7RNxunqE62/9gvCx33HE09HFB8lwTIpIS58YkyNrD5goXvMT7wYU3tlsaReTgp
-	 iNcYvbH2ooLYKgqZMzY6aFGzuI8REUHjnmrLhnLNrrZKiCM4IOrnKWm1pm6UMxBJzkA==
+	t=1795136840;
+	b=hvJz0rezbiUKaDqStfTMmFiJz5joHk93KMjXYT/iKtFxAbcNiE4Uob/93BRpZyFHJ3Ii
+	 xywzAKdLyDa9uf7zS/Y6ZQP01W59DWHFdH+7wN+biVmMJleVV2A5ku8hdd6U+/SU+h5Xg
+	 T0SIowOrAy8pQgkv++v8RDsgQnYNr4umrj2CQTMHADWSpPwgQpYPHMBzhKl0jEp3JV4QS
+	 DP+hCTQKdRi6OiMpXLuaroetbKE1+L4DJXqCHK3b9Rz+wnmaYBOcuh22Vfa2/HKIS/kNM
+	 9OZog//HVoP/OEHfuH5XG/0OIVWQxqIEpF7XqG1OxVkl42SvAD9xWPQyTdXeioOsYzA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795136839;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795136840;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=FkHIJ0AqEEou0V4yLcGWQGEIWwBaAdh9SIA/wm+Eg+o=;
-	b=2bQlgD2G+E7LtcUN5Kd1O8jdSKbJAz78oT0Fo5F926T+Ajb3DHqr+8YQcL1EBl1Y+2ik
-	 ZhIP7ioF+XpsM9X8Ysq/78zhOXnyVOiaqpaRU0xHtipbFdVWJ9/s6m4oq7dON1ImEUrXN
-	 IIyMxzjy4Wh3pldjj8rJVFhKIYLmYJDHtaLeSpIeOyfVLiBXwzyttIJAjwJ662OlOgWkW
-	 V9E+rfPbe1F1Kyu0f+Yc+p2QujJfv9SIx2Lq0/NJG9zN/l/4YXQlAOClKj6WA9FJ73D0p
-	 3L8DoVJnQ7tixCoEMRCp8iJZhinFppJZpPO/SuKZPewrz9rNppzuVjaX60QSOyLcjMA==
+	bh=vXU5FE3T392RxN9QNel254D35psegmPr29XGG2IaIcw=;
+	b=GQ7SZ+sfvZyvBzOB8pxqou/lFHH2qDleXqteLWEHT57SlBOTW7qYMrdpccbZk7rObSGG
+	 7TGwn8l1AybqYH6Ny++j8vGHhy2z7Na8LK2zzpNqSdM9J3as0MDSYVpOO5HZFSRdiHnz+
+	 FCBhmxlENNYVOOTXy6NcApUCYxUtlstPs+si7CPGIbkTGu9RvUSwwigI2YRjF6/vUUcw6
+	 uN5SCBj6YVfaMDDai+TIxeW/vTDwz+r6A+C/rmbazMNgc2I8l2EmmI9tUC2cMtrFBW97y
+	 QHXt0ZTMbqVzksOlOTE/KQ/mNEbFI3saEb5qk9FS/rTaGJy0bBR13F5UsWyRvl+8zDQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=e2KZmO6N;
-	arc=none smtp.remote-ip=209.85.128.69
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=JN1XES1B;
+	arc=none smtp.remote-ip=209.85.218.72
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com [209.85.218.72])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE142606D57F
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 01:07:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE142606D57F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5FD60A3830
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 01:07:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D5FD60A3830
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=e2KZmO6N
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4a2065a2ef9so1962835e9.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 17:07:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=JN1XES1B
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-c505f26e9e1so24315566b.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 17:07:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795136835; x=1795741635; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1795136838; x=1795741638; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=FkHIJ0AqEEou0V4yLcGWQGEIWwBaAdh9SIA/wm+Eg+o=;
-        b=e2KZmO6NuAFYS0b0zTSshrWywT70OJXjAp3cjwr0nCjgfcHWdHXZviFOizRuKfB2FC
-         +AuUS/KczNXYKQ0sEde5YAZ8b3JQ63nNtUZ3xYNQpuqvD+Q3SawJr7hpiKEqZnUlZZAT
-         fd2zIVZrJJgsX6COs+AHk899RQ485KAmVbLF/zyzJ2tSyQ6uv71vJm9+jr9JAumayjuA
-         38Iub5I35dHaYOh7N8aDA7N6cyMTjWKt8h7fy43VyGo65g4zdg7hN3IVGwLLFCraxl5H
-         Hw9EsMBalDzaSmV9ZSXuzQMtB2h6ejJELHZPDS0GGWpOBePDl76vIK9VOlPrv9G1HTbu
-         wWOQ==
+        bh=vXU5FE3T392RxN9QNel254D35psegmPr29XGG2IaIcw=;
+        b=JN1XES1B+9xWtZQpoeMZD1UeWfT8QzjJSgx/sA0JgmGXSEnoJmVjMhf9okWGToRyHI
+         UC4p+4/gQ3721KhE81Am0R88BKIzA+63rA89MYsqczHOOjNk/NbKL5GRSVvSLYdrwFx7
+         veJLApSlferalQefLmHR+mCgrOfnX40PeDyA8ugXlIHH0G+Vd1uNUEnIfQ7P5ZkksIPy
+         3dw8vuxjXyNwYxSor20m6+Xloh49B3bI8AXiF4P+b8O2Ogb6X96BGDOB2a6/v24AIV38
+         +Xk17oB24yyJNkX/CpxmOpCNeqIP9D9jG6kcaTsguL1bNkWDRHMQZcaWGRXk5eOxSdfT
+         JBhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795136835; x=1795741635;
+        d=1e100.net; s=20260707; t=1795136838; x=1795741638;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=FkHIJ0AqEEou0V4yLcGWQGEIWwBaAdh9SIA/wm+Eg+o=;
-        b=pHx7pel1b2TfcHmYsTzULY/W7IrucGq6F7u7eUVOeE9g53jdMHqdPwFPsELT9Zqe+i
-         7BNIWqFTs7zfCyD/9+3E36Mwn7HO5Xwu/uJwM0ilYyeNS3P3KSKkqdg/K5JdaL/dtuGl
-         P5HjG2X8G5zEvQY5U/Zhws92wGtFTVNSBWRydm6bBLEdMLC6su2/99zgMAR3ReRe7BcX
-         P0uNK2YIj9Jwd/zTKLU0Yr2MBu6fx5g3q/JAbAodPHXD/WfkHvhH1N6P9eIXrUgml2HP
-         rD5iLr+R1vOurobt0EzZBt/YvfuCZB+K/pmJCOyI22lGVd156IRPh2ylojFT8ChX4A7O
-         yckg==
-X-Forwarded-Encrypted: i=1; AL+hErE2aKNWtX0r/BkszXD9+/r9jDNyCSDE1qGjoJ498nZc5vjNB2MW51usNtGMBMo8oPWXkChx5cTzBhGvQyQm@vger.kernel.org
-X-Gm-Message-State: APuU4Z/L/LE0ntQffimmcWA2EUAS7NbUvzVBx/dbz7Ty38yoyvucVgHm
-	y+LlfBsEa+T1y1luenURUasB/02ivpWHCyIMuofC1XjkmoFoMg7CLFEWYscjJkUKm7AuQcqQqnK
-	nlQ+36g==
-X-Received: from wmbh22.prod.google.com ([2002:a05:600c:a116:b0:4b6:5d12:e070])
- (user=lrizzo job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:a4b:b0:4a1:dade:f049
- with SMTP id 5b1f17b1804b1-4bb88806292mr26486795e9.15.1795136835025; Thu, 19
- Nov 2026 17:07:15 -0800 (PST)
-Date: Fri, 20 Nov 2026 01:06:43 +0000
+        bh=vXU5FE3T392RxN9QNel254D35psegmPr29XGG2IaIcw=;
+        b=kvOAGDhORAHt6uhzNsCPoK3sMwWBPTY0WJuHUCYsDLn1QBjlUN5HqkIDAqKIUPEwqR
+         EA5mh0nMEIizumKkK81h0kZr/if2Z21zoBXMpq1RWGhBCjRBz1bwFsxQ1Y47wBZ8thfj
+         Ay8V0AM4gJQhzB3mdMgGm9MxaNU8rCAhoMEfGI/Hqd6rqZ+ch9ky/USFfLPTzgTdRQHs
+         kQ8T+OVpJl2mE7HNWHdsMF6T3bdWjdsTknxJ7Z6eWjpc26du4jgIaUiCCKPul2igDpGH
+         NbzsytFnflDIIU+T9pMVquZO3/6l7kD3HYEPdEbN1aHg0woFLDW81COIag0vSiDY5h47
+         1ZAA==
+X-Forwarded-Encrypted: i=1; AL+hErHU8/wpPyCFwqeJnPfaQOdRliT+OYdAI2IHnEZxzqTNEXY5jlQU+RdqKJeZlR87hYRrGyVdf50ODv1KkO9C@vger.kernel.org
+X-Gm-Message-State: APuU4Z8/HOWQBaeeCGqQwSPIJ0igMWBURM1jCPesGcdXhKs/gCmSVHAA
+	WBi19vm8zBkYoom0JlgzZmUNkPTUHWT3/uAHFKDr9tFw2Lr+3zG9ggCRvPlN/EPE0YVneXc5qch
+	dWwTQdg==
+X-Received: from ejdlt17-n2.prod.google.com ([2002:a17:907:c651:20b0:c50:cd62:3dd0])
+ (user=lrizzo job=prod-delivery.src-stubby-dispatcher) by 2002:a17:906:4fc4:b0:c2e:62af:b6fe
+ with SMTP id a640c23a62f3a-c513a5e62e7mr135377366b.8.1795136837193; Thu, 19
+ Nov 2026 17:07:17 -0800 (PST)
+Date: Fri, 20 Nov 2026 01:06:45 +0000
 In-Reply-To: <20261120010655.467825-1-lrizzo@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -81,8 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261109182533.3594984-1-lrizzo@google.com> <20261120010655.467825-1-lrizzo@google.com>
 X-Mailer: git-send-email 2.56.1.809.ga0b61035b5-goog
-Message-ID: <20261120010655.467825-14-lrizzo@google.com>
-Subject: [RFC PATCH v3 13/25] net: Cache leaf PISA TX flags on struct net_device
+Message-ID: <20261120010655.467825-16-lrizzo@google.com>
+Subject: [RFC PATCH v3 15/25] net: Use PISA for page_pool memory
 From: Luigi Rizzo <lrizzo@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
 	Johannes Weiner <hannes@cmpxchg.org>, Vlastimil Babka <vbabka@kernel.org>, Joerg Roedel <joro@8bytes.org>, 
@@ -112,320 +112,35 @@ Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, M
 	Luigi Rizzo <lrizzo@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-The sysfs attributes pisa_tx_bufs and pisa_tx_skb_heads live on the
-physical DMA parent (dev->dev.parent), whereas a socket route (dst->dev)
-or skb->dev may point to an upper virtual net_device (bond, VLAN,
-ipvlan, etc.). Walking lower devices via netdev_walk_all_lower_dev_rcu()
-on every TX allocation would be too expensive.
-
-Add dev->pisa_tx_flags_tstamp on struct net_device to cache the leaf device
-PISA TX flags and refresh them at most once every 256 jiffies via
-pisa_tx_flags_refresh(). Also add the net_pisa_tx_bufs_key static key
-and helpers (use_pisa_tx_bufs(), pisa_tx_bufs_gfp()) for subsequent TX
-buffer patches.
+When a page_pool performs DMA mapping (PP_FLAG_DMA_MAP) on a device with
+pisa_rx_bufs enabled, pass __GFP_PISA_RW to use PISA memory.
 
 Signed-off-by: Luigi Rizzo <lrizzo@google.com>
 ---
- drivers/base/core.c       |   6 ++-
- include/linux/device.h    |  11 ++++
- include/linux/netdevice.h |   4 ++
- include/net/pisa.h        |  81 +++++++++++++++++++++++++++++
- mm/pisa-kunit.c           |   3 +-
- net/core/Makefile         |   1 +
- net/core/pisa-net.c       | 104 ++++++++++++++++++++++++++++++++++++++
- 7 files changed, 207 insertions(+), 3 deletions(-)
- create mode 100644 include/net/pisa.h
- create mode 100644 net/core/pisa-net.c
+ net/core/page_pool.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index df93b6b6e125e..5f1291e644c5e 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -2950,7 +2950,7 @@ static DEVICE_ATTR_RW(name)
- 
- PISA_BOOL_ATTR(pisa_coherent);
- PISA_BOOL_ATTR(pisa_rx_bufs);
--PISA_BOOL_ATTR(pisa_tx_bufs);
-+PISA_SET_ATTR(pisa_tx_bufs, net_pisa_tx_bufs_set);
- PISA_BOOL_ATTR(pisa_tx_skb_heads);
- PISA_BOOL_ATTR(pisa_tx_zerocopy);
- 
-@@ -3111,8 +3111,10 @@ static void device_remove_attrs(struct device *dev)
- 	const struct class *class = dev->class;
- 	const struct device_type *type = dev->type;
- 
--	if (IS_ENABLED(CONFIG_PISA) && dev->dma_mask)
-+	if (IS_ENABLED(CONFIG_PISA) && dev->dma_mask) {
- 		device_remove_group(dev, &dev_attr_pisa_group);
-+		net_pisa_tx_bufs_set(dev, false);
-+	}
- 
- 	if (dev->physical_location) {
- 		device_remove_group(dev, &dev_attr_physical_location_group);
-diff --git a/include/linux/device.h b/include/linux/device.h
-index e705df38e49af..0d867d8255ba5 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -817,6 +817,17 @@ struct device {
- 	DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
- };
- 
-+#if defined(CONFIG_NET) && defined(CONFIG_PISA)
-+int net_pisa_tx_bufs_set(struct device *dev, bool val);
-+#else
-+/* Without CONFIG_NET the flag still gates block-device writes (see pisa_bdev_enabled()). */
-+static inline int net_pisa_tx_bufs_set(struct device *dev, bool val)
-+{
-+	WRITE_ONCE(dev->pisa_tx_bufs, val);
-+	return 0;
-+}
-+#endif
-+
- #define __create_dev_flag_accessors(accessor_name, flag_name) \
- static inline bool dev_##accessor_name(const struct device *dev) \
- { \
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index 435be7880d7e5..f973faba4402c 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -2161,6 +2161,7 @@ enum netdev_reg_state {
-  *	@neighbours:	List heads pointing to this device's neighbours'
-  *			dev_list, one per address-family.
-  *	@hwprov: Tracks which PTP performs hardware packet time stamping.
-+ *	@pisa_tx_flags_tstamp: Cached leaf pisa flags and timestamp.
-  *
-  *	FIXME: cleanup struct net_device such that network protocol info
-  *	moves out.
-@@ -2276,6 +2277,9 @@ struct net_device {
- 	} adj_list;
- 
- 	/* Read-mostly cache-line for fast-path access */
-+#ifdef CONFIG_PISA
-+	u32			pisa_tx_flags_tstamp;
-+#endif
- 	xdp_features_t		xdp_features;
- 	const struct xdp_metadata_ops *xdp_metadata_ops;
- 	const struct xsk_tx_metadata_ops *xsk_tx_metadata_ops;
-diff --git a/include/net/pisa.h b/include/net/pisa.h
-new file mode 100644
-index 0000000000000..1f95e67e99bf8
---- /dev/null
-+++ b/include/net/pisa.h
-@@ -0,0 +1,81 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
-+/* PISA hooks for the networking stack. */
-+#ifndef _NET_PISA_H
-+#define _NET_PISA_H
-+
+diff --git a/net/core/page_pool.c b/net/core/page_pool.c
+index d7c88c0b67e53..91cae5ba78373 100644
+--- a/net/core/page_pool.c
++++ b/net/core/page_pool.c
+@@ -16,6 +16,7 @@
+ #include <net/page_pool/helpers.h>
+ #include <net/page_pool/memory_provider.h>
+ #include <net/xdp.h>
 +#include <linux/pisa.h>
-+#include <net/sock.h>
-+
-+/*
-+ * struct net_device caches the PISA enable flags for tx_bufs and tx_heads used
-+ * by the leaf device, refreshed every 256 jiffies. The helpers below decide
-+ * whether to use PISA memory for a given dst, sk, skb.
-+ */
-+#ifdef CONFIG_PISA
-+
-+enum pisa_tx_flags {
-+	PISA_TX_FLAG_BUFS	= BIT(0),
-+	PISA_TX_XFRM_OK		= BIT(2),
-+	PISA_TX_TSTAMP_MASK	= ~0xffU,
-+};
-+
-+/*
-+ * Static keys guarding networking hooks:
-+ * - @net_pisa_tx_bufs_key: enabled while any device has pisa_tx_bufs set.
-+ */
-+DECLARE_STATIC_KEY_FALSE(net_pisa_tx_bufs_key);
-+
-+u32 pisa_tx_flags_refresh(struct net_device *dev, u32 now);
-+
-+/*
-+ * May TX data routed through @dst use PISA pages? Those pages stay readable by
-+ * every device that mapped them for as long as they are active, so only data
-+ * that leaves the host in clear qualifies: IPsec payload before encryption has
-+ * dst_xfrm(dst) != NULL and is rejected unless PISA_TX_XFRM_OK is set.
-+ */
-+static inline gfp_t __pisa_tx_gfp(const struct dst_entry *dst,
-+				  enum pisa_tx_flags flag)
-+{
-+	const struct net_device *dev;
-+	u32 stamp, now;
-+
-+	guard(rcu)();
-+	if (!dst || (dst_xfrm(dst) && !(flag & PISA_TX_XFRM_OK)))
-+		return 0;
-+	dev = dst_dev_rcu(dst);
-+	if (!dev)
-+		return 0;
-+	stamp = READ_ONCE(dev->pisa_tx_flags_tstamp);
-+	now = (u32)jiffies & PISA_TX_TSTAMP_MASK;
-+	if (unlikely((stamp & PISA_TX_TSTAMP_MASK) != now))
-+		stamp = pisa_tx_flags_refresh((struct net_device *)dev, now);
-+	return (stamp & flag) ? __GFP_PISA : 0;
-+}
-+
-+/*
-+ * ============================================================================
-+ * Networking hooks (every hook starts inline with a static-key check)
-+ * ============================================================================
-+ */
-+
-+/* Hook for route-based TX payload fragment selection (@net_pisa_tx_bufs_key). */
-+static inline bool use_pisa_tx_bufs(const struct dst_entry *dst)
-+{
-+	return static_branch_unlikely(&net_pisa_tx_bufs_key) &&
-+	       __pisa_tx_gfp(dst, PISA_TX_FLAG_BUFS);
-+}
-+
-+/* Hook for ESP output skb_page_frag_refill() (@net_pisa_tx_bufs_key). */
-+static inline gfp_t pisa_tx_bufs_gfp(const struct sk_buff *skb)
-+{
-+	return static_branch_unlikely(&net_pisa_tx_bufs_key) ?
-+	       __pisa_tx_gfp(skb_dst(skb), PISA_TX_FLAG_BUFS | PISA_TX_XFRM_OK) : 0;
-+}
-+
-+#else /* !CONFIG_PISA */
-+
-+static inline bool use_pisa_tx_bufs(const struct dst_entry *dst) { return false; }
-+static inline gfp_t pisa_tx_bufs_gfp(const struct sk_buff *skb) { return 0; }
-+
-+#endif /* CONFIG_PISA */
-+#endif /* _NET_PISA_H */
-diff --git a/mm/pisa-kunit.c b/mm/pisa-kunit.c
-index 4effbc8610079..d7670c76e98c5 100644
---- a/mm/pisa-kunit.c
-+++ b/mm/pisa-kunit.c
-@@ -578,7 +578,8 @@ static void test_dev_pisa_attrs(struct kunit *test)
- 	kunit_check_pisa_attr(test, dev, "pisa_coherent", &dev->pisa_coherent);
- 	kunit_check_pisa_attr(test, dev, "pisa_rx_bufs", &dev->pisa_rx_bufs);
- 	kunit_check_pisa_attr(test, dev, "pisa_tx_zerocopy", &dev->pisa_tx_zerocopy);
--	kunit_check_pisa_attr(test, dev, "pisa_tx_bufs", &dev->pisa_tx_bufs);
-+	if (IS_ENABLED(CONFIG_NET))
-+		kunit_check_pisa_attr(test, dev, "pisa_tx_bufs", &dev->pisa_tx_bufs);
- 	kunit_check_pisa_attr(test, dev, "pisa_tx_skb_heads", &dev->pisa_tx_skb_heads);
- 	device_unregister(dev);
- }
-diff --git a/net/core/Makefile b/net/core/Makefile
-index c20e520358b8e..3c84358d6b0c0 100644
---- a/net/core/Makefile
-+++ b/net/core/Makefile
-@@ -52,3 +52,4 @@ obj-$(CONFIG_NET_TEST) += net_test.o
- obj-$(CONFIG_NET_DEVMEM) += devmem.o
- obj-$(CONFIG_DEBUG_NET) += lock_debug.o
- obj-$(CONFIG_FAIL_SKB_REALLOC) += skb_fault_injection.o
-+obj-$(CONFIG_PISA) += pisa-net.o
-diff --git a/net/core/pisa-net.c b/net/core/pisa-net.c
-new file mode 100644
-index 0000000000000..6d4909c82070c
---- /dev/null
-+++ b/net/core/pisa-net.c
-@@ -0,0 +1,104 @@
-+// SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
-+/*
-+ * PISA networking helpers: leaf device TX flag cache, small skb head slab
-+ * cache, and MSG_ZEROCOPY user page upgrade.
-+ * See Documentation/core-api/pisa.rst for the architecture overview.
-+ */
-+
-+#include <linux/device.h>
-+#include <linux/export.h>
-+#include <linux/mutex.h>
-+#include <linux/netdevice.h>
-+#include <linux/pisa.h>
-+#include <net/pisa.h>
-+
-+/* Enabled while at least one device has pisa_tx_bufs set. */
-+DEFINE_STATIC_KEY_FALSE(net_pisa_tx_bufs_key);
-+EXPORT_SYMBOL(net_pisa_tx_bufs_key);
-+
-+int net_pisa_tx_bufs_set(struct device *dev, bool val)
-+{
-+	static DEFINE_MUTEX(lock);
-+
-+	guard(mutex)(&lock);
-+	if (dev->pisa_tx_bufs != val) {
-+		WRITE_ONCE(dev->pisa_tx_bufs, val);
-+		if (val)
-+			static_branch_inc(&net_pisa_tx_bufs_key);
-+		else
-+			static_branch_dec(&net_pisa_tx_bufs_key);
-+	}
-+	return 0;
-+}
-+
-+/*
-+ * The sysfs attribute pisa_tx_bufs lives on the device that does DMA: the
-+ * closest ancestor of a leaf net_device that has a dma_mask (dev->dev.parent,
-+ * or further up behind bus glue such as virtio). A socket route (dst->dev) may
-+ * instead point to an upper virtual net_device (bond, VLAN, ipvlan, etc.),
-+ * whose leaves are its lower devices. Walking lower devices via
-+ * netdev_walk_all_lower_dev_rcu() on every TX allocation would be too
-+ * expensive, so dev->pisa_tx_flags_tstamp caches the walk result on the net_device
-+ * and refreshes it at most once every 256 jiffies:
-+ *   bit 0 (PISA_TX_FLAG_BUFS):       pisa_tx_bufs enabled on lower device(s)
-+ *   bits 31..8 (PISA_TX_TSTAMP_MASK):  upper 24 bits of (u32)jiffies
-+ */
-+static u32 pisa_tx_flags(const struct net_device *dev)
-+{
-+	const struct device *parent = dev->dev.parent;
-+	u32 flags = 0;
-+
-+	while (parent && !parent->dma_mask)
-+		parent = parent->parent;
-+	if (parent && READ_ONCE(parent->pisa_tx_bufs))
-+		flags |= PISA_TX_FLAG_BUFS;
-+	return flags;
-+}
-+
-+/* MACsec encrypts in software above its lower device: its cleartext must stay out of PISA. */
-+static bool pisa_tx_dev_excluded(const struct net_device *dev)
-+{
-+	return netif_is_macsec(dev);
-+}
-+
-+/* A leaf has no lower devices; what its parent device is does not matter. */
-+static bool pisa_tx_dev_is_leaf(const struct net_device *dev)
-+{
-+	return list_empty(&dev->adj_list.lower);
-+}
-+
-+/* Every leaf must have opted in; a leaf without a DMA device (veth, tun, ...) has not. */
-+static int pisa_tx_flags_walk(struct net_device *dev, struct netdev_nested_priv *priv)
-+{
-+	uintptr_t flags = (uintptr_t)priv->data;
-+
-+	if (pisa_tx_dev_excluded(dev))
-+		flags = BIT(2);
-+	else if (pisa_tx_dev_is_leaf(dev))
-+		flags = (flags & pisa_tx_flags(dev)) | BIT(2);
-+	priv->data = (void *)flags;
-+	return 0;
-+}
-+
-+/* Slow path of __pisa_tx_gfp(): refresh dev->pisa_tx_flags_tstamp. */
-+u32 pisa_tx_flags_refresh(struct net_device *dev, u32 now)
-+{
-+	if (pisa_tx_dev_excluded(dev)) {
-+		/* No flags. */
-+	} else if (pisa_tx_dev_is_leaf(dev)) {
-+		now |= pisa_tx_flags(dev);
-+	} else {
-+		struct netdev_nested_priv priv = {
-+			.data = (void *)(uintptr_t)PISA_TX_FLAG_BUFS,
-+		};
-+
-+		rcu_read_lock();
-+		netdev_walk_all_lower_dev_rcu(dev, pisa_tx_flags_walk, &priv);
-+		rcu_read_unlock();
-+		if ((uintptr_t)priv.data & BIT(2))
-+			now |= (uintptr_t)priv.data & ~BIT(2);
-+	}
-+	WRITE_ONCE(dev->pisa_tx_flags_tstamp, now);
-+	return now;
-+}
-+EXPORT_SYMBOL(pisa_tx_flags_refresh);
+ 
+ #include <linux/dma-direction.h>
+ #include <linux/dma-mapping.h>
+@@ -622,6 +623,8 @@ static noinline netmem_ref __page_pool_alloc_netmems_slow(struct page_pool *pool
+ 	 */
+ 	if ((gfp & GFP_ATOMIC) == GFP_ATOMIC)
+ 		gfp |= __GFP_NOWARN;
++	if (dma_map)
++		gfp |= pisa_rx_gfp(pool->p.dev);
+ 
+ 	/* Don't support bulk alloc for high-order pages */
+ 	if (unlikely(pp_order))
 -- 
 2.56.1.809.ga0b61035b5-goog
 
