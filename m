@@ -1,48 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795180298;
-	b=YvzI62giwxN0OuWqwBfBKDYKq5Fq+LLoQEnTXs1pxWgkWVN7755GuRsdMzwANqpXHjTY
-	 svYXbZC9kGi48M6qvygz9GA3jeV96VIHJuz+E5SIiICkqqWZJ5zekO0kRdaaWQgo/rwc2
-	 WoU7Cd5DWOwP9GaHBtLbjYIr3tWutoyH8VckZYpAV5zN6OOxcNqzGDXTwBr2kOnzXhmmd
-	 EHoU0OCqV28utTwpsbLLmKmmHM7Sz7cBh8PJM9Gc2SguAiR019EU2I4Mrp6m/OwQwfsTu
-	 cbVWlltoVYUTJo4IW6r/x7X+a5UVByDgVFDpb+yNfiFn3NCijyufSFAZ9w5kcudhWSA==
+	t=1795180305;
+	b=5hvg7j3Qop1i6EHIFy94BlQdb456c0UKJ91VmPlvZsxoVCggR4lO1mtRo1R+vM1nVK4O
+	 Luwulyqv8pbf7KvANy8kxVfkInOjw12Usu8SGvUdWqKAoZ2ovvhf7kYqRnksNlka3w9iT
+	 7qM/IAv4y2+9Ha/HMlZIPEtoJdcAV+qonaKHx+sfrkqHWZ0Q78iDwWNxAg+0uckOXQhnp
+	 jxA/XyDKOd7WJZ6kbK+mqj0e9e7LaEPB1Y7DQpQikwrJHechQoiAFw/PJhe1cTczYNPFo
+	 iybsCLaxPQOlcmo47rvfI5e/tvaz5zyodSh6QLQt63hXXroxbyaZMsLAQugucAnfh/w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795180298;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795180305;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=8LHuI22szusf4UXGeTOjgNmIH+GHGJvOcdvuE97yqUQ=;
-	b=PYejW/ySM5npMIl2fvDMBajZMjW2QHGPSwu6LWXxQV2aZJDnygOu/4iGqiqIBYXdTgXP
-	 bz+bEuq+UiDyAxxnBwDM8TtljxhUbrFlrgKkPmeT/g70snuujDwpvv/oyk36L2k1LzYVS
-	 k4OwsvcepTpHVtiV2SCMFNM89NNXFAj10ob3VkfpFWfgFJeQ7QjJXUXek34XddbzhXugI
-	 2+fDCyk/oQ8Mr5ymZUxbOnIoJrXgeQz6VRR+mvDKYgUMHmd+bWm6nxXmlU82EsMg8clBJ
-	 wxpUsLPhIVusi/A+ZRcFkmGmwP42rrYt9db2j8Jl2Ew0nwnJwWtny+aGlSd7XeH4LXg==
+	bh=Er/TOYKrkI7vXZl3PXvP6uSAh/8EwkCoewu1OLgyfnM=;
+	b=D35LyvMqEsKupkF1RjQKa5SeK4hQNzvbULK8OUW9C9Sj8o31PsUHOTQH/W4pWrhv5Tu2
+	 v9bol3X7sG1HYhRX9C05fXcJBqq9yzsocpuR5zBghxmFDGu90NAcApvSNOAiXprkwDKTf
+	 ErqqPftKw+zPKn5lpDi2vy73qbjrNFtPJVX9iBpoMAyeHDffw8q+HifNtg8gqrMFuBcoJ
+	 apg4tqBboPTYKz3WRAhTJaRJ3hcKp3Y0O31ICMMEWZM2m3MASQ77i+iM8iBcLdoKp1x9L
+	 ReHgxNlokxoJm7L5PCxSQRIbSXisK2xiWgWMc/g5DbJg3nTYffHgPdf/B4sdSFeCN1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NDs+oIZH;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="PbS/FuwL";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5655460A2615;
-	Fri, 20 Nov 2026 13:11:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5050E606ABA1;
+	Fri, 20 Nov 2026 13:11:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NDs+oIZH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17B521F01816;
-	Fri, 20 Nov 2026 13:11:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PbS/FuwL
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22FBB1F01567;
+	Fri, 20 Nov 2026 13:11:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795180297;
-	bh=8LHuI22szusf4UXGeTOjgNmIH+GHGJvOcdvuE97yqUQ=;
+	s=k20260515; t=1795180304;
+	bh=Er/TOYKrkI7vXZl3PXvP6uSAh/8EwkCoewu1OLgyfnM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=NDs+oIZH6pf0PIfg3WYotvJXRKhXwKgdAdKkOM3o63no4vgbkOr8fQJNiJLvn4x9w
-	 Y8xHVHKl/W0/g3QWBbKuEZktuZ1G2kXWP93D4M2jtyXhATS9GdHTRWWRUp7J1eBsEN
-	 AnWwQ8uFhtR6SP3+QlBDIrgfd4yz4C38fUXjRxzk8j6CM0Ohw4g42SPkv/eh3oZGda
-	 Aw354dMSTvUg7ngUTKzj3yrdv40bkhMYPZ0cAPkKn+bEqMVvJjE2DKqjIspxcRZNo6
-	 Ji+y8VUmybBySINrrslmUIIpmjzdFczXfZcyWXTRinuQ/pxgfn6iqyAA+SMShfz6+j
-	 TyUnMbFf/fg/w==
+	b=PbS/FuwLrsFVdV3Ga3o775G75PSbYXF6Wn58BbmOPasZSlCAKtJbUxepfbZSt8FNz
+	 pQcWqNDQ5BdRfv52ZFPYFmFi8y5s6bObyXUoP412K2KSNZW4rZxhnmf0YvyWiPvAht
+	 E7xMQVQ3HtKXLNC2rcD5NDGk2E1EejanGP6xdK6BjodseHc7bDhbtNmYVIbAC+QZ45
+	 dgcC59dsg4OwGHbzi7eDM0N7Vs1Kl3AKeIFsfTvKyvRueuk8mhIapv9KW/2h4JBkCe
+	 I5uxYLgRXv14AC9fBf+k57r3BScrh9B26gJteNoxpwdRMa5xtdi+GIZn3zhNOD//JM
+	 5vuRHIUej8vGQ==
 From: Andreas Hindborg <a.hindborg@kernel.org>
-Date: Fri, 20 Nov 2026 14:10:13 +0100
-Subject: [PATCH v6 02/12] rust: xarray: add debug format for `StoreError`
+Date: Fri, 20 Nov 2026 14:10:19 +0100
+Subject: [PATCH v6 08/12] rust: mm: add abstractions for allocating from a
+ `sheaf`
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261120-xarray-entry-send-v6-2-1f69d7385f70@kernel.org>
+Message-Id: <20261120-xarray-entry-send-v6-8-1f69d7385f70@kernel.org>
 References: <20261120-xarray-entry-send-v6-0-1f69d7385f70@kernel.org>
 In-Reply-To: <20261120-xarray-entry-send-v6-0-1f69d7385f70@kernel.org>
 To: Tamir Duberstein <tamird@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
@@ -74,68 +75,551 @@ To: Tamir Duberstein <tamird@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
 Cc: Andreas Hindborg <a.hindborg@kernel.org>, 
  rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
- Daniel Gomez <da.gomez@samsung.com>, Tamir Duberstein <tamird@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>
+ Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+ Lorenzo Stoakes <ljs@kernel.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1349; i=a.hindborg@kernel.org;
- h=from:subject:message-id; bh=LDqnnXjwNbemXFH4MwCH5RwEl8ydtzExVZLJ/kvwf9Y=;
- b=owEBbQKS/ZANAwAKAfpQKQiqxb3QAcsmYgBrAEbESh7mTqcqxVhy5f5lzdMLsct0ZQTSf3nY8
- RDvJtkhN2KJAjMEAAEKAB0WIQRXitnI2WZ2JirAaob6UCkIqsW90AUCawBGxAAKCRD6UCkIqsW9
- 0IQ4D/wNtEDI/o8Mtqa7hUmPiYz6corHYXVqjaD2UcDKoLsi3eKQxnHWscWQ2o1qk56f4Esl6xE
- VBNYC+V6DCxVVzcuP/qZKUmQJZH5hhdJNV7OROo4JXX4PiSLGlILBFGR65IuBMoDZrn1SpHsF0s
- XxUp9tmqOxBTN3MSc3zF7cAIg9ifCxpSbXFvcCs2rjHrQBqshUwuszQdmsXs1kGerVLaqTxVIl1
- RSPgGH+01XMFGYFpXu+PqUgP2SFFn2NvncQFOJLj9S7Xv0jGBnS/moeMVEFdlCytiIQFRhulHpT
- bQNFOZkFK2I/G2HlvUTiFew/zImrv5gfQSUdf/b3PNYbQ4+5Gc5oWdn73TRWsfDy7AQzxD0KNNP
- 6UIEi8FnUkydR5WT+kjQ+bdY/jjUixxPKJjTVDwNApg1UqVfnJH1l5GPtySLzWPLPz58MGC0qhO
- vQJHAdgOeXvQy9Aipt0/BZlExaozDRnhipQmEGkiE3I8oDGXFuWur4EO+jeOLxd/piIJF2aXYX0
- pBPPN3Ory8jXvmc34aeAaqCPkRe7fT91GGIWWWy0Ma/DRL19mxY7T5AwjbaZHubZ46kwLMJDPf5
- wS36++AH7cUU56sxPv68VUJM+syQ0epZcQ1K+RhPDElgi3XDbh+VbuNiaKTU0uKwx5tTWYuY33Y
- v14rfmLKMFPJxsQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=21027;
+ i=a.hindborg@kernel.org; h=from:subject:message-id;
+ bh=Ecpj+HvQHv8cazAjFvadMz6fBqg7JA8DZ0F/0k5WxGo=;
+ b=owEBbQKS/ZANAwAKAfpQKQiqxb3QAcsmYgBrAEbKAWGh7blOYwnvPqNwoqzaoM/pBYAxZTPeI
+ U8DO2G/y4mJAjMEAAEKAB0WIQRXitnI2WZ2JirAaob6UCkIqsW90AUCawBGygAKCRD6UCkIqsW9
+ 0DxpD/9ZWZHCeIpC57ppnp5TRIE5hicBe7IFksNJ04CjEpvjKLcS5R26usBJZrYiYm28xhlnAro
+ 9dPRlNdfLrU/wlmi33rpZbefQVxfWCVNRRTiGpg5SUItGEyrussw7a4tgXRW+3H/QPiAillJpq9
+ Zm/iag1SHY/cO7V0xnk8ES/Ap93A/1SinbV/mVfDTzxo6R2DxZhPy5mdVDYSUEERIZ2bmLCFLOC
+ Vx8vGp26gMhG881NKbfkCWxfdY3Oc2T21vJNGyBmzclloALR47p/6EtexQPiLWrKamDu+1IhUDE
+ 80TojqTJ+oZBWkfmPYJeyV+gD7xt1/2h6msIkK/ZDzUDCmWOk5iSauyROWGc9fDhiaAd7VttchQ
+ R5X4uoTw5kGNwpGPAEHWbUDvM2c9e+UZ8gpVeaLywvgPiCY8LWDg5ivoTGxtlgxLHtPwai6oG44
+ S50IiricCab+psV6r88LU0bc5nNdBnVM9qjpx8M3HpFBWpOLctn3SbxHnA2meY0bRgl2K/C5HtP
+ CWUUfCfVPkVMPFTi8ucOVupInABHIuwD4Yn4uslNItR+TVuRZXi41R7fd5s8GrXwUnkPJl7CJgK
+ Qnr8tz0vlmt6Vq++TOb+acLbwOFbomhHgy30BnioHEFaRcPyGxzO4QSSj572rjKqtALWPO5Lmgx
+ p44v9lsiEmvIFZg==
 X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
  fpr=3108C10F46872E248D1FB221376EB100563EF7A7
 
-Add a `Debug` implementation for `StoreError<T>` to enable better error
-reporting and debugging. The implementation only displays the `error`
-field and omits the `value` field, as `T` may not implement `Debug`.
+Add Rust APIs for allocating objects from a `sheaf`.
 
-Reviewed-by: Gary Guo <gary@garyguo.net>
-Reviewed-by: Daniel Gomez <da.gomez@samsung.com>
-Acked-by: Tamir Duberstein <tamird@gmail.com>
-Acked-by: Liam R. Howlett <Liam.Howlett@oracle.com>
-Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+Introduce a reduced abstraction `KMemCacheInit` for `struct kmem_cache` to
+support management of the `Sheaf`s.
+
+Initialize objects using in-place initialization when objects are allocated
+from a `Sheaf`. This is different from C which tends to do some
+initialization when the cache is filled. This approach is chosen because
+there is no destructor/drop capability in `struct kmem_cache` that can be
+invoked when the cache is dropped.
+
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: linux-mm@kvack.org
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
 ---
- rust/kernel/xarray.rs | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ rust/kernel/mm.rs       |   1 +
+ rust/kernel/mm/sheaf.rs | 483 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 484 insertions(+)
 
-diff --git a/rust/kernel/xarray.rs b/rust/kernel/xarray.rs
-index 4f4b6bf5750d..19581b9dfe9e 100644
---- a/rust/kernel/xarray.rs
-+++ b/rust/kernel/xarray.rs
-@@ -19,6 +19,7 @@
-         Result, //
-     },
-     ffi::c_void,
-+    fmt,
-     types::{
-         ForeignOwnable,
-         NotThreadSafe,
-@@ -193,6 +194,15 @@ pub struct StoreError<T> {
-     pub value: T,
- }
+diff --git a/rust/kernel/mm.rs b/rust/kernel/mm.rs
+index 58bc1793fdaf..c1920f049170 100644
+--- a/rust/kernel/mm.rs
++++ b/rust/kernel/mm.rs
+@@ -18,6 +18,7 @@
+ };
+ use core::{ops::Deref, ptr::NonNull};
  
-+impl<T> fmt::Debug for StoreError<T> {
++pub mod sheaf;
+ pub mod virt;
+ use virt::VmaRef;
+ 
+diff --git a/rust/kernel/mm/sheaf.rs b/rust/kernel/mm/sheaf.rs
+new file mode 100644
+index 000000000000..1bc0c3dca900
+--- /dev/null
++++ b/rust/kernel/mm/sheaf.rs
+@@ -0,0 +1,483 @@
++// SPDX-License-Identifier: GPL-2.0
++
++//! Slub allocator sheaf abstraction.
++//!
++//! Sheaves are percpu array-based caching layers for the slub allocator.
++//! They provide a mechanism for pre-allocating objects that can later
++//! be retrieved without risking allocation failure, making them useful in
++//! contexts where memory allocation must be guaranteed to succeed.
++//!
++//! The term "sheaf" is the english word for a bundle of straw. In this context
++//! it means a bundle of pre-allocated objects. A per-NUMA-node cache of sheaves
++//! is called a "barn". Because you store your sheafs in barns.
++//!
++//! # Use cases
++//!
++//! Sheaves are particularly useful when:
++//!
++//! - Allocations must be guaranteed to succeed in a restricted context (e.g.,
++//!   while holding locks or in atomic context).
++//! - Multiple allocations need to be performed as a batch operation.
++//! - Fast-path allocation performance is critical, as sheaf allocations avoid
++//!   atomic operations by using local locks with preemption disabled. Note
++//!   that the abstraction adds reference counting on top of this, see
++//!   [`Sheaf`].
++//!
++//! # Architecture
++//!
++//! The sheaf system consists of three main components:
++//!
++//! - [`KMemCache`]: A slab cache configured with sheaf support.
++//! - [`Sheaf`]: A pre-filled container of objects from a specific cache.
++//! - [`SBox`]: An owned allocation from a sheaf, similar to a `Box`.
++//!
++//! # Example
++//!
++//! ```
++//! use kernel::c_str;
++//! use kernel::mm::sheaf::{KMemCache, KMemCacheInit, Sheaf, SBox};
++//! use kernel::prelude::*;
++//!
++//! struct MyObject {
++//!     value: u32,
++//! }
++//!
++//! impl KMemCacheInit<MyObject> for MyObject {
++//!     fn init() -> impl Init<MyObject> {
++//!         init!(MyObject { value: 0 })
++//!     }
++//! }
++//!
++//! // Create a cache with a sheaf capacity of at least 16 objects.
++//! let cache = KMemCache::<MyObject>::new(c_str!("my_cache"), 16)?;
++//!
++//! // Pre-fill a sheaf with 8 objects.
++//! let mut sheaf = cache.as_arc_borrow().sheaf(8, GFP_KERNEL)?;
++//!
++//! // Allocations from the sheaf are guaranteed to succeed until empty.
++//! let obj = sheaf.alloc().unwrap();
++//!
++//! // Return the sheaf when done, attempting to refill it.
++//! sheaf.return_refill(GFP_KERNEL);
++//! # Ok::<(), Error>(())
++//! ```
++//!
++//! # Constraints
++//!
++//! - Sheaves are slower when `CONFIG_SLUB_TINY` is enabled, or when slab
++//!   debugging (`slab_debug`) is enabled for the cache, due to cpu sheaves
++//!   being disabled. All prefilled sheaves become "oversize" and go through a
++//!   slower allocation path.
++//! - The sheaf capacity of a cache is decided at cache creation time. The
++//!   capacity requested when creating the cache is a minimum. The allocator
++//!   calculates a capacity based on the object size and uses the larger of the
++//!   two.
++
++use core::{
++    convert::Infallible,
++    marker::PhantomData,
++    ops::{Deref, DerefMut},
++    ptr::NonNull,
++};
++
++use kernel::prelude::*;
++
++use crate::sync::{Arc, ArcBorrow};
++
++/// A slab cache with sheaf support.
++///
++/// This type wraps a kernel `kmem_cache` configured with a sheaf capacity,
++/// enabling pre-allocation of objects via [`Sheaf`].
++///
++/// For now, this type only exists for sheaf management.
++///
++/// # Type parameter
++///
++/// - `T`: The type of objects managed by this cache. Must implement
++///   [`KMemCacheInit`] to provide initialization logic for new allocations.
++///
++/// # Context
++///
++/// Dropping the last reference to a `KMemCache` destroys the cache via
++/// `kmem_cache_destroy`, which may sleep. [`Sheaf`] and [`SBox`] instances
++/// created from the cache each hold a reference, so the last reference may
++/// be dropped when one of those is dropped. The last reference must not be
++/// dropped from a context where sleeping is not allowed.
++///
++/// # Invariants
++///
++/// - `cache` is a valid pointer to a `kmem_cache` created with
++///   `__kmem_cache_create_args`.
++/// - The cache is valid for the lifetime of this struct.
++pub struct KMemCache<T: KMemCacheInit<T>> {
++    cache: NonNull<bindings::kmem_cache>,
++    _p: PhantomData<T>,
++}
++
++// SAFETY: `KMemCache<T>` owns a `kmem_cache`, which is internally
++// synchronized and has no thread affinity. The cache may be destroyed from a
++// thread other than the one that created it.
++unsafe impl<T: KMemCacheInit<T> + Send> Send for KMemCache<T> {}
++
++// SAFETY: All operations available through `&KMemCache<T>` are
++// internally synchronized by the C side, so the cache may be used from
++// multiple threads concurrently if the objects it manages can be sent between
++// threads.
++unsafe impl<T: KMemCacheInit<T> + Send> Sync for KMemCache<T> {}
++
++impl<T: KMemCacheInit<T>> KMemCache<T> {
++    /// Creates a new slab cache with sheaf support.
++    ///
++    /// Creates a kernel slab cache for objects of type `T` with at least the
++    /// specified sheaf capacity. The cache uses the provided `name` for
++    /// identification in `/sys/kernel/slab/` and debugging output.
++    ///
++    /// # Arguments
++    ///
++    /// - `name`: A string identifying the cache. This name appears in sysfs and
++    ///   debugging output.
++    /// - `sheaf_capacity`: The minimum number of objects a regular sheaf from
++    ///   this cache can hold. The allocator calculates a capacity based on the
++    ///   object size and uses the larger of the two, so a value of zero
++    ///   selects the calculated capacity. Set this to the largest `size` that
++    ///   is expected to be passed to [`sheaf`](Self::sheaf) to avoid oversize
++    ///   sheaves. The value is ignored when `CONFIG_SLUB_TINY` is enabled or
++    ///   when slab debugging (`slab_debug`) is enabled for the cache.
++    ///
++    /// # Errors
++    ///
++    /// Returns an error if:
++    ///
++    /// - The cache could not be created due to memory pressure.
++    /// - The size of `T` cannot be represented as a `c_uint`.
++    pub fn new(name: &CStr, sheaf_capacity: u32) -> Result<Arc<Self>>
++    where
++        T: KMemCacheInit<T>,
++    {
++        let flags = 0;
++        let mut args: bindings::kmem_cache_args = pin_init::zeroed();
++        args.sheaf_capacity = sheaf_capacity;
++
++        // With an alignment of zero, the slab allocator only guarantees
++        // `ARCH_SLAB_MINALIGN`, which may be smaller than the alignment of `T`.
++        args.align = core::mem::align_of::<T>().try_into()?;
++
++        // NOTE: We are not initializing at object allocation time, because
++        // there is no matching teardown function on the C side machinery.
++        args.ctor = None;
++
++        // SAFETY: `name` is a valid C string, `args` is properly initialized,
++        // and the size of `T` has been validated to fit in a `c_uint`.
++        let ptr = unsafe {
++            bindings::__kmem_cache_create_args(
++                name.as_char_ptr(),
++                core::mem::size_of::<T>().try_into()?,
++                &mut args,
++                flags,
++            )
++        };
++
++        // INVARIANT: `ptr` was returned by `__kmem_cache_create_args` and is
++        // non-null (checked below). The cache is valid until
++        // `kmem_cache_destroy` is called in `Drop`.
++        Ok(Arc::new(
++            Self {
++                cache: NonNull::new(ptr).ok_or(ENOMEM)?,
++                _p: PhantomData,
++            },
++            GFP_KERNEL,
++        )?)
++    }
++
++    /// Creates a pre-filled sheaf from this cache.
++    ///
++    /// Allocates a sheaf and pre-fills it with `size` objects. Once created,
++    /// allocations from the sheaf via [`Sheaf::alloc`] are guaranteed to
++    /// succeed until the sheaf is depleted.
++    ///
++    /// # Arguments
++    ///
++    /// - `size`: The number of objects to pre-allocate. Must not be zero. If
++    ///   `size` exceeds the sheaf capacity of the cache, an "oversize" sheaf
++    ///   is allocated. Oversize sheaves are slower to create, and they are
++    ///   flushed and freed rather than cached for reuse when returned.
++    /// - `gfp`: Allocation flags controlling how memory is obtained. Use
++    ///   [`GFP_KERNEL`] for normal allocations that may sleep, or
++    ///   [`GFP_NOWAIT`] for non-blocking allocations.
++    ///
++    /// # Errors
++    ///
++    /// Returns [`ENOMEM`] if the sheaf or its objects could not be allocated,
++    /// or if `size` is zero.
 +    #[inline]
-+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-+        f.debug_struct("StoreError")
-+            .field("error", &self.error)
-+            .finish()
++    pub fn sheaf(
++        self: ArcBorrow<'_, Self>,
++        size: usize,
++        gfp: kernel::alloc::Flags,
++    ) -> Result<Sheaf<T>> {
++        // SAFETY: `self.as_raw()` returns a valid cache pointer, and `size`
++        // has been validated to fit in a `c_uint`.
++        let ptr = unsafe {
++            bindings::kmem_cache_prefill_sheaf(self.as_raw(), gfp.as_raw(), size.try_into()?)
++        };
++
++        // INVARIANT: `ptr` was returned by `kmem_cache_prefill_sheaf` and is
++        // non-null (checked below). `cache` is the cache from which this sheaf
++        // was created. `dropped` is false since the sheaf has not been returned.
++        Ok(Sheaf {
++            sheaf: NonNull::new(ptr).ok_or(ENOMEM)?,
++            cache: self.into(),
++            dropped: false,
++        })
++    }
++
++    #[inline]
++    fn as_raw(&self) -> *mut bindings::kmem_cache {
++        self.cache.as_ptr()
 +    }
 +}
 +
- impl<T> From<StoreError<T>> for Error {
-     #[inline]
-     fn from(value: StoreError<T>) -> Self {
++impl<T: KMemCacheInit<T>> Drop for KMemCache<T> {
++    fn drop(&mut self) {
++        // SAFETY: `self.as_raw()` returns a valid cache pointer that was
++        // created by `__kmem_cache_create_args`. As all objects allocated from
++        // this hold a reference on `self`, they must have been dropped for this
++        // `drop` method to execute.
++        unsafe { bindings::kmem_cache_destroy(self.as_raw()) };
++    }
++}
++
++/// Trait for types that can be initialized in a slab cache.
++///
++/// This trait provides the initialization logic for objects allocated from a
++/// [`KMemCache`]. When the slab allocator creates new objects, it invokes the
++/// constructor to ensure objects are in a valid initial state.
++///
++/// # Implementation
++///
++/// Implementors must provide [`init`](KMemCacheInit::init), which returns
++/// a in-place initializer for the type.
++///
++/// # Example
++///
++/// ```
++/// use kernel::mm::sheaf::KMemCacheInit;
++/// use kernel::prelude::*;
++///
++/// struct MyData {
++///     counter: u32,
++///     name: [u8; 16],
++/// }
++///
++/// impl KMemCacheInit<MyData> for MyData {
++///     fn init() -> impl Init<MyData> {
++///         init!(MyData {
++///             counter: 0,
++///             name: [0; 16],
++///         })
++///     }
++/// }
++/// ```
++pub trait KMemCacheInit<T> {
++    /// Returns an initializer for creating new objects of type `T`.
++    ///
++    /// The initializer is applied to newly allocated objects when they are
++    /// allocated from a sheaf via [`Sheaf::alloc`]. The cache itself has no
++    /// constructor. The initializer should set all fields to their default or
++    /// initial values.
++    fn init() -> impl Init<T, Infallible>;
++}
++
++/// A pre-filled container of slab objects.
++///
++/// A sheaf holds a set of pre-allocated objects from a [`KMemCache`].
++/// Allocations from a sheaf are guaranteed to succeed until the sheaf is
++/// depleted, making sheaves useful in contexts where allocation failure is
++/// not acceptable.
++///
++/// Sheaves provide faster allocation than direct allocation because they use
++/// local locks with preemption disabled rather than atomic operations. Note
++/// that each [`SBox`] allocated from a sheaf holds a reference to the cache
++/// the sheaf was created from, to keep the cache alive until the object is
++/// freed. [`Sheaf::alloc`] thus increments the reference count of the cache,
++/// and dropping the [`SBox`] decrements it. Both are atomic operations on a
++/// counter that is shared by all users of the cache.
++///
++/// # Lifecycle
++///
++/// Sheaves are created via [`KMemCache::sheaf`] and should be returned to the
++/// allocator when no longer needed via [`Sheaf::return_refill`]. If a sheaf is
++/// simply dropped, it is returned with `GFP_NOWAIT` flags, which may result in
++/// the sheaf being flushed and freed rather than being cached for reuse.
++///
++/// A sheaf holds a reference to the [`KMemCache`] it was created from.
++/// Dropping the sheaf may thus drop the last reference to the cache and
++/// destroy the cache, which may sleep. See the `# Context` section of
++/// [`KMemCache`].
++///
++/// # Invariants
++///
++/// - `sheaf` is a valid pointer to a `slab_sheaf` obtained from
++///   `kmem_cache_prefill_sheaf`.
++/// - `cache` is the cache from which this sheaf was created.
++/// - `dropped` tracks whether the sheaf has been explicitly returned.
++pub struct Sheaf<T: KMemCacheInit<T>> {
++    sheaf: NonNull<bindings::slab_sheaf>,
++    cache: Arc<KMemCache<T>>,
++    dropped: bool,
++}
++
++// SAFETY: A prefilled sheaf is exclusively owned by the caller and has no
++// affinity to the CPU or thread that created it: `kmem_cache_alloc_from_sheaf`
++// does not touch percpu state, and `kmem_cache_return_sheaf` reattaches the
++// sheaf to the CPU that is current at return time. Thus the sheaf may be sent
++// to another thread if the objects it manages can.
++unsafe impl<T: KMemCacheInit<T> + Send> Send for Sheaf<T> {}
++
++// NOTE: `Sheaf` is deliberately not `Sync`. The C side mutates sheaf state
++// without synchronization, relying on the caller's exclusive ownership. The
++// mutable receivers of the methods on `Sheaf` enforce this exclusivity.
++
++impl<T: KMemCacheInit<T>> Sheaf<T> {
++    #[inline]
++    fn as_raw(&self) -> *mut bindings::slab_sheaf {
++        self.sheaf.as_ptr()
++    }
++
++    /// Return the sheaf and try to refill using `flags`.
++    ///
++    /// If the sheaf cannot simply become the percpu spare sheaf, but there's
++    /// space for a full sheaf in the barn, we try to refill the sheaf back to
++    /// the cache's sheaf_capacity to avoid handling partially full sheaves.
++    ///
++    /// If the refill fails because gfp is e.g. GFP_NOWAIT, or the barn is full,
++    /// the sheaf is instead flushed and freed.
++    #[inline]
++    pub fn return_refill(mut self, flags: kernel::alloc::Flags) {
++        self.dropped = true;
++        // SAFETY: `self.cache.as_raw()` and `self.as_raw()` return valid
++        // pointers to the cache and sheaf respectively.
++        unsafe {
++            bindings::kmem_cache_return_sheaf(self.cache.as_raw(), flags.as_raw(), self.as_raw())
++        };
++        drop(self);
++    }
++
++    /// Allocates an object from the sheaf.
++    ///
++    /// Returns a new [`SBox`] containing an initialized object, or [`None`]
++    /// if the sheaf is depleted. Allocations are guaranteed to succeed as
++    /// long as the sheaf contains pre-allocated objects.
++    ///
++    /// The `gfp` flags passed to `kmem_cache_alloc_from_sheaf` are set to zero,
++    /// meaning no additional flags like `__GFP_ZERO` or `__GFP_ACCOUNT` are
++    /// applied.
++    ///
++    /// The returned `T` is initialized as part of this function.
++    pub fn alloc(&mut self) -> Option<SBox<T>> {
++        // SAFETY: `self.cache.as_raw()` and `self.as_raw()` return valid
++        // pointers. The function returns NULL when the sheaf is empty.
++        let ptr = unsafe {
++            bindings::kmem_cache_alloc_from_sheaf_noprof(self.cache.as_raw(), 0, self.as_raw())
++        };
++
++        let ptr = NonNull::new(ptr.cast::<T>())?;
++
++        // SAFETY:
++        // - `ptr` is a valid, non-null pointer as it was just returned by the
++        //   cache.
++        // - The initializer is infallible, so an error is never returned.
++        unsafe { T::init().__init(ptr.as_ptr()) }.expect("Initializer is infallible");
++
++        // INVARIANT: `ptr` was returned by `kmem_cache_alloc_from_sheaf_noprof`
++        // and initialized above. `cache` is the cache from which this object
++        // was allocated. The object remains valid until freed in `Drop`.
++        Some(SBox {
++            ptr,
++            cache: self.cache.clone(),
++        })
++    }
++}
++
++impl<T: KMemCacheInit<T>> Drop for Sheaf<T> {
++    fn drop(&mut self) {
++        if !self.dropped {
++            // SAFETY: `self.cache.as_raw()` and `self.as_raw()` return valid
++            // pointers. Using `GFP_NOWAIT` because the drop may occur in a
++            // context where sleeping is not permitted.
++            unsafe {
++                bindings::kmem_cache_return_sheaf(
++                    self.cache.as_raw(),
++                    GFP_NOWAIT.as_raw(),
++                    self.as_raw(),
++                )
++            };
++        }
++    }
++}
++
++/// An owned allocation from a cache sheaf.
++///
++/// `SBox` is similar to `Box` but is backed by a slab cache allocation obtained
++/// through a [`Sheaf`]. It provides owned access to an initialized object and
++/// ensures the object is properly freed back to the cache when dropped.
++///
++/// The contained `T` is initialized when the `SBox` is returned from alloc and
++/// dropped when the `SBox` is dropped.
++///
++/// An `SBox` holds a reference to the [`KMemCache`] it was allocated from.
++/// Dropping the `SBox` may thus drop the last reference to the cache and
++/// destroy the cache, which may sleep. See the `# Context` section of
++/// [`KMemCache`].
++///
++/// # Invariants
++///
++/// - `ptr` points to a valid, initialized object of type `T`.
++/// - `cache` is the cache from which this object was allocated.
++/// - The object remains valid for the lifetime of the `SBox`.
++pub struct SBox<T: KMemCacheInit<T>> {
++    ptr: NonNull<T>,
++    cache: Arc<KMemCache<T>>,
++}
++
++// SAFETY: `SBox<T>` owns a `T`. Sheaf allocated objects are ordinary slab
++// objects that may be freed from any thread, so an `SBox<T>` may be sent to
++// another thread if `T` can.
++unsafe impl<T: KMemCacheInit<T> + Send> Send for SBox<T> {}
++
++// SAFETY: `SBox<T>` has no interior mutability, so sharing `&SBox<T>` between
++// threads only shares `&T`.
++unsafe impl<T: KMemCacheInit<T> + Sync> Sync for SBox<T> {}
++
++impl<T: KMemCacheInit<T>> Deref for SBox<T> {
++    type Target = T;
++
++    #[inline]
++    fn deref(&self) -> &Self::Target {
++        // SAFETY: `ptr` is valid and properly aligned per the type invariants.
++        unsafe { self.ptr.as_ref() }
++    }
++}
++
++impl<T: KMemCacheInit<T>> DerefMut for SBox<T> {
++    #[inline]
++    fn deref_mut(&mut self) -> &mut Self::Target {
++        // SAFETY: `ptr` is valid and properly aligned per the type invariants,
++        // and we have exclusive access via `&mut self`.
++        unsafe { self.ptr.as_mut() }
++    }
++}
++
++impl<T: KMemCacheInit<T>> Drop for SBox<T> {
++    fn drop(&mut self) {
++        // SAFETY: By type invariant, `ptr` points to a valid and initialized
++        // object. We do not touch `ptr` after returning it to the cache.
++        unsafe { core::ptr::drop_in_place(self.ptr.as_ptr()) };
++
++        // SAFETY: `self.ptr` was allocated from `self.cache` via
++        // `kmem_cache_alloc_from_sheaf_noprof` and is valid.
++        unsafe {
++            bindings::kmem_cache_free(self.cache.as_raw(), self.ptr.as_ptr().cast());
++        }
++    }
++}
 
 -- 
 2.54.0
