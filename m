@@ -1,114 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795171872;
-	b=d+R+lumS9HXkkRrilMHTLrgjTwHSc91xoevpFaSwoN7fLZ1ErmIWs2+2RKEspc/sWG26
-	 +CBFgkwng/60JSPon8fSd45IKGHr9QwAfG6RMlGT4N6dSboBey/h06ufmOzh2id7r4J3L
-	 hUxZGSQiUjODPAUW8T5GRTzaeYGFpeCDVo5hRYx+PCALMSabyou/hOG2/22kfHFriwLJB
-	 xx1C8zFGUsVdQt1tTVYzAPM4nzMSDah844LBGmD0eRjsgegVwRlFnw/Lrgv0p0WjtZo8v
-	 rp2U2XZfefmK/v8wd1RTLrrGuyjCYdEU2vxazeStYOKw2TLdBo3b7XKg5yI0VjcpjBg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795171872;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:Received:Received:Received:Message-ID:Subject:From:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:
-	 MIME-Version:User-Agent:X-TM-AS-GCONF:X-Proofpoint-Reinject:
-	 X-Proofpoint-GUID:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=ub6uVwbshCbu/GNhE2f5A/6m7aPhZB0osZVqaeuTvHA=;
-	b=EkOs9DcsBMc/uAsTyMp0Xnpuaq77cLYnmUiImhIlHUfbKuGqCmnyX/GyGUJsXG2emo3g
-	 uJtHQx4TVp5VI4LbyZuPztwa60LNcZlOR9GwbAmdPteHQtq+i1MQvBlxM8cmzvdIgdA5D
-	 BltB2VSusXLoHDyFrr66pQYazhXb+Xdgv4WJgiHB1qHwGBMop0WVra9Lpn7Jw7qMRjAcM
-	 6owasXlTiqmw87Rk0kOBwVAqy08sUsWIR2HmqCLg3jsYCdhfRHqhuYGawraLhHC1imHhO
-	 qytwtcxTV+j5nJ8C0hJ1Bv5h7XegBxxa7UjHYgOVvYu8V8sfrmCkRDS7jV1TOmwzeQA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.ibm.com;
-	spf=pass smtp.mailfrom=linux.ibm.com;
-	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=AkpBTIWH;
-	arc=none smtp.remote-ip=148.163.158.5
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.230.71
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795172371;
+	b=c3PyKEUld2+isizF6iMvbf99GehXnbUWFUwbk7D7uJvZabUqGf3jO3Zw4STgis8+gKCH
+	 vI8ah0b3uzp6ykbFv/0bu2k+nlpzSqf0WXovnlqztTG7m58YmEFHByiWzYyDuTRSJa8Dk
+	 n2ZP/dgqCpHl/ILCddHle83u92miFaNIP6ZtHESCHAmLgOFEFZEn/AVS49UL8Aqd9GuTG
+	 ieKTP1hEM2FUdZ3eMTDh9n+DJFIaI/XqnLoicQ9Hfw8C26aqYzY9PPSsayAgrwCq2LCh0
+	 X2MqE5wsIbyfYgp3aFYtIaF0E3XUfJ+YFiYCLIkmXcEQwgLGyPukoUCjT7uit2FEvrw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795172371;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type;
+	bh=lsuDl5Mn3UwB19cNkcSJlYu8KKq2fYppJdpOiWNy9qk=;
+	b=cdmtkiKmfdux9ws9h8Nc4uD+fo+yPQT0f1d4sOHzXUZNRnHDvvTPlmnwlittXHJWGRUu
+	 nqZWBYl0qz9Szy0Zjm7Ykiyh3WpdTJUmm3NRpEJz97HCZsxh/DtTcWs7ulLnuJ+MXIKCh
+	 tUgjENeJLMrTK7BP8XE9I9cTNpFYjuMKjMjo+FBgKtA0gomrTUE2PtJ5W3Xqsi46UnmY9
+	 DbfqROaZH6dGCAgqODCE7LHlrl8OkUpAJoUSQ45xrMbmT0stAJ/pHt3HIvQpWQhQoO+ck
+	 X7cmM4M6Fo3iS3Ny0YCGLjTM1am2yEJeRCqgMGqSvxxXT6ZsDydd4mwbMT1XAzIE/ow==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hjZVtA5I;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.230.71
+Received: from mail-lr2-f7.google.com (mail-lr2-f7.google.com [74.125.230.71])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7DA60A2600;
-	Fri, 20 Nov 2026 10:51:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EB7DA60A2600
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75062606A326
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 10:59:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75062606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=AkpBTIWH
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AK7uZLn1291381;
-	Fri, 20 Nov 2026 10:50:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=ub6uVw
-	bshCbu/GNhE2f5A/6m7aPhZB0osZVqaeuTvHA=; b=AkpBTIWHXdaJDlfwXZ0Q65
-	SGgBmHzgPL7BPqJk7e1PE9FxYyrNktKftH2jhXZUTKnL+woWuSucYrnvHGbRXUeP
-	VNXsNJCJ59aUUKEk0Y7XlVm1TF1YBfXd+vm0rSXuo/ZZ1oWonLl5pMfMV6d3mSqH
-	8xV8VhC4pJeo3Uuog/rwMrjK1OfLhnEkZJk6itxZndNVftAWUqFxIIYhllOi92RO
-	8cQWu6OfsB3OtysHKd03MvUTdX5LZ7fumH9aI2wDTcWnBtCh/2Yckb+KHmZuA7wl
-	DLEQlYmeJyaxx++rZ0uQYwTOKl+671IQS3+F1j8QpXHAvt+rMA+jrS1VFSgKruEw
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j105w7eey-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 20 Nov 2026 10:50:13 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AKAo2G11031967;
-	Fri, 20 Nov 2026 10:50:12 GMT
-Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4j17c54cny-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 20 Nov 2026 10:50:12 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AKAoBop25428646
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 20 Nov 2026 10:50:12 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B832358043;
-	Fri, 20 Nov 2026 10:50:11 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 033135805D;
-	Fri, 20 Nov 2026 10:50:10 +0000 (GMT)
-Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.105.144])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 20 Nov 2026 10:50:09 +0000 (GMT)
-Message-ID: <bff9077bad99a5b2c9137a44d98be8fd16be7b48.camel@linux.ibm.com>
-Subject: Re: [PATCH v6 0/4] initramfs: add support for xattrs in the
- initial ram disk
-From: Mimi Zohar <zohar@linux.ibm.com>
-To: Christian Brauner <brauner@kernel.org>,
-        Roberto Sassu
-	 <roberto.sassu@huaweicloud.com>,
-        Danny Hu <dannyhu@arista.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-        Roberto Sassu	
- <roberto.sassu@huawei.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        Eric Snowberg <eric.snowberg@oracle.com>, Jan Kara <jack@suse.cz>,
-        Victor
- Kamensky <kamensky@cisco.com>,
-        Taras Kondratiuk <takondra@cisco.com>,
-        Zheng Zengkai <zhengzengkai@huawei.com>,
-        zhangguangzhi	
- <zhangguangzhi3@huawei.com>,
-        Jason Yan <yanaijie@huawei.com>, silviu.vlasceanu@huawei.com,
-        hpa@zytor.com, arnd@arndb.de, james.w.mcmechan@gmail.com,
-        niveditas98@gmail.com, pierre@arista.com, julien@arista.com,
-        kbharathi@arista.com, alexandr.lobakin@intel.com,
-        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        initramfs@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bug-cpio@gnu.org
-In-Reply-To: <20261117-makaber-paranoia-gefilde-7d976e97e12a@brauner>
-References: <20261105193743.2654656-1-dannyhu@arista.com>
-		 <20261110-hengst-tontechnik-ausfuhr-265b06d68611@brauner>
-		 <a9edb8a433e8efcba3d11b2a06fa1063df41a24d.camel@huaweicloud.com>
-		 <20261117-makaber-paranoia-gefilde-7d976e97e12a@brauner>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2026 05:49:03 -0500
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hjZVtA5I
+Received: by mail-lr2-f7.google.com with SMTP id 38308e7fff4ca-3adf87dd550so3657071fa.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 02:59:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795172370; cv=none;
+        d=google.com; s=arc-20260327;
+        b=X8Hb0H+XBXnumxLP7Qx6L3dejmTMLVRYoh5h4BJPu8W76l4cfAKOPvd5HWZ8DsFDUj
+         WD7vekPWB7C6UnyedS4bpsvMQxshGUG7MKfnsW2zRpnh6gwJORJnIprF16aK7r9fHZ+i
+         OuWZihfmv0ABu4cKK+bJFCnS2bz23BUeAY8geHiwbFsdQxJZQgAwihCAntux7GMyuS1m
+         nnyDfQxr2YYn0LXYDMtlaJm5H9H5srrXVltBMhC9CLMzGYX44YWaFpourVWJRsSxNDXk
+         Yn1+GZesWypfWVK4VoJR3xcnY/FuORbpVw6Gbw1uIC185dhM+NyGSWvlI0cuBnEqe0RE
+         24tA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=lsuDl5Mn3UwB19cNkcSJlYu8KKq2fYppJdpOiWNy9qk=;
+        fh=LH34DtUfy1zCIhiiXDXPfV/PtG0aREDg5++kuMvGV0E=;
+        b=OyQcnKdF9w3nOxHLlFoxTdEIsJybJV+St1N+6/BjWsgI+TiSHJmNDmlrNvQN73dsel
+         LbaXAoxlhBh3Orh8iDDhhrWCqfT2OmV/LEl67JgnaSgXVBWUoPLrYp2l42yFB9FnCSj6
+         rvuYaF61NtbIMHQfVwTxf86n1iyfmFfeGKINP9YxuBhEvVK/Pc7JzweGM6OusQhfufyN
+         unJi8QTQDKu9RYOQ2K81PNdUka2MX9TNgJm4nygIspmim9DLL0h6m4X18ZcspJqsgI+8
+         mVvQeseW3nP3TjaMQ1IzobYbDRJmk4CGQa8O/85iAhrhtehQPWgcdCZ4qBnq1058kklz
+         089Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795172370; x=1795777170; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=lsuDl5Mn3UwB19cNkcSJlYu8KKq2fYppJdpOiWNy9qk=;
+        b=hjZVtA5I3GOQ3OgGiXpAh4D/yiWo9n387+63YqmnJU8rK6mUkJsQCbGY/Ryfmj4PG7
+         POiFVQfTW9uzhfKwvXmSKNLW1YkN/zO0PKc1tZpAIn2ZN71ygI5F6MJf5mRq2YhUApRw
+         Jn5mUuk0f5jRbWdBzrP3tKCsIy61XMt6s5r8o4wSy9g2mZ0HqlnCZyybpySMbUvfRxXW
+         KBLGqSBia5V1CZuzax3w6ZDBX/34Va8R6FA9ERAKaCf16ELD+klxRjhxpXofsKocJE62
+         LOManfqKvXTvs49MVsXib5bhQoDtiYdcfP/1xv/XAEjlMM09sx+Y90rZ1rMs/DRA6Jh+
+         FO2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795172370; x=1795777170;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=lsuDl5Mn3UwB19cNkcSJlYu8KKq2fYppJdpOiWNy9qk=;
+        b=alN8r0yZ/bjDMVbO/12NUrPdPE7fDcG3EqNUmRhjuE9XpBUydr4CXxrntq3v0t+joC
+         +n3chB9lRv5if2+1Ju5E3VSrOhmtMCbTJGC8LKWJk7eZ8g+CKr+jr7vGJ00rqgmOix7l
+         khVyHnrMJpXnkmF83c7x09kHfa4SM50jsApL1f1EeZ4XSjWanIV5Dn2ZTvJqnBYnNexZ
+         BibaI8du6zPcxsmQlKZz/a6JLxRrligB0ME7nvxR3mjByN72j67HXudd3M/deTRWhh2T
+         m6uiHGV3AhM9HmqDWA/ds1yItcvR6tJqWf2JSnk1wOQN4IRMmsb7PM8YfXa9xWj9NYo0
+         KNKA==
+X-Forwarded-Encrypted: i=1; AL+hErFH4mxyzly0f7ahQ4H1B0OWN9/nmqm4YdY7RAdXD3jc1e1se0vewJxspegnNnCX/5SzBEsQPOhysWIr9Mzm@vger.kernel.org
+X-Gm-Message-State: APuU4Z8j+M8D71qfqrv0RDIc7+flfAgDXUUi+ae1v9ezREHt3lzV/mru
+	FV6cVQ/DB2SUsXAUsUL2LZEVDPrujmkDrEvyJuJg/nl9bcxlnVrRdrUJ2sVmUaJl8/DRDRautdd
+	6m5cMMf83YDf/0wKNqZ7QLq6kJ1O3Tfw=
+X-Gm-Gg: AZFdTZcAfwcdlJGFarjvv8rrGgNdckCI6RW3yjbSPYCQ/xrYkltSLLnuycU5tYHe53g
+	n9ivMNKqhkjCOAtBDlIvBb5HQg4qnGpZ6NcEQn8kBGihmEGibDeyJ4CBOCIsF8C+IpjCZruNRBe
+	GYh3EMtNWvl60hfeT5NAKeLLN9UqSBreS/Ixh/hMQjfLH1k9DJmel2oXBUkdcyUTx4D7zzKvVUP
+	LlzQB0RFricTZG4Zj7lceNmtEKcVULQ4nd4vYnGHI3FCdpqynewOHObfbpXiTGpRgnfWP0Ij7jq
+	K4r5C5aYVB1TrzWV7boFMb+nowqM3wV0kUQR7s8ieDLxRoAZAo+dody0jBl1H1YPGdyt/amuE0s
+	oKBFX5cBC8HvSHeJBTvkCqEj97I2bl7CjxuYV43H57JOzknLPOro0xwG3QZ9IovIfomVi
+X-Received: by 2002:a05:6512:3187:b0:5c1:9752:4a4a with SMTP id
+ 2adb3069b0e04-5c1bc85a157mr752168e87.65.1795172369334; Fri, 20 Nov 2026
+ 02:59:29 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -118,89 +101,164 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Evolution 3.58.3 (3.58.3-2.fc43) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: ZqdJIFsgCUKjEC8YYQnPbz-cnCueBzAq
-X-Authority-Analysis: v=2.4 cv=Z8x5j3RA c=1 sm=1 tr=0 ts=6b0025e6 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=VwQbUJbxAAAA:8
- a=VnNF1IyMAAAA:8 a=i0EeH86SAAAA:8 a=n2GhSfulAAAA:8 a=P9hg6L4mTtILJBKynr4A:9
- a=QEXdDO2ut3YA:10 a=9NqWk_7B-uqI6kdQTXIl:22
-X-Proofpoint-ORIG-GUID: 5kOz6Gl1NjdF4oL33T-IpMiwaH8-ELgO
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIwMDA0MSBTYWx0ZWRfX+YHMuW6NnsUe
- 86lQVCsuPp/NvRoxrnqRoc3bnDhG0hnemG/Y3xQRZx0puMuQb463PTCrFx4qgBvkTFzzXcVnUpU
- Xhqp+qerRq7eKUVdQ+GyReus0x+B+4I=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIwMDA0MSBTYWx0ZWRfX+0h3WbhtntiE
- XZdsdCmbDr9WEUPoksnezsPv31YninLxwWzklkMYjPZG0jLs8VSFPwSEOoUqxVahXgE3qk6DxFc
- mxjgcd0sniJf9dHzHI8V4l9MgpeYMD5qt6IB7AF57liGYDsPU7Fag8d59MKFbEsrebSlNuXJlDo
- tzsS2SvN5/+Ez0sVZsQKscPY7JgHn8nBzluswB4Olg/Ytel4wvA9udJuaL1K0eVVtH/blQ16kD4
- p68qnaj3yYFTGk8DhmwFtG8s3oXkABaKh8OC4NEdh8mrgr+3FnnUkThoz4c+qCaVQjMaXo8R6uF
- ZWuCKkKibbIdEhwE6yZ4llmWHFmmhZ1/CZpnsBnkOow2nkA9uiO5AGrrXjFUAGO2LRiXglBmcPs
- zjpodmzKyrEGQ3s6X8tKLqjMrm2Q6723CMdP/P6Bko0/SxdT8EtSbugWNbjSyRDHOC6Nonr0rrh
- w5BZ+8d2PaJl6+SxqhA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-20_03,2026-11-19_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
- adultscore=0 bulkscore=0 clxscore=1015 impostorscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611200041
+From: Zheng Zheng <fengaojigui88@gmail.com>
+Date: Fri, 20 Nov 2026 18:59:15 +0800
+X-Gm-Features: Aa3M54rmQkwWBhrijL1QXQXHklkFcgZIvs5-RQmIqvid1q9B1KJKQjJZfoZUeyk
+Message-ID: <CAO-4RZ2pjEOpTBzqca5UxZHtaFS2Dj9zmNj1BtjvKm1yFE7_Jg@mail.gmail.com>
+Subject: [BUG] INFO: task hung in nilfs_transaction_begin (fs/nilfs2/segment.c:221,
+ v7.4-rc3)
+To: konishi.ryusuke@gmail.com
+Cc: slava@dubeyko.com, linux-nilfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Christian,
+Hi Ryusuke, Viacheslav,
 
-On Tue, 2026-11-17 at 15:04 +0100, Christian Brauner wrote:
-> If you want xattrs in the initramfs then that needs to be a proper,
-> versioned cpio format that userspace tooling understands. I'm not
-> taking METADATA!!!. So still no, sorry.
+We found a reproducible NILFS2 hang on v7.4-rc3 with syzkaller.  The
+supplied recipe reproduced on independent fresh VMs.
 
-Regarding your request for a versioned cpio format, that is the first appro=
-ach
-we tried. I posted an RFC extending newc with xattrs in January 2015 [1],
-followed by a v1 later that month [2], after Al Viro advised extending cpio=
- at
-the 2014 Kernel Summit. Taras Kondratiuk and Victor Kamensky carried the wo=
-rk
-forward in 2018 as "newcx" [3]. The discussion then turned to redesigning t=
-he
-format itself: ASCII fixed-width fields, no header length, the in-band
-TRAILER!!! end marker, and whether to use pax/tar instead [4].
+Note: This hang may share the same underlying root cause as the
+previously reported nilfs_segctor_thread hang (issue #182):
+https://github.com/nilfs-dev/nilfs2/issues/182
 
-Roberto=E2=80=99s later series [5], carried forward by Danny Hu in v6 [6], =
-aimed to
-provide xattr support within the existing format, since the format discussi=
-on
-had stalled. It began with xattrs in separate files and later moved to a
-metadata file placed after each file it describes, following review comment=
-s
-asking for self-contained per-file records that work when several initramfs
-archives are loaded.
+Repository and reproducer:
 
-I wanted to share this background in case it=E2=80=99s useful to whoever ta=
-kes on a new
-versioned cpio format with xattr support.
+  https://github.com/Zheng-zheng-codes/nilfs2-transaction-begin-hang
+  commit f1065fd59515bd55bbb5141b45e979bc0b3c9993
+
+Hung-task report
+----------------
+
+  INFO: task syz.7.24:13081 blocked for more than 142 seconds.
+  task:syz.7.24        state:D stack:23176 pid:13081 tgid:13075 ppid:10344
+  Call Trace:
+   rwsem_down_read_slowpath
+   __down_read
+   down_read
+   nilfs_transaction_begin+0x323/0xa00 fs/nilfs2/segment.c:221
+   nilfs_write_begin+0x78/0x1b0 fs/nilfs2/inode.c:228
+   generic_perform_write
+   vfs_write
+   ksys_write
+
+A second thread of the same process (PID 13109) is blocked on the
+f_pos_lock held by PID 13081.
+
+An NMI backtrace of the semaphore holder (PID 13190) shows that it is
+executing the NILFS2 segment-constructor path through
+nilfs_clean_segments(), including btree/bmap propagation:
+
+  nilfs_segctor_apply_buffers fs/nilfs2/segment.c:1010
+  nilfs_collect_file_data fs/nilfs2/segment.c:589
+  nilfs_bmap_propagate fs/nilfs2/bmap.c:329
+  nilfs_btree_propagate fs/nilfs2/btree.c:2128
+
+The lock dump identifies the semaphore holder:
+
+  locks held by syz.7.24/13190: 3:
+   #0: (sb_writers#17)                at: nilfs_ioctl_clean_segments
+                                          fs/nilfs2/ioctl.c:869
+   #1: (&nilfs->ns_segctor_sem) WRITE at: nilfs_transaction_lock
+                                          fs/nilfs2/segment.c:357
+   #2: (&bmap->b_sem)                 at: nilfs_bmap_assign
+                                          fs/nilfs2/bmap.c:373
+
+So a NILFS_IOCTL_CLEAN_SEGMENTS task is inside the segment-constructor
+path, holding ns_segctor_sem for writing while doing bmap assignment,
+and normal writers cannot acquire the semaphore for reading.  In this
+report the segctord thread itself is not among the blocked tasks.
+
+Relation to the earlier nilfs_segctor_thread hang
+-------------------------------------------------
+
+We previously reported a related NILFS2 hang:
+
+  INFO: task hung in nilfs_segctor_thread (fs/nilfs2/segment.c:357, v7.4-rc3)
+  https://github.com/nilfs-dev/nilfs2/issues/182
+  https://github.com/Zheng-zheng-codes/nilfs2-segctor-thread-hang
+
+Its hung-task report showed the constructor thread blocked acquiring
+the same semaphore for writing:
+
+  INFO: task segctord:35823 blocked for more than 183 seconds.
+  task:segctord state:D
+  Call Trace:
+   rwsem_down_write_slowpath
+   __down_write
+   down_write
+   nilfs_transaction_lock+0x25d/0x410 fs/nilfs2/segment.c:357
+   nilfs_segctor_thread_construct fs/nilfs2/segment.c:2601 [inline]
+   nilfs_segctor_thread+0x600/0xa60 fs/nilfs2/segment.c:2716
+   kthread
+
+The two reports involve different blocked tasks:
+
+- In the earlier report, the segctord kernel thread waits
+  for ns_segctor_sem in write mode in nilfs_transaction_lock().
+
+- In this report, a normal file writer waits for the same
+  semaphore in read mode in nilfs_transaction_begin().
+
+In both reports, the lock dump identifies a task executing
+NILFS_IOCTL_CLEAN_SEGMENTS as the semaphore holder.
+
+The new external verification logs also repeatedly report:
+
+  NILFS (loop0): error -28 cleaning segments
+
+This resembles the repeated -ENOSPC errors observed in the
+earlier report.
+
+We suspect that both hangs may be manifestations of the same
+GC error-handling problem, but the root cause has not yet
+been established.
+
+We would appreciate your analysis of this additional
+reproduction alongside issue #182.
+
+Reproduction
+------------
+
+  git clone https://github.com/Zheng-zheng-codes/nilfs2-transaction-begin-hang
+  cd nilfs2-transaction-begin-hang
+
+  # boot v7.4-rc3 with the supplied kernel config
+  # using a Debian trixie x86_64 guest
+
+  # in the guest, as root:
+  syz-execprog -procs=1 -threaded -repeat=1 \
+      -executor ./syz-executor \
+      reproducer/repro.kernsight.prog
+
+The recipe requires sequential execution with -procs=1.
+Using -procs=8 did not reproduce the hang under our tests.
+
+The recipe is a state-reconstruction sequence (72 replay programs plus
+one model-selected priming program, followed by the crashing testcase).
+The crash depends on the kernel state built by the recipe; the testcase
+alone is not sufficient.
+
+Verification:
+
+- reproduction run: two attempts verified (confirmed=true,
+  status=verified), 2026-11-20T07:17:00Z and 2026-11-20T08:05:31Z
+- independent fresh-VM verification inside that run: 2/2 target hits
+  (2026-11-20T07:46:46Z and 07:50:15Z)
+- stability on fresh VMs: 5/5 reproductions, 187-194 s to the
+  hung-task dump in every run (2026-11-20, external-verify/)
+- evidence: reproducer/repro.outcomes.jsonl, external-verify/,
+  logs/external-manager-session.log
+- C reproducer: not generated; the syzkaller recipe is the primary
+  reproducer
+
+Kernel/guest details:
+
+  kernel: v7.4-rc3, bzImage sha256
+    0c16409f8aec508ac44a63e631c2bd352536401f3fd0856df1d839fb953a1882
+  guest: Debian trixie x86_64, 6 GiB RAM, 4 vCPU, QEMU/KVM
+  boot: oops=panic panic_on_warn=1 hung_task_panic=0
+  config: CONFIG_KASAN=y, CONFIG_PROVE_LOCKING=y, CONFIG_NILFS2_FS=y
 
 Thanks,
-
-Mimi
-
-References:
-
-[1] RFC, Jan 2015, extend initramfs archive format to support xattrs:
-https://lore.kernel.org/all/1584934.WkKQGAFadF@sifl/T/
-[2] v1, Jan 2015:
-https://lore.kernel.org/lkml/1421781180-24425-1-git-send-email-zohar@linux.=
-vnet.ibm.com/
-[3] newcx v3, Feb 2018 (Taras Kondratiuk):
-https://lore.kernel.org/all/1519153284.14218.18.camel@tycho.nsa.gov/t/
-[4] Why cpio rather than tar:
-https://www.kernel.org/doc/Documentation/filesystems/ramfs-rootfs-initramfs=
-.rst
-[5] v3, May 2019 (Roberto Sassu):
-https://lore.kernel.org/lkml/20190517165519.11507-1-roberto.sassu@huawei.co=
-m/
-[6] v6, Nov 2026 (Danny Hu):
-https://lore.kernel.org/linux-integrity/20261105193743.2654656-1-dannyhu@ar=
-ista.com/
+Zheng
