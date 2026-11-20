@@ -1,80 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795198625;
-	b=5h+yfFQTjRLiM1b18fbXqQAV70bHUHuKhrFkF0QZpxLCHUpBVutF+VKHDdNoHSsdjNIS
-	 EeOaw4nmZqst/2hyPN5Wu3PrwrNWXIJrYk45vye7o4lL5vcWBvWIm5CAos2ql76VPNbBe
-	 f1+E08NPNdq4s+N5nGYHVt9iOB57IuDtHDkZ/DfFfX3M/S2lACiC3dVnMfXVLP04MWCvY
-	 vLVbbtjh+AFdhi5Xx4luAFHS6tiefkIKMX/6hatI4yqBwsUdnN03tXGB0G6u3+3JuOV+W
-	 UWtX0R3DDUJ4Ut0ixoIEhFQ5ph4naCw9t/urmJ6lZlNh4AV62+UlpIvqEt1BfqWFsAw==
+	t=1795198901;
+	b=KNL/rB1M4xmxXjLQnx0C35ZUroGgwzm9ZHlCsxxKx3yYMD5Zr45NfKkM/gkBSI1J0Myp
+	 mKRy5lcA99r6U0akrSf47tk/9Hr8CK2VjJW8j/0mmzUsO3efxN0SyGYC8Cranjvny/qui
+	 Rem3mD5c6Oam4EXKLU50FbF3q40MdiS8Os0a6BdXpKF3+WWOnTQGLYALd/tEwzmiI2f92
+	 wmeHbN7YaWkAWol01xFVjOemOtAmPAT94551bZ8JrcjUr0p83jCCfsw/VvVsVJnF2mIsb
+	 8l/uCv5+OHK9N3V9+LJYXskanUVJRftXYF6pIXraHtgRgI1vd5IKszMmDI2UHmq3E0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795198625;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=kHnPkHdygJLWUd6Raio1OZlzrSr7Mg2iPFJR6vcJsn0=;
-	b=zgPXnpDV6SoTqwzntHhzHeShTUtCoxEh3gdckCaR7rY6Ld389L7w032nbK1JDr3EjxRV
-	 atY4PQzt0WUXR0sotbREfXEsAjkRbK6YgFc8yC2lT77BwXXcXZcd2FH0xmrOWo0d/C1UY
-	 nY2m86w2ng/t14zr06AwRrbLJCVZOuWm2Dg8971woDWizR0sntlWUVMPZYezxBEQTJwnV
-	 ROcKUuyRiW4YndaS5EFYQ8SP1DNczm1ALiG3FDhmg4/p2iFy0wUlZhlrMBlJ/1o28ROgU
-	 wPaS6fz/5FS1cWC48214LhV5s8CS9YX0ykQytA5BN2OgY+ZK4ZNsaarDFcxApSXIhLQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795198901;
+	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
+	bh=ZTwGZs4OFocuSIhEh2tktIaLvTRSKsf1Lw12SiyVbrY=;
+	b=zb02pv/wOgiSb3n1w8W93xgfGqj7qLUcpgILNXlrOewvei5r2sVHbN94vKzQi2+B/GWb
+	 WpiGu7kDFG1OoEWJJLdI1Wv6OurDWVvp0Q0M0fv71wbitCB5I2ucT0nX/RpGG0lE7lZFa
+	 unKsqFmTcHaAVgUoNkWG/0XphNOuaztccAAB7CXRh7iHQYP6oxrieAmcBpfuPGCPrlWa/
+	 ItVPxch75L9hqYSlTSlG35AK+f4ZC1tx6r1SbhWVgmYTvl9Gex4gl6j7uKpcZYPomVssj
+	 8oJd03CZJAftNTyV7G2q9CfVcT6igD63hf65mMeDFOYiIKV5UkOhaqECTU8dg7zZHAw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FDZ1T56E;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=lst.de;
+	spf=pass smtp.mailfrom=lst.de;
+	arc=none smtp.remote-ip=213.95.11.211
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E062606BDCE;
-	Fri, 20 Nov 2026 18:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FDZ1T56E
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D22F71F00A3D;
-	Fri, 20 Nov 2026 18:16:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795198624;
-	bh=kHnPkHdygJLWUd6Raio1OZlzrSr7Mg2iPFJR6vcJsn0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FDZ1T56EY/NGSZoTmntCLex0+4xeE8PucuiZ4OpXHfBdGoiLzo9IrSDqKpJcWcAEx
-	 HknAu50zTJt9dXHaiwcX0LMuj3DCFHLZKTlZ0YSp49BB1UazfGAdNiorcEbNBdAlE0
-	 Jm9XmV45fyiwhBKVkrrMsFJuZMkH80dEj76iDZAD5W2/MMLs8dD601KcImYLSCmqnA
-	 RsuHa3JuDXI8q0CnuESnUy9+uoR0ap/AR56Kh1DZuL9oQd9rYo460sqP0G7aiGVMdG
-	 ikxyOkxyt/pNSE1U3xl1nLM3UxG/UnmmNBmnk44dmqDb2p3sgftQKUtl/+bp4ieAy4
-	 ZzkCSKckENgFA==
-Date: Fri, 20 Nov 2026 18:16:52 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Luigi Rizzo <lrizzo@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Jens Axboe <axboe@kernel.dk>, "David S . Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Luigi Rizzo <rizzo.unipi@gmail.com>, 
-	"Liam R . Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, Harry Yoo <harry@kernel.org>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, Matthew Wilcox <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Simon Horman <horms@kernel.org>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
-	Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Alexander Lobakin <aleksander.lobakin@intel.com>, Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Dragos Tatulea <dtatulea@nvidia.com>, Naman Gulati <namangulati@google.com>, 
-	Pranjal Shrivastava <praan@google.com>, Mostafa Saleh <smostafa@google.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org, iommu@lists.linux.dev, 
-	netdev@vger.kernel.org, linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-api@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v3 00/25] PISA: Pre-mapped IOVA Superpage Allocator
- for DMA and CoCo
-Message-ID: <awCOitDwwIoz632b@gremlin>
-References: <20261109182533.3594984-1-lrizzo@google.com>
- <20261120010655.467825-1-lrizzo@google.com>
- <awBYFhnpFGtEXZ6r@gremlin>
- <8c9bd441-db5e-4857-8e39-79f147422454@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4F0606A8BE;
+	Fri, 20 Nov 2026 18:21:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CA4F0606A8BE
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id DE15D6732A; Fri, 20 Nov 2026 19:21:35 +0100 (CET)
+Date: Fri, 20 Nov 2026 19:21:35 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Viacheslav Dubeyko <slava@dubeyko.com>, glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com, hch@lst.de, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, vdubeyko@coreweave.com,
+	linux-xfs@vger.kernel.org, "Darrick J. Wong" <djwong@kernel.org>
+Subject: Re: [PATCH v5 1/5] iomap: add iomap_dio_end_io() helper
+Message-ID: <20261120182135.GA2183@lst.de>
+References: <20261118004844.3849979-1-slava@dubeyko.com> <20261118004844.3849979-2-slava@dubeyko.com> <20261120-flach-befanden-notaufnahme-b0a663466be3@brauner>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -86,16 +51,22 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8c9bd441-db5e-4857-8e39-79f147422454@kernel.org>
+In-Reply-To: <20261120-flach-befanden-notaufnahme-b0a663466be3@brauner>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Fri, Nov 20, 2026 at 05:12:25PM +0100, David Hildenbrand (Arm) wrote:
-> On 11/20/26 15:54, Lorenzo Stoakes (ARM) wrote:
-> > TL;DR: NAK. All of it. (And yeah, I'm steeling myself for the inevitable 'oh
-> > Lorenzo' :)
->
-> Oh Lorenzo ... you are absolutely right.
+On Fri, Nov 20, 2026 at 02:48:09PM +0100, Christian Brauner wrote:
+> On Tue, Nov 17, 2026 at 04:48:40PM -0800, Viacheslav Dubeyko wrote:
+> > The helper updates i_size without any locking, so it can be used only
+> > by file systems that issue all direct writes extending i_size
+> > synchronously (IOMAP_DIO_FORCE_WAIT) under inode_lock.
+> 
+> Meh, this should really not be named so it looks like its the default
+> completion handler. iomap_dio_end_io() really sounds like it.
 
-:)))
+Well, it actually should be the default handler as it does the right
+thing for simple file systems.  In fact I'd prefer to automatically
+call it if no ->end_io is set as that would remove a lot of boilerplate.
 
---
-Cheers, Lorenzo
+It would be nice to do that and remove the duplicate version in various
+file systems.
+
