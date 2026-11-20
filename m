@@ -1,59 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.67
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795192135;
-	b=RzcxNBIq+0BRXhjGDl2RxfOyQw0oT2mKcTRk31DInSXmEKNu84i3Kp2GhHyd5l72zXAT
-	 cXtcvroZD1SoNL+vsv38JUnibgJd4/zJVcVze4LfiDu5mOTdn2Gko6IuOQEufr8dN1XK4
-	 NzZv41DV7/m8WEL0sPnBIish+dQgLcBVvSovR9L9GGN8EaCO+EkOB2BbnS2N0KiWJIcPT
-	 o8ux9WX+xOMOlnxPv2tISsC5iGlnaT5JoAnUApIMNtkT2dTJC2kSGvxOjVHasaBgsZOAI
-	 3EpWyGYHKsXlfngkXwluDN1+gdGUGHUJrklzWNLA86PgSj6BpUfpL0Vayd/LpO2Is0w==
+	t=1795192246;
+	b=Jp3HDj/efyiriSj3OXNurdKV6FLC9SZ/IBSc2/7WK5NyPYYv5kN+Din8AeeyuTSpnoUH
+	 GfOx01bqFsr02TVhgwTpqcsHbL2vU5w9fjou18QSwYrQYFpogIfaw5F+AwIIzaCvfaZwT
+	 O5aogJvXiUSmhODH+K7UYtI59dWYgrXfWyjRJAT5ypSfmyWauWEGc5UTDSn+XcZpSZV8U
+	 2kqd+PrvQ37y7Z/EixgaWB48YQRfot5Hvw0c3UC/FvKLDHAV+aZ3QmRTIqbfRWnIcS5Kn
+	 WflqJikgC2Z23k/MNNYL9TZX8RD000likD1VapFm2VG2fRqvpCMc5J2G8qU1QKqZ/RQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795192135;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=hKTq5offfOb2bDNEYaRHVBez+Fjet5kFrAEYBp90cl8=;
-	b=sjHdc+gLs0aES4XCX7NizgwpJA6vnDKq68kYFjWWSpoKM2HFlFqgoW4U3sqIVvR9x62u
-	 S7b2WNpMHXVBE8blacqiSfGYOKiAzZIcc55WQFK+epWjV2jo+BLbSt7faFQpw6d6EU8D8
-	 d8GQbawsanAvnQRv8Ip4ezQzgQWP6Rg80ceEmZPIapEDnE4CEFo548CJu9Qm/SY89I3vi
-	 aI4V4aKj1fq24A3BTrXIz7LszFNxBWXK5MrpBkvsU7BHJp2WhEU9eRaTjAJuoWGpnYicn
-	 GZPvCNYMgXu+uX7F4tW/Idb1/EHu8r+Ti6BSoUw/5eWz3yNdI6l7+HzXwTLI8ww0/sA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795192246;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:CC:Subject:In-Reply-To:
+	 Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=Ve3nZc6CfK+2Pt/EccX7NgGEXSozela6oGxYTNkBW4Y=;
+	b=2hpImrlYCWpIiUNpFV7zBg6GWYlwu03SzY9icxIXon+6T4knIgJu6NCal0GqQKkkdbqx
+	 P296JTRwnd8G+UB2npXUevq1cL1aDrjZ02jRsbnGhorhktSQtjf+E7GS+h4ay3NirQPiF
+	 rbBAmUKawqZ0AhMJZeh/pZwFr4JFyrYz4gDy+ZqV0bhi/q7splYHSS4WR7Bj+puNoU+BO
+	 4+Emw66QTr5L0WR3nX7ZppVoJdx0U2iRNuxPxOr2wEMqCImBAKTRZoD+PelPkGeQwUrln
+	 LcUR8C2li1Fo26gnCjwK3N8xg/BTSzLRF+aW+gke4RAxkra2Hwd+w4vQfyZi9XAOKIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=djEjpth8;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=P60bn+OJ;
+	arc=none smtp.remote-ip=95.215.58.67
+Received: from mta1.migadu.com (out-67.mta1.migadu.com [95.215.58.67])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A19AA606A320;
-	Fri, 20 Nov 2026 16:28:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629F760A260B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 16:30:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 629F760A260B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=djEjpth8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCE771F000CF;
-	Fri, 20 Nov 2026 16:28:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795192134;
-	bh=hKTq5offfOb2bDNEYaRHVBez+Fjet5kFrAEYBp90cl8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=djEjpth8BxGSnk2aoPvo4XYFFDO0eGaPld+QWKK55LA1ccQyLBAdB2stBwKJLD8Tt
-	 0GTRafVzuFXkm4T0YeloOMLe9PX/FMEi9N/4XSlwf127ASmQmYU20C4U9jbt8i6sFE
-	 BgxHxm6U0xv45Ud76OaFnxTvUKkesnBffKEOEhpKxjDxE/vPyWCoD2jAi9npzodOvk
-	 WmmHMgazxZ1L7kGpkwBdveM28Ukn8zlNyJJVZV0KNV6MfG+XSHqaFjAU1a6QmdU6Bj
-	 D7eDE3IxKG85ygq033he358+BkhRUl01bnZpeWJea/6LDEJtrQl5msL4Gpsk91iyB9
-	 X9uoFcSqNNRXw==
-Date: Fri, 20 Nov 2026 17:28:47 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Andreas Gruenbacher <agruenba@redhat.com>, gfs2@lists.linux.dev, Mike Marshall <hubcap@omnibond.com>, 
-	Martin Brandenburg <martin@omnibond.com>, devel@lists.orangefs.org, Dave Kleikamp <shaggy@kernel.org>, 
-	jfs-discussion@lists.sourceforge.net, Carlos Maiolino <cem@kernel.org>, linux-xfs@vger.kernel.org, 
-	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
-	linux-afs@lists.infradead.org, Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, 
-	linux-block@vger.kernel.org, Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
-	linux-nfs@vger.kernel.org, Eric Biggers <ebiggers@kernel.org>, 
-	Jaegeuk Kim <jaegeuk@kernel.org>, linux-fscrypt@vger.kernel.org
-Subject: Re: [PATCH v2 0/13] fs: Various I_DIRTY_* state handling fixes
-Message-ID: <20261120-ampel-ungepflegt-begeben-9da8182f2de3@brauner>
-References: <20261116171044.6938-1-jack@suse.cz>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=P60bn+OJ
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=xEDXCHS/YWCWxkLlT2J/pwSodE2KNpqOe5MEs15s6Do=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795192241; v=1; x=1795797041;
+ b=P60bn+OJx+z1SO/r9rJa5vhUrpgrL9hRoJp9EgItolRLoRdvIU9NCqE/g7CZ5eeRNVmFLJRV
+ bQTdQbdrm4GsEBk4ItVnWkTjQh/GGwDYglY58TTpBD8qnhrFPcrmnrK80I5PjZlGWHXFKH/mY8w
+ ykGWAtOMIWig1jLJ+tKrAUxU=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id ea5d9678c358f401;
+	Fri, 20 Nov 2026 16:30:34 +0000
+X-Mizu-Trace-ID: ea5d9678c358f401
+X-Migadu-Flow: FLOW_OUT
+Date: Fri, 20 Nov 2026 16:30:31 +0000
+From: Bradley Morgan <bradley.morgan@linux.dev>
+To: brauner@kernel.org
+CC: arpe1618@gmail.com, jack@suse.cz, jannh@google.com,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, me@black-desk.cn,
+ oleg@redhat.com, viro@zeniv.linux.org.uk
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_0/3=5D_pidfd=3A_use_one_helpe?=
+ =?US-ASCII?Q?r_for_pid_namespace_visibility_checks?=
+In-Reply-To: <20261120-work-pidfd-pidns_visible-v1-0-0e82d08469ae@kernel.org>
+Message-ID: <B987F9D7-912E-4714-B54C-B17F6F4A639D@linux.dev>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,10 +65,22 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261116171044.6938-1-jack@suse.cz>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 18, 2026 at 03:59:34PM +0100, Jan Kara wrote:
+>Christian Brauner (3):
+>      pid: move pid_in_current_pidns() into kernel/pid.c
+>      pidfd: convert remaining visibility checks to pid_in_current_pidns()
+>      pidfd: restrict pidfd_get_task() to the caller's pid namespace
+>
+> fs/pidfs.c          | 12 +-----------
+> include/linux/pid.h |  1 +
+> kernel/pid.c        | 31 +++++++++++++++++++++++++++++--
+> kernel/signal.c     | 23 +----------------------
+> 4 files changed, 32 insertions(+), 35 deletions(-)
 
-I'll wait for your v3. :)
+Reviewed-by: Bradley Morgan <bradley.morgan@linux.dev>
+
+
+--- Thanks!
