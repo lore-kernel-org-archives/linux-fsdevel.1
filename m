@@ -1,109 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.52.55
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795136143;
-	b=Jlwo4rkm5snJSKAfYc81ZG6B/jbR8iECW01UcukLLdBo4DCt1be1jSHYs7j8YzA9hY5H
-	 LzsICliYEpEW5JGTp6UBzavsrW2gMozG68MDHfnJhL6LkGW4Adf4zdvOo7gkHA2n2134g
-	 AgHrCxwGGAmqmWB7sUZNY0CW5TMLdW9Yz81LjD1Eqz52J5dQCV7ebQG+nbcFkdYcWbKiW
-	 RZjXnyE1r79XNrMUKWXK1wJ4pKtoGQFfHowTrsc3MD9hiJWpOXSbp/Qi1YNMBkUeDU347
-	 0cWSaTWpp+FL189jq2y6U6x9nngUxqPPMp2jxth0AbvcgmNp/TITTw4Q1SBmdRSnzUw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795136143;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=TNeToXTSWuC2G6wbkcxOdRUaeXtvpYO5/35YT38Wyrg=;
-	b=Hd/RHBBJP6B+sX4ePeCkld70RPHeetTaOwmW+MlxI8SFR11WoTJ36BTR/DNDGNsuUEqq
-	 yiTXvaZaUPAtqf6kgBbVHd+dHQBIExoFbkLrYkceHgh9KsKTPE+XpLoDqZJdi5Gq9Z810
-	 6HBkGZO+Nq6oAtIdQsqfHfPDs5vQNF4wyLxK7TD8ypWWEQEOwhYCln9RTmU23zl2OA4HY
-	 IxGXPfR2JeDfEEf184IplimldfauV87jQ/D3OJkrv0l4QaDMG76quMXnijaUN2XI9SfOi
-	 71F77++g64Zslp4BxvVHmIhZBjkKRIBfGFQd7wSK/VzbKn3AmGfKkXm3i5xgWh3CGdQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=LsnZPUHa;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.52.55
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011055.outbound.protection.outlook.com [52.101.52.55])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.71
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795136825;
+	b=wWoH2VjdeDAh+ahO3UNPviMtQ9bDGdQjBwCDTeufd6h2DBW7gCV2W43KECYBcmtBSaSs
+	 yp/k+ssAlojbh3OF3t3QV40eNYZNjcH+nYNkWtt2aCkr9Hc5c7rytOFZ9aYYv/kRdsQSx
+	 vKQqq0QUsb7pk44LRCtQFablYHggIpbI99I7iUMS1Njko202X/jlGxoCrs5y1cpvAWcq9
+	 5C0fZGlyXD/2YBbLOdmcgcdROwy5kpHKk1vE1umYAYerjvwkvMm249nppXJDRGt+PQeY1
+	 5y3Z1xFn/NoorGvtVZQ3ePRlOy3zZTk1ZrwIW5FKJGK4g2SdH35j8c47HSaw2Z4xujQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795136825;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=t1aJB6r6atfUV3ZJTwGzqycv7tGP6J4ozN1DqiUg75A=;
+	b=32P2CY6BlPTJyZgtv2b3YvuGISFm7zuM6sfdvCCjynlmRDN8xb2lJ2rdS4H10lBmtV/j
+	 a1UC74l63dJnCwa/WVoRI6sfFUgRX0jh2F6WcX8oFkWE7tET9wF/PJa8x7gd7SyLF4s4F
+	 jDFYeCLxInjjo8jB26fRK74fXxCy9odDxlZyRLfuAFSYQbBCRtVQKbKmt/Ibq6jAVlSbp
+	 X5VXcyg2s7lZ4J/wyqcy8R9K/1BrToanWxP9I3VD+JSYolA0vO93V9rWKpSxsmKwVM5WE
+	 i7Am65of6MPYNdBIQxo96hjECrWq313Jbra37iatRE++e7bc2asnP463f1QeC0d6SRg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=hneqdiOm;
+	arc=none smtp.remote-ip=209.85.218.71
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com [209.85.218.71])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC65606A326;
-	Fri, 20 Nov 2026 00:55:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2FC65606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1144F606A331
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 01:07:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1144F606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=LsnZPUHa
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Qrjryl5KStWLRWLPJ9/oViIldA6lVO9AYNmAYErXxNxrIQiTMJy17Hj2Xun6BWxcFhPj6VV+TNK06WtFlSyqYWoY2YFFzt89pcX0KntrQFcrySen8XJid0dMTz2IbAH1p7VjIwQQr+pnUL5D7iGinTu12ye59ZpHUjBsdmI9wxB1CDPVvIQx1sWDBazK7l3wQokBPU4nwCUOq9GCxJ4Uf1W0uZUZZl9OQdxYraQnvKjV+qTKz3okcQXq91IqXrQ0nywGcbWGbcg0M36I3Gz7FFvnOSkGd3FPEpBi9h/LivCln52aK2VFK91GQKDHd1PBqX/oUS2EzFdp0eRliHS4jA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TNeToXTSWuC2G6wbkcxOdRUaeXtvpYO5/35YT38Wyrg=;
- b=wbtcfYB6EVgbO9fSEfFDu+DhdIXuIAoZ2pbAFA5wkxKzHIYTN76T258bjS0b2uzHahDNap0yAEq6YXFewlk3nUUvN6GfPhDVVSX4eStA2XWJSXTeJATUrIfwCEVK5Wf3YLvtFbBbFIOtFPl6LNy0ntyvP5+AcuAe01xARJ+nuaR2GeZTylmoQYajQotyDwxjUAS5axg2IHBNM5RFUWKByFrmRO3M6MNmbh5pIfzN91GIjcPI5kbnDMXTa91ah24VwkFHY+A+HXrYs/iJXGQyeYfMaIlGH5ElFINiu3UZ2NBtXZVtM6qMqHgxZUjoXsbEf/FG38UhCenOl9WYzn8VYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TNeToXTSWuC2G6wbkcxOdRUaeXtvpYO5/35YT38Wyrg=;
- b=LsnZPUHaUs3KobCL3GO5Q1ps44jvF1vk3tqgMu7BQDCI3tyePhQz+CBFqc0ILbIhm3C4riyqgbiXld/p/5Pg1KfU3zOkDmBFP6M8JbzZqUTZkYKiTq0Dy6Sr+fm68hf5rpAgWwkEmfWnLrnfkMCG48FhavZO3YZmJpmeCFuoctFqlkX1W24UrFQ1ESIKlsKb9Rg76LmpQO3D9gG6jAOjn2C6SR1LD75QZW6/O5MFaUjb+LvSUQ75JLCImb+RLdAiXY1rWmz16x8aFEI9kdwlm6vrbAiFzwjDu0H3Kqg1rKFYPb7a9XpIgmOn1jFw8gyIAVRAzY6VIfiS6y8PFlc6Tg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SA1PR12MB5614.namprd12.prod.outlook.com (2603:10b6:806:228::7)
- by CH9PR12MB384484.namprd12.prod.outlook.com (2603:10b6:610:310::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.10; Fri, 20 Nov
- 2026 00:55:33 +0000
-Received: from SA1PR12MB5614.namprd12.prod.outlook.com
- ([fe80::1a0c:e9e8:f3a5:d9d6]) by SA1PR12MB5614.namprd12.prod.outlook.com
- ([fe80::1a0c:e9e8:f3a5:d9d6%6]) with mapi id 15.21.0615.013; Fri, 20 Nov 2026
- 00:55:33 +0000
-Message-ID: <4f096d70-6f94-4148-8f47-242b8551e5f9@nvidia.com>
-Date: Thu, 19 Nov 2026 16:55:30 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 0/5] mm: GUP dirty + ->release_folio() fixes
-To: Pedro Falcato <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Lorenzo Stoakes <ljs@kernel.org>, Peter Xu <peterx@redhat.com>,
- Johannes Weiner <hannes@cmpxchg.org>
-Cc: linux-ext4@vger.kernel.org, linux-nfs@vger.kernel.org,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, Kairui Song <kasong@tencent.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>,
- Michal Hocko <mhocko@kernel.org>, linux-fsdevel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20261119-gup-dirty-what-v1-0-236d69f25c24@suse.de>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <20261119-gup-dirty-what-v1-0-236d69f25c24@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY3PR04CA0021.namprd04.prod.outlook.com
- (2603:10b6:a03:217::26) To SA1PR12MB5614.namprd12.prod.outlook.com
- (2603:10b6:806:228::7)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=hneqdiOm
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-c508bafaddfso27494966b.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 17:07:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1795136822; x=1795741622; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=t1aJB6r6atfUV3ZJTwGzqycv7tGP6J4ozN1DqiUg75A=;
+        b=hneqdiOm7mfFGhYoWnsMQS9LrgbdSHwfT9nn150vjQRrk4PHl6Vx4FWkJXatMkIQqC
+         8+F3GvAGh4wkJoDcLdIjgLtaCIbd3TKjbM2i7tzu4UbVAl0L2hMv8Rqulz3SumlkaEI9
+         52jPLwUhycPQ1GQeZgXxueomQs2JL/eoDzHq1/x9/Wip5xtyjpjq2AsHQCN5XKtkv7CN
+         DmKgN/gUA3x3idLzaT2EKu6iNfIcrlByG6uQweT0sZjIeHyRSflX/TCIZ6aahPiKmrHy
+         ZYG8qyg73MVCvRqzPYjdAl5hOxz7soDWinDS+DyKYOgLP3AqTkm8YpU9TMTPrT/ssqVS
+         D2JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795136822; x=1795741622;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=t1aJB6r6atfUV3ZJTwGzqycv7tGP6J4ozN1DqiUg75A=;
+        b=U5A1plhgm8o4mJB+BfwivHDJew+u6YYTK4Ug8menPNUXADhXSOjAqcDYXH0ICZg1cn
+         00ePh2e7GMnxzxOocDcttxR2Y78NrjPAMqPOElF83hbb1Y/7o4Z4Ipi1hUom54JGqpH4
+         iESsTAXnS/wHKzjMHoOsdrKXwtWa0P6lhZgl9HRMWd9mzSETZ+WrlqA3zy5zLPBj5r2f
+         bjaB6BsVZChbRseG7wMTrrZPeuuWURP+dzUKi+W7T+e1jV/hjF1qyCI6jE5BpjaN6rLn
+         QjL+u35z84StNbZJCIBES2jxs7fsTUumOODX0oBAuppzLqG0xOXO72viA6RXfRtgNBzu
+         jLDQ==
+X-Forwarded-Encrypted: i=1; AL+hErHXCDI32D44qPhJiFQc/6a7I0C20ZlGs6C7J6wtzt1JAGeOV++zNOwRYEx3WjMQ1cXfxW3lBZtEEzt5XJAx@vger.kernel.org
+X-Gm-Message-State: APuU4Z8o5tUW3/t3PRkJFRRdyU0S2dP2E56TH6N/L/Pa0SZ7bsFh72st
+	jdbFYZHzvXhZCF6P9wZx9dgloBgNxLle1F2lmbIRHcTFKzYXOZ/yJNu972fD4KcGiazgzgNDbxI
+	ZmmmGMA==
+X-Received: from ejcwt19.prod.google.com ([2002:a17:907:b813:b0:c50:5ea1:d028])
+ (user=lrizzo job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:6ea9:b0:c46:645f:cee2
+ with SMTP id a640c23a62f3a-c513a3ab024mr152966266b.4.1795136821716; Thu, 19
+ Nov 2026 17:07:01 -0800 (PST)
+Date: Fri, 20 Nov 2026 01:06:31 +0000
+In-Reply-To: <20261120010655.467825-1-lrizzo@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -112,183 +78,1126 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR12MB5614:EE_|CH9PR12MB384484:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe8841e3-2829-4207-5f38-08df46a0fae2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|23010399003|10067099003|261022075727099003|261026121527099003|261026140227099003|56012099006|11063799006|261022105027099003|261009223027099003|261021123027099003|261021121427099003|261022113327099003|261102123227099003|261028144727099003|18002099003|22082099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	CPbWQasccBrchxMYh1cf/xMSAk4D3F7pzwVa/gaU7aHNbFlZhT5bf290jQTHdXfl5J35BIhvLMN7GaIRfKRfrS380htSwctScYhR1JidHTnO0c8jQfE6O1eJFIps5lcZ7nhEZzneHtykwRd/gjTbG5XyNcjbDobjKrrxdnN5a9AedEExitEdV0i+mpCmtE1fZ7I2NReb0JciazV/SLfhQcy78y3EW3+37SMMZOJC9gZA/8mr6qz+jocB7PSP9Dp6SIzYfG1q5qr/skeDy8DQzQpuIxy7NRx6Ni1EoFNu2ou4fUyb71lVRMWAMFQOH2QpXgkTmCNpapnQK9S2fuxNWDn62Ylg6UQBOKxfPQdvKHDyc4DENDORnROGGdKUYMNF4U8lmQ20wqUbZfZKVDaYnAfW+W57o5JNOuZfCLrKXLFqJxRe9azqeZtC9R5gMGy1NawKBd2tJYHxMn1FfneDE9wJnSu7D4QynY7GdmlGM+Plkw3bV2VkRJnAplYjuhmkeUQximXFSGcTe1qYbf/vMz+BGBgGkitceLtYDD8dtgFZ7JYGD07XjVleznrSiZllYdW3h24CWwf05ccamghNwtzupkPNrNygr0o92u7hMlW0Z+KffwJhOlbhHW6m0JPcuTjnyXKuJC3OY81ndCCavEvr1FVl9dbGoW+MHukNkpM=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR12MB5614.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(23010399003)(10067099003)(261022075727099003)(261026121527099003)(261026140227099003)(56012099006)(11063799006)(261022105027099003)(261009223027099003)(261021123027099003)(261021121427099003)(261022113327099003)(261102123227099003)(261028144727099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?b3ZKakFvTjE1MVhKQ3c1SlUvNzc3SXlJRXNjVTZ2Q3A3R25tdzVkMjJEN3BV?=
- =?utf-8?B?ZkZwVG92S0x6VEx2aG8xaVBoRjFqSFNReEhESmk4bkl6OWJEejJqcDZ3SWFn?=
- =?utf-8?B?Y2NFZDlyUDZhR1hlS2RWRmlqMDVtM0ZiUFpDZXFQNUR6Q0hlUTR1UFRYK0dj?=
- =?utf-8?B?WGI1Ylc5Wkw5MzlleGhpWUJ2MVV2NWlEZ2FhSEJyMEh0WC9odlhBdVpEZmxY?=
- =?utf-8?B?UnVaZE01NUhxVUd2SHZDMTVTMDJmTGRGQlVMTUs4THlqRjQrL21DWVlETnV5?=
- =?utf-8?B?eHZ5SmVtcVBDcTF2L1MzbURPczJWVTVYWFRUNEM3Y3dRSE5Bb1dEdU9CSE41?=
- =?utf-8?B?ekFwdk1zNURlL08rOFgwUkU4dEQ1bUYyRGhpRnJESktjSlVINTRsTG8wWHl2?=
- =?utf-8?B?NFB5RDVCU1FlZkFsQjROSXVMTFRvcnluaTQ0K3VhTUFyZnZiZXNNeFl2dTJs?=
- =?utf-8?B?ZTRUVmVIbmFSUGJ6V0MvZzU1N3k3V3htZi92SUM2emIvMnlDcnE5T3NmbFh0?=
- =?utf-8?B?RkxxVnFPWXJZVE1zMjdzMTUrK1dXOTlJWEVYNUNNais4b0VIT2FndmtPNmhw?=
- =?utf-8?B?b2t4MnNsT0EvUGJpOENpM0RyR2VQUy91bHlMcThYcVN1YnpHWXdKUXBxRjBq?=
- =?utf-8?B?L21tWjI2VG8zbHhZTGpJTnhQSnBqMWdRZ2lPcUZXODQ2NjV1eXNVWlpEMlc5?=
- =?utf-8?B?d2hiRXhFVlM4SHZFRDVsazVzUTlQU2hFbWN4TXpzZnA5aThFaEI2ek9UVGZU?=
- =?utf-8?B?T1hsbStrWlVNR3Q5aGZsZlJodENwdDAzZjVlZ1JaKzFkNEdxRDhtL3l3S2tp?=
- =?utf-8?B?cnVjQitDUnZHWmFLYVE3d1dxbGNNelkvRUY2UmNqVzRyRG5rNGYvTi9FYmdm?=
- =?utf-8?B?M1NTV2ZDNmV1Zlp0VkM4ajJDWkpNdWV5SE9INkI1Z1N2aGQ0aFZjSDdqeTlz?=
- =?utf-8?B?WFFzZnpwc1p2VTE0Q1JGL2dockhRQ3B2dGpWQnhaamlWS09FVDF6b3l1K1lm?=
- =?utf-8?B?amY3R2lnYWJNeEk5eXQxcnJJYmVWUWhTaEc1TUxMSmI0LzJYdkloSG9lZVJF?=
- =?utf-8?B?U3JiOVBBMDNSNDVJLzYvLzY3L0tnUG5Xcm01THFtSjZJRzhHdEZhVEovQ3hV?=
- =?utf-8?B?T3doeVE5cVNpWkRBOHhIUFlEOWs3cmhYRU1CYWNjdnEyUHB5OXd1MVdpOW51?=
- =?utf-8?B?Mjl6eVBBdkMvMVl4L3RXcEtObS8veUt5UGwycG1rWkIrWmNqWnhmSkhRUXVa?=
- =?utf-8?B?blJ0Ui9JNzVhcXhkeml5c01tNjBsRHozVkJPakFDNWdaZFJ3Mmtkd1FUMjN0?=
- =?utf-8?B?T1lNQ1RjbzVBU241dlJoR0QydS9QYU1JMzJnUndvSWpRL1VsVXc2cHBDc0th?=
- =?utf-8?B?RHFkbVluVjJFNXVlMTZPVU1haWhuYWNTQm5CakJGdmcwaWFRcFVCQVlkS2p3?=
- =?utf-8?B?SnZBQ1RCV2F4cTVXSkFJekxBc0xxNlBUM2ovNDhUdlZGT3dIeXZ2TU1ySmtR?=
- =?utf-8?B?Tldkazd5NDVvVkR3QmhqUGZ4Z2xPaFE0QzFTczNZZTZ5Y00rL3kwZVpOdmQ0?=
- =?utf-8?B?cXU2aVh6SHk5R041eFNKbnJld081eUhOUlpmcUo2WlE0ZitBUGxoZzc0NnZH?=
- =?utf-8?B?ZHBOQjVvT3lHVjFadk1GQ3pTeWIzckMxR0hseVRibDJHTWVwMmRkeXNWTlhS?=
- =?utf-8?B?TzQva3dHZllhcjBDUlBLTldudnhKSGlzdTluVXVKRDVTTkVJT3Fxbm5mWEVt?=
- =?utf-8?B?NjVYa0QrcVBNMjUzWHd6UnpnSC93aDUxWWI4T2ZSYis2bVhWanlwakROdXpK?=
- =?utf-8?B?VjE1ak1YWEtmYTdNZnJNb0tMamRaRW5xV0hxWHF4cmRwM2hRVExpalJzaXp4?=
- =?utf-8?B?S2ZQYWkxcHFQdWpZTG9jSTZ6azhyT0UyREc4VGYzVDJHcWRORVQ0NVI0N3pw?=
- =?utf-8?B?d3h5bDNTT0JiaGp3QWJ1QzJDcFBQcTFzK0V1SmZURnhMSC9BdkU4aDRERHIz?=
- =?utf-8?B?R0dhMjZESVRNQXU2dGNZTEN6Y1M1U1pRcjRHRlZQK0JMRVZqb3c1MlVQZDdN?=
- =?utf-8?B?dktGMk56MXNDL2lnaUdOV2dRTlUyNnlKOWV2MzBldHRIYlJMQkx4TDlLbnRo?=
- =?utf-8?B?cWs2R05NOWU4ay9hUE9yYjY4eDBXVjB6UjF1RFlXWGdvb28zMmNWb1JZYWdw?=
- =?utf-8?B?c3h5Z2xrZWlUczJXTkJ3M1lPKzgxdERsNU5jMXFmOFlNZkROUW41YnNxZG1E?=
- =?utf-8?B?ejhOYjFhUVYxTVZzczhVZktlVGpRdHpZUlIrRzQyeXpvKzN3T2F6Qk91SWN4?=
- =?utf-8?B?QmxuMlcwb01ac01rS09VQVM3NnV4S1dURDRPd3hRWHdybmJUTlUxZz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe8841e3-2829-4207-5f38-08df46a0fae2
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR12MB5614.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 00:55:33.0533
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Y8lCQtVuHezOjOfaGxGFi46rKEKdWvCZPJwCkq2Mm7FQe8NWrC4Z1baCp9fLpfM8fEbxfvKjhFUJrQ3LbG1iNw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH9PR12MB384484
+Mime-Version: 1.0
+References: <20261109182533.3594984-1-lrizzo@google.com> <20261120010655.467825-1-lrizzo@google.com>
+X-Mailer: git-send-email 2.56.1.809.ga0b61035b5-goog
+Message-ID: <20261120010655.467825-2-lrizzo@google.com>
+Subject: [RFC PATCH v3 01/25] mm: Introduce CONFIG_PISA and metadata table
+From: Luigi Rizzo <lrizzo@google.com>
+To: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Vlastimil Babka <vbabka@kernel.org>, Joerg Roedel <joro@8bytes.org>, 
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Jens Axboe <axboe@kernel.dk>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Luigi Rizzo <rizzo.unipi@gmail.com>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, Harry Yoo <harry@kernel.org>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Simon Horman <horms@kernel.org>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Willem de Bruijn <willemb@google.com>, 
+	Kuniyuki Iwashima <kuniyu@google.com>, Joshua Washington <joshwash@google.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Alexander Lobakin <aleksander.lobakin@intel.com>, 
+	Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@ziepe.ca>, Dragos Tatulea <dtatulea@nvidia.com>, 
+	Naman Gulati <namangulati@google.com>, Pranjal Shrivastava <praan@google.com>, 
+	Mostafa Saleh <smostafa@google.com>, Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org, 
+	iommu@lists.linux.dev, netdev@vger.kernel.org, linux-block@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-api@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Luigi Rizzo <lrizzo@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 11/19/26 12:10 PM, Pedro Falcato wrote:
-> Sooo.... It turns out GUP dirty and ->release_folio() interact really
-> weirdly. This was initially reported by some AI agent, and David let me
-> know.
-> 
-> The basic issue is:
+PISA ("Pre-mapped IOVA Superpage Allocator") is an extension to the page
+allocator: requests with __GFP_PISA return memory that makes I/O-related
+operations cheaper when using DMA-FQ, DMA, or Confidential Computing
+swiotlb. I/O devices can individually opt in to use PISA for specific
+buffer classes (e.g. read or write data, headers, zerocopy). The
+relevant kernel subsystems (mm, iommu, dma, disk I/O, page cache, the
+network stack) are modified to use PISA memory for devices that opt in.
 
-The basic issue is covered in a series of LWN articles that span 5 or
-6 years:
+PISA returns order-N blocks backed by 2MB physically contiguous pages,
+so it can use 2MB IOMMU leaves and reduce IOTLB pressure by up to 512x.
+It maps memory in pre-allocated per-domain IOVA ranges, and recycles
+blocks and mappings until the 2MB page is returned to the buddy
+allocator. This makes most of dma map/unmap a no-op, also avoiding the
+related VM exits in overcommitted VMs. In Confidential Computing VMs,
+PISA pages are also decrypted, removing the need for bounce buffers.
+Performance is comparable to identity mode, with isolation better than
+DMA-FQ and comparable to DMA.
 
-    https://lwn.net/Kernel/Index/#Memory_management-get_user_pages
+The design has the following main goals:
+- no changes to individual device drivers (or minimal changes for NIC
+  drivers that use custom RX page allocators)
+- minimal changes to base code: in most cases one or a few lines
+- safety: PISA memory is only used for devices that opt in, and it is
+  returned to the buddy allocator only after IOMMU mappings and IOTLB
+  entries have been flushed
+- no dependency on struct page or struct folio
+- a compile-time option to disable or enable PISA
+- zero runtime overhead when no devices opt in (static keys and inline
+  hooks), minimal overhead when in use (direct PFN lookup in a flat
+  metadata table)
+- memory overhead as low as possible (adaptive shrinking and compaction)
 
-Probably good to read and absorb that. There's a lot.
+Devices that do not opt in keep using their native DMA/DMA-FQ mode.
+See Documentation/core-api/pisa.rst, added at the end of the series.
 
-The problem remains not fully solved. pin_user_pages() is a building
-block, but we need to fully coordinate with filesystems in order to
-finish. It's good that you are looking at this.
+Add a CONFIG_PISA option, enabled only on supported kernels (64bit,
+!PREEMPT_RT) and introduce two metadata tables, populated on demand, to
+hold per-2MB buffer state:
 
->  - ->dirty_folio() relies on buffers/IFS/etc being attached to the
->    folios. It _cannot_ attach them itself, as dirty_folio() cannot
->    block.
->  - certain MM paths (reclaim, khugepaged, folio split, etc) are very
->    trigger-happy when it comes to asking filesystems to release them. In
->    most cases, barring any dirty folios, buffers, it will just drop
->    them.
->  - there is no problem in usual IO submission, but issues start to pop
->    up with GUP, where the code flow (roughly) becomes:
->         [get_user_pages(), etc]
->            ->page_mkwrite() called here, or before
->              ->private correctly populated with whatever the filesystem
->                expects.
->              folio is marked as dirty, initially.
->        *write finishes*
->        folio_lock();
->        folio_mark_dirty();
->          ->dirty_folio()
->               dirty_folio expects ->private to be populated by
->               ->page_mkwrite(), ->write_begin().
->        folio_unlock();
-> 
-> What happens if any filemap_release_folio() runs (and succeeds) between
-> the initial dirtying (plus eventually writeback) and the write to the
-> folio completes? Welp, it's unpredictable. ext4 for example will
-> WARN_ONCE, and likely drop data (see ext4_dirty_folio()).
-> 
-> So, what can we do about it? It's complicated, hence why this is an RFC.
-> For the possible solutions:
->  - ->dirty_folio() attaching this FS information itself is not really
->    possible in many cases. ->dirty_folio() can't block, nor is it even
->    guaranteed to hold the folio lock while being called.
->  - Can pincount help? Kind of. Things like folio_maybe_dma_pinned() are
->    rough, and don't deal with the usage of get_user_pages(FOLL_WRITE).
->    pincount itself isn't available in the common order-0 case, and not
->    available on order-1 as well on 32-bit, but who cares about that^W^W^W^W^W
->  - Could get_user_pages() ban FOLL_WRITE? Mayhaps. I would not be
->    opposed to that, but that's probably a larger change than ideal for stable,
->    and I'm not familiar enough with GUP requirements to decide to go that way.
->    This would require migrating all FOLL_WRITE users to
->    pin_user_pages().
->  - Can the whole system be reworked? Probably, but not for stable.
-> 
-> This patch series is really rough but kind-of works. Instead of using
-> folio_maybe_dma_pinned(), which only interacts with pin_user_pages(), I
+- pisa_pfn2slot[pfn >> PISA_ORDER] to quickly access flags and
+  a compact page index (slot). Covers 57 bit address space with
+  only 12KB of page tables (unbacked holes are mapped to the shared
+  read-only zero page), plus 4KB for each 2GB of RAM.
 
-pin_user_pages() was specifically introduced for this exact class of
-problem. get_user_pages() is now meant for other, much more limited cases.
-I've attempted to document that, here:
+- pisa_meta_array[slot] (256B per slot, 4KB of RAM per 32MB of active
+  PISA buffers)
 
-    https://docs.kernel.org/core-api/pin_user_pages.html
+Also add a built-in KUnit test suite (CONFIG_PISA_META_KUNIT_TEST)
+exercising initialization idempotency, PFN/physical round-trip lookups,
+out-of-bounds physical address handling, and PISA membership toggling.
 
-> introduce a new helper that helps places deal with the folio refcount
-> directly. In that case, we can also deal with GUP. On the other end,
-> moar problems:
->  - NFS private data itself takes refs on folios. Now private data (that
->    we could perhaps release if only we tried) is keeping us from
->    releasing that same data. What?
->  - ext4 data=journal has some funky usage of buffer_heads. Data journalled
->    filesystems will not, in any way, dirty BHs. Instead it will,
->    *only if it was DMA pinned*, set the checked flag. ext4 skips
->    dropping those buffers if the checked flag is set.
->  - ext4 move_extents seems to have suspicious usage of
->    filemap_release_folio() as well.
-> 
-> Many of these have suspicious Fixes: (which are definitely wrong). I
-> targeted these patches to complement Jan's original fix. Anything before
-> that (or which is missing that patch) is hopelessly broken anyway.
-> Proper Fixes: can be added, but many of them go back quite far.
-> 
-> Signed-off-by: Pedro Falcato <pfalcato@suse.de>
-> ---
-> Pedro Falcato (5):
->       mm/khugepaged: fix filemap_release_folio() interaction with GUP dirty
->       mm/huge_memory: fix filemap_release_folio() interaction with GUP dirty
->       mm/vmscan: avoid releasing FS metadata for !FOLL_PIN gup folios
->       mm/vmscan: be more careful when releasing FS metadata if buffer_heads_over_limit
->       mm/filemap: refuse releasing maybe_dma_pinned folios
-> 
->  mm/filemap.c     |  3 +++
->  mm/huge_memory.c | 22 +++++++++++-----------
->  mm/internal.h    | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
->  mm/khugepaged.c  | 19 +++++++++++++------
->  mm/vmscan.c      | 18 ++++++------------
->  5 files changed, 81 insertions(+), 29 deletions(-)
-> ---
-> base-commit: 9663aa0da7070d958e333477ce0720512e9fa016
-> change-id: 20261116-gup-dirty-what-b73da748f5d1
+Signed-off-by: Luigi Rizzo <lrizzo@google.com>
+---
+ include/linux/pisa-iommu.h |  40 +++
+ include/linux/pisa.h       | 114 +++++++
+ mm/Kconfig                 |  34 +++
+ mm/Makefile                |   3 +
+ mm/pisa-kunit.c            | 112 +++++++
+ mm/pisa-meta.c             | 603 +++++++++++++++++++++++++++++++++++++
+ mm/pisa-priv.h             |  61 ++++
+ 7 files changed, 967 insertions(+)
+ create mode 100644 include/linux/pisa-iommu.h
+ create mode 100644 include/linux/pisa.h
+ create mode 100644 mm/pisa-kunit.c
+ create mode 100644 mm/pisa-meta.c
+ create mode 100644 mm/pisa-priv.h
 
-A git alias to wrap "git format-patch" with a sed(1) invocation is a great way
-to avoid accidentally "leaking" gerrit change-id's into a posting, fwiw.
-
-
-thanks,
+diff --git a/include/linux/pisa-iommu.h b/include/linux/pisa-iommu.h
+new file mode 100644
+index 0000000000000..7a04523b28b4c
+--- /dev/null
++++ b/include/linux/pisa-iommu.h
+@@ -0,0 +1,40 @@
++/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
++/* PISA page metadata, shared by mm/pisa-*.c and drivers/iommu/pisa-map.c. */
++#ifndef _LINUX_PISA_IOMMU_H
++#define _LINUX_PISA_IOMMU_H
++
++#include <linux/bitmap.h>
++#include <linux/dma-direct.h>
++#include <linux/list.h>
++#include <linux/llist.h>
++#include <linux/pisa.h>
++
++struct pisa_alloc;
++
++#ifdef CONFIG_PISA
++
++/* PISA page byte size and alignment mask. */
++#define PISA_SIZE		(1UL << PISA_SHIFT)
++#define PISA_MASK		(~(PISA_SIZE - 1))
++
++/* size of struct pisa_meta (256B, power of 2) and max blocks per PISA page. */
++#define _PISA_META_SHIFT	8
++#define _PISA_META_SIZE		(1U << _PISA_META_SHIFT)
++#define _PISA_MAX_BLOCKS	512U
++
++/* Metadata for a single PISA page in @pisa_meta_array (indexed by @slot). */
++struct pisa_meta {
++	unsigned long flags;	/* PISA_ACTIVE / PISA_QUARANTINED / PISA_DECRYPTED */
++	unsigned long base_pfn;	/* base PFN of this PISA page */
++	u32 slot;		/* dense index in @pisa_meta_array and IOVA windows */
++	struct list_head list;	/* node in @pa lists or pisa_node.pages */
++} __aligned(_PISA_META_SIZE);
++
++static_assert(sizeof(struct pisa_meta) == _PISA_META_SIZE);
++
++extern struct pisa_meta *pisa_meta_array;
++
++struct pisa_meta *pisa_meta_of_pfn(unsigned long pfn);
++
++#endif /* CONFIG_PISA */
++#endif /* _LINUX_PISA_IOMMU_H */
+diff --git a/include/linux/pisa.h b/include/linux/pisa.h
+new file mode 100644
+index 0000000000000..660329fd448fe
+--- /dev/null
++++ b/include/linux/pisa.h
+@@ -0,0 +1,114 @@
++/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
++/* PISA core definitions and inline hooks. See Documentation/core-api/pisa.rst. */
++#ifndef _LINUX_PISA_H
++#define _LINUX_PISA_H
++
++#include <linux/types.h>
++#include <linux/bitops.h>
++#include <linux/jump_label.h>
++#include <linux/mm.h>
++#include <linux/uaccess.h>
++
++#ifdef CONFIG_PISA
++
++/* PISA page geometry (log2 byte size and base-page order). */
++#define PISA_SHIFT		21U
++#define PISA_ORDER		(PISA_SHIFT - PAGE_SHIFT)
++
++/*
++ * Physical address bits covered by @pisa_pfn2slot. KASAN_VMALLOC populates
++ * shadow for the whole table KVA up front, so cover 49 bits (1GB of KVA) there.
++ */
++#define _PISA_PHYS_BITS		(IS_ENABLED(CONFIG_KASAN_VMALLOC) ? 49U : 57U)
++#define _PISA_MAX_FRAMES	(1UL << (_PISA_PHYS_BITS - PISA_SHIFT))
++
++/*
++ * @pisa_pfn2slot is indexed by PISA frame (pfn >> PISA_ORDER). Each u32 entry
++ * packs the page's status flags in the low _PISA_SLOT_SHIFT bits and the
++ * 1-based compact metadata slot index (into @pisa_meta_array) in the upper
++ * bits. Unbacked physical ranges point to the read-only zero page.
++ */
++#define _PISA_SLOT_SHIFT	3U	/* low bits reserved for PISA_* flags */
++#define _PISA_FLAGS_MASK	((1U << _PISA_SLOT_SHIFT) - 1)
++enum {
++	_PISA_ACTIVE,
++	_PISA_QUARANTINED,
++};
++
++#define PISA_ACTIVE		BIT(_PISA_ACTIVE)	/* set up as a PISA page, not retired yet */
++#define PISA_QUARANTINED	BIT(_PISA_QUARANTINED)	/* IOMMU unmap failed: never reuse */
++
++/* Enabled on first pisa_meta_init() to activate fast-path hooks. */
++DECLARE_STATIC_KEY_FALSE(pisa_key);
++
++extern u32 *pisa_pfn2slot;
++
++int pisa_meta_init(void);
++
++static inline bool pisa_enabled(void)
++{
++	return static_branch_unlikely(&pisa_key);
++}
++
++static inline u32 pisa_pfn_flags(unsigned long pfn)
++{
++	unsigned long frame = pfn >> PISA_ORDER;
++	u32 val;
++
++	if (!pisa_enabled() || unlikely(frame >= _PISA_MAX_FRAMES))
++		return 0;
++	/*
++	 * A fault means that memory hotplug is replacing the page tables of
++	 * this part of @pisa_pfn2slot (break-before-make): no RAM, so no PISA
++	 * page, was there. The entry is published by smp_store_release() in
++	 * pisa_pfn2slot_update(); what a reader does with it depends on its value.
++	 */
++	__get_kernel_nofault(&val, &pisa_pfn2slot[frame], u32, fault);
++	return val;
++fault:
++	return 0;
++}
++
++/*
++ * ============================================================================
++ * Kernel hooks (every hook starts inline with a static-key check)
++ * ============================================================================
++ */
++
++/* PFN / page / physical / virtual membership checks (guarded by @pisa_key). */
++static inline bool is_pisa_pfn(unsigned long pfn)
++{
++	return pisa_pfn_flags(pfn) & PISA_ACTIVE;
++}
++
++static inline bool is_pisa_page(const struct page *page)
++{
++	return is_pisa_pfn(page_to_pfn(page));
++}
++
++static inline bool is_pisa_phys(phys_addr_t phys)
++{
++	return is_pisa_pfn(phys >> PAGE_SHIFT);
++}
++
++static inline struct page *pisa_virt_to_page(const void *addr)
++{
++	struct page *page;
++
++	if (!pisa_enabled() || !addr)
++		return NULL;
++	page = virt_to_page(addr);
++	return is_pisa_page(page) ? page : NULL;
++}
++
++#else /* !CONFIG_PISA */
++
++static inline int pisa_meta_init(void) { return -EOPNOTSUPP; }
++static inline bool pisa_enabled(void) { return false; }
++static inline bool is_pisa_pfn(unsigned long pfn) { return false; }
++static inline bool is_pisa_page(const struct page *page) { return false; }
++static inline bool is_pisa_phys(phys_addr_t phys) { return false; }
++static inline struct page *pisa_virt_to_page(const void *addr) { return NULL; }
++
++#endif /* CONFIG_PISA */
++#endif /* _LINUX_PISA_H */
+diff --git a/mm/Kconfig b/mm/Kconfig
+index afff1b25b5438..6e7811569d33a 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -1431,6 +1431,40 @@ config IOMMU_MM_DATA
+ config EXECMEM
+ 	bool
+ 
++# Pre-mapped IOVA Superpage Allocator
++config PISA
++	bool "Pre-mapped IOVA Superpage Allocator"
++	depends on (X86_64 && !UML) || (ARM64 && ARM64_4K_PAGES && PGTABLE_LEVELS >= 4)
++	depends on SPARSEMEM && !PREEMPT_RT
++	default y
++	help
++	  PISA is a specialized memory allocator with an API similar to
++	  alloc_pages(). For devices that opt-in, it provides DMA-able
++	  pages backed by 2MB physically contiguous pages, and mapped in
++	  the IOMMU maps with a single leaf PTE of the same size (or with
++	  smaller ones if the IOMMU has no such page size). Mapping, unmapping
++	  and IOTLB flushing are done lazily to reduce CPU overhead.
++	  The large mappings greatly reduce IOTLB usage. As in strict iommu
++	  mode, pages are returned to the buddy allocator only when any existing
++	  mappings have been removed and IOTLB flushed.
++	  Uses 4KB of metadata for each 32MB of PISA buffers, allocated on demand.
++
++	  The config option enforces requirements (2MB large pages and !PREEMPT_RT) at compile
++	  time. Other constraints (e.g. dma-coherent devices) are verified at runtime.
++
++	  If unsure, say Y.
++
++config PISA_META_KUNIT_TEST
++	bool "KUnit test for PISA metadata table (built-in)" if !KUNIT_ALL_TESTS
++	depends on PISA && KUNIT=y
++	default KUNIT_ALL_TESTS
++	help
++	  Builds KUnit unit tests for the sparse, per-PISA-frame metadata table,
++	  and PISA page allocators in mm/pisa-*.c, verifying metadata
++	  lookup, allocator recycling, and coherent block allocation.
++
++	  If unsure, say N.
++
+ config NUMA_MEMBLKS
+ 	bool
+ 
+diff --git a/mm/Makefile b/mm/Makefile
+index 2a3ec53d62eef..55dff84df1555 100644
+--- a/mm/Makefile
++++ b/mm/Makefile
+@@ -146,6 +146,9 @@ obj-$(CONFIG_PAGE_REPORTING) += page_reporting.o
+ obj-$(CONFIG_GENERIC_IOREMAP) += ioremap.o
+ obj-$(CONFIG_SHRINKER_DEBUG) += shrinker_debug.o
+ obj-$(CONFIG_EXECMEM) += execmem.o
++obj-$(CONFIG_PISA) += pisa.o
++pisa-y := pisa-meta.o
++obj-$(CONFIG_PISA_META_KUNIT_TEST) += pisa-kunit.o
+ obj-$(CONFIG_TMPFS_QUOTA) += shmem_quota.o
+ obj-$(CONFIG_LAZY_MMU_MODE_KUNIT_TEST) += tests/lazy_mmu_mode_kunit.o
+ obj-$(CONFIG_MEM_ALLOC_PROFILING) += alloc_tag.o
+diff --git a/mm/pisa-kunit.c b/mm/pisa-kunit.c
+new file mode 100644
+index 0000000000000..0b0dda51e8e60
+--- /dev/null
++++ b/mm/pisa-kunit.c
+@@ -0,0 +1,112 @@
++// SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
++/*
++ * KUnit tests for the opaque struct pisa_meta table API.
++ */
++#include <kunit/test.h>
++#include <linux/gfp.h>
++#include <linux/pisa.h>
++#include <linux/mm.h>
++
++#include "pisa-priv.h"
++
++static void test_meta_init_and_roundtrip(struct kunit *test)
++{
++	unsigned long pfn, base_pfn;
++	struct pisa_meta *m_pfn;
++	struct page *page;
++
++	KUNIT_ASSERT_EQ(test, pisa_meta_init(), 0);
++	/* Second call must be idempotent. */
++	KUNIT_ASSERT_EQ(test, pisa_meta_init(), 0);
++
++	/* Hold the whole PISA frame so that its slot cannot belong to anyone else. */
++	page = alloc_pages(GFP_KERNEL, PISA_ORDER);
++	KUNIT_ASSERT_NOT_NULL(test, page);
++
++	base_pfn = page_to_pfn(page);
++	pfn = base_pfn + 1;
++
++	if (pisa_meta_ensure_pfn(pfn, true)) {
++		__free_pages(page, PISA_ORDER);
++		KUNIT_FAIL(test, "pisa_meta_ensure_pfn(%lu) failed", pfn);
++		return;
++	}
++	m_pfn = pisa_meta_of_pfn(pfn);
++	KUNIT_EXPECT_EQ(test, pisa_meta_to_pfn(m_pfn), base_pfn);
++	pisa_slot_free(m_pfn);
++	__free_pages(page, PISA_ORDER);
++}
++
++static void test_meta_invalid_phys(struct kunit *test)
++{
++	struct pisa_meta *meta;
++
++	KUNIT_ASSERT_EQ(test, pisa_meta_init(), 0);
++
++	meta = pisa_meta_of_pfn(ULONG_MAX >> PAGE_SHIFT);
++	KUNIT_ASSERT_NOT_NULL(test, meta);
++	KUNIT_EXPECT_EQ(test, pisa_meta_to_pfn(meta), ULONG_MAX);
++	KUNIT_EXPECT_FALSE(test, is_pisa_pfn(ULONG_MAX >> PAGE_SHIFT));
++	KUNIT_EXPECT_NE(test, pisa_meta_ensure_pfn(ULONG_MAX >> PAGE_SHIFT, false), 0);
++}
++
++static void pisa_meta_set_active(struct pisa_meta *meta, bool active)
++{
++	if (active)
++		pisa_meta_set_flags(meta, PISA_ACTIVE);
++	else
++		pisa_meta_clear_flags(meta, PISA_ACTIVE);
++}
++
++static void test_meta_active_toggle(struct kunit *test)
++{
++	unsigned long pfn, base_pfn;
++	struct pisa_meta *meta;
++	struct page *page;
++
++	KUNIT_ASSERT_EQ(test, pisa_meta_init(), 0);
++
++	page = alloc_pages(GFP_KERNEL, PISA_ORDER);
++	KUNIT_ASSERT_NOT_NULL(test, page);
++
++	pfn = page_to_pfn(page);
++	base_pfn = ALIGN_DOWN(pfn, 1UL << PISA_ORDER);
++	/* The buddy allocator returns naturally aligned blocks. */
++	KUNIT_EXPECT_EQ(test, pfn, base_pfn);
++	if (pisa_meta_ensure_pfn(pfn, true)) {
++		__free_pages(page, PISA_ORDER);
++		KUNIT_FAIL(test, "pisa_meta_ensure_pfn(%lu) failed", pfn);
++		return;
++	}
++	KUNIT_EXPECT_EQ(test, pisa_meta_ensure_pfn(pfn, false), 0);
++	meta = pisa_meta_of_pfn(pfn);
++
++	KUNIT_EXPECT_FALSE(test, is_pisa_pfn(pfn));
++
++	pisa_meta_set_active(meta, true);
++	KUNIT_EXPECT_TRUE(test, is_pisa_pfn(base_pfn));
++	KUNIT_EXPECT_TRUE(test, is_pisa_pfn(pfn));
++	KUNIT_EXPECT_TRUE(test, is_pisa_pfn(base_pfn + (1UL << PISA_ORDER) - 1));
++
++	pisa_meta_set_active(meta, false);
++	KUNIT_EXPECT_FALSE(test, is_pisa_pfn(pfn));
++
++	pisa_slot_free(meta);
++	__free_pages(page, PISA_ORDER);
++}
++
++static struct kunit_case pisa_meta_test_cases[] = {
++	KUNIT_CASE(test_meta_init_and_roundtrip),
++	KUNIT_CASE(test_meta_invalid_phys),
++	KUNIT_CASE(test_meta_active_toggle),
++	{}
++};
++
++static struct kunit_suite pisa_meta_test_suite = {
++	.name = "pisa_meta",
++	.test_cases = pisa_meta_test_cases,
++};
++
++kunit_test_suite(pisa_meta_test_suite);
++MODULE_DESCRIPTION("KUnit tests for struct pisa_meta table");
++MODULE_LICENSE("Dual BSD/GPL");
+diff --git a/mm/pisa-meta.c b/mm/pisa-meta.c
+new file mode 100644
+index 0000000000000..734f49320047a
+--- /dev/null
++++ b/mm/pisa-meta.c
+@@ -0,0 +1,603 @@
++// SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
++/*
++ * PISA two-level metadata tables: @pisa_pfn2slot and @pisa_meta_array.
++ * See Documentation/core-api/pisa.rst for the architecture overview.
++ *
++ * Metadata is split into two tables to keep fast-path PFN membership checks
++ * compact and cache-friendly while allocating full 256-byte per-page metadata
++ * only for active and reservoir PISA pages:
++ *
++ * 1. @pisa_pfn2slot[pfn >> PISA_ORDER] (4 bytes per PISA_SIZE physical frame):
++ *    Each u32 entry packs status flags (PISA_ACTIVE, PISA_QUARANTINED,
++ *    PISA_DECRYPTED) in the low _PISA_SLOT_SHIFT (3) bits and a 1-based compact
++ *    slot index (1 .. @pisa_nr_slots) in bits [31:3] (0 = not a PISA frame).
++ *
++ *    One PTE page of @pisa_pfn2slot holds 1,024 entries covering 2GB of
++ *    physical address space:
++ *    - At pisa_meta_init(), leaf PTEs for the entire 256GB KVA range (covering
++ *      57-bit physical space, @_PISA_MAX_FRAMES; 1GB and 49-bit with
++ *      KASAN_VMALLOC) are mapped to the shared
++ *      read-only zero page (PAGE_KERNEL_RO) using a single shared PTE table
++ *      (@pisa_zero_ptes) across PMD holes (1TB physical) and a single
++ *      shared PMD table (@pisa_zero_pmds) across 1GB PUD holes (512TB
++ *      physical). Every 2GB chunk overlapping present system RAM is backed with
++ *      a writable PTE page before @pisa_key is enabled (and on MEM_GOING_ONLINE
++ *      for hotplugged RAM).
++ *    - Any PFN < @_PISA_MAX_FRAMES (including MMIO/sparse holes) can therefore be
++ *      read directly without a chunk bitmap or runtime TLB shootdowns, and
++ *      is_pisa_pfn() reduces to a single bounds-checked u32 load.
++ *
++ * 2. @pisa_meta_array[slot] (256 bytes per slot, 16 slots per PTE page):
++ *    Indexed by the 0-based compact @slot in [0, @pisa_nr_slots), which also
++ *    serves as the page's offset, in PISA_SIZE units, in every domain's PISA IOVA window.
++ *    Its PTE page tables are preallocated at pisa_meta_init(), and backing
++ *    pages are installed lazily on first allocation of a slot in each 16-slot
++ *    chunk.
++ *
++ * Memory footprint for 57-bit physical address space and 128K PISA pages:
++ *   - @pisa_pfn2slot KVA reservation: 256GB (PUD-aligned)
++ *   - @pisa_pfn2slot page tables: 2 PTE pages shared + 1 per 1TB slice with RAM
++ *   - @pisa_pfn2slot RAM backing pages: 2KB per 1GB of present RAM (2MB / 1TB)
++ *   - @pisa_meta_array PTE tables (128K slots = 32MB KVA): 64KB
++ *   - @pisa_meta_array backing pages (on demand): 1 PTE page per 16 slots (32MB at 128K)
++ */
++
++#include <linux/bitmap.h>
++#include <linux/cache.h>
++#include <linux/cacheflush.h>
++#include <linux/pisa.h>
++#include <linux/export.h>
++#include <linux/gfp.h>
++#include <linux/memblock.h>
++#include <linux/memory.h>
++#include <linux/moduleparam.h>
++#include <linux/mm.h>
++#include <linux/mutex.h>
++#include <linux/pgalloc.h>
++#include <linux/pgtable.h>
++#include <linux/slab.h>
++#include <linux/spinlock.h>
++#include <linux/vmalloc.h>
++#include <asm/tlbflush.h>
++
++#include "pisa-priv.h"
++
++static_assert(_PISA_META_SIZE <= PAGE_SIZE);
++static_assert(PISA_SIZE <= SZ_2M);
++static_assert(PISA_BLOCKS(0) <= _PISA_MAX_BLOCKS);
++static_assert(PISA_ORDER <= MAX_PAGE_ORDER);
++static_assert(PISA_SHIFT <= SUBSECTION_SHIFT);
++
++/* log2(sizeof(u32)): 4 bytes per PISA frame in @pisa_pfn2slot. */
++#define PISA_PFN2SLOT_SHIFT		2
++/* Base-page order covered by one PTE page of @pisa_pfn2slot (1024 PISA frames, 2GB). */
++#define PISA_PFN2SLOT_CHUNK_ORDER	(PISA_ORDER + PAGE_SHIFT - PISA_PFN2SLOT_SHIFT)
++/* Total KVA size of @pisa_pfn2slot (2^36 frames * 4B = 256GB). */
++#define PISA_PFN2SLOT_SIZE		(_PISA_MAX_FRAMES << PISA_PFN2SLOT_SHIFT)
++/* Number of 256B struct pisa_meta entries per PTE page (16). */
++#define PISA_META_PER_PAGE	(PAGE_SIZE >> _PISA_META_SHIFT)
++/* Max 1-based slot index representable in the upper (32 - _PISA_SLOT_SHIFT) bits. */
++#define PISA_MAX_SLOTS		((1U << (32 - _PISA_SLOT_SHIFT)) - 1)
++
++/* Enabled by pisa_meta_init() to activate fast-path hooks. */
++DEFINE_STATIC_KEY_FALSE(pisa_key);
++EXPORT_SYMBOL(pisa_key);
++
++/*
++ * Number of compact metadata / PISA-page IOVA slots (half of physical RAM). Each
++ * PISA page holds one slot in [0, pisa_nr_slots), indexing @pisa_meta_array[slot]
++ * and mapping at slot * PISA_SIZE in each domain's PISA window.
++ */
++unsigned int pisa_nr_slots __read_mostly;
++/* One bit per slot, set while a PISA page holds the slot. */
++unsigned long *pisa_slot_bitmap __read_mostly;
++
++/* Indirection table from PISA frame (pfn >> PISA_ORDER) to (slot + 1) | flags. */
++u32 *pisa_pfn2slot __read_mostly;
++EXPORT_SYMBOL(pisa_pfn2slot);
++
++/* Compact metadata table, indexed by @slot in [0, @pisa_nr_slots). */
++struct pisa_meta *pisa_meta_array __read_mostly;
++
++/* Shared sink entry returned for unbacked or out-of-range PFNs. */
++static struct pisa_meta pisa_meta_nil __read_mostly = {
++	.base_pfn = ULONG_MAX,
++};
++
++/* Shared read-only page tables mapping unbacked @pisa_pfn2slot holes to ZERO_PAGE. */
++static pte_t *pisa_zero_ptes __read_mostly;
++static pmd_t *pisa_zero_pmds __read_mostly;
++
++/* Protects init and hotplug page-table population. */
++static DEFINE_MUTEX(pisa_meta_mutex);
++/* Protects slot allocation/release and on-demand @pisa_meta_array PTE install. */
++static DEFINE_SPINLOCK(pisa_slot_lock);
++static unsigned int pisa_slot_hint;	/* no free slot below this */
++
++/*
++ * Size the global PISA page budget (@pisa_max_pages, default 12.5% of RAM) and
++ * the compact slot / per-domain IOVA window (@pisa_nr_slots, half of RAM).
++ */
++void pisa_slots_configure(void)
++{
++	pisa_nr_slots = min_t(unsigned long, totalram_pages() >> (PISA_ORDER + 1),
++			      PISA_MAX_SLOTS);
++}
++
++/* Return metadata for @pfn, or shared sink @pisa_meta_nil (flags == 0) if unbacked. */
++struct pisa_meta *pisa_meta_of_pfn(unsigned long pfn)
++{
++	u32 slot = pisa_pfn_flags(pfn) >> _PISA_SLOT_SHIFT;
++
++	if (unlikely(!slot || slot > pisa_nr_slots))
++		return &pisa_meta_nil;
++
++	return &pisa_meta_array[slot - 1];
++}
++
++/* PTE for @addr in a vmalloc metadata table, or NULL if not allocated. */
++static pte_t *pisa_meta_pte(unsigned long addr)
++{
++	pgd_t *pgd = pgd_offset_k(addr);
++	p4d_t *p4d;
++	pud_t *pud;
++	pmd_t *pmd;
++
++	if (pgd_none(pgdp_get(pgd)))
++		return NULL;
++	p4d = p4d_offset(pgd, addr);
++	if (p4d_none(p4dp_get(p4d)))
++		return NULL;
++	pud = pud_offset(p4d, addr);
++	if (pud_none(pudp_get(pud)))
++		return NULL;
++	pmd = pmd_offset(pud, addr);
++	if (pmd_none(pmdp_get(pmd)))
++		return NULL;
++	return pte_offset_kernel(pmd, addr);
++}
++
++static void pisa_zero_tables_free(void)
++{
++	if (pisa_zero_pmds)
++		pmd_free(&init_mm, pisa_zero_pmds);
++	if (pisa_zero_ptes)
++		pte_free_kernel(&init_mm, pisa_zero_ptes);
++	pisa_zero_pmds = NULL;
++	pisa_zero_ptes = NULL;
++}
++
++/*
++ * Allocate two shared page-table pages for unbacked @pisa_pfn2slot ranges:
++ * - @pisa_zero_ptes (covers one PMD of KVA / 1TB physical): 512 read-only ZERO_PAGE PTEs.
++ * - @pisa_zero_pmds (covers 1GB KVA / 512TB physical): 512 PMDs -> @pisa_zero_ptes.
++ */
++static int pisa_zero_tables_init(void)
++{
++	pisa_zero_ptes = pte_alloc_one_kernel(&init_mm);
++	pisa_zero_pmds = pmd_alloc_one(&init_mm, 0);
++	if (!pisa_zero_ptes || !pisa_zero_pmds) {
++		pisa_zero_tables_free();
++		return -ENOMEM;
++	}
++
++	for (unsigned int i = 0; i < PTRS_PER_PTE; i++)
++		set_pte(&pisa_zero_ptes[i], mk_pte(ZERO_PAGE(0), PAGE_KERNEL_RO));
++
++	for (unsigned int i = 0; i < PTRS_PER_PMD; i++)
++		pmd_populate_kernel(&init_mm, &pisa_zero_pmds[i], pisa_zero_ptes);
++	return 0;
++}
++
++/*
++ * Map the PUD-aligned 256GB KVA range of @pisa_pfn2slot to ZERO_PAGE
++ * by pointing every 1GB PUD entry at @pisa_zero_pmds.
++ */
++static int pisa_pfn2slot_init_zero(unsigned long start)
++{
++	unsigned long end = start + PISA_PFN2SLOT_SIZE, addr;
++	int ret = -ENOMEM;
++
++	for (addr = start; addr < end; addr += PUD_SIZE) {
++		pgd_t *pgd = pgd_offset_k(addr);
++		p4d_t *p4d = p4d_alloc(&init_mm, pgd, addr);
++		pud_t *pud = p4d ? pud_alloc(&init_mm, p4d, addr) : NULL;
++
++		if (!pud)
++			goto undo;
++		/* An earlier user of this vmalloc range may have left page tables. */
++		if (!pud_none(pudp_get(pud)) && !pud_free_pmd_page(pud, addr)) {
++			ret = -EBUSY;
++			goto undo;
++		}
++		pud_populate(&init_mm, pud, pisa_zero_pmds);
++	}
++	return 0;
++
++undo:
++	/* Only the shared zero tables are mapped so far: unhook them. */
++	while (addr > start) {
++		addr -= PUD_SIZE;
++		pud_clear(pud_offset(p4d_offset(pgd_offset_k(addr), addr), addr));
++	}
++	return ret;
++}
++
++/*
++ * Lookups run only with @pisa_key on. Test the key itself, not the patched
++ * branch, and only after clearing an entry: a lookup that could have cached
++ * the old entry started with the key already on.
++ */
++static bool pisa_pfn2slot_has_readers(void)
++{
++	return static_key_enabled(&pisa_key);
++}
++
++/*
++ * Unshare @pisa_zero_pmds and @pisa_zero_ptes along the page-table path to
++ * @addr so the caller can install a writable PTE page at the leaf PTE while
++ * sibling entries remain mapped to ZERO_PAGE.
++ *
++ * A valid entry is cleared before it is replaced (break-before-make, which
++ * arm64 requires) and flushed if lookups may be running. A lookup that runs
++ * in between faults, and pisa_pfn_flags() reads 0. That is right: an entry
++ * that still points to a shared zero table covers no RAM, so only lookups of
++ * addresses without RAM can hit the window. The table-level flushes are
++ * flush_tlb_all(): a range flush may leave intermediate entries cached.
++ */
++static pte_t *pisa_pfn2slot_unshare_pte(unsigned long addr)
++{
++	pgd_t *pgd = pgd_offset_k(addr);
++	p4d_t *p4d = p4d_offset(pgd, addr);
++	pud_t *pud = pud_offset(p4d, addr);
++	pmd_t *pmd;
++
++	/* Replace shared 1GB @pisa_zero_pmds with a private PMD table. */
++	if (pud_pgtable(pudp_get(pud)) == pisa_zero_pmds) {
++		pmd = pmd_alloc_one(&init_mm, addr);
++		if (!pmd)
++			return NULL;
++		for (unsigned int i = 0; i < PTRS_PER_PMD; i++)
++			pmd_populate_kernel(&init_mm, &pmd[i], pisa_zero_ptes);
++		pud_clear(pud);
++		if (pisa_pfn2slot_has_readers())
++			flush_tlb_all();
++		pud_populate(&init_mm, pud, pmd);
++	}
++
++	/* Replace the shared @pisa_zero_ptes with a private PTE table. */
++	pmd = pmd_offset(pud, addr);
++	if ((pte_t *)pmd_page_vaddr(pmdp_get(pmd)) == pisa_zero_ptes) {
++		pte_t *new_ptes = pte_alloc_one_kernel(&init_mm);
++
++		if (!new_ptes)
++			return NULL;
++		for (unsigned int i = 0; i < PTRS_PER_PTE; i++)
++			set_pte(&new_ptes[i], mk_pte(ZERO_PAGE(0), PAGE_KERNEL_RO));
++		pmd_clear(pmd);
++		if (pisa_pfn2slot_has_readers())
++			flush_tlb_all();
++		pmd_populate_kernel(&init_mm, pmd, new_ptes);
++	}
++
++	return pte_offset_kernel(pmd, addr);
++}
++
++/*
++ * Back each PTE page of @pfn2slot (covering 2GB of physical space, or
++ * 1 << PISA_PFN2SLOT_CHUNK_ORDER base pages) that overlaps [@start_pfn, @end_pfn)
++ * with a writable zeroed page on the corresponding NUMA node.
++ */
++static int pisa_pfn2slot_populate(u32 *pfn2slot, unsigned long start_pfn,
++				  unsigned long end_pfn)
++{
++	unsigned long idx, end_idx;
++
++	end_pfn = min(end_pfn, _PISA_MAX_FRAMES << PISA_ORDER);
++	if (start_pfn >= end_pfn)
++		return 0;
++
++	idx = start_pfn >> PISA_PFN2SLOT_CHUNK_ORDER;
++	end_idx = ((end_pfn - 1) >> PISA_PFN2SLOT_CHUNK_ORDER) + 1;
++	for (; idx < end_idx; idx++) {
++		unsigned long addr = (unsigned long)pfn2slot + (idx << PAGE_SHIFT);
++		unsigned long pfn = max(start_pfn, idx << PISA_PFN2SLOT_CHUNK_ORDER);
++		/* Not pfn_to_online_page(): a range that is going online is not online yet. */
++		int nid = pfn_valid(pfn) ? pfn_to_nid(pfn) : NUMA_NO_NODE;
++		pte_t *ptep = pisa_meta_pte(addr);
++		struct page *page;
++
++		if (WARN_ON_ONCE(!ptep))
++			return -EINVAL;
++		/* Already backed by a writable page from an earlier RAM range. */
++		if (pte_write(ptep_get(ptep)))
++			continue;
++
++		ptep = pisa_pfn2slot_unshare_pte(addr);
++		if (!ptep)
++			return -ENOMEM;
++
++		page = alloc_pages_node(nid, GFP_KERNEL | __GFP_ZERO, 0);
++		if (!page)
++			return -ENOMEM;
++
++		/* Break the zero-page PTE before making the new one, as above. */
++		pte_clear(&init_mm, addr, ptep);
++		if (pisa_pfn2slot_has_readers())
++			flush_tlb_kernel_range(addr, addr + PAGE_SIZE);
++		set_pte_at(&init_mm, addr, ptep, pfn_pte(page_to_pfn(page), PAGE_KERNEL));
++		flush_cache_vmap(addr, addr + PAGE_SIZE);
++	}
++	return 0;
++}
++
++static int pisa_pfn2slot_populate_ram(unsigned long start_pfn, unsigned long nr_pages, void *arg)
++{
++	return pisa_pfn2slot_populate(arg, start_pfn, start_pfn + nr_pages);
++}
++
++/*
++ * Tear down a partially populated @pisa_pfn2slot VM area on pisa_meta_init()
++ * failure. All PUD entries are cleared before free_vm_area() so
++ * vunmap_range_noflush() does not clear PTEs inside the shared zero tables;
++ * private page tables and their writable pages are freed. The range was never
++ * accessed, so no TLB entry refers to the freed tables.
++ */
++static void pisa_pfn2slot_free(struct vm_struct *vm)
++{
++	unsigned long start = ALIGN((unsigned long)vm->addr, PUD_SIZE);
++	unsigned long end = start + PISA_PFN2SLOT_SIZE;
++
++	for (unsigned long addr = start; addr < end; addr += PUD_SIZE) {
++		pgd_t *pgd = pgd_offset_k(addr);
++		p4d_t *p4d = pgd_none(pgdp_get(pgd)) ? NULL : p4d_offset(pgd, addr);
++		pud_t *pud = (!p4d || p4d_none(p4dp_get(p4d))) ? NULL : pud_offset(p4d, addr);
++		pmd_t *pmds;
++
++		if (!pud || pud_none(pudp_get(pud)))
++			continue;
++		pmds = pud_pgtable(pudp_get(pud));
++		pud_clear(pud);
++		if (pmds == pisa_zero_pmds)
++			continue;
++
++		for (unsigned int i = 0; i < PTRS_PER_PMD; i++) {
++			pte_t *ptes = (pte_t *)pmd_page_vaddr(pmdp_get(&pmds[i]));
++
++			if (ptes == pisa_zero_ptes)
++				continue;
++			for (unsigned int j = 0; j < PTRS_PER_PTE; j++) {
++				pte_t pte = ptep_get(&ptes[j]);
++
++				if (pte_write(pte))
++					__free_page(pte_page(pte));
++			}
++			pte_free_kernel(&init_mm, ptes);
++		}
++		pmd_free(&init_mm, pmds);
++	}
++	free_vm_area(vm);
++}
++
++/* Populate @pisa_pfn2slot chunks for memory about to go online. */
++static int pisa_meta_memory_cb(struct notifier_block *nb, unsigned long action, void *arg)
++{
++	struct memory_notify *mn = arg;
++	int ret = 0;
++
++	if (action != MEM_GOING_ONLINE)
++		return NOTIFY_OK;
++
++	guard(mutex)(&pisa_meta_mutex);
++	if (pisa_pfn2slot)
++		ret = pisa_pfn2slot_populate(pisa_pfn2slot, mn->start_pfn,
++					     mn->start_pfn + mn->nr_pages);
++	return notifier_from_errno(ret);
++}
++
++static struct notifier_block pisa_meta_memory_nb = {
++	.notifier_call = pisa_meta_memory_cb,
++};
++
++/*
++ * Registered at boot so that no MEM_GOING_ONLINE event is missed around
++ * pisa_meta_init(): the callback does nothing until @pisa_pfn2slot is set, and
++ * RAM added before that is in the resource tree that pisa_meta_init() walks.
++ */
++static int __init pisa_meta_notifier_init(void)
++{
++	return register_memory_notifier(&pisa_meta_memory_nb);
++}
++core_initcall(pisa_meta_notifier_init);
++
++/*
++ * Bind @pfn's PISA frame to a compact slot in @pisa_meta_array and record
++ * (slot + 1) << _PISA_SLOT_SHIFT in @pisa_pfn2slot[pfn >> PISA_ORDER]. Backing
++ * PTE pages for @pisa_meta_array (16 slots per page) are allocated lazily on
++ * first use of a slot within each PTE page.
++ */
++int pisa_meta_ensure_pfn(unsigned long pfn, bool can_block)
++{
++	gfp_t gfp = (can_block ? GFP_KERNEL : GFP_ATOMIC) | __GFP_ZERO | __GFP_NOWARN;
++	unsigned long frame = pfn >> PISA_ORDER, flags;
++	struct page *new_page = NULL;
++	struct pisa_meta *meta;
++	unsigned int slot;
++	pte_t *ptep;
++	int ret = 0;
++
++	if (!pisa_enabled() || frame >= _PISA_MAX_FRAMES)
++		return -ERANGE;
++	if (READ_ONCE(pisa_pfn2slot[frame]) >> _PISA_SLOT_SHIFT)
++		return 0;
++	/* Reject PFNs outside present RAM (chunk still mapped to ZERO_PAGE) or offline. */
++	ptep = pisa_meta_pte((unsigned long)&pisa_pfn2slot[frame]);
++	if (unlikely(!ptep || !pte_write(ptep_get(ptep)) || !pfn_to_online_page(pfn)))
++		return -ERANGE;
++
++retry:
++	spin_lock_irqsave(&pisa_slot_lock, flags);
++	if (unlikely(READ_ONCE(pisa_pfn2slot[frame]) >> _PISA_SLOT_SHIFT))
++		goto out_unlock;
++
++	slot = find_next_zero_bit(pisa_slot_bitmap, pisa_nr_slots, pisa_slot_hint);
++	if (unlikely(slot >= pisa_nr_slots)) {
++		ret = -ENOSPC;
++		goto out_unlock;
++	}
++
++	/* Lazily back the PTE page covering this 16-slot chunk of @pisa_meta_array. */
++	meta = &pisa_meta_array[slot];
++	ptep = pisa_meta_pte((unsigned long)meta);
++	if (pte_none(ptep_get(ptep))) {
++		unsigned long addr = (unsigned long)meta & PAGE_MASK;
++
++		if (!new_page) {
++			/* Allocate outside the lock, this opens a race so retry. */
++			spin_unlock_irqrestore(&pisa_slot_lock, flags);
++			new_page = alloc_pages_node(pfn_to_nid(pfn), gfp, 0);
++			if (new_page)
++				goto retry;
++			return -ENOMEM;
++		}
++		set_pte_at(&init_mm, addr, ptep, pfn_pte(page_to_pfn(new_page), PAGE_KERNEL));
++		flush_cache_vmap(addr, addr + PAGE_SIZE);
++		new_page = NULL;
++	}
++
++	memset(meta, 0, sizeof(*meta));
++	meta->base_pfn = frame << PISA_ORDER;
++	meta->slot = slot;
++	INIT_LIST_HEAD(&meta->list);
++	/* Ensure @meta is initialized before @slot is visible in @pisa_slot_bitmap. */
++	smp_wmb();
++	__set_bit(slot, pisa_slot_bitmap);
++	pisa_slot_hint = slot + 1;
++	pisa_pfn2slot_update(meta);
++out_unlock:
++	spin_unlock_irqrestore(&pisa_slot_lock, flags);
++	if (new_page)
++		__free_page(new_page);
++	return ret;
++}
++
++/* Return @meta's slot once no domain or RCU reader can reference it. */
++void pisa_slot_free(struct pisa_meta *meta)
++{
++	unsigned long frame = meta->base_pfn >> PISA_ORDER;
++	unsigned int slot = meta->slot;
++
++	if (unlikely(meta == &pisa_meta_nil || frame >= _PISA_MAX_FRAMES ||
++		     (meta->flags & PISA_QUARANTINED)))
++		return;
++
++	guard(spinlock_irqsave)(&pisa_slot_lock);
++	WRITE_ONCE(pisa_pfn2slot[frame], 0);
++	WRITE_ONCE(meta->base_pfn, ULONG_MAX);
++	__clear_bit(slot, pisa_slot_bitmap);
++	if (slot < pisa_slot_hint)
++		pisa_slot_hint = slot;
++}
++
++/* Reserve @pisa_pfn2slot and @pisa_meta_array and populate page tables. */
++int pisa_meta_init(void)
++{
++	struct vm_struct *pfn2slot_vm, *meta_vm;
++	unsigned long meta_size;
++	unsigned long *bitmap;
++	struct pisa_meta *meta;
++	u32 *pfn2slot;
++	static int pisa_init_err;
++	int ret = 0;
++
++	if (pisa_enabled())
++		return 0;
++
++	mutex_lock(&pisa_meta_mutex);
++	if (pisa_init_err) {
++		/* A previous init attempt failed. */
++		mutex_unlock(&pisa_meta_mutex);
++		return pisa_init_err;
++	}
++	if (pisa_pfn2slot) {
++		/* The previous caller completed init while we waited on the mutex. */
++		mutex_unlock(&pisa_meta_mutex);
++		goto out_enable;
++	}
++
++	pisa_slots_configure();
++	meta_size = ALIGN((unsigned long)pisa_nr_slots << _PISA_META_SHIFT, PMD_SIZE);
++
++	ret = pisa_zero_tables_init();
++	if (ret)
++		goto out_unlock;
++
++	bitmap = kvcalloc(BITS_TO_LONGS(pisa_nr_slots), sizeof(unsigned long), GFP_KERNEL);
++	if (!bitmap) {
++		ret = -ENOMEM;
++		goto out_free_bitmap;
++	}
++
++	/*
++	 * Over-allocate by PUD_SIZE / PMD_SIZE so the aligned base pointers
++	 * span an exact number of PUDs / PMDs with no unaligned fringes.
++	 */
++	pfn2slot_vm = get_vm_area(PISA_PFN2SLOT_SIZE + PUD_SIZE, VM_MAP);
++	if (!pfn2slot_vm) {
++		ret = -ENOMEM;
++		goto out_free_bitmap;
++	}
++
++	meta_vm = get_vm_area(meta_size + PMD_SIZE, VM_MAP);
++	if (!meta_vm) {
++		free_vm_area(pfn2slot_vm);
++		ret = -ENOMEM;
++		goto out_free_bitmap;
++	}
++
++	/* Map all 256GB of @pfn2slot to ZERO_PAGE, then back present RAM chunks. */
++	pfn2slot = PTR_ALIGN(pfn2slot_vm->addr, PUD_SIZE);
++	ret = pisa_pfn2slot_init_zero((unsigned long)pfn2slot);
++	if (ret) {
++		/* Nothing is mapped in either area. */
++		free_vm_area(meta_vm);
++		free_vm_area(pfn2slot_vm);
++		goto out_free_bitmap;
++	}
++
++	ret = walk_system_ram_range(0, _PISA_MAX_FRAMES << PISA_ORDER, pfn2slot,
++				    pisa_pfn2slot_populate_ram);
++	if (ret)
++		goto out_free_vms;
++
++	/* Pre-allocate PTE page tables for @pisa_meta_array (leaf PTEs stay pte_none). */
++	meta = PTR_ALIGN(meta_vm->addr, PMD_SIZE);
++	ret = apply_to_page_range(&init_mm, (unsigned long)meta, meta_size,
++				  NULL, NULL);
++	if (ret)
++		goto out_free_vms;
++
++	pisa_slot_bitmap = bitmap;
++	pisa_meta_array = meta;
++	pisa_pfn2slot = pfn2slot;
++
++	pr_info("pisa: %lu GB pfn2slot KVA, %u slots (%lu KB meta KVA)\n",
++		PISA_PFN2SLOT_SIZE >> 30, pisa_nr_slots, meta_size >> 10);
++	mutex_unlock(&pisa_meta_mutex);
++out_enable:
++	static_branch_enable(&pisa_key);
++	return 0;
++
++out_free_vms:
++	free_vm_area(meta_vm);
++	pisa_pfn2slot_free(pfn2slot_vm);
++out_free_bitmap:
++	kvfree(bitmap);
++	pisa_zero_tables_free();
++out_unlock:
++	pr_err("pisa: metadata init failed (%d)\n", ret);
++	pisa_init_err = ret;
++	mutex_unlock(&pisa_meta_mutex);
++	return ret;
++}
++EXPORT_SYMBOL(pisa_meta_init);
+diff --git a/mm/pisa-priv.h b/mm/pisa-priv.h
+new file mode 100644
+index 0000000000000..b52522cb28fcc
+--- /dev/null
++++ b/mm/pisa-priv.h
+@@ -0,0 +1,61 @@
++/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
++/* PISA internals shared by mm/pisa-*.c. */
++#ifndef _MM_PISA_PRIV_H
++#define _MM_PISA_PRIV_H
++
++#include <linux/moduleparam.h>
++#include <linux/pisa-iommu.h>
++
++#undef MODULE_PARAM_PREFIX
++#define MODULE_PARAM_PREFIX "pisa."
++#include <linux/spinlock.h>
++
++#ifdef CONFIG_PISA
++
++/* Number of order-@order blocks in one PISA page. */
++#define PISA_BLOCKS(order)	(1U << (PISA_ORDER - (order)))
++
++/* Publish meta->flags into the pfn2slot array. */
++static inline void pisa_pfn2slot_update(const struct pisa_meta *meta)
++{
++	u32 entry = ((meta->slot + 1) << _PISA_SLOT_SHIFT) |
++		    (READ_ONCE(meta->flags) & _PISA_FLAGS_MASK);
++
++	/* Pairs with smp_load_acquire() in pisa_pfn_flags(). */
++	smp_store_release(&pisa_pfn2slot[meta->base_pfn >> PISA_ORDER], entry);
++}
++
++/*
++ * Atomic, because pisa_quarantine_page() sets PISA_QUARANTINED concurrently.
++ * PISA_ACTIVE and PISA_DECRYPTED, the only flags read from @pisa_pfn2slot,
++ * have one writer at a time, so the copy published below cannot go backwards.
++ */
++static inline void pisa_meta_set_flags(struct pisa_meta *meta, unsigned long mask)
++{
++	set_mask_bits(&meta->flags, 0, mask);
++	pisa_pfn2slot_update(meta);
++}
++
++static inline void pisa_meta_clear_flags(struct pisa_meta *meta, unsigned long mask)
++{
++	set_mask_bits(&meta->flags, mask, 0);
++	pisa_pfn2slot_update(meta);
++}
++
++int pisa_meta_ensure_pfn(unsigned long pfn, bool can_block);
++void pisa_slots_configure(void);
++
++static inline unsigned long pisa_meta_to_pfn(const struct pisa_meta *meta)
++{
++	return meta->base_pfn;
++}
++
++static inline struct page *pisa_meta_to_page(const struct pisa_meta *meta)
++{
++	return pfn_to_page(pisa_meta_to_pfn(meta));
++}
++
++void pisa_slot_free(struct pisa_meta *meta);
++
++#endif /* CONFIG_PISA */
++#endif /* _MM_PISA_PRIV_H */
 -- 
-John Hubbard
+2.56.1.809.ga0b61035b5-goog
 
