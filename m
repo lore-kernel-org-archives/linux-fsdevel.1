@@ -1,130 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795188276;
-	b=RfAFeDH1PfbhtfH2Bh/YaxGqKegF7yDFH95Z1b8df+ItcZWkUvuylINwZgBRkv6qm5on
-	 D3h1ikB5f5QwQBNVknf16//xcRnXCGn5EJpq4lm0DCk8garWyV71H6D75D6AdsnLLR6AU
-	 3QtN0Tzq90qerFr6Ng1JjfTuZYvjaCeb8OSdIH9KwdSfHtKH5YBwVmQdbZqXaq0je7muM
-	 kV/WfR/omefUc6cXvBrK9bM77zdpCFoAmtgZ+Fpkwe0d4CVScJrZz0XUj8Qu5z5qte6UB
-	 0w8sDsO8XID522AXeq+wkvOgF2KJ6EiyxDgBzk0A4U41EyhpvzFDSeDnY5tFcpX0Cfg==
+	t=1795189319;
+	b=hVd747JXps3w1+LsaQ4zxP5dtKQsfLdgDQPT5ew8To/oIE6XGlJCp+YqG7jEn2cPbm43
+	 ItABYlT3ErRQ1FDHr+UgWUct+RjR4JFdljWZv4w+pHnKBOibXy7BE20N3FP2AlCT+5J9S
+	 ihGWP5TIQdAkqLK6FkxxEmP8a9FOFdpuTO1HlUSnvBgF0tacvdGoOvRwX6074Zkbjglxq
+	 Zvwpt7hIfLKHkv7Er8ON5JqaQl2SYaOSyHXinYbxk8e+BiYnHWoT23DEmSRF3cn4HzxVk
+	 iLIHI+1zpVBPbJoHOhK7dB/fMut9cayxApnjP7oI56ryUZ8OUQCpqfC6H7JtRf51iCA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795188276;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=zOo2EfGngcl3fu/kIhqZadaO75pP0lk1DR/lRHlyrtU=;
-	b=3Bf/JDupGMB0NF5YT0guaBMQxASzyBt8w/bQYuZjpy4pLXvc+1ZMyFO9n8Eev5Ed6Alx
-	 4Y7MlAXroEFDChrhA0V7TYlbTNnQKvpgcH3nTww9GJ+kb1Tfjbiohr3ZglABng4Kdh5l2
-	 9iwPgdwu2OaDjYcbe9Zszk4crOqJ4hHKxZe+bcxYqgvAa5efSUBO+33YuHvzuCgBjiaBz
-	 ETVN/fdmBwFGMjRFpx/o1Vl9SwdSSq2kSbCnJxpM3nU067pguiwACOZxEYHmK3ZLW4kg8
-	 5Pyljq0m9B4+A3HhzhGgRqznESzl+j6HVugTTO0IJiWzmdRO+Xz99CjZcXXH5PLORHA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795189319;
+	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
+	bh=PJvrCL4sp5MCpICPfOZGrfI2absbUrXURUFg0F6qHVg=;
+	b=pwK80v1cYb3jD6SG2f3psolJqrWgyzNkyYHFEwRB7eyCDJo4pjVrw682mDzg4JM1MOKN
+	 vcvJU/L3crvZl/9p7p1gnSGgaP31WxcQnWR8VfNG2QIxIFwy2UxURMT9eTVDip49p+S3M
+	 zmr9d5pnSdQe142Jou5QV3lX7UVkXf0nfL5GJd8GcalGCdPK+ve7AJl4nG40T88KfWcK8
+	 b6dBHR8wqTpl5drjI1DJszGcuhtyQUTpau2ODp/Hzq0gf62XXZ/EBfDKTn0ooonPpfn+V
+	 vrj38H061cZIffpSXSize9VGP/Ivy1LCSwd/0B3CvRqHKR2wRdFYm+VAqPnMgVJJ06A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XCQUtSSf;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=lst.de;
+	spf=pass smtp.mailfrom=lst.de;
+	arc=none smtp.remote-ip=213.95.11.211
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 1ADE6606A320;
-	Fri, 20 Nov 2026 15:24:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XCQUtSSf
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 9CC851F000CA;
-	Fri, 20 Nov 2026 15:24:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795188275;
-	bh=zOo2EfGngcl3fu/kIhqZadaO75pP0lk1DR/lRHlyrtU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XCQUtSSf00g2G/Jpzjl9LRNQEFXNNRnYGZWzdtuiZBHk7dosmqWBMrC+L7eGsuwT3
-	 6Y8qXJypfh+8W03R5Msm4iQvi0clPna6Y5oqS1fK2fMBPqPJtncagCqPrZrgwYA61c
-	 Ir7DESMb/dns84I6WWtY5IQnf73sTx8SIKL9bvZjYjcc9pfyT2D4A8Rsc/CYWyagj2
-	 DltATLAp/YBb7+MwnvRYS7P7+HT3f1+jlJHOL7W4kb+l4QjcUeVm9fOWhMSveLYD4Q
-	 IO8nsOvMP1W4FNm+RhhQIMrsrDM1nc6imjdTxfwsnAexYb35pl8AoQ1Ir88SqmYiNe
-	 v0OZ/2yfr0Tjg==
-Date: Fri, 20 Nov 2026 17:24:31 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Alexander Mikhalitsyn <alex@amutable.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABCC606A320;
+	Fri, 20 Nov 2026 15:41:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BABCC606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 6114D6732A; Fri, 20 Nov 2026 16:41:53 +0100 (CET)
+Date: Fri, 20 Nov 2026 16:41:53 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Mengmeng Zhao <mengmeng.zhao@linux.dev>
+Cc: Christoph Hellwig <hch@lst.de>, Anuj Gupta <anuj1072538@gmail.com>,
+	Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+	Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com,
+	Philipp Stanner <phasta@kernel.org>, Dan Williams <djbw@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
 	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Andy Lutomirski <luto@kernel.org>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Arnd Bergmann <arnd@arndb.de>, Ben Segall <bsegall@google.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Christian Brauner <brauner@kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Chris Zankel <chris@zankel.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	"Hallgrimur H. Gunnarsson" <halg@google.com>,
-	Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
-	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Jan Kara <jack@suse.cz>,
-	John Johansen <john.johansen@canonical.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Juri Lelli <juri.lelli@redhat.com>, Kees Cook <kees@kernel.org>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Magnus Lindholm <linmag7@gmail.com>,
-	Manfred Spraul <manfred@colorfullife.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
-	Mel Gorman <mgorman@suse.de>, Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
-	Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Moore <paul@paul-moore.com>, Paul Walmsley <pjw@kernel.org>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Rich Felker <dalias@libc.org>,
+	Christian Brauner <brauner@kernel.org>, tytso@mit.edu,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Baokun Li <libaokun@linux.alibaba.com>,
+	Ojaswin Mujoo <ojaswin@linux.ibm.com>,
 	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
+	Zhang Yi <yi.zhang@huawei.com>, asml.silence@gmail.com,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Vlastimil Babka <vbabka@kernel.org>, Will Deacon <will@kernel.org>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v4 03/14] rootns: Track init lifecycle via
- copy_process() and pid_namespace
-Message-ID: <awBmL_4VqwinHuVN@kernel.org>
-References: <20261119224312.1037966-1-jarkko@kernel.org>
- <20261119224312.1037966-4-jarkko@kernel.org>
- <e376c8f0ec5c50b417375197a5589a210f151d9b.camel@amutable.com>
- <awBLafK4jqB8fTF2@kernel.org>
+	Randy Dunlap <rdunlap@infradead.org>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-ext4@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, Li Wang <liwang@kylinos.cn>,
+	Mengmeng Zhao <zhaomengmeng@kylinos.cn>
+Subject: Re: [RFC PATCH v2 0/8] ext4: Add dma-buf read/write support
+Message-ID: <20261120154153.GC28611@lst.de>
+References: <20261113070621.273953-1-mengmeng.zhao@linux.dev>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -134,30 +66,21 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <awBLafK4jqB8fTF2@kernel.org>
+In-Reply-To: <20261113070621.273953-1-mengmeng.zhao@linux.dev>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Fri, Nov 20, 2026 at 03:30:21PM +0200, Jarkko Sakkinen wrote:
-> On Fri, Nov 20, 2026 at 02:18:43PM +0100, Alexander Mikhalitsyn wrote:
-> > Dear Jarkko,
-> > 
-> > >  	acct_exit_ns(pid_ns);
-> > > +	exit_rootns(pid_ns, me);
-> > 
-> > We have a very similar mechanism around pidfd's to track exit
-> > information for a task. As far as I can see we already have (struct
-> > rootns *)->init_pid reference, so we can get exit information for free
-> > (look for PIDFD_INFO_EXIT).
+On Fri, Nov 13, 2026 at 03:06:13PM +0800, Mengmeng Zhao wrote:
+> From: Mengmeng Zhao <zhaomengmeng@kylinos.cn>
 > 
-> Thanks for mentioning. I'll see if I can leverage it.
-> 
-> If something like this is found, it is partly due long history of this
-> code i.e., not planned/opionated choice :-) 
+> This series adds dma-buf read/write support for ext4. The dma-buf direct
+> I/O infrastructure allows dma-buf to be handed to file I/O as an iov_iter,
+> but currently it only supports raw block devices. To better serve the
+> GPU-NVMe direct access through normal filesystems, prior work for XFS has
+> been discussed at [1]. We are also interested in this field and working on
+> it [2].
 
-This non-doable or incompatible at least. I'm not sure if that would
-have gain. I think this goes to acceptable redundancy. Or at least,
-currently think this way.
+Can you an Anuj please work together and merge this into a single
+series covering both XFS and ext4?
 
-Br, Jarkko
