@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795180318;
-	b=lgvSDki1dsCMEb3oMh3b/epLOHAJ8PgINZh2clcQsKk+2vl4xAcRdtsWoTQ5b5BGFa1R
-	 U+eh4mNX9rQP/17T2jNhwvU+OR7DZftLRGcXvC7hF2JmnWxpVkTVFC8PO9MPc1l0gI0ug
-	 Pmm926hW1N8uxvqP0VjJWnoRIlvv28k39wGLZB9yZms45WDOcuNBDzl1CeYNH6uKgEcMU
-	 v/Zk4987dwHP86tvs4L3elrShqJ6R7sGLxqILyuWKAoAgnO5xq6q7u+EIfFiixu46qvVK
-	 D9koPbdfgQzACgQIod8jUxtYre3J4/NSn59Z+39J8aWkYncDG9mXUBfvk3NcVDQEmkA==
+	t=1795180325;
+	b=oAJKndlJXDGoiQInc99iImSU29lA3j4VmpePKJuF5lIAmDZxkyLI1/spenXqvU0w1H5Q
+	 a9+VGrqJggZJHd5VfTNX/0SQjDedWQ3xEONBMZBAr1lYWI/2UrWmFoEZsaPm6x7elOl4n
+	 IeGZPnTwEvlBUNrz5echitMsnJ39M3EkngniNndeKdHqkEejz405D9ZmYqBsJEmDj0n83
+	 HzQ2Kz8e+wqiolAngo4Bxjs8X0rHcIPw/4ud/7q7KEH3WreBumvys6W2/dprP6TyRrmUK
+	 x8vJ5C+jL9zQZt6L30lEGeyODOf68RgmsT3uVW1QMs2QLnB5k1JpDna3WnmfwUPD82g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795180318;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795180325;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=XlmLL61qNv0OJxe6/2KedGlG+39G1uTBbnNGEpqe9oE=;
-	b=vyh8kp8lfM34rg4v8sY9ARhWnt5YJaBKb5E+Mrczcs/nIxNIEl+MGPoDj5NECoeqy1++
-	 gXBuSKj9L4twDeV20UpauMaCCE4GHJV5iP8zav1NIC4JDoFCpZr/gyNdq0vjs9JH48SwO
-	 gwJd/ShiAjqH/NbCXSulxQCaOLNbTcIaT3BZeB5JUl9lljaGs2ZioMyDM3OeHPlgGuBJd
-	 VTL/AINR9FteXJw2L84QQIWDvXQ8kLH6h5h4oJ0JsU8Sdo5o6FbI9sHRRY4e8ubkbZwvM
-	 z/Uqf+20cT9vADD/YbYK858cHy/qRJGRW1LYzT8bkCCwPmoGrDfc/j4ilKHXS9EoUzQ==
+	bh=+hP09lZtE6eQ8TbOuLXpxKM/7C1qHWXDDDUTO6VJ3ZM=;
+	b=0fOzDssSs5sYq5uQvcCK2dF1LQ1DZPwhZUfKK+l9E4pCTHEQBpENgbb2/wdZJAiF+nfW
+	 cDuLOjBOs14f4OOxUk9WS7JOE/o8N2Wp9CytBHnVxZWHyqUL9bx2chxO53+fteTvhDNpR
+	 UAyc1pSeq+3oRBpLPOmqfo0gsiDBg3nMJS2pd4RJBHiZcQBeyPOp25BLst6WeCHtKWZd9
+	 Z95Mj7BdvYW88cbuIaNIJ8bUyHtntFJOy9tQJdvWwVa8Hsg33ey5UOY58O93m9ctyLMgE
+	 4cDgpYnQ0HXPv0Jg4OYLoyTSs35M2tQe2MFQy9pwRrksFgoLZ8qFSNwoeoUTE3fru3Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DT1RSs4I;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FYU7uep7;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DBB9606ABA1;
-	Fri, 20 Nov 2026 13:11:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2DF606A334;
+	Fri, 20 Nov 2026 13:12:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DT1RSs4I
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3A591F000D2;
-	Fri, 20 Nov 2026 13:11:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FYU7uep7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15AA91F00A3E;
+	Fri, 20 Nov 2026 13:11:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795180318;
-	bh=XlmLL61qNv0OJxe6/2KedGlG+39G1uTBbnNGEpqe9oE=;
+	s=k20260515; t=1795180325;
+	bh=+hP09lZtE6eQ8TbOuLXpxKM/7C1qHWXDDDUTO6VJ3ZM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=DT1RSs4IIaivB2KicItxBnhRebQ3ZiWJgyvghHNy20HUDHVVZpBuhqiiL0oCocS/c
-	 NILNDPi3NbQi7fb8XFz3G1/0HVnQRVSs7AeuYQpxWMxz28lHFkeiSrZ3CJbpplzxjS
-	 Wf11Z4r0o7s03SS0gGHtbiZAlb8BMetWSdbSZmKMZl0aZvmCzLRJiOCGUb8OYMlUOe
-	 3gYRPFb25irwhQP79fYtw0XgYnUwg1N7dWlFSqTZH5WX3rZRaLPMR/vMrwNnxHNF6+
-	 gihvG03mX+X2/JdXkS9UO6iT4VeXjA/OQ2N1S1J+cgBbNu2O0zMD+yQ3RZLorHyFZ0
-	 lzglXsBSis/PA==
+	b=FYU7uep7KTrRdPpP4dAAYQbhPmxrxVcP63ZFjmE7U5GmbWKSjDhQhbPYuaoqGsro7
+	 yBEbbhT2ZDFJh7aX1CTohFdxhVbi86QU330Ej7w2l3DMz9Ywl9viuehGnGshAkjod3
+	 WQOiUTIILk7KNCrT56pF5jkXWd0Fog40XVf8HbDwwzZjQB/yrLNBNLo6zrf707E+AF
+	 9OqgF7t3JCOwPlKlKs5tguq8ckY8Tws0L9Zvuh/8t0J5jsvRLANbRCOXm8WC6hhJ04
+	 F30izqoSX0bbp3g0dIgfoUFMKqZrbGSjBP3pAWK5BEQ149Xp/6RrxEfmXLuLC/5wIr
+	 HYTwsImapaCBQ==
 From: Andreas Hindborg <a.hindborg@kernel.org>
-Date: Fri, 20 Nov 2026 14:10:15 +0100
-Subject: [PATCH v6 04/12] rust: xarray: add `XArrayState`
+Date: Fri, 20 Nov 2026 14:10:12 +0100
+Subject: [PATCH v6 01/12] rust: xarray: minor formatting fixes
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,7 +54,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261120-xarray-entry-send-v6-4-1f69d7385f70@kernel.org>
+Message-Id: <20261120-xarray-entry-send-v6-1-1f69d7385f70@kernel.org>
 References: <20261120-xarray-entry-send-v6-0-1f69d7385f70@kernel.org>
 In-Reply-To: <20261120-xarray-entry-send-v6-0-1f69d7385f70@kernel.org>
 To: Tamir Duberstein <tamird@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
@@ -73,189 +73,107 @@ To: Tamir Duberstein <tamird@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
  Roman Gushchin <roman.gushchin@linux.dev>
 Cc: Andreas Hindborg <a.hindborg@kernel.org>, 
  rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+ Daniel Gomez <da.gomez@samsung.com>, 
+ "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>, 
+ Tamir Duberstein <tamird@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6530; i=a.hindborg@kernel.org;
- h=from:subject:message-id; bh=LmjFE/5c1aDLEafxOg2FuEeZAj/8eatZT5GZBC4r4iw=;
- b=owEBbQKS/ZANAwAKAfpQKQiqxb3QAcsmYgBrAEbGcl2AWVbKxDl+OBbYLszNt5tGmg33naAWK
- 8kKJ8tL8p+JAjMEAAEKAB0WIQRXitnI2WZ2JirAaob6UCkIqsW90AUCawBGxgAKCRD6UCkIqsW9
- 0CavEACMKNGo5a968KztezeCuxFNxQVhD5ghum/M6uKI373upKYf5LFwVk7OrlAFioJoTj1TBs0
- Up9QsCxbsI+FyhXBID/Smx1kBv3+0uqqNgsouExKPr4ePI9qYYtM7j++hkzSFQCEV1DpcGein70
- W7WJrE1Sn5Spm89HVu2Idnn5hHQIhsydFZ+1FwzN1oO7QSFuUipiLTevVkX2ee9pe5yaBND0GgW
- F6y1vNI16lOtn5JbHWAGFsxYyEGBFZr1taxrJy+5rufMiUQi9ghF8j5T0CCFTsA6rlcz8l2zQo3
- 4w07Q1UBgNGCFqDYkEKFLnRjfof+JoM4Wz4INmefG12kaCqofyuNfG4/7wnNOwqc+fPu4kh/Crt
- b4cjSB2gQuf2YE0NhlqmveQAQJJ7tUpWQz1Q7XbdcDmkkt53TzTk8yDXIXld1xx1C3hDnaV2bzQ
- CDGAtQWILDylYCKukXFxvbk2srA+If6zK+KDpGUNWzgSciIfMA1FE7Ag8GR95c/iGd4pj02V6fG
- VXH1qHTbZl/0gAHwd1m9RpJ8Y2v/0DHiDMhHJRHKtPcFVpDM7J/bGrCmRmR6ywLyuReQk4REGJN
- bntU042a9URuYnRrQE7ChmR4e3uuigUWkZ0cnHbDsTTF1TtuUv7wKccVS9V6umgqfzwHAv2WqyF
- epS7JIwIpNGEWmw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2376; i=a.hindborg@kernel.org;
+ h=from:subject:message-id; bh=vu1pWIgWMPl43F9OTIFN+xRMKvVrKE4I7rGleY0rCyk=;
+ b=owEBbQKS/ZANAwAKAfpQKQiqxb3QAcsmYgBrAEbDluzOEiiN89ogWhX6YJrkQn7fHtPhXw8n3
+ yNSGBu/+9KJAjMEAAEKAB0WIQRXitnI2WZ2JirAaob6UCkIqsW90AUCawBGwwAKCRD6UCkIqsW9
+ 0HadEACW15CWVaNz/Lm2ABKKs5xRUk28QKyZlwDp/bl68R/VMljAMo7h3/6/RCpNiCnROhjcS09
+ eBTT1gz4+z9d7BEBZaciekVY/QmN4SJXcTgsL6yBQ+BaRo8iSh3boG21d55kG6iu/mryuKXGKM+
+ LZGiXVt3NNdUV1ssqOkMde25ozGoHiFkW6Kc2k8WCPPmllBlVR7qCTDY7LHVZGf23RZAFcpeaxX
+ p5yCuZWW0gqk6W3jdbBSXLq90liGhfbn4CDLD19jnMhGtt6m56N/u0WVCvAo0vPwhjso8fp+uzr
+ PK/5hdVpe701sAOPrzfx1dQsljK22hqfJ3/UN9gQb5PRKL3PaYVqZhEKb9FB+h1+Prfau5BiZ/E
+ Otl/pd7RNyEgsw6jwCcZai1xk9zjAU3kXACqxre3z6D5W9zVa1ruIsBXOlOsE9s4sQPl9gvT149
+ phoRiz/NEwwe9we0XA2owHRfYByJZeqOy2Ob4DYhZiqIE2eAOIHY4BAFHtE42qGbiboszDEgcwd
+ QHfif6NVapxysKPm3RwFEa8gvomBkjw5oRjX9wMtmtRtEcfqeIxyBemRbUcdLt6IMdfn91oo0v9
+ xD9i+eiZ5HlYXq+KhzjncTW+wMyWGYyFRQsvF8rGhigKjd5t/HCRqMgXGBvZ/ZGHMgXWBP99xn/
+ x3MESYqU7mAj94g==
 X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
  fpr=3108C10F46872E248D1FB221376EB100563EF7A7
 
-Add `XArrayState` as internal state for XArray iteration and entry
-operations. This struct wraps the C `xa_state` structure and holds a
-reference to a `Guard` to ensure exclusive access to the XArray for the
-lifetime of the state object. `XArrayState` is generic over the guard
-borrow through a `Deref` bound, so it can hold either a shared or a
-mutable reference to the guard.
+Fix formatting in xarray module to comply with kernel coding
+guidelines:
 
-Use the new state in `Guard::load` by replacing the call to `xa_load`
-with `xas_load`. The `xa_load` function takes the RCU lock internally,
-which we do not need, since the `Guard` already holds an exclusive lock
-on the `XArray`. The `xas_load` function operates on `xa_state` and
-assumes the required locks are already held.
+- Update use clauses to use vertical layout with each import on its
+  own line.
+- Add trailing empty comments to preserve formatting and prevent
+  rustfmt from collapsing imports.
+- Refer to the kernel crate as `kernel` rather than `crate` in use
+  clauses.
+- Break long assert_eq! statement in documentation across multiple
+  lines for better readability.
 
-Unlike `xa_load`, `xas_load` does not filter out internal entries.
-Arrays created with `AllocKind::Alloc1` store `XA_ZERO_ENTRY` at index
-0 when they are expanded from empty, so convert zero entries to `NULL`
-like the C normal API does, exposing the `xa_zero_to_null` helper for
-this purpose.
-
-The `XAS_RESTART` constant is also exposed through the bindings helper
-to properly initialize the `xa_node` field.
-
-The `guard` field of `XArrayState` is not read until a later patch
-adds `into_guard`, so it is annotated with `#[expect(dead_code)]`
-until then.
-
+Reviewed-by: Gary Guo <gary@garyguo.net>
+Reviewed-by: Tamir Duberstein <tamird@gmail.com>
+Acked-by: Tamir Duberstein <tamird@gmail.com>
+Reviewed-by: Daniel Gomez <da.gomez@samsung.com>
+Acked-by: Liam R. Howlett <Liam.Howlett@oracle.com>
+Reviewed-by: Mukesh Kumar Chaurasiya (IBM) <mkchauras@gmail.com>
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
 Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
 ---
- rust/bindings/bindings_helper.h |  7 ++++
- rust/helpers/xarray.c           |  5 +++
- rust/kernel/xarray.rs           | 75 ++++++++++++++++++++++++++++++++++++++---
- 3 files changed, 82 insertions(+), 5 deletions(-)
+ rust/kernel/xarray.rs | 26 +++++++++++++++++++++-----
+ 1 file changed, 21 insertions(+), 5 deletions(-)
 
-diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
-index 3791af0aadc7..517c5872ad25 100644
---- a/rust/bindings/bindings_helper.h
-+++ b/rust/bindings/bindings_helper.h
-@@ -130,6 +130,13 @@ const xa_mark_t RUST_CONST_HELPER_XA_PRESENT = XA_PRESENT;
- 
- const gfp_t RUST_CONST_HELPER_XA_FLAGS_ALLOC = XA_FLAGS_ALLOC;
- const gfp_t RUST_CONST_HELPER_XA_FLAGS_ALLOC1 = XA_FLAGS_ALLOC1;
-+/*
-+ * `XAS_RESTART` is `((struct xa_node *)3UL)` -- a sentinel pointer value, not
-+ * an address. Cast to `size_t` so bindgen emits a plain `usize` constant; for
-+ * pointer-typed macro values bindgen otherwise generates a `pub static mut`,
-+ * see https://github.com/rust-lang/rust-bindgen/issues/3347.
-+ */
-+const size_t RUST_CONST_HELPER_XAS_RESTART = (size_t)XAS_RESTART;
- 
- const vm_flags_t RUST_CONST_HELPER_VM_MERGEABLE = VM_MERGEABLE;
- const vm_flags_t RUST_CONST_HELPER_VM_READ = VM_READ;
-diff --git a/rust/helpers/xarray.c b/rust/helpers/xarray.c
-index 08979b304341..79799c55c3d7 100644
---- a/rust/helpers/xarray.c
-+++ b/rust/helpers/xarray.c
-@@ -26,3 +26,8 @@ __rust_helper void rust_helper_xa_unlock(struct xarray *xa)
- {
- 	return xa_unlock(xa);
- }
-+
-+__rust_helper void *rust_helper_xa_zero_to_null(void *entry)
-+{
-+	return xa_zero_to_null(entry);
-+}
 diff --git a/rust/kernel/xarray.rs b/rust/kernel/xarray.rs
-index 19581b9dfe9e..183808971683 100644
+index 987c9c0c2198..4f4b6bf5750d 100644
 --- a/rust/kernel/xarray.rs
 +++ b/rust/kernel/xarray.rs
-@@ -8,7 +8,10 @@
-     iter,
-     marker::PhantomData,
-     pin::Pin,
--    ptr::NonNull, //
-+    ptr::{
-+        null_mut,
-+        NonNull, //
-+    },
- };
- use kernel::{
+@@ -4,11 +4,20 @@
+ //!
+ //! C header: [`include/linux/xarray.h`](srctree/include/linux/xarray.h)
+ 
+-use crate::{
++use core::{
++    iter,
++    marker::PhantomData,
++    pin::Pin,
++    ptr::NonNull, //
++};
++use kernel::{
      alloc,
-@@ -215,10 +218,8 @@ fn load<F, U>(&self, index: usize, f: F) -> Option<U>
-     where
-         F: FnOnce(NonNull<c_void>) -> U,
-     {
--        // SAFETY: `self.xa.xa` is always valid by the type invariant.
--        let ptr = unsafe { bindings::xa_load(self.xa.xa.get(), index) };
--        let ptr = NonNull::new(ptr.cast())?;
--        Some(f(ptr))
-+        let mut state = XArrayState::new(self, index);
-+        Some(f(state.load()?))
-     }
+     bindings,
+     build_assert::build_assert,
+-    error::{Error, Result},
++    error::{
++        Error,
++        Result, //
++    },
+     ffi::c_void,
+     types::{
+         ForeignOwnable,
+@@ -16,8 +25,12 @@
+         Opaque, //
+     }, //
+ };
+-use core::{iter, marker::PhantomData, pin::Pin, ptr::NonNull};
+-use pin_init::{pin_data, pin_init, pinned_drop, PinInit};
++use pin_init::{
++    pin_data,
++    pin_init,
++    pinned_drop,
++    PinInit, //
++};
  
-     /// Provides a reference to the element at the given index.
-@@ -301,6 +302,70 @@ pub fn store(
-     }
- }
- 
-+/// Internal state for XArray iteration and entry operations.
-+///
-+/// `R` is the borrow held on the guard: either `&Guard` for read-only callers
-+/// or `&mut Guard` for entry-style APIs that need to surrender the borrow back
-+/// via [`XArrayState::into_guard`].
-+///
-+/// # Invariants
-+///
-+/// - `state` is always a valid `bindings::xa_state`.
-+/// - `state.xa` aliases the xarray reachable through `guard`.
-+pub(crate) struct XArrayState<R> {
-+    // The borrow is held to guarantee exclusive access to the array. It is
-+    // not read until a later patch adds `into_guard`, so silence the dead
-+    // code warning until then.
-+    #[expect(dead_code)]
-+    guard: R,
-+    state: bindings::xa_state,
-+}
-+
-+impl<'a, R, T> XArrayState<R>
-+where
-+    T: ForeignOwnable + 'a,
-+    R: core::ops::Deref<Target = Guard<'a, T>>,
-+{
-+    #[inline]
-+    fn new(guard: R, index: usize) -> Self {
-+        let xa_ptr = guard.xa.xa.get();
-+        // INVARIANT: `state` is initialized to a valid `xa_state` whose `xa` field aliases the
-+        // xarray reachable through `guard`.
-+        Self {
-+            guard,
-+            state: bindings::xa_state {
-+                xa: xa_ptr,
-+                xa_index: index,
-+                xa_shift: 0,
-+                xa_sibs: 0,
-+                xa_offset: 0,
-+                xa_pad: 0,
-+                xa_node: bindings::XAS_RESTART as *mut bindings::xa_node,
-+                xa_alloc: null_mut(),
-+                xa_update: None,
-+                xa_lru: null_mut(),
-+            },
-+        }
-+    }
-+
-+    #[inline]
-+    fn load(&mut self) -> Option<NonNull<c_void>> {
-+        // SAFETY: `self.state` is a valid `xa_state` by the type invariant. By the same
-+        // invariant, `self.state.xa` aliases the xarray reachable through `self.guard`, whose
-+        // lock we hold.
-+        let ptr = unsafe { bindings::xas_load(&raw mut self.state) };
-+
-+        // Unlike the normal API, `xas_load` does not filter out internal entries. Arrays
-+        // created with [`AllocKind::Alloc1`] store `XA_ZERO_ENTRY` at index 0 when they are
-+        // expanded from empty, so convert zero entries to `NULL` like `xa_load` does. Retry
-+        // entries cannot be observed here because they require concurrent modification of the
-+        // array, and we hold the lock.
-+        //
-+        // SAFETY: `xa_zero_to_null` only inspects the value of `ptr`.
-+        NonNull::new(unsafe { bindings::xa_zero_to_null(ptr) }.cast())
-+    }
-+}
-+
- // SAFETY: `XArray<T>` has no shared mutable state so it is `Send` iff `T` is `Send`.
- unsafe impl<T: ForeignOwnable + Send> Send for XArray<T> {}
- 
+ /// An array which efficiently maps sparse integer indices to owned objects.
+ ///
+@@ -50,7 +63,10 @@
+ /// *guard.get_mut(0).unwrap() = 0xffff;
+ /// assert_eq!(guard.get(0).copied(), Some(0xffff));
+ ///
+-/// assert_eq!(guard.store(0, beef, GFP_KERNEL)?.as_deref().copied(), Some(0xffff));
++/// assert_eq!(
++///     guard.store(0, beef, GFP_KERNEL)?.as_deref().copied(),
++///     Some(0xffff)
++/// );
+ /// assert_eq!(guard.get(0).copied(), Some(0xbeef));
+ ///
+ /// guard.remove(0);
 
 -- 
 2.54.0
