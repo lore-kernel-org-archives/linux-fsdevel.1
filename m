@@ -1,100 +1,53 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.49
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795157157;
-	b=ummeWHDyyg5vxg+d+NoQ53BTh/BpVC/AZ6pBU6ApJPQYJ3WOWD9NI6DQ2olymARsFLh1
-	 pM66IBSOrQWbGlnps5xPYj9onKBU7wyG/3Sfxf/sJurLPcHnHKrot00zNaYau9uoO/lng
-	 KdURvXnuXulHxPlMuvdwkR4vwChm80AJsXEZhSro98mratnaWL85QOkqWkVeRqc+Gb0kt
-	 C5gLlD8Iw4kB1HOaQOrAcxC7jG5HuPV9CIcydYikcLSaYemps7oc0J8D92UD5nV/g5Bhl
-	 iylL4lpdkM6GBjMw7ITk/lUrETGWjkpAJwq2ExK0R4i/j+LJhwcjjapk9ryfmFhln6w==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795157157;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=PhesRb2fJL2sv3VQKNbTEK9VdI6Zm/OpjPUoDzeKyOI=;
-	b=C79frnTPAnDqPdoH79CXsPixs5fXRWYf/idl7Sas/UAq90LHi/KrjsJtY+UqmDrT3gWO
-	 /7RuipCGXZZmYDWrgRry9zBbJsyLpvDPWQBJHOOnoJz5MFHRpLUJTINxOn3ryduL9MKZk
-	 ADenH0/YNglyLVWrtYVFVQUMdZY8Jg1i7rQw2aE2h9tVoHlOKImMCmFOBZ1jv/HXklvW2
-	 EadJVMosnbRc/Dt8TgD0n0hTi6G4u+DHUsRMrXcfengbHSmAS3HFHJbbTFn8oIC8uYv43
-	 8U5gdFcps94qHdL14JXZsR5dsQgJmAMFusnaJi2Eh08hExf+9fgU8bDwdZk7fpI4qZA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=QnXYqMQr;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.49
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795158719;
+	b=J11A/B/obWCtD58rW4ueV/xHK2tmXhNM743dbztHQpUmx9KFbsd3p8YG1WrNZc+omJ2k
+	 gzJJZ84yNgMivqhWBncsrEKsW0UmzYD0VA8v5FUwt6IuRThEiYvFU0ZHuKenkY0H1mWj0
+	 fP4CfCGxpPBQfIPTysrhwDE3MRoZyGo0qNw8AsXzqX4f7k0egbRKH1hveG1uPA43QZXQ8
+	 e3C2PNgwSdDXFAz27l9q5O9We6cElWdiVN+gqQUKWpNkxccOr9ElV1xBNqYpkYZvxB9b2
+	 8P9T94Qz9rgflHoD7Rem7izETiirxVfcOPpkBdTFnbJE0mScBWwe9OKw3XBQoP/cG0A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795158719;
+	h=Received:DKIM-Signature:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=mx9jCoyCL35kZcFJj4eE8mVv6yBQ3TyEebvwewA9a4g=;
+	b=M26yAey1UZUe2IpAR4/XmXQ6d6zzF4rH9H7TUq+YJzL79YuRW3wIXC+RxF9L9jl8xudn
+	 qXsf6+I+HgSSLx6yN5VPmMsWfix3nA7BG93bOVR26r6tOdLlEoLF2kCPgNquyRDUN+l5R
+	 CuGS2UiveL7GJfrfEdVArMD3XViB/YSC4Kt2HE7gl2ZrfWneiY1ykOJllqaFJSQ8lkazF
+	 PivLuy8u0TplHw5LVhcmsTtE/4/nPXrjvOg41T4dOmzTZIAkqtwKsTKDiqRLFzruKFGyp
+	 ZrJ1Ho4kZ22m7HB0cnN2zYdi0CTsdJ++uibOMgiaMnb9ADCJUSzG32Jl63Dn7kgD9VA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e9U250e2;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD78606A332
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 06:45:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CDD78606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B6D606A320;
+	Fri, 20 Nov 2026 07:11:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=QnXYqMQr
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6b86bbce3d1so720583a12.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 22:45:56 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795157155; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Z0kGBL07Na60LoA+KBYv2S45uOiWHyM1zlinvCWtwg12I5sxrJ9hNyyKqeQc0uADLv
-         9sGo92zY0KYQWYVAqJnJ12MzT82gL/GU2trbZLYW1/zJRWQ0qwYDYEBA3IwHwBGUu5HF
-         /v2HBGLGRp3J4C0oJ877y5C/xYprbC9C4UBcL7QbrzSZON8TbE2K4/nNa2YJGVefJmsZ
-         x1VhomQaPHWnJJsbRy4lPB7Lp4NYurI2KrysFJHeUhe/6FkdmZ0RR1SuOvQZWmD/SJIW
-         Aa/pvxp0KDDGRWPuomxHgUf6IggBJTPhJUGKmv4pnUZ0h2k5NLy18kxAj+M4yIz80/UD
-         ocmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=PhesRb2fJL2sv3VQKNbTEK9VdI6Zm/OpjPUoDzeKyOI=;
-        fh=QUVxT6oc+swUg50EIEExF9senE5g8HArqUvjkvKhvto=;
-        b=bU7tylqwvxl33l1pQHzGt7VrVH55PWVbZHvlpTSislM/TP8UoPDPGIaCYOqysrMDpq
-         xjIrjATzYmBR+g2tcDzOPvrUW86xEOXjlhP2HeGAyugVsQY2zkMV23eTONn1Bs64cjI7
-         XuYHX6A2Fyq7r53Eo6p64Bbij2RwA9UvbGBbFG0srXd0loRmEiFwMHbmpvXtLB0IfCDg
-         7KmmbQYAOvy1L5o5UV+b/hcG2pHx52f57L8/H/HkA51SGhmAGv6oRh1qnYzLkwr76kmQ
-         yBpPawubYjOHmuD9INowo28+Iq9JvG14FDn4aexfly+Rx51VV6win/q6XhWiZBfTJAHD
-         tU9w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795157155; x=1795761955; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=PhesRb2fJL2sv3VQKNbTEK9VdI6Zm/OpjPUoDzeKyOI=;
-        b=QnXYqMQr5z0NMr6hBuiBJQpdXHRabmycCVdbr+hnA8j8kwrJNNnGAKynnSO7Gvqhdg
-         SwN+TixLmyMkD2wVDOCWnA8nu71rr8HfNDI/8h1i0q3ZT3nHsiux1iOQIvRU3UqAvxe7
-         0MdSAviV1wPO0L/ENM1FwkfPoM3/P0JztGsiSczg4oihtTmhpVJGQfM5KbiZen3X7PMR
-         yDaLS+S4QeMiQcP7CYLX/0Kpv96D6vKQ9XcRDplT0I6yi1wMdl6hYQxAIJKH44RRlD9j
-         MIp6JtUsObTVf/yv4MhCOYPaS8/PEu+bzH2udGN6HONxsB9gjHCHNbYy/iW0vTdeUfzD
-         3DBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795157155; x=1795761955;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=PhesRb2fJL2sv3VQKNbTEK9VdI6Zm/OpjPUoDzeKyOI=;
-        b=Dcz5D/DLzAXkXgt1NYyFW6NFmwyK3+Ppo/C66di5XrAMJBFHbHcfn6ZfFEsefHIwLe
-         OVN3R2kUbAGZF1bibDFESbkmCU7dNHKBaFUFA1jI7Bbs6IHlqYLcr2EuLxKyP0vU2wBb
-         P+p2NS2PXaIDCeO1fjyevEY4jMYNBMDP8znvbUWPMHKRe5WVrPWrjpYRav5F6usqHS1I
-         2UoWtAL4hUIjwdCucugnj8RmZfbTeQ/gDp4VBupeR6KJJR5JMXrg7r2AVUEN320o7iLu
-         kvTHtXbCoSp0vtCjokuYzfWv7u5E76mkBZUtMqgl1yEsdVlhkawMFCiVTiE5yhDwl/pB
-         pBWA==
-X-Forwarded-Encrypted: i=1; AL+hErH4/Dzr1tqTAmomwzFYDBKjti69RaHF39UD2shimz5nK/gWcoKdeGZBN817btTikEu4uPIad1LUQqZ0m10n@vger.kernel.org
-X-Gm-Message-State: APuU4Z/3qF9s1/wiu8rgjPoKtgT0MfgVsM5neCKxjIT/TjsgDZbtAguu
-	1JD555FIYEpCpucTuPqydd2sSGvcsjoEx7RlrALabM6Mnk9u1YVLuDjnWgoc1xLwjrShyUr/5ce
-	4irPNhh7PW/yWOARd02g8WBFtJqk03M8=
-X-Gm-Gg: AZFdTZdDhEsX4Jbnllx+XctWEIDheMUIMPPbVImSj7LfH6C/ROxY2jlTAaghjhEDFMU
-	NUNQvWEZRjHTeOljOu9MslrufsK4i+czIi3SWKpOcApUlnA+yy5j5/d/Ox7yDhhvqyvXv1gSOSC
-	7EpdYLz8z4HDDGJotYTifCb2UysdNRWfw2orDz4aMggXXrfLA3IlgAD4ukGahcdSjlB/DDQTaSk
-	JQlEv2pvubRUbqhCnbfHATNjlYumtYHAFke3loYeJDUWedbeJQIvdhY2xTZiO1DDC0AFLdbxGzS
-	Ke9CYITIKU7BKuiIN6mki2OebMvyXYsw5MnToHJWwHDCsfCNx6ic5mIF7+nDmB/0XuUDaWsJ7Qd
-	y8Pwf+8DqGMRH28cQYhBrwZ/AN1TsoQ/4MRTf3fp8x5/47SMkMvy+T3rlfqVgVCuDN34zkA==
-X-Received: by 2002:a05:6402:a592:10b0:6b8:8706:8e91 with SMTP id
- 4fb4d7f45d1cf-6ba37d6526dmr960183a12.12.1795157154882; Thu, 19 Nov 2026
- 22:45:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e9U250e2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADC081F000D0;
+	Fri, 20 Nov 2026 07:11:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795158718;
+	bh=mx9jCoyCL35kZcFJj4eE8mVv6yBQ3TyEebvwewA9a4g=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=e9U250e2Gzb07Ntri6FU1jyd1iOeaWowp9mJogUIquiqBmVzVbZWTHY2hyPWe2gd3
+	 nyai3xuBcqofgbzO/TpuSQ4cJ1S9qVY5RPYUucXTX3f9omHsgxg7z8epdEontApjuo
+	 h1y3niP9km8nnrGQbV8ziWpUeLaRLqmRHem7uE6OOAc+vakPoFbroCNBE6dfDrpE/U
+	 5RLYW743BIl6KNhDl2vreez9mItgH/CSGRZaguFN5Y2gun04lNjJQoBDdDf5I/fJ9G
+	 m81eyRxobsGLGxZ+G29pbFCIDt6A7cKCNo8RK3KfsR0J1zVq94tLqkd3SP/Vi18nE2
+	 E9NszsnlyEHCA==
+Date: Thu, 19 Nov 2026 21:11:52 -1000
+Message-ID: <e64643aed76382fd9adc3b616cb76948@kernel.org>
+From: Tejun Heo <tj@kernel.org>
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Christian Brauner <brauner@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jori Koolstra <jkoolstra@xs4all.nl>, Meta kernel team <kernel-team@meta.com>, cgroups@vger.kernel.org, linux-fsdevel@vger.kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kernfs: allocate in open before taking the active reference
+In-Reply-To: <20261119191923.2223993-1-shakeel.butt@linux.dev>
+References: <20261119191923.2223993-1-shakeel.butt@linux.dev>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,354 +57,42 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261115180343.576773-1-koray.fra@gmail.com> <20261115180343.576773-9-koray.fra@gmail.com>
- <CAOQ4uxgoNsOH82FyrCxc+qSoid_CFmbmpL0qgWFw-e8E689fFA@mail.gmail.com> <DMZJ4PL1JVA4.2YEB7EPYJR5Q7@gmail.com>
-In-Reply-To: <DMZJ4PL1JVA4.2YEB7EPYJR5Q7@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 20 Nov 2026 07:45:43 +0100
-X-Gm-Features: AclHuK_wtO-xn2FdXS4_uzyRTAs2S8_YFxhSnFKIVmGgyyWPtzVK3ZO9hbfvgbU
-Message-ID: <CAOQ4uxi6h9BBP7pf4sR+gc2+4XtkEgbxXZha45iZzdB_wGFVgQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 08/10] nfs: add provenance time (ptime) via FATTR4_TIME_CREATE
-To: koraynilay <koray.fra@gmail.com>
-Cc: David Sterba <dsterba@suse.com>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Sungjong Seo <sj1557.seo@samsung.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Trond Myklebust <trondmy@kernel.org>, 
-	Anna Schumaker <anna@kernel.org>, Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Paulo Alcantara <pc@manguebit.org>, Chris Mason <mason@kernel.org>, Yuezhang Mo <yuezhang.mo@sony.com>, 
-	Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, 
-	Bharath SM <bharathsm@microsoft.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	ChenXiaoSong <chenxiaosong@chenxiaosong.com>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Sean Smith <defendthedisabled@gmail.com>, Andrey Albershteyn <aalbersh@kernel.org>, 
-	Pedro Falcato <pfalcato@suse.de>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
-	linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, exfat@lists.linux.dev, ntfs3@lists.linux.dev, 
-	linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-api@vger.kernel.org, Theodore Tso <tytso@mit.edu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 19, 2026 at 11:10=E2=80=AFPM koraynilay <koray.fra@gmail.com> w=
-rote:
+On Thu, Nov 19, 2026 at 11:19:22AM -0800, Shakeel Butt wrote:
+> kernfs_fop_open() allocates the open file, its seq_file and the open
+> node while holding the file's active reference.  The seq_file is
+> charged to the opener's memory cgroup, so in a cgroup at its limit the
+> allocation reclaims.  Removing the file waits for active references.
+> cgroup rmdir does that with cgroup_mutex held, so every cgroup
+> operation on the host waits for that reclaim.  Deleting a netdev waits
+> the same way with rtnl_lock held.
 >
-> On Thu Nov 19, 2026 at 7:06 PM CET, Amir Goldstein wrote:
-> > On Sun, Nov 15, 2026 at 7:04=E2=80=AFPM koraynilay <koray.fra@gmail.com=
-> wrote:
-> >>
-> >> Implement provenance time (ptime) in the NFS client, as introduced in =
-a
-> >> previous commit ("vfs: add provenance time (ptime)").
-> >>
-> >> Support reading ptime via statx(2) and file_getattr(), returning the
-> >> cached creation time when the server advertises NFS_ATTR_FATTR_BTIME.
-> >>
-> >> Implement sending FATTR4_TIME_CREATE, asking the server to persist the
-> >> file creation time using ptime on the underlying filesystem.
-> >>
-> >> Also add .fileattr_set to struct nfs_rpc_ops and set it to
-> >> nfs4_fileattr_set() in nfs_v4_clientops. Provide a generic
-> >> nfs_fileattr_set() dispatcher so even symlinks can update ptime under
-> >> NFSv4 while cleanly returning -EOPNOTSUPP on NFSv2/v3.
-> >>
-> >> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.7
-> >> Signed-off-by: koraynilay <koray.fra@gmail.com>
-> >> ---
-> >>  fs/nfs/inode.c          | 27 ++++++++++++++++----
-> >>  fs/nfs/internal.h       |  2 ++
-> >>  fs/nfs/nfs4proc.c       | 56 ++++++++++++++++++++++++++++++++++++++--=
--
-> >>  fs/nfs/nfs4xdr.c        | 19 +++++++++-----
-> >>  fs/nfs/symlink.c        |  1 +
-> >>  include/linux/nfs_xdr.h |  3 +++
-> >>  6 files changed, 93 insertions(+), 15 deletions(-)
-> >>
-> >> diff --git a/fs/nfs/inode.c b/fs/nfs/inode.c
-> >> index e0a2e92952af..2ddcfd872616 100644
-> >> --- a/fs/nfs/inode.c
-> >> +++ b/fs/nfs/inode.c
-> >> @@ -955,7 +955,7 @@ static u32 nfs_get_valid_attrmask(struct inode *in=
-ode)
-> >>                 reply_mask |=3D STATX_BLOCKS;
-> >>         if (!(cache_validity & NFS_INO_INVALID_BTIME) &&
-> >>             (fattr_valid & NFS_ATTR_FATTR_BTIME))
-> >> -               reply_mask |=3D STATX_BTIME;
-> >> +               reply_mask |=3D STATX_BTIME | STATX_PTIME;
-> >>         if (!(cache_validity & NFS_INO_INVALID_CHANGE))
-> >>                 reply_mask |=3D STATX_CHANGE_COOKIE;
-> >>         return reply_mask;
-> >> @@ -978,10 +978,10 @@ int nfs_getattr(const struct mnt_idmap *idmap, c=
-onst struct path *path,
-> >>         request_mask &=3D STATX_TYPE | STATX_MODE | STATX_NLINK | STAT=
-X_UID |
-> >>                         STATX_GID | STATX_ATIME | STATX_MTIME | STATX_=
-CTIME |
-> >>                         STATX_INO | STATX_SIZE | STATX_BLOCKS | STATX_=
-BTIME |
-> >> -                       STATX_CHANGE_COOKIE;
-> >> +                       STATX_PTIME | STATX_CHANGE_COOKIE;
-> >>
-> >>         if (!(fattr_valid & NFS_ATTR_FATTR_BTIME))
-> >> -               request_mask &=3D ~STATX_BTIME;
-> >> +               request_mask &=3D ~(STATX_BTIME | STATX_PTIME);
-> >>
-> >>         if ((query_flags & AT_STATX_DONT_SYNC) && !force_sync) {
-> >>                 if (readdirplus_enabled)
-> >> @@ -1015,7 +1015,7 @@ int nfs_getattr(const struct mnt_idmap *idmap, c=
-onst struct path *path,
-> >>         if (!(request_mask & (STATX_MODE|STATX_NLINK|STATX_ATIME|STATX=
-_CTIME|
-> >>                                         STATX_MTIME|STATX_UID|STATX_GI=
-D|
-> >>                                         STATX_SIZE|STATX_BLOCKS|STATX_=
-BTIME|
-> >> -                                       STATX_CHANGE_COOKIE)))
-> >> +                                       STATX_PTIME|STATX_CHANGE_COOKI=
-E)))
-> >>                 goto out_no_revalidate;
-> >>
-> >>         /* Check whether the cached attributes are stale */
-> >> @@ -1038,7 +1038,7 @@ int nfs_getattr(const struct mnt_idmap *idmap, c=
-onst struct path *path,
-> >>                 do_update |=3D cache_validity & NFS_INO_INVALID_OTHER;
-> >>         if (request_mask & STATX_BLOCKS)
-> >>                 do_update |=3D cache_validity & NFS_INO_INVALID_BLOCKS=
-;
-> >> -       if (request_mask & STATX_BTIME)
-> >> +       if (request_mask & (STATX_BTIME | STATX_PTIME))
-> >>                 do_update |=3D cache_validity & NFS_INO_INVALID_BTIME;
-> >>
-> >>         if (do_update) {
-> >> @@ -1061,6 +1061,7 @@ int nfs_getattr(const struct mnt_idmap *idmap, c=
-onst struct path *path,
-> >>         if (S_ISDIR(inode->i_mode))
-> >>                 stat->blksize =3D NFS_SERVER(inode)->dtsize;
-> >>         stat->btime =3D NFS_I(inode)->btime;
-> >> +       stat->ptime =3D NFS_I(inode)->btime;
-> >>
-> >
-> > As an example of what would be needed per the mutable btime proposal,
-> > adding stat->ptime and STATX_PTIME will not be needed...
-> >
-> >>         /* Special handling for STATX_DIOALIGN and STATX_DIO_READ_ALIG=
-N
-> >>          * - NFS doesn't have DIO alignment constraints, avoid getting
-> >> @@ -1092,10 +1093,26 @@ int nfs_fileattr_get(struct dentry *dentry, st=
-ruct file_kattr *fa)
-> >>         }
-> >>         if (nfs_server_capable(inode, NFS_CAP_CASE_NONPRESERVING))
-> >>                 fa->fsx_xflags |=3D FS_XFLAG_CASENONPRESERVING;
-> >
-> > This would need:
-> >                   fa->fsx_xflags |=3D FS_XFLAG_CASEFOLD;
-> > +                fa->fsx_xflags_mask |=3D FS_XFLAG_CASEFOLD;
-> > +                fa->fsx_xflags_ro_mask |=3D FS_XFLAG_CASEFOLD;
-> > +                /* unlink other fs FS_CASEFOLD_FL is read-only */
-> (oh, s/unlink/unlike/?)
+> Allocate them before taking the active reference.  kn->flags already
+> says whether the file has ->seq_show, which is all seq_open() needs.
+> If the file is removed in the meantime, open fails with -ENODEV as
+> before.  Only the prealloc buffer, whose size comes from the ops, and
+> ->open() still allocate under the active reference.
+>
+> In a VM, eight tasks in a 256 MB memory cgroup at its limit, with swap
+> writes taking 500 ms, open and read small files of a cgroup that
+> another task removes and recreates every 20 ms (60 s, worst of four
+> runs):
+>
+>                                            before    after
+>   reclaim with an active reference held     5.0 s        0
+>   rmdir waiting for it, cgroup_mutex held  377 ms   6.3 ms
+>   mkdir/rmdir of other cgroups             382 ms   125 ms
+>
+> The rest of the mkdir/rmdir time is waiting for kernfs_rwsem.  Opening
+> and closing cgroup files in a loop is as fast as before.
+>
+> Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
 
-Yeh :)
-It's a comment for you not for the code
+Acked-by: Tejun Heo <tj@kernel.org>
 
->
-> >                   fa->flags |=3D FS_CASEFOLD_FL;
-> With the new API and vfs helpers, this would need to get removed, as vfs
-> would already handle this for legacy ioctls, correct?
->
-> >         }
-> >                    fa->fsx_xflags |=3D FS_XFLAG_CASENONPRESERVING;
-> > +                 fa->fsx_xflags_mask |=3D FS_XFLAG_CASENONPRESERVING;
-> > +                 fa->fsx_xflags_ro_mask |=3D FS_XFLAG_CASENONPRESERVIN=
-G;
-> Uhm, why both in _mask and _ro_mask? If it's a RDONLY flag shouldn't
-> it *only* be in _ro_mask? (same for CASEFOLD)
->
+Thanks.
 
-Good question. Maybe
-I guess if you want to follow some percent
-FS_FL_USER_MODIFIABLE is a subset of FS_FL_USER_VISIBLE
-but I think that exporting ro_mask and _mask is going to be easier and
-cleaner than rw_mask but not sure.
-
-> >
-> >> +       if (NFS_SERVER(inode)->fattr_valid & NFS_ATTR_FATTR_BTIME) {
-> >> +               fa->fsx_xflags |=3D FS_XFLAG_PTIME;
-> >> +               fa->fsx_xflags_mask |=3D FS_XFLAG_PTIME;
-> >> +               fa->fsx_ptime =3D NFS_I(inode)->btime;
-> >> +       }
-> >
-> > +               fa->fsx_xflags |=3D FS_XFLAG_BTIME;
-> > +               fa->fsx_xflags_mask |=3D FS_XFLAG_BTIME;
-> > +               fa->fsx_btime =3D NFS_I(inode)->btime;
-> >
-> > Fs with immutable btime could either not advertise the BTIME flag
-> > in xflags/xflags_mask or advertise the flag also in xflags_ro_mask.
->
-> That makes sense.
->
-> >>         return 0;
-> >>  }
-> >>  EXPORT_SYMBOL_GPL(nfs_fileattr_get);
-> >>
-> >> +int nfs_fileattr_set(const struct mnt_idmap *idmap, struct dentry *de=
-ntry,
-> >> +                    struct file_kattr *fa)
-> >> +{
-> >> +       const struct nfs_rpc_ops *ops =3D NFS_PROTO(d_inode(dentry));
-> >> +
-> >> +       if (ops->fileattr_set)
-> >> +               return ops->fileattr_set(idmap, dentry, fa);
-> >> +       return -EOPNOTSUPP;
-> >> +}
-> >> +EXPORT_SYMBOL_GPL(nfs_fileattr_set);
-> >> +
-> >>  static void nfs_init_lock_context(struct nfs_lock_context *l_ctx)
-> >>  {
-> >>         refcount_set(&l_ctx->count, 1);
-> >> diff --git a/fs/nfs/internal.h b/fs/nfs/internal.h
-> >> index 5af6a032f145..0e47fad944de 100644
-> >> --- a/fs/nfs/internal.h
-> >> +++ b/fs/nfs/internal.h
-> >> @@ -458,6 +458,8 @@ extern int nfs_wait_bit_killable(struct wait_bit_k=
-ey *key, int mode);
-> >>
-> >>  struct file_kattr;
-> >>  int nfs_fileattr_get(struct dentry *dentry, struct file_kattr *fa);
-> >> +int nfs_fileattr_set(const struct mnt_idmap *idmap, struct dentry *de=
-ntry,
-> >> +                    struct file_kattr *fa);
-> >>
-> >>  #if IS_ENABLED(CONFIG_NFS_LOCALIO)
-> >>  /* localio.c */
-> >> diff --git a/fs/nfs/nfs4proc.c b/fs/nfs/nfs4proc.c
-> >> index e1018b03c1cb..31d58ceb4dc0 100644
-> >> --- a/fs/nfs/nfs4proc.c
-> >> +++ b/fs/nfs/nfs4proc.c
-> >> @@ -55,6 +55,7 @@
-> >>  #include <linux/utsname.h>
-> >>  #include <linux/freezer.h>
-> >>  #include <linux/iversion.h>
-> >> +#include <linux/fileattr.h>
-> >>
-> >>  #include "nfs4_fs.h"
-> >>  #include "delegation.h"
-> >> @@ -98,7 +99,8 @@ static int _nfs4_proc_getattr(struct nfs_server *ser=
-ver, struct nfs_fh *fhandle,
-> >>                               struct nfs_fattr *fattr, struct inode *i=
-node);
-> >>  static int nfs4_do_setattr(struct inode *inode, const struct cred *cr=
-ed,
-> >>                             struct nfs_fattr *fattr, struct iattr *sat=
-tr,
-> >> -                           struct nfs_open_context *ctx, struct nfs4_=
-label *ilabel);
-> >> +                           struct nfs_open_context *ctx, struct nfs4_=
-label *ilabel,
-> >> +                           const struct timespec64 *time_create);
-> >>  static struct rpc_task *_nfs41_proc_sequence(struct nfs_client *clp,
-> >>                 const struct cred *cred,
-> >>                 struct nfs4_slot *slot,
-> >> @@ -3216,7 +3218,7 @@ static int _nfs4_do_open(struct inode *dir,
-> >>                         nfs_fattr_init(opendata->o_res.f_attr);
-> >>                         status =3D nfs4_do_setattr(state->inode, cred,
-> >>                                         opendata->o_res.f_attr, sattr,
-> >> -                                       ctx, label);
-> >> +                                       ctx, label, NULL);
-> >>                         if (status =3D=3D 0) {
-> >>                                 nfs_setattr_update_inode(state->inode,=
- sattr,
-> >>                                                 opendata->o_res.f_attr=
-);
-> >> @@ -3380,7 +3382,8 @@ static int _nfs4_do_setattr(struct inode *inode,
-> >>
-> >>  static int nfs4_do_setattr(struct inode *inode, const struct cred *cr=
-ed,
-> >>                            struct nfs_fattr *fattr, struct iattr *satt=
-r,
-> >> -                          struct nfs_open_context *ctx, struct nfs4_l=
-abel *ilabel)
-> >> +                          struct nfs_open_context *ctx, struct nfs4_l=
-abel *ilabel,
-> >> +                          const struct timespec64 *time_create)
-> >>  {
-> >>         struct nfs_server *server =3D NFS_SERVER(inode);
-> >>         __u32 bitmask[NFS4_BITMASK_SZ];
-> >> @@ -3391,6 +3394,7 @@ static int nfs4_do_setattr(struct inode *inode, =
-const struct cred *cred,
-> >>                 .server         =3D server,
-> >>                 .bitmask =3D bitmask,
-> >>                 .label          =3D ilabel,
-> >> +               .time_create    =3D time_create,
-> >>         };
-> >>         struct nfs_setattrres  res =3D {
-> >>                 .fattr          =3D fattr,
-> >> @@ -3414,6 +3418,9 @@ static int nfs4_do_setattr(struct inode *inode, =
-const struct cred *cred,
-> >>         if (sattr->ia_valid & ATTR_MTIME)
-> >>                 adjust_flags |=3D NFS_INO_INVALID_MTIME;
-> >>
-> >> +       if (time_create)
-> >> +               adjust_flags |=3D NFS_INO_INVALID_BTIME;
-> >> +
-> >>         do {
-> >>                 nfs4_bitmap_copy_adjust(bitmask, nfs4_bitmask(server, =
-fattr->label),
-> >>                                         inode, adjust_flags);
-> >> @@ -4587,7 +4594,7 @@ nfs4_proc_setattr(struct dentry *dentry, struct =
-nfs_fattr *fattr,
-> >>         if ((sattr->ia_valid & (ATTR_MODE|ATTR_UID|ATTR_GID)) !=3D 0)
-> >>                 nfs4_inode_make_writeable(inode);
-> >>
-> >> -       status =3D nfs4_do_setattr(inode, cred, fattr, sattr, ctx, NUL=
-L);
-> >> +       status =3D nfs4_do_setattr(inode, cred, fattr, sattr, ctx, NUL=
-L, NULL);
-> >>         if (status =3D=3D 0) {
-> >>                 nfs_setattr_update_inode(inode, sattr, fattr);
-> >>                 nfs_setsecurity(inode, fattr);
-> >> @@ -10845,6 +10852,44 @@ static void nfs4_disable_swap(struct inode *i=
-node)
-> >>         wake_up_var(&clp->cl_state);
-> >>  }
-> >>
-> >> +#define NFS4_SUPPORTED_XFLAGS  (FS_XFLAG_PTIME)
-> >> +static int nfs4_fileattr_set(const struct mnt_idmap *idmap, struct de=
-ntry *dentry,
-> >> +                            struct file_kattr *fa)
-> >> +{
-> >> +       struct inode *inode =3D d_inode(dentry);
-> >> +       struct nfs_server *server =3D NFS_SERVER(inode);
-> >> +       struct nfs_fattr *fattr;
-> >> +       struct iattr sattr =3D { .ia_valid =3D 0 };
-> >> +       const struct timespec64 *time_create =3D NULL;
-> >> +       int error;
-> >> +
-> >> +       if (!(server->fattr_valid & NFS_ATTR_FATTR_BTIME))
-> >> +               return -EOPNOTSUPP;
-> >> +
-> >> +       if (fa->flags_valid)
-> >> +               return -EOPNOTSUPP;
-> >> +
-> >> +       if (fileattr_has_fsx_mask(fa, NFS4_SUPPORTED_XFLAGS))
-> >> +               return -EOPNOTSUPP;
-> >> +
-> >> +       if (fa->fsx_xflags_mask & ~NFS4_SUPPORTED_XFLAGS)
-> >> +               return -EOPNOTSUPP;
-> >> +
-> >
-> > These two checks look semantically identical.
-> > I am not sure yet what you intention was with the
-> > fileattr_has_fsx_mask() helper - I know you had reservations about it
-> > but at least in this code, it doesn't look like it is needed at all.
->
-> Eh, the name is not the best, but they aren't, _mask & check the _mask
-> field, has_fsx_mask checks the xflags field (which is why I added the
-> question of keeping its name as it is or changing it to
-> "fileattr_has_unsupported_fsx").
-> But I'm not even sure we still need this helper, so I may just drop it.
->
-
-I don't care either way as long as the code reads fine.
-
-Thanks,
-Amir.
+--
+tejun
