@@ -1,101 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.49
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795160240;
-	b=DcTknZ7jfvWqX+SYEMhYL8/C5HsxrjagRv2NZ+5Q91eM3E+0SbznPjxp7G8m2BxI+ipO
-	 sV4bp/Bwre1xe3FRbKD+9TopNMnpE26NiWDGQJVNQwk87mxkNPLC2K7f8tyqTG8UP9kqE
-	 Z1XXOtyCcRYWMhfe37Z6M7ummJFxSSr1Eowmd+acKURUY7w0kfyF+j7LZ/0CIUui2W9fG
-	 Tf7UZG3qYdDsZEoEmuMKRY1RyHotr3Dtt3EUz6N+4ImLkSU/EfLvzclZwIk/EmYVPRPEb
-	 bDRBbLHPqSJc2dIcsnt8HP3y7EzO8ovi9cG1ER2xuYmgUxCZLm/RML2Gzrr3AzCfm8A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795160240;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.41
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795160986;
+	b=VHVaNqM8X3owncV5slCZm/0h0mye83NM4Ax8xHnVpvtCluoJ7WL6d43A3CBgKkC5om5u
+	 jaE/1b5a/v3wHcFsVAA7ks4R9cgTduS82NrBLXlKFKoOm2+Ux7KQBsEFrbc+vlPbjvBCO
+	 yzX+VHjDS5QdDSyzHUbkMD/y/iQvSrPEsUjIblYRL/NknxNo/IxeabEcGCk4KWCkCfWwc
+	 0Y4ngJ4qEaYakv7wog0NOWeqV2tCR1bOCWyGApPAC9EKGFHvzIKpUwQpMXIjYfklZIqhE
+	 GKH3ek8rZKqU4ej/QcH+XTMeDKiuqpYW3lMPDE/E1/fsQ+qkulcuy0RU1tuvtD7Xw3g==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795160986;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=RoorVLMi62FuFQRrqrflAmA+uFRRnvjjHFtI7v/dMic=;
-	b=nKnDFGRSkJRZvS2v+L/NW2KbBqPTBC1JeaWotdpnkSJSHAryEFQofhhOFU7y5Pr53p0x
-	 Yq9weg0Q9erAFOFHv4VstJ8cu0VqlCjwYcihc5gL0VFbHJrqi1ky/qX2xf2hH1/XlzWZn
-	 Jd5gXau08LsTFnJdai2kw+bNaqqbhA127hetSXM6wlFrhcvV6iUmsxRSGoky5yiK+M8Pp
-	 4m3r1AThFyzv9HTVeXpP2RjQ1sJNEkNpOdApOvOtTov4BVBfKewRVyIMrBUvjlvkuNSke
-	 0Ov8dsVxGb/QT1LOzPvT0wsACCCwUYRpPTneTwnk3+uq/ipfOiQ3h9swiUfXnvvXLUw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=PKfh3kaU0G0rUT/geWuCPv0s5ju8c8DPCj+FrnIkKs4=;
+	b=Z473jNHKHZsMYTh+sYaQMyH2kWSXuYaHv6rwduv9FbJxiJuTfuacrXRVKfQotTpCJ4El
+	 +5zkJzO9srJYshKx1oFLOywM34J4YTaamUS36Y1n74Tv/lzoodelNkxnzafvN7rlimLyB
+	 jCd3EaGWs4/2JvHuP5BgepxG7A8nQUvh9GQrojvhuBI+MZW5WAKsxmIPDFpik4mMX5XOE
+	 XAE60enWNe23G/IGFEzgEYXhBjRENWVpw8R/Cn9vxHKErBKsiBowdS5lgMXzdV2YTUsSm
+	 phGCxp80f09toJBjpEgbirxsSJCKTa8sIpquF4OCwm+HBU4HQc6o/wRCZRBXtppYHvQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hceukMgh;
-	arc=none smtp.remote-ip=209.85.208.49
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mW3WMEgU;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.41
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1354A606A32A
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 07:37:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1354A606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1356E606A325
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 07:49:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1356E606A325
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hceukMgh
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6b47c1a3c74so738086a12.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 23:37:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mW3WMEgU
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6b7ddb99db4so757007a12.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 23:49:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795160984; cv=none;
+        d=google.com; s=arc-20260327;
+        b=MKxfm0YVgas9+lkuHR0MJaSFdj8cQ+j2fkZr8AZMCUb6q4ME2hMcKCsFdwJoOaxujh
+         cD+bzUwkW2hmGUWcTiuaKXIjJyEpCNEWlUlXPOQP1YkATCZF2UTMwWS+Wo3TySUSj2Cl
+         saRwhjU+htzRFqStonjzTDGRWTI7/XrTlotm86HL3WlmGm3y8boVeOysnb236cuuX9XG
+         Dw42zDil2qoIyZvDJRU/yiz04WPAn0EIj00da6QbpHTSdIecwggSkuQe/BFNhkOVeqH+
+         spJCP9aJBiddXVLmGnZefqAHecPeTV+GMXhwUJ6uZGWSjmm8cuDaSztxuv4dOts4vxjm
+         qI8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=PKfh3kaU0G0rUT/geWuCPv0s5ju8c8DPCj+FrnIkKs4=;
+        fh=b+tCNT4Ww3UC8qDLrkQL46EygzsYwXzJ6l+jNVeZV/Y=;
+        b=o1dmMvd9InYUk1Z1iG1NE7pJdHFaPmd4c4sDJOzyi0cXTksh4o16akeI36GUa2tUHa
+         4gK2F5qPTI18xYeNk20Eg5FHawk2BXTmD/xfQti12SjGd5B3K0gGT6ueYFltBJzdw1RO
+         Vw1rCwlkSge+HIqNfY7nvq4wy5k/VMaSasCO7owXfoDFxrFXZ5ZJNlw9i6BNzd6rE9yd
+         YJWtvA1eX36R5eHyOw9z1cHEsQ3WIfPKjbqKkYG6/aTs4dwjVWOGEccRV3raxGLai9LV
+         vqLsqZ29aOZNU+qjyzqxGmOY5aAFZdfA9WKtxHv2x6R3LQ26iViylfZmvLOIt0QLsLUL
+         D/+g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795160238; x=1795765038; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=RoorVLMi62FuFQRrqrflAmA+uFRRnvjjHFtI7v/dMic=;
-        b=hceukMghY7le6BIvmBla2eFNVCQIbmkpOBHR0Qmni9s9Tx5CJJVqMf3vpfilPmRW5G
-         K5wgOLsqd9MAS1z6OmEN/CrYQRV9tFx2RXS6txqkQxbbd/dKWCfmrVKOilSn/zmap3b1
-         YNsLVgq+Vm8OssuoTDaCUB7VlZ5YhvYFA+SIyOP0/6fykgUwThttvdaJNRdt+00yImGy
-         +T4jsEnKlm3k7w4G0FPANL64WVx4J3DRwpm0UjGciS6HVC6q0moeniT6KYlLWLNDEAVd
-         f5BhGFbkXk8GTLaKY51IysD3Ajx4lCQI120uvi9wU/CNygHwZmyVXAHogmXGeGP8PVSE
-         HcAQ==
+        d=gmail.com; s=20260707; t=1795160984; x=1795765784; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=PKfh3kaU0G0rUT/geWuCPv0s5ju8c8DPCj+FrnIkKs4=;
+        b=mW3WMEgUD7JxWrK0tDYJP86u4bhgYy7GpbQgMpG2Wci9ADVKI/VSjhSR9kqUPb0x9W
+         53uhMZ32TdRHcMos72JJdUvFUO21lPqaZyELkv2MUA7IxDz19Qc2C+m2XAEBU/dc4bQm
+         2CDrdlxYF8IglAThc2xqmrXUsHCXiYicI6+Hwy1l5pRkHAOYGW2eLn9tUu0kK2oVJMvx
+         7rKO0mXhF9T2TQv5dlep+6ADg4BWUVJSnBkp+jaxXiB8kArorfh1EZeqD+Qlw3jTrlFX
+         1mW8fCeiZhQSD2v2JBC0YnpanTKel9Jf5FBFxb7pqUSyrwXVzBbRaV8SymAOpuMVRyo+
+         UmIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795160238; x=1795765038;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=RoorVLMi62FuFQRrqrflAmA+uFRRnvjjHFtI7v/dMic=;
-        b=TZaNHb+3rQ7ZToLd2y9SAw4+bTKsxOUVPQvC5PDT5oC5n5tYFZvt785IKTvNDH3/O0
-         EO2T96SHqweWIdZy1CEHCfmEiUlMHYqEc0q0Kf+vfY3wMk2X2OBcXqOoRJmXy0hjLSOb
-         dveup+RpG5isXFc3YCBWdV3qivOqToqwwW0gUWs0tBfGT6KEvfzBsEKTtMb4HH1C3nC/
-         PUIAZUCuw71d10Ka1Pf3UlNqSTXJykaEzQBW0LgR8/ek+ZQ7tZzm30TfaUnBiPybo4Yg
-         /zINp/h7nV8LyVQxVtWXw6g3mg0CW2s+etwiPN2Klptrs2LQG41vd5OKCM3wHFulV/Wl
-         Lpfg==
-X-Forwarded-Encrypted: i=1; AL+hErH6OaAlMzSfC1XlYMAnwiGy4l4rS91IZ0JCwAGcEYQqOPfWL7t5Tt9QNqxpBnJ6AWA9YFpkyNZpQn7wH+hu@vger.kernel.org
-X-Gm-Message-State: APuU4Z8ccGP4CBjFJKtSqSapKNuzDvebd8A14p0psvKP2vN9ZNkLm7b5
-	khinyUHVE55BIOg5F2huz9b/U43+JVwn50fZhk0D95Db3HhiZ1Awm8Ac
-X-Gm-Gg: AZFdTZdtkC8EWWuAXM9s0YwVkAvlhqDvRgFD3Wsep8dZ2AO6DjWmxO6bGK5ZXQeX3Td
-	JZrt7rzl7uwTCOMLfrDdmnteAq0OyYOj7MabuH8rcZvz0vTfCbT5fw8Tm7luHh5H8utCFpkmHsW
-	viJEaQgZxao/4mUlKGcDHCLdCZFK12sb1PhsyBsw8M2nPNS69Lg9VCMGJSudXt/4fbcwQIp4asU
-	ELcvkekzn+JlnPTkc/Sw3mOseDxxrxd3Nt09EDMJ+wmPDfCegouMtoy9c3glFedifY+jvcf3f7G
-	EEurPDfxc1qhZQ4xK33RZXq4k9iLUF+Ku4LSivM44+JQejh0mUiikTDacq+RnFGQJBj6vJyU5lK
-	9F+Fylekhuly1uHagWB+3tRTIGisPIT5Bh4b66XzPaLNbYjzWSDVQCQvpBLNUpPn/wiZ4K6wehN
-	aKntXcv0beAJcGWb6L1xU6Kw/C6zHLQTz9El5sEYxcbBS4pGgXTKDlY3BvFWyTqQsvHPoW4bMUF
-	mJ/UgnrXRsPyfahPofptwZc4Mv1uqKjey2e4IhlVVSFqvV3Y+o8IRPECwOHPDb9a6b2TSoWIi/B
-	nzrVntP43iCcNNl9N1o04LI/vehEB5zgGrY3+aJ+4P28Bh/Wb4+lYyu1ElL9NXcss5VIZ45Fg53
-	Zmw/EvaukYi8=
-X-Received: by 2002:a05:6402:210a:b0:6ba:4bf3:4a7 with SMTP id 4fb4d7f45d1cf-6ba4bf3066fmr408910a12.23.1795160238249;
-        Thu, 19 Nov 2026 23:37:18 -0800 (PST)
-Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6ba370fc020sm841867a12.25.2026.11.19.23.37.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2026 23:37:17 -0800 (PST)
-From: Amir Goldstein <amir73il@gmail.com>
-To: Paul Moore <paul@paul-moore.com>
-Cc: James Morris <jmorris@namei.org>,
-	"Serge E . Hallyn" <serge@hallyn.com>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	linux-security-module@vger.kernel.org,
-	linux-unionfs@vger.kernel.org,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Vivek Goyal <vgoyal@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Chris Mason <mason@kernel.org>,
-	Josef Bacik <josef@toxicpanda.com>,
-	linux-fsdevel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH RESEND] lsm: put the copy up creds when an LSM hook fails
-Date: Fri, 20 Nov 2026 08:37:16 +0100
-Message-ID: <20261120073717.1588080-1-amir73il@gmail.com>
-X-Mailer: git-send-email 2.56.1
+        d=1e100.net; s=20260707; t=1795160984; x=1795765784;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PKfh3kaU0G0rUT/geWuCPv0s5ju8c8DPCj+FrnIkKs4=;
+        b=sAC3GpQDWl/r6MTFhYaLdDdDqbyePgFdVcsiVJyjtHQz22X11BfoaHJyJiOEL6GAV/
+         qRWArSMLW9QYgKHn+R45ofQizn3O5IuRmqQAkL56JS8XGNvAn3zDepIzf1xliHnvcM5F
+         B2XGJFokME+bjIymrPMpBBrrg9aAj83Ms5UglszppfWQuv1QyIC9YRgGV/DUCYjCcA/9
+         482j+yTKzmflxT2salz9aiZmEkRnGDrhzXEq6AYKM0mGaBHEHIZ7U2omKKvWvW0RTigT
+         T55X+NbYVqnQR6vLor4xxl3xga2AR4FmFzrEEaearubCGuC1koYl8Y2CSb5uJAItquvt
+         hwjQ==
+X-Forwarded-Encrypted: i=1; AL+hErG+B7LMZmVMZCcWBTBE0qVHqIcGL2sofmx+OvxOQefHjM9x95uIrDTaJ0dV1rRLGKad++qsquyBOWy6+ZQO@vger.kernel.org
+X-Gm-Message-State: APuU4Z/VK/ILhjBlT/UAAoPo5RM+dZ484NfZTTo6gVwTR6jVLVbdwu5f
+	f9j7/YbcoIDKVDM6ENTtq/4Z6spjjvW8cZMzoTSk+6MH+/IyqyRLm6TYVp3tw/P21IuvPU2dYiD
+	IHCssjz/gf845ZWhJaWf/1TqoaXaNFWc=
+X-Gm-Gg: AZFdTZd92ugzsq9IiKVZxubvebbuIy5DMugkA5n14D53s+olw0YnK5U+x+9HIVfPKl2
+	XystVOZl8OQhzOWqeVybNLuv4zvIy6l7supWiJLtsLmOpYxYcmyAvodRdMMuB8ef60L9fzJKOZX
+	DbY6YQg2DGa80zWSgrytQCMYOatCb40Jzw1DP+ZEAidLiS7IFttHNrJ9sJbdSesp8ddler/bw5y
+	u4sr4rZ1UTcddb13yCymOo91OWvJCbbF7K1mZF2PlnlK4CWGDowTbwUhRBP/Va+hElOTrR48nEz
+	29Hk6OyI80v28EpICPviJuRnTKhGZwJdkAwe2xUc98HUX2SkTBGiON/X9L0LG3lOhdJAz7L1gwi
+	HfdAtEIfl6nAp3frcqExoxHV1woF+Jmstu4JrtQgiZdShq13jc3hFOugW2Thtc5jiL9mBBg==
+X-Received: by 2002:a05:6402:51d4:b0:6b5:8cb3:5e19 with SMTP id
+ 4fb4d7f45d1cf-6ba37e8826emr1567455a12.38.1795160983956; Thu, 19 Nov 2026
+ 23:49:43 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -105,87 +104,128 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261119025942.2848130-1-neilb@ownmail.net> <20261119025942.2848130-5-neilb@ownmail.net>
+ <CAOQ4uxgan=mpQ9yHOyZwZZp8E69+oH3uaPJ5CBkP7Z5BCO-5jA@mail.gmail.com> <179513093550.1728055.17648674323193416652@noble.neil.brown.name>
+In-Reply-To: <179513093550.1728055.17648674323193416652@noble.neil.brown.name>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 20 Nov 2026 08:49:32 +0100
+X-Gm-Features: AclHuK92Odp_LX6Yi_Upic4sX2AvoYnwQkl4O4i6nLgkGpqLV9L63P1FdN9RHzY
+Message-ID: <CAOQ4uxjECTaXaeH_cfgikrWF3jrg-knhSJuC0voVxdajAzH5-Q@mail.gmail.com>
+Subject: Re: [PATCH v5 4/5] Add d_for_each_positive_child family of iterators
+To: NeilBrown <neil@brown.name>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Ian Kent <raven@themaw.net>, Jake Edge <jake@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Chris Mason <mason@kernel.org>
+On Fri, Nov 20, 2026 at 12:29=E2=80=AFAM NeilBrown <neilb@ownmail.net> wrot=
+e:
+>
+> On Fri, 20 Nov 2026, Amir Goldstein wrote:
+> > On Thu, Nov 19, 2026 at 4:00=E2=80=AFAM NeilBrown <neilb@ownmail.net> w=
+rote:
+>
+> > > +
+> > > +/**
+> > > + * d_next_sibling_sched - return next sibling, but schedule() first
+> > > + * @child:  current child
+> > > + *
+> > > + * This behaves like d_next_sibling(), but drops the parent d_lock
+> > > + * and calls cond_resched() to avoid any soft-lockup.  A cursor
+> > > + * is inserted as place holder.
+> > > + *
+> > > + * Caller must hold the parents d_lock, and must hold a counted
+> > > + * reference on the parent.
+> > > + *
+> > > + * Returns: the next sibling, or %NULL if there is none.
+> > > + */
+> > > +struct dentry *d_next_sibling_sched(struct dentry *child)
+> > > +__must_hold(&child->d_parent->d_lock)
+> > > +{
+> > > +       struct dentry cursor;
+> > > +
+> > > +       /* always skip cursors to ensure we make some real progress *=
+/
+> > > +       while (child && (child->d_flags & DCACHE_DENTRY_CURSOR))
+> > > +               child =3D d_next_sibling(child);
+> > > +       if (!child)
+> > > +               return child;
+> >
+> > Why is this skip loop here and not after the resched?
+> >
+> > As this is written, if the caller passed @child which is another cursor=
+,
+> > now child the next real dentry after another cursor and hlist_add_behin=
+d()
+> > below will insert our cursor after the real dentry.
+>
+> You are right of course - that is the wrong way to address the problem.
+>
+> I think moving the test into d_next_positive(), like with this
+> incremental patch, will work better.
+>
 
-security_inode_copy_up() leaks a struct cred when one LSM allocates new
-creds for an overlayfs copy up and a later LSM then denies the copy up.
-One such pair is SELinux and a BPF LSM program that denies
-inode_copy_up. Enabling both LSMs and loading the program requires
-root. After that, each denied copy up leaks one struct cred, no matter
-which user triggers it.
+Oh yeh, that's much better.
 
-The hook calls each enabled LSM in turn. SELinux or Smack allocates the
-creds and returns them through a pointer argument of the hook. A later
-LSM can still return an error, and the hook then returns that error with
-the creds still allocated. Its kernel-doc does not say that the caller
-owns them on error, and the only caller, overlayfs, does not put them.
+> Thanks!
+> NeilBrown
+>
+>
+> diff --git a/fs/dcache.c b/fs/dcache.c
+> index bacb218400a8..46aca619a9a3 100644
+> --- a/fs/dcache.c
+> +++ b/fs/dcache.c
+> @@ -2095,6 +2095,9 @@ static void d_init_cursor(struct dentry *dentry, st=
+ruct dentry *parent)
+>   * Caller must hold the parents d_lock, and must hold a counted
+>   * reference on the parent.
+>   *
+> + * @child should not be a cursor, else two threads could potentially
+> + * live-lock, each only stepping over each others cursors.
+> + *
+>   * Returns: the next sibling, or %NULL if there is none.
+>   */
+>  struct dentry *d_next_sibling_sched(struct dentry *child)
+> @@ -2102,12 +2105,6 @@ __must_hold(&child->d_parent->d_lock)
+>  {
+>         struct dentry cursor;
+>
+> -       /* always skip cursors to ensure we make some real progress */
+> -       while (child && (child->d_flags & DCACHE_DENTRY_CURSOR))
+> -               child =3D d_next_sibling(child);
+> -       if (!child)
+> -               return child;
+> -
+>         d_init_cursor(&cursor, child->d_parent);
+>         hlist_add_behind(&cursor.d_sib, &child->d_sib);
+>         spin_unlock(&cursor.d_parent->d_lock);
+> diff --git a/include/linux/dcache.h b/include/linux/dcache.h
+> index 7150ecd81d72..c384b0f8743e 100644
+> --- a/include/linux/dcache.h
+> +++ b/include/linux/dcache.h
+> @@ -697,7 +697,10 @@ struct dentry *d_next_sibling_sched(struct dentry *c=
+hild);
+>  static inline struct dentry *d_next_positive(struct dentry *child)
+>  {
+>         do {
+> -               if (need_resched())
+> +               /* Don't schedule on cursors to ensure we make some real
 
-Reproduced with SELinux and such a BPF LSM program: 36000 failed opens
-and chmods by an unprivileged user on an overlayfs mount left 36000
-struct cred objects allocated, which kmemleak reported.
+Hurts my eyes. Please add a newline. or shorten to ...ensure we make progre=
+ss */
 
-Fix this by putting the creds in security_inode_copy_up() when the hook
-fails, so the caller gets either creds that it owns or none.
+> +                * progress between scheduling
 
-Fixes: d8ad8b496184 ("security, overlayfs: provide copy up security hook for unioned files")
-Cc: stable@vger.kernel.org
-Signed-off-by: Chris Mason <mason@kernel.org>
-[amir: put the creds in security_inode_copy_up() instead of in overlayfs]
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
----
+the between scheduling part is kind of obvious
 
-Hi Paul,
-
-Apologies for missed the LSM list and maintainers in first posting [1].
-Resending with proper Cc list.
-
-I think this LSM hook was introduced with confusing contact for chained
-LSMs and this change makes the hook contract more sane in this case.
+> +                */
+> +               if (need_resched() && !(child->d_flags & DCACHE_DENTRY_CU=
+RSOR))
+>                         child =3D d_next_sibling_sched(child);
+>                 else
+>                         child =3D d_next_sibling(child);
+>
 
 Thanks,
 Amir.
-
-[1] https://lore.kernel.org/r/20261104082128.3573690-1-amir73il@gmail.com/
-
- security/security.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
-
-diff --git a/security/security.c b/security/security.c
-index f6583d5073959..ad382afbff271 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -2314,18 +2314,26 @@ void security_inode_getlsmprop(struct inode *inode, struct lsm_prop *prop)
- /**
-  * security_inode_copy_up() - Create new creds for an overlayfs copy-up op
-  * @src: union dentry of copy-up file
-- * @new: newly created creds
-+ * @new: newly created creds, must point to NULL on entry
-  *
-  * A file is about to be copied up from lower layer to upper layer of overlay
-  * filesystem. Security module can prepare a set of new creds and modify as
-  * need be and return new creds. Caller will switch to new creds temporarily to
-  * create new file and release newly allocated creds.
-  *
-- * Return: Returns 0 on success or a negative error code on error.
-+ * Return: Returns 0 on success or a negative error code on error, in which
-+ *         case @new is left pointing to NULL.
-  */
- int security_inode_copy_up(struct dentry *src, struct cred **new)
- {
--	return call_int_hook(inode_copy_up, src, new);
-+	int rc = call_int_hook(inode_copy_up, src, new);
-+
-+	/* An earlier LSM may have prepared creds before a later one failed */
-+	if (unlikely(rc < 0) && *new) {
-+		put_cred(*new);
-+		*new = NULL;
-+	}
-+	return rc;
- }
- EXPORT_SYMBOL(security_inode_copy_up);
- 
--- 
-2.55.0
-
