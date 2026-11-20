@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.72
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.70
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795136848;
-	b=gwfxTfG3L7xsFOtErZinGvlJ4F4dIKJ1ibSoaeGlIDDt+wqa3NX9zf+ilJvk10v1Gnxy
-	 3Ucyjvb2nE7IxFOzEIyIz0lVce5UwInu2g5zHimjOxUuA3HHcg30nr96bNwA5Wvl05mXZ
-	 5BBojFfJntmjYMQhoLa0hgSNlinIgihDj246MHpimCRTcAGSz5AofX6dcbkIYIO/c8rM2
-	 8YxcKRwrh/iLWnYkmjhQ4DacIPkoNe9S7tNyfj6IumjVg7lN7cGxQAJDORvJJ6vNsALjw
-	 QTpSxt9yK6F0X5EOkkCSsu7/BB/Te1iaIzyGBEQuSCfokXz5aIvMaORqMVCQYGhQhiQ==
+	t=1795136849;
+	b=fbpt2+6jLQ+T2qC5qYQxrKOXTVejbVWzmSFg3xQ3JS/4EwWLUPL7GbJpZic9tMCBdUl4
+	 McnDHqg2fNuarIVOCUYa/OsaLgMhK3bAHK+DPtcocuay/plPUq6ywcRv46KfVsjWCQCFL
+	 A5D6B7lJOJwGi50JaPG5dNvAkgNMescgwtlna89ypnO4Rwxk/4SILsCjQdVAuQ6KUmco3
+	 kx7Aoh3zUDrsOtIn8q4HFTt8aCgScLGsvfby40nT4IH/HrmesDEUYefQBeEoFV3eESIVC
+	 7U5VpcmQboiofvL6EyyZICWjDWikiA0FsSMHz3vPYu6Zz2JT/qbtgpXqlX/b0f8z8uw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795136848;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795136849;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=G58QRfdEQzG7y46akZhuXorptjXMkpo3OuC8LCJ2NV0=;
-	b=oqMbH6D+VCFjddGyzfnC7naCT7dGq9yBpHeZgY9zRLLgSV0t7ggJ0nyiNqBbMX3jVlqv
-	 16s3MH/EnSnd7D1DKgnsckTLPPheTcCoW6G/PAJkWGArpfYXC7S6I2sJ6GLvl6hKNheEy
-	 4F7/oNYVkyrNHFy+dgAqf/+Yeg69E+5vb+ZYssUOfEl3vDjs/pAaFjUL1uvhl9KQAW5o4
-	 pIQv8nxuLHS4xIX7RslLbAS8bcCo1vlnXpZOxeWBbP7tMg5xCS289UsBl+ThWIJjLDbkc
-	 7FgaPvHtbqa2T1E3fA/lRoRUwDj5VYXuABm65InB2r5kGuvfRCjRCDimVzxlIrHA8gQ==
+	bh=E07+bb3FRwBQVv7TP6tKUfjd8V3oXYxVPDexh6Cqmzk=;
+	b=dw9zP/MclLAZ5qHIQLT9kYhEm8VvIPcM+WmiO1Pj97tTfU8LtkoiWIV/jYPyawhciAn3
+	 6s2Ok2Tn35Ddb482jTx2WU5qZKzCGJluEZGBUeYacLw6T0qiF/SRQrQoD6/vQ/eM/cMem
+	 d0Q7A1s/hUnJXkNSD3PDplr1Xdv7IGMeDv0SGV/zuQYvA+AGYeVAFFsWopiHKjuA7bifB
+	 brxFPrB+2bCtumBRWldN+t+rSSALh0bHorsLLYRHVRMQ6gHUSeWCSmpglo7yMMO7KvCnd
+	 V08cgFKg00gveQaYX8xIihHUU1BGNwnrtOHhE9f5EUPI2d8+mLMD24Iw9DLOkheyP2w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="i/NRDXeT";
-	arc=none smtp.remote-ip=209.85.208.72
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=b93YVg4T;
+	arc=none smtp.remote-ip=209.85.208.70
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com [209.85.208.70])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD2760A5BDE
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 01:07:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8BD2760A5BDE
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869446074AEE
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 01:07:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 869446074AEE
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=i/NRDXeT
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-6b586b0a795so256108a12.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 17:07:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=b93YVg4T
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-6b4f1fcf171so302825a12.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 17:07:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795136846; x=1795741646; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1795136847; x=1795741647; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=G58QRfdEQzG7y46akZhuXorptjXMkpo3OuC8LCJ2NV0=;
-        b=i/NRDXeTSYEfEezD5V1XCNniH5DnQR9vfzm+vN5gKK7HSmUVNFLhUWOtZn4LXRiIJQ
-         7lOr84/ZOjXvt7ritNVVu/osy3RhSUyU3FCk+Pw9T0yIlE0tS9M7K5m0c5cvKVY4vcRh
-         vDQGrnMk78tO+qeqC8ad8KBdcWSowlXT2FagYVCCZtB/EJiLRo+yck6vYxjyaPewi4vR
-         UL0d9YPpJ3xayrffRlaaHIljkm3oTX4gKw2dicVuQ8h3dJIW5pRCbKERyujSv1BcD6ie
-         J2zwyS0rwBonSC+WfgiN2c/3IOZmtmGZKJHfgc25vf4U4QDfGhET0Dxyxo5sdg5s1aQI
-         Jd6w==
+        bh=E07+bb3FRwBQVv7TP6tKUfjd8V3oXYxVPDexh6Cqmzk=;
+        b=b93YVg4Tm3NX/spWylixOIxUhvRdvQxIAED0+riXQRtSo83NRIpTge2rBzxcszzDOC
+         3rugR/9IJ5658Ud+fUJT4UcFrAj82J063h9Hfj/4dN+vMPLRUBX70qcyXWzD8yndZ4r3
+         gvEnn939L6CAKAX2sbq66H1utJI9EEojPBLD5FlZNUJogu/LFQjD9PlVTjODPVgf4HfN
+         Mmhes1u7rOGZpB3HfCkapqaCrgkDb1LIjXpz5iNJuBeXVa7tLbtBPXYS7tIwbEfohsZl
+         /Ng6c6woQyveInvcT6fUrZi9u0LAgbi7XVVgHZFHCL3auVJkwOpwQMgP5SZvJhDx/pXk
+         DgbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795136846; x=1795741646;
+        d=1e100.net; s=20260707; t=1795136847; x=1795741647;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=G58QRfdEQzG7y46akZhuXorptjXMkpo3OuC8LCJ2NV0=;
-        b=eHZyzLrNTAmEtyEO3EiOA9bpXziOcOUEiKAZzCufBiAzhF0cedyT5h6i6TCPnkARTR
-         3x1quSIWpQzeifAhIYbbG+Wo7l+Y0v+XJ0xaBIu66d9uogrf8NxEkPFzNDYyuUkX+iTM
-         2W4RX0SEJA1eyvDmOW4yKdjfTfUy/joch4oyOX7kYzvAHs6TnxWsA+ksAvBAcjvMYAUX
-         dVxa/ZmAqxsU6zFqhxp5kijTg84QGyJte66LkdA9lvF79XI26BdBHqz4xiDk43gVn8n8
-         MtPDk5RZyoHp4NqlkL6lRiHJX+Ku9qSVF687N2fx7Y6mRdRikr2GXO/B7cwRKZkXRmJG
-         WOAQ==
-X-Forwarded-Encrypted: i=1; AL+hErHFztOBM8/v74Gy6QSfm5P0factZ9sHY5D9ogjvHVxUcYokcUwlg603DWps1dNnELQw8LrQu/uXrhTairFY@vger.kernel.org
-X-Gm-Message-State: APuU4Z8FfXCYKRtP75EqqN7ivO8vHEtJkEJoxhqaDEzaJDNa/wmwzZZz
-	mITWp79YWn1FX25hYNSw0q+YXO+xmPqetSk9/I19030BRopF7yDgHUHfZFNBHcOTZCASGy3639i
-	7NahRVg==
-X-Received: from edag35.prod.google.com ([2002:a05:6402:3223:b0:6b7:7926:2af4])
- (user=lrizzo job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6402:1c05:b0:6b9:c43d:892
- with SMTP id 4fb4d7f45d1cf-6ba37c7bebdmr666829a12.1.1795136845436; Thu, 19
- Nov 2026 17:07:25 -0800 (PST)
-Date: Fri, 20 Nov 2026 01:06:52 +0000
+        bh=E07+bb3FRwBQVv7TP6tKUfjd8V3oXYxVPDexh6Cqmzk=;
+        b=jJkfVrlZR7hOnYErTAQb8Glf4iTdYXN7e8OlUs3siCiJ/bcWICEO9QpAv7D4I5bqFt
+         fVbHUDYHvqwxqSuLUTZy2McWS88ptygN9flxtRIECVnwCm58DvDYu3ZW/h/xpWiCV+x3
+         Ol1XHbuzD0/JxlYrQ0PwtwZLTjUpyjC0ccpUicZc+dlwfTxnqtTp4Fob0CRgJR1Gg/cj
+         ie/L8MYRi8WVZ8BHGUqk7n+yk9l2rre4sitvIGiZ/CGA5yadwLUNJjrgVnElaEAKpjXb
+         QqJwiOe/q8h25VduSqEAHBqKQeszk7uuUVala36pd3ZocpP3W9E8CKyNb7PqJOlccw9J
+         DbUA==
+X-Forwarded-Encrypted: i=1; AL+hErF6sDDRAtwKnNdJ8BO56GD6HhFIP0ZUkCib9mWHFGWiYoxLo/run7h0atwmgXuu5GfuwckR6HN7hibSQr0I@vger.kernel.org
+X-Gm-Message-State: APuU4Z+kzmedOSdfX2MgNJQeRwlix4TWzywoY7uIIwsJlvdIXGdlrOgB
+	4nLZmH4wWDUJARhPffkldHtwTXS1VOYHGppOVNeVpEsYj8Xq8wjrIjxibPuyh7O9HHUJo4M8aUm
+	s1EwRCg==
+X-Received: from edl2-n1.prod.google.com ([2002:a05:6402:4242:10b0:6b5:6602:7fc9])
+ (user=lrizzo job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6402:1e94:b0:6b5:8247:7bc7
+ with SMTP id 4fb4d7f45d1cf-6ba37ed4f03mr808156a12.44.1795136846496; Thu, 19
+ Nov 2026 17:07:26 -0800 (PST)
+Date: Fri, 20 Nov 2026 01:06:53 +0000
 In-Reply-To: <20261120010655.467825-1-lrizzo@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -81,8 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261109182533.3594984-1-lrizzo@google.com> <20261120010655.467825-1-lrizzo@google.com>
 X-Mailer: git-send-email 2.56.1.809.ga0b61035b5-goog
-Message-ID: <20261120010655.467825-23-lrizzo@google.com>
-Subject: [RFC PATCH v3 22/25] net/libeth: Use GFP_KERNEL when pre-filling RX rings
+Message-ID: <20261120010655.467825-24-lrizzo@google.com>
+Subject: [RFC PATCH v3 23/25] net/gve: Use GFP_KERNEL when pre-filling RX rings
 From: Luigi Rizzo <lrizzo@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
 	Johannes Weiner <hannes@cmpxchg.org>, Vlastimil Babka <vbabka@kernel.org>, Joerg Roedel <joro@8bytes.org>, 
@@ -112,43 +112,82 @@ Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, M
 	Luigi Rizzo <lrizzo@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-libeth_rx_alloc() is called both when pre-filling RX fill queues in
-process context (for indices 0 .. fq->count - 2, when buf->truesize is
-still 0) and when refilling RX buffers from NAPI softirq.
-
-Use GFP_KERNEL during the initial process-context ring fill so page_pool
-and PISA page allocations (including set_memory_decrypted() under CoCo)
-are not forced into GFP_ATOMIC context.
+When pre-filling DQO and GQI RX rings in process context before NAPI is
+enabled (e.g. gve_open), use GFP_KERNEL instead of GFP_ATOMIC so page
+allocation (and CoCo page decryption) can sleep instead of dipping into
+atomic reserves.
 
 Signed-off-by: Luigi Rizzo <lrizzo@google.com>
 ---
- include/net/libeth/rx.h | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/net/ethernet/google/gve/gve_buffer_mgmt_dqo.c |  8 +++++++-
+ drivers/net/ethernet/google/gve/gve_rx.c              | 10 +++++-----
+ 2 files changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/include/net/libeth/rx.h b/include/net/libeth/rx.h
-index 0e736846c5e8a..4361dbcf03cb1 100644
---- a/include/net/libeth/rx.h
-+++ b/include/net/libeth/rx.h
-@@ -106,10 +106,17 @@ void libeth_rx_fq_destroy(struct libeth_fq *fq);
- static inline dma_addr_t libeth_rx_alloc(const struct libeth_fq_fp *fq, u32 i)
+diff --git a/drivers/net/ethernet/google/gve/gve_buffer_mgmt_dqo.c b/drivers/net/ethernet/google/gve/gve_buffer_mgmt_dqo.c
+index 6880d1531ba5e..a3fe684ca087a 100644
+--- a/drivers/net/ethernet/google/gve/gve_buffer_mgmt_dqo.c
++++ b/drivers/net/ethernet/google/gve/gve_buffer_mgmt_dqo.c
+@@ -223,13 +223,19 @@ void gve_free_to_page_pool(struct gve_rx_ring *rx,
+ static int gve_alloc_from_page_pool(struct gve_rx_ring *rx,
+ 				    struct gve_rx_buf_state_dqo *buf_state)
  {
- 	struct libeth_fqe *buf = &fq->fqes[i];
-+	/* fq->fqes is zero-allocated and pre-filled in process context for
-+	 * indices [0 .. fq->count - 2]; slot fq->count - 1 is first allocated
-+	 * in NAPI. Use GFP_KERNEL for initial pre-fill and GFP_ATOMIC after.
++	/*
++	 * Use GFP_KERNEL when pre-filling RX rings in process context (e.g.
++	 * gve_open) so PISA metadata init and CoCo page decryption can sleep.
 +	 */
-+	gfp_t gfp = (buf->truesize || i == fq->count - 1 || in_softirq()) ?
++	gfp_t gfp = (gve_get_napi_enabled(rx->gve) || in_softirq()) ?
 +		    GFP_ATOMIC : GFP_KERNEL;
+ 	netmem_ref netmem;
  
- 	buf->truesize = fq->truesize;
--	buf->netmem = page_pool_dev_alloc_netmem(fq->pp, &buf->offset,
--						 &buf->truesize);
-+	buf->netmem = page_pool_alloc_netmem(fq->pp, &buf->offset,
-+					     &buf->truesize,
-+					     gfp | __GFP_NOWARN);
- 	if (unlikely(!buf->netmem))
- 		return DMA_MAPPING_ERROR;
+ 	buf_state->page_info.buf_size = rx->packet_buffer_truesize;
+ 	netmem = page_pool_alloc_netmem(rx->dqo.page_pool,
+ 					&buf_state->page_info.page_offset,
+ 					&buf_state->page_info.buf_size,
+-					GFP_ATOMIC);
++					gfp);
  
+ 	if (!netmem)
+ 		return -ENOMEM;
+diff --git a/drivers/net/ethernet/google/gve/gve_rx.c b/drivers/net/ethernet/google/gve/gve_rx.c
+index 81ea800e66e94..7c201fd513ee3 100644
+--- a/drivers/net/ethernet/google/gve/gve_rx.c
++++ b/drivers/net/ethernet/google/gve/gve_rx.c
+@@ -159,14 +159,13 @@ static void gve_setup_rx_buffer(struct gve_rx_ring *rx,
+ static int gve_rx_alloc_buffer(struct gve_priv *priv, struct device *dev,
+ 			       struct gve_rx_slot_page_info *page_info,
+ 			       union gve_rx_data_slot *data_slot,
+-			       struct gve_rx_ring *rx)
++			       struct gve_rx_ring *rx, gfp_t gfp)
+ {
+ 	struct page *page;
+ 	dma_addr_t dma;
+ 	int err;
+ 
+-	err = gve_alloc_page(priv, dev, &page, &dma, DMA_FROM_DEVICE,
+-			     GFP_ATOMIC);
++	err = gve_alloc_page(priv, dev, &page, &dma, DMA_FROM_DEVICE, gfp);
+ 	if (err) {
+ 		u64_stats_update_begin(&rx->statss);
+ 		rx->rx_buf_alloc_fail++;
+@@ -209,7 +208,7 @@ static int gve_rx_prefill_pages(struct gve_rx_ring *rx,
+ 		}
+ 		err = gve_rx_alloc_buffer(priv, &priv->pdev->dev,
+ 					  &rx->data.page_info[i],
+-					  &rx->data.data_ring[i], rx);
++					  &rx->data.data_ring[i], rx, GFP_KERNEL);
+ 		if (err)
+ 			goto alloc_err_rda;
+ 	}
+@@ -986,7 +985,8 @@ static bool gve_rx_refill_buffers(struct gve_priv *priv, struct gve_rx_ring *rx)
+ 				gve_rx_free_buffer(dev, page_info, data_slot);
+ 				page_info->page = NULL;
+ 				if (gve_rx_alloc_buffer(priv, dev, page_info,
+-							data_slot, rx)) {
++							data_slot, rx,
++							GFP_ATOMIC)) {
+ 					break;
+ 				}
+ 			}
 -- 
 2.56.1.809.ga0b61035b5-goog
 
