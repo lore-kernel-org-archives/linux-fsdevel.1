@@ -1,107 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.171.160.6
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795177982;
-	b=rQDJtTCfs+nDrZ5DsA+gnSnoIsV9FXSxtgMflGtFqMqdpIfYI5zagGX+ABpGMXmBBoeT
-	 CkcrcvhTKstYwYzExkyE4pshB39MndBPfkb2fn10V/0waFbPv4a2PKKR+G1oEiVCekx8M
-	 f7w5Ua/vw+lY5ADjhA5zO8aiLi1/e/tmZaubG6CvnA+eMZlOL6T08TLB1OvCRnsB0/yTT
-	 JgH+pkmwTWYeTqD2SeSzV2wkHB6u/dzSPPMINu/i618/wt9hx/vuDXDRjmHb7SQxwkzhs
-	 7UOJ4BD1yAoPNa+xkSoLvjioXK5Sz13dZACFWozFyynOfJoBE/LC6VcYlASKbgm94SQ==
+	t=1795178185;
+	b=YtjSkehXQz6a75k9r32/54xKCRMXhaCCXx/8YunVrHJVUDhwGGFmwPtpxWgKtfNnREoA
+	 RiaCa5AqnSvo1mZn0E0MuvTn1mc5QGqB+iLPPpvh8oZJ2PVYWnXnZQJK6IWzbiyyGGQRZ
+	 cxlswzmW5x5L49Wy2EAEs1LmErK7VkptSj9gLkaIdBFutzU/c64hFkFzSXfDOs0nNsaH2
+	 mW92Mzwck+bY722IQ8JJrTJaK78R6FU3/QRwRFfkYOFunFExvdLh45c6Aovzt50dFSfWX
+	 I4tXNyl+tbbBIaK1wBwpMZKPIeSCKOG5P+9N5oBY3w1EnJc27os1WWmpmFJ5L94rs1Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795177982;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=y1Wkg0jR0Nndjb05E7cUt8QKw6kiQJc1XIXRzVqfiAU=;
-	b=gbu6EAarzNyrLBYaFPFUGGPOKwrVJVehBc8wV0HpDDtAqc4ISWm0cxg+W5nRkHj/COHX
-	 NedE2fC1Obxw1wf6vJF0o8Fxe8LVG11sXPTbk/s+TkJ8I+7Kf2ShE4iUjr4Bfw+0mY5jE
-	 9Iheykor+1D6zEecVc/yNeUwrG51sZ1SL1cmFS/r2JryEm5Qs4WYMZcAaDuWx4Vo11JIC
-	 AuLyCIjRf6QecyFlGNGq+FyNIYu/gzL6KGiwEzwo8XaZnbqB641iHi4LwqC+kHsIBUoM2
-	 zklNeJj8WYS2zntCWYzH5nek3UV+Cp0OJtJN58lo5nTGLZb2szM7Grh4927wqL2GWeQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795178185;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
+	 Received:From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 User-Agent:MIME-Version:Content-Type;
+	bh=gsDaNW3c25zsIb9zJPUAJ/QgQHdmH3s0FFLrcb6FKlw=;
+	b=J+0Yq44tQly+zA7in9MOfyltHzh802tSf/s4PZ+WcacCmFp0yLX8rZQ3C7DZj2KkUZuE
+	 OBeMbyzAijoDIA4N0x8j4WfI/DJ9APSfLEX5bB1EeZIQui5rnyMvQApUqn/eFW23toHFV
+	 hvqPfZ9AXNc93Bsdz4FvZZIXkGy4iJOZ3ZfB9NIVvuqZPAzf1GLm24I94vkSl3j5zjvSb
+	 WYldb5P9POdGPqkYLja7blD+EQ02k9Bu8BUbdOGZQXySKEFMaWcIWr13bbQqe/YPrEGAU
+	 zValDPF/TruQg54J9DqGC7oT+Uj/gEd5y5/znA2EE5+k+3k8V35Ab8v19wFf6V6XBdQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amutable.com;
-	spf=pass smtp.mailfrom=amutable.com;
-	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=qbwklCFC;
-	arc=none smtp.remote-ip=209.85.218.54
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=mail.parknet.co.jp;
+	spf=pass smtp.mailfrom=parknet.co.jp;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=nGqt0Wn8;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=ECYTn7xR;
+	arc=none smtp.remote-ip=210.171.160.6
+Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F9F60A2600
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 12:33:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F3F9F60A2600
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86855606A32A;
+	Fri, 20 Nov 2026 12:36:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 86855606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=qbwklCFC
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c50933bdf4bso188410466b.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 04:33:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1795177980; x=1795782780; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=y1Wkg0jR0Nndjb05E7cUt8QKw6kiQJc1XIXRzVqfiAU=;
-        b=qbwklCFCQWBYYh7Vdm/EvOhgnw0GN36ZdBdjQhkPfUQrBI5NBk6W9T4MdRJopZQZjo
-         P6262a/dhJ7Co2zQpiKrl4G+woYgY042jWu8/3ZHeVK5ALDluxaUnBxbAIoZRRHJPu8I
-         giCejoRuk/NeTe6oUF2GyqxtzLSYol6p0d/hxOP1dljaEd3BGsyiSxjP1aQh+9pKGEZ+
-         PQ9OGYDSwCcUE41GIQCd148T7eMUZNRhT3F9VOX0RluZQQ6m3tXsa64kVRnLvhW5Q/nX
-         YIq71Ek0W8WB4hUCj8xaGcwb6t0xcDq0L45GukMS4+fS+2IyVZRwH7HQwRq498rhEgbO
-         D6PQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795177980; x=1795782780;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=y1Wkg0jR0Nndjb05E7cUt8QKw6kiQJc1XIXRzVqfiAU=;
-        b=FbJn5rHS7hszj6G/jLotWSLM/n41VWBLcQJ7tsST4S+s+eLgOptJaIhCn9h7chC7w3
-         8Inscb0xGMd3pFh47KKAKii0BmVfeMO8uNjiP8aVHWFmPIrzzOXCcXriiNQTiXem5xYA
-         0X0uzsxBAOA0VD9Tj2Fmg24Eg5YYAOiiH9VY8/A7UCtpZ+UpCUZQgz5XGTdHlBS7WGys
-         1MJw9scgz3qozJeChoXZhzbX3VfuzyOCdeNxGD5rxbZXoydwviFbAA9C3D8mBA+RRvFp
-         j3FMcNwfTS/G/Ccgxyi20h4ill5ad8tU/8gLBQ7MxZhdGoqR66/Womum98InFROIynix
-         qypA==
-X-Forwarded-Encrypted: i=1; AL+hErF5FSAxXoCeL+0KBICWQgNAwQ/4F99g49+dNNP0xuLynV7xFmbCeWMw6NU5aSW6TN2GLWPunqHjkJ7kWtaX@vger.kernel.org
-X-Gm-Message-State: APuU4Z+Dnb8duqoHGo7D1RThJSGDbcVNqXOqD33LOkZ7BlW8QV9BJcZ2
-	ZCFvppqwAaRP8wR2RLQg1SCumC4IVr0Jhv6vziaBIBNAdIjmCyoGrkE054w8hc1BA465
-X-Gm-Gg: AYBFou3emx8K1IF2vg51uOGNERhH8ooH9ulc0SRx4S2d3ZOYf+uaO9ewbv5Bm08Aawp
-	USvJodIj0rmUQpnbFuY2mulHLD/16wMxfAZJndClC5PIa3P17YNknhTqTkjz8wBZWFa9ZbfP6fv
-	UmIieRP422LXvxEDg7qebvMyyE1ZLWPrHYQsBVLPXs0/LLXU04lrnumAbmOb+NtRs9ma8sm9Bj2
-	TzIwpRwsgQliSgwUPH2DgWnm1b+eLzLtrgx6tiTnIErtuXeJHIbmQ/B90xV+Ppbckj5PgtoZCDK
-	+GhM/0KK+c54wbAczXNGhQj4KMBgcAOzi+1OZPwhCxrpcrFaD+yXUFz/269pXH9D1feS2CX66SA
-	U7hWtsUmB1SkAdFymgoHveKqZPJ0hI7YXXh+0rqF9fkSq2LNgJ700lu6Z90tK81PghqOyG4SmI0
-	tNSTVCFE60MCL4FxBqwtBoazn3fh16NL3UqvVGl1xFXLOtmtzgV2vx/bIMOEwuKU1VQajJANPY4
-	WwqqQu8wQ4cu45aDpo7uy67LKxDRkV4Y6zTLfxvW6emwQK+obfVUqM9huY30FBJecWvkUfwatsK
-	nONLXkGwqfHCBXtae2wR20+tMZraO6ODk9Gp74jqV9pxYEsexlAsL7RqZcgfxZkuWA==
-X-Received: by 2002:a17:907:3e87:b0:c51:24e5:f5d7 with SMTP id a640c23a62f3a-c51313a09eamr445486266b.0.1795177980204;
-        Fri, 20 Nov 2026 04:33:00 -0800 (PST)
-Received: from [10.0.0.233] (tmo-084-188.customers.d1-online.com. [80.187.84.188])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6a67fe75sm6008114f8f.24.2026.11.20.04.32.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 04:32:59 -0800 (PST)
-Message-ID: <c301fff20a4920fcd3baa31dda2e31ad99c93436.camel@amutable.com>
-Subject: Re: [RFC PATCH v2 00/13] Namespace for namespace roots
-From: Alexander Mikhalitsyn <alex@amutable.com>
-To: Andy Lutomirski <luto@amacapital.net>, Josef Bacik <josef@toxicpanda.com>
-Cc: Jarkko Sakkinen <jarkko@kernel.org>, Christian Brauner
- <brauner@kernel.org>,  Alexander Viro <viro@zeniv.linux.org.uk>, David
- Howells <dhowells@redhat.com>, Jan Kara <jack@suse.cz>, Serge Hallyn
- <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, Paul Moore
- <paul@paul-moore.com>, 	linux-fsdevel@vger.kernel.org,
- linux-api@vger.kernel.org, 	linux-security-module@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Date: Fri, 20 Nov 2026 13:32:57 +0100
-In-Reply-To: <CALCETrUbe8rBoxrC+Q66AMsrJ8Fow7xt5KJKRAmobtXBvHWdqg@mail.gmail.com>
-References: <20261117231352.3816603-1-jarkko@kernel.org>
-	 <CALCETrVUkbpoFjwSAejyA4b_9qEauAP_36i=O8Op1ifp8aUkqA@mail.gmail.com>
-	 <av3akYFOYaeQZauZ@kernel.org> <av3bkDnwmjunTleX@kernel.org>
-	 <CALCETrXPLeUgxyhjP4XuWS46FKB0TUHF5PcMkdMf+qeEXbyXRA@mail.gmail.com>
-	 <9463a969d35a7d5ec5a56aeb67644b94.josef@toxicpanda.com>
-	 <CALCETrXt-Do28BHDpbrA98kEy-tQuorxD8c2XsW24Tt8Vspdtg@mail.gmail.com>
-	 <CALCETrUbe8rBoxrC+Q66AMsrJ8Fow7xt5KJKRAmobtXBvHWdqg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=nGqt0Wn8;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=ECYTn7xR
+Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id 118D820BD282;
+	Fri, 20 Nov 2026 21:36:17 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114; t=1795178177;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gsDaNW3c25zsIb9zJPUAJ/QgQHdmH3s0FFLrcb6FKlw=;
+	b=nGqt0Wn84QZ0IaMMAZ8thWeKEFfLHbozAwGbdnI1OuomPYLsAALHIv+2o7sdBbG9g9AA6Y
+	jdpjOkMevN/EyTMISVDtQ9pS5op48xL1AvefLNLmz9vgWabHlqKO09nz36r4BfA3xztb1t
+	9sK+oULMOim/qRngOTjw2T992oiWk7XVv6vIS4izssHJ/Ii43ZPiAIBn/OCNmZ6nTpA3xe
+	ebnzAcfvPxDryUpaW2DPS88LweR+/DRPjhySYw+Ol6OgX8njBJqt/up9vYWFW7pqzHJ3P+
+	4JbimRBujR1bty1G2FxLSjBLjHm0Sz2Yt/8BKvMm0ekRqoWf5L2gswFGfeCaLQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114-ed25519; t=1795178177;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gsDaNW3c25zsIb9zJPUAJ/QgQHdmH3s0FFLrcb6FKlw=;
+	b=ECYTn7xR4Fsm1PjIKG2lvMd99J9zTZuTv/iixBIqcY7s7wtnNloXQSXugcwlTL2KEyFX+o
+	yqOgh76nL+vp3KDA==
+Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 7EDB0E00850;
+	Fri, 20 Nov 2026 21:36:16 +0900 (JST)
+Received: by devron.myhome.or.jp (Postfix, from userid 1000)
+	id 6F2EC220021D; Fri, 20 Nov 2026 21:36:16 +0900 (JST)
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+Cc: linux-kernel@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  syzbot+b0aebd03565f5774f7f8@syzkaller.appspotmail.com
+Subject: Re: [PATCH v5] fat: make rename recovery safe after metadata write
+ errors
+In-Reply-To: <91d8a899-e768-4a4f-8f56-50a7b6f8a293@gmail.com>
+References: <6aa82300.a211d2ce.1a5198.0295.GAE@google.com>
+	<20260929090029.742579-1-krystianmkaniewski@gmail.com>
+	<87ld8j4161.fsf@mail.parknet.co.jp>
+	<1f18819d20c92960b8b2d6ccc8bc4506d346150e.1790779353.git.krystianmkaniewski@gmail.com>
+	<87bj90m6dq.fsf@mail.parknet.co.jp>
+	<20261014082315.190262-1-krystianmkaniewski@gmail.com>
+	<87qzhqvloo.fsf@mail.parknet.co.jp>
+	<55a1f016-a7a2-469f-b481-37223d695f29@gmail.com>
+	<87cxt921rc.fsf@mail.parknet.co.jp>
+	<f9b27432-4104-4323-8cd7-e2cda73db2f9@gmail.com>
+	<875wz11xfg.fsf@mail.parknet.co.jp>
+	<c820357a-a7cf-4f4b-ab23-91530a12218b@gmail.com>
+	<878q3uhv4h.fsf@mail.parknet.co.jp>
+	<20261019145146.539233-1-krystianmkaniewski@gmail.com>
+	<87wlrdy8ch.fsf@mail.parknet.co.jp>
+	<2ba329a1-ad8c-4b6a-8dd6-1f93c85224c0@gmail.com>
+	<20261102143013.492650-1-krystianmkaniewski@gmail.com>
+	<87y0b3to5u.fsf@mail.parknet.co.jp>
+	<91d8a899-e768-4a4f-8f56-50a7b6f8a293@gmail.com>
+Date: Fri, 20 Nov 2026 21:36:16 +0900
+Message-ID: <87jym7fznj.fsf@mail.parknet.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -111,144 +99,98 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain
 
-On Thu, 2026-11-19 at 15:27 -0800, Andy Lutomirski wrote:
-> On Thu, Nov 19, 2026 at 2:50=E2=80=AFPM Andy Lutomirski <luto@amacapital.=
-net>
-> wrote:
-> >=20
-> > On Thu, Nov 19, 2026 at 9:30=E2=80=AFAM Josef Bacik <josef@toxicpanda.c=
-om>
-> > wrote:
-> > >=20
-> > > On Wed, Nov 18, 2026 at 9:46 AM Andy Lutomirski
-> > > <luto@amacapital.net> wrote:
-> > > > cells: The dance where I create an anonymous mountns, mount
-> > > > stuff into
-> > > > it, and then attach it to the cell is cute.=C2=A0 But I think the
-> > > > userns
-> > > > interaction is wrong: you are making me assemble all the mounts
-> > > > in
-> > > > *my* userns and then clone the entire tree into a fresh, non-
-> > > > anonymous
-> > > > mountns bound to the current userns.=C2=A0 And that clone operation
-> > > > is not
-> > > > free and serves no actual practical purpose.
-> > >=20
-> > > The copy buys us nothing, agreed.=C2=A0 That's just what the mount AP=
-I
-> > > gives
-> > > me to work with today, it's not something cells wants.=C2=A0 If I
-> > > could make
-> > > an empty mount namespace and fill it by fd I'd use that, the
-> > > "root" slot
-> > > takes a mount namespace fd already.=C2=A0 Extending the API for that
-> > > makes
-> > > sense to me on its own.
-> > >=20
-> > > The mount namespace staying with the builder's userns is on
-> > > purpose
-> > > though, that's what keeps the cell from mounting anything no
-> > > matter what
-> > > capabilities it was given.=C2=A0 The builder sets the tree up and
-> > > hands it
-> > > over, so the cell only ever has what it was given, and the mount
-> > > code
-> > > isn't something it can attack from the inside.
-> >=20
-> > I don't get it.
-> >=20
-> > Using the builder's user namespace means that the contained
-> > processes
-> > can't be ns_capable on mntns->userns.=C2=A0 But this solves very few
-> > problems unless you also deny the contained processes the ability
-> > to
-> > unshare userns and make a new mountns, and if you can do that,
-> > surely
-> > you can also deny the ability to modify the mount namespace.
-> >=20
-> > As just one example, a mount namespace could have a little flag to
-> > say
-> > that it's *in* one userns but its owner is a different userns.
-> >=20
-> > >=20
-> > > > cells: I find it *incredibly annoying* that one generally
-> > > > cannot put
-> > > > new mounts into an existing container using most existing
-> > > > container
-> > > > managers.=C2=A0 I hit this on a surprisingly regular basis.=C2=A0 Y=
-ou
-> > > > seem to be
-> > > > baking this into the whole cells design.=C2=A0 Why?
-> > >=20
-> > > By design.=C2=A0 Allowing changes to a running container is what
-> > > causes the
-> > > problems.=C2=A0 If you need another mount, tear it down and build it
-> > > again.
-> >=20
-> > What problems?
+Krystian Kaniewski <krystianmkaniewski@gmail.com> writes:
 
-Dear friends,
+> On 11/8/26 15:04, OGAWA Hirofumi wrote:
+>>>
+>>>  fs/fat/namei_msdos.c | 18 ++++++++++++----
+>>>  fs/fat/namei_vfat.c  | 50 +++++++++++++++++++++++++++++++-------------
+>>>  2 files changed, 49 insertions(+), 19 deletions(-)
+>>>
+>>> diff --git a/fs/fat/namei_msdos.c b/fs/fat/namei_msdos.c
+>>> index d46d1a3851f25f..51d49a3ca93c14 100644
+>>> --- a/fs/fat/namei_msdos.c
+>>> +++ b/fs/fat/namei_msdos.c
+>>> @@ -562,14 +562,20 @@ static int do_msdos_rename(struct inode *old_dir, unsigned char *old_name,
+>>>  	return err;
+>>>  
+>>>  error_dotdot:
+>>> -	/* data cluster is shared, serious corruption */
+>>> +	/*
+>>> +	 * Complete the remaining rollback. Report corruption only if a
+>>> +	 * recovery step cannot be completed.
+>>> +	 */
+>>>  	corrupt = 1;
+>>>  
+>>> -	if (update_dotdot) {
+>>> +	/* A failed sync write clears BH_Uptodate, leave that buffer alone. */
+>>> +	if (update_dotdot && buffer_uptodate(dotdot_bh)) {
+>>>  		fat_set_start(dotdot_de, MSDOS_I(old_dir)->i_logstart);
+>>>  		mmb_mark_buffer_dirty(dotdot_bh,
+>>>  				      &MSDOS_I(old_inode)->i_metadata_bhs);
+>>>  		corrupt |= sync_dirty_buffer(dotdot_bh);
+>>> +	} else if (update_dotdot) {
+>>> +		corrupt = err;
+>>>  	}
+>>>  error_inode:
+>>>  	fat_detach(old_inode);
+>>> @@ -577,11 +583,13 @@ static int do_msdos_rename(struct inode *old_dir, unsigned char *old_name,
+>>>  	MSDOS_I(old_inode)->i_attrs = old_attrs;
+>>>  	if (new_inode) {
+>>>  		fat_attach(new_inode, new_i_pos);
+>>> -		if (corrupt) {
+>>> +		if (corrupt && buffer_uptodate(sinfo.bh)) {
+>> 
+>> This check is ok with sinfo.bh?
+>> 
+>
+> Yes. For an existing destination, msdos_lookup() reaches fat_scan()
+> through msdos_find(), while do_msdos_rename() calls fat_scan() with
+> the same normalized 8.3 name. Both identify the same directory entry,
+> so sinfo.i_pos equals new_i_pos and sinfo.bh is the buffer containing
+> that entry.
+>
+>> 
+>> I guess this check is needed for msdos too? If so, maybe we want the
+>> helper function in fat module.
+>> 
+>> Thanks.
+>
+> I agree that a common FAT helper would be the right shape if this check
+> were still needed. I prepared that version, but before sending v6 I
+> noticed that the buffer write-error contract changed in v7.4-rc1.
+>
+> Commit 9f08e58149dc ("buffer: stop touching BH_Uptodate on write
+> completion") no longer clears BH_Uptodate after a failed write. The
+> failure is recorded in BH_Write_EIO instead. The same series changed
+> fat_sync_bhs() in 8417ab622ffc ("fat: check for a metadata write error
+> with buffer_write_io_error()"). The 9f08e58149dc commit message calls
+> out the mark_buffer_dirty() warning from this report as the reason for
+> the series.
+>
+> I reran the original C and syz reproducers and targeted metadata write
+> faults on current mainline without a FAT patch. The writes still failed,
+> but the !buffer_uptodate warning did not occur.
+>
+> This also means that changing the v5 checks mechanically to
+> buffer_write_io_error() would not be correct. The new buffer semantics
+> deliberately preserve the in-memory data so that a failed write can be
+> retried. In particular, suppressing the second dotdot rollback in
+> vfat_rename_exchange() would now remove valid recovery.
+>
+> My current conclusion is that I should not send a FAT v6 for mainline.
+> Would you agree that 9f08e58149dc should be reported to syzbot as the
+> fix and that this FAT series should be dropped?
+>
+> Older kernels that do not contain these buffer changes may still hit
+> the warning. Since the warning is now addressed in the buffer layer,
+> backporting the relevant v7.4 buffer changes may be preferable to
+> adding a separate FAT recovery change.
 
-Dear Andy,
+OK. If there is no WARN_ON() anymore, it sounds good.
 
->=20
-> I'll add:
->=20
-> On a non-container Linux system, you can hot-add a removable drive.
-> On a Linux-hosted VM, you can hot-add all kinds of devices, with or
-> without the help of the hypervisor.=C2=A0 (The hypervisor can hot-add a
-> device, and the guest can mount network devices or newly added USB
-> devices on a port that was already assigned, etc.)
->=20
-> For some reason, on Docker and its sort-of-clones, approximately the
-> best you can do is rbind in a directory and then mount things into
-> that directory from outside.=C2=A0 This is sad.
-
-+1
-
-I guess the root reason here is what you've mentioned - for VMs we have
-a clear separation of the host-side (hypervisor can hot-plug a device
-to be visible on a PCI bus, for example) and some agent on the guest
-side can react on this change and do something depending on how VM's
-owner has configured it.
-
-For containers, we usually don't have an agent (at least in LXC, OpenVZ
-and Docker too). So it is a container manager's work to figure out how
-to hotplug a new filesystem for example and where to place the mount.
-And this was always a reason for some crazy security issues, when some
-privileged process on the host was entering a container's namespaces
-(partially) and then suddenly become trace-able or bring some host FDs
-(and these FDs could be a way to escape via (struct file*)->f_cred
-permission delegation model).
-
-Another reason is that in VM you hotplug a device, while in container
-you can only hotplug a mounted filesystem. And for devices we don't
-care under which major/minor they land and so on - again, because we
-have systemd for example and it can figure this out. For filesystem we
-need to know where to place in in a mount namespace tree from the
-beginning (we still don't allow mounting a block-device based
-filesystems inside user namespaces).
-
-I really like your point and that would be great if we can solve this
-somehow in a new design.
-
-Kind regards,
-Alex
-
->=20
-> I get that there are plenty of workloads for which this limitation is
-> reasonable, and there are more workloads for which this limitation is
-> silly and people have learned to live with it because everyone
-> imitates Docker and Docker is limited.=C2=A0 But there are also workloads
-> that I hit on a surprisingly regular basis for which this limitation
-> is genuinely annoying.
->=20
-> If you want to write a container manager that shares the same
-> limitation, fine.=C2=A0 But please don't make it into the kernel without =
-a
-> compelling reason.
->=20
-> (I personally think that Docker has a *lot* of weird properties that
-> make little sense.=C2=A0 This is just one of them.)
-
+Thanks.
+-- 
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
