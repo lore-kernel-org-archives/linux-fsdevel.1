@@ -1,72 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795141645;
-	b=1u62gKaSA6APi3SgVPj1B/FPeHOY945SYU7Ksdl7W2/ALL3rpGqaDNHTHpIXuolBy/W6
-	 04EoYHnZQs2iFByXaITcanTj0jtnTk2pj4+cahAMVVCHD/s/LECrhXnmN5+7mdMfv9U0T
-	 vqH05yDNXyW8DOTF1CNp97iu6LrHgU7FB3kw5hb0HocaPrdzoGOgd/diY8xyqiE6QWPoh
-	 KYLXoNy15cs2mSjdJ/JA0Y+noRuJYUL/JHostThgfsH5EOOeL2HvHhU5XVkRlmj+dYCBr
-	 yA7NZmm++3xru9DI2LKC2Ncb0k4GyfTIzglU9kxpgKQI06aMdCV2LDpq3UkNawXgnWA==
+	t=1795142080;
+	b=PQzLLDlxAhZqV+HhRI1hYRCsc9U/iw+sVrZBZ0k3srL/M4JY7zg7+TMx199ZItz4vSYU
+	 HCqFrSFXLfxnX4t7A9dS/UpW5KsLNMJ76JrLqreoCTkwvcegZ4lCwFNcv9YiwbrzfSsyg
+	 kwpspLH4gX36hLMyxz2un8/RuCS43WOQI9xCFeUTd53TRYUTRvq5bjoTqu7tWmMXDtBeH
+	 bCVvCMTJhfs9XkhpRhe5pknnBJ7tcjwpkHFF529g52+Ubo9091MQ42zfT3fqlczwM0AqL
+	 ibGckpfF57AFJE07HN2yHhgICUqQQUov+z4XIn4FdqezGgUv/7M647n1QceMiG/ddVQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795141645;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
-	 Subject:Date:Message-Id:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=zeP4qRxfMev4qDyWHvEpiBpmuLkuazmc6KC3D7OM+n8=;
-	b=oDUWl0I4o0YZa//Vm7NBmHvbhFFxEE9HjlSokSe1XUHVdBiQwmI+iV0a63iRyGVCOkN8
-	 nkGAM2UccCtDWA0q9UobyIzSHJAYxcrn1MCiwFc2lSwCLbNc24uIHQgzFn0I8j5MlosE9
-	 5tTWORejl6ASMSFs956AiDpiYge/x2Kiw0KlpJbQEF+NudTDwciaVjwLAxl+vRfwjXola
-	 9Ukr915CLSceioJQNjubWzQEpflhe1ZsdGzbHyR5I8fA1gs5UHi27eId9u9jB5ANzviDV
-	 VDIByXe6Y/xElHsukIaPJIKdf24s94XECsj2XcA7R+jEc410uinZF/y8HnmxqIX5Ytg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795142080;
+	h=Received:DKIM-Signature:To:Cc:Subject:From:In-Reply-To:Message-ID:
+	 References:Date:MIME-Version:Content-Type;
+	bh=yLxaIFgMgiNdJ6EvHj90KmNsd7UyUa4rOHQt8MkQ4o8=;
+	b=Y2eziJjix+rCJmotITUC1fd/QYZTQ0IPR3HxWU/SkBAx69PjfNqbggHSkujxK75DYJqk
+	 XIAeWuf8iFDDejIceS8bsk2lRgP87R0p/VgDA0PbvMoR+tOxUCI2MHJUe7nuSfMcFwXql
+	 gp72gmKfdHupZ8Vy9tnigaMrCHreEAfPGLAAocP/jUSpXc77A/FN3gUTwvOKWTgABDGhS
+	 c+TQEgsP/AMSI7pX/mquwQ9BC9JuvtkeNzeJpMTVOKAgtEw01lFo6+oY6ZYMtzptKoqUW
+	 HlplGEim1q2R29baUQrH4xrDNRYu2sevvJuzPve0aV6uJKntg/UIwuW8IQN6eb/0J9g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dq2Owl4T;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF193606A320;
-	Fri, 20 Nov 2026 02:27:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CF193606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: e7562ec8e48911f19a56ed5b684f684d-20261120
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:ae224689-2f29-421c-af83-524793095fb6,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:d5cd3cb6a47cd4c19750056d46bd2cad,BulkI
-	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50|99,EDM:-3,I
-	P:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
-	,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: e7562ec8e48911f19a56ed5b684f684d-20261120
-X-User: fuqingshuang@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <fuqingshuang@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 724502791; Fri, 20 Nov 2026 10:27:16 +0800
-From: Qingshuang Fu <fuqingshuang@kylinos.cn>
-To: Andy Whitcroft <apw@canonical.com>,
-	Joe Perches <joe@perches.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Karl Mehltretter <kmehltretter@gmail.com>,
-	Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Qingshuang Fu <fuqingshuang@kylinos.cn>
-Subject: [PATCH] selftests/proc: include linux/mman.h for MREMAP_DONTUNMAP
-Date: Fri, 20 Nov 2026 10:27:10 +0800
-Message-Id: <20261120022710.1585112-1-fuqingshuang@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E23606A320;
+	Fri, 20 Nov 2026 02:34:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dq2Owl4T
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A6D31F000C6;
+	Fri, 20 Nov 2026 02:34:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795142079;
+	bh=yLxaIFgMgiNdJ6EvHj90KmNsd7UyUa4rOHQt8MkQ4o8=;
+	h=To:Cc:Subject:From:In-Reply-To:References:Date;
+	b=dq2Owl4TQH5i1O8lPJeqrs/bhVJe74UawaV8WZGOjcpXryG9VX5bBPEuofmjMl6C8
+	 KEMZUEWUmofCrIT9kL1mF9sqs29c0Cyil2oxP83BwPsBQxJM3XbOQHwaj2x7OkBm3R
+	 Ubt4udGPNHycSNftWKTVPyy9zKiSLnNOhFSlFIOPsiCL9/KFgmw/r+jfOmYYUs/VC/
+	 SAI+QguGa/5ffH3iaZeehgrULZs3TCS3y0wcIRBQ7+1cYjuY8NOZbiPkIC9OoceHPS
+	 +R5fZniZZazVx2uAAw4qgmr08ft+ySZxWB+NNVSP3BxvosYlgijyZSgy8PCf4WR5j7
+	 gqEvBh4+Qs7GQ==
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org,  Jonathan Corbet <corbet@lwn.net>,  Shuah
+ Khan <skhan@linuxfoundation.org>,  linux-doc@vger.kernel.org,  David
+ Hildenbrand <david@kernel.org>,  Andrew Morton
+ <akpm@linux-foundation.org>,  Jason Gunthorpe <jgg@nvidia.com>,  Leon
+ Romanovsky <leonro@nvidia.com>,  linux-mm@kvack.org,  Jaroslav Kysela
+ <perex@perex.cz>,  Takashi Iwai <tiwai@suse.com>,
+  linux-sound@vger.kernel.org,  Jens Axboe <axboe@kernel.dk>,
+  linux-block@vger.kernel.org,  Marcel Holtmann <marcel@holtmann.org>,
+  Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+  linux-bluetooth@vger.kernel.org,  Willem de Bruijn
+ <willemdebruijn.kernel@gmail.com>,  Jason Wang <jasowangio@gmail.com>,
+  David Heidelberg <david@ixit.cz>,  oe-linux-nfc@lists.linux.dev,  Chas
+ Williams <3chas3@gmail.com>,  "David S. Miller" <davem@davemloft.net>,
+  Eric Dumazet <edumazet@kernel.org>,  Jakub Kicinski <kuba@kernel.org>,
+  Paolo Abeni <pabeni@redhat.com>,  netdev@vger.kernel.org,  Helge Deller
+ <deller@gmx.de>,  linux-fbdev@vger.kernel.org,
+  dri-devel@lists.freedesktop.org,  MPT-FusionLinux.pdl@broadcom.com,
+  "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,  "Martin
+ K. Petersen" <mkp@kernel.org>,  linux-scsi@vger.kernel.org,  Miquel Raynal
+ <miquel.raynal@bootlin.com>,  Richard Weinberger <richard@nod.at>,
+  Vignesh Raghavendra <vigneshr@ti.com>,  Zhihao Cheng
+ <chengzhihao1@huawei.com>,  linux-mtd@lists.infradead.org,  Neill Kapron
+ <nkapron@google.com>,  Andrey Konovalov <andreyknvl@gmail.com>,  Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>,  linux-usb@vger.kernel.org,
+  Juergen Gross <jgross@suse.com>,  Stefano Stabellini
+ <sstabellini@kernel.org>,  xen-devel@lists.xenproject.org,  Hans de Goede
+ <hansg@kernel.org>,  Arnd Bergmann <arnd@arndb.de>,  "Michael S. Tsirkin"
+ <mst@redhat.com>,  Eugenio =?utf-8?Q?P=C3=A9rez?= <eperezma@redhat.com>,
+  Sean
+ Christopherson <seanjc@google.com>,  Paolo Bonzini <pbonzini@redhat.com>,
+  kvm@vger.kernel.org,  virtualization@lists.linux.dev,  Jan Kara
+ <jack@suse.cz>,  linux-fsdevel@vger.kernel.org,  "Theodore Ts'o"
+ <tytso@mit.edu>,  linux-ext4@vger.kernel.org,  Mike Marshall
+ <hubcap@omnibond.com>,  devel@lists.orangefs.org,  Paulo Alcantara
+ <pc@manguebit.org>,  Namjae Jeon <linkinjeon@kernel.org>,
+  linux-cifs@vger.kernel.org,  Jaegeuk Kim <jaegeuk@kernel.org>,  Chao Yu
+ <chao@kernel.org>,  linux-f2fs-devel@lists.sourceforge.net,  Florian
+ Fainelli <florian.fainelli@broadcom.com>,  Broadcom internal kernel review
+ list <bcm-kernel-feedback-list@broadcom.com>,  Tzung-Bi Shih
+ <tzungbi@kernel.org>,  Benson Leung <bleung@chromium.org>,  David Airlie
+ <airlied@gmail.com>,  Simona Vetter <simona@ffwll.ch>,  Alex Deucher
+ <alexander.deucher@amd.com>,  Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>,
+  amd-gfx@lists.freedesktop.org,  Jani Nikula
+ <jani.nikula@linux.intel.com>,  Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>,  Rodrigo Vivi <rodrigo.vivi@intel.com>,
+  Tvrtko Ursulin <tursulin@ursulin.net>,  intel-gfx@lists.freedesktop.org,
+  Matthew Brost <matthew.brost@intel.com>,  Thomas =?utf-8?Q?Hellstr=C3=B6?=
+ =?utf-8?Q?m?=
+ <thomas.hellstrom@linux.intel.com>,  intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH v2 06/12] docs: ioctl-number: update SCSI entries
+From: "Martin K. Petersen" <mkp@kernel.org>
+In-Reply-To: <20261119053514.255348-7-rdunlap@infradead.org>
+Message-ID: <yq1eccgqlhr.fsf@mail.kernel.org>
+References: <20261119053514.255348-1-rdunlap@infradead.org>
+	<20261119053514.255348-7-rdunlap@infradead.org>
+Date: Thu, 19 Nov 2026 21:34:38 -0500
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -76,41 +106,15 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-glibc versions before 2.32 do not define MREMAP_DONTUNMAP in
-<sys/mman.h>, so proc-maps-race fails to build against them (e.g.
-glibc 2.31):
 
-  $ make -C tools/testing/selftests TARGETS=proc
-  ...
-  proc-maps-race.c:691:58: error: 'MREMAP_DONTUNMAP' undeclared
-    (first use in this function)
+Randy,
 
-Include <linux/mman.h> to get the flag from the kernel UAPI headers
-instead of depending on the libc version.  The proc Makefile already
-adds those headers to the include path via $(TOOLS_INCLUDES).
+> Update the list of files where SCSI ioctls are defined and update the
+> ranges of function numbers that are used.
 
-Fixes: 6a45336b9b6f ("selftests/proc: extend /proc/pid/maps tearing test to include vma remapping")
-Signed-off-by: Qingshuang Fu <fuqingshuang@kylinos.cn>
----
- tools/testing/selftests/proc/proc-maps-race.c | 1 +
- 1 file changed, 1 insertion(+)
+Reviewed-by: Martin K. Petersen (Oracle) <mkp@kernel.org>
 
-diff --git a/tools/testing/selftests/proc/proc-maps-race.c b/tools/testing/selftests/proc/proc-maps-race.c
-index bf4c5073f6fc..7d2d9144fedf 100644
---- a/tools/testing/selftests/proc/proc-maps-race.c
-+++ b/tools/testing/selftests/proc/proc-maps-race.c
-@@ -33,6 +33,7 @@
- #include <string.h>
- #include <unistd.h>
- #include <linux/fs.h>
-+#include <linux/mman.h>
- #include <sys/ioctl.h>
- #include <sys/mman.h>
- #include <sys/stat.h>
-
-base-commit: 20eef29b7c8465ac98d7dd6d6f2ac07a8d8056ca
 -- 
-2.25.1
-
+Martin K. Petersen
