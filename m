@@ -1,129 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795181422;
-	b=K7WlMEesc0bVkGca6KDaWObv86lDAQOySfl6UUxafatRX2wNEVUnQKmsIUFs2v9laAMH
-	 H+59n0hwoM9WLZBUNuy2GIiKpelQd1g3qrwruSctNVF4EPo7ezU3cImOHP8aIxJ093c4U
-	 nCUnmoJwA2IXNckDJsEuuUzxJtnddNcxAHRZtHlduB13NkIrNX/kE+qq75i1dJquuAFUy
-	 Qb2tBp4KUFqedwXYwY2FCR3MTVj54dLlDxrfzLJ6MYDferD+8anR2fbL+ouDR28BfgMz5
-	 e6eeVGCbmTBLEWpGVNA9Rjdtkst9QJlHs1Rium9i/77gK3gZqH4Ae2Dqmy3jlI4cNyA==
+	t=1795181510;
+	b=26DlC5LuSloexcyNCqZDwHsbbevtqV17affQTL/1ymMh0xhDs9tvxZu1ZG/iztCOCslQ
+	 rXicYC2q5MTR3v36nm4ARZFTsWVUskt0CcuCK6VP3W6JXkxFOtpbKzERkofU6QrFBWV1C
+	 hAweT3zr2riy4Ms4VP3VLo1u5Md1yAbYyvEtQ96k/yW4v/4cXQAu3ayyDUMDjDYGQsajj
+	 D9ogtDPKJ+vFEufEVzBeugwAfizzhu9oy3fmVs/z8XwH6uoSpUotmNbNp1OIVoOcRc9XG
+	 yfnPWm3gQ51ikJ36/aInBS3OIuqkQjOh5eEw3yjs9aQCHe0DK5GrjuFGzuMVUJspFrA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795181422;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=r0yepTevnFJpzt2r2drCfhbGwH1m5XYOTRjJ/I5L2oA=;
-	b=ZB9EAJvNAT+5sANvApeCGih4XfZ1uwKNFUcih+r94cEwI84hKIphc1cepilz2dV1c2qx
-	 U5CmFTSgpModwMR607KKODkWC0duxwGbSb5KA8T0zFvj1OtEDxDFTPja9yCI7Y5YVuF9z
-	 m96AUzx3MTZTtA6HH/tI0nP536RpUY944ncZf2TAInLAmF5BQUYf7BCQ7I4O+dew6pUnb
-	 zRoyK8p1xfJXFvVwQyQvXKNY0fsi8yfBbSUDLjJNm0IwHjZKr6ycNhveMLaUvTU6e7jNt
-	 BCyGVHSDetk/UUNpHEP/0N8W1WFDfRHMzAlBzEJgP/LVbyptWeUe9cxN4/l+o+i0Bqg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795181510;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=xPq8vHZRjZ0W9FI56EPWdeooS/iHKvZIxdKn8ZO3tk8=;
+	b=TPs+dxqnCRnC5M7hrXv4SZ0+WaUWs58Ff3SrySuqpDJf80XzG8oC9G0hmmBOkjiaeZsu
+	 Nv7x6V8/9TsUgBto06Tu2MKxjtiEIBAnCQLVEgt/BSoxkC2TjrhIkQA3T9jt96jJY5zRi
+	 uh9xgPjPkKY24NonVAh77tfgsRubjWjznFYRJx/MPZFAsGFxWJmKZmwoti+a4qhVgOygn
+	 qzzJocapGDgBAl/GiyanCyLSw2/yabvaSEahvzuG2FHQqhwc4ZmR2v7tebL9oaTs3NYzb
+	 6Ai71tma4D4dw6dJfINdL+AGyi3GowQ+Zc3GKY4ZmmW4t11Rz5KSVqH63gxKS92hyRQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LxHJ1pgZ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hqGiFZnr;
+	arc=none smtp.remote-ip=209.85.218.49
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 060D8606A320;
-	Fri, 20 Nov 2026 13:30:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE4B606A32A
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 13:31:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2AE4B606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LxHJ1pgZ
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 5BFB11F000D2;
-	Fri, 20 Nov 2026 13:30:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795181421;
-	bh=r0yepTevnFJpzt2r2drCfhbGwH1m5XYOTRjJ/I5L2oA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LxHJ1pgZMRnjgm2kTX3LFJJa+QJ+pe4P0CEN40l/PzhoI4P8panaY+0Q3U0aDuZqY
-	 d6XFuKi4YyOzKCDyY6Fpy81BvYcjjeknCdisgEAM6IWExeb3iW1nhJEJD4KaBAW+bD
-	 r5iJicgG91dzqk9nzBZ8D2/JbAlMgawKAhCSuL3ug4K1sos2GJ4t7TiWGQh22c59DM
-	 wVnhMwGWXmBTp2MeJ5zHRxb9ZPYDyJPmjlhQXY3V7wh+jRIoGhfeMZWEgSkpntxOIX
-	 O5p3EmJ9RssCoXPKlmpEXhy+NrYqURd5KZrMIRYhlRKm4oS7b0Ay023KIpW8vNYQ1h
-	 LgzIrz39Ee1bw==
-Date: Fri, 20 Nov 2026 15:30:17 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Alexander Mikhalitsyn <alex@amutable.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Andy Lutomirski <luto@kernel.org>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Arnd Bergmann <arnd@arndb.de>, Ben Segall <bsegall@google.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Christian Brauner <brauner@kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Chris Zankel <chris@zankel.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	"Hallgrimur H. Gunnarsson" <halg@google.com>,
-	Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
-	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Jan Kara <jack@suse.cz>,
-	John Johansen <john.johansen@canonical.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Juri Lelli <juri.lelli@redhat.com>, Kees Cook <kees@kernel.org>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Magnus Lindholm <linmag7@gmail.com>,
-	Manfred Spraul <manfred@colorfullife.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
-	Mel Gorman <mgorman@suse.de>, Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
-	Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Moore <paul@paul-moore.com>, Paul Walmsley <pjw@kernel.org>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Rich Felker <dalias@libc.org>,
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Vlastimil Babka <vbabka@kernel.org>, Will Deacon <will@kernel.org>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v4 03/14] rootns: Track init lifecycle via
- copy_process() and pid_namespace
-Message-ID: <awBLafK4jqB8fTF2@kernel.org>
-References: <20261119224312.1037966-1-jarkko@kernel.org>
- <20261119224312.1037966-4-jarkko@kernel.org>
- <e376c8f0ec5c50b417375197a5589a210f151d9b.camel@amutable.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hqGiFZnr
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c511cdd5a82so113326866b.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 05:31:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795181508; x=1795786308; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=xPq8vHZRjZ0W9FI56EPWdeooS/iHKvZIxdKn8ZO3tk8=;
+        b=hqGiFZnrjqYQFj881CYUJZtgImGi0ugXjpTVIWee9kUXRzlYa8/9BD81x/+zkFKwk8
+         Db6t14iFQ/UnZINNbCXUWvuiqadZPfWQImoJEZZ69c5+JJUJu8MdxYvqH/BEaoeEhnED
+         HTUthonTmsUiDPZ6zYrW/0oH5l3euOmv1Bk2XdsyNRXRXm7JwyjhNaXKy2h5vCBfKomd
+         iXuTNYGftedtWmWCHiCAjgbNLR1YjZhAIi+Vgttbwu9+ZcoW1QOqlRLJLmefquEahX6Z
+         kmJ9sS6uhjS9819doNiD8n7z6hBI0hE0SjgDO1S644sv/ie16h1NKkJz1l6+F8UHMae2
+         niuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795181508; x=1795786308;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xPq8vHZRjZ0W9FI56EPWdeooS/iHKvZIxdKn8ZO3tk8=;
+        b=dM+Z/IQ8jpTIpkhRHo4NTHiIgQW9YtpsVZsPXoQWJhX5pQ4dP3kYes4dfkWs5Ve83p
+         72jGJqOEXvco6LHzrjJ3BZsr9MgihXQ5xSdHUt1PZb9gnLzpvsACTXtAcKuT0b/KWScj
+         KpjA6LJqUFGaKKedUYqEcu90qYzkjl5PkEO0r8kawYdaTrRFbGyqudyqPyNwuDyWAqX9
+         0Epb+x+REG4n+n8K8FWZkahd+h8fZi8yNBPoyWGJwRWzE8lLAJJ7uBlrfPvSszJW/EGY
+         qOc0a6yqyg6LK3Hq/jgoRrZ4azLwyOrx5RxNOg4nAQeM1QMDblUQON7+udPsDqwvrA/e
+         FNjg==
+X-Forwarded-Encrypted: i=1; AL+hErG7Mkhwz6VUD5IbLx3PVe9qFVkmS7a7frk2qyAEf7M4oGsHHjQdDwKMLIHgIIDGIGdW9tAmxEhiJXC9mG9b@vger.kernel.org
+X-Gm-Message-State: APuU4Z8FnJzcH2NAsWhKpMGPIYEW1+jP0SSQxf1wZyk/TIDe5nUsCGDB
+	qtusePgd8Oc2XnZJsrBVQck2eSWXB0pVQTrhqvy/Obwv0aQ7IxJYBIyM
+X-Gm-Gg: AYBFou3q4AqoQHLPZ8lMl0D89ByatEB5vjtn9BS566N6PapeBx7HhCb4qI/0lkfkQA6
+	2R+G25XABIux9PbnouSVs+Lw7Zkag6G7jBt8GPbGosAZ8sFzLg1limw+nmK1+OLkXQUhdQOHLgI
+	Gg5uvpYCYK0cZW+/7IouDTY3imgKeEB5PMuNWKZXA3dyrT79B5drPvbbXnMjp1IdzrhhrS+CoO2
+	grULTq0towye2k3xJqvL0C2JEOZJdbWAnI6Gk5nBYV3umLX/tWMeBZgR+VtPfGFhrKFZtCdjGSb
+	VWD/MWO8saqgHDbxP0p0KyyaSls5c8EEPk6BRvuxVBbibxVpRIPQCI/ZhCYOEr/FbV/3Ro8M2gl
+	OQ4Tp07lSBeGgKOsXLUh6rp6gFW8FytOJyqBNxFoO5no722Va9XmwoYXeDOSeP/SdQ3gE3t46tI
+	/qWKChUfC1JZLjIvWpwhi93Adet5imbIp18wmC0yRXqWsy9d99/B0HU5CBgkmexI4UquSsuBdNT
+	hinYuKBHjz4W/Iu4ZSgXvcJD/wGO3qAOWNU5xfUSMpj6+V3NnNSf8DchWOvQaQpMmGdZ6HNyzHB
+	ASoKHRQ0Ovsr23ZGq0qMaGmK0HDHbkKcIX4HIk61ECy12oLTmDMkOvDJGr/jCpjtDfVFND8nvMR
+	bHL/OmstMJF/uITOdw8EuHJunQmbBXYmtfb70V3iWK2MEa23sM4l6YEU2ljQ4rlqSBqKtU6leNk
+	hAAffm8DJzc2bYhDQAUxmateLnMQgmvadoaR0sugz1wm5+35r3JW7qFCRVf0KmakWJWyxO8SbX
+X-Received: by 2002:a17:906:6718:b0:c16:4e5:944a with SMTP id a640c23a62f3a-c513ab0845cmr226867666b.21.1795181508436;
+        Fri, 20 Nov 2026 05:31:48 -0800 (PST)
+Received: from Ubuntu.tail0f733b.ts.net (87-205-15-91.static.ip.netia.com.pl. [87.205.15.91])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c513b022e84sm94908766b.84.2026.11.20.05.31.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2026 05:31:48 -0800 (PST)
+From: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+To: syzbot+b0aebd03565f5774f7f8@syzkaller.appspotmail.com
+Cc: Krystian Kaniewski <krystianmkaniewski@gmail.com>,
+	hirofumi@mail.parknet.co.jp,
+	linkinjeon@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	sj1557.seo@samsung.com,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [exfat?] WARNING in vfat_update_dotdot_de
+Date: Fri, 20 Nov 2026 14:31:42 +0100
+Message-ID: <20261120130030.b0aebd03565f5774f7f8-fix-9f08@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <6aa82300.a211d2ce.1a5198.0295.GAE@google.com>
+References: <6aa82300.a211d2ce.1a5198.0295.GAE@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -133,29 +105,17 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <e376c8f0ec5c50b417375197a5589a210f151d9b.camel@amutable.com>
 
-On Fri, Nov 20, 2026 at 02:18:43PM +0100, Alexander Mikhalitsyn wrote:
-> Dear Jarkko,
-> 
-> >  	acct_exit_ns(pid_ns);
-> > +	exit_rootns(pid_ns, me);
-> 
-> We have a very similar mechanism around pidfd's to track exit
-> information for a task. As far as I can see we already have (struct
-> rootns *)->init_pid reference, so we can get exit information for free
-> (look for PIDFD_INFO_EXIT).
+I first asked syzbot to run the original reproducer against the unmodified
+v7.4-rc1 commit 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4. The request was
+not run because syzbot replied that #syz test is temporarily disabled.
 
-Thanks for mentioning. I'll see if I can leverage it.
+Commit 9f08e58149dca8453bf99e0af35cbb227ded17b1 is included in v7.4-rc1.
+It addresses the reported !buffer_uptodate(bh) warning by leaving
+BH_Uptodate unchanged after failed write completion. Local testing of
+current mainline with the original reproducers did not reproduce the
+warning.
 
-If something like this is found, it is partly due long history of this
-code i.e., not planned/opionated choice :-) 
-
-> 
-> Kind regards,
-> Alex
-
-Br, Jarkko
+#syz fix: buffer: stop touching BH_Uptodate on write completion
