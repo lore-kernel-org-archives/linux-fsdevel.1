@@ -1,60 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795173273;
-	b=RU40+7yS1A6iLJfjG3c+Y2tJCBZ1Fx+blSAWlCmShPQHmbJEYBF1eTiYZrEo3vx2CxfK
-	 qVnBbalSCnP+RdkEunUbWOps71IR6vpZnYLsSMckbNFA+22i/BCqe8jGzyiVzYFeFBteh
-	 NaQhxsDb2lyw/Ya9LAxvNCnSsBhUKYhrLJfnFDxNXGNQWyNm8lRvcextVPE/jdmEu4yOv
-	 OC73DcVK03rjyjP/J05LuCxvLuQPqndyZAfn4vLdXhW9pVrY50HtYsm+kjDwjlUL7XiKV
-	 PxR166S8hg23a3FAbJmOx1KY2sWAwVJwuEEWEzAWwU1Q2LZoIX+aLPo5iAKQ699GY3w==
+	t=1795173548;
+	b=H0wo4Og2kx7E60NHRFikDi2e6N/Am/ZnWPMCZ5RywH4EJJmx/ozckBeEV2s8AvwJeqR4
+	 k/UBZ0utEw8ZZXZlxG5uwrncjebFeV476XxE0aUH237L3a90TNP9Ei/yacDUgqlnHkcem
+	 1EGNw7JLGXXy7BUHIpOD5JW/zjVqmzhD34uTrxLFhE8XDdoPQhghpMaYnP5S7sIYmVbCW
+	 2OPFUXuklC9jlSoU0HQytH1lFh8z1IoJ3EyqFrm3uWxLaIZ+kAC4hMIbpLKzSj7PxS2t1
+	 qv79NAvfyidJhdn1a9eSoqT/FWckBWMTGAGZQnRtGAxbGDOQZ80jjHNyL2webRkd0Bw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795173273;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795173548;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=r9krR42dCc1R/MygVNC6/W4IONRVpaDXMDjUD/jXYko=;
-	b=vNbGQ/E3EncCGDg5jWW0gUih7gddDo7ln4ZVJ55OvRPmoBbdkuNZq70jy0k9afzw/p/S
-	 qMfJHMHiCdkMxYY2m7yKg1kpcW43R3zLWiShzkgljmf5K17o+qiFF3D14qIKm2+LoSBhE
-	 l5R0PLYaPmRIaGe3cQhzRXHPgGrqgcAaQ0eVWVnS3j/VscxJ/Dg6br2uh/3vCNzBFz7dK
-	 H2V/GGf0QQso5ExeucEhu0K15dwNItJ50Hw7S8xZivybFzqey9KcaXsHnD5xBD3NTvn7s
-	 qOAhPLS0/n4zZPcH8YbX7+IbM62HwzJ+8OLWKYbXAvZ2sog+t7jDUfq6MTu1SJMknwg==
+	bh=jNhasqcl3/2+gu9SZ9NYc2vIUcbgEHQXO5UU6309jn8=;
+	b=0bxT9SQzZGeS41Ch67RMJFSoYYPAnpAAmJdV6pXBSu2DSodFoptG9f4wwVhocb++CKmX
+	 6vOl4HId+LflvqqersJEmxheiyaFkgqy7hiVTSJ05e0oGh1uGEhOXwOtAnqsEXx8NsQ3S
+	 JHUEIbq2+Oq4npoSSfLiPUvUbbipbEUqzQiEdhu/dDt/on/fdQcP7yflwWCi5Mnd51x+g
+	 2I26A4CwJnLyDBJhvv5qyPiw+dsTUKkQ/xE52OxN0Dh3ms3XguClusbx/INLRuHKBUddH
+	 9hBzEYrCmg42FmJ1WZ0hm/U8+jPvX5giwXCMC6rjQeBUFUTeufHi+fZs4aTQd8sWQiQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XMdebML7;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OE3CaUOI;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0DF606A331;
-	Fri, 20 Nov 2026 11:14:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8397606A32C
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 11:19:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XMdebML7
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 448741F00AE3;
-	Fri, 20 Nov 2026 11:14:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OE3CaUOI
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 205311F000D2;
+	Fri, 20 Nov 2026 11:19:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795173273;
-	bh=r9krR42dCc1R/MygVNC6/W4IONRVpaDXMDjUD/jXYko=;
+	s=k20260515; t=1795173547;
+	bh=jNhasqcl3/2+gu9SZ9NYc2vIUcbgEHQXO5UU6309jn8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XMdebML7wUZ/sz2xc/apBDOavf3ksv9LxUyAootCAlGpmavA+qGqUX+xacg9T4q19
-	 wwn9JuvYS9vQct9s/PiUsxliWccbmZzmFmMkZvnhxlpcjky17mlisXMePXth7F6c4t
-	 QeubADI+90ig7Irnvf5uD8GzRtBkb+tjfuV7eSPetGY8vTGaFEDM4SxLk3daOjep7h
-	 3WInP/fqpcN4wBs2Zsk8q/ANStBEHB5wRJyiEv0N9iLH8w5WiZzMkD4c4UDPCHD4T4
-	 JBIZcEBVmjhIcXFNuSH2M6LbjvNrNy4/P53VcN4wFq/9gZvLyL3jZ7n45DHlMg1TKm
-	 FlUX75wJ2oVAg==
-Date: Fri, 20 Nov 2026 12:14:24 +0100
+	b=OE3CaUOIwnI5bkJ7z8xTgLOc6dqqjEiF3igf/HnZuuL5190BoSSr5ICy4iKvuEXJz
+	 BBCZDws7UpUNEDwO3XHU98l/ZebmP+qoQ2thi7nqCAL9bKIVS9A2wJX9AcdRRuDbPB
+	 NURmytbtgpKuPDJsTpgvUg2gnEQSuDKRq2Px73jLYp8Kk6xdCReG6uHN6NkGv1+Hag
+	 wqexsExFZ+yX6oihxsmiXqPiikul5kV6jvJMbV1eS68d9oeYZpyOZ2Y9dYNH0hLAcD
+	 YQDSABz/0vPRdqFIcWPxPKcFaHcGrMXy9om3zQAE7TXr1OARLkqWV0pSLW0t9VNrpr
+	 nSDTkOWE9JfXw==
+Date: Fri, 20 Nov 2026 12:19:03 +0100
 From: Christian Brauner <brauner@kernel.org>
-To: Huang Shijie <huangsj@hygon.cn>, Christoph Hellwig <hch@infradead.org>
-Cc: axboe@kernel.dk, viro@zeniv.linux.org.uk, jack@suse.cz, 
-	zhongyuan@hygon.cn, fangbaoshun@hygon.cn, yingzhiwei@hygon.cn, agruenba@redhat.com, 
-	mic@digikod.net, gnoack@google.com, paul@paul-moore.com, jmorris@namei.org, 
-	serge@hallyn.com, aleksa@amutable.com, legion@kernel.org, david@kernel.org, 
-	sandeen@redhat.com, ebiggers@kernel.org, linux-block@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, gfs2@lists.linux.dev, 
-	linux-security-module@vger.kernel.org, sunjunchao@bytedance.com, shijie8@gmail.com
-Subject: Re: [PATCH v2 1/3] vfs: add inode iteration methods
-Message-ID: <20261120-mitverantwortlich-drehbaren-kantholz-241300d20168@brauner>
-References: <20261113115702.586594-1-huangsj@hygon.cn>
- <20261113115702.586594-2-huangsj@hygon.cn>
- <avcBTMvzFWuCkwkn@infradead.org>
- <avqmmP4dbwu4ziKz@hsj-2U-Workstation>
+To: Ye Bin <yebin@huaweicloud.com>
+Cc: viro@zeniv.linux.org.uk, jack@suse.cz, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] fs: hold freeze protection across writable regular file
+ ->open()
+Message-ID: <20261120-zehnfach-flugfeld-textil-72ab74773d45@brauner>
+References: <20261112135245.3347102-1-yebin@huaweicloud.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -66,86 +58,95 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <avqmmP4dbwu4ziKz@hsj-2U-Workstation>
+In-Reply-To: <20261112135245.3347102-1-yebin@huaweicloud.com>
 
-On Mon, Nov 16, 2026 at 02:45:44PM +0800, Huang Shijie wrote:
-> > 	struct inode_iter_contex ctx = INODE_ITER_CTX_INIT;
-> > 
-> > 	while ((inode = sb_inode_iter()))) {
-> > 		/* do stuff */
-> > 	}
-> > 
-> How to manage the sb->s_inode_list_lock in this code?
+On Thu, Nov 12, 2026 at 09:52:45PM +0800, Ye Bin wrote:
+> From: Ye Bin <yebin10@huawei.com>
 > 
-> I have no idea how to hide the sb->s_inode_list_lock in this code.
+> A writable open of a regular file reaches the filesystem's ->open()
+> callback without holding any superblock write (freeze) protection.
+> ->open() can nevertheless write to the filesystem: ext4_file_open() ->
+> dquot_file_open() -> dquot_initialize() may acquire a dquot and write
+> the quota file, which starts a jbd2 transaction.  If the filesystem
+> reaches SB_FREEZE_COMPLETE in that window, ext4_journal_check_start()
+> hits
+> 
+> 	WARN_ON(sb->s_writers.frozen == SB_FREEZE_COMPLETE);
+> 
+> and the open then sleeps in jbd2 until the filesystem is thawed.
+> 
+> The hole was created over time:
+> 
+>   - Commit 907f4554e252 ("dquot: move dquot initialization responsibility
+>     into the filesystem") moved quota initialization into ->open() and
+>     introduced dquot_file_open(), making ->open() a potentially writing
+>     operation for writable opens.
+> 
+>   - Commit eb04c28288bb ("fs: Add freezing handling to mnt_want_write() /
+>     mnt_drop_write()") added sb_start_write() to mnt_want_write() but
+>     deliberately kept the write reference held by an open file on the
+>     non-freezing __mnt_want_write() variant, so the file's own write
+>     reference does not protect its ->open().
+> 
+>   - Commit 64894cf84327 ("simplify lookup_open()/atomic_open() - do the
+>     temporary mnt_want_write() early") moved the temporary write count
+>     into do_last() and dropped it before finish_open(), so a writable
+>     open that is not O_TRUNC reaches ->open() with no sb write count at
+>     all.
+> 
+> Since then only O_TRUNC opens take mnt_want_write() in do_open().
+> 
+> Fix this by taking mnt_want_write() for any writable open of a regular
+> file and holding it across vfs_open()/->open().  Regular files are
+> checked explicitly so that opening device nodes on a read-only mount is
+> not newly rejected.  Read-only opens are unaffected.
+> 
+> Fixes: eb04c28288bb ("fs: Add freezing handling to mnt_want_write() / mnt_drop_write()")
+> Signed-off-by: Ye Bin <yebin10@huawei.com>
+> ---
+>  fs/namei.c | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/namei.c b/fs/namei.c
+> index f573fd0aacaf..0ee4cf282cf5 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -4906,6 +4906,7 @@ static int do_open(struct nameidata *nd,
+>  	const struct mnt_idmap *idmap;
+>  	int open_flag = op->open_flag;
+>  	bool do_truncate;
+> +	bool got_write;
+>  	int acc_mode;
+>  	int error;
+>  
+> @@ -4935,12 +4936,23 @@ static int do_open(struct nameidata *nd,
+>  		return -ENOTDIR;
+>  
+>  	do_truncate = false;
+> +	got_write = false;
+>  	acc_mode = op->acc_mode;
+>  	if (file->f_mode & FMODE_CREATED) {
+>  		/* Don't check for write permission, don't truncate */
+>  		open_flag &= ~O_TRUNC;
+>  		acc_mode = 0;
+>  	} else if (d_is_reg(nd->path.dentry) && open_flag & O_TRUNC) {
+> +		do_truncate = true;
+> +	}
+> +
+> +	/*
+> +	 * ->open() can write to the filesystem, e.g. when it initializes
+> +	 * quota, so writable opens of regular files need freeze protection
+> +	 * as well.  O_TRUNC opens already need it for handle_truncate().
+> +	 */
+> +	if (do_truncate ||
+> +	    (d_is_reg(nd->path.dentry) && (file->f_mode & FMODE_WRITE))) {
+>  		error = mnt_want_write(nd->path.mnt);
 
-I think Christoph is right. The lock shouldn't be held across
-iterations. Let the iterator take it, grab a reference to the next
-inode, drop the lock again and hand the inode out. The reference keeps the
-inode on s_inodes so the next call can continue from there.
+No, I don't think that's the right thing to do. Every
+open(O_WRONLY|O_RDWR) would now block for a regular file on a frozen
+filesystem even if it never writes. That's not acceptable. Log files,
+editors, backup tools, they all would hang rather than fail on write.
+It's a drastic uapi change.
 
-This is how drop_pagecache_sb() does it today. Sm like (UNTESTED and not
-nice-ified):
-
-struct sb_inode_iter {
-	struct super_block *sb;
-	struct inode *inode;
-	bool done;
-};
-
-struct inode *sb_inode_iter_next(struct sb_inode_iter *it)
-{
-	struct super_block *sb = it->sb;
-	struct inode *prev = it->inode, *inode;
-
-	if (it->done)
-		return NULL;
-
-	spin_lock(&sb->s_inode_list_lock);
-	inode = list_prepare_entry(prev, &sb->s_inodes, i_sb_list);
-	list_for_each_entry_continue(inode, &sb->s_inodes, i_sb_list) {
-		spin_lock(&inode->i_lock);
-		if (inode_state_read(inode) & (I_FREEING | I_WILL_FREE | I_NEW)) {
-			spin_unlock(&inode->i_lock);
-			continue;
-		}
-		__iget(inode);
-		spin_unlock(&inode->i_lock);
-		spin_unlock(&sb->s_inode_list_lock);
-		it->inode = inode;
-		iput(prev);
-		return inode;
-	}
-	spin_unlock(&sb->s_inode_list_lock);
-	it->inode = NULL;
-	it->done = true;
-	iput(prev);
-	return NULL;
-}
-
-void sb_inode_iter_end(struct sb_inode_iter *it)
-{
-	iput(it->inode);
-	it->inode = NULL;
-	it->done = true;
-}
-
-and then drop_pagecache_sb() becomes:
-
-	struct sb_inode_iter it = { .sb = sb };
-	struct inode *inode;
-
-	while ((inode = sb_inode_iter_next(&it))) {
-		invalidate_mapping_pages(inode->i_mapping, 0, -1);
-		cond_resched();
-	}
-
-Make it a cleanup class and a caller that breaks out early doesn't have
-to remember sb_inode_iter_end() either.
-
-This will end because new inodes are added at the head and the cursor
-stays on the list. So these assumptions should get
-VFS_WARN_ON_ONCE()-es.
-
-Walkers that can't take a reference might need different solution.
-I'm not sure if there are any?
+The write in ->open() is from the quota stuff. So that should be a quota
+fix and not penalize the whole VFS layer.
