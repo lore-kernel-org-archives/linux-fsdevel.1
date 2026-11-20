@@ -1,73 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795133309;
-	b=wciiXsniVTwV0ekeE33sWlSUrCNScSRmj51zaRb5zGogOub/2SbD0z/3I9wy0+TKo0BC
-	 l10ZfdHPVNYGr1qqusDfpKpIItx2k4MokGGqmOv7s7Rxs16gm8BZ4AeW2LXsDIjAxeiAO
-	 3jAImTH2t0hRXIbOU+4pcubyEiAY2kiBGJi0xKEdZwil8QqYc9Di2V+ZSF3Gyspyaynm9
-	 OrwjKnV1HYQ795X2I5mVlwu8zRdX2GhUQkoTQp0yqz//YPkBZVrMsvyykVkSL3YU1vneO
-	 PQ2myiDtriOSkjnMk1b7tps2TEh9N+FchBNOC2TnyH9d9mpqvkwvhs4RB1YdQsfG/mg==
+	t=1795135284;
+	b=2+p68cC8+30/ZK96Rw4HLp18DBPW9lQW87JB0QwHnEThr/KmElMaG0L9/TrYAYZAlxTU
+	 idpJ1njiCsd8fYLxLaGAFgXe/nIgFsvxa5nefUyBSEjeWea8RYjux0gPW4DhlVtT0Usbv
+	 epI9oIJhLDDrOFvaHmm6OQmkFVZ3PzkAtqNXLrdMI2rG8bk1tmSb3KdpzIExdahhFG+qQ
+	 N0VyPU8KcThtJvrxXrGPPe3UYqmfsce0jPxu99mDLgIk6iUrliO77cXJiojYz3vGSeQ/q
+	 F2prhRnlaQOPndMSt5+33wFQpy+uYtV52qSmvfukADov2o26SzdWsZQfcveJUx2tAUA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795133309;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
-	 References:Subject:Content-Type:Content-Transfer-Encoding;
-	bh=cY4KOKijAqTkogDXZA4A0T9x7IyNskoXx3Xzbyw+6r8=;
-	b=raSBX0alUZCyg2UwxEj69KjD0zscpgD01pHpCIhTIx++5D7qACkAK5qHPBQL5CWG82br
-	 3huWLx8a5B24E65w2las/v505P7j/RhA5C/dDayVeAPFnBE0v+7Se2Fp0hA+mNisqpw2G
-	 ltJp4qOdSEsUnjlWgIejanyGnR9h/Sm71Ka5PWpvVDpzeeRE/8rFllUulfl/FCRxjoS3Q
-	 hqXc3c9YoTIi6tYCN5bgKcpVSQDfJWwRGitoGCSDwgUcOsKQrPGQLbq/XeydPLhUj9r0w
-	 CL0c6pn9L4u12YyPcORuUI8bB+MVyuUCPVJ2AWhCGrziJcpa+6UqCG8mXh86T6OyJ9g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795135284;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=fmImNQFnIMk1Bg6W92shHm5q2Pz72r3vJoXlRhep+nM=;
+	b=ox06/Orowm9qf4EVC6Cs4TWw+ZN067LIchnPrZgIKQd2PpJTSV7ac5XgTl3YLYn7C71E
+	 5Pn/lvEbdpOwZXCFFWK+Aqf7OfbhKi0uNwNLkaJBAwZQ/CfNuy2oJ2LVaBhsoDt7U2xWQ
+	 HoGoPmo4Diakt8gGDewynRWHYVtgv8lLBTFe/LRhgBcpJ7tTExtEqL3EqTVwyFgzCLDfh
+	 VNsC1ctvBGvIe5spUrMrflI2M0xOWlWkqqLWKvqe50SlsBBwMdDSSf/EBq7SLy/qRf4w6
+	 Dts8b5LYqwhp9se3ZTKnvr11N620T0AirQuhFjWdL5/+bv6I5ACyLxbv5SUj0a/ViWA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e+yMDDFL;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JHkCizWD;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7915606A74F
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 00:08:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A15606A320;
+	Fri, 20 Nov 2026 00:41:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e+yMDDFL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 073AF1F000CF;
-	Fri, 20 Nov 2026 00:08:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JHkCizWD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A87F1F000C6;
+	Fri, 20 Nov 2026 00:41:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795133309;
-	bh=cY4KOKijAqTkogDXZA4A0T9x7IyNskoXx3Xzbyw+6r8=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=e+yMDDFLGB8vZJ7qCLQnRx0XeOJv1Xuuog+f0ZV+Eg5q3nwnJSYM2JiF2qHJ40KTJ
-	 597/n7PU36jXl8u+E+TEGksC2GAcq/o874NIkg0jkEuLapGqNSMvdeacrE9e6BWM2y
-	 cSsLtDd7Ne6ElWDsuEqr/L8z5CLo9ajqkCPzgFOVVUhcwZf2MvpatdqYSUW5LvJvT5
-	 n0IvV1gE39ZceEjlPZU3h58pf+f+r09d91JMrheTdyV97gJXV9suCh7odLQ0I1afgy
-	 EjAZ+i/U1CwGdtwuUO1Ap+gj9JK+W1Qj/lPdJFtfXKojJdOXqfv++HeosqVPbroOuL
-	 X3151UCLfkEUA==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 1678EF40066;
-	Thu, 19 Nov 2026 19:08:28 -0500 (EST)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Thu, 19 Nov 2026 19:08:28 -0500
-X-ME-Sender: <xms:fI__ag8_-NuJ-ReCnoxaNYbHYbkU7EbkPdgpv3t7nFEteasuUHisgg>
-    <xme:fI__ajgnvbA0k45UpqIqyXg7258p2VbLNatwYWPCgr1uslLA-IG0glGK4B2T6wiWu
-    Mlid21KrJ4YVLy9cVypgZn5JXjlhdWLr_rbDXbpX05ZcxwLrEKRKmbr>
-X-ME-Proxy-Cause: dmFkZTGwE8ab5+73AgA18L75IUrv/V0PMeXfwC0gtXP2ujZyAQkq1KiG5x3GZZrEnA2ggY
-    t4OlYbdiglv0Ji6batwgFDZ05JFOs3rrH/stiPCy4R1s9TGQXy7UjCgsczkGcE0WambDfz
-    G4ZSd0C9exEUrTSycoVv17TXyz3YpAfbAjetJ/l0ZzeIfLUVBkbGxyG9kvBsaVVj+Ttqd2
-    8KrVLa4OUKYdx+T7+M3o5oEIQkEO9mcy0oN4vK4Eey6CCSJRLnzgTF3Wm1b1OtBhhvm+LK
-    /ha12CxgyBwWOgAJw43qdYldd0B+Je+bcpLJpTDopiG92Rinr2AptcSKtdNyeWURcXBNPF
-    Xsq4RWV5LOW+0LyylKTNBp8GSlePxNiHepfB8KabxLb5Z2IlwZvgT3ZxlBV31E1ErLlVPj
-    FeY55TsXUqlbohHo0lMI3OWbhiqeHHV/DDf43m1GTDLmf0b6DnPO5Y6U78KD95Rt8c6POJ
-    HSyhmhMls4Lh8aJQzOVFlEHzrl2v0jIINY6wNfKUkGUkjLGtgnynzuOQxHstInsDY1/9FT
-    ZLQFxJZIiR43/1/ZLS6k3iaZckkozJ/uDJxo0+GWSXiXDghfrsQfJS7maQ5+IC5V91PeRa
-    H8iO43cbwYgzZDLFMAqIWpfLT68QII7GHJMkHSey6ImW0rUuhgZUbmFY3lpQ
-X-ME-Proxy: <xmx:fI__auil3BDIB3L6_5umbz4SYDTlx26Qoi7u8eiy89gGkW4GH3GD8w>
-    <xmx:fI__aglRj7-WvLu7z7ipDy4mBlx2AuYP2HBYMRWsUBoDmbmro0egSw>
-    <xmx:fI__alUtqhuxZDU2rS7689M6ZTQMzLj0bj2mr05Oat9fysK2nFiaiw>
-    <xmx:fI__att8ilfwEjeQF5AoGkq4W3DooNNRwrjSO2_OQXHr3yDwKLEN0g>
-    <xmx:fI__ag75oH_AHuAXqXohtSyz1O1CtXxPwo-pb95x3QYDQVuoWj0UJQ7T>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id EB52F780070; Thu, 19 Nov 2026 19:08:27 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=k20260515; t=1795135283;
+	bh=fmImNQFnIMk1Bg6W92shHm5q2Pz72r3vJoXlRhep+nM=;
+	h=From:Date:Subject:To:Cc;
+	b=JHkCizWDikTJn2KQkdi8/bEaCSHj0Gp90ptOBd5oozPtYSll9wEsCH/72Pd6gC11u
+	 N3SIv5DBGaXmYpuTO+j7YQQWRQ4nUTWKwOwf+Sdhmd6lUDhb00D4Uh+y2p3XCLjK9L
+	 bTbhV/LWAq4iw5Zqm97LYAdZLEV+yhoufCG3qiwVrLZzWk5zAV7pqGcRBOnngcZWzi
+	 nuEL/6sMQcg57WnYzwNDouLqbQtB5YufVMi/NJUx8X55Biu+2eaWvsn1/GcSdTccFM
+	 WGlWhZZo3PSFoWMZNUW5xIL0Ha6dRS9wEy73k06Hm/VLxEdgh29+LLqKo4G+tGYoUF
+	 xNmsZNYkw3ILQ==
+From: Jeff Layton <jlayton@kernel.org>
+Date: Thu, 19 Nov 2026 16:41:01 -0800
+Subject: [PATCH] fs: use multigrain timestamps only with nanosecond
+ granularity
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -77,40 +53,96 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-ThreadId: AfOMpxdIrCIR
-Date: Thu, 19 Nov 2026 19:08:07 -0500
-From: "Chuck Lever" <cel@kernel.org>
-To: "Dominik Maier" <dmnk@google.com>
-Cc: "Jeff Layton" <jlayton@kernel.org>,
- "Christian Brauner" <brauner@kernel.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>,
- NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
- "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
- linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Message-Id: <c029dfb0-0745-4b63-9577-1a373f7ff184@slotpi15m67>
-In-Reply-To: <20261119192311.2684978-2-dmnk@google.com>
-References: <20261119192311.2684978-1-dmnk@google.com>
- <20261119192311.2684978-2-dmnk@google.com>
-Subject: Re: [PATCH 2/2] nfsd: enforce cross-export and may_linkat() checks in
- nfsd_link()
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20261119-mgtime-v1-1-fd28399a5557@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDQ0NL3dz0kszcVN20ZANzgyQjM4uklDQloOKCotS0zAqwQdGxtbUAdPi
+ AGVgAAAA=
+X-Change-ID: 20261119-mgtime-fc070b268bdf
+To: Christian Brauner <brauner@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2929; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=E8azySa7/OzX7Ad9BT+YgzCNxoMcPv6dKqhib1PkV3o=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBq/5cuYUapOrya8l0tWk8uWwILqDcFRlFhFEPr5
+ sCWDnf6PoCJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCav+XLgAKCRAADmhBGVaC
+ FYb0EADF5CLy4jAU0xgiyv+CyS9V+XAgGuVp+FuXYU+oKTjJoTqpgALw5gG8TplfjkQnRiK0Nez
+ Op6yrAj2hauoM6YEYqa0QKinqP3Ykn8KpSIWVZzZWlc6tvPY/GmUUiju6Rbf5XWXd58YVGcSxW/
+ DsiW7dPaYgRA9bRVkarr6DHoMlsKb6oMimcDc/pTNpiGqaVnfZ2UUpxMylkFRMDZ3+ctziJ2+KS
+ LsXr5SVa3UVRukTD+iuhtKLiocMz04FAvKe4ksB8YFm2i6wqKhwzzmQudmxnAfaNrIhKT6tw8jm
+ N9dDqfgT6c9hJ5GbcJ53IDsuM12eO9oHDYt6sWgnU6gx/9N8pZathay6pIukjDTTHfWJumBa4Gj
+ q2nZ7CsgYJCiP3gTHgjnXPtkFC1rWjr0qveBE/UBL7KOCpcgTrmw4wPOOPocMETXQ9YztfaZXWi
+ wJY8YAD83TuH7Wfhxqw7YSSqX2h9IMzvo/OoYjvcHLSKK21Kf+bdVhL2dkRTW7gdLj5S5OwsxSA
+ KxEbJB0vef02iIccU62iBnHfHx13jpJ4sodwri/vP6zcv1IO1CZ0hD5bJptJd7yVM1GwpL1fPPR
+ QHjEweLmDP8hNkJxlyTK3dA+Z2aUWXY5xxJG1IUyN0WBpZZPOq7u9DtmypM6Q+FmW5uG3ASwo9W
+ Z7Xp3OjlmVO/hUQ==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-Hi Dominik-
+Multigrain timestamps promise that a change after the ctime was
+queried shows a later ctime: inode_set_ctime_current() takes a
+fine-grained time when the coarse one isn't past the queried value.
+But it truncates that time to s_time_gran, and on a superblock with
+coarse granularity, such as ext4 with 128-byte inodes (one second),
+the truncated fine-grained time is no later than the coarse one, and
+the update is skipped. The inode is still flagged IOP_MGTIME, so a
+caller relying on is_mgtime() for that promise, such as nfsd deciding
+whether it can move the change attribute by moving ctime, is misled,
+and the multigrain machinery only costs a fine-grained clock read.
 
-The may_linkat() gap is confirmed, and NFSD should enforce
-fs.protected_hardlinks the same way linkat(2) and rename does.
+Set IOP_MGTIME only on a superblock whose s_time_gran is 1. Every
+FS_MGTIME filesystem (btrfs, ext4, f2fs, tmpfs, xfs) sets s_time_gran
+before it allocates an inode; document that it must.
 
-Unfortunately there are some conflicts. There is already a
-patch in nfsd-testing that addresses one of the gaps your patch
-2 closes. So it does not apply to my nfsd-testing branch, and
-if Christian takes these two, it will conflict with what I'm
-planning to submit for v7.5.
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+When I originally did the multigrain timestamp work, I missed the fact
+that ext4 can have an s_time_gran of NSEC_PER_SEC. I think this is a
+very uncommon setup, so I don't see a need for a huge rush for this one.
+Please consider for v7.5.
+---
+ Documentation/filesystems/multigrain-ts.rst | 6 ++++++
+ fs/inode.c                                  | 2 +-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-I'd rather not drop Daejun's fix. I think the only thing that
-could be done is for you to wait for v7.5-rc and rebase your
-two patches for Christian to take cleanly via the VFS tree.
+diff --git a/Documentation/filesystems/multigrain-ts.rst b/Documentation/filesystems/multigrain-ts.rst
+index c779e47284e8..81ea632c7a4b 100644
+--- a/Documentation/filesystems/multigrain-ts.rst
++++ b/Documentation/filesystems/multigrain-ts.rst
+@@ -123,3 +123,9 @@ inode_set_ctime_current(). If the filesystem has a ->getattr routine that
+ doesn't call generic_fillattr, then it should call fill_mg_cmtime() to
+ fill those values. For setattr, it should use setattr_copy() to update the
+ timestamps, or otherwise mimic its behavior.
++
++Multigrain timestamps are only enabled on a superblock whose s_time_gran is 1:
++a fine-grained timestamp truncated to a coarser granularity can be no later
++than the coarse-grained one, so the kernel can't guarantee a visible change.
++The filesystem must set s_time_gran before it allocates any inode, since
++whether an inode uses multigrain timestamps is decided when it is allocated.
+diff --git a/fs/inode.c b/fs/inode.c
+index de207f2f95a9..9cc28306feda 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -239,7 +239,7 @@ int inode_init_always_gfp(struct super_block *sb, struct inode *inode, gfp_t gfp
+ 	inode->i_opflags = 0;
+ 	if (sb->s_xattr)
+ 		inode->i_opflags |= IOP_XATTR;
+-	if (sb->s_type->fs_flags & FS_MGTIME)
++	if ((sb->s_type->fs_flags & FS_MGTIME) && sb->s_time_gran == 1)
+ 		inode->i_opflags |= IOP_MGTIME;
+ 	i_uid_write(inode, 0);
+ 	i_gid_write(inode, 0);
 
+---
+base-commit: 65e4fd942f72a9dba0e4e257290c4fa1aa756854
+change-id: 20261119-mgtime-fc070b268bdf
 
+Best regards,
 -- 
-Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
+Jeff Layton <jlayton@kernel.org>
+
