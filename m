@@ -1,51 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=131.179.128.66
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795210506;
-	b=pQ/QtCEmX3cUgjWwlCoApwmru2rROyV3YAL9FrDky4ha0DuaM8yhlLHQjRmNJymWEKbL
-	 Fa+p2rdonCbMFWczJ/BExnm3waAswRPDst7efROLxEP2k2Ksb2jk4LdgWOQF6LHtjNdJd
-	 2W/mNWfJEKFggPKqfElggVCdo6dbjdcFFOnqEIlPOoYHjTTm4UebBndOvH2Hr8BVM/oNG
-	 FlevZ4JsgOR0g8aeIcHflsnkU1wtgQwnS2J7s20nSCObzr7e8HzMsNyuuASFAEBhTjH6G
-	 L2IolDvyhlqs7Iz4C7M4kdhESnBgCfWB2gn2fmONB0cHZmbDPKCxd2bkQOypxWT+zUA==
+	t=1795211665;
+	b=YZLypYNA1E68dkhJu3+19+S20aiAbbwZmuajvD5VjvNeQsLGE88YyHDQBXcYyB7FoCud
+	 CcTbg0hXavnMgEmHbdAmBNV5Sxd++wcfZx62dWZp2URiMXWOCgqcLAr4NqgPafQR/SejM
+	 e4MEocc5ICXyVOPKxLyGeWuLhSd/9YJv1pzMMLhkf5w81dsKZtBjSHdB9d6zNJztK/yMf
+	 cKbcv+Empxv6RDHIOh0eRxkGiUNgtH0J54nJY6hcNfjTNAxjowNFoioBUk/yz5kN11rkO
+	 AzV/jNbiPDZ045AumXJ9ud0Ny7J+JR2923adJTL23fyGfe4j6Wu/30fTxoUbyf5CazQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795210506;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=9R3ZLhcWd+PyIs3KHNEbwXU/BNW+LbCk0X8KOdAMGQc=;
-	b=BS6iEwQdEYa68bapWzdVIrvezervHfo2qzoH5eBFLMxB4Fj0BWXxoKWvT1kSYKS2Sn1m
-	 WdzeX0sUjWQx2OgLkAkL8xie4dyh6s12jjQ2nlUpsrlAVWLGyzuwo+m8iLZ3QrMycyfSo
-	 ufOmt+XSpgwoiLR7GyN/vFa9X3I+aN5YJ8isxflEp0IRCqsPqEBHBAEV6Hxg3GxmtUpG3
-	 FCjretMY7gD+rJ6f1UBIerUV53f+R7YB4UAi+gXHoTPTaBD+DUMPGcIcy74JOtTXBOolT
-	 0vzVJGlosVW+EjyjRvVLMVgl4B+ogEQVPLceQMqJRUyk7KZRtIpMclraNVNb19ABLkg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795211665;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Filter:DKIM-Signature:
+	 X-Virus-Scanned:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:
+	 Organization:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=WoStj5ZyfUsSJQg9tyQmGQr55Y3sNNtMdzsmkonX61Q=;
+	b=Ew0/kSQSNcNY35E5/k5pXd0i4gBz1PpmgQrfhluCwYBhL6pLjm6xhhqJZFS9Wgkb45wR
+	 exeFjet2amO/Af68JnpKelNbCUdI0Mudy1z9JtqXQfBrNp/855K8UZPqnMrPoNYy9ETgn
+	 8zwFwLEoG2f+TFLddT57Ad/gJsM6XXQiqOziWROazrZSu9ruTUkjUx+DQ2yNSTsjfsfbo
+	 +ENKaP/LfXcBA7D7EiqlNKWGokVK2EzVLPcvOOTpbsSwgvhnqN/U9IPlFxG0/uiZiFipU
+	 iHvDZZJnTr/G8dofIU9cP5tAGEnsc6CWJsHofhFz9T4hF+4YSzK2GQYQ3//vOoDlAyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W+emX5Zr;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=cs.ucla.edu;
+	spf=pass smtp.mailfrom=cs.ucla.edu;
+	dkim=pass header.d=cs.ucla.edu header.i=@cs.ucla.edu header.a=rsa-sha256 header.s=9D0B346E-2AEB-11ED-9476-E14B719DCE6C header.b=dUh1rAY8;
+	arc=none smtp.remote-ip=131.179.128.66
+Received: from mail.cs.ucla.edu (mail.cs.ucla.edu [131.179.128.66])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4EC606A33C
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 21:35:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC4A606A697;
+	Fri, 20 Nov 2026 21:54:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BDC4A606A697
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.ucla.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.ucla.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W+emX5Zr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5231A1F000D0;
-	Fri, 20 Nov 2026 21:35:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795210505;
-	bh=9R3ZLhcWd+PyIs3KHNEbwXU/BNW+LbCk0X8KOdAMGQc=;
-	h=From:To:Cc:Subject:Date;
-	b=W+emX5ZrkDZ3nBoWf5xYBw+S/stLSCqJSQ1QZNUws4J4zHl4uu2r7d/MwQ0HRDx2E
-	 zZupdBZgvFf21x73XiwB4Gxd5tgYw6ds5ET3WODf9kc6kO+i/M3mgbrTVfYkTGAGFo
-	 loiFazftRFnEK921aYp6V7iVuw0O8cz/IM29SzZcHyR8nbkbd92lFScsWjye7JMx2m
-	 RwXvQ+ndKmljsifsPjGkHbQqNoWZyWfsPbm/GFdFSwvx3ABLDm3sRQabXoVRz9lVzo
-	 3GB09bu28yHByCLuh4Yh8s8pp9nY5Z0Eoorn/EESGZPjBQwWsZaacgqvqUtyQDyngL
-	 emWQVovRnJ79w==
-From: Damien Le Moal <dlemoal@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org
-Subject: [GIT PULL] zonefs fixes for 7.4-rc4
-Date: Sat, 21 Nov 2026 06:35:03 +0900
-Message-ID: <20261120213503.580799-1-dlemoal@kernel.org>
-X-Mailer: git-send-email 2.56.1
+	dkim=pass (2048-bit key, unprotected) header.d=cs.ucla.edu header.i=@cs.ucla.edu header.a=rsa-sha256 header.s=9D0B346E-2AEB-11ED-9476-E14B719DCE6C header.b=dUh1rAY8
+Received: from localhost (localhost [127.0.0.1])
+	by mail.cs.ucla.edu (Postfix) with ESMTP id 20AB73C00FFF2;
+	Fri, 20 Nov 2026 13:54:24 -0800 (PST)
+Received: from mail.cs.ucla.edu ([127.0.0.1])
+ by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavis, port 10032) with ESMTP
+ id PonQXPRWpAkL; Fri, 20 Nov 2026 13:54:24 -0800 (PST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.cs.ucla.edu (Postfix) with ESMTP id E794E3C00F59F;
+	Fri, 20 Nov 2026 13:54:23 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.cs.ucla.edu E794E3C00F59F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cs.ucla.edu;
+	s=9D0B346E-2AEB-11ED-9476-E14B719DCE6C; t=1795211664;
+	bh=WoStj5ZyfUsSJQg9tyQmGQr55Y3sNNtMdzsmkonX61Q=;
+	h=Message-ID:Date:MIME-Version:To:From;
+	b=dUh1rAY8mm1i5ZXjcyhb24veM7IQF/8W9bbqTwqFM13oey9+hWDS1DAy+mIxKzHcH
+	 7/3r8c4I7BeuHS3AV9DooTIf1DPRlvZqSUCVUTBH6fLREAf7fvAmj6NqSCfDXI5t48
+	 Jj9tFg1ZkTWVCrkoQ70skyE/fxdSCAONYEzRm7EXAY18HqOI/C7yoYu1FkIDi3PtvG
+	 jWAGdjW86oYlE/HDc/GdZkQnyIc6A7djt2sN5H6uNmYYj2g2IQqmLqnjb+W1wNRN6w
+	 CZMrnBcdIU9/g64tFY+Nd9zQd9V2+O66d+YsOnr2m3uhRO3Brn5goLGKxZcTyBBxHn
+	 TeG/kIfpNSpPw==
+X-Virus-Scanned: amavis at mail.cs.ucla.edu
+Received: from mail.cs.ucla.edu ([127.0.0.1])
+ by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavis, port 10026) with ESMTP
+ id yPZ8eSIKXGvh; Fri, 20 Nov 2026 13:54:23 -0800 (PST)
+Received: from penguin.cs.ucla.edu (47-154-24-214.fdr01.snmn.ca.ip.frontiernet.net [47.154.24.214])
+	by mail.cs.ucla.edu (Postfix) with ESMTPSA id B74543C00FFF2;
+	Fri, 20 Nov 2026 13:54:23 -0800 (PST)
+Message-ID: <1e789ad1-317c-49e1-b631-39a80a24c58c@cs.ucla.edu>
+Date: Fri, 20 Nov 2026 13:54:23 -0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,37 +72,28 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fs: shorten I/O that would extend past the maximum file
+ offset
+To: Matteo Croce <technoboy85@gmail.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-fsdevel@vger.kernel.org,
+ Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Ding Feng <dingf3ng@gmail.com>
+References: <20261120184225.257554-1-technoboy85@gmail.com>
+ <9cabfb96-21d5-46a7-a0e5-df0908fa67c5@cs.ucla.edu>
+ <CAFnufp1ec4hDOoXCy_NdCEhkYgZzQktvN5RizyEkMQQ9MneRbA@mail.gmail.com>
+Content-Language: en-US
+From: Paul Eggert <eggert@cs.ucla.edu>
+Organization: UCLA Computer Science Department
+In-Reply-To: <CAFnufp1ec4hDOoXCy_NdCEhkYgZzQktvN5RizyEkMQQ9MneRbA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Linus,
+On 2026-11-20 12:46, Matteo Croce wrote:
+> I can extend rw_clamp_count() to shorten the count so the range ends
+> at 2^64 - 1 for these files too, so that the behaviour is the same at
+> both limits. In practice none of these files has data near 2^64, so it
+> would only be for consistency. I'll do it in v2 if you think it's
+> worth it.
 
-The following changes since commit aebb7274476403040d582c61478df8f4a7bf9cd3:
-
-  Linux 7.4-rc3 (2026-11-15 14:30:11 -0800)
-
-are available in the Git repository at:
-
-  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/dlemoal/zonefs tags/zonefs-7.4-rc4
-
-for you to fetch changes up to fb5289b697c965581104bafdd875b969a1db3e79:
-
-  zonefs: ignore RLIMIT_FSIZE above LLONG_MAX in zonefs_write_check_limits() (2026-11-20 23:58:15 +0900)
-
-----------------------------------------------------------------
-zonefs fixes for 7.4-rc4
-
- - Avoid potentially opening the wrong file in the case of an overflow
-   when converting a file names to an inode number (from Guangshuo).
-
- - Handle potential overflow of RLIMIT_FSIZE (from Ding).
-
-----------------------------------------------------------------
-Ding Feng (1):
-      zonefs: ignore RLIMIT_FSIZE above LLONG_MAX in zonefs_write_check_limits()
-
-Guangshuo Li (1):
-      zonefs: check multiplication overflow in zonefs_fname_to_fno()
-
- fs/zonefs/file.c  | 9 +++++----
- fs/zonefs/super.c | 6 ++++--
- 2 files changed, 9 insertions(+), 6 deletions(-)
+I think it's worth it, for consistency and clarity. (And even it's not worth it, there should be a v2 with a comment summarizing the explanation of why the code is inconsistent....)
