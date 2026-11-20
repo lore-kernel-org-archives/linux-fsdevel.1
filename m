@@ -1,126 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795170805;
-	b=RV4k+4pAUhghUuNJs8ZyTe+laB+NwCp7nbQDRHl/fa6ocZ09przGRwH7J/Okw8H5uilR
-	 FT3Xp0mgAq7cdH8INoVC9uh83URiN0aohlT/onB0g9Icd9aAxnk6XMuS5miOBAxAT/EgO
-	 aqkN5ZK9rlHFlYKT3XwfveQMIsuVUGHuSiiEkKxI5ZcdZk8Mn+L6NOWZSOdYzDE5E2MDx
-	 ZPdroAe+dUTDCvkLGjraUEWIavSUWm7BpI4Ym0by0/uQNauhPvTwkBc/1+BbwYahih0/C
-	 0O+bFs2UTlT9leOP94zS/+8mQz58LjHe0S8nF8EsEGEiR7a8tSTAfWFZeuVbwSL9MSA==
+	t=1795170810;
+	b=ncgWP7L31fH7NDeMqaWG17sdsLMqEmvos37elRmg3FxJ3BRMHnXcYWlFKl3ejmy5V1YD
+	 Vsfg1siU76UOsaYQ9J8yb9PH5PI1hQ7l4caSiyKsxcspPutcyMtjDeYe4sCQO/KT/31Ad
+	 VzMb2UXo5/iWS4WTQJnmIgpTisDuXAu5PmaUsEylW2ySVyilb788lH+NvV7qGDMoMmP1w
+	 FpoQTGavmEqST2nd+4965T4E3ASuXVSCpXAk0DQJXdxRy/MDxVYoziTbC9n1tF5ipIV1M
+	 MFbrO490wLLhJ3gpPI1Ige8n+TTwplmFlX/AGFijE6RpkELH/HyeanJREUhkbjR9J+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795170805;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795170810;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=t9oeuZg5SOFELh61DhL9TrcyeFMUL5FVI7HyV9D7ONM=;
-	b=ENqpYgOgfzGTyAafC/KubIcjG5YSAlkIzdghGAyom+QbyTHDMBsgcmjVMxifaUYmr9bk
-	 EOqDGUnSLp7PnzqwFumczY8oBSgnqg6LWBE1XsUYRitysZhFS0CZHlYrNzUvEW13q3pdd
-	 0a5UunErkv3yn5uKwqxR4JC2pLf0OsFGSfy6UboRNlgVXJIJvnEjAIaGfpICMB9J1SdVv
-	 cQbGgHWtwEdyaTMd/eNjABL3//EWV3avl6e3mvnx7LozpiHM+HQbaxTLqB+D9tNwPKSsl
-	 0Fsi7rHvAN5hNFCwKFgslV/RLimJJ1SuViAI/EvGfW/8Iq8XpKi+y5upVWVspkkRmcg==
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=ZYnaWZrPnp31G4iCGOrEON3WcVP3HCv6KeqKtTW95D8=;
+	b=R8biNqTEIYeTkJy8hLC2ZlFRDnoJFolADhma4acxEyHhCynqyuVNm6BjnuhRIYQd2t0b
+	 U2Afc3D4Pc9A22eyIReBDfCjO6VsWv0Eo5i65qQuvDUNZtgUuYbl+pAdrctn7sFbINW9b
+	 4rnNl6XCjEcunfeUInOH3PSvghcvF43r1vGnbluDcsg6NwFo7UukFicF653sa80KMcbJW
+	 1Pbji9ielMBeA0vQzH5jg9NddcLQ4UwOk5GEuXG2vy8ArUgK6UWoPBggaZZRkmHYgE/xo
+	 0GGJfrJaHpYdWKEXNyfPVjPxT8p7G3aIJ/qsvHqBfgVi+1c9V3E/+4ARkL9GGm7C6Ug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MT90aUeJ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OMllMaIL;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 88315606A320;
-	Fri, 20 Nov 2026 10:33:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A886E606A325;
+	Fri, 20 Nov 2026 10:33:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MT90aUeJ
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 180BE1F000C4;
-	Fri, 20 Nov 2026 10:33:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OMllMaIL
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02F281F000E0;
+	Fri, 20 Nov 2026 10:33:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795170804;
-	bh=t9oeuZg5SOFELh61DhL9TrcyeFMUL5FVI7HyV9D7ONM=;
+	s=k20260515; t=1795170809;
+	bh=ZYnaWZrPnp31G4iCGOrEON3WcVP3HCv6KeqKtTW95D8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MT90aUeJnbBLoxSnli8tTtBlsoFe45xxYq7FCMaOJfqXCyODpNpspWc3hSd8SkzQT
-	 m9HM/m7tfYasOLIuMLno+XIBkfnsJritn1I35Hs+G85PGyOWo2aqbx01Nb546s3l7J
-	 BWGnwVJYoBUhcgV1FsrIjpajqeru0eyjz/AssVQJQzDpJuh5zNs0pxZtz1D7YPzYAN
-	 ZzYDSSj8TvhhBVhbzNJkR/DPNP3NVKgSci50dNMucuDoqkdGwZpbuLzlHRwDlI3yq2
-	 oowRyN8OH4AiBudC5DwdHeH70QNVCNAH2foLQpSDv5FnrOZ2vP8EWoxiV4qmR5D1+m
-	 a8ZBginKlEPFg==
-Date: Fri, 20 Nov 2026 12:33:21 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-	linux-security-module@vger.kernel.org,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Andy Lutomirski <luto@kernel.org>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Arnd Bergmann <arnd@arndb.de>, Ben Segall <bsegall@google.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Christian Brauner <brauner@kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Chris Zankel <chris@zankel.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	"Hallgrimur H. Gunnarsson" <halg@google.com>,
-	Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
-	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Jan Kara <jack@suse.cz>,
-	John Johansen <john.johansen@canonical.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Juri Lelli <juri.lelli@redhat.com>, Kees Cook <kees@kernel.org>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Magnus Lindholm <linmag7@gmail.com>,
-	Manfred Spraul <manfred@colorfullife.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
-	Mel Gorman <mgorman@suse.de>, Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
-	Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Moore <paul@paul-moore.com>, Paul Walmsley <pjw@kernel.org>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Rich Felker <dalias@libc.org>,
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Vlastimil Babka <vbabka@kernel.org>, Will Deacon <will@kernel.org>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v4 07/14] fork: Support CLONE_INTO_ROOTNS in clone3()
-Message-ID: <awAh8chFM-9WtNKP@kernel.org>
-References: <20261119224312.1037966-1-jarkko@kernel.org>
- <20261119224312.1037966-8-jarkko@kernel.org>
+	b=OMllMaILUlLf9s3hvr093RPa75e/yAby83K3+l//mQZtOL9v47/aXwH8G+7Atu2gX
+	 LqZs1PwMhRj/DKEE1SAteqAAZXXblvaLp8sbbC6USgHRDEzkHVyzB5Zkwq0cz5ehWW
+	 DLW7dwV8Hiil8Q3et3norEw9gL5zo+DA8WCTRpjtR18b4N0bicAvyM8Fae60TiZpN3
+	 jpNnQtECf2r7MabCZwspgM/XpL7iyp2/nUPata1gRHS8ONqIRjKr7iVGgJgSNLUw7r
+	 3OPcy/RYe3bzqfD/y1eZW45g/c+1SYGgz1AvcUsAvjjd2lXuNuuBYHNLwFud78PBgf
+	 cjy2RTHg+7Mjw==
+Date: Fri, 20 Nov 2026 11:33:25 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: =?utf-8?B?TcOpdmVu?= Car <meven29@gmail.com>, 
+	Jens Axboe <axboe@kernel.dk>
+Cc: io-uring@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	=?utf-8?B?TcOpdmVu?= Car <meven@kde.org>
+Subject: Re: [RFC PATCH v3 0/2] io_uring: add IORING_OP_UTIMENSAT
+Message-ID: <20261120-vorfeld-formlos-nahbereich-00aebc4c5150@brauner>
+References: <20261114104621.1186744-1-meven29@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -130,40 +59,27 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261119224312.1037966-8-jarkko@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261114104621.1186744-1-meven29@gmail.com>
 
-On Fri, Nov 20, 2026 at 12:43:05AM +0200, Jarkko Sakkinen wrote:
-> Multithreaded userspace daemons cannot call setns(CLONE_NEWUSER) or
-> safely mutate process-wide filesystem state in place before spawning a
-> child into a target namespace set.
-> 
-> Add CLONE_INTO_ROOTNS and struct clone_args.rootns (CLONE_ARGS_SIZE_VER3)
-> to spawn a child process directly into a rootns whose root mount has
-> been installed. Transition the rootns from ROOTNS_INIT through
-> ROOTNS_FORKING to ROOTNS_RUNNING for the first process so it becomes
-> PID 1, serialize concurrent entrants on waitq until bootstrap resolves,
-> and admit subsequent callers into the running PID namespace until
-> teardown begins.
-> 
-> Derive child credentials from current, require CAP_SYS_ADMIN and
-> CAP_SYS_CHROOT in the target user namespace and an ancestor active PID
-> namespace, preserve caller umask, reset dumpability across user namespace
-> transitions, commit time namespace vvar mappings after copy_process()
-> succeeds, and look up the live mount namespace root. Restrict companion
-> flags to CLONE_VFORK, CLONE_PIDFD, CLONE_PIDFD_AUTOKILL, CLONE_AUTOREAP,
-> CLONE_CLEAR_SIGHAND, CLONE_INTO_CGROUP, and CLONE_NNP.
-> 
-> Co-developed-by: David Howells <dhowells@redhat.com>
-> Signed-off-by: David Howells <dhowells@redhat.com>
-> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+On Sat, Nov 14, 2026 at 11:46:19AM +0100, Méven Car wrote:
+> IORING_OP_FCHMOD was proposed in 2024 [1] and not merged. The same
+> questions apply to fchmod and fchown, which a copy also needs, and a
+> single setattr opcode could set the mode, owner and times in one
+> ->setattr() call. I started with the times because a copy always sets
+> them.
 
-Being fd-bound object the gist is that the first clone3() binds
-cgroups, which could e.g., different process than who build the
-container.
+To me it seems strange to grow an io_uring opcode per attribute. What
+makes the most sense to me is a common interface to set multiple
+attributes in one shot that is shared between io_uring and the regular
+system call path. IOW, an extensible struct based system call that takes
+the mode, owner and times and does a single ->setattr() and an io_uring
+opcode that uses the same struct. Then a copy sets everything at once
+and userspace that doesn't use io_uring gets the same thing and it would
+reduce the number of system calls for userspace and less work for
+io_uring as well.
 
-CLONE_INTO_CGROUPS is of course available as an optional flag when
-using CLONE_INTO_ROOTNS.
-
-Br, Jarkko
+The other thing that this would allow is for filesystems to implement
+multi-attribute changes in one transaction.
