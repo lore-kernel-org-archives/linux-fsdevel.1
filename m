@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795168125;
-	b=Y03w9b2Rpuzp5EqRNVCRN5LxLBe2Rtu1Oa1DMbJ9MquOn4xB275trK84s3syjng/Ns1y
-	 eGj48Wr6UBE3nbom0uDgQP9kvu5qw1FXxXMHp29ifEezXZ/B6TdOXmMtvR0XHeSSJuqwW
-	 G2QTJdQJdtJROjmGcLjpDEKDEp8lfJyo93aegTGYGwWn4IHo5hsBZhXRL8tgxL+QmdO53
-	 ioCUfbBix8NdEwVRzQqbFVU9m3uQGEagnBZERIJ7KLy36e/90QzndzqLhbbuLNH0VYlPb
-	 JWn7GCa0hItsTQHIeztfFGARW0UDLRS8o9SJHb1IabFJlmGC9+adkvonhaEZ69whnFQ==
+	t=1795168127;
+	b=hu+c1YiKb2iVJkuIb6INykCy0J6vUyqc2FUPlzaLQDxNPJlTGH3c4JFuV2TZWoBfDqtf
+	 AT9zaFZZGtm32caMd8MT4I6G2Bn4b5oomDdU+XggEDzLsnBvBtlpD1s9gknW2Y5cJzwtl
+	 WfG+04RUgCMAv3C5/STrs+l9JHYF4M2e5FHPYn8uSEcUU3dg2xrPVZm07KK2xeseGS7I0
+	 /YzViEDItn0dqNhs/R385efXLCcrpWR3WsHnxbJ/7iKzm5q49uszp4wX3fpDJjjobFEdV
+	 a8HXvSAzjU1EMTeFsfSIc+X7QfxfCp/yU4UCn7D2Fgf+/7R0srM0iQjql5WePBeKCog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795168125;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795168127;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=g7RdVn0LMoEs2dfOGDRDG/kF9Dj5nfh11MC5a3PxnCE=;
-	b=1OUN8ecvHMwW0gM14jZaUUImwT93be+TMio2qHkw3dlsm5VQgz2iv+wDl+NlxQXWjVNs
-	 ZbFYIBWI2qNKMBXs/4rp6yDYRGGVA9SLnfFb4n5ruqLyHPY3YR5eYNPdyoyUSwcierDsg
-	 tsZljCk8eRHys/VzBi5voXBq25hfK6RXJxT9dzaQk8PsttbaC9mOFrjrIF5s0wRSj+ol3
-	 IGfbRtCXUCUAhQWlcYpaA5t8r+TyAOpPvMD5ND41bg0YqqGhc5kiBwfLR7AsmoOmZm/6G
-	 xbRsLG67bL5+RBtVygfm8t92pQbObRyDy1ojXJZ82ERG6DXWSbUEGMjG/M4RKQvB9VA==
+	bh=pG1syAWkXyA+HZuarn4jRiXMHoXZPQlA/kG8cNGoNts=;
+	b=TZNYG9ViFcaBSfFvPcE5IAvQXN8B0flpUiThYpaHIeDU3rRTh8FGk3GTCJy99QqpeyYd
+	 s5WZDfbVO3Oe2sByfJvfwdd8RSrtFATdFu9ktJL3JkWUQPwCV+UAK0Njgqr65kKCJh+Tz
+	 T1fCmw3M0p27O4CD3xVVDF2wbAgxHJ1tlBx0kz9JeBBGWWiQlNgkt+gHRWI/paqbkeena
+	 vqc24BJOLVX6ZcI+wCXDMF74bZX0LYHR9JcT0xYUYYLHXequ5Vfub+vljvRgGaisM8/8G
+	 MWK+a6SH99mZrq/xMgZR1KGY9HRV8p7+cKKOpfiJcr+GM1hoBNqr7xPtWJkADgCwW1Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ugbdGhIZ;
-	arc=none smtp.remote-ip=209.85.128.43
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RObCYml7;
+	arc=none smtp.remote-ip=209.85.128.44
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC94B60A2602
-	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 09:48:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC94B60A2602
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 107CB606A320
+	for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 09:48:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 107CB606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ugbdGhIZ
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4bb69f5b161so4028445e9.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 01:48:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RObCYml7
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4bb6ba3b244so5697475e9.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 20 Nov 2026 01:48:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795168123; x=1795772923; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795168125; x=1795772925; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=g7RdVn0LMoEs2dfOGDRDG/kF9Dj5nfh11MC5a3PxnCE=;
-        b=ugbdGhIZJtUsZ6WmT/mPSVLomwtutW8nQfXgBmaN/lCuuo0bZGq182BQA57yn7pVaC
-         Z6R5qYhoRMOxeJhRpOvqVsIpjV08d7+Uan8W2WpX38C9+SXrsN9AgqdLzo/DpaRC2yqO
-         VPjdesb9fJ5Nqt6jYpGE+tjW6J88IT9q3w4XMZpxIcvlbxo7TOldCWXXAWZO54Mqu8Im
-         xPzuPv2+Up4oCmjtkeGiT71Kcf+V+iKfCIC4nqZHcim7JIVYFjTXEPs39QWlLf/2akQw
-         tUFWA67KcNk7jPlSsdJ4aJkkJGv7/rrG92Wk5g+V8sNbdJsd3OawM42PNQYdTIDZG3Kd
-         BFnw==
+        bh=pG1syAWkXyA+HZuarn4jRiXMHoXZPQlA/kG8cNGoNts=;
+        b=RObCYml7Zk/bXP5jsr/v7ADqd9akqncDBN0/4ojTwXrr0GLtb1S0F45ybAofj7uXfr
+         IwNhdw5YnSX+e6xuHvF1NIwr9zFvHgpdIwRYN1UPIcb0B55h06i6a6yTCjBQZTewXJOj
+         eCESYHrIs9RGy0PVB+YIRwofPSOmxAVppD8/9xgAzXwjS7rG3GlVetG/TPIy633gn6eX
+         ZpJabn96Z6lUjdcI316WjfoC8yIqKZKGJt8wTm5eLlhgRG+0QYnj9HlG4lg/4lkLsvgs
+         8KWVFJ7NXcEaBJYJhpq7FNYeMyPSbAHQzkALQE810a2jQwSBFas6lkexAzLxj74ktyi6
+         pbDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795168123; x=1795772923;
+        d=1e100.net; s=20260707; t=1795168125; x=1795772925;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=g7RdVn0LMoEs2dfOGDRDG/kF9Dj5nfh11MC5a3PxnCE=;
-        b=koN6ACTda+6g/z/pkzzJhD+eHvnr6xeAbMWwePOb2SAgfi2eDDzcXegwdEmmPISNiz
-         k+Avh+x4nC9GZvkkINOx43IvuwJwDBCrvJnETNp+xztdMwS1APomG61LKawh2lHYoGC3
-         pykmQlKNB0uQoMY4vrRIO1cz+mc/X+fNl+qZc5KOfx0DEXYsxcn5Dur41uI3dnd68Uhl
-         3gannSNwRuFHYY5KHPgH4QveprOk+Z6eE+PMJI6wSJ8ywjVLRhoMkpeUYKIjCY7fDCr/
-         yRi/1K/H7Y3Pn873jsE1H3Lm97XewXNRcSxZtkI1w5j2EKSvNOSj+77Fmwhm+SYMJYmm
-         i5eQ==
-X-Forwarded-Encrypted: i=1; AL+hErFQeLeMzCHQOkwLpaA4lu2Gf5NlwaUC4THuYpW3FjEOD0V8boxeYI30mKFBNEQZAcYF9afMq/SnY0C9EyUG@vger.kernel.org
-X-Gm-Message-State: APuU4Z8LqCSP7Mg5tmhp968N1jyWGMKuPsnud1yQ+UzJaRriZ1C7O0tQ
-	E1gID94HGqBpBdav8XQNKLAQDGUjY9Rk4LalXUl8Nq1pvK/QiCWuhEWh
-X-Gm-Gg: AYBFou105NJ0gtXTc/gvgDS7gwOOKK5ixU1hAzC0YXUS/Z6ZTZKxEUvvGKPqFmGe69K
-	EvE30lGlyWRHke6U+b+pEbq1kuICv/Wf6zQrSZ4qPCTEzhA3XMn941zrBq+VSDmz0WT2XUbDY1H
-	jfp7eNNbEhn9NiKVZmWmpCwwI2r9rs+xOazi3kWOsaRpWGwPV48G9wEA07x1hOWXjcZozT1Nks/
-	rE+nA4BPXFut/O6wkhsqjM9aPd8RV9YjAauV1VClfup+bLYC/KzOHvDgunkfcNmeeIT8EnIJqkl
-	Ukz4qRmqw715mjyoke4uaLDjteErJH6sPIBv5DhucmdNBXz1NmdUD1N71zRbnGLNBy9jXv2wiDO
-	v/hhd3uSIm2O/7JMSmudLoObslRc5J+Vh0JGYm4wVrqdHAK+rpQ99tSNsYT6dbNU+dWrc9l/Uzq
-	RpVikjpUgJKesmi3o7x82PXr/nnoN4ocMPvcXYvr0W/U5GNMUgwLg7XnI9LUVKshei9kXIKwjzi
-	5iftbXzItcu+JaMLWHWWXxyQYiiizs2U+lhppeFov1/NU+tQrSl/QklqNYJFM8LFPMFDL1c8FDk
-	pzSipCnX7dLDJ6A8LIG7Hr+4b/v+4kCGRggE1OAMM/g=
-X-Received: by 2002:a05:600c:4e16:b0:4bb:6f77:1e35 with SMTP id 5b1f17b1804b1-4bb88810991mr58830945e9.21.1795168122957;
-        Fri, 20 Nov 2026 01:48:42 -0800 (PST)
+        bh=pG1syAWkXyA+HZuarn4jRiXMHoXZPQlA/kG8cNGoNts=;
+        b=Q38y4ifH+FYVz/Iui2gGesdzOObIgmAHBQrWoNZSdPkRRMSS/NO+jqCU39srgWB1By
+         GtPUmpwUC0HGs5JrGVATgxKCtrfym9kC7ZqzwgAD5M49nLA1jAon/gvEiCZJrFOVxURi
+         LPPcQoRuGF9AWIt1WEGNlpQil25jYD8m9IZBv6kxl+xZER92Ok/zvxPshTOmWpCDL23B
+         kKbHPggC/dcPTPSPLAZ/GeKiZCqAE6PBlomNXDmGNd15bTkKI6itM2GC04V9xlhj24Hl
+         M07BZQe7OKTrH4wXyJ/7b53TZuCaW64dv4wswcQOtgFwtzDiXjzi5ZSUr+3/GO2hBRz7
+         QziA==
+X-Forwarded-Encrypted: i=1; AL+hErFX8pD5C2tWZU6TF+xk1NRWRmWJZS3bIob8QN3slEegmtzw5EPkNxG+EYNBdtISY3nNCnRbIBfwVB5epO0b@vger.kernel.org
+X-Gm-Message-State: APuU4Z8cctjl4iEJYiOO6bz9fJJvbRhXJ5bFxoUNk5l0/wXAl3x4xd2f
+	Xn2knuDZ5CUSlLpyZnaEX1tKMXn1NDUNDwFUexJRjfs8uELVhg79POys
+X-Gm-Gg: AYBFou3vbIuIkizLpDoUOH70Jbl+VyYqdhIoAUrt3IWt+IjNnfWAECtoq341gM7KI4T
+	gLFrcKXdsf8GdkC6zrb8tBB64w0z+1SgfUjf1ShXFbmZBiYDxzkD52G2k23oYztkXxpKOXTvTAt
+	FjFo5bcUp2mns2S+o2Z/Er7l7Y9GOZd7X99VpWj+olijp5TUpstmcbjEYKKI0fb3nZTca9sPNqp
+	1FVYAtjron9EcJ1MnWEenx9J9ZMVliq83UnR6dvGO917Gt1LoKWASt7XI478lDL6UlsIdoBCyQV
+	2t+vo1+XqxuqhX6fcaU5nB9O4oD9Koi9ot2VtR15fQ84+7Ax6Hx3YWBr+b4ixTCvIzSztuHe/xo
+	Py6q1AIyKoUvAlrQoLvSJsVRDXDyERxaUb/kUzB/wUeY8hCEU53n6D2NnPJbQ2RdDIaCM2sSWWu
+	aYiQ59lZ9QNuz5VUnyxR0uWXD5fNrG6ilBrJapaTEXG0wt6WzNIf308dCI+9z6QfajPUvt8ytzV
+	IHVwV+vKniJts6t6lx62zIMJvlyQ8WjerS9ZTWZrDnDV8OBrJfXZhmX6Bp/hdO57hEzAjCrdAVz
+	udiO5JfNhnxWnARdle2JIcs664Cdva6rSTrcNApFoAA=
+X-Received: by 2002:a05:600c:3b91:b0:4bb:7e4e:de53 with SMTP id 5b1f17b1804b1-4bb8881059bmr59889335e9.12.1795168125331;
+        Fri, 20 Nov 2026 01:48:45 -0800 (PST)
 Received: from dell-desktop ([2a02:587:4b42:1400:8199:c552:2b9e:c33])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb88f635ffsm45137535e9.4.2026.11.20.01.48.41
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb88f635ffsm45137535e9.4.2026.11.20.01.48.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 01:48:42 -0800 (PST)
+        Fri, 20 Nov 2026 01:48:44 -0800 (PST)
 From: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
 To: linux-security-module@vger.kernel.org
 Cc: bpf@vger.kernel.org,
@@ -96,9 +96,9 @@ Cc: bpf@vger.kernel.org,
 	matt@bobrowski.net,
 	eddyz87@gmail.com,
 	tasos.papagiannnis@gmail.com
-Subject: [RFC PATCH 1/2] security: Add hook for unresolved pathname opens
-Date: Fri, 20 Nov 2026 11:48:19 +0200
-Message-ID: <20261120094820.11929-2-tasos.papagiannnis@gmail.com>
+Subject: [RFC PATCH 2/2] selftests/bpf: Test pathname open enforcement
+Date: Fri, 20 Nov 2026 11:48:20 +0200
+Message-ID: <20261120094820.11929-3-tasos.papagiannnis@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261120094820.11929-1-tasos.papagiannnis@gmail.com>
 References: <20261120094820.11929-1-tasos.papagiannnis@gmail.com>
@@ -113,160 +113,189 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Check the copied pathname against the selected base before traversal or
-file changes, including O_PATH and O_TMPFILE.
-
-Pass lookup flags so policy can request a referenced retry. Recheck the
-base after each restart and cover kernel opens with an explicit root.
+Verify that the hook sees the raw symlink pathname and the dirfd base.
+Check denials before creation and truncation and on O_PATH and O_TMPFILE
+opens. Check that -ECHILD makes the VFS retry the open with references.
 
 Signed-off-by: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
 ---
- fs/namei.c                    | 15 +++++++++++++--
- include/linux/lsm_hook_defs.h |  2 ++
- include/linux/security.h      | 10 ++++++++++
- security/security.c           | 27 +++++++++++++++++++++++++++
- 4 files changed, 52 insertions(+), 2 deletions(-)
+ .../selftests/bpf/prog_tests/file_open_name.c | 103 ++++++++++++++++++
+ .../selftests/bpf/progs/file_open_name.c      |  56 ++++++++++
+ 2 files changed, 159 insertions(+)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/file_open_name.c
+ create mode 100644 tools/testing/selftests/bpf/progs/file_open_name.c
 
-diff --git a/fs/namei.c b/fs/namei.c
-index 925aeb63bfa1..fde11d36d434 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -749,6 +749,7 @@ struct nameidata {
- 	} *stack, internal[EMBEDDED_LEVELS];
- 	struct filename	*name;
- 	const char *pathname;
-+	const struct open_flags *open;
- 	struct nameidata *saved;
- 	unsigned	root_seq;
- 	int		dfd;
-@@ -768,6 +769,7 @@ static void __set_nameidata(struct nameidata *p, int dfd, struct filename *name)
- 	p->dfd = dfd;
- 	p->name = name;
- 	p->pathname = likely(name) ? name->name : "";
-+	p->open = NULL;
- 	p->path.mnt = NULL;
- 	p->path.dentry = NULL;
- 	p->total_link_count = old ? old->total_link_count : 0;
-@@ -2716,7 +2718,7 @@ static const char *path_init(struct nameidata *nd, unsigned flags)
- 		} else {
- 			path_get(&nd->path);
- 		}
--		return s;
-+		goto out;
- 	}
- 
- 	nd->root.mnt = NULL;
-@@ -2726,7 +2728,7 @@ static const char *path_init(struct nameidata *nd, unsigned flags)
- 		error = nd_jump_root(nd);
- 		if (unlikely(error))
- 			return ERR_PTR(error);
--		return s;
-+		goto out;
- 	}
- 
- 	/* Relative pathname -- get the starting-point it is relative to. */
-@@ -2784,6 +2786,14 @@ static const char *path_init(struct nameidata *nd, unsigned flags)
- 			nd->state |= ND_ROOT_GRABBED;
- 		}
- 	}
-+out:
-+	if (nd->open) {
-+		error = security_file_open_name(nd->name, &nd->path,
-+						nd->open->open_flag, nd->open->mode,
-+						nd->flags);
-+		if (error)
-+			return ERR_PTR(error);
-+	}
- 	return s;
- }
- 
-@@ -4999,6 +5009,7 @@ static struct file *path_openat(struct nameidata *nd,
- 	struct file *file;
- 	int error;
- 
-+	nd->open = op;
- 	file = alloc_empty_file(op->open_flag, current_cred());
- 	if (IS_ERR(file))
- 		return file;
-diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-index 87d9d06710cb..3537f2b73d8c 100644
---- a/include/linux/lsm_hook_defs.h
-+++ b/include/linux/lsm_hook_defs.h
-@@ -213,6 +213,8 @@ LSM_HOOK(void, LSM_RET_VOID, file_set_fowner, struct file *file)
- LSM_HOOK(int, 0, file_send_sigiotask, struct task_struct *tsk,
- 	 struct fown_struct *fown, int sig)
- LSM_HOOK(int, 0, file_receive, struct file *file)
-+LSM_HOOK(int, 0, file_open_name, const struct filename *name,
-+	 const struct path *base, int flags, umode_t mode, unsigned int lookup_flags)
- LSM_HOOK(int, 0, file_open, struct file *file)
- LSM_HOOK(int, 0, file_post_open, struct file *file, int mask)
- LSM_HOOK(int, 0, file_truncate, struct file *file)
-diff --git a/include/linux/security.h b/include/linux/security.h
-index 40831fab5470..e6c66cf1cd1c 100644
---- a/include/linux/security.h
-+++ b/include/linux/security.h
-@@ -498,6 +498,9 @@ void security_file_set_fowner(struct file *file);
- int security_file_send_sigiotask(struct task_struct *tsk,
- 				 struct fown_struct *fown, int sig);
- int security_file_receive(struct file *file);
-+int security_file_open_name(const struct filename *name,
-+			    const struct path *base, int flags, umode_t mode,
-+			    unsigned int lookup_flags);
- int security_file_open(struct file *file);
- int security_file_post_open(struct file *file, int mask);
- int security_file_truncate(struct file *file);
-@@ -1238,6 +1241,13 @@ static inline int security_file_receive(struct file *file)
- 	return 0;
- }
- 
-+static inline int security_file_open_name(const struct filename *name,
-+					  const struct path *base, int flags, umode_t mode,
-+					  unsigned int lookup_flags)
+diff --git a/tools/testing/selftests/bpf/prog_tests/file_open_name.c b/tools/testing/selftests/bpf/prog_tests/file_open_name.c
+new file mode 100644
+index 000000000000..553e8c9e75f7
+--- /dev/null
++++ b/tools/testing/selftests/bpf/prog_tests/file_open_name.c
+@@ -0,0 +1,103 @@
++// SPDX-License-Identifier: GPL-2.0-only
++#include <test_progs.h>
++#include <fcntl.h>
++#include <sys/stat.h>
++#include "file_open_name.skel.h"
++
++static void check_open(struct file_open_name *skel, int dfd, const char *name,
++		       int flags, mode_t mode, int error)
 +{
++	int fd, saved_errno;
++
++	skel->bss->calls = 0;
++	skel->bss->rcu_calls = 0;
++	skel->bss->deny = error != 0;
++	skel->bss->check_enabled = true;
++	fd = openat(dfd, name, flags, mode);
++	saved_errno = errno;
++	skel->bss->check_enabled = false;
++
++	if (error) {
++		ASSERT_EQ(fd, -1, "deny open");
++		ASSERT_EQ(saved_errno, error, "open errno");
++	} else {
++		ASSERT_OK_FD(fd, "allow open");
++	}
++	if (fd >= 0)
++		close(fd);
++	ASSERT_GT(skel->bss->calls, 0, "hook count");
++	ASSERT_STREQ(skel->bss->pathname, name, "raw pathname");
++	ASSERT_EQ(skel->bss->observed_flags & flags, flags, "open flags");
++	ASSERT_EQ(skel->bss->observed_mode & 0777, mode, "creation mode");
++}
++
++void test_file_open_name(void)
++{
++	char dir[] = "/tmp/file_open_name.XXXXXX";
++	struct file_open_name *skel = NULL;
++	int dfd = -1, fd = -1;
++	struct stat st;
++
++	if (!ASSERT_OK_PTR(mkdtemp(dir), "mkdtemp"))
++		return;
++	dfd = open(dir, O_RDONLY | O_DIRECTORY);
++	if (!ASSERT_OK_FD(dfd, "open directory"))
++		goto out;
++	fd = openat(dfd, "target", O_CREAT | O_RDWR, 0600);
++	if (!ASSERT_OK_FD(fd, "create target"))
++		goto out;
++	if (!ASSERT_EQ(write(fd, "data", 4), 4, "write target"))
++		goto out;
++	if (!ASSERT_OK(symlinkat("target", dfd, "alias"), "symlink"))
++		goto out;
++
++	skel = file_open_name__open_and_load();
++	if (!ASSERT_OK_PTR(skel, "open and load"))
++		goto out;
++	if (!ASSERT_OK(stat("/proc/self/ns/pid", &st), "stat PID namespace"))
++		goto out;
++	skel->bss->pidns_dev = st.st_dev;
++	skel->bss->pidns_ino = st.st_ino;
++	skel->bss->monitored_tgid = getpid();
++	if (!ASSERT_OK(file_open_name__attach(skel), "attach"))
++		goto out;
++
++	if (test__start_subtest("raw_symlink")) {
++		check_open(skel, dfd, "./alias", O_RDONLY, 0, 0);
++		if (ASSERT_OK(fstat(dfd, &st), "stat base"))
++			ASSERT_EQ(skel->bss->base_ino, st.st_ino, "dirfd base inode");
++	}
++
++	if (test__start_subtest("deny_create")) {
++		check_open(skel, dfd, "new", O_CREAT | O_RDWR, 0600, EPERM);
++		ASSERT_EQ(fstatat(dfd, "new", &st, 0), -1, "file not created");
++		ASSERT_EQ(errno, ENOENT, "missing file");
++	}
++	if (test__start_subtest("deny_truncate")) {
++		check_open(skel, dfd, "target", O_WRONLY | O_TRUNC, 0, EPERM);
++		if (ASSERT_OK(fstat(fd, &st), "stat target"))
++			ASSERT_EQ(st.st_size, 4, "file not truncated");
++	}
++	if (test__start_subtest("deny_o_path"))
++		check_open(skel, dfd, "alias", O_PATH, 0, EPERM);
++	if (test__start_subtest("deny_tmpfile"))
++		check_open(skel, dfd, ".", O_TMPFILE | O_RDWR, 0600, EPERM);
++	if (test__start_subtest("rcu_retry")) {
++		skel->bss->require_ref = true;
++		check_open(skel, dfd, "target", O_RDONLY, 0, EPERM);
++		skel->bss->require_ref = false;
++		ASSERT_EQ(skel->bss->calls, 2, "hook count");
++		ASSERT_EQ(skel->bss->rcu_calls, 1, "RCU hook count");
++	}
++out:
++	file_open_name__destroy(skel);
++	if (fd >= 0)
++		close(fd);
++	if (dfd >= 0) {
++		unlinkat(dfd, "alias", 0);
++		unlinkat(dfd, "new", 0);
++		unlinkat(dfd, "target", 0);
++		close(dfd);
++	}
++	rmdir(dir);
++}
+diff --git a/tools/testing/selftests/bpf/progs/file_open_name.c b/tools/testing/selftests/bpf/progs/file_open_name.c
+new file mode 100644
+index 000000000000..ea09af8fc238
+--- /dev/null
++++ b/tools/testing/selftests/bpf/progs/file_open_name.c
+@@ -0,0 +1,56 @@
++// SPDX-License-Identifier: GPL-2.0-only
++#include "vmlinux.h"
++#include <errno.h>
++#include <bpf/bpf_helpers.h>
++#include <bpf/bpf_tracing.h>
++
++#define LOOKUP_RCU (1U << 8)
++
++__u64 pidns_dev;
++__u64 pidns_ino;
++__u32 monitored_tgid;
++bool check_enabled;
++bool deny;
++bool require_ref;
++int calls;
++int rcu_calls;
++__u64 base_ino;
++int observed_flags;
++__u16 observed_mode;
++char pathname[256];
++
++SEC("lsm/file_open_name")
++int BPF_PROG(check_name, const struct filename *name, const struct path *base,
++	     int flags, umode_t mode, unsigned int lookup_flags, int ret)
++{
++	struct bpf_pidns_info nsdata;
++
++	if (ret || !check_enabled)
++		return ret;
++	if (bpf_get_ns_current_pid_tgid(pidns_dev, pidns_ino, &nsdata, sizeof(nsdata)))
++		return ret;
++	if (nsdata.tgid != monitored_tgid)
++		return ret;
++
++	calls++;
++	if (lookup_flags & LOOKUP_RCU) {
++		rcu_calls++;
++		if (require_ref)
++			return -ECHILD;
++	}
++
++	bpf_probe_read_kernel_str(pathname, sizeof(pathname), name->name);
++	base_ino = base->dentry->d_inode->i_ino;
++	observed_flags = flags;
++	observed_mode = mode;
++	if (deny) {
++		int error = -EPERM;
++
++		/* Prevent GCC from replacing the branch with a negation. */
++		barrier_var(error);
++		return error;
++	}
 +	return 0;
 +}
 +
- static inline int security_file_open(struct file *file)
- {
- 	return 0;
-diff --git a/security/security.c b/security/security.c
-index f6583d507395..d265f9347791 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -2742,6 +2742,33 @@ int security_file_receive(struct file *file)
- 	return call_int_hook(file_receive, file);
- }
- 
-+/**
-+ * security_file_open_name() - Authorize a pathname open before lookup
-+ * @name: kernel copy of the unresolved pathname, which may be empty
-+ * @base: starting path selected by the lookup
-+ * @flags: effective open flags
-+ * @mode: creation mode, including the file type, before applying the umask
-+ * @lookup_flags: current pathname lookup flags, including LOOKUP_RCU
-+ *
-+ * Check the original pathname before lookup, creation, or opening the file.
-+ * @base is the starting path for this attempt, or the file itself for an empty
-+ * pathname.  This hook also covers O_PATH and io_uring opens.
-+ *
-+ * This hook must not sleep.  @name and @base are borrowed for the call.  With
-+ * LOOKUP_RCU, @base is RCU-protected; otherwise it holds path references.
-+ *
-+ * Return: 0 to allow the open or -EACCES or -EPERM to deny it.
-+ * During RCU walk, -ECHILD requests a referenced retry. A cached-only
-+ * lookup returns -EAGAIN instead.
-+ */
-+int security_file_open_name(const struct filename *name,
-+			    const struct path *base, int flags, umode_t mode,
-+			    unsigned int lookup_flags)
-+{
-+	return call_int_hook(file_open_name, name, base, flags, mode,
-+			     lookup_flags);
-+}
-+
- /**
-  * security_file_open() - Save open() time state for late use by the LSM
-  * @file:
++char LICENSE[] SEC("license") = "GPL";
 -- 
 2.56.0
 
