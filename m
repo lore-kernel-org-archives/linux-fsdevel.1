@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795219748;
-	b=oke9z6kMc4PKzOfk0CTc9TBP52hWf+RbuZrgn6ul6GF9nfey/D8dPIy8ygoHmDNVFi+2
-	 rb4t7sctm4xSE7RRVEGwxmLpQdFDP0kjaHvtceSbvAHdJodrsAxlbYFHYoG3enKPxAWsT
-	 EphvGG0zD7pxI7ZOmiL58MHYUcBKM/1nbDMa743liqotYT4LzZxT54bWNJbd+t4PvFcHD
-	 3I5m+AP7loIi+XB47oOmWSrIJIvxt7E14+X/RA2s622WG7Zdn6FbKIiPFbHYzQUR8gfUh
-	 QX+gj3WwaQjxslH7zY5r2HlsL2I1R+P3OOLL/hOzw/8lOzxXtDPxTcOX4vw4CfxZJHg==
+	t=1795219761;
+	b=jKcY08KCMIRCLZkaMcUUU4uVBVRpkCeJ9gWmd4DtyLeRipZc8SHZzferc8h6BKvSuGgz
+	 qXZ+xtcuNDuEQlmgzhBMy3GfXB9On+wuN7eGax8dcDpo63rQrjQHkr6xKQoS2iU9NldDn
+	 5V+d3RJJCXSJgfNsRnb05XqIyXYe1Jm0AMHp6SktT+eqoensCdd1Dm/Fxn5XIjxAQbyx1
+	 Db6vg4cUH0mN7M0rnwqCXfK4QH+o6073/31OPQo8DSYAJ/jMssjG4KMbU0DoAv/eDSlb8
+	 r7lK78YmAlsQ+oBLvem9xFnGKBpRmPHvZORgpytJp2MpKwR2uNV8KW7mqMZ1xckJWNA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795219748;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795219761;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=xdMFQd5iWnE0etuNgaG+P1V3IRtO+2edlHDd0w1oiXI=;
-	b=IwGhSNlRv5tYu5V7Vv13UwOqgB+22ajjFe0noKrN+DFmVB55gssUBLc6dJG5qZZXxeMJ
-	 awjZrV3BoNknvRv7nsn2P4eu9MBsL2/l/Vmdq3T4fGnl13hKK81hS+SWv5f0SsTmveRfY
-	 EmVX9i2BwZFTdm/IOZJMb1ME1RGCGuOILCjyixhlvGTf3VbtUzNrxisNs/57h3V0dpP+A
-	 G+xn0V7vstbNhTZl/Y9UOGKkun7cETc5Hq0yptmf7idsmDgevC4KNdKfwrPCVk55fVEPt
-	 EnZRmDFvDn6V9G29n1EBRNIxKiBTnStwY8z9VRIRQv+uskfy87v4ZF9fH1avAdIfOZw==
+	bh=zNByz1cvQxXYiGlb00UoEIrZVev30KNAmMpQc5i0HeQ=;
+	b=ZhiQhnc9L6lflH/vjicV52dW0ob3jfeZ2iuvPh77/2syifztYXU+fAvHjVc0vEKC2Shj
+	 iseCBmyWpVC1lVOTHGVQCAf9JWDsXCFn7o85HavxajaznYPfhEgbxmeJqMbB3lI0E/CSI
+	 rVcGuXHU1VyJcxMvXC/HGdNVEVCZOLhrjG1py+LQ0GGggxbiJ4s6FqfLPRrPy3CBmfBx2
+	 I0UqLoSWcjRTD0Cl2k8049LMTu7zwt5PfpJrKKjYQO9RreE5VfGBlCrM6ttjZ5LQyrTaj
+	 /hz+cxgR5MIoZ+BIgHVnVNWKf+uMXaEzWRgf/SWR6pig2Ceqf3QsNGQzRAu/ISKy8Mw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OIx38B1u;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DgvjwAuA;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 0B04A606A6A6;
-	Sat, 21 Nov 2026 00:09:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 1850B606A681;
+	Sat, 21 Nov 2026 00:09:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OIx38B1u
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 35F191F000C6;
-	Sat, 21 Nov 2026 00:09:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DgvjwAuA
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 145591F000EB;
+	Sat, 21 Nov 2026 00:09:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795219747;
-	bh=xdMFQd5iWnE0etuNgaG+P1V3IRtO+2edlHDd0w1oiXI=;
+	s=k20260515; t=1795219760;
+	bh=zNByz1cvQxXYiGlb00UoEIrZVev30KNAmMpQc5i0HeQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=OIx38B1u3nJnanXh/hKXPskEKfSxQGZ8uO6Ie5n7ZxFtDVKyfnWoZ2ygDZt0krBMn
-	 Eb6WU2mgP3mRzYddEvT/UfzihFtsZQDmPQZM20BNgroAvtd5M8uhQZawsiACv24KkD
-	 m/T7osBk+AjPsA3WKfhe2eW82P7pqjW9AIXjhU4Q8vrhXLr53dri75w9xjL783IGV5
-	 ptVzBO48eq+CcnchCH82rcsmNSeVP5q4CSSrG2HEPzRzWVBRYTMFbdt3cK5QMlHV2K
-	 RgVdRbWc6+ARVMok7ImDzyr4yYRczYlNWV3Z8WmtjZTfnmYmR/tzBrAJqzN6U7dCkx
-	 5O/btILf6z72g==
+	b=DgvjwAuA4evD2NAopgo/ca0SjPxqqK/hvb5R1ZvOHHIWlqk/qi5gebP4NfOZkEkn4
+	 C/QlxJUi9p8wQ5/ufBePIQ4A/QXM4QDtWDBPmDPTBq9AeLxp4X9HXnNXD/uLPj5Mqk
+	 TqOgHQoDeC8TLL2zkpM7cppd+GVGetWGAXs5sIMkeUbK6vJ7YiVtEa5Pox18ueZ8ea
+	 4CD7WybrxO1L5b3cLJHM7ZgrgC4lTDixXDoIDfvsbDyOJnc8vzTw/OpuOBZDG3iUwC
+	 WmsxjKmB+nsrL4extMqshKIuzbMpzsyzEmfOY79se2F1wguH/69eg02sJqoxKPWrHK
+	 y/PF1++NVhH5A==
 From: Jarkko Sakkinen <jarkko@kernel.org>
 To: linux-fsdevel@vger.kernel.org
 Cc: Jarkko Sakkinen <jarkko@kernel.org>,
@@ -61,9 +61,9 @@ Cc: Jarkko Sakkinen <jarkko@kernel.org>,
 	Paul Moore <paul@paul-moore.com>,
 	Serge Hallyn <sergeh@kernel.org>,
 	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: [RFC PATCH v5 03/25] arch: Wire up userns_set_idmap() system call
-Date: Sat, 21 Nov 2026 02:08:22 +0200
-Message-ID: <20261121000844.1863324-4-jarkko@kernel.org>
+Subject: [RFC PATCH v5 06/25] mount: Support MOVE_MOUNT_T_MNTNS in move_mount()
+Date: Sat, 21 Nov 2026 02:08:25 +0200
+Message-ID: <20261121000844.1863324-7-jarkko@kernel.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261121000844.1863324-1-jarkko@kernel.org>
 References: <20261121000844.1863324-1-jarkko@kernel.org>
@@ -78,205 +78,435 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Expose userns_set_idmap() (473, 583 on Alpha) across all architecture
-system call tables and asm-generic unistd.h.
+move_mount() currently resolves target paths only against the caller's
+filesystem view or anonymous mount fds, preventing an external manager
+from populating an empty mount namespace or hot-mounting into an
+existing container's mount namespace without entering it first.
 
+Add MOVE_MOUNT_T_MNTNS to attach detached anonymous mount trees into a
+target mount namespace nsfs file descriptor. Installing "/" attaches the
+initial root mount onto the nullfs root of an empty mount namespace at
+most once, while relative target paths resolve with LOOKUP_IN_ROOT
+beneath the live mount namespace root and reject root-mount aliases
+under namespace_lock().
+
+Check CAP_SYS_ADMIN in the target mount namespace's owning user
+namespace instead of caller may_mount(), check nsfs mount loops against
+the destination mount namespace, and lock moved mount trees inside
+attach_recursive_mnt() when crossing user namespace boundaries.
+
+Co-developed-by: David Howells <dhowells@redhat.com>
+Signed-off-by: David Howells <dhowells@redhat.com>
 Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
 ---
- arch/alpha/kernel/syscalls/syscall.tbl      | 1 +
- arch/arm/tools/syscall.tbl                  | 1 +
- arch/arm64/tools/syscall_32.tbl             | 1 +
- arch/m68k/kernel/syscalls/syscall.tbl       | 1 +
- arch/microblaze/kernel/syscalls/syscall.tbl | 1 +
- arch/mips/kernel/syscalls/syscall_n32.tbl   | 1 +
- arch/mips/kernel/syscalls/syscall_n64.tbl   | 1 +
- arch/mips/kernel/syscalls/syscall_o32.tbl   | 1 +
- arch/parisc/kernel/syscalls/syscall.tbl     | 1 +
- arch/powerpc/kernel/syscalls/syscall.tbl    | 1 +
- arch/s390/kernel/syscalls/syscall.tbl       | 1 +
- arch/sh/kernel/syscalls/syscall.tbl         | 1 +
- arch/sparc/kernel/syscalls/syscall.tbl      | 1 +
- arch/x86/entry/syscalls/syscall_32.tbl      | 1 +
- arch/x86/entry/syscalls/syscall_64.tbl      | 1 +
- arch/xtensa/kernel/syscalls/syscall.tbl     | 1 +
- include/uapi/asm-generic/unistd.h           | 6 +++++-
- scripts/syscall.tbl                         | 1 +
- 18 files changed, 22 insertions(+), 1 deletion(-)
+ fs/namespace.c             | 226 +++++++++++++++++++++++++++++++------
+ include/uapi/linux/mount.h |   3 +-
+ 2 files changed, 191 insertions(+), 38 deletions(-)
 
-diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
-index 52e3538cc7df..9384d59a44dc 100644
---- a/arch/alpha/kernel/syscalls/syscall.tbl
-+++ b/arch/alpha/kernel/syscalls/syscall.tbl
-@@ -512,3 +512,4 @@
- 580	common	listns				sys_listns
- 581	common	rseq_slice_yield		sys_rseq_slice_yield
- 582	common	fchroot				sys_fchroot
-+583	common	userns_set_idmap		sys_sys_userns_set_idmap
-diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
-index 55717ed32c27..6130366b7681 100644
---- a/arch/arm/tools/syscall.tbl
-+++ b/arch/arm/tools/syscall.tbl
-@@ -487,3 +487,4 @@
- 470	common	listns				sys_listns
- 471	common	rseq_slice_yield		sys_rseq_slice_yield
- 472	common	fchroot				sys_fchroot
-+473	common	userns_set_idmap		sys_sys_userns_set_idmap
-diff --git a/arch/arm64/tools/syscall_32.tbl b/arch/arm64/tools/syscall_32.tbl
-index df2d1d82fb3c..3fcc7899fd08 100644
---- a/arch/arm64/tools/syscall_32.tbl
-+++ b/arch/arm64/tools/syscall_32.tbl
-@@ -484,3 +484,4 @@
- 470	common	listns				sys_listns
- 471	common	rseq_slice_yield		sys_rseq_slice_yield
- 472	common	fchroot				sys_fchroot
-+473	common	userns_set_idmap		sys_sys_userns_set_idmap
-diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
-index ba7a4d8903d0..5607635bd4bd 100644
---- a/arch/m68k/kernel/syscalls/syscall.tbl
-+++ b/arch/m68k/kernel/syscalls/syscall.tbl
-@@ -472,3 +472,4 @@
- 470	common	listns				sys_listns
- 471	common	rseq_slice_yield		sys_rseq_slice_yield
- 472	common	fchroot				sys_fchroot
-+473	common	userns_set_idmap		sys_sys_userns_set_idmap
-diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
-index 76d7cbe2a133..97ee93f42fac 100644
---- a/arch/microblaze/kernel/syscalls/syscall.tbl
-+++ b/arch/microblaze/kernel/syscalls/syscall.tbl
-@@ -478,3 +478,4 @@
- 470	common	listns				sys_listns
- 471	common	rseq_slice_yield		sys_rseq_slice_yield
- 472	common	fchroot				sys_fchroot
-+473	common	userns_set_idmap		sys_sys_userns_set_idmap
-diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
-index 9ae88e4eac61..da4ed57a91d3 100644
---- a/arch/mips/kernel/syscalls/syscall_n32.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
-@@ -411,3 +411,4 @@
- 470	n32	listns				sys_listns
- 471	n32	rseq_slice_yield		sys_rseq_slice_yield
- 472	n32	fchroot				sys_fchroot
-+473	n32	userns_set_idmap		sys_sys_userns_set_idmap
-diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
-index 83dc93a0712f..5e9839b6b389 100644
---- a/arch/mips/kernel/syscalls/syscall_n64.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
-@@ -387,3 +387,4 @@
- 470	n64	listns				sys_listns
- 471	n64	rseq_slice_yield		sys_rseq_slice_yield
- 472	n64	fchroot				sys_fchroot
-+473	n64	userns_set_idmap		sys_sys_userns_set_idmap
-diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
-index 9c62429c9b7b..290c1b61be47 100644
---- a/arch/mips/kernel/syscalls/syscall_o32.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
-@@ -460,3 +460,4 @@
- 470	o32	listns				sys_listns
- 471	o32	rseq_slice_yield		sys_rseq_slice_yield
- 472	o32	fchroot				sys_fchroot
-+473	o32	userns_set_idmap		sys_sys_userns_set_idmap
-diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
-index 88adc4016cce..fc0fa917eb92 100644
---- a/arch/parisc/kernel/syscalls/syscall.tbl
-+++ b/arch/parisc/kernel/syscalls/syscall.tbl
-@@ -471,3 +471,4 @@
- 470	common	listns				sys_listns
- 471	common	rseq_slice_yield		sys_rseq_slice_yield
- 472	common	fchroot				sys_fchroot
-+473	common	userns_set_idmap		sys_sys_userns_set_idmap
-diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
-index cfbb70039ff0..d12e49022b23 100644
---- a/arch/powerpc/kernel/syscalls/syscall.tbl
-+++ b/arch/powerpc/kernel/syscalls/syscall.tbl
-@@ -563,3 +563,4 @@
- 470	common	listns				sys_listns
- 471	nospu	rseq_slice_yield		sys_rseq_slice_yield
- 472	common	fchroot				sys_fchroot
-+473	common	userns_set_idmap		sys_sys_userns_set_idmap
-diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
-index 1b45e68a217b..dc427811d30d 100644
---- a/arch/s390/kernel/syscalls/syscall.tbl
-+++ b/arch/s390/kernel/syscalls/syscall.tbl
-@@ -399,3 +399,4 @@
- 470	common	listns				sys_listns
- 471	common	rseq_slice_yield		sys_rseq_slice_yield
- 472	common	fchroot				sys_fchroot
-+473	common	userns_set_idmap		sys_sys_userns_set_idmap
-diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
-index ace068dff0de..e62ac9acc7ad 100644
---- a/arch/sh/kernel/syscalls/syscall.tbl
-+++ b/arch/sh/kernel/syscalls/syscall.tbl
-@@ -476,3 +476,4 @@
- 470	common	listns				sys_listns
- 471	common	rseq_slice_yield		sys_rseq_slice_yield
- 472	common	fchroot				sys_fchroot
-+473	common	userns_set_idmap		sys_sys_userns_set_idmap
-diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
-index 5b9fe0e8140f..df074bf322c4 100644
---- a/arch/sparc/kernel/syscalls/syscall.tbl
-+++ b/arch/sparc/kernel/syscalls/syscall.tbl
-@@ -518,3 +518,4 @@
- 470	common	listns				sys_listns
- 471	common	rseq_slice_yield		sys_rseq_slice_yield
- 472	common	fchroot				sys_fchroot
-+473	common	userns_set_idmap		sys_sys_userns_set_idmap
-diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
-index 2c172ef48dfd..243a3f55834d 100644
---- a/arch/x86/entry/syscalls/syscall_32.tbl
-+++ b/arch/x86/entry/syscalls/syscall_32.tbl
-@@ -478,3 +478,4 @@
- 470	i386	listns			sys_listns
- 471	i386	rseq_slice_yield	sys_rseq_slice_yield
- 472	i386	fchroot			sys_fchroot
-+473	i386	userns_set_idmap	sys_sys_userns_set_idmap
-diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
-index d5b6045b0090..f11700e3af65 100644
---- a/arch/x86/entry/syscalls/syscall_64.tbl
-+++ b/arch/x86/entry/syscalls/syscall_64.tbl
-@@ -397,6 +397,7 @@
- 470	common	listns			sys_listns
- 471	common	rseq_slice_yield	sys_rseq_slice_yield
- 472	common	fchroot			sys_fchroot
-+473	common	userns_set_idmap	sys_sys_userns_set_idmap
+diff --git a/fs/namespace.c b/fs/namespace.c
+index b2dc84c0d0d6..b65f1fdd9281 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -2202,7 +2202,8 @@ struct mnt_namespace *mnt_ns_from_dentry(struct dentry *dentry)
+ 	return to_mnt_ns(get_proc_ns(dentry->d_inode));
+ }
  
- #
- # Due to a historical design error, certain syscalls are numbered differently
-diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
-index d354bb231796..1d28de95915f 100644
---- a/arch/xtensa/kernel/syscalls/syscall.tbl
-+++ b/arch/xtensa/kernel/syscalls/syscall.tbl
-@@ -443,3 +443,4 @@
- 470	common	listns				sys_listns
- 471	common	rseq_slice_yield		sys_rseq_slice_yield
- 472	common	fchroot				sys_fchroot
-+473	common	userns_set_idmap		sys_sys_userns_set_idmap
-diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
-index 5b7e77a7c736..695eac2d356b 100644
---- a/include/uapi/asm-generic/unistd.h
-+++ b/include/uapi/asm-generic/unistd.h
-@@ -867,8 +867,12 @@ __SYSCALL(__NR_rseq_slice_yield, sys_rseq_slice_yield)
- #define __NR_fchroot 472
- __SYSCALL(__NR_fchroot, sys_fchroot)
+-static bool mnt_ns_loop(struct dentry *dentry)
++static bool mnt_ns_loop_target(struct dentry *dentry,
++			       struct mnt_namespace *target_mnt_ns)
+ {
+ 	/* Could bind mounting the mount namespace inode cause a
+ 	 * mount namespace loop?
+@@ -2212,7 +2213,12 @@ static bool mnt_ns_loop(struct dentry *dentry)
+ 	if (!mnt_ns)
+ 		return false;
  
-+/* kernel/user_namespace.c */
-+#define __NR_userns_set_idmap 473
-+__SYSCALL(__NR_userns_set_idmap, sys_userns_set_idmap)
+-	return current->nsproxy->mnt_ns->ns.ns_id >= mnt_ns->ns.ns_id;
++	return target_mnt_ns->ns.ns_id >= mnt_ns->ns.ns_id;
++}
 +
- #undef __NR_syscalls
--#define __NR_syscalls 473
-+#define __NR_syscalls 474
++static bool mnt_ns_loop(struct dentry *dentry)
++{
++	return mnt_ns_loop_target(dentry, current->nsproxy->mnt_ns);
+ }
+ 
+ struct mount *copy_tree(struct mount *src_root, struct dentry *dentry,
+@@ -2423,10 +2429,11 @@ static bool __has_children(struct mount *mnt, struct dentry *dentry)
+  *
+  * locks: mount_locked_reader || namespace_shared && pinned(subtree)
+  */
+-static bool check_for_nsfs_mounts(struct mount *subtree)
++static bool check_for_nsfs_mounts(struct mount *subtree,
++				  struct mnt_namespace *target_mnt_ns)
+ {
+ 	for (struct mount *p = subtree; p; p = next_mnt(p, subtree))
+-		if (mnt_ns_loop(p->mnt.mnt_root))
++		if (mnt_ns_loop_target(p->mnt.mnt_root, target_mnt_ns))
+ 			return false;
+ 	return true;
+ }
+@@ -2464,7 +2471,7 @@ struct vfsmount *clone_private_mount(const struct path *path)
+ 		if (!anon_ns_root(old_mnt))
+ 			return ERR_PTR(-EINVAL);
+ 
+-		if (!check_for_nsfs_mounts(old_mnt))
++		if (!check_for_nsfs_mounts(old_mnt, current->nsproxy->mnt_ns))
+ 			return ERR_PTR(-EINVAL);
+ 	}
+ 
+@@ -2564,12 +2571,15 @@ int count_mounts(struct mnt_namespace *ns, struct mount *mnt)
+ enum mnt_tree_flags_t {
+ 	MNT_TREE_BENEATH = BIT(0),
+ 	MNT_TREE_PROPAGATION = BIT(1),
++	MNT_TREE_MNTNS = BIT(2),
++	MNT_TREE_MNTNS_INIT = BIT(3),
+ };
+ 
+ /**
+  * attach_recursive_mnt - attach a source mount tree
+  * @source_mnt: mount tree to be attached
+  * @dest:	the context for mounting at the place where the tree should go
++ * @move_mntns:	whether @source_mnt is attached via MOVE_MOUNT_T_MNTNS
+  *
+  *  NOTE: in the table below explains the semantics when a source mount
+  *  of a given type is attached to a destination mount of a given type.
+@@ -2632,7 +2642,8 @@ enum mnt_tree_flags_t {
+  *         Otherwise a negative error code is returned.
+  */
+ static int attach_recursive_mnt(struct mount *source_mnt,
+-				const struct pinned_mountpoint *dest)
++				const struct pinned_mountpoint *dest,
++				bool move_mntns)
+ {
+ 	struct mount *dest_mnt = dest->parent;
+ 	struct mountpoint *dest_mp = dest->mp;
+@@ -2641,6 +2652,7 @@ static int attach_recursive_mnt(struct mount *source_mnt,
+ 	struct user_namespace *user_ns = ns->user_ns;
+ 	struct pinned_mountpoint root = {};
+ 	struct mountpoint *shorter = NULL;
++	struct mnt_namespace *src_ns;
+ 	struct mount *child, *p;
+ 	struct mount *top;
+ 	struct hlist_node *n;
+@@ -2662,6 +2674,9 @@ static int attach_recursive_mnt(struct mount *source_mnt,
+ 		user_ns = current->nsproxy->mnt_ns->user_ns;
+ 	else
+ 		user_ns = ns->user_ns;
++	src_ns = moving ? NULL : source_mnt->mnt_ns;
++	if (move_mntns && src_ns)
++		user_ns = src_ns->user_ns;
+ 
+ 	/*
+ 	 * Preallocate a mountpoint in case the new mounts need to be
+@@ -2728,8 +2743,12 @@ static int attach_recursive_mnt(struct mount *source_mnt,
+ 		struct mount *q;
+ 		hlist_del_init(&child->mnt_hash);
+ 		/* Notice when we are propagating across user namespaces */
+-		if (child->mnt_parent->mnt_ns->user_ns != user_ns)
++		if (child->mnt_parent->mnt_ns->user_ns != user_ns) {
+ 			lock_mnt_tree(child);
++			if ((move_mntns || is_anon_ns(ns)) &&
++			    list_empty(&child->mnt_expire))
++				child->mnt.mnt_flags |= MNT_LOCKED;
++		}
+ 		q = __lookup_mnt(&child->mnt_parent->mnt,
+ 				 child->mnt_mountpoint);
+ 		commit_tree(child);
+@@ -2937,7 +2956,7 @@ static int graft_tree(struct mount *mnt, const struct pinned_mountpoint *mp)
+ 	      d_is_dir(mnt->mnt.mnt_root))
+ 		return -ENOTDIR;
+ 
+-	return attach_recursive_mnt(mnt, mp);
++	return attach_recursive_mnt(mnt, mp, false);
+ }
+ 
+ static int may_change_propagation(const struct mount *m)
+@@ -3131,7 +3150,7 @@ static int do_loopback(const struct path *path, const char *old_name,
+ 		return PTR_ERR(mnt);
+ 
+ 	/* the copy may carry mount namespace files from below the source */
+-	if (recurse && !check_for_nsfs_mounts(mnt))
++	if (recurse && !check_for_nsfs_mounts(mnt, current->nsproxy->mnt_ns))
+ 		err = -EINVAL;
+ 	else
+ 		err = graft_tree(mnt, &mp);
+@@ -3776,9 +3795,11 @@ static inline bool may_use_mount(struct mount *mnt)
+ 
+ static int do_move_mount(const struct path *old_path,
+ 			 const struct path *new_path,
+-			 enum mnt_tree_flags_t flags)
++			 enum mnt_tree_flags_t flags,
++			 struct mnt_namespace *target_mnt_ns)
+ {
+ 	struct mount *old = real_mount(old_path->mnt);
++	struct mnt_namespace *dest_mnt_ns;
+ 	int err;
+ 	bool beneath = flags & MNT_TREE_BENEATH;
+ 
+@@ -3792,7 +3813,29 @@ static int do_move_mount(const struct path *old_path,
+ 	if (IS_ERR(mp.parent))
+ 		return PTR_ERR(mp.parent);
+ 
+-	if (check_mnt(old)) {
++	if (flags & MNT_TREE_MNTNS) {
++		u64 seq;
++
++		if (!anon_ns_root(old) || old->mnt_ns == mp.parent->mnt_ns ||
++		    mp.parent->mnt_ns != target_mnt_ns)
++			return -EINVAL;
++		seq = old->mnt_ns->seq_origin;
++		if (seq && seq != target_mnt_ns->ns.ns_id &&
++		    seq != current->nsproxy->mnt_ns->ns.ns_id)
++			return -EINVAL;
++		if (flags & MNT_TREE_MNTNS_INIT) {
++			if (mp.parent != target_mnt_ns->root)
++				return -EBUSY;
++		} else if (mp.mp->m_dentry == mp.parent->mnt.mnt_root) {
++			const struct mount *m = mp.parent;
++
++			while (m != target_mnt_ns->root && mnt_has_parent(m) &&
++			       m->mnt_mountpoint == m->mnt_parent->mnt.mnt_root)
++				m = m->mnt_parent;
++			if (m == target_mnt_ns->root)
++				return beneath ? -EINVAL : -EBUSY;
++		}
++	} else if (check_mnt(old)) {
+ 		/* if the source is in our namespace... */
+ 		/* ... it should be detachable from parent */
+ 		if (!mnt_has_parent(old) || IS_MNT_LOCKED(old))
+@@ -3840,12 +3883,14 @@ static int do_move_mount(const struct path *old_path,
+ 	 */
+ 	if (IS_MNT_SHARED(mp.parent) && tree_contains_unbindable(old))
+ 		return -EINVAL;
+-	if (!check_for_nsfs_mounts(old))
++	dest_mnt_ns = is_anon_ns(mp.parent->mnt_ns) ?
++		      current->nsproxy->mnt_ns : mp.parent->mnt_ns;
++	if (!check_for_nsfs_mounts(old, dest_mnt_ns))
+ 		return -ELOOP;
+ 	if (mount_is_ancestor(old, mp.parent))
+ 		return -ELOOP;
+ 
+-	return attach_recursive_mnt(old, &mp);
++	return attach_recursive_mnt(old, &mp, flags & MNT_TREE_MNTNS);
+ }
+ 
+ static int do_move_mount_old(const struct path *path, const char *old_name)
+@@ -3860,7 +3905,7 @@ static int do_move_mount_old(const struct path *path, const char *old_name)
+ 	if (err)
+ 		return err;
+ 
+-	return do_move_mount(&old_path, path, 0);
++	return do_move_mount(&old_path, path, 0, NULL);
+ }
  
  /*
-  * 32 bit systems traditionally used different
-diff --git a/scripts/syscall.tbl b/scripts/syscall.tbl
-index 0ab531605120..0dddd465d1c5 100644
---- a/scripts/syscall.tbl
-+++ b/scripts/syscall.tbl
-@@ -413,3 +413,4 @@
- 470	common	listns				sys_listns
- 471	common	rseq_slice_yield		sys_rseq_slice_yield
- 472	common	fchroot				sys_fchroot
-+473	common	userns_set_idmap		sys_sys_userns_set_idmap
+@@ -4725,7 +4770,8 @@ SYSCALL_DEFINE3(fsmount, int, fs_fd, unsigned int, flags,
+ 
+ static inline int vfs_move_mount(const struct path *from_path,
+ 				 const struct path *to_path,
+-				 enum mnt_tree_flags_t mflags)
++				 enum mnt_tree_flags_t mflags,
++				 struct mnt_namespace *target_mnt_ns)
+ {
+ 	int ret;
+ 
+@@ -4736,7 +4782,123 @@ static inline int vfs_move_mount(const struct path *from_path,
+ 	if (mflags & MNT_TREE_PROPAGATION)
+ 		return do_set_group(from_path, to_path);
+ 
+-	return do_move_mount(from_path, to_path, mflags);
++	return do_move_mount(from_path, to_path, mflags, target_mnt_ns);
++}
++
++static int lookup_move_mount_from(int from_dfd,
++				  const char __user *from_pathname,
++				  unsigned int flags, struct path *from_path)
++{
++	unsigned int uflags = 0;
++	unsigned int lflags = 0;
++
++	if (flags & MOVE_MOUNT_F_EMPTY_PATH)
++		uflags = AT_EMPTY_PATH;
++
++	CLASS(filename_maybe_null, from_name)(from_pathname, uflags);
++	if (!from_name && from_dfd >= 0) {
++		CLASS(fd_raw, f_from)(from_dfd);
++		if (fd_empty(f_from))
++			return -EBADF;
++
++		*from_path = fd_file(f_from)->f_path;
++		path_get(from_path);
++		return 0;
++	}
++
++	if (flags & MOVE_MOUNT_F_SYMLINKS)
++		lflags |= LOOKUP_FOLLOW;
++	if (flags & MOVE_MOUNT_F_AUTOMOUNTS)
++		lflags |= LOOKUP_AUTOMOUNT;
++	return filename_lookup(from_dfd, from_name, lflags, from_path, NULL);
++}
++
++/**
++ * DOC: MOVE_MOUNT_T_MNTNS
++ *
++ * ``MOVE_MOUNT_T_MNTNS`` installs detached anonymous mount trees into a target
++ * mount namespace ``nsfs`` file descriptor supplied as ``to_dfd``:
++ *
++ * 1. ``to_pathname`` of ``"/"`` attaches the initial root mount onto the
++ *    ``nullfs`` root of an empty mount namespace at most once.
++ *
++ * 2. Relative ``to_pathname`` values resolve beneath the live root of the
++ *    target mount namespace.
++ *
++ * Capability is checked against ``CAP_SYS_ADMIN`` in the target mount
++ * namespace's owning user namespace, and source trees crossing user namespace
++ * boundaries are locked with ``MNT_LOCKED`` and locked mount flags.
++ */
++static int move_mount_mntns(int from_dfd, const char __user *from_pathname,
++			    int to_dfd, const char __user *to_pathname,
++			    unsigned int flags, enum mnt_tree_flags_t mflags)
++{
++	struct path from_path __free(path_put) = {};
++	struct path to_path __free(path_put) = {};
++	struct mnt_namespace *target_mnt_ns;
++	unsigned int lflags;
++	struct ns_common *ns;
++	bool is_root;
++	int ret;
++
++	CLASS(filename_maybe_null, to_name)(to_pathname, AT_EMPTY_PATH);
++	if (IS_ERR(to_name))
++		return PTR_ERR(to_name);
++	if (!to_name)
++		return -EINVAL;
++
++	CLASS(fd, f_mntns)(to_dfd);
++	if (fd_empty(f_mntns))
++		return -EBADF;
++	if (!proc_ns_file(fd_file(f_mntns)))
++		return -EINVAL;
++
++	ns = get_proc_ns(file_inode(fd_file(f_mntns)));
++	if (ns->ns_type != CLONE_NEWNS)
++		return -EINVAL;
++
++	target_mnt_ns = to_mnt_ns(ns);
++	if (is_anon_ns(target_mnt_ns))
++		return -EINVAL;
++	if (!ns_capable(target_mnt_ns->user_ns, CAP_SYS_ADMIN))
++		return -EPERM;
++
++	is_root = to_name->name[0] == '/' && to_name->name[1] == '\0';
++	if (is_root) {
++		if (flags & MOVE_MOUNT_BENEATH)
++			return -EINVAL;
++
++		to_path.mnt = mntget(&target_mnt_ns->root->mnt);
++		to_path.dentry = dget(target_mnt_ns->root->mnt.mnt_root);
++		mflags |= MNT_TREE_MNTNS_INIT;
++	} else {
++		struct path mntns_root __free(path_put) = {};
++
++		if (to_name->name[0] == '/')
++			return -EINVAL;
++
++		ret = mnt_ns_get_root(target_mnt_ns, &mntns_root);
++		if (ret)
++			return ret;
++
++		lflags = LOOKUP_IN_ROOT;
++		if (flags & MOVE_MOUNT_T_SYMLINKS)
++			lflags |= LOOKUP_FOLLOW;
++		if (flags & MOVE_MOUNT_T_AUTOMOUNTS)
++			lflags |= LOOKUP_AUTOMOUNT;
++		ret = filename_lookup(AT_FDCWD, to_name, lflags, &to_path,
++				      &mntns_root);
++		if (ret)
++			return ret;
++	}
++
++	ret = lookup_move_mount_from(from_dfd, from_pathname, flags,
++				     &from_path);
++	if (ret)
++		return ret;
++
++	return vfs_move_mount(&from_path, &to_path, mflags | MNT_TREE_MNTNS,
++			      target_mnt_ns);
+ }
+ 
+ /*
+@@ -4758,7 +4920,7 @@ SYSCALL_DEFINE5(move_mount,
+ 	enum mnt_tree_flags_t mflags = 0;
+ 	int ret = 0;
+ 
+-	if (!may_mount())
++	if (!(flags & MOVE_MOUNT_T_MNTNS) && !may_mount())
+ 		return -EPERM;
+ 
+ 	if (flags & ~MOVE_MOUNT__MASK)
+@@ -4771,6 +4933,13 @@ SYSCALL_DEFINE5(move_mount,
+ 	if (flags & MOVE_MOUNT_SET_GROUP)	mflags |= MNT_TREE_PROPAGATION;
+ 	if (flags & MOVE_MOUNT_BENEATH)		mflags |= MNT_TREE_BENEATH;
+ 
++	if (unlikely(flags & MOVE_MOUNT_T_MNTNS)) {
++		if (flags & (MOVE_MOUNT_T_EMPTY_PATH | MOVE_MOUNT_SET_GROUP))
++			return -EINVAL;
++		return move_mount_mntns(from_dfd, from_pathname,
++					to_dfd, to_pathname, flags, mflags);
++	}
++
+ 	uflags = 0;
+ 	if (flags & MOVE_MOUNT_T_EMPTY_PATH)
+ 		uflags = AT_EMPTY_PATH;
+@@ -4794,29 +4963,12 @@ SYSCALL_DEFINE5(move_mount,
+ 			return ret;
+ 	}
+ 
+-	uflags = 0;
+-	if (flags & MOVE_MOUNT_F_EMPTY_PATH)
+-		uflags = AT_EMPTY_PATH;
+-
+-	CLASS(filename_maybe_null,from_name)(from_pathname, uflags);
+-	if (!from_name && from_dfd >= 0) {
+-		CLASS(fd_raw, f_from)(from_dfd);
+-		if (fd_empty(f_from))
+-			return -EBADF;
+-
+-		return vfs_move_mount(&fd_file(f_from)->f_path, &to_path, mflags);
+-	}
+-
+-	lflags = 0;
+-	if (flags & MOVE_MOUNT_F_SYMLINKS)
+-		lflags |= LOOKUP_FOLLOW;
+-	if (flags & MOVE_MOUNT_F_AUTOMOUNTS)
+-		lflags |= LOOKUP_AUTOMOUNT;
+-	ret = filename_lookup(from_dfd, from_name, lflags, &from_path, NULL);
++	ret = lookup_move_mount_from(from_dfd, from_pathname, flags,
++				     &from_path);
+ 	if (ret)
+ 		return ret;
+ 
+-	return vfs_move_mount(&from_path, &to_path, mflags);
++	return vfs_move_mount(&from_path, &to_path, mflags, NULL);
+ }
+ 
+ /*
+diff --git a/include/uapi/linux/mount.h b/include/uapi/linux/mount.h
+index ac865edac517..7d413418426a 100644
+--- a/include/uapi/linux/mount.h
++++ b/include/uapi/linux/mount.h
+@@ -75,9 +75,10 @@
+ #define MOVE_MOUNT_T_SYMLINKS		0x00000010 /* Follow symlinks on to path */
+ #define MOVE_MOUNT_T_AUTOMOUNTS		0x00000020 /* Follow automounts on to path */
+ #define MOVE_MOUNT_T_EMPTY_PATH		0x00000040 /* Empty to path permitted */
++#define MOVE_MOUNT_T_MNTNS		0x00000080 /* Resolve to_dfd as mntns fd */
+ #define MOVE_MOUNT_SET_GROUP		0x00000100 /* Set sharing group instead */
+ #define MOVE_MOUNT_BENEATH		0x00000200 /* Mount beneath top mount */
+-#define MOVE_MOUNT__MASK		0x00000377
++#define MOVE_MOUNT__MASK		0x000003f7
+ 
+ /*
+  * fsopen() flags.
 -- 
 2.47.3
 
