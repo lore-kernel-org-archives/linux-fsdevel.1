@@ -1,65 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795224728;
-	b=pfQPOdeZZYQTzcy/f15kB/NsdiWSnmTT6Ch7+zgmSRJK9YYuk04oyZRlKfZRM5x5ehu2
-	 ONaozgOU0jTSJkd38uEdHhF09JO6BgrL14p3hXfdD1ZvnEp3NJxIUA+QFteLYw6aGygk1
-	 fjkRtgMNVUY4gPiO9cXOPBfCgq3xYjHrg0d4/qNY8EXndEIcHEQPkNyjpEZwLAAilZIXg
-	 jrveE1YPZKmsuhcK+quOcsX96cqtz2G9Nk3KPihHVPHQyKhzeueVN0Ab1ACZiLyxyEk7p
-	 Agnr7rTW+xQdqyHhprg6NWY3idz5B+YoQBDbYFeOx5BtFHyhJHCDXjXLodCQny4sayA==
+	t=1795228650;
+	b=HUS3zGHKE52P5/NjO18oIfvwjO5nJAvq2PVjU6rDBnBSWvKAZDlawkwn2v7KFmeqkQR8
+	 J5fnTjeBr40mbtj6MFD8405/Zf6SpB3slN4jwysapmKqeSPn9bhWrcfs5Zy6QN99VhGDj
+	 Kr7LezrbAXtIa7+pZOncIyFBK8gJpKOYJUVeqjrw0ujOIkPB7X0HRflIs38kE53mBH9IC
+	 HjmpMXJZXQyN5Kuyv03wc6/8ELbRTscbj0BxRJlZmwNHghkVnPKnTpAsrcdLzP4h8sGhh
+	 jQjeHEJ0dtVwVp9IwMxids4/H4jIlbAOSyXiPf2VHTcOXnW2gnfRAuugHxNook+B0ig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795224728;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=5/7MyMIXr0GDno34tV42HvOi56g013l0wGScJy1uGp0=;
-	b=xIbBfZHZCvRm++Hp6sOxsszaRfEN2dq7npW89yE5SIumZWDcOvjjiDNwCASC/w46a4yO
-	 F3f5MzacZnZATqr+83WcL1DYRSv4YxqnWxQrvBotqH/c4Fc5UQWXIyVYF4pJ/QLh1iUKP
-	 ZJhcCuGYCDCkQQd31Z9jjzl6rPpO0jE7aB3duR2AxFEW0Ah3/cZs8tDK0jntzoQ43N9wV
-	 /8dhn68HI1L84X5Tmjd5s8zbBBIpOY7UpOzJIBeBUHYXsrjQRAkhLa5pzqS1V9zLddTii
-	 GZS1T3iIdaT8NHimU+jj+FuQOXWr9y6vRNSqFdxrDweH9KTK9jQMAFAj9rahbfequrw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795228650;
+	h=Received:DKIM-Signature:Received:Subject:From:In-Reply-To:References:
+	 X-PR-Tracked-List-Id:X-PR-Tracked-Message-Id:X-PR-Tracked-Remote:
+	 X-PR-Tracked-Commit-Id:X-PR-Merge-Tree:X-PR-Merge-Refname:
+	 X-PR-Merge-Commit-Id:Message-Id:Date:To:Cc;
+	bh=AoaUaprWdoak7d8mXSrvCYcPq83J6skZ+zUYG4iH3RA=;
+	b=L0i2MZfx1pEP62bVpax+bUeO0N8gxW8XUAKGVO6IweGrIWnCDP8H7r4SCNih1XVY9tk9
+	 VtlxQnO3VWHdHIEHvm5WAv5tyM+4LriDSv+gXdWkgSPpRwjXSHWaDO0FXd/UEu5v2M7Lj
+	 9nrp0iW3j84ytUa0U4lVjfcf36HgUznav74R4THcBcu3iPU9SAiPrbP5ueOPIFwiEzit+
+	 VbOuzop9J0T5DgzulJ3Zzgu/BloFBlxZt6XqR+nKo2u5OjLCG4EoKg8mmFYXyjla8Ziwz
+	 UY/xUWlD2hdDOHz4gMdJthpnyJ3u6sDNycmGs/25cT4Znipy+25b4O6abx1JpTynsYA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V1FYfrGT;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BN5uRoii;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 9552A606A6AB;
-	Sat, 21 Nov 2026 01:32:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FC9606A337
+	for <linux-fsdevel@vger.kernel.org>; Sat, 21 Nov 2026 02:37:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V1FYfrGT
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 8B58A1F000D2;
-	Sat, 21 Nov 2026 01:32:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BN5uRoii
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF7CF1F000CA;
+	Sat, 21 Nov 2026 02:37:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795224728;
-	bh=5/7MyMIXr0GDno34tV42HvOi56g013l0wGScJy1uGp0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=V1FYfrGTatK4t00vmPWVjtv5HLsnbLBQJryhm1RAw1jnSsFpourNb3t1IjzSNXxX9
-	 6Bq0R9I4WaCdpXZX3hs2TSXWe+ogMvOxCYptsDe9heLB/DRu3jnf1Ra6f6JDEemD1j
-	 7Ztegvu2jmd0It2EtCck+YGJjbblBujYOojylXdkcLxQW+4YV4lXpMp4fzKNiIc96d
-	 zWTi4ICSpKYW7JvYV71KxHiIMYRy0vFhI0sCj4pcDHT8NJHbwAYCAZIa4sbRh/LMYQ
-	 Q2vVzh7EY9qiZrVGlr9vAi90q99Jbd7CoOV5MuyrCPk6oRrhEKBAi7Y4to5qFVrlj3
-	 tsOSq4fsG9ZWw==
-Date: Sat, 21 Nov 2026 03:32:04 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	Alexander Mikhalitsyn <alex@amutable.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>, Jan Kara <jack@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
-	Neal Gompa <neal@gompa.dev>, Paul Moore <paul@paul-moore.com>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v5 12/25] rootns: Track init lifecycle via
- copy_process() and pid_namespace
-Message-ID: <awD0lNmhRPaXI9Pg@kernel.org>
-References: <20261121000844.1863324-1-jarkko@kernel.org>
- <20261121000844.1863324-13-jarkko@kernel.org>
+	s=k20260515; t=1795228649;
+	bh=AoaUaprWdoak7d8mXSrvCYcPq83J6skZ+zUYG4iH3RA=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=BN5uRoiivKWk+/K4Rcw1kTwI79dFVI4t4TnRktJjmCcEQvPNMBxvjj3ZYQifszwu+
+	 oFYJggxzQtHUkNfG7RrSk2mZWRY3AZNhNXox/ByXFl1DjERqMk/viDJc8IFeTTD6oN
+	 o419YwNCZkFlcDAM6N6kzy6U8iTd5wQfqSptEibihnO8xI4TXlOIXT2KVccy2P0qV0
+	 nhJn5VloXDAXingTbDBJ6UoLH7Y5zCiVxlV/XYY6NPl075zttNmHeAGqeqrAsndItZ
+	 9IAC+pfX/VOnExU6Y9eIEgCF+U5SkR9lUychrB99PqsVIgOk6sFR4k80KqUiR70Qi+
+	 hsxXVvzaIc5lg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id B46D1380AAFE;
+	Sat, 21 Nov 2026 02:37:29 +0000 (UTC)
+Subject: Re: [GIT PULL] zonefs fixes for 7.4-rc4
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20261120213503.580799-1-dlemoal@kernel.org>
+References: <20261120213503.580799-1-dlemoal@kernel.org>
+X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20261120213503.580799-1-dlemoal@kernel.org>
+X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/dlemoal/zonefs tags/zonefs-7.4-rc4
+X-PR-Tracked-Commit-Id: fb5289b697c965581104bafdd875b969a1db3e79
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 05718d5c2907cb46fb27bb6580edb89769ea430a
+Message-Id: <179522864827.895295.1765951385191390446.pr-tracker-bot@kernel.org>
+Date: Sat, 21 Nov 2026 02:37:28 +0000
+To: Damien Le Moal <dlemoal@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-fsdevel@vger.kernel.org
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,34 +67,16 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261121000844.1863324-13-jarkko@kernel.org>
 
-On Sat, Nov 21, 2026 at 02:08:31AM +0200, Jarkko Sakkinen wrote:
-> A root namespace needs to record its init thread group's PID when
-> bootstrapped and capture its exit status once all processes in the root
-> namespace have terminated, without serializing normal fork() and exit()
-> paths inside the container.
-> 
-> Commit the bootstrap child reaper and bind pid_ns->rootns in
-> copy_rootns() after attach_pid(PIDTYPE_PID), and invoke exit_rootns()
-> from zap_pid_ns_processes() after the root namespace's PID namespace has
-> killed and reaped all member tasks.
-> 
-> Co-developed-by: David Howells <dhowells@redhat.com>
-> Signed-off-by: David Howells <dhowells@redhat.com>
-> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+The pull request you sent on Sat, 21 Nov 2026 06:35:03 +0900:
 
-ROOTNS_GET_NSFD will be the only surviving ioctl, which make access
-control wise sense.
+> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/dlemoal/zonefs tags/zonefs-7.4-rc4
 
-This leaves room for ROOTNS_SHARE_NSFD, which would share a namespace
-from host. This makes whole a lot more sense than unsharing security
-wise as it is allow listing (instead of deny listing).
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/05718d5c2907cb46fb27bb6580edb89769ea430a
 
-It can be post-clone3 disabled. This is what we do in SGX driver i.e.,
-have build phase enabled ioctls.
+Thank you!
 
-Br, Jarkko
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
