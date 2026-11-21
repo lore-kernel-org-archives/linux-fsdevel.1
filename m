@@ -1,45 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795270657;
-	b=dFTco9ZGNWfTG46SUQbf7gLvrDMTJJGX/DXQSgielITS8WkS/ddd+QXiDUqL/S/xEEy4
-	 jZ22dWbN5TU2TPB5BgtPiOJPkQn2N1nE1ETwWN9OldL+m+BiNbxciXUM1MnZtvj7llsEH
-	 eGPueEw0UqUQ34QlKOnmzxZkGH+0c+Hk9d53/xtxGlExn24az5Njt+x/B5AtJdBUZRl/0
-	 RPMm/Uh7ZBLSttsnIiYi+Yy7CvZxlNL7Hn/sCkBJpbv42SAfldBla5PtsGftpf3N3KYzn
-	 LKMgATt7s5zaa+QuejqBRLhbknCXb5dPMZ9qlRUfcF3ikaz2kOLHlPJ7gEM8Qz/mH+Q==
+	t=1795276704;
+	b=frhmcBqQhzf9tTfl159M2JmUkFOnJ+qs8w0PBKKkYORMEMfOPOAw3Mi5D4v/ap7veD1a
+	 tRKaz7tNkErnIS/hn1I9UqBHdYjxszss1Xnhi7Ie3ZPwUjviz7qGqHKT9QTX2y+07KHa5
+	 N7YSz2h8Il3Beu6j8mfln+N3rpjJFmDcnURn5f3Z/Ac53Sb4190OUrDOhVUSVr8nUC1Ot
+	 YoTCKIpBs7BTlByYDXr2dpqcLJflj3GWINqUWyuwOFOyyb5AMVZE4e6RpdW209l6IBaoz
+	 onpWOJbD6hAlRTjs+DvwrYNicYC/nRWow9MuPjwxP2xG8+0DU4ghHLVSgd5hKWb3OSA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795270657;
-	h=Received:DKIM-Signature:Mime-Version:Content-Transfer-Encoding:
-	 Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
-	 In-Reply-To;
-	bh=sFlfbs6Vr7PfYCSMBHpJ9X6tKrWXkYKKM8XUMpezu9Q=;
-	b=0SsHklJQnlwJYcH3cQbdtOT0i6+GaV3dZbMeHSeazce/Tkhy6EbjfXTWh3hZ7VB6LoQl
-	 dHOfrDE5NCQlEmSQZ5W0n8CkMeXngSW5KXFBrmeLG0Pw5BiaBfasYBbbTJXlVgYZUbmDu
-	 IPPP2ZQnvKNLOFB41fMxVYAFrGy7Jyh8eHBDVB7r8RFH+8Gvx0T8xIMvhQvfTsBHq1S04
-	 6TuG4WEsKo3VChrO1y/htToA9YbDNkWB4x+gTuxmS+XWBb1B1gWzxXsfjhKWa9mEYpCga
-	 12Nt64EiTtNLE4vgFbUEr1vWdsFMfPelcJbh9NQu36SPZ3a/9FjdnAalfhH2ikTZxPA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795276704;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=v59nU/2/9ru5K4MWt6NBStp2evSJmM0oxZDWWYQAtDI=;
+	b=0JL6xAV00bIeAmdy65OkntNQ6/gOve1YRLAsgo1ifLPBGfQPLTSnuz5mMRUFf2cLgM9J
+	 843QfDOMijL3/d9UWWPwjz4am5I0p1fPBhLb0NKqEVxvrJOd5JfmFDoMhJ2gsbUNOSe/B
+	 AIGxBhTkRsR4Xwav0rvvwb7rCI9t78aJFiMY77FlgLMkb1H+6EDETWzHi+BZfuDy++Nhm
+	 uKca+VTEjwluL8NnNjutu7RvpQyb0QvTiZ2A4NMjSRHHObHVPq/z3VW76lblva3b8615h
+	 J4sz7mMfnQisiF/hsE5YTlJTHMTngN8x5gDzQ7zBPcynP8boBjpaV7brbJVR3pUmn3A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Pv6YhcGt;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U08EaliS;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA76606A320;
-	Sat, 21 Nov 2026 14:17:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 97BD2606A320;
+	Sat, 21 Nov 2026 15:58:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Pv6YhcGt
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE35C1F000C6;
-	Sat, 21 Nov 2026 14:17:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U08EaliS
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id CCAC31F000CA;
+	Sat, 21 Nov 2026 15:58:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795270657;
-	bh=sFlfbs6Vr7PfYCSMBHpJ9X6tKrWXkYKKM8XUMpezu9Q=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=Pv6YhcGtJpVO6kd28ZFcMwlrc8lsqKYza9hNXQKHFQ6N2rbBtcqDEoZGbPLhWVFNg
-	 wIVnjyiJpVrC2NhF8tOLVohtKE615nlWNmmmiaFXzlBwImS0Qd7t+3WHOMgGFBvC3r
-	 GzsUGVFPAj6Yn14fbr1zuN11Wl5mFzFh4mkvL3fWKZ3qf9eX64bcSgXMW5dC/T8VVW
-	 +if4hvG3Yzx/NgkLADbX3NpF4QpUjUSCpnVMgNpw3N5rS9WChOHpiVGyQ7hfTKfHCN
-	 PC51U3nPevE+XKEzkslP1KRGQkrmqBJSFOJGqKPtdiVpQQzcVMIRpDtTesm+55o66V
-	 KA9zrGzh/IEEQ==
+	s=k20260515; t=1795276704;
+	bh=v59nU/2/9ru5K4MWt6NBStp2evSJmM0oxZDWWYQAtDI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=U08EaliSbWubcMuaRUSpPl/xtocKTKRG5+LWCQtIwOvf1KyYvw7cQGTtMNjwQj+jx
+	 Ng4QuX/N5lAp9jx7j2hYITxmWQlgrLoVVYa7nA2uyLxoanOfvKHnmbqHjP3p/WCFrD
+	 wR2GLYIVuzGz9NvoACIKUCu691qClsGC87Em4zfKUaOoSmXlVErC63uKS9A8IKcQXV
+	 JshEx6xACR1YzyWXaG3Je89a0VlL+//Y5PN4Fs+llD0UvUh/DHsT+RER+LdFLuuIYI
+	 qeEI4tunehkM1Hw5Lm2kKHa7grtpMKogAQdxNcFXoeymOIsJD6zKuEuZzxuJLG15Uh
+	 +W0MW70agCpIw==
+Date: Sat, 21 Nov 2026 17:58:20 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	Alexander Mikhalitsyn <alex@amutable.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andy Lutomirski <luto@amacapital.net>,
+	Christian Brauner <brauner@kernel.org>,
+	David Howells <dhowells@redhat.com>, Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
+	Neal Gompa <neal@gompa.dev>, Paul Moore <paul@paul-moore.com>,
+	Serge Hallyn <sergeh@kernel.org>,
+	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+Subject: Re: [RFC PATCH v5 03/25] arch: Wire up userns_set_idmap() system call
+Message-ID: <awG_nK9E-UjkVgK6@kernel.org>
+References: <20261121000844.1863324-1-jarkko@kernel.org>
+ <20261121000844.1863324-4-jarkko@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -48,67 +67,38 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 21 Nov 2026 15:17:31 +0100
-Message-Id: <DN0YBZJNQVW4.2RY9NCR5T33HZ@kernel.org>
-Subject: Re: [PATCH v6 08/12] rust: mm: add abstractions for allocating from
- a `sheaf`
-Cc: "Tamir Duberstein" <tamird@kernel.org>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Alexandre Courbot"
- <acourbot@nvidia.com>, =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- "Matthew Wilcox" <willy@infradead.org>, "Andrew Morton"
- <akpm@linux-foundation.org>, "Lorenzo Stoakes" <ljs@kernel.org>, "Liam R.
- Howlett" <liam@infradead.org>, "Vlastimil Babka" <vbabka@kernel.org>,
- "Harry Yoo" <harry@kernel.org>, "Hao Li" <hao.li@linux.dev>, "Christoph
- Lameter" <cl@gentwo.org>, "David Rientjes" <rientjes@google.com>, "Roman
- Gushchin" <roman.gushchin@linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
- <linux-mm@kvack.org>
-To: "Andreas Hindborg" <a.hindborg@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20261120-xarray-entry-send-v6-0-1f69d7385f70@kernel.org>
- <20261120-xarray-entry-send-v6-8-1f69d7385f70@kernel.org>
-In-Reply-To: <20261120-xarray-entry-send-v6-8-1f69d7385f70@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261121000844.1863324-4-jarkko@kernel.org>
 
-On Fri Nov 20, 2026 at 2:10 PM CET, Andreas Hindborg wrote:
-> +/// An owned allocation from a cache sheaf.
-> +///
-> +/// `SBox` is similar to `Box` but is backed by a slab cache allocation =
-obtained
-> +/// through a [`Sheaf`]. It provides owned access to an initialized obje=
-ct and
-> +/// ensures the object is properly freed back to the cache when dropped.
-> +///
-> +/// The contained `T` is initialized when the `SBox` is returned from al=
-loc and
-> +/// dropped when the `SBox` is dropped.
-> +///
-> +/// An `SBox` holds a reference to the [`KMemCache`] it was allocated fr=
-om.
-> +/// Dropping the `SBox` may thus drop the last reference to the cache an=
-d
-> +/// destroy the cache, which may sleep. See the `# Context` section of
-> +/// [`KMemCache`].
-> +///
-> +/// # Invariants
-> +///
-> +/// - `ptr` points to a valid, initialized object of type `T`.
-> +/// - `cache` is the cache from which this object was allocated.
-> +/// - The object remains valid for the lifetime of the `SBox`.
-> +pub struct SBox<T: KMemCacheInit<T>> {
-> +    ptr: NonNull<T>,
-> +    cache: Arc<KMemCache<T>>,
-> +}
+On Sat, Nov 21, 2026 at 02:08:22AM +0200, Jarkko Sakkinen wrote:
+> Expose userns_set_idmap() (473, 583 on Alpha) across all architecture
+> system call tables and asm-generic unistd.h.
+> 
+> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+> ---
+>  arch/alpha/kernel/syscalls/syscall.tbl      | 1 +
+>  arch/arm/tools/syscall.tbl                  | 1 +
+>  arch/arm64/tools/syscall_32.tbl             | 1 +
+>  arch/m68k/kernel/syscalls/syscall.tbl       | 1 +
+>  arch/microblaze/kernel/syscalls/syscall.tbl | 1 +
+>  arch/mips/kernel/syscalls/syscall_n32.tbl   | 1 +
+>  arch/mips/kernel/syscalls/syscall_n64.tbl   | 1 +
+>  arch/mips/kernel/syscalls/syscall_o32.tbl   | 1 +
+>  arch/parisc/kernel/syscalls/syscall.tbl     | 1 +
+>  arch/powerpc/kernel/syscalls/syscall.tbl    | 1 +
+>  arch/s390/kernel/syscalls/syscall.tbl       | 1 +
+>  arch/sh/kernel/syscalls/syscall.tbl         | 1 +
+>  arch/sparc/kernel/syscalls/syscall.tbl      | 1 +
+>  arch/x86/entry/syscalls/syscall_32.tbl      | 1 +
+>  arch/x86/entry/syscalls/syscall_64.tbl      | 1 +
+>  arch/xtensa/kernel/syscalls/syscall.tbl     | 1 +
+>  include/uapi/asm-generic/unistd.h           | 6 +++++-
+>  scripts/syscall.tbl                         | 1 +
+>  18 files changed, 22 insertions(+), 1 deletion(-)
 
-I did only notice this patch just now, will take a closer look later on. Bu=
-t
-this all looks like it belongs into the alloc module.
+I'll populate remaining arch's at the time when I split this. It has
+enough coverage for the time being.
 
-Thanks,
-Danilo
+Br, Jarkko
