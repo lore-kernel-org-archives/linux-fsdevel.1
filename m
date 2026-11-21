@@ -1,51 +1,67 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795291513;
-	b=IdvuqWPczHrfZRnol3veE6sMcqdEXAecIwt7MDPXJ5G1ctab2/25Qjj2TX+IY0SpBIMU
-	 oaGabahUpBqAxYFEwh/L8ote2WzgADxlZBPI2mHG54bnwIggs1/UYevXgxMs9pp79bhts
-	 bk10ekfyovg5C5K2HcCgzVUsKWInnrTiZOpmmnmHDBZOo6pip8GXZMf4YxGxi72Wl5CgV
-	 Ufpb7US05dwbQTyL1cbzDsi+A81+FtYwPdKa933mJUtXWoSswjm8X753UxBs2XD06RMcu
-	 1nSc6YVasoBbzzH8/pyQbV7z5QNl0lKqdxd0MeLjW7SzYsmwR+71B7KgNM+d8omzyPw==
+	t=1795292219;
+	b=qM93Iqa3qBj3N5mBGj8jgCa0wQFXABFRUYf8qucW5u4oIgDR8U6E8JAORwgD2ny/E+Jy
+	 3+5RZ+lImWF1RMM2w+o8DzcPZWe6yjH6pzXjIwuNEVcpUoc6qc6Nm3EtwZOaOsTg1RLHX
+	 rByJtFkqRWA8F9SVH9bhTQlH5USPfimxXzXZ0tG+uzscXhcVCCrchEGrIGdaIXfyV7XiH
+	 mzfBWeltHr7Fa8sTANkkNUwdHRovRGBbxjxjFCcakiwW7bpGBj56y2TgduPGV5OzlQYZk
+	 aufWzr6FBWOMzy4FJUwbla5+nM6MPIdoG8FVMrY/ovok/eIBGBpNG/VWgq/8PstptHQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795291513;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795292219;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 MIME-Version:Content-Type:Content-Disposition;
-	bh=ngoeo79HLgeRgaUkRCnmHPzpUZv9Mu4Jctl1kpeEgPQ=;
-	b=WwUPp2PIi5HtmbLzJ5w3/W+VhDyDGygiUGP0YU2C9icAw3/VaW3AHgrWtNsJN0N4Wp24
-	 8e2ZfqV3iPdLl9EVo0eq3nhxtyrgMthcA87POioGmYIihTh6SERVi3++E0u5o3vKMHZsg
-	 T92NgE1XV/YdqcBcJgR4PFOioTsQ1QYis0pAUsG+hEno25MEzAIf8Eg6mHbetq+4cGEMw
-	 8rDqIWWio0lCIctkjuWHL+Za4sNrZWdGJq12CtkVjfKSPsneOQjn8c/2kaHccf+7eA2En
-	 dkMWh+mlXHz/QIn+V0bpd0bU7dSOLMeI7VyiAsBJZSv1dS4CHcAJM5KBLScc/o5RGag==
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=WCBP8JNN9LhYmA42mMEQijOkZabItzYoL6U32M5rD5U=;
+	b=c4Gdg/hmcgTuAB+fnVOTSmTpVeGvK3YbUhqoc3sUvRE6IsuDAUY8P1Z0CoqRGL2m+2Is
+	 KLm6u5t53J7FxtYZWX11N3F4FDiVfcslFoSVENthG6Qb3mZkQAM9xxVog23SIU0VexXaG
+	 yGHfnYiz2CY369WhoFUdIVt5RNAJuzRyaHoO4QY2DnFVtB0VJlxjwCDXzlfwoerlxhVr0
+	 9MJFqqnJGdbGYwin8sXTv1s8D4NB8i65GBhIAa69k24/zGFuPvBxhEuC692NSBGldWnAk
+	 5WVtLyT+2qQFBGJzCUpAS9pZQr8M1DBaCZ7g/uHmfbABzKbB+YpStBQ4NNmicSwZJFg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bofK24jx;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=awKUlLbv;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9D8606A320;
-	Sat, 21 Nov 2026 20:05:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 12A33606A320;
+	Sat, 21 Nov 2026 20:16:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bofK24jx
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56D531F000C0;
-	Sat, 21 Nov 2026 20:05:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=awKUlLbv
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 24FC01F000C0;
+	Sat, 21 Nov 2026 20:16:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795291512;
-	bh=ngoeo79HLgeRgaUkRCnmHPzpUZv9Mu4Jctl1kpeEgPQ=;
-	h=Date:From:To:Cc:Subject;
-	b=bofK24jx7J2HBfSGFWp8eSBfRa7QqaAQBN+xZ5bWQ0gzoh24m6HpOWk3UUxIqmYUH
-	 UZ5zUSvf7fpS1Mnq42SZKImM3JCpX7SpC/5ezkyl7sbBQYuqQ0SmTfplbkDQbxrgzp
-	 hC747IVAoZ5nomLJb41D8d+I9yTLZxj3utaGmwmSxAY9EzP3SQ2mrozbpDdlqwuwfe
-	 H+33ciWB3yysgAr1VrjAMXQ3aRbYHhsEytGPfRKjC1SGG7TOZbBykrO9WHnin5JG31
-	 bph9miq1e85x7FtoMoTimI+gZ+/RYDlyJOZ5DbBteFeJmkYfiiZA+KLkC8h0JIbfpQ
-	 L2W5teP4lCXog==
-Date: Sat, 21 Nov 2026 21:05:06 +0100
-From: Joel Granados <joel.granados@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Avi Weiss <thnkslprpt@gmail.com>, Kees Cook <kees@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [GIT PULL] sysctl fixes for v7.4-rc4
-Message-ID: <awH4Fh-XofdwwRqZ@hobbes>
+	s=k20260515; t=1795292218;
+	bh=WCBP8JNN9LhYmA42mMEQijOkZabItzYoL6U32M5rD5U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=awKUlLbvP1S0RSzq6or2hZk+BFppVeROah3E6sRNOD8PhwN/YJIWZpiBtcRyolg/T
+	 OAor4bxjQjxffQ2cWBYSzf+63SP3VWuAFwgbj5r1R8nWBvFl0qsUuXzRDQrkVAzDwV
+	 4dtkFBBRR2QZ+lmw2F8tH4liqDs/uESzlGjQXBgpRCOVdHoZucHE/KRjglh51qB0Ro
+	 /HfEC2+MWTkQpXSu7fSpGg2hbdcqX6hRvudPt9RKoDxJ/ULfNU+vmQPE2IQU4gW6nG
+	 HWsg1YjK73T7okHlUCt6GK0kxjkG2SsceSqSICwvFSPIs/1O8o0LWRsbEmSw8S5gyc
+	 Kh+ZH6SteCe3w==
+Date: Sat, 21 Nov 2026 22:16:54 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	Alexander Mikhalitsyn <alex@amutable.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andy Lutomirski <luto@amacapital.net>,
+	Christian Brauner <brauner@kernel.org>,
+	David Howells <dhowells@redhat.com>, Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
+	Neal Gompa <neal@gompa.dev>, Paul Moore <paul@paul-moore.com>,
+	Serge Hallyn <sergeh@kernel.org>,
+	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+Subject: Re: [RFC PATCH v5 13/25] rootns: Add rootns() system call
+Message-ID: <awH8NsS5dH7FTDPv@kernel.org>
+References: <20261121000844.1863324-1-jarkko@kernel.org>
+ <20261121000844.1863324-14-jarkko@kernel.org>
+ <awHsvz1vdlwsink0@kernel.org>
+ <awHtKMkyGEPTB17G@kernel.org>
+ <awH3BUHarwfCPJwi@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,68 +71,42 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="j6xpltppt5iq44hh"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <awH3BUHarwfCPJwi@kernel.org>
 
+On Sat, Nov 21, 2026 at 09:54:50PM +0200, Jarkko Sakkinen wrote:
+> On Sat, Nov 21, 2026 at 09:12:44PM +0200, Jarkko Sakkinen wrote:
+> > On Sat, Nov 21, 2026 at 09:10:59PM +0200, Jarkko Sakkinen wrote:
+> > > On Sat, Nov 21, 2026 at 02:08:32AM +0200, Jarkko Sakkinen wrote:
+> > > > Setting up an isolated namespace environment from a multithreaded
+> > > > manager process currently requires helper processes to call unshare()
+> > > > and pass file descriptors back over sockets.
+> > > > 
+> > > > Add the rootns() system call to allocate a detached rootns instance
+> > > > owning a fresh user namespace alongside dedicated empty mount
+> > > > (CLONE_EMPTY_MNTNS), PID, UTS, IPC, network, cgroup, and time
+> > > > namespaces, and return its control file descriptor. Finalize the nsproxy
+> > > > time namespace and pin active references for the lifetime of the rootns.
+> > > > 
+> > > > Co-developed-by: David Howells <dhowells@redhat.com>
+> > > > Signed-off-by: David Howells <dhowells@redhat.com>
+> > > > Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+> > > 
+> > > Syscall name is outdated. I'll rename it as container_create(). Does
+> > > not have to be final name, but is a better wip name.
+> > 
+> > Something more non-generic as it inevitably would collide to something
+> > (did not check). I'll figure something out.
+> 
+> At least for the next iteration I call the object as "vault" and rename the
+> syscall as vault_open(), and that is based on:
+> 
+> 	$ cat /proc/kallsyms | sed -n '/call_meta__/p' | sed 's/.*call_meta__\(.*\)/\1/g; s/\(.*\)/SYS_\1 \1/; 1i #include <sys/syscall.h>' | gcc -E -P - | grep -v 'SYS_' | sort -n | uniq | grep _open
+> 	240 mq_open
+> 	298 perf_event_open
+> 	434 pidfd_open
 
---j6xpltppt5iq44hh
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [GIT PULL] sysctl fixes for v7.4-rc4
-MIME-Version: 1.0
+https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git/log/?h=vault
 
-Linus:
-
-Tested locally (with sysctl selftests), briefly in linux-next and 0-day.
-
-Best
-
-The following changes since commit aebb7274476403040d582c61478df8f4a7bf9cd3:
-
-  Linux 7.4-rc3 (2026-11-15 14:30:11 -0800)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/sysctl/sysctl.git/ tags/sysctl-7.04-fixes-rc4
-
-for you to fetch changes up to 9fcdf40e0d7c58478d88d3e1ca69fec8badda0fd:
-
-  sysctl: Do jiffy / ms conversion in ulong space (2026-11-18 14:49:05 +0100)
-
-----------------------------------------------------------------
-Summary
-
-* Fix sysctl jiffy / milliseconds conversion
-
-  - Writing a previously read value "X" shall keep the same "X" value.
-  - Remove truncation that was causing incorrect saturation of valid timeouts
-
-----------------------------------------------------------------
-Joel Granados (1):
-      sysctl: Do jiffy / ms conversion in ulong space
-
- kernel/time/jiffies.c | 21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
-
-
-
---j6xpltppt5iq44hh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmsB+XIACgkQupfNUreW
-QU8cMgv/aHccRvArEAf0Z/RyYkbrdX+4b/A7AjLVU37qz1Gb74a32NWlDxQUGGXZ
-1VBrVjrIiEySUd+abeElT8en5XaiMeZHg4EGJVnw8JHtidjf2HAIWj1RWDCxt8N1
-h+KaxR3DdWzPotMCqDZ93FLL70dllTchGrkZsBYDqbgCX6ULL8sPhVdG7PvPkKfO
-uU5OH17Az/ziCjZpuWLPFHiJeeztcDtuYcoiNezTwByRYNhwrzd6p0qVLwUuG2RS
-xs0gq8Ae89ugsz4vM3zMHp4bRJLIFyhM+a94R6XOP9Aw/LU/JFV1oVVNi3HPMjWE
-SKtQVHlEgAlGcSnPD9U5ru7CKpJM+lnSGHER2oruSoyxvIjmo6Nq1hwaq5Yw0GMt
-0Ig43Z6nvPOakC7cGgXZyBZEyu0VinKWz0w6PyyJ49c/FPrOyUza/B1v5Lpt4oEM
-rirHciFJ51xsqSweVNDeQjGRSf4Pn6EfSpbwbWQ7HbpJJEpOvggZlSb5opsAyMQ5
-CznkEjKg
-=pdAU
------END PGP SIGNATURE-----
-
---j6xpltppt5iq44hh--
+Br, Jarkko
