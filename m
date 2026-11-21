@@ -1,67 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795292219;
-	b=qM93Iqa3qBj3N5mBGj8jgCa0wQFXABFRUYf8qucW5u4oIgDR8U6E8JAORwgD2ny/E+Jy
-	 3+5RZ+lImWF1RMM2w+o8DzcPZWe6yjH6pzXjIwuNEVcpUoc6qc6Nm3EtwZOaOsTg1RLHX
-	 rByJtFkqRWA8F9SVH9bhTQlH5USPfimxXzXZ0tG+uzscXhcVCCrchEGrIGdaIXfyV7XiH
-	 mzfBWeltHr7Fa8sTANkkNUwdHRovRGBbxjxjFCcakiwW7bpGBj56y2TgduPGV5OzlQYZk
-	 aufWzr6FBWOMzy4FJUwbla5+nM6MPIdoG8FVMrY/ovok/eIBGBpNG/VWgq/8PstptHQ==
+	t=1795293674;
+	b=bRZiCzgmkerDiY880W0eQYr3YsA0Erf1RYHHPhFRTeqAePnjn7SMsL84iZVwgQQnlhRd
+	 AVLl5+zxcRMwp99FuYEixfTUknivutG2aTvsa83eTemV+CE52Mh0DfzUGNoG3wcKAGA2/
+	 hnVdL4BAPsJoTvDYgYuyb+KETk0vqw3N+T0aWMeIg1ZT8yddgl335v4hPJsF2PvsAcXte
+	 QRNvaQ/fcKslz23RDq+t4Vtlx/BEjPVSoLirGzBTlZRbuQiPOn/fc79JBCARApqEf9xr0
+	 Y2OSj7XIHTtC/UAQdYdIs38v6FjgI+J0xx12LvKDxYtfp40WrbTra7GWRNhfAcdRdlg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795292219;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795293674;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=WCBP8JNN9LhYmA42mMEQijOkZabItzYoL6U32M5rD5U=;
-	b=c4Gdg/hmcgTuAB+fnVOTSmTpVeGvK3YbUhqoc3sUvRE6IsuDAUY8P1Z0CoqRGL2m+2Is
-	 KLm6u5t53J7FxtYZWX11N3F4FDiVfcslFoSVENthG6Qb3mZkQAM9xxVog23SIU0VexXaG
-	 yGHfnYiz2CY369WhoFUdIVt5RNAJuzRyaHoO4QY2DnFVtB0VJlxjwCDXzlfwoerlxhVr0
-	 9MJFqqnJGdbGYwin8sXTv1s8D4NB8i65GBhIAa69k24/zGFuPvBxhEuC692NSBGldWnAk
-	 5WVtLyT+2qQFBGJzCUpAS9pZQr8M1DBaCZ7g/uHmfbABzKbB+YpStBQ4NNmicSwZJFg==
+	bh=hmRMq/jyaz6ubqP2Q/8QAmwoitBfjKyHf2qlq73z/v0=;
+	b=1Z7UYkXnU1oDnm1ddLIfLMNii/sA+3r4ZoL0TGxLnGPgDAO/hH49w3z9Y7xtymUzbiwk
+	 Yibn9gl9t+SSV05ktXuxXLxMS1Yu6J1vBvhwwkqfk8gSTLyr1GwwqruMuAxow4EgmT5gC
+	 A5/AH8ybgvIXgdanJBUgy2DGuyEXC+rc0xTt8lLeEKSoaPkJf6xvaR2n3BNGAWQzHpA5W
+	 K1QkIObaaRp3eFPJ9jjUBqX93WFx/1dEvdzLa6WPKjuc0YjIhNVUFHtnGsdqiO39od102
+	 CElfkVhnrc9tgcgatmzO5BzuA+kEFJQ+atuUtE2wGEQeV+jQGLXYa38Om+afxrgONJg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=awKUlLbv;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="asgtto/P";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 12A33606A320;
-	Sat, 21 Nov 2026 20:16:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B841606A320;
+	Sat, 21 Nov 2026 20:41:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=awKUlLbv
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 24FC01F000C0;
-	Sat, 21 Nov 2026 20:16:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=asgtto/P
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C82C1F000C0;
+	Sat, 21 Nov 2026 20:41:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795292218;
-	bh=WCBP8JNN9LhYmA42mMEQijOkZabItzYoL6U32M5rD5U=;
+	s=k20260515; t=1795293674;
+	bh=hmRMq/jyaz6ubqP2Q/8QAmwoitBfjKyHf2qlq73z/v0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=awKUlLbvP1S0RSzq6or2hZk+BFppVeROah3E6sRNOD8PhwN/YJIWZpiBtcRyolg/T
-	 OAor4bxjQjxffQ2cWBYSzf+63SP3VWuAFwgbj5r1R8nWBvFl0qsUuXzRDQrkVAzDwV
-	 4dtkFBBRR2QZ+lmw2F8tH4liqDs/uESzlGjQXBgpRCOVdHoZucHE/KRjglh51qB0Ro
-	 /HfEC2+MWTkQpXSu7fSpGg2hbdcqX6hRvudPt9RKoDxJ/ULfNU+vmQPE2IQU4gW6nG
-	 HWsg1YjK73T7okHlUCt6GK0kxjkG2SsceSqSICwvFSPIs/1O8o0LWRsbEmSw8S5gyc
-	 Kh+ZH6SteCe3w==
-Date: Sat, 21 Nov 2026 22:16:54 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	Alexander Mikhalitsyn <alex@amutable.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>, Jan Kara <jack@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
-	Neal Gompa <neal@gompa.dev>, Paul Moore <paul@paul-moore.com>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v5 13/25] rootns: Add rootns() system call
-Message-ID: <awH8NsS5dH7FTDPv@kernel.org>
-References: <20261121000844.1863324-1-jarkko@kernel.org>
- <20261121000844.1863324-14-jarkko@kernel.org>
- <awHsvz1vdlwsink0@kernel.org>
- <awHtKMkyGEPTB17G@kernel.org>
- <awH3BUHarwfCPJwi@kernel.org>
+	b=asgtto/P/mqBPw1Axj+fEFZsvYqeSF/ZmIFH4PnCav4vjk1EbTjJ0mTk50wXzXd3A
+	 0oPFL4L3Soh2pKh6TNWZ0JSsVbLH0ArdhUWSpj9CqFwFPmMUVqG1r5h5vC44+KPoXl
+	 IR2BtKSF+byzNkv20T34sbwoIxBfP2Au8bsE80sR6c0kF2VA8MPzCvevXGiZgqVo4c
+	 Ih2S1i5XOt/camX8d7qFp4AF4rSFWnUSEIfOE7Bamymi/uFcvttZy8TP3iTO4po1sD
+	 USsdPvR/w9Ks6xkidDC065RYjoqD8Vpq4iibvN1DrVToa1VhYtqvYCgR9ESKu7c95F
+	 yRPPqnQHCa93w==
+Date: Sat, 21 Nov 2026 21:41:08 +0100
+From: Andrey Albershteyn <aalbersh@kernel.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: fsdevel <linux-fsdevel@vger.kernel.org>, 
+	fsverity <fsverity@lists.linux.dev>, linux-ext4 <linux-ext4@vger.kernel.org>, 
+	linux-btrfs <linux-btrfs@vger.kernel.org>, linux-f2fs <linux-f2fs-devel@lists.sourceforge.net>, 
+	linux-xfs <linux-xfs@vger.kernel.org>, dsterba@suse.com, Christian Brauner <brauner@kernel.org>, 
+	tytso@mit.edu, chao@kernel.org, jaegeuk@kernel.org, viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v3 4/7] iomap: use fsverity_is_building() to check for
+ fsverity IO
+Message-ID: <awFTapiR9KK9H6PC@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+References: <20261120155032.187246-1-aalbersh@kernel.org>
+ <20261120155032.187246-5-aalbersh@kernel.org>
+ <20261120222302.GD3048696@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -73,40 +64,49 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <awH3BUHarwfCPJwi@kernel.org>
+In-Reply-To: <20261120222302.GD3048696@google.com>
 
-On Sat, Nov 21, 2026 at 09:54:50PM +0200, Jarkko Sakkinen wrote:
-> On Sat, Nov 21, 2026 at 09:12:44PM +0200, Jarkko Sakkinen wrote:
-> > On Sat, Nov 21, 2026 at 09:10:59PM +0200, Jarkko Sakkinen wrote:
-> > > On Sat, Nov 21, 2026 at 02:08:32AM +0200, Jarkko Sakkinen wrote:
-> > > > Setting up an isolated namespace environment from a multithreaded
-> > > > manager process currently requires helper processes to call unshare()
-> > > > and pass file descriptors back over sockets.
-> > > > 
-> > > > Add the rootns() system call to allocate a detached rootns instance
-> > > > owning a fresh user namespace alongside dedicated empty mount
-> > > > (CLONE_EMPTY_MNTNS), PID, UTS, IPC, network, cgroup, and time
-> > > > namespaces, and return its control file descriptor. Finalize the nsproxy
-> > > > time namespace and pin active references for the lifetime of the rootns.
-> > > > 
-> > > > Co-developed-by: David Howells <dhowells@redhat.com>
-> > > > Signed-off-by: David Howells <dhowells@redhat.com>
-> > > > Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
-> > > 
-> > > Syscall name is outdated. I'll rename it as container_create(). Does
-> > > not have to be final name, but is a better wip name.
-> > 
-> > Something more non-generic as it inevitably would collide to something
-> > (did not check). I'll figure something out.
+On 2026-11-20 22:23:02, Eric Biggers wrote:
+> On Fri, Nov 20, 2026 at 04:50:26PM +0100, Andrey Albershteyn wrote:
+> > As fsverity inodes are read-only, the only write IO happening
+> > during I_VERITY_BUILDING is fsverity metadata.
 > 
-> At least for the next iteration I call the object as "vault" and rename the
-> syscall as vault_open(), and that is based on:
+> I think this is not accurate?  The inode is not a "fsverity inode" yet,
+> and it can still have dirty data in it that is undergoing writeback.
+
+XFS flushes data folios in _begin_enable(). Make sense for me to
+have data stable on disk before starting the build, if any error
+happens in data writeback we won't spent time building the tree.
+That why the warning below.
+
+But as I_VERITY_BUILDING exists now, I don't think there's
+requirement to sync data before starting the build, I will update
+the comment.
+
 > 
-> 	$ cat /proc/kallsyms | sed -n '/call_meta__/p' | sed 's/.*call_meta__\(.*\)/\1/g; s/\(.*\)/SYS_\1 \1/; 1i #include <sys/syscall.h>' | gcc -E -P - | grep -v 'SYS_' | sort -n | uniq | grep _open
-> 	240 mq_open
-> 	298 perf_event_open
-> 	434 pidfd_open
+> > diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+> > index 6d843b168d5f..0a176741e7b0 100644
+> > --- a/fs/iomap/buffered-io.c
+> > +++ b/fs/iomap/buffered-io.c
+> > @@ -1930,7 +1930,7 @@ static bool iomap_writeback_handle_eof(struct folio *folio,
+> >  	struct inode *inode = wpc->inode;
+> >  	u64 isize = i_size_read(inode);
+> >  
+> > -	if (wpc->iomap.flags & IOMAP_F_FSVERITY) {
+> > +	if (fsverity_is_building(inode)) {
+> >  		WARN_ON_ONCE(folio_pos(folio) < isize);
+> >  		return true;
+> >  	}
+> 
+> This function no longer needs the 'wpc' parameter: it can be passed
+> 'inode' directly instead.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git/log/?h=vault
+Sure, I will update it.
 
-Br, Jarkko
+> Sashiko also found an issue with this change.
+
+That's related to my response above.
+
+
+-- 
+- Andrey
