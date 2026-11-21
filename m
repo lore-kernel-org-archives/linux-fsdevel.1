@@ -1,72 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795219844;
-	b=PaOv+SJBJp9UoYQvuchxL2H/RMXBkuCeaEryud6vvbn4Sw18YlMTr6qa6flUKPnwTY+M
-	 xv4XOdMvcb1/lJox/169hGUwn0dLsG8egRv6q9LAfuSIcrq+JlpBcixDlQOz0tDxGjWLY
-	 AP3v4/1yHMGXERi1NE5FXjLifl4QT8l6Y61k+nxiUCWEmJXn6g5NW4sM4DFztWDPiqG7c
-	 c/OE45UKmgpXYskRPQUc7yQo6bmWEjv3XUOhbxQ0vp7e4S2ZyCDYAUvrTeV1/7HSETTZt
-	 8JybDJaNdsNt58CphPzNKwnsdQyfRHMu1TgHoOs/2v+f8YH0+qFGXw494s2lg30CFYA==
+	t=1795220137;
+	b=qpNhTfFWva12Hu1nFhDnkguM14OGSzxGCYUFn/LCmg0Or0Clu7+F+ZwRd8c5R7lLHnse
+	 5xtjimU4wCYuskAJW78//1OSekBz+z4RxlOdfmixty65WEtL6RjbtU7fM7mjqHsM/B6RV
+	 r301dzCSiawofqu/JCBH7RXpb4tHVRKsyv8xEWRYdIRZaOPEmw3UVGNLEANm1NxY936Ol
+	 uACXAsPz8hqnfdflLFXj8hd5KVpQJWC2qc3BYRRewJaVFJsJA4BX7dgcnVUJLSxYKu79E
+	 9UfSWUv1M0Zs1LpIylGMhqm7YgfZecvgSZMLOr5EY2BrKkiV9ens2DnF+cQbZaBKWhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795219844;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=nefIhKw4pk3hNRgKls2omID/HmfGP96iHh55NTs5Fc8=;
-	b=brAsG+GlJxGDu76dTfZCxFmnvp4vXq8NrfLPmR+bhgFTuqC8wzgz5jaevLnfXXKBtECd
-	 qXvazlgYcbvghfWkT7LuHcYcP9vy4qpaK7PATmfVcZL5dD3RT3mJ7QK6mYEYVXAalWeV/
-	 y0DPodXEozQuD0CwN1ir99cAXyE/vG+oG9L7jkmY4LwqgHpq1zL6nP98PxtSVXD0sylvv
-	 oM3xVQBezNPriZuZskzm9M2JF/p+n3Ef9qLQLDMYSk47Hntl12tPY3PaiMK4fiizIEcCi
-	 MIDk4gLTY3IAz4NcvgAvbFpegmzm/1+PHLMM0L0ThDdzLbxpG4rzTuS+mk65EHv1nHA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795220137;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-SRS-Rewrite;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=;
+	b=SjisINx9FfyaE+/G8jmqcq6Fr36sGDzrQLG+XhRJ6i3nuX3Wf9VrBGrgarR63YyxiarW
+	 K2K2eVE9qVpLOFRa+HqAVAnO7PuNWOZihzgwaiFsddU+bykSL6oZvavasuZ1pAa2lEHcl
+	 KgH1JUtIv8ulkvmpQf1WNmvhVv0BHqotDg+y5q0lW4y8269xGza7zEeDQzK4eEv65JSD4
+	 FHVmgBHo11jBnXuifWr5B+sQ0QU8MURRvMXPm3ImR/tMzL9d0qY2lMFmpFmEuz2mpaZjN
+	 UJEkC9gSpIa32BMW3A5mR6ZsGgU5KN2s7nu4wV/CIJPgQQac7ivSigfh8Yw+qQAUhKw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fBDNdFbN;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=infradead.org;
+	spf=none smtp.mailfrom=bombadil.srs.infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=bGWTabL7;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 3495A60A262B;
-	Sat, 21 Nov 2026 00:10:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95596606A692;
+	Sat, 21 Nov 2026 00:15:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 95596606A692
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fBDNdFbN
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 84AC81F000C0;
-	Sat, 21 Nov 2026 00:10:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795219844;
-	bh=nefIhKw4pk3hNRgKls2omID/HmfGP96iHh55NTs5Fc8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=fBDNdFbNVJ4c2R5l21BN3Q6Yj7sCXFhuqkBWMB7MGY9VGnU18lQLctOh/0TXBJw1A
-	 AFhfJIKGI21WemZTyiQ43YZrKXxrNaUKh8fARfXnWGA+2KLCuwhpbxnNc8pfVOLFgB
-	 aItHE1rE5obmsDbiFvA2QueDhqAkL6BlPnyhtBQXEqha+3WKl2dokM63Jy+j3tDPZx
-	 BsHyfqL7xTYDzsw3Q0MEQDZ8ntZxKX9PqU50i9o16YGBTbxsAvnmWsi/sE5nQXACPp
-	 c2JK74RbPnfBjJBDYCzCTBkRxFM1JCvQeDnjjgEevuQIBei9Qe5zhzaxO4Cmyd3aNQ
-	 CcsrBIJqvhWeg==
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Jarkko Sakkinen <jarkko@kernel.org>,
-	linux-api@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-security-module@vger.kernel.org,
-	Alexander Mikhalitsyn <alex@amutable.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Jan Kara <jack@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Kees Cook <kees@kernel.org>,
-	Neal Gompa <neal@gompa.dev>,
-	Paul Moore <paul@paul-moore.com>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: [RFC PATCH v5 25/25] MAINTAINERS: Add entry for ROOT NAMESPACE
-Date: Sat, 21 Nov 2026 02:08:44 +0200
-Message-ID: <20261121000844.1863324-26-jarkko@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261121000844.1863324-1-jarkko@kernel.org>
-References: <20261121000844.1863324-1-jarkko@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=bGWTabL7
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=bGWTabL7KzDhuuh4YUV1Nzpm4E
+	CMuXFUprmXcP17I1ethA0y0kwpqmtzPRDue5CG/IjiDC4D7zQAoCSnC40dR2RK7VB9ThdfiGnhW/2
+	DI/zQ796Cie6rffq0vGVURHhvxovoGpx3h3KUN5yWt5PVUFh7j7/+/z95heuyxVqPC5kSZ+1VofqK
+	VvBW70RoBxRXH4xPKl7QIX8KpyIk5rAM4MVhbUah+U/XplHYhBI9ZYKFT+6mS9mkZY7+PboRq5RvY
+	hvSC0/86l4XD0kWF6byXaqgpOlLEz9l6xSKBYjoE3lkROWO6mdweeXzzLiSA9W+v3E/SpxiJ2IP8j
+	n197PS+g==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xUYlM-0000000GUHy-3gmK;
+	Sat, 21 Nov 2026 00:15:28 +0000
+Date: Fri, 20 Nov 2026 16:15:28 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Breno Leitao <leitao@debian.org>
+Cc: Christian Brauner <brauner@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Hannes Reinecke <hare@suse.de>,
+	Pankaj Raghav <p.raghav@samsung.com>,
+	Johannes Thumshirn <johannes.thumshirn@wdc.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH v2] iomap: don't update i_size of block devices on
+ buffered write
+Message-ID: <awDioKmT7qYBdiT6@infradead.org>
+References: <20261120-iomap-bdev-isize-v2-1-f25cc668fbc1@debian.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -76,39 +70,12 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261120-iomap-bdev-isize-v2-1-f25cc668fbc1@debian.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Record maintainership and mailing list routing for the root namespace
-subsystem across its uAPI headers, core implementation, documentation,
-and selftests.
+Looks good:
 
-Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
----
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7cbce21ba45a..072be5ec7fd8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -24533,6 +24533,17 @@ F:	include/linux/mfd/rohm-bd96802.h
- F:	include/linux/mfd/rohm-generic.h
- F:	include/linux/mfd/rohm-shared.h
- 
-+ROOT NAMESPACE
-+M:	David Howells <dhowells@redhat.com>
-+M:	Jarkko Sakkinen <jarkko@kernel.org>
-+L:	linux-fsdevel@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/userspace-api/rootns.rst
-+F:	include/linux/rootns.h
-+F:	include/uapi/linux/rootns.h
-+F:	kernel/rootns.c
-+F:	tools/testing/selftests/rootns/
-+
- ROTATION DRIVER FOR ALLWINNER A83T
- M:	Jernej Skrabec <jernej.skrabec@gmail.com>
- L:	linux-media@vger.kernel.org
--- 
-2.47.3
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
