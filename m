@@ -1,87 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795285024;
-	b=K2quCWcjs/u7ejMr8ryRxs1ZN2tKTucyzxBhjBbKGAqwbhJZ3TU8r2mz7oCmWD+w1iId
-	 824lQJ9ra9RULicqoHbKlVoTD7vhzK2DVQcbqynvHYTd8sqzbyA/YxQexHLLGIl4gfXFd
-	 lHF+Gf7j2odrwb6Wibd0qShAsQqvFm05OaR0liGQticJDex02l3HG5bn3mynZ+FhHW73M
-	 J8wY+0iFBgaXQ7PTOsybJJAMEAm/bchZ5TRz8cfdh18/Q7FTunlhPqZV2LO/sTPG+HJNd
-	 oYa0Xk8XSAP3o66jxloAb72UeM/0pBzfUzXAiYOILcctY0W6NIgfLnQRUKBFTznjGVg==
+	t=1795286539;
+	b=F/en5MkM6H9fdmpFh83giEQwofUKStASxT26LM/1wn8fRan8Rzlq8Tytx0F5iprFVpmH
+	 /7ojHpOtzluSb1ihTggkgRpWrteg1fMIbOp8Vf8euPSIidQRw/+LtPQ6UH6DnaxMEffC0
+	 fCrLNW9mupeEu60nvLgSmavSZhfXTa7F/SQr3mwSGKlRncWXYxxNq9pJnT8ePcor0bXEh
+	 qag51/Ty8G6rMD0AmeDrYZB08cPJG09DXRBV+LASw0VMXSIq7JxTvR+fRddsBmaBh2xz3
+	 WkyRQLpBDxEBA/B08akLhhJk9O3MneagkJpM2TCmlL26wyD0kvZpsDSOHkwKL/pFwZA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795285024;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795286539;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Content-Type:
-	 Message-ID:Date:MIME-Version:User-Agent:To:Cc:Subject:
-	 Content-Language:From;
-	bh=dqNTSFzVcne/6G4+gFUKM9x7KeHiLn3on0r1SG/5gJc=;
-	b=mGc41SHcSEJTUFckwh43ndTja7q1GkN7EOUgQn34PMmy1ib9abHHn4F05U1fTZkG/iBf
-	 MvA1LAoPPpPVATSRpTPxjf+FaAmTTfIhh4YdFtGBOBM0SFQ5gPyvleJINRJv6R/eftTQU
-	 FJVRK4yTgIV1Z9NvKN8QZoT29SPTfvwmvssG0+hoJ5nbxxzGqXVCoDSUTyNNee+7Cl7FN
-	 QasoSsVSFJ8AAXPmnpDshv1quBY5A7nLMHcMA4cVr/ZMhIb68Y6Hf+YFwjCZ+uBiVmBri
-	 5Ka46PZmidxLNBsj1s5s7RUdSK8Z7VfOlSNguMs4Kqcnjitx62f+9e7VkpzLeHZ/beg==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=GjLpY1CKPj0eCFHlrRrrfFi/jmOkP03r0FnUiwT8DXQ=;
+	b=yvPoV/CN1HN2Co0E+0RavKVOKujZoRgcPDNrycwAHScYL91mUrBGN0ouBWwt6V9zHWPH
+	 8JPvxnUcHdnj/q3yAczs5V8SNokh/0v0RjDs1XTPgm/n+4MQa9zVNjJHvG+i2R0Av8tMa
+	 VVTWtC3xLDTlXRaiEKOm/kHJokxWDHlXGYoqFwArC4Y9bWY0udWjJlUn6iYHxNQHi301V
+	 tfVNbVogrbCw3gCKyQ0QcZzbyDkqkByLqHy/XXVoE91AZVjQ+4USjzFC+dJ/UsnKfJeEd
+	 ZqZOMGy/GiXIVHMPvvWnWsBtPPtbh57Ji4+1hSY2s/XK8I6nFEtKIi+fvrYPVf0LZDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uenzrMOk;
-	arc=none smtp.remote-ip=209.85.128.54
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yd5ZrevY;
+	arc=none smtp.remote-ip=209.85.160.174
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73FE7606A320
-	for <linux-fsdevel@vger.kernel.org>; Sat, 21 Nov 2026 18:17:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 73FE7606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDDA606A32A
+	for <linux-fsdevel@vger.kernel.org>; Sat, 21 Nov 2026 18:42:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4CDDA606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uenzrMOk
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a3517554f7so19167875e9.2
-        for <linux-fsdevel@vger.kernel.org>; Sat, 21 Nov 2026 10:17:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yd5ZrevY
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-55c35262674so15876511cf.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 21 Nov 2026 10:42:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795285023; x=1795889823; darn=vger.kernel.org;
-        h=from:content-language:subject:cc:to:user-agent:mime-version:date
-         :message-id:content-type:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dqNTSFzVcne/6G4+gFUKM9x7KeHiLn3on0r1SG/5gJc=;
-        b=uenzrMOkZejhYM2rsTa9ehoVYPnSdfH/4LG86gyhMERepQbfZOaRLg+S6UZOr4vgLb
-         McEp/+qcnLM2JTqC9qPxb7Y5VvNQdZUBAPfT/NEyHj0L+1X0Byyh7yD1/6GyY3XotCjS
-         6q1MJ6A0zf3dx7PQKpzT5uBC5Q2tYqQ+JBwi8rd2tGZp9SWb426uHLZkLdAGGXBKSm+v
-         NVuiBS0MNZtk7JCfWTPG++Sb5JxSGtsDV3xJAQi914pqaP8+sFtZSCQfpo9TvCzwJ+Zs
-         AVHnlSNReCrFr+1a/hB7408U8Nqev3KbbI8ShXd+RaXAV7kW+Di6LKfdhu0XTc+gtLgK
-         UvIw==
+        d=gmail.com; s=20260707; t=1795286538; x=1795891338; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GjLpY1CKPj0eCFHlrRrrfFi/jmOkP03r0FnUiwT8DXQ=;
+        b=yd5ZrevYNJ5vwHoAtXXlSYrLtSWp/xktYV9c34TMqrfVWU53FFVucnseLiHnbzER/k
+         M2jqu/wKGNI8qvabv6LsBOY4T1t/LdwtXX02Z4fjF+EB0Q3O3Huo7kOQBxoTo2sQFAnQ
+         fPojYU9K+LMMHAikgXoNNxHIZpSftGRIbxuOgI/i71694ad6e081XFbF6SdvTPKpgw07
+         jMWsSJqqrId3lsM75lDJCuWeC3ieQ+6FCC9+/uMKPdIKd5gheSWXotwT4Ap3X47HpJaM
+         QBJJxkhSZwbsLEsFxdJyR04KCsOxO41Bba8vKwGXBGphVzwFIpaJPMDUjVwHV5BNCA+g
+         8SAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795285023; x=1795889823;
-        h=from:content-language:subject:cc:to:user-agent:mime-version:date
-         :message-id:content-type:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=dqNTSFzVcne/6G4+gFUKM9x7KeHiLn3on0r1SG/5gJc=;
-        b=ETFdKRluMh7ux0zf5ADEZWsVRDJajBXVxSAoHVXU2CfGVMHIXQMNWeHh8wXXR1+zo2
-         kvqMzWDLgYFYCcnbUGjVgXISIZpK7S+bPOCflIa0yxTC7J6AnQqyoHc2snIuw1rNDvN/
-         n1Vgtk9cU7Nd6znmiL2dcxYryHKwS3whjN1h+gUghjEdiZvuAvcmXJRwpw6oBA5ioxBZ
-         RFAsFVCbQf0UO2gmr/uHhJH8SmVzkl5HRLHC5wFrEHCAjcxXarfi6tzhZoLIN8pYGPPf
-         8VV1D5PlLznzh3F/05v2yFC1F44RbejVr88PR0ei+nnzGO21b0L1RNDgvN13swbPvbwx
-         fg/A==
-X-Gm-Message-State: APuU4Z98B0sN547EfpiLbF/i6/28W7dP2wdAoRdDUofYHYGAfScC32d2
-	uQFWX+I+eHGKIw8xcaXUUkNtU7XpU6LqG/YwwjkhrA5TkTkt7cxMwkMx
-X-Gm-Gg: AZFdTZdJcNwZ7tDRc2RhFkz/aPDOC809ul1xAYeN3DVRAAN+RZbLhDA90jpNFJwe8PI
-	72e0ycmtcAczZe8V3Ctx9YUTJlYg2XYcj+cDApRuQw+Y+tU68Rx8Gok2uhu/P5Qe9lQBkpVeVfY
-	jsINfDOl5OkK9kKeRBBGH00qB4Jq3YZodCPz0gUGFAwr5wdPMgwmvE846SLkPsI9SSWTi8D9QXs
-	QtZrju96ki/cB5icP2MsZKV1Q+gfwRnEaqGajtDm0jpK6Z6m5A7GywwIpNJgcoLD2oo5X0nJ/+e
-	MK8x5MOIPL43UUgeDnL0cm733C4BsUfRx/zf6PgZkE9j2fxKkRQnsU4nolO8YqOOKm0GwQ7oAzL
-	8kQZbN3cZqg+X6JurMtP+S4hR/DnlUAUUuN86wWbDnDMhfucO7bimWFdpRXiJEIarF2Xdd7GBL7
-	5T+ai5XAd0mcjthufv9vy5xxKqghpSJirJCiyB0IahBABh1dlE/p0paI+FSN7zxkSnN0yklmpGD
-	PxQ9nOM3ZFX0la329/3JtRISS9gJM1kT8QfZhArExQ1XIpZtb0P/L3Dd8mIiaK5UsftR6yz02Df
-	idDiBuCF2mAF+WneMgxzu8g+HLHPJ4rKKb82UTNFHXsxkM+7+kxFMTy2HYMQ9sYjdW0P97wj9qs
-	N/Xwrh81H3qXr17PtAx/bu+RDJIJ/pQqgJsYbEF4MYZlnGte3l2znmA8BPRSPW0YanLBoxYdTOH
-	RuGLXNI3ri7ctxOjE4sQytZEJR9WXXfkwHsJB3vQHfqJ7YBh7Y/qxchPZsJQ==
-X-Received: by 2002:a05:600c:4f10:b0:4bb:60bd:5398 with SMTP id 5b1f17b1804b1-4bb88804d35mr160856195e9.10.1795285022699;
-        Sat, 21 Nov 2026 10:17:02 -0800 (PST)
-Received: from ?IPV6:2a02:1812:1423:2e00:b41c:537d:f8c3:65e5? (2a02-1812-1423-2e00-b41c-537d-f8c3-65e5.ip6.access.telenet.be. [2a02:1812:1423:2e00:b41c:537d:f8c3:65e5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906640a2sm60891905e9.0.2026.11.21.10.17.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Nov 2026 10:17:02 -0800 (PST)
-Content-Type: multipart/mixed; boundary="------------KFj9PfnAfEXXTuW3ZRSug4w0"
-Message-ID: <45bfa4d7-e9e2-45f2-9e12-a794defae64a@gmail.com>
-Date: Sat, 21 Nov 2026 19:17:02 +0100
+        d=1e100.net; s=20260707; t=1795286538; x=1795891338;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GjLpY1CKPj0eCFHlrRrrfFi/jmOkP03r0FnUiwT8DXQ=;
+        b=P718QhVoLHBKT38GsL0KgGyW1/4qgTSQ5qOBzdGQ1EQLujHAqObyghwVc6XHQp2NuH
+         PBr8tjLQzkLLykeyzRFc1U9ccP8HeXxign8NHPDvZ9XGJYhq7onuWAZH4OLf4ffd4Dyl
+         8aSPYYsC7KyufeabrCT2P/usuIhJ/jQWvaNW+L97zBprAWE4MirTyuiMqZaTNYNfFuNg
+         rcELcToAIhGL+W72hbv5U+uPxT/jjxQ17S1DWz+5QFH58VOM5i8SNYkVrIJjgrKJEmf3
+         D44GP5MvYRJfKiVmbNqMMtvsVPpypeImRxpjPj20LivijjAuOAxqyqJn6ArjwTcg8TDv
+         o+gA==
+X-Forwarded-Encrypted: i=1; AL+hErFTUuramaAFw32YKg0T4DpzyYViqDE9Wm4krahM/W/Z7qUN2MLj+GtVZir/VICiHUj4bLgQkvFcqtMySOSJ@vger.kernel.org
+X-Gm-Message-State: APuU4Z96bWSBnb0aQ/fiQxrJHZnYKTJZJLKxAGCZnOs6FGRiVJyuzUF1
+	xvwZXztbFw6oxMzyYDQxDsc/BBZ4tk63XHsEdJ93S7+z3XhyBOrYio6i
+X-Gm-Gg: AZFdTZd/4ylX+ZHutfdrepuzAaVwo7K/It8vUwyE4f0JcKxLRyQI5wQhd7+doMKz/T/
+	4ClTlqV0ziw/P5fvxu8GMN/3XGSpYNshim/qDsMSy0tTiUAMzInllXNQ5a1xnA1p3hqxXYwuNeu
+	swsAiitK6s68PSaLImPRzoSy8JLeH5/6XLggXCVuTJ4N5Sutpk/H2Ua5Svar6cwudB5hNz+8OSV
+	F/PN/vem/3stTBhi0Fa0pIltB8yCPqFvUD38mgR8wkpw+Tm/j+lAliHrPNQkamkv8TQVXrATzv7
+	tmfFaa4Upkh2k40DrEnrUG48XlRTOrfPg7fo+dSmXooXjkYn/NHM8IFhke/hu51gGX5brZv9TIs
+	Hm4ntduxAuBuqb6I/FapcdYZyPYLAkZXHCalfcwJqEQJazcCInD5FJEZYDTvJ5ogdBVa2gHg9i9
+	McGPBE+xgqyqRg375P6OeK4Ch1wxw9KmAHHcPUjt6GeIJJx3kb/1H5AGBsEfl8hLlh7/gFPwsdJ
+	CB8byivmsFYRgI5HOHFxjL7HJ0IpvMxDiXln0EnyG1HXv24w9c/5Pvc/lWOxCfrO+zQuyk/LG6u
+	BoOAaPymg0fj8GhWAtbtM9jueQ0GYhO8eYucMXp8By83KiAF933A0+6ZJ1929CHFMbHL4BxFm2X
+	tP87tekujiGpMhG28zvin0i8=
+X-Received: by 2002:a05:622a:5c1b:b0:55c:abad:a72c with SMTP id d75a77b69052e-55d76a6260dmr122239201cf.56.1795286538132;
+        Sat, 21 Nov 2026 10:42:18 -0800 (PST)
+Received: from localhost ([143.198.29.12])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-92134a16754sm59458726d6.39.2026.11.21.10.42.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Nov 2026 10:42:17 -0800 (PST)
+From: Nikolai Dokutovich <ndokutovich@gmail.com>
+To: Shuah Khan <shuah@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-kselftest@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH] selftests/filesystems: move kernel UAPI includes after libc headers
+Date: Sat, 21 Nov 2026 21:42:15 +0300
+Message-Id: <20261121184215.90813-1-ndokutovich@gmail.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -91,116 +96,48 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com
-Cc: linux-fsdevel@vger.kernel.org
-Subject: hfsplus: mount loops forever on an HFS wrapper whose embedded volume
- points back at itself
-Content-Language: en-US
-From: Aymen T <atijari00@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-This is a multi-part message in MIME format.
---------------KFj9PfnAfEXXTuW3ZRSug4w0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+<linux/fs.h> includes <linux/mount.h>, which defines the MS_* flags as
+macros.  <sys/mount.h> declares the same flags as enum constants, so
+including <linux/fs.h> first makes the macros expand inside the enum
+declaration and the build fails:
 
-Hi,
+  /usr/include/x86_64-linux-gnu/sys/mount.h:35:3:
+  error: expected identifier before numeric constant
 
-hfsplus_read_wrapper() follows an HFS wrapper to the embedded HFS+
-volume and re-reads the volume header there:
+Seen with glibc 2.35 on Ubuntu 22.04.
 
-    case cpu_to_be16(HFSP_WRAP_MAGIC):
-            if (!hfsplus_read_mdb(sbi->s_vhdr, &wd))
-                    goto out_free_backup_vhdr;
-            wd.ablk_size >>= HFSPLUS_SECTOR_SHIFT;
-            part_start += (sector_t)wd.ablk_start +
-                           (sector_t)wd.embed_start * wd.ablk_size;
-            part_size = (sector_t)wd.embed_count * wd.ablk_size;
-            goto reread;
+Move the two kernel UAPI includes after the libc headers.
 
-hfsplus_read_mdb() only checks the embedded signature, two attribute
-bits and that ablk_size is a non-zero multiple of 512. With
-drAlBlSt = 0 and the embedded extent's start block = 0, part_start
-doesn't move, the next read returns the same wrapper MDB, and the
-mount spins on that sector for as long as the device answers. There
-is no iteration limit and no fatal_signal_pending() check, so the
-mount(2) caller can't be killed. The default: branch can loop the
-same way: hfs_parse_new_pmap() adds pmPyPartStart without checking
-it, so an Apple_HFS entry with pmPyPartStart = 0 sends it back to
-reread at the same place. I only reproduced the wrapper case.
+Fixes: 073d71c5118f ("selftests/filesystems: add a test for freezing a shared block device")
+Signed-off-by: Nikolai Dokutovich <ndokutovich@gmail.com>
+---
+ tools/testing/selftests/filesystems/freeze/shared_bdev_test.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On mainline (65e4fd942f72, 7.4.0-rc3) in QEMU, with the image attached
-as a USB mass-storage device (qemu-xhci + usb-storage) and mounted with
-flags 0x18e (NOSUID|NODEV|NOEXEC|DIRSYNC|NOSYMFOLLOW): mount never
-returned, and the device saw 62,680 READs of sector 2 before the
-120 s run was killed. The same image with
-ablk_start = 8, embed_start = 1 fails the mount with -EINVAL after 5
-reads.
+diff --git a/tools/testing/selftests/filesystems/freeze/shared_bdev_test.c b/tools/testing/selftests/filesystems/freeze/shared_bdev_test.c
+index 0ee352268a97..6454cabce83f 100644
+--- a/tools/testing/selftests/filesystems/freeze/shared_bdev_test.c
++++ b/tools/testing/selftests/filesystems/freeze/shared_bdev_test.c
+@@ -14,8 +14,6 @@
+ #include <errno.h>
+ #include <fcntl.h>
+ #include <ftw.h>
+-#include <linux/dm-ioctl.h>
+-#include <linux/fs.h>
+ #include <sched.h>
+ #include <stdbool.h>
+ #include <stdint.h>
+@@ -29,6 +27,8 @@
+ #include <sys/sysmacros.h>
+ #include <sys/wait.h>
+ #include <unistd.h>
++#include <linux/dm-ioctl.h>
++#include <linux/fs.h>
+ 
+ #include "../../kselftest_harness.h"
+ #include "loop_util.h"
+-- 
+2.34.1
 
-Fix: refuse a wrapper whose computed part_start doesn't advance (or
-limit the number of wrapper/partition hops to a small number), and
-return -EINVAL.
-
-Attached: mkhfs.py (python3 mkhfs.py wrap_loop loop.img makes the
-image; wrap_once makes the control, which needs mkfs.hfsplus).
-
-Thanks,
-Aymen
---------------KFj9PfnAfEXXTuW3ZRSug4w0
-Content-Type: text/x-python; charset=UTF-8; name="mkhfs.py"
-Content-Disposition: attachment; filename="mkhfs.py"
-Content-Transfer-Encoding: base64
-
-IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMwoiIiJIRlMrIHdyYXBwZXIgaW1hZ2VzIChmcy9oZnNw
-bHVzL3dyYXBwZXIuYyByZWFkX3dyYXBwZXIgKyByZWFkX21kYikuCgp3cmFwX2xvb3AgOiBz
-ZWN0b3IgMiBjYXJyaWVzIGFuIEhGUyB3cmFwcGVyIE1EQiAoc2lnbmF0dXJlICdCRCcpIHdo
-b3NlIGVtYmVkZGVkLXZvbHVtZSBleHRlbnQgc2F5cwogICAgICAgICAgICBhYmxrX3N0YXJ0
-ID0gMCwgZW1iZWRfc3RhcnQgPSAwLCBzbyBoZnNwbHVzX3JlYWRfd3JhcHBlciByZWNvbXB1
-dGVzIHBhcnRfc3RhcnQgdG8gdGhlIHNhbWUKICAgICAgICAgICAgdmFsdWUgYW5kIGp1bXBz
-IGJhY2sgdG8gYHJlcmVhZGAgd2l0aCBpZGVudGljYWwgaW5wdXQuCndyYXBfb25jZSA6IHNh
-bWUgTURCIGJ1dCBhYmxrX3N0YXJ0ID0gOCBhbmQgZW1iZWRfc3RhcnQgPSAxIHdpdGggYWJs
-a19zaXplIDUxMiwgc28gcGFydF9zdGFydCBhZHZhbmNlcyB0bwogICAgICAgICAgICBzZWN0
-b3IgOSwgd2hlcmUgYSByZWFsIEhGUysgdm9sdW1lIGhlYWRlciAobWFkZSBieSBta2ZzLmhm
-c3BsdXMpIHNpdHMuIENvbnRyb2w6IG9uZSByZS1yZWFkLCB0aGVuCiAgICAgICAgICAgIHRo
-ZSB2b2x1bWUgbW91bnRzLgoiIiIKaW1wb3J0IG9zLCBzdHJ1Y3QsIHN1YnByb2Nlc3MsIHN5
-cwoKU0VDID0gNTEyCgpkZWYgbWRiKGFibGtfc2l6ZSwgYWJsa19zdGFydCwgZW1iZWRfc3Rh
-cnQsIGVtYmVkX2NvdW50KToKICAgIGIgPSBieXRlYXJyYXkoU0VDKQogICAgc3RydWN0LnBh
-Y2tfaW50bygnPkgnLCBiLCAweDAwLCAweDQyNDQpICAgICAgICAgICAgICAgICAgICAgICMg
-SEZTUF9XUkFQX01BR0lDCiAgICBzdHJ1Y3QucGFja19pbnRvKCc+SCcsIGIsIDB4MEEsIDB4
-ODAwMCB8IDB4MDIwMCkgICAgICAgICAgICAgIyBTTE9DSyB8IFNQQVJFRAogICAgc3RydWN0
-LnBhY2tfaW50bygnPkknLCBiLCAweDE0LCBhYmxrX3NpemUpICAgICAgICAgICAgICAgICAg
-ICMgZHJBbEJsa1NpegogICAgc3RydWN0LnBhY2tfaW50bygnPkgnLCBiLCAweDFDLCBhYmxr
-X3N0YXJ0KSAgICAgICAgICAgICAgICAgICMgZHJBbEJsU3QKICAgIHN0cnVjdC5wYWNrX2lu
-dG8oJz5IJywgYiwgMHg3QywgMHg0ODJCKSAgICAgICAgICAgICAgICAgICAgICAjIGVtYmVk
-ZGVkIHNpZ25hdHVyZSBIKwogICAgc3RydWN0LnBhY2tfaW50bygnPkhIJywgYiwgMHg3RSwg
-ZW1iZWRfc3RhcnQsIGVtYmVkX2NvdW50KSAgICMgZW1iZWRkZWQgZXh0ZW50CiAgICByZXR1
-cm4gYgoKZGVmIG1haW4oKToKICAgIGtpbmQsIG91dCA9IHN5cy5hcmd2WzFdLCBzeXMuYXJn
-dlsyXQogICAgaWYgb3MucGF0aC5leGlzdHMob3V0KToKICAgICAgICBvcy51bmxpbmsob3V0
-KQogICAgb3BlbihvdXQsICd3YicpLnRydW5jYXRlKDY0IDw8IDIwKQogICAgaWYga2luZCA9
-PSAnd3JhcF9zdGVwJzoKICAgICAgICAjIFNhbWUgTURCLCBidXQgdGhlIGV4dGVudCBhZHZh
-bmNlcyBwYXJ0X3N0YXJ0IGJ5IDkgc2VjdG9ycyBlYWNoIHRpbWUsIHNvIGVhY2ggcmUtcmVh
-ZCBsb29rcyBhdCBhIG5ldwogICAgICAgICMgc2VjdG9yOyBub3RoaW5nIHRoZXJlIGlzIGEg
-d3JhcHBlciwgc28gdGhlIGxvb3AgZW5kcyBhZnRlciBvbmUgZXh0cmEgcmVhZC4gQ29udHJv
-bCBmb3Igd3JhcF9sb29wLgogICAgICAgIHdpdGggb3BlbihvdXQsICdyK2InKSBhcyBmOgog
-ICAgICAgICAgICBmLnNlZWsoMiAqIFNFQykKICAgICAgICAgICAgZi53cml0ZShtZGIoNTEy
-LCA4LCAxLCAxMDI0KSkKICAgICAgICBwcmludCgnd3JhcF9zdGVwOiBNREIgYXQgc2VjdG9y
-IDIgLT4gcGFydF9zdGFydCBhZHZhbmNlcyB0byA5IGVhY2ggcGFzcycpCiAgICBlbGlmIGtp
-bmQgPT0gJ3dyYXBfb25jZSc6CiAgICAgICAgIyBhIHJlYWwgSEZTKyB2b2x1bWUgc3RhcnRp
-bmcgYXQgc2VjdG9yIDk6IGJ1aWxkIG9uZSwgdGhlbiBzaGlmdCBpdCBieSA5IHNlY3RvcnMK
-ICAgICAgICB0bXAgPSBvdXQgKyAnLmlubmVyJwogICAgICAgIG9wZW4odG1wLCAnd2InKS50
-cnVuY2F0ZSgzMiA8PCAyMCkKICAgICAgICBzdWJwcm9jZXNzLmNoZWNrX2NhbGwoWydta2Zz
-Lmhmc3BsdXMnLCAnLXYnLCAnVCcsIHRtcF0sIHN0ZG91dD1zdWJwcm9jZXNzLkRFVk5VTEwp
-CiAgICAgICAgaW5uZXIgPSBvcGVuKHRtcCwgJ3JiJykucmVhZCgpCiAgICAgICAgb3MudW5s
-aW5rKHRtcCkKICAgICAgICB3aXRoIG9wZW4ob3V0LCAncitiJykgYXMgZjoKICAgICAgICAg
-ICAgZi5zZWVrKDkgKiBTRUMpCiAgICAgICAgICAgIGYud3JpdGUoaW5uZXIpCiAgICAgICAg
-ICAgIGYuc2VlaygyICogU0VDKQogICAgICAgICAgICBmLndyaXRlKG1kYig1MTIsIDgsIDEs
-ICgzMiA8PCAyMCkgLy8gU0VDKSkKICAgICAgICBwcmludCgnd3JhcF9vbmNlOiBNREIgYXQg
-c2VjdG9yIDIgLT4gcGFydF9zdGFydCAwKzgrMSoxID0gOSwgSEZTKyB2b2x1bWUgaGVhZGVy
-IGF0IHNlY3RvciA5KzInKQogICAgZWxzZToKICAgICAgICB3aXRoIG9wZW4ob3V0LCAnciti
-JykgYXMgZjoKICAgICAgICAgICAgZi5zZWVrKDIgKiBTRUMpCiAgICAgICAgICAgIGYud3Jp
-dGUobWRiKDUxMiwgMCwgMCwgMTAyNCkpCiAgICAgICAgcHJpbnQoJ3dyYXBfbG9vcDogTURC
-IGF0IHNlY3RvciAyLCBhYmxrX3N0YXJ0PTAgZW1iZWRfc3RhcnQ9MCAtPiBwYXJ0X3N0YXJ0
-IHVuY2hhbmdlZCcpCgppZiBfX25hbWVfXyA9PSAnX19tYWluX18nOgogICAgbWFpbigpCg==
-
-
---------------KFj9PfnAfEXXTuW3ZRSug4w0--
