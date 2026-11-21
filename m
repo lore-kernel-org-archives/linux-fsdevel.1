@@ -1,96 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795289696;
-	b=o90hG56XcO19K6I3yVbfTuR04w7wU1zjJICGvDUAS+6+TGYnqJ/y9Q+bGbntNP5oJG1e
-	 r4gQxeZrbhZFm88A7dHdAUFR6L1C6qwxDbFRkRTciq02xvry91F5W0Sw0CWqGOnSjMx/k
-	 9ekZtkZnw6iO16t1Wg/S5LyB0Jg8s2HC5VF9LUlVP3w5zLkx5a9ZQwn8QVoWuur5IeX4W
-	 lw9Ri1Y3tcb7BcNXZuNbXfluOqFgE3gwfCkUHqQ5H/lO/OPJjlpy4Gpu/bCg4cYAZ+J4K
-	 QOBuHboLkA+nUVQzxVjjhFGquOVeBRbc+dG4jkFPo8fT3FjRXLA6jKh/E4BEo+so1xA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795289696;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=n5ZnpCxALSpimlZbz+ysdwCQ7qxNjOgOx10w71IS4KQ=;
-	b=UJ03VvsDywFyyxSgZEfZBkSaG5cV34Zbn4aNqr+N5MwoDy0pNCB8jK9jXw2xQTfy+zvA
-	 pUXx2rKgFJokrdB84YBNLu3PmX6hwaAAQg7kTQasU+8M0H27k+TUHx0dtnwq7BF8DAj/G
-	 dYQ5tbfuQTf51i4AvBEYID58SduL1Kawt5zPhN53QyZe8wMmT807iyKZV8bztHdTB/CJM
-	 DM+SIQKdi1tZ8y27iGOqvRJ2WgZuZrcgdh1UJ+73lYXWM1gv+IY6GY85zetmsCx0k/iss
-	 LF46yf8ld71fsupOYL9NZKjtAUEclR6mXf8sw2W1SbvXYddfYY7JFudxzqdxF6ncetA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jFfjWxj3;
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.100.97
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795290430;
+	b=V6BQk0rOnjx4TzDIx56qBV6m9oo+9Et6ToXzRg2RAwDHWzL+u+Dw6J/3WCcoztzqonSU
+	 mBDCt1kP3r8he7HGIperlm+UrQ8gDkGm9zaYMELwe6Y/Rh8QEICDGE7vKTiU7I3yUf9VY
+	 wLZn/J3uJuu4e534Jp+fN7HXLsuKGJVQRSuJCv8yvXDGcplu5D426dKsOZczNsRVpY0/U
+	 oVqahNMSxHQV5wualiI+srdqB2fg1/hLDb0+gy8Ff5saTEW9eNub28bxC+R8V/QQc2J9z
+	 GKDxncGD1UeClXeIyCNr0k25oL3MsyOVp0UU7H2uiOIqSv8YMZvEjA6NSHsvzMBdj0g==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795290430;
+	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:Content-Type:Content-Disposition:In-Reply-To:
+	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=lQ2kfgj2cqEW41SjRFJ8z3F2mWTze5/8rB7va5fc+to=;
+	b=sXKt01JLruVDqVp5bFLgqrFcftoJuIkAt4x4N57Cua7fwL4oEnUFuINyEHnqsVLdQZuK
+	 l2qIOoTag4T2l0JQ0X0Qy/DRhzxTohmjF9vcAzZg8v/Ng5Bqme7PoWyarfuLkfRTybSjD
+	 XEBufls8USLxts9NoCUGnTIXau5W3pPIZKPElWkPZuyWqs89Dy6D1itlrjtK3a2GCCbIH
+	 GawSUeKhYfPlq150QLpSmyQ5PNGfZTiaKHPpA2rpVMqhg6cVsVH1ZUwcuOJ2sM0fHoCIQ
+	 PqCdK1Ygo1Erbc5K5xweBTeThas8XBbxsLi4b/FWHRiMvH4JAVc3nuyhl39/1inZhvw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=atomlin.com;
+	spf=pass smtp.mailfrom=atomlin.com;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.100.97
+Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021097.outbound.protection.outlook.com [52.101.100.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F9D606A320
-	for <linux-fsdevel@vger.kernel.org>; Sat, 21 Nov 2026 19:34:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98F9D606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jFfjWxj3
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4bb6057b333so7924625e9.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 21 Nov 2026 11:34:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795289694; x=1795894494; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=n5ZnpCxALSpimlZbz+ysdwCQ7qxNjOgOx10w71IS4KQ=;
-        b=jFfjWxj3Yvj4oNqD7D+livIIw1prdztnBFVWXeISH05y72ksTpXjmPM0Z05gSL+Mu8
-         whT/jP3IRkvo8MpCsIqeIZzyDDG5A/ewg09CW1cZGaGa1sNKOK5nQ2VnHkkepxvv5d0z
-         9QICjsYFNotjwblXS3EybXhYxR4ynCk92SdOVHZJbbmWYnp5knlfcJeDQKIplLVe3q5G
-         9QPRamiXuXSYLbLio5MQTG3ADwDZzglS4+6TUWlwRx+3otCncuwMHiNS3izRx6uGWWpF
-         kkqrbFZPfC48f5QvLGrQNKxisZjyUYKcMUk2/t4OlCcvjJ7dnrvJCrZTgLaTyMcYzJeI
-         qdnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795289694; x=1795894494;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=n5ZnpCxALSpimlZbz+ysdwCQ7qxNjOgOx10w71IS4KQ=;
-        b=ySDtKLDo5n4TZI7yP+1yINMp3STxHvN2+gvMg6250pBnfBZzh2Jxdc7qZJvlpdoxre
-         mwyKVfGoig2ixG7hFawg04qqVdS66sBJLzYlT4W7rBBL16j7Z4xcCOfd4oGscx8fiRnA
-         pO65lXzrbLbZem5SCIQHxdYh1d6eVDYV8YcUBVldBm65Z+17osQyXOfGe7pyNYRVpCXd
-         TazYscaYt6AsClIxDen4t2WZCI1OoYV19InrN8JtLCTrYeivZ9WJfwSqTvOwIaUdXzij
-         0n1/fsLwpeFdP57iQnagvAfR7hF1QOassaOjEdR0tdtcgAHgeOLuicHdRYxH9h76zdN/
-         y64g==
-X-Forwarded-Encrypted: i=1; AL+hErE65SoGEgGs09pmNHsL70RO/B69MMoU4Eq7C8Ra/bQA/NzPn/urKrumzQkD2A0O0eOpW0bFesdlLqmnRX3g@vger.kernel.org
-X-Gm-Message-State: APuU4Z+tNdEksDWQBtaDP5OcqK0B87In0tGgfMcda+fv6bjLFdbfQBjC
-	N1puRclsOOkBQ/SgLbsVM6H6Gkl6c0oMmVlduOeVqzo6SmjA+QRiTnXK
-X-Gm-Gg: AZFdTZeQ2cUjilT6v0KPEPzBrBzS2362uiykqoyzmO0IcEid8GpywY/OjGs+Trlzmto
-	O2FZh9Nv/KbdGnX6d4s/yvy8Qcyg1rMjJIAigIdwbD9fiIz4kSC1/vViMxYuZaIDguSAh5eFLJE
-	FtJ14UvQIa/yEgrcFN48Ma8NnHrsdZ2ww/srTlSXH2FJ/mJh7I1hwwm6soYuwTaVUKb+JCcikXf
-	UPONs3gR5tXYWEXkoTwBEw53L95Y/4YpKrlUnoQj5yRq6S17aSGJl6RBojmGinqpERyc99KXaSM
-	9iab9fYFpZvQrSfuGfSzTiwM6DSnVJ9z3dqNVLdGuUACgLcUbrTVj/LtB+zv7giFcZxicyWi5RK
-	5eL/ZOkQUQjRwOt9qnaRNp7lNqgiNKYmNN5QseQc2STE8uTjSwnWIvJD00WuzBqpArsfR8nqOp8
-	pIgwycDeXbL6IE6OHzHK0fFJKDkNvmKAn+OdafWTdiDjIhISopTsSmOhAy9vvo3UJcfjT3dvxXP
-	gpdaY/oVuUZiRq+ZcXriXOqKOym7CxyVH810jmjwRRhlr9BOLFQyrsfOTt8kxtFIxL1xQdEyIrC
-	OXwHSq+f+ZX6erFUAO5gpb9cjWfIZ79x5BS9JJi/ivBFVVeAuA==
-X-Received: by 2002:a05:600c:4e0b:b0:4bb:6f45:2a79 with SMTP id 5b1f17b1804b1-4bb88817920mr169852215e9.22.1795289693852;
-        Sat, 21 Nov 2026 11:34:53 -0800 (PST)
-Received: from NullSecurityX.localdomain ([178.244.203.55])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906635c7sm69591845e9.2.2026.11.21.11.34.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Nov 2026 11:34:53 -0800 (PST)
-From: =?UTF-8?q?Ozan=20A=C4=9Fdepe=20=28NullSecurityX=29?= <agdepeozan@gmail.com>
-To: brauner@kernel.org,
-	viro@zeniv.linux.org.uk
-Cc: jack@suse.cz,
-	corbet@lwn.net,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Ozan=20A=C4=9Fdepe=20=28NullSecurityX=29?= <agdepeozan@gmail.com>
-Subject: [PATCH] Documentation: failfs: setns() back out needs no privileges
-Date: Sat, 21 Nov 2026 22:34:46 +0300
-Message-ID: <20261121193446.105396-1-agdepeozan@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28083606A320;
+	Sat, 21 Nov 2026 19:47:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28083606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CUR82kiE51EzdwzXV1viFNrcmpuaoIxtRhRBGE9F+aAcciiLgIVCw+RWDUrq4jFI6YzqA//pfUdmUXLUyXK58EzH0rtKxS+v61beZlUA4/VSItsWmV3DoBei/60+oLRPniV0Dgbc6gjfIoz+aGrRFl/wmHTmzN+jrUwxCrALbSjGDOlPdUaJqh7CD/hwP3BFUrkQbn0xgZyMIQrzNKYlQxXIcrdwUtL+LzQwMJoHGV3QPTKhuTN2VxztSE+5/dy/bZaMPmUsvSEFNoTohDuPaq1ShMGVVvXDWeXlm1WaxixgCtE29V8odJ7V+t/5400z2M7KTR0SrUr4BfGrQMEc3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
+ bh=lQ2kfgj2cqEW41SjRFJ8z3F2mWTze5/8rB7va5fc+to=;
+ b=qP83j0FyqOfR4gMnZZcPrieItft9zGZZ1QH7vp5cglETqbiRmfrs8d0uwyeHXUppB8aSk0aeYqlEKwfk44j+zqD9fIn3nmYOBHuO5ZWpRMGpz/Kbnfj8jpu1fx1OdMKEm9r2Xo1iBCn2SUVkitjpvs7cPttgWFkmuXylzmKTU771bab9Gpkb50I+bIiplNA5FAci7kj9GbdTr2QM+Wr3DHaejEDogxQWr1IjKjkynVoXSZQtTEgiuF2C+jGZi+PTyTxg/tKeHSmUg5g7OdSVlGU03zplf4Bqo4b7aOytXFnaU/GAPt6v8p2ZMO+V8dx/JP7z9sWDF9+G9GhiV3hxCw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
+ dkim=pass header.d=atomlin.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=atomlin.com;
+Received: from LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:163::8)
+ by LO6P123MB6456.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:2a6::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Sat, 21 Nov
+ 2026 19:47:05 +0000
+Received: from LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::f71f:a9f:c4de:687a]) by LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::f71f:a9f:c4de:687a%5]) with mapi id 15.21.0639.012; Sat, 21 Nov 2026
+ 19:47:05 +0000
+Date: Sat, 21 Nov 2026 14:47:01 -0500
+From: Aaron Tomlin <atomlin@atomlin.com>
+To: tsbogend@alpha.franken.de, paul@paul-moore.com, jmorris@namei.org, 
+	serge@hallyn.com, andrii@kernel.org, ast@kernel.org, daniel@iogearbox.net, 
+	eddyz87@gmail.com, memxor@gmail.com, mingo@redhat.com, peterz@infradead.org, 
+	juri.lelli@redhat.com, vincent.guittot@linaro.org, stephen.smalley.work@gmail.com, 
+	casey@schaufler-ca.com, longman@redhat.com, tj@kernel.org, hannes@cmpxchg.org, 
+	mkoutny@suse.com
+Cc: ihor.solodrai@linux.dev, martin.lau@linux.dev, song@kernel.org, 
+	yonghong.song@linux.dev, jolsa@kernel.org, emil@etsalapatis.com, 
+	chenridong@huaweicloud.com, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com, 
+	omosnace@redhat.com, kees@kernel.org, kpsingh@kernel.org, matt@bobrowski.net, 
+	chris@chrisdown.name, neelx@suse.com, sean@ashe.io, chjohnst@gmail.com, steve@abita.co, 
+	mproche@gmail.com, nick.lange@gmail.com, cgroups@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 0/2] security: Expand task_setscheduler LSM hook
+Message-ID: <oa7e3wzdkq6vvdgast5eohbrvtcvfz4mhqexisdxztq3g3l2ys@pxii4gqdgozp>
+References: <20261119040705.684987-1-atomlin@atomlin.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261119040705.684987-1-atomlin@atomlin.com>
+X-ClientProxiedBy: BN9P220CA0018.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:408:13e::23) To LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:163::8)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,74 +99,94 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LO2P123MB4190:EE_|LO6P123MB6456:EE_
+X-MS-Office365-Filtering-Correlation-Id: 78d79859-b496-449d-09f8-08df48083864
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|23010399003|6133799003|18002099003|22082099003|261009223027099003|261021121427099003|261022105027099003|261022075727099003|921020|261028144727099003|261022113327099003|261026140227099003|261026121527099003|56012099006|10067099003|261102125427099003|261102123227099003;
+X-Microsoft-Antispam-Message-Info:
+	McI+X4GoyEQib46nSsEWZ4HrRHq7BVf1imMA20bfdtFZt3rQybjXqTDZ5ubjNnmDvujrJBDs0L1tEUcRca1JuGHldPIQZ0u19tbyCd24rs4aAEs77Jj2MzgCTCOG3w41bBCJs79DhNnj3C+YZJ8o4/8tQrqDwsr4MiFymo98GytVDL7MbysweXdwSXJq1/U/DtPya+SN5gfk3NJut08pm4XKSNQiwtYcEqjgg17fe4jixmyOmpfNqpwH7Bbzkt9Z0wpqGO9f6WJYw3S+/8MruK/PJlUmLGjlJdWfcw+LySHXZaCvQ1jogoa2YTQOX7kZayiwlnGkEifwnSYAcvT3DU0bd79N2kIrS9M5j24wpBah3PKzIRpDICzt0QvQbYiqoFAZhYmIhW2n0+/xe3h6fH8qYqLqB7nquXVY6/BF3+Jif6JX9koNFC8Yi3zW1y+DfqyU8rO/dm3GGW7Cahl8nuJ4GovYgFaXyhUub3Ia9ELTWDf4OMspLOKXn3iscn38r/9ENULnmNKVB6flgGr+ihyGLPJfzXoTbZtXPaoZR2Xy4TPOp8eTr1XMHQEGSXBr5vHG4ZvFaPGR094XkZeZ0SyZVUHMXmLV+heYJa4R5McXXYQw23sOhDikh2/LA1gEHrdQpexP7jnaVcL7Jwkwd52fGUpMYvei+TRMGE/EuhWfptc668ATSOqGS3ClcTNXVhSlygOHQF7QrbDi4iHgZg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(23010399003)(6133799003)(18002099003)(22082099003)(261009223027099003)(261021121427099003)(261022105027099003)(261022075727099003)(921020)(261028144727099003)(261022113327099003)(261026140227099003)(261026121527099003)(56012099006)(10067099003)(261102125427099003)(261102123227099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UDU5aHptNjcyTi9TMGZabVdNL0l1VGNkeVBvWmI0MDFyN0MvNXdWdEx5NFpm?=
+ =?utf-8?B?NkVRdk1pMjUxQW9oQkxOMFpTTllGVTRjRUpvUmQzbTZzQnJQbVU3MWtmYS8x?=
+ =?utf-8?B?aXVvMnd6ekxaMlIwNkNJWDIzOXROS2tJQVlHRGlKYTFkNDJ4ZzVNVytPcDcz?=
+ =?utf-8?B?RUpHaUxnSlFpZ3BjQWxuaGg5d1U1SFlIUW1jZk5rUFRaTzEzODhPa0hYb0Nt?=
+ =?utf-8?B?eXZHODlVWUtXNzI5WTU3Yk9zamN0RndFclhxcEJtejFyZHJyYWJlYjh4RWVG?=
+ =?utf-8?B?TzE2cklJbXhCR2x1UksvSFNYazh1M0RONHpXY0QwWkk0NEtDcU1GMVpOaktQ?=
+ =?utf-8?B?SDRoenZ1enNWczhIN0FjMGZXWWFQazMxcll3U1o1TzZHM2x4d2R0Q2ZVNzF0?=
+ =?utf-8?B?MzF1VzRBUnhQNk9lZUVUYWMzQndKd2xrcmxkSnBkSXczUVYzaUtiVVNVMk8x?=
+ =?utf-8?B?b2poa24xRkNUa3l3RmZnZ0FGVTFZWktkNWxTcmdPTVNIQkU0b1dOZTFXMEVH?=
+ =?utf-8?B?aVBqUTU3dFhLQWE0enNnY3U4OFZmZ0dJTWNiNndtcEltZWlhSldIQ3JkZVRM?=
+ =?utf-8?B?ajZPa0NScTNXM3U3dExLTGJQQXh0eTY4QkZESWlSdndtQkRkeEtZbmhGcGlJ?=
+ =?utf-8?B?TFl4TGdHVU9HVVV1KzdCMEl1Um1sTkZEUjBWNmt5SE1jajN1N2lkMDBCeisv?=
+ =?utf-8?B?VzhJSzl4ZC92YmJXdE54dDQrendpS2dqRHRVY3lEa3dOcEJMMFFpazkvSjVF?=
+ =?utf-8?B?Y0wzWmpLSjZiRVVBalZvWXpGTnJncVMvUDBWcGs5eEoxazhaUndmak9GZjh3?=
+ =?utf-8?B?b2R6YnhGdnpybGpaUjBYdG5NT0I2TWlRSlQrcHVyVStGTXhvbVpvbEg0b21M?=
+ =?utf-8?B?cktiUU1wYTNRVHlpSWRCMFk5Z2trRFVlVnhGeXlpZktBODVmYktTcE1sOXhz?=
+ =?utf-8?B?YkRxUDd2OWd2cSszeG1uSmtrOU13cHMwRmZKMjBkdkp0emF2TWIybU5OU2ZU?=
+ =?utf-8?B?ek45cmVPVkdSZGlwdjBZTjRyRWF5eXhkRDVKTnZScWl0MEZuY3pmdklPakpJ?=
+ =?utf-8?B?MDJhUlIyT2RLYnlWTFNRUENVWDA2Sk5qOHlUSE4vZ3NLN3Z2SkRsSTJTcW9S?=
+ =?utf-8?B?eGlRcldSRXRmTTVwcFJCSDlRcnlWN0pFazY2QjRFVitoaVp5andXcmh2SzQz?=
+ =?utf-8?B?M2xUQWRvUkhpSGEzMkNjODlZVTRjQU9VTzlWcXlPWmQ0NzR2R3JRaklhSW5S?=
+ =?utf-8?B?WW8vMUc0eHZneC8rWjUraWRlY1Z0ZFNTaXZtUEFlVHNLL3ZCMUl4Wm53dVdi?=
+ =?utf-8?B?QWpVZllYaWx3T0xXVDd4Z0hIQnpDU3hBYjMwRjBxVWxOdllyM3dTeHl2MkRN?=
+ =?utf-8?B?Qjk3NWVmd1plaCtMM0RuRFYwUU9kM051eDNsNmpaMVl3Z05zaU83ZXQ4WUFm?=
+ =?utf-8?B?Z0h6NUlBdTVOYlJ2bUdEdkFkZUZyR3I1NXdSa1lEZ2E1LzhFM2RGcThSWUYz?=
+ =?utf-8?B?R1VZZDBhTDIxd24yUS9ic25XOVlnWnUzL0N5NkdCSmVxS2wvRDJKZWpMWXJ5?=
+ =?utf-8?B?RmtmSHBWZmdPZzh1YTZ3L0FpK0lqVHo0SHFIcllCT0lGdWRlMXdpWXRpOFh1?=
+ =?utf-8?B?OVc4VkNWQkR2UmpDem9ZYWFqMFM0U1B2UWZ2c0Fmc2dyT3p5UUdqanRkZktU?=
+ =?utf-8?B?cU9yUFBpWGwwWjZKbkE2UW13SDNiK0UzdGpUZjZueUt5ZjBwamJzbk1FYWh5?=
+ =?utf-8?B?M0dnNVE5ZUtMUmtFbmd5YU56WHl4b09ESHF6V2d3WURad3hmV3VrZmVBRHNZ?=
+ =?utf-8?B?T1hZRjVDWkNaTHNkL2RLRTRGZVk0VnN0TStKd1kzT2VZb3FpRU9kb09CUlh3?=
+ =?utf-8?B?bk5lbWpKMW5XTVNkd0JvUEo0cmhpUlpyTUhSRlhWZC9GdDVpQ01xNXNJeGhI?=
+ =?utf-8?B?ME55ekpjelhocGhjVWo5R1BWRVBBazErNTY1ZTFBQWw5UGJjRXpUQWwxVHR0?=
+ =?utf-8?B?bFBiZGU5WExhdU43VWMxWHBqUS9OS1lHRmE4OFREcGtad2s5QjBvclFUa2tK?=
+ =?utf-8?B?TTNOL28rMUxJaThzUHRraWdUNlRHZzdtU2dxZnIwZC9hRFFyODNuTFBna1VI?=
+ =?utf-8?B?ZkdsMURHNnZuRHFzWlJqLytyRjYzem5RaHVBNjJiYXM0S0oyM1JyM3psYnpS?=
+ =?utf-8?B?ZVZzeTg5alo4TDNJUkl6eFdROWZLU1ZLdVJxWmsxZTFBTTNTZ1daRTRCSlFi?=
+ =?utf-8?B?aUhGNE9Dd3kxK0xyOXBCbDIyWUxiSGwxaTBuS0FPcU1pZVV5bm42eU83WnFI?=
+ =?utf-8?B?MHl1Szl4WXpwbk4yTFczNjR5S3FlRFhOcXl5cjZrUUFINUtPQkY2UT09?=
+X-OriginatorOrg: atomlin.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 78d79859-b496-449d-09f8-08df48083864
+X-MS-Exchange-CrossTenant-AuthSource: LO2P123MB4190.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2026 19:47:05.4456
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5zYUVIqSSNZdp/htLIxtgBS9nfKMuWt1KybSl5WnjQzZphWOa7SVDEtixf0Zpt0buzu7C1YlnjlpKKj5Nd8ElA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO6P123MB6456
 
-The "Leaving" section says the remaining way out of failfs is setns()
-with a mount namespace file descriptor and that it requires
-CAP_SYS_ADMIN over the target mount namespace as well as CAP_SYS_CHROOT
-and CAP_SYS_ADMIN in the caller's user namespace. That reads as if an
-unprivileged task in failfs that holds no namespace file descriptor
-cannot get out.
+On Wed, Nov 18, 2026 at 11:07:03PM -0500, Aaron Tomlin wrote:
+> This series expands the task_setscheduler LSM hook to accept nullable
+> pointers to the requested sched_attr and cpumask alongside the target
+> task_struct. For sched_setaffinity(), passing the raw user-supplied
+> affinity mask allows LSMs such as the BPF LSM to audit or filter the
+> mask as requested by userspace before __sched_setaffinity() intersects
+> it with the task's allowed cpuset CPUs, which seccomp filters cannot
+> inspect behind user pointers and scheduler tracepoints only observe
+> post-intersection. Similarly, __sched_setscheduler() passes a local
+> sched_attr populated with the resolved scheduling policy and effective
+> SCHED_FLAG_RESET_ON_FORK state so parameter-only updates expose the
+> effective values rather than internal sentinels or caller defaults, and
+> cpuset task migrations and CLONE_INTO_CGROUP pass the destination
+> cpuset's effective_cpus mask (note that direct writes to cpuset.cpus
+> update task affinity via cpuset_update_tasks_cpumask() without invoking
+> this hook).
 
-It can. A pidfd names the namespaces of another task without a path
-lookup. create_user_ns() refuses chrooted callers, but userns_install()
-does not, and the caller owns every user namespace created by its
-effective uid below its own. setns(pidfd, CLONE_NEWUSER | CLONE_NEWNS)
-on a task that runs in such a user namespace and in a mount namespace
-owned by it passes validate_nsset(), userns_install() and
-mntns_install(), and mntns_install() resets root and working directory
-to the root of that mount namespace. Rootless containers, bubblewrap
-and browser sandboxes all run such tasks.
+Adding KP Singh, Matt Bobrowski, and Chris Down to Cc.
 
-Verified on v7.3 with an unprivileged caller: after
-fchroot(FD_FAILFS_ROOT) open("/etc/passwd") and unshare(CLONE_NEWUSER)
-fail as documented, and after setns(pidfd, CLONE_NEWUSER | CLONE_NEWNS)
-open("/etc/passwd") succeeds.
+KP, Matt: I would particularly appreciate your thoughts from the BPF LSM
+side on expanding task_setscheduler (which shifts the trailing ret context
+slot from slot 1 to slot 3 for existing two-argument lsm/task_setscheduler
+programs).
 
-The section already says leaving is not a guaranteed interface and that
-seccomp has to restrict setns() among others, so only describe the path
-accurately.
-
-The issue was found during an AI-assisted review of fs/ and
-kernel/user_namespace.c. The reproducer, the documentation text and
-this changelog were drafted with the assistant and reviewed and tested
-by the submitter.
-
-Fixes: a45a6605cd04 ("Documentation: add failfs documentation")
-Signed-off-by: Ozan Ağdepe (NullSecurityX) <agdepeozan@gmail.com>
----
- Documentation/filesystems/failfs.rst | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/filesystems/failfs.rst b/Documentation/filesystems/failfs.rst
-index 21ff2db79..c34e29403 100644
---- a/Documentation/filesystems/failfs.rst
-+++ b/Documentation/filesystems/failfs.rst
-@@ -65,9 +65,18 @@ implementation, not a guaranteed interface, and may be loosened later.
- For now a process that entered failfs counts as chrooted, so it cannot
- create user namespaces to regain ``CAP_SYS_CHROOT``, and ``chroot(2)``
- or ``fchroot(2)`` back out require ``CAP_SYS_CHROOT``. The remaining way
--out today is ``setns(2)`` with a mount namespace file descriptor, which
--requires ``CAP_SYS_ADMIN`` over the target mount namespace as well as
-+out today is ``setns(2)`` into a mount namespace, which requires
-+``CAP_SYS_ADMIN`` over the target mount namespace as well as
- ``CAP_SYS_CHROOT`` and ``CAP_SYS_ADMIN`` in the caller's user namespace
--and resets both root and working directory. A process that holds no such
--file descriptor and restricts ``*chdir()``/``*chroot()``/``setns()`` via
--seccomp cannot currently get back out.
-+and resets both root and working directory.
-+
-+That way out does not need privileges or a namespace file descriptor. A
-+pidfd names the namespaces of another task without a path lookup, and
-+joining an existing user namespace is not refused for a chrooted task
-+the way creating one is. An unprivileged caller can thus leave with
-+``setns(pidfd, CLONE_NEWUSER | CLONE_NEWNS)`` on any task it may access
-+in ``PTRACE_MODE_READ`` mode that runs in a user namespace owned by the
-+caller's effective uid and in a mount namespace owned by that user
-+namespace. A process that restricts
-+``*chdir()``/``*chroot()``/``setns()`` via seccomp cannot currently get
-+back out.
+Kind regards,
 -- 
-2.53.0
-
+Aaron Tomlin
