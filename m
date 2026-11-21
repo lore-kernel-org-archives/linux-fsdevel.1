@@ -1,56 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795281225;
-	b=1YkLpjU15lQs5OBRynDtr3SSqZRdQA2nLbRlOChB2BGGBHn7UtD9gb6X10Yu7VtUvA7g
-	 mmZflcnfDRV9dwQZ6bmVp0kuNC8WFMPlXVHDsnFLnwBfVmv0Ps6nheGG26am+vmhMHUPG
-	 FqbRm0cc+jN37bpLMGwcoMsy1ywgjThVYBhiSjiRTmta1OxaBaV4XpPczgEj6ArdCCxyO
-	 SsOt3U07PMHvRVIXcv8NzCVF+yPXWeX3nlwGFcfSZ3mJ447VDYI535HWg564kQ6tUFmJJ
-	 CVi7Jbw8qdIs69txICSSZe92lXTf4RaOQsfsKYeAYeI8uOLhfc7TyRwDxqu/U7Tub7w==
+	t=1795281717;
+	b=YJPMnNJhiCZYf/Z+oWT/cRWN9j2Vfsg3bq9msmXQoLFVlMhsyxicCyW1Z9Xn5lCc1NHe
+	 dwFN/f5U8qmEOJsUyhxg4I70th7r9ajL4o1GkXTB2FWxgYb62CizecmL2QJxC8evTlvZ7
+	 2GzphoPyVvx/wouizBXp2Rfr9gHTQDWrQ5MN5HZbDvWS3Mv921T3vNBgeBjnBKROKGinh
+	 tezcVFc6SBdU4mckhUbWv54obFkluDIg0qQBxeNXgISEXnXW8DLyKfQZl9a1g8i4ypiVL
+	 GVRKrf75BAyEKxeBCE1fFXXZppU8AnQR6G6wbeXjavXE6bFiTPBcn5evaFLlB9mk6nw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795281225;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795281717;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=+dbkeCpIOXBpnkn067V3Q5BN+/RTkw5huCud+rgDHN8=;
-	b=PaHudL446huRaKoXgOTnkGC++CDTBQbm96tL0TcCRWNXG914Pj4uIx25VUoRcLmYHQ9u
-	 roaSKYRzh2C7zzg/b2MKkRxsYTcUhY/eLL5jmkx8pVuLvVGBuAULIdNBJ2AE91aj9Nbuc
-	 Ki8uUKzu8ofBfqoK10TBFhNXwKl+6VnaLXPA/xbwGWV0xi/JQ8dh8HTXZlMfOQDxtGu13
-	 c9h/rppgFnX7Ep8dzicbmrnIwJwBuU+pR4jO/XeegDY7HZITEstJeo88RD80FIv+qr67L
-	 CVK4HnA3YzZ9ECzvbnfg0NDqd1hh708MJwXIDQz99tUEupNNj1Judl+j7apq1qbdUFw==
+	bh=ohIR6Qw82vrbkY4AEMlZ5OFiQyPze3nGc8ZbxW8VQNk=;
+	b=XY4F6T9rfb+nHWQLpDhYSnhUPSTB/z3J5GTROslvGN8ckDybQY1Ocauq19FWRXv0oycM
+	 L8LnGDeHk2+5YwLy6FngYTWvk0YLTOTwt+05ofhsG4/wCoK5ZUVDKS1jHal6oJbB03E5e
+	 j8T4YLPpgu88xkuxVy1EyThVnbHbtMWfOtiBrKfxrPBahf9AuRsZ+EiicAqEMG50sIZF1
+	 koWeT1Zm9bx8Nfq1oCOD17X9tweO0bHXWvTHy+GwBEktH9sBglZYqncwpk7RNKUQP9OWp
+	 DCy9Adx4s/8RDHKXyiX7B2V/k560Qe3VIQmc6VB6E57UW3vB8AOnnmrQm9BpJqOJ2iw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="bFQ/BHQd";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MfOJU2OB;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A71606A320;
-	Sat, 21 Nov 2026 17:13:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 23E20606A320;
+	Sat, 21 Nov 2026 17:21:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bFQ/BHQd
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A40051F000C4;
-	Sat, 21 Nov 2026 17:13:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MfOJU2OB
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 34F461F000C0;
+	Sat, 21 Nov 2026 17:21:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795281224;
-	bh=+dbkeCpIOXBpnkn067V3Q5BN+/RTkw5huCud+rgDHN8=;
+	s=k20260515; t=1795281716;
+	bh=ohIR6Qw82vrbkY4AEMlZ5OFiQyPze3nGc8ZbxW8VQNk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bFQ/BHQdO64OIlvR3MzpRqRJgppB5crwltAK+iGDe6j3tL0wdIDRVo/juoAtfCka4
-	 AjHSJcrJPgM0FDT8FfvJzPaYjSlYrAS7Gb1PfFmb0chr12STn9af04ir242QeR/Grf
-	 70Hq1rM/sRJiCFlrOmsqlTViWH2xEQhngwVBR7LiiuCraA1VVccwbTnXKkaoVazSlP
-	 3wPFo+AWvmOxdEWyzJw5PO+Xu10BYLeMxBnib9GQ5dCKwIuOM8Vl2R0Vs4kARHh5/Q
-	 V5I3iy7d2bMHwnj8Rk9IZO1xLbELH9mxupi4tj9MqSsSXtKWn7lzzGCsqhYqKabyQx
-	 MGAqWnXnCcQLw==
-Date: Sat, 21 Nov 2026 07:13:43 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"T.J. Mercier" <tjmercier@google.com>, driver-core@lists.linux.dev,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Jori Koolstra <jkoolstra@xs4all.nl>, Ian Kent <raven@themaw.net>,
-	Meta kernel team <kernel-team@meta.com>, stable@vger.kernel.org
-Subject: Re: [PATCH] kernfs: clear i_nlink before deactivating removed nodes
-Message-ID: <awHRR58WX_YwCDSG@slm.duckdns.org>
-References: <20261120-work-kernfs-delete_self-v1-1-514a35d04431@kernel.org>
+	b=MfOJU2OB8lw5gSY9BnMmPvchn99+EsG8UzO4ZvAUo1WYMnnEcq9l22P9SFCMIfG97
+	 6g1DB1fPOHkkhNeQyatKx6xx82XIKQq6NmVa7ROmN01aXYxgdXSh+pSXWh7ZQo9nrb
+	 VuEg7DF7+VCLLHrN2rKKof0hdINX2MahCtu7DK97H5v+99TQtkYaYP+EmJrWbSPfZ8
+	 w+WXxHVoDa4iCMOGX0YxSgkypG1gOGZhRWzBQzr6JMwomnHh5KIaqjJJWoMW3McUpJ
+	 apwmVODt2VzXn5CnaPnu7Ie+YskEZN+V3ZYeFSpJHkDC8zS5rqBo7LJqcHZFHJxnLg
+	 NMzrk1GVnTNEg==
+Date: Sat, 21 Nov 2026 19:21:52 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	Alexander Mikhalitsyn <alex@amutable.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andy Lutomirski <luto@amacapital.net>,
+	Christian Brauner <brauner@kernel.org>,
+	David Howells <dhowells@redhat.com>, Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
+	Neal Gompa <neal@gompa.dev>, Paul Moore <paul@paul-moore.com>,
+	Serge Hallyn <sergeh@kernel.org>,
+	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+Subject: Re: [RFC PATCH v5 25/25] MAINTAINERS: Add entry for ROOT NAMESPACE
+Message-ID: <awHTMNdonDO8IQtF@kernel.org>
+References: <20261121000844.1863324-1-jarkko@kernel.org>
+ <20261121000844.1863324-26-jarkko@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -62,54 +70,33 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261120-work-kernfs-delete_self-v1-1-514a35d04431@kernel.org>
+In-Reply-To: <20261121000844.1863324-26-jarkko@kernel.org>
 
-On Fri, Nov 20, 2026 at 09:59:59PM +0100, Christian Brauner wrote:
-> __kernfs_remove() deactivates the whole subtree first and only clears
-> i_nlink on a node's inodes later, once it unlinks the node from its
-> parent. In between kernfs_dop_revalidate() already fails for the node,
-> so a lookup that runs into one of its cached dentries kills the dentry
-> while i_nlink is still 1. For a file of a cgroup that is being removed:
+On Sat, Nov 21, 2026 at 02:08:44AM +0200, Jarkko Sakkinen wrote:
+> Record maintainership and mailing list routing for the root namespace
+> subsystem across its uAPI headers, core implementation, documentation,
+> and selftests.
 > 
->   rmdir("cg")                          stat("cg/cgroup.events")
->   css_clear_dir()
->     __kernfs_remove(cgroup.events)
->       deactivate the node
->                                        kernfs_dop_revalidate() == 0
->                                        d_invalidate()
->                                        dput()
->                                          dentry_unlink_inode()
->                                            i_nlink == 1, no IN_DELETE_SELF
->       kernfs_unlink_sibling()
->       kernfs_clear_inode_nlink()
->         i_nlink == 0, but the inode has no dentry left
+> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+> ---
+>  MAINTAINERS | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 > 
-> The inotify watch keeps the inode alive, so nothing ever sends
-> IN_DELETE_SELF for it and the watch only goes away once the watcher
-> closes the inotify fd.
-> 
-> The window covers everything between the two loops in
-> __kernfs_remove(). kernfs_drain() drops kernfs_rwsem and waits for the
-> active references and open files of the node, and the clear itself
-> waits for kernfs_iattr_rwsem behind every concurrent permission check
-> and stat(). In a VM with a few threads stat()ing a cgroup and one of
-> its files while the cgroup is removed, IN_DELETE_SELF for the watched
-> file got lost in 16 to 33 out of 150 rmdirs, and it didn't show up even
-> after dropping the dcache.
-> 
-> So clear i_nlink in the loop that marks the subtree as being removed,
-> before a node turns inactive. kernfs_rwsem is held for writing there, so
-> no new inode can show up for these nodes while the loop runs, and once
-> a node is inactive kernfs_get_inode_locked() refuses to attach one. Two
-> overlapping removals may clear the same inode twice, which is fine.
-> 
-> Fixes: eea5d2bb34ba ("kernfs: Send IN_DELETE_SELF and IN_IGNORED")
-> Cc: stable@vger.kernel.org # v7.1+
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7cbce21ba45a..072be5ec7fd8 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -24533,6 +24533,17 @@ F:	include/linux/mfd/rohm-bd96802.h
+>  F:	include/linux/mfd/rohm-generic.h
+>  F:	include/linux/mfd/rohm-shared.h
+>  
+> +ROOT NAMESPACE
 
-Acked-by: Tejun Heo <tj@kernel.org>
+Out-of-date.
 
-Thanks.
+Not sure if rootns is a great name overall, it just randomly picked WiP
+name. What gets produced are opaque fd-bound containers so maybe even
+calling syscall as container() would not be such a bad idea (unweighted
+and unconsidered idea).
 
--- 
-tejun
+Br, Jarkko
