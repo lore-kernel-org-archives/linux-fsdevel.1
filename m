@@ -1,64 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795228650;
-	b=HUS3zGHKE52P5/NjO18oIfvwjO5nJAvq2PVjU6rDBnBSWvKAZDlawkwn2v7KFmeqkQR8
-	 J5fnTjeBr40mbtj6MFD8405/Zf6SpB3slN4jwysapmKqeSPn9bhWrcfs5Zy6QN99VhGDj
-	 Kr7LezrbAXtIa7+pZOncIyFBK8gJpKOYJUVeqjrw0ujOIkPB7X0HRflIs38kE53mBH9IC
-	 HjmpMXJZXQyN5Kuyv03wc6/8ELbRTscbj0BxRJlZmwNHghkVnPKnTpAsrcdLzP4h8sGhh
-	 jQjeHEJ0dtVwVp9IwMxids4/H4jIlbAOSyXiPf2VHTcOXnW2gnfRAuugHxNook+B0ig==
+	t=1795255716;
+	b=mttYg5cE5fcBzJqQrVC1oJN3Dt6cyr2wGvb0nbCugnneFYrH0RDvZI8wiM/Du+2C75aJ
+	 8qx8gzy/7E3q5l2FYlv9bZlQKwZdc3YUNUuZA/HUQuFlolEM84jljbFQNxf0+XceipXBt
+	 D42amMjGF7a8P1awOeYmDEQT+xuaqon6grEKXjC55yEPfI/MiXwpSSUpw6d+EzOauMFC5
+	 aP/BQYNGzdJSEztSDk6jAWQAmwKW7wO6G3kIbijEVZAS5wOaecnWQ+xFO/PeMaHQduy7e
+	 69l5czn+CIJV++L25SvRdffjQCKoY0IgqCHZ1yAW1TPsCPGljjyNNZjK5liMrxPjVnA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795228650;
-	h=Received:DKIM-Signature:Received:Subject:From:In-Reply-To:References:
-	 X-PR-Tracked-List-Id:X-PR-Tracked-Message-Id:X-PR-Tracked-Remote:
-	 X-PR-Tracked-Commit-Id:X-PR-Merge-Tree:X-PR-Merge-Refname:
-	 X-PR-Merge-Commit-Id:Message-Id:Date:To:Cc;
-	bh=AoaUaprWdoak7d8mXSrvCYcPq83J6skZ+zUYG4iH3RA=;
-	b=L0i2MZfx1pEP62bVpax+bUeO0N8gxW8XUAKGVO6IweGrIWnCDP8H7r4SCNih1XVY9tk9
-	 VtlxQnO3VWHdHIEHvm5WAv5tyM+4LriDSv+gXdWkgSPpRwjXSHWaDO0FXd/UEu5v2M7Lj
-	 9nrp0iW3j84ytUa0U4lVjfcf36HgUznav74R4THcBcu3iPU9SAiPrbP5ueOPIFwiEzit+
-	 VbOuzop9J0T5DgzulJ3Zzgu/BloFBlxZt6XqR+nKo2u5OjLCG4EoKg8mmFYXyjla8Ziwz
-	 UY/xUWlD2hdDOHz4gMdJthpnyJ3u6sDNycmGs/25cT4Znipy+25b4O6abx1JpTynsYA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795255716;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=M3bV9m2HMGmaCwO2iKbHIS6yi+cpxYoMn1NsouoZxXQ=;
+	b=k5eq3/lKprPT/lhq8kixiWgwu0acnMNredQmVi6zyC4kElU8Xbo9fhb+2lgQjqbjlv6U
+	 fehgWI0kPXBLRZLPHrFa2JHIhm6Y9IYYstKe/BWbsgDy1yV4EmbBvcbp/jxlDXKkVaf1y
+	 7UOiiJaFSp1IFwp43fbu8yoJ2Ry0P4j706jDmrwRroEFy4zqnHAIDjHisRfAmVBdzWsZS
+	 ql2GoJ5pTAAxgaaqTEk6bcE9xuRRf/jbP/+GE6xT2XWQRePm27JKqHQQElBpAdcCC6Imp
+	 JO9u45MWxNOx8p9u/iq1grPwOcnfH3zBU/7NDN4jVQFkHI7Q1fhYnWxK0L4qD75kBkw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BN5uRoii;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vIjejmKx;
+	arc=none smtp.remote-ip=209.85.128.52
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FC9606A337
-	for <linux-fsdevel@vger.kernel.org>; Sat, 21 Nov 2026 02:37:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B243606A320
+	for <linux-fsdevel@vger.kernel.org>; Sat, 21 Nov 2026 10:08:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B243606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BN5uRoii
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF7CF1F000CA;
-	Sat, 21 Nov 2026 02:37:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795228649;
-	bh=AoaUaprWdoak7d8mXSrvCYcPq83J6skZ+zUYG4iH3RA=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=BN5uRoiivKWk+/K4Rcw1kTwI79dFVI4t4TnRktJjmCcEQvPNMBxvjj3ZYQifszwu+
-	 oFYJggxzQtHUkNfG7RrSk2mZWRY3AZNhNXox/ByXFl1DjERqMk/viDJc8IFeTTD6oN
-	 o419YwNCZkFlcDAM6N6kzy6U8iTd5wQfqSptEibihnO8xI4TXlOIXT2KVccy2P0qV0
-	 nhJn5VloXDAXingTbDBJ6UoLH7Y5zCiVxlV/XYY6NPl075zttNmHeAGqeqrAsndItZ
-	 9IAC+pfX/VOnExU6Y9eIEgCF+U5SkR9lUychrB99PqsVIgOk6sFR4k80KqUiR70Qi+
-	 hsxXVvzaIc5lg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id B46D1380AAFE;
-	Sat, 21 Nov 2026 02:37:29 +0000 (UTC)
-Subject: Re: [GIT PULL] zonefs fixes for 7.4-rc4
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20261120213503.580799-1-dlemoal@kernel.org>
-References: <20261120213503.580799-1-dlemoal@kernel.org>
-X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20261120213503.580799-1-dlemoal@kernel.org>
-X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/dlemoal/zonefs tags/zonefs-7.4-rc4
-X-PR-Tracked-Commit-Id: fb5289b697c965581104bafdd875b969a1db3e79
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 05718d5c2907cb46fb27bb6580edb89769ea430a
-Message-Id: <179522864827.895295.1765951385191390446.pr-tracker-bot@kernel.org>
-Date: Sat, 21 Nov 2026 02:37:28 +0000
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-fsdevel@vger.kernel.org
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vIjejmKx
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4bb64ef5a00so13165615e9.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 21 Nov 2026 02:08:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795255715; x=1795860515; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=M3bV9m2HMGmaCwO2iKbHIS6yi+cpxYoMn1NsouoZxXQ=;
+        b=vIjejmKx+awfWvtxbaiVdjBrjmiWjacQOxqPsZUI0CqGCDW0fuIiZRQXVDudTZGOTR
+         gju5da9tDZjUyLhePRxMGltOIhPeBE99/TXalHSZJxFwMd2nSXfj/NxgATCe0LqtdlUl
+         zckXDAqUVxmrB6H3i/aAMoJt1OqMT1zQ4QELOVm5EJMHsQHN6XIozmQwDAcFpaTGe1FJ
+         kzBgVYJr/RM5r+BgnefB75i+A+nbhCubEQMkKMT+c012le4aDcLPSP1Tv3b/eFsVO8YK
+         BrQMgijnUDiONQ99FXmLVxrum8UhLJCHLtkwN18C5zeOB1xqLvThyeguoPisJgItezGP
+         A4LA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795255715; x=1795860515;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=M3bV9m2HMGmaCwO2iKbHIS6yi+cpxYoMn1NsouoZxXQ=;
+        b=jOD+B9M/rGnBRx0vZM1PR1rWH7DJoGMKllgsjRs6nTptHQ6ff9zfeVY3yPGCLtH4mJ
+         y4ZkkKXagfonOmk9MpJR/z5cjTJpPcwO8uKYdtmGOMfFoLIwK3soWuUTLcqaiSv7Xk4Z
+         cMd+kYg1+y8YsddYm4fu45eHIbyDvUlOeGumV8XF6OkBVQKOwhVMaB9g9+BnqaCjFRX5
+         8ZJO58lQkkWXuirl+9m2Dd8cy5Fk1MNbb2uVCWa/fGJ7vvKkq85wHDkxU9/ZK1au+Sze
+         GxOb9zcHXG1h4HZQR3Qc2C4nupd7W9UOxHdW+/HCKOGiyvv826K2Zoy2Thpq27uyXDeU
+         heTg==
+X-Forwarded-Encrypted: i=1; AL+hErGZOaWu3eGKC+XYK3xrrG1pU3PUu9YywghqhS4FwY7/rF4x6oULrRNeFfeVdCrfJBrgS+eZ4edGSilYrJ/C@vger.kernel.org
+X-Gm-Message-State: APuU4Z9wcvM2LR7Fw1HMiSKPP+tnOGYERWGIzn92xEE/+opKIajRiTRt
+	kt0gv29uT8aTnPxCNe+PlHXD0aMAZW0/RF3IT/LQRwuYc0427D3oB10n
+X-Gm-Gg: AZFdTZc91uxNgNgpIqYLsy04cJE88UN5etqJjQwmr1V7nXI1Qay9auxTkthojl66uuZ
+	BPCYogrcjmRi4lJF3bUBchkLwRs9wb9C7ToGg3eSIyCzXUh5pidKVsRjReXx4CJLPPMa3b19t/N
+	SYxB3qaLfR4pCtPbeulalLBccAfdT5KwGQk20o6gQ8X1/C40zkNNHiiAyLUcgUACjeujQEwkXHS
+	WZwH/yHmTQ4Drsp2D21LKra4Uy5BgPlHA95U/oKctynRzwptzsEUf4VZTpfXUl5v8LfKnaKFhQH
+	UQoMKgXHgdgk0ugs/n3nZdzs3ng38WM0BJr7H2WScHg99NqCnL5wRYQ9cdDZ3/p95cwhkeFaZuw
+	P+hPDV6omT2nMMZewUwvRSyQV2IOKMoDw6BhIE4OhaGgN66KcZobsBKycooVg8iTbUmkcYe2kxe
+	ZRQ63mHpfSOpsHlbw50OPZDp0BhKkODelu30ixNI2ijl5nrpGOJBYJVwWhyrBTyxtQMLbqO9hHW
+	7vR0ADn1jdZIybenZjcWEnsY5cqqYLYpJsrCxgl3BrOUEoJwBZPpEOhOYWzl7sZfXF1uGvfbJKu
+	1pmz52Xv9679gTVqUauCTWKIt6AUeaKlI/g2iQy1/IimW0cTlMUWbo7gwcsO39tCAc3UuHVJRUa
+	dtpofsRLF+ZkmnlMdT6tmWIJzcPtH5jbV39zC7gzbMtWc+GYM7AQ=
+X-Received: by 2002:a05:600c:3b8a:b0:4a3:59c9:a754 with SMTP id 5b1f17b1804b1-4bb8892da25mr128310005e9.22.1795255714723;
+        Sat, 21 Nov 2026 02:08:34 -0800 (PST)
+Received: from DESKTOP-IR7J1S9.localdomain ([197.118.31.178])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906635c7sm44631505e9.2.2026.11.21.02.08.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Nov 2026 02:08:34 -0800 (PST)
+From: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
+To: paul@paul-moore.com,
+	jmorris@namei.org,
+	serge@hallyn.com
+Cc: linux-security-module@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] lsm: don't call d_path() when current->fs is NULL
+Date: Sat, 21 Nov 2026 11:08:32 +0100
+Message-ID: <20261121100832.499-1-drifabdelmalekmohamedsaid@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <481c20b898f003247763475ef417c321@paul-moore.com>
+References: <481c20b898f003247763475ef417c321@paul-moore.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -67,16 +101,42 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The pull request you sent on Sat, 21 Nov 2026 06:35:03 +0900:
+Hello Paul,
+Thanks for the reply,
 
-> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/dlemoal/zonefs tags/zonefs-7.4-rc4
+>  static void audit_log_lsm_path(ab, inode, path)
+>  {
+>    if (current->fs)
+>      audit_log_d_path(...);
+>    else if (inode)
+>      audit_log_lsm_inode(ab, inode)
+>    else
+>      audit_log_format(ab, " path=?");
+>  }
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/05718d5c2907cb46fb27bb6580edb89769ea430a
+I got your intention in your v1's reply, but i think that changes the current behaviour,
+if current->fs is not NULL, then this would only log path, without inode, whereas current
+code for example here:
 
-Thank you!
+case LSM_AUDIT_DATA_PATH: {
+	struct inode *inode;
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+	audit_log_d_path(ab, " path=", &a->u.path);
+
+	inode = d_backing_inode(a->u.path.dentry);
+	if (inode) {
+		audit_log_format(ab, " dev=");
+		audit_log_untrustedstring(ab, inode->i_sb->s_id);
+		audit_log_format(ab, " ino=%llu", inode->i_ino);
+	}
+	break;
+}
+
+if path is logged, and most probably also inode, and your suggested change only logs one of them,
+Is that intentional, or am i not getting something right?
+In either case, i would happily send v3 with suggested change.
+
+Cordially,
