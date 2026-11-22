@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795374157;
-	b=fhtnhnYtawPyhtR5lHMWgB//Aom30TjN8ChPJjBRrUD4aHPB0Ni7XlUL60Ozs8arCsL7
-	 B0YRlkoVxwz35EMmeckNkKh70Rz1A9JqyUqZfB+tboksO2kXTrWTw1y5KzxFT2ShPfAve
-	 mcAZyukJedFGg86Rkf56Qz1rtGGovCEH+ZmYjDsVWQVvXRMgIJNo6Je35wafaBXpPf1dc
-	 U0KFXEVs+8ea604op897baQX3i8ErdTVoZyLZo4EltyHo2PVfQsY78x9m3E/d4+R9TL/d
-	 dq8qNPS340D6ddWoUIrTLSiMpDwJwk68+2hE1q64oD57Ys0VF5qs2G6tKEgB6azEquw==
+	t=1795374696;
+	b=icCWFB+KF/OxwWCPn2lu2hDpJmNQN+s9QmX8qL67jDvqAp9U2v58wqFgWm5Keb3UcO0/
+	 E6y0vPp7pa/q+nvFeSi5XJQlZRXctm/vOLwO82Fan7ei4FgY65nmqqtoXxU4EGNWQ2yJq
+	 4xus2rfCzdjM/vE4nzdsxvno4M8LAB9W4fXeZX9aIyhcFacou55P15tLvMEUN/65bFzRz
+	 HcUd/bBBjbspehwboBqAv+ymrl7ndF8/p6xg4DhY8I9t2JbUcqOJ9pFx906kDx0k/2HTG
+	 pp8Ns8b0cjs0qCV/1f5a+kq9jhk62dtX6TFAhNKaSnVdkxcUEiuxCmQiNNV+FKeZS/A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795374157;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795374696;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
 	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
-	bh=Lp0osgtiZVKWMvtaLvxNrKUfcz8WxeL6pbk5OTyZtio=;
-	b=PbjhAleJH2rlxlkp98G8pJQL6znws0EkYuqxmao9Q4T/dut9ERTTzL9L/3gbDi07RsfQ
-	 7vSy2RdSYXLkY/GlReM5BzjB2Qx1nSBArnu6rspJRPQNdaHSBAY8O3486/gKVgKbcE6Xn
-	 wjIQX6UhucqSi1aBlWNDhHNv/dK3J90OjIFnCSc5nRMip7OAbhEYklWz3LKMD0Rs1dUJ9
-	 1lwFYS+WmNh5h8iso7WCIasAtRmXV4VKl6UQTTyTFPquy5P15gdzH5tbPYC77eBOg57uF
-	 OXnmlTyClng2C1SRilwHrmFgc+DfXFsga7G1qQrGITCsHg1mzO3EbT8Q62uTuBSOXRg==
+	bh=oGsMa7wmHQHTRJX2QekmD3Y6Ja6uGmq6iEm7evLlQd4=;
+	b=IWATpVMHLnnEYWCQkf6diZLDAvmaZnlZZxGnzC+DRM6obHky+pJa81HimsJf4pPTN7T3
+	 WBOZeiOPn+ipAqBN9G3GSCGcixyFDHlxtQ02TD/IRg8IL5/yexs2xcej3DgxlERB3Cdns
+	 9s9t21frnHn7hWyo82+1jN/HGeLnKuAU5tluRqnxv7d09CgfP+yLjb6QA4raKnCwH7JLQ
+	 Rf5yvTkjvgqa8I+6GVnaUke4CtjSslqeHDNX/vYtlI0ZbPM1635jVJr5yQb3nn+lFy2dq
+	 cMVoRp/YukJYeF+cR0M45ZSchOeq5MYDc8vF4HqZKizXvEDWDb77oSO0PoAHWoH20jg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=gourry.net;
 	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=uQFeWFLZ;
-	arc=none smtp.remote-ip=209.85.222.178
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=TPI3MTe1;
+	arc=none smtp.remote-ip=209.85.222.171
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC62606A32C
-	for <linux-fsdevel@vger.kernel.org>; Sun, 22 Nov 2026 19:02:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7FC62606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31A3606A334
+	for <linux-fsdevel@vger.kernel.org>; Sun, 22 Nov 2026 19:11:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C31A3606A334
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=uQFeWFLZ
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-94999a08973so267315985a.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 22 Nov 2026 11:02:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=TPI3MTe1
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-94961d90b79so306565785a.3
+        for <linux-fsdevel@vger.kernel.org>; Sun, 22 Nov 2026 11:11:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1795374156; x=1795978956; darn=vger.kernel.org;
+        d=gourry.net; s=google; t=1795374695; x=1795979495; darn=vger.kernel.org;
         h=message-id:date:references:in-reply-to:cc:to:from:subject
          :content-transfer-encoding:content-type:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=Lp0osgtiZVKWMvtaLvxNrKUfcz8WxeL6pbk5OTyZtio=;
-        b=uQFeWFLZsxcxcM3Y5PRguhI2N3sC44abIIYqvAJ5480AJO17aLrxmv/Mrc1sQy/1Ab
-         e/GKhbYXMeYyweITHXj6HCJ5gXaNgtkOfrWlaaL2ktZHbIG6vePBtVvSQorfGijae/dp
-         HG4fydroZks/uH9axcRNOtC70y4ETiD0cGLFyv69QD5/lMjRMg2fKsg7QTLJK8jM/qTJ
-         xnKeI6VcXjHi+oOkz55ieTVlqga4f6mnk5x7VYtdcWZMCVgnDd3ZsKJTb5g5Hl/CZIzv
-         kA+8BnsxL/pxPlzjn+2FoD/PXx7Y5Ub/demE8XrMa8TEZOOXCxxI7CUMEutpIaJPR//1
-         M7Qw==
+        bh=oGsMa7wmHQHTRJX2QekmD3Y6Ja6uGmq6iEm7evLlQd4=;
+        b=TPI3MTe1RlG4SmZzzoCpRdy2QVmmqnbO/w6aR5KNMokJV/Ej+uAFQG7yAYqk56hfkq
+         LZC9wKLhxk3NMVRMaR1VvWVuCxA6GsIEcwsr6le7u6bdoCGonrAZjK3eTkxOT3nRTyMs
+         kLr2KYSGk0Kdl3U1jn7zVe/GjwSTB8XynoaJu+1hSecxlfaiVnqBhg9qfE6UcOdBFpU7
+         K6+K542N8Cf/GVSasbtS0zq1zF4T0u1FTMwtPGg2hgdtwvyFLiHHyHTH+dkRxgJO3IEQ
+         VpIReU6i3uKk4uALa/TFB/P/g7vgcldffZQ51PdHza/mx09Vr+vtrjEp2lxRt4rjm1dE
+         cSLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795374156; x=1795978956;
+        d=1e100.net; s=20260707; t=1795374695; x=1795979495;
         h=message-id:date:references:in-reply-to:cc:to:from:subject
          :content-transfer-encoding:content-type:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Lp0osgtiZVKWMvtaLvxNrKUfcz8WxeL6pbk5OTyZtio=;
-        b=dpwNY4oiDn/8Cti6jNoYM65QoHeZhwIVa21LEKy1vuCM8VngsVleqAsCT60FHfp+Pq
-         W3krsq68NbucmsWWovL4DDIqS4RKvmWfHxv3Z39yoIr5LFAZWQdToKoVxK5Viu0TxfXj
-         gUKw7wqe9e1674rgED7FRasJSIR1IBAbPtkkgIvMSJuaxpku9K6AsEJWRoa41i+J5CD1
-         EOI9klrLWpq4px1wHyPO0zZOu0XDDmLTtR9WEPVcADSpgLP8E0yvaFqqt8BHkZH0zXx2
-         iCnHz3loWFSfS2BMG4Y4G1QkVmPO7nlnmBb5vGTYqhz5W2Ymp41/a0cX73cXxmRmrIAH
-         SlvQ==
-X-Forwarded-Encrypted: i=1; AL+hErFmkRTRHUF8gGgwyvOjp/6jkjUucJUbCtpwco8PCkNisK041vDcsVfQMabnY37NYEq8ib6aBlJ6s9ZMCfdA@vger.kernel.org
-X-Gm-Message-State: APuU4Z8Xd8yacwqrQBG1uy8GHVajtfeVh06yJBhha+1rsniS6+eIA2sd
-	xLH3c51pZJazWjzuU6R2w+Nrw7rxo3nu99ECXLuNtu/Vf4WghT54SyNEFjgHa4Tze28=
-X-Gm-Gg: AZFdTZf+luumQ0eJTMifewa1pgktm4yruQn8JhZ2irh1Vx2J8dhGRQWQd2jyTjbjXP4
-	HO2iMV8dxGpXqgA4CEQIXjG+l4tY9IFnoI/QSMhdPX/HBpIxs9WwZg6ijzN8B4figW5jjqbTE6u
-	Y7JBPRzwsX44lti39eAjx0ihurGkzFcMnOSN1oSrweBOPOtMrGPIMl1wQTtOqrfc/5zMjn4vi1M
-	WkDe/WYhL0z6FRBRHK9500b8KNvb9YMYvbIbpz/YpQ3RfaA+5fLEVPoa6Io5MOmPsMj32Ki/mrd
-	V2r6ydeGEMHAzB9OF1fvN6NaedrjzmzR6lDb/akeLcO5W2ucUIhGveKGPV4jMjbt0iA9C5A1ypr
-	nWdOjUlr+vaaOQj7/Rn2khJ0HxBYdkMJVNwgSG/xVKVuIkx2wq+mMuNrMhtRpaZgzlduQZrTCxZ
-	MK27niLLIF3NU7CX7rPtN8WI9CATDNcWGWNpwHx19JqTnlRoWNkKUOrpgPp2Cyef+ZLx0udkoCY
-	3xei3OY2iOpozFXDUuBGWgQzI3pmuMG+R2klikDpAclSDUgIB19IuoM5WFWxKbIwlu10AN2bnYz
-	cLYsiqCCo3BbbOVpKLVoTfOBBZrEo31dKlrj/loisZiKjzXAnFXf8QEBGcUHmX0p+DG8YpLlIB2
-	7g1kFVBG2tAbXFsdeUVfCe/o8CMiX
-X-Received: by 2002:a05:620a:a403:20b0:949:c967:eb68 with SMTP id af79cd13be357-949c967ee7fmr803688985a.1.1795374156268;
-        Sun, 22 Nov 2026 11:02:36 -0800 (PST)
+        bh=oGsMa7wmHQHTRJX2QekmD3Y6Ja6uGmq6iEm7evLlQd4=;
+        b=bHIu9XXidHabkEu9/Hpl2zipmlKNlJBk9NboojMpa06Ma7rym88PE23ieLw3Wgx+ta
+         zeN6bg/gFxoTe6C4Hq4goYF7XkiJsHpxdC7odGLUoIBNxK9dEAeeAWPOU8vsSmnqxhbE
+         Mpod7Qe+XqhlL5sGwNDt1+wCphKkTwQDc+6yoDFTGRYzT1MSlNcGUd/YYkN7EviEnZI0
+         sYXn3Pk9+hso+BLhh8lG0G9xgkZemp+L5Q+8M+eyasoDZY1D4LpEj0mO+yyP12F60Dcm
+         V1c9Ueii1h6NRMceIkRvHKSA7AbWltSzbGXXDSEW9Hkafo74BzDG1dXpbvWLoFcQ7bMG
+         Zu9g==
+X-Forwarded-Encrypted: i=1; AL+hErGRGGQqfKvLsOrge85dK9vtlJCe9JBbG6hLS0QvmFmxnoZ4F4A4wSxxVOnGfzF36SLcJgk7Lu55NAuU9Qui@vger.kernel.org
+X-Gm-Message-State: APuU4Z/vzN/84aH1jBDKR+P6pgq8a/2XgVRUjXser6dB2/01FOVe1MyK
+	AwPis4xl7QBy8zEIPP9k5s45SFUcyw0BLg7CBzJFBqH8UfWrXchJF+SzvS0IEGrp36g=
+X-Gm-Gg: AZFdTZfLEZwxtsTDoWZjmk/v3WhD8M8rSP505e6VaH12F93CVzUfFG0PjK1I3xYXXWJ
+	fLxSPry7ztCDumGkRItNNURf/L/sRUZ0os/F5MXXKwiGqLd1vVebBlE0sS2yAquFMOgRH9wCA2O
+	bP/jXTo2U1ddGPXuZCnaU1eWGpkE1ObBC2I++7X8gblQjJQUD1Gs7VbnXXwxfzcIPaGaRHunbvI
+	WJ5Yra1okmWPRgYvrPZZ7eFERuguUh/9veQL8LvmrHNDwfgZLWlfnEHrBSfOvp1f3f3E3X1Qxbj
+	ml2mf2hMyYmAcPVwx2ZuTs/CISGZKQ3+JaicC710VoVEspsXFtOCWCuwdjm6PLwLfkrGNapclVm
+	es4/6IAShkxdYBU3FfZoK2TBF7BVMGiK59RXaxBjDkNVJEZ8NH/fmyAj9tQKSicdUp1wztfncDn
+	Ptk7U3ChDN/1RCqxhHH60epL1eSwFd+5XXqdKcLNyoSY3x2Km62gIt4IXVPAdNaszeAjZSoGHRU
+	gyT27YwlaOgAyy6X6AnoJoE7znlHaE5eL+GQ7kh+NTUT8kgh3cThRm4yWla/jIfoDrFms8VJtzR
+	ID7R4VWv58QFEtJJSV66GQO72vwYBPaJ1eX/KxcjZzrEcwjAZyk6ooKKF34TCcfzkRlq10f3L5Q
+	9IVswpR8=
+X-Received: by 2002:a05:620a:4727:b0:949:326f:bd2b with SMTP id af79cd13be357-949ba9aa37amr1639379885a.43.1795374694656;
+        Sun, 22 Nov 2026 11:11:34 -0800 (PST)
 Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-949bb4219c4sm651293585a.41.2026.11.22.11.02.35
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-949bb38c903sm651828485a.19.2026.11.22.11.11.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 11:02:35 -0800 (PST)
+        Sun, 22 Nov 2026 11:11:34 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -91,114 +91,85 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 2/2] mm/migrate: allocate destination folios before
- locking a batch
+Subject: Re: [PATCH 00/60] Private NUMA nodes
 From: "Gregory Price (Meta)" <gourry@gourry.net>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
- "Liam R. Howlett" <liam@infradead.org>, Nico Pache <nico.pache@linux.dev>, 
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
- Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+To: Yury Norov <ynorov@nvidia.com>
+Cc: gourry@gourry.net, Yury Norov <yury.norov@gmail.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ David Hildenbrand <david@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
  Andrew Morton <akpm@linux-foundation.org>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- William Kucharski <william.kucharski@oracle.com>, 
- Heiko Carstens <hca@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Claudio Imbrenda <imbrenda@linux.ibm.com>, 
- Johannes Weiner <hannes@cmpxchg.org>, 
- "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
- Gregory Price <gourry@gourry.net>, 
- Ying Huang <ying.huang@linux.alibaba.com>, 
- Alistair Popple <apopple@nvidia.com>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong <joannelkoong@gmail.com>, 
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, stable@vger.kernel.org, 
- Chris Mason <mason@kernel.org>
-In-Reply-To: <20261122-migrate_reclaim_deadlock-v1-2-83c56185b0fb@kernel.org>
-References: <20261122-migrate_reclaim_deadlock-v1-0-83c56185b0fb@kernel.org>
- <20261122-migrate_reclaim_deadlock-v1-2-83c56185b0fb@kernel.org>
-Date: Sun, 22 Nov 2026 14:02:34 -0500
-Message-Id: <179537415429.412063.2442586940573913371.b4-reply@b4>
+ Oscar Salvador <osalvador@suse.de>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Suren Baghdasaryan <surenb@google.com>, 
+ Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Johan Hovold <johan@kernel.org>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+ Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>, 
+ Matthew Brost <matthew.brost@intel.com>, Byungchul Park <byungchul@sk.com>, 
+ Alistair Popple <apopple@nvidia.com>, SJ Park <sj@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ K Prateek Nayak <kprateek.nayak@amd.com>, Kees Cook <kees@kernel.org>, 
+ Kairui Song <kasong@tencent.com>, Barry Song <baohua@kernel.org>, 
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Michal Hocko <mhocko@kernel.org>, David Rientjes <rientjes@google.com>, 
+ Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
+ Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>, 
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+ Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
+ Lorenzo Stoakes <ljs@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
+ Jann Horn <jannh@google.com>, Chris Li <chrisl@kernel.org>, 
+ Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
+ Youngjun Park <youngjun.park@lge.com>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Waiman Long <longman@redhat.com>, Ridong Chen <ridong.chen@linux.dev>, 
+ Tejun Heo <tj@kernel.org>, 
+ =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+ Dan Williams <djbw@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+ Dave Jiang <dave.jiang@intel.com>, 
+ Alison Schofield <alison.schofield@intel.com>, 
+ Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org, 
+ driver-core@lists.linux.dev, damon@lists.linux.dev, 
+ linux-pm@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ cgroups@vger.kernel.org, nvdimm@lists.linux.dev, 
+ linux-kselftest@vger.kernel.org
+In-Reply-To: <awMdeK8O-5mffg2m@yury>
+References: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
+ <awMdeK8O-5mffg2m@yury>
+Date: Sun, 22 Nov 2026 14:11:31 -0500
+Message-Id: <179537469194.412063.13456998694958645706.b4-reply@b4>
 X-Mailer: b4 0.17-dev
 
-On 2026-11-22 13:42 +0100, David Hildenbrand (Arm) wrote:
-> Migration locks folios without holding a reference on their inode.
-> migrate_pages_batch() keeps a whole batch locked while allocating the
-> destinations of the next folios. If such an allocation ends up in direct
-> reclaim with __GFP_FS, reclaim can evict an inode through the dcache
-> shrinker, and wait in truncate_inode_pages_final() for a folio that we
-> hold locked:
+On 2026-11-22 11:51 -0500, Yury Norov wrote:
+> On Fri, Nov 20, 2026 at 01:08:51PM -0500, Gregory Price via B4 Relay wrote:
+> > This is v6 of the Private NUMA node series. The series falls into four
+> > parts, each building on the one before:
+> > 
+> >    1-18  mm: introduce N_MEMORY_COMMON
 > 
->     migrate_pages_batch()
->       migrate_folio_unmap(A)
->         folio_trylock(A)
->       migrate_folio_unmap(B)
->         get_new_folio()
->           try_to_free_pages()
->             super_cache_scan()
->               prune_dcache_sb()
->                 iput_final()
->                   evict()
->                     truncate_inode_pages_final()
->                       folio_lock(A)
+> I walked through this part, mostly. It looks like you can substantially
+> decrease the patch count if you keep N_MEMORY meaning unchanged, and
+> add another type, like N_MEMORY_NOALLOC.
 > 
-> This requires that nothing else holds a reference on the inode, and can
-> be triggered most easily with FUSE, which evicts inodes on the last
-> reference.
-> 
-> Consequently, allocations under the folio lock are dangerous if we
-> cannot prevent that scenario through an inode reference; and we want to
-> avoid grabbing inode references, because we might then drop the last
-> one, and would have to evict the inode from migration context, ideally
-> without holding any folio locks.
-> 
-> Allocating in a NOFS scope would be one option, but it would have rather
-> bad side effects, such as direct compaction not migrating file folios
-> and the OOM killer not being invoked.
-> 
-> So let's fix it by allocating all destination folios of a batch before
-> locking any source folio. Now, we no longer allocate destination folios
-> while holding folio locks, which also avoids holding these locks during
-> direct reclaim or compaction for these allocations: an improvement on
-> its own.
-> 
-> We keep the destination folio of a folio that we have to retry, instead
-> of freeing it and allocating a new one. If we would have to allocate
-> while already holding folio locks, which can happen when retrying a
-> failed split for longterm pinning, we leave the folio to the synchronous
-> fallback in migrate_pages_sync() instead, which migrates folios one by
-> one.
-> 
-> Note that nfs_migrate_folio() still writes back the folio while holding
-> its lock in MIGRATE_SYNC mode, which allocates memory. As NFS only
-> evicts stale or unlinked inodes on the last reference, this is unlikely
-> to deadlock; this must be sorted out in NFS code independently.
-> 
-> This has medium urgency.
-> 
-> Fixes: 5dfab109d519 ("migrate_pages: batch _unmap and _move")
-> Cc: stable@vger.kernel.org
-> Reported-by: Chris Mason <mason@kernel.org>
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-I was able to reproduce the issue and validate that this
-change fixes it. I used FUSE to do multiple allocations and
-migrations while triggering the shrinkers to reclaim dentries /
-cause FUSE to reclaim the inodes.
+I don't see how this would reduce the patch count substatially, you
+still need to convert existing N_MEMORY users and need to differentiate
+between general purpose memory nodes and private memory nodes.
 
-In the base we end up deadlocked, with patch 1 and 2, the
-migrations succeed but the reclaimed folios will just end up
-freed at the end of it all anyway.  Some migration work gets
-wasted either way, but that's fine.
-
-I agree this is better than the NOFS option. 
-
-Tested-by: Gregory Price (Meta) <gourry@gourry.net>
-Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
+And N_MEMORY_NOALLOC is not a good name.
 
 -- 
 ~Gregory
