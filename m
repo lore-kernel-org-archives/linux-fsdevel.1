@@ -1,78 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.121.94.185
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795382435;
-	b=VG0+p+LyEJ+XyIPLFMvyElJAjEh/tRCE+Ne6D4tHx0SbvyYmfBY3rjkMfg6XU+l1XTK0
-	 BbbydignarG1oM7OsfzzW2wCucGKrRWFtGXWwMm4D/ZqbtlYwARu+grn1nQJjl0yIWIQQ
-	 YAK0MYIB1W+axxVpoYugtKzkSs9WrKuR1dKFUJ9/HSb8l43xA45Ybz3YNuMGm2AxWd8Fn
-	 wKWMFgqzm0Jyz+wN0dHcJfe6Pa8lcuVZRpKwto8nG3WvGuk6DLF6MbyoSGA0cMuGF3NeK
-	 XNyRLLTbp6yY/z3epsgcRGxfIf1JKTwZpzq81vl8PPtXjheYFtVhObVEShmwRp08aEQ==
+	t=1795384612;
+	b=R9HX3uxqhJpqMe8WHKZnD7nDbkTvNEvkdiPuhJBRohz+hS1xKGj1U0XSbOkaSgeSykd2
+	 AXpkmfItqTUHQboV1RL0Xua8d28f7LqcnHD4WiBL6Pt5l7yx38WhE6j3+p46KvCg36uD4
+	 7F43Y59SOYmTHLhW/NpGlD6wgKIZkI2FhH5hDA+dQeLkWwJJ7M4DQNbpKngGcYnSLMgAa
+	 xHO07MXgJFif9JtntdkqsfR0/lWOi5bkA6k0F2/nWo/Ljszq2SCVazGNdSrQbuELQPY7K
+	 p42h5AEQDptj8GMHNrsnTR9WzF12GdnQp6ecxqqVkpV6tKIGoyxxmGunrBtErzSs3bA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795382435;
-	h=DMARC-Filter:X-KPN-MessageId:Received:Received:DKIM-Signature:
-	 X-KPN-MID:X-CMASSUN:X-KPN-VerifiedSender:Received:Date:From:To:Cc:
-	 Message-ID:In-Reply-To:References:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Priority:Importance:X-Originating-IP;
-	bh=SwQLJYeiZ7SR0jWPyxEYMPvW5myscvBbwRXUKhphf3k=;
-	b=xJR5b3KCay6+WAS17XuilYmLjJgw4gQ8KP6m4wc69V1Hvgmr5W9Vd8TBd0cESypH4SBh
-	 UNgElkbEhR7GDFSQlpNPMTWI2pig4ga4C5T4a+7lTUyxI1IO2gtFQctAJa+deaeTfRgSU
-	 hyGeBt1UdL8NURJ7KiMBPqWFmm2CAVUVVxU9vyseNNeHhZZmtrRUeK0RXKYojbbio4/lt
-	 EXxbqeBQ52w2R9Pvpn1dnE7mV18A1IL4qMVw0vS5H5hA4CpEJ3J97cMY08KqO7DCekpi3
-	 iMXkoi3AeKX9Tfmw/uolGKdnThzB2B1CPGwa0DSP7KkQE/Y+DW4HvsvSTmT9cHkXvcg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795384612;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:X-Patch-Reply:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=bwqVDHaqqXUJecFoI8gfarhhx3uMgHGFcxRh37PQR30=;
+	b=DxAIP8oBsZx16Q55Gw1gBpzuv7rRLRHNkyboJpSU0lBk5rUrUYuLjMNWh9fXxecCVnCC
+	 9c7sdYUTXUDo0r1qoppIm5v0FRVFmuzKCa0+v6YhpRUTDMc5CQCXnqe8NmNvU61ZLR3Hv
+	 tRSVSH0ckeSw7VUoW4c6kW+TEibMODi2NxTO4IujMTlvm29n1T0+8YsFEE/rAvzi+2CxT
+	 sgFJkIaFLjE3qemWpGEPg8IEJMIwg1dr26SCUOahpw8cXteTtCOogZRx5HAf5n766sntq
+	 52QF1dOZrunhEui8oi4YGEiWs1MZd5xbbCaJSccnYKoKtiL7ViyJxnJW1P+C+MLuing==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=xs4all.nl;
-	spf=pass smtp.mailfrom=xs4all.nl;
-	dkim=pass header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=lRBUWF29;
-	arc=none smtp.remote-ip=195.121.94.185
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BXie8At5;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F10606A327
-	for <linux-fsdevel@vger.kernel.org>; Sun, 22 Nov 2026 21:20:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12F10606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C91606A334;
+	Sun, 22 Nov 2026 21:56:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=lRBUWF29
-X-KPN-MessageId: 8748e461-e6ba-11f1-964c-005056999439
-Received: from mta.kpnmail.nl (unknown [10.31.161.191])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 8748e461-e6ba-11f1-964c-005056999439;
-	Sun, 22 Nov 2026 22:20:23 +0100 (CET)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 8747bf08-e6ba-11f1-b88c-00505699891e;
-	Sun, 22 Nov 2026 22:20:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=SwQLJYeiZ7SR0jWPyxEYMPvW5myscvBbwRXUKhphf3k=;
-	b=lRBUWF29svTDCffap4ikI5QpkCGKFSrkDPeON0qdfjDabq+W9m7zfxV0dCUfXDzOngDil5a2sipDY
-	 sI+/INW0XQTuIiph6dQn5h2NyL2mKhRwe/7J7ReB41tLSp3sZy8GrnfoVdicqIHHz4PaFu85NLDLwD
-	 3Yfxk3oIrNibzmrWo0h7cFqZtnuKgdScDSe4AeLocyMbU53cqcvmxo0VoZ4tKusa0eDfFBh3uSCyLP
-	 XjJcwmegpaVeQ2vhICWdjA5iJW0HXKtgPjLDEJuEUy7CM2VE26nBOBCnxm6CVsN1mAGCoplP4gjsXP
-	 T/eqq22IzHRIO0XSgE43aXHhKJSiJwA==
-X-KPN-MID: 33|Yh303iPwTCxJDbv+bWZQXK7DXknN+AYlqGs6xrKjPdXrgt1zyvgGXFI+0iyrH+J
- UJXF160+5hZryfVbZZ8fkIg==
-X-CMASSUN: 33|RWNpzXoeI9x3UfQFsLzwHt/yGVJJKGRS5YyfKb4GKwpb7YK/itCDfAHao/a0s5Y
- olYqowhsh6zl6AJtsAb6r3w==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh01 (cpxoxapps-mh01.personalcloud.so.kpn.org [10.128.135.207])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 873c8071-e6ba-11f1-acfd-00505699eff2;
-	Sun, 22 Nov 2026 22:20:23 +0100 (CET)
-Date: Sun, 22 Nov 2026 22:20:23 +0100 (CET)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>
-Cc: viro@zeniv.linux.org.uk, jack@suse.cz, neil@brown.name,
-	cyphar@cyphar.com, jlayton@kernel.org, amir73il@gmail.com,
-	shakeel.butt@linux.dev, gregkh@linuxfoundation.org, tj@kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <637456056.2253868.1795382423235@kpc.webmail.kpnmail.nl>
-In-Reply-To: <20261118-moment-gehhilfe-gefangen-ce4618af6b54@brauner>
-References: <20261024213539.1307600-1-jkoolstra@xs4all.nl>
- <20261118-moment-gehhilfe-gefangen-ce4618af6b54@brauner>
-Subject: Re: [PATCH v8 00/12] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BXie8At5
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 085171F000CF;
+	Sun, 22 Nov 2026 21:56:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795384611;
+	bh=bwqVDHaqqXUJecFoI8gfarhhx3uMgHGFcxRh37PQR30=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=BXie8At5QFQ5VGJ5Wgxa+Ryfj2HbGOJ0KDHW1aolgsw2YtdZGPnu8WYcSmeFf9iTy
+	 5wiX3oWysPjoCke2hcQZDizPm34+kAe7FMjSaSZ9srwusVIqRO580db6LxZDAFaZ0+
+	 3aDEW76QVsDdxoBaJCF/eDmBo7SUv8nl1byepex6XqNbxhpJHXHoKY2hbT2kLTC95N
+	 7JnRNOt0TIdCgaQhdXGjEOlBwvV7HGnUumRRGA3StMRgzFJT0plPL8HRWUST+VQqvd
+	 X4RjTcvHCj0K1oKGcN/z3PbXWOEFtUMKW6QRQ4AjrpymszI4/3zzB9pQMRd26c47gs
+	 kxUaKiE3hZ+vA==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Ian Rogers <irogers@google.com>
+Cc: Danilo Krummrich <dakr@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kees Cook <kees@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Srish Srinivasan <ssrish@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <chleroy@kernel.org>,
+	Nayna Jain <nayna@linux.ibm.com>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>,
+	Alexander Aring <aahringo@redhat.com>,
+	Felix Kuehling <felix.kuehling@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	Sumanth Korikkar <sumanthk@linux.ibm.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	driver-core@lists.linux.dev,
+	llvm@lists.linux.dev,
+	linux-hardening@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-sh@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	gfs2@lists.linux.dev,
+	xen-devel@lists.xenproject.org,
+	linux-mtd@lists.infradead.org,
+	amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/9] Add __must_init and require explicit kobj_type::release
+Date: Sun, 22 Nov 2026 22:56:39 +0100
+Message-ID: <20261122215639.1178566-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261119192520.1983406-1-irogers@google.com>
+References: <20261119192520.1983406-1-irogers@google.com>
+X-Patch-Reply: applied
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -83,69 +104,37 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Transfer-Encoding: 8bit
 
-Hi Christian,
+On Thu, 19 Nov 2026 11:25:11 -0800, Ian Rogers wrote:
+> [PATCH v4 0/9] Add __must_init and require explicit kobj_type::release
 
-> Op 18-11-2026 11:30 EST schreef Christian Brauner <brauner@kernel.org>:
-> 
->  
-> On Sat, Oct 24, 2026 at 11:35:27PM +0200, Jori Koolstra wrote:
-> > This series implements new semantics for the O_CREAT|O_DIRECTORY flag
-> > combination for open*(2): perform a mkdir and open the resulting
-> > directory; return a pinning fd (which mkdir does not).
-> 
-> I've applied this to vfs-7.5.directory and folded a bunch of fixes into
-> it. Each fixup is attached as a git note to the commit I folded it into
-> so you can see what I massaged:
-> 
-> git fetch https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git \
->     +vfs-7.5.directory:refs/remotes/vfs/vfs-7.5.directory \
->     +refs/notes/vfs-7.5.directory:refs/notes/vfs-7.5.directory
-> git log --notes=vfs-7.5.directory v7.4-rc1..vfs/vfs-7.5.directory
-> 
-> The biggest change is kernfs. kernfs_iop_mkdir() now just looks up the
-> new node by name so the kernfs_syscall_ops change is gone and cgroup and
-> resctrl aren't touched at all anymore.
-> 
-> The kernfs patches are in vfs-7.5.kernfs as "kernfs: instantiate the
-> dentry in kernfs_iop_mkdir()". I'll sent that out soon.
-> 
-> I split out of 09/12, your kernfs_iattr_rwsem fix and the kernfs part of
-> 11/12. vfs-7.5.directory is based on the first one.
-> 
-> I dropped "vfs: move ->create check in lookup_open() to before
-> try_break_deleg()". vfs_create_no_perm() does that check itself now.
-> 
-> Let me know if I messed something up.
+Applied, thanks!
 
-Thanks for pushing this along and taking a look.
+  Branch: driver-core-testing
+  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
 
-I am a bit confused with the order of some of the fixups, but it does
-not really matter since at the end it works out. But e.g. you first remove
-the dir->i_op->create check from vfs_create(), then add it again in another
-fixup, and then change the error code.
+[1/9] Compiler Attributes: Add __must_init macro
+      commit: b8a53320a885
+[2/9] powerpc/secvar: Add missing kobject release callback to secvar_ktype
+      commit: 4d5d4dd2a2e2
+[3/9] sh: sq: Add missing kobject release callback to ktype_percpu_entry
+      commit: d19384f2f3c7
+[4/9] cpufreq: governor: Initialize kobj_type release callback statically
+      commit: 009365942c15
+[5/9] dlm: Wait for kobject release before freeing dlm_ls
+      commit: 48ae948f4285
+[6/9] xen/sys-hypervisor: Add release callback to hyp_sysfs_kobj_type
+      commit: ecaf88d385c1
+[7/9] ubifs: sysfs: Use kset_create_and_add() for ubifs_kset
+      commit: 25d952902dee
+[8/9] drm/amdkfd: Free queue in procfs_queue_type kobject release callback
+      commit: 6d4ff4a020cf
+[9/9] kobject: Require explicit initialization of struct kobj_type::release
+      commit: 45eeed1f8094
 
-Overall, I agree with the changes. It does make more sense to do the
-SB_I_NO_ATOMIC_MKDIR check in open_last_lookups() and that simplifies the
-logic. Also, I like how you've split "kernfs: instantiate the dentry in
-kernfs_iop_mkdir()" out. That is much better and allows Shakeel to continue
-his stuff easier. I should have done so and not be lazy.
+The patches will appear in the next linux-next integration (typically within 24
+hours on weekdays).
 
-However, I am not sure that relying on holding the parent's i_rwsem is
-sufficient for the atomicity that we are trying to provide. Afaict nothing
-in the kernfs layer prevents you from removing a grandparent and a recursive
-kernfs_remove() of an ancestor never touches the immediate parent's i_rwsem.
-
-Also, returning -ESTALE, if you set LOOKUP_REVAL, can make open(O_CREAT|O_DIRECTORY)
-return -ENOENT. Not sure if that is what you want.
-
-I also see that "kernfs: hold kernfs_iattr_rwsem when initializing a new inode"
-went to the kernfs tree, so that is fine too.
-
-Best,
-Jori.
-
-PS. See you at FOSDEM...?
+The patches are in the driver-core-testing branch and will be promoted to
+driver-core-next after validation.
