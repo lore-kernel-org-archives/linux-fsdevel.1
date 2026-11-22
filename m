@@ -1,69 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.63.66.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.89.141.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795364108;
-	b=TO66DzSngxwlhZntLJHBL8azNqYiCfwDDLT+GzPsW9qDxx0SKsNXKHrHdgr7q4CsApBl
-	 KriANjJeAbX5E3uxiZDXunot+tA8LYk0AtGater+yQe1yHmzK3mvCAmXmjN9Oi9EL5ffm
-	 dJndI5snOyIGMd8O6OOeH+VAD8EK0AEkTjvu0J5g7z44FpVHcZhs4SSWYFeiU2QW+v4xw
-	 GTwhTTD++bBKADJM+GWvcyNGXGkg4zVdQ0cZuqg4uqFFP8cOLbk3B2sUjDbIBDSDZ1Fwl
-	 L16yU+VwGrMf7xFRzEd6rdr5yblv5djiVmd7iD/l90ME+pVFJnm7ZQzFkd9Q+hBwPUA==
+	t=1795364418;
+	b=zDjfPbtddh/olnJEAIeUJbv3V52GSINbS0i6690+NMByvInkDzAkPWdO6zUCdWdt4far
+	 KkrRzlOyc16dYYxq/zyqS/g1yIcRxbHkPL1/sKF6Ibk+tEkARGh/wD75yNwdpI1GyBKpX
+	 0kxPJqzGn1XVCWv1ANPN1mRHEIs9l27pALHOKPtpandJ8giE3SS69jBWvLPlM3QJtIZWh
+	 Qo3232fB8jSW/55flBJ7yvbxWy71p+eb/hW9tI6ZL2R2Mv2XSP3E2q00Wpm5GnmlW2MHf
+	 Tyt5rwuF0ok1EWQz8vEcbpKPAeohPV0zEeCU7oQ10k+KKKa/jkr8DipXiE7cA2ZsQxA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795364108;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795364418;
 	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=sidA8Eikj4NCuusYzJo7PSjkBiaXOdmJGfqzy6mhVLA=;
-	b=DJfr1Sj2bqo6lmqncaN3UoxfeGrPUKSB1l6P4RhY0KBuAujEV+iXyg8hGl7A7d2gSAcp
-	 9xUYJOiW3E+mFGSpr/breMMGTMHNicSu/0KyD2iXlOagGljaLTq9DI/+dPvv5wwSlyqRP
-	 BSKFbjaiNAgIlGpHM1Sa3FM5Xje8SSCnIwxszuoZyKWzIGVArHz33OUAiV8d4zpDQaBaE
-	 91uIaJ4dmcTPISYYYNjTcEzj3KwkJR7P5A4WdIWDSwkfE3cpzLmeDXWRjxa6q7NlVuKPm
-	 DoELAq9s2MepojZkBGwrL9LRJr/aOreNSHJRNBI8XUoyrL3bYf0igvEwhibvjdozXQg==
+	 In-Reply-To:Sender;
+	bh=3DbqJp0X7Ve7PIo1s2t06ZLb4Fsl6YMV0xgxf3cnB+E=;
+	b=TDzPrce87ZxD0vwxZHZzf90pqz7TbVjtsHka9mOn5s6R7Dwq+nCpVajmZw/jXMmnWiDi
+	 nIx5kYtgkAv/TW/4uMDFCzVTvjo85GlufVyMSKSkMbf2XqlUCBtc2eyXB0khz3GaOiqph
+	 Yph9yY/9/S0QEnMob6WIC4tcMXNP78IoPY0nGDbN1aBTVU0aEWX7iCM8psXbxlcEJfBHv
+	 5LqwFN2UbPba6zSsWq9VDKILMHXDZOXywP1keyptVap6w+kvnLfP4eHW0cvgc+hAQbpFs
+	 kh8FGA/VHCjfvGQr0yPr76kUlRnMfnGcu7llYzUb5rHcPGz2Ix51TrVJH9dLe8t/Y0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=hallyn.com;
-	spf=pass smtp.mailfrom=hallyn.com;
-	dkim=pass header.d=hallyn.com header.i=@hallyn.com header.a=rsa-sha256 header.s=mail header.b=bS7tYBYm;
-	arc=none smtp.remote-ip=178.63.66.53
-Received: from mail.hallyn.com (mail.hallyn.com [178.63.66.53])
+	dmarc=pass header.from=zeniv.linux.org.uk;
+	spf=none smtp.mailfrom=ftp.linux.org.uk;
+	dkim=pass header.d=linux.org.uk header.i=@linux.org.uk header.a=rsa-sha256 header.s=zeniv-20220401 header.b=ZS2gWTBJ;
+	arc=none smtp.remote-ip=62.89.141.173
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A6E60A3820;
-	Sun, 22 Nov 2026 16:15:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98A6E60A3820
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hallyn.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hallyn.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D309A606A320;
+	Sun, 22 Nov 2026 16:20:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D309A606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=hallyn.com header.i=@hallyn.com header.a=rsa-sha256 header.s=mail header.b=bS7tYBYm
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hallyn.com; s=mail;
-	t=1795364099; bh=Jg096sU21vyNh6oEq9d3agCbhZ6LbEQFdC1QhQMToUA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bS7tYBYm1lS0vPKSrdKUJYU9IiyMuYvvtKSx0tDvDXpq7HM6gtnFxFLxmIStcH3et
-	 3ppCZ5Iz36iQZInpcEZVc1mPA+YAeLLFfvzVXpt8CbPOhYma9+AY/1obg1N510ZcFT
-	 TNoAIDzvrKJKCwbU6vc/PIYu+nYulKUZlZg9pWzcqrNHITN/Dcuf2QiiR0NwZelPKL
-	 nXxLf/hXrLq8tRiJWlY4hjGeZD4uK2Mzb8/pEEfr+8h/bo6vOfpXTQGLrOf+XmgHIO
-	 YeaepmOCdyiVrEZnXDVakTd3N2UHZTW8viQjzWFI8QwLR0BJj4VkcduEUpm1I5hdgx
-	 9nQqWY3upTuHw==
-Received: by mail.hallyn.com (Postfix, from userid 1001)
-	id 937EFB8C; Sun, 22 Nov 2026 10:14:59 -0600 (CST)
-Date: Sun, 22 Nov 2026 10:14:59 -0600
-From: "Serge E. Hallyn" <serge@hallyn.com>
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: Paul Moore <paul@paul-moore.com>,
-	Christian Brauner <brauner@kernel.org>,
-	James Morris <jmorris@namei.org>,
-	David Howells <dhowells@redhat.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	"Andrew G. Morgan" <morgan@kernel.org>,
-	Serge Hallyn <sergeh@kernel.org>,
-	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
-	keyrings@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Shuah Khan <shuah@kernel.org>, linux-kselftest@vger.kernel.org,
-	Bradley Morgan <brads@mainlining.org>
-Subject: Re: [PATCH v11 1/3] userns: don't let setns() lend CAP_SETFCAP
-Message-ID: <awMVA+9Q+7mF7naH@hallyn.com>
-References: <20261117-b4-setfcap-userns-v11-0-2be11a2c32f4@toxicpanda.com>
- <20261117-b4-setfcap-userns-v11-1-2be11a2c32f4@toxicpanda.com>
- <awCB3UkCPzLGRBTk@hallyn.com>
- <awCEjJ8syhv+f4vd@hallyn.com>
+	dkim=pass (2048-bit key, unprotected) header.d=linux.org.uk header.i=@linux.org.uk header.a=rsa-sha256 header.s=zeniv-20220401 header.b=ZS2gWTBJ
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=3DbqJp0X7Ve7PIo1s2t06ZLb4Fsl6YMV0xgxf3cnB+E=; b=ZS2gWTBJzykWsmG5LVmWZttcK3
+	3SJwQsFsbVVgjAyjc5UXa4bWBY11SEvfuhmEvYUR1fb9qP/hIstmGDYyBQh+hMuQVi7wtwmrtm6Pr
+	Rifqqyw+AmKrzjmKVckCJhMaNKAzNnWp3yG7huyZR1LqQvoLHXGGZ+rJ2bU57nsB9jkgpKiyAplQp
+	GDl6Sd9xnwH9QL/HKZgQ0T9qhZ5GTwGj5GtdLCk5etaPTl90uXLo6tzrgw2YqHy2A8mMnJa2uD1vT
+	8SSwDeszZzn22s9H4HG+3maQLAVxWe9FECYGkrtI4VPD/kPn8iv8nwRxUVEfskpz95VbT1Mfh6usj
+	fgWpX0jg==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xVAIX-000000029ZQ-2UK0;
+	Sun, 22 Nov 2026 16:20:13 +0000
+Date: Sun, 22 Nov 2026 16:20:13 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+5585f47221c0de04168d@syzkaller.appspotmail.com
+Subject: Re: [PATCH] ufs: validate block and fragment shifts
+Message-ID: <20261122162013.GA453747@ZenIV>
+References: <20260925043337.87879-1-matheus.aalmeida@inf.ufrgs.br>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -75,77 +66,31 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <awCEjJ8syhv+f4vd@hallyn.com>
+In-Reply-To: <20260925043337.87879-1-matheus.aalmeida@inf.ufrgs.br>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Fri, Nov 20, 2026 at 11:34:04AM -0600, Serge E. Hallyn wrote:
-> On Fri, Nov 20, 2026 at 11:22:37AM -0600, Serge E. Hallyn wrote:
-> > On Tue, Nov 17, 2026 at 07:54:24PM +0000, Josef Bacik wrote:
-> > > A uid 0 task that gave up CAP_SETFCAP can get it back by joining a user
-> > > namespace that another root task created.  Commit db2e718a4798
-> > > ("capabilities: require CAP_SETFCAP to map uid 0") keeps such a task
-> > > from mapping uid 0 into a namespace it creates itself, because tasks in
-> > > that namespace could then write file capabilities for its root user.
-> > > setns() gives a joiner a full capability set in the namespace too, so
-> > > it can do the same there:
-> > > 
-> > >   task A: uid 0, full caps          task B: uid 0, no CAP_SETFCAP
-> > >   unshare(CLONE_NEWUSER)
-> > >                                     setns(A's user ns)
-> > >                                       allowed, euid == ns->owner
-> > >                                     write "0 0 1" to /proc/self/uid_map
-> > >                                       A had CAP_SETFCAP -> allowed
-> > > 
-> > > If A's namespace already maps host uid 0, at any uid, B can set
-> > > security.capability on a file right away.  Either way uid 1000 can then
-> > 
-> > "Either way" here means whether it already maps host uid 0, or whether
-> > it has no mappings yet?  I'd just drop 'Either way'.
-> > 
-> > > run that file with CAP_SYS_ADMIN, which the selftest at the end of this
-> > > series shows on an unmodified kernel.
-> > > 
-> > > The check doesn't look at the joiner's uids, which it can change while
-> > 
-> > >From here until the 'Fix by', it is confusing whether any given statement
-> > refers to the pre-patch or post-patch state.
-> > 
-> > > keeping its other capabilities, and CAP_SYS_PTRACE doesn't stand in for
-> > 
-> > Is this a reference to the next patch?  But that's a completely different
-> > commit.
-> > 
-> > > CAP_SETFCAP.  What gets refused is a task without CAP_SETFCAP that has
-> > > CAP_SYS_ADMIN over a namespace that maps the joiner's root user, or that
-> > > has no uid_map yet while its parent maps that root user, so that it can
-> > > still be mapped.  If that is uid 0 of the parent and the creator of the
-> > > namespace didn't have CAP_SETFCAP, the join is let through: only a
-> > > writer with CAP_SETFCAP in the parent could map it then.  Containers
-> > > that don't map the joiner's root user, tasks with CAP_SETFCAP and
-> > > unprivileged users are not affected.
-> > > 
-> > > Like verify_root_map(), the check is about uid 0 of the joiner's own
-> > > namespace.  The root user of an ancestor that it maps at another uid,
-> > > and a root user stored through an idmapped mount, are left to whoever
-> > > set up that map or mount.
-> > > 
-> > > Fix by refusing setns() when the joiner doesn't have CAP_SETFCAP and
-> > > tasks in the namespace can write file capabilities for the root user of
-> > > the joiner's namespace.
-> > > 
-> > > Suggested-by: Serge Hallyn <serge@hallyn.com>
-> > > Link: https://lore.kernel.org/all/fd159e68-c613-4c7d-bfba-8af0a3f3a96e@hallyn.com/
-> > > Fixes: db2e718a4798 ("capabilities: require CAP_SETFCAP to map uid 0")
-> > > Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-> > 
-> > The code looks good to me,
-> > 
-> > Reviewed-by: Serge Hallyn <serge@hallyn.com>
+On Fri, Sep 25, 2026 at 01:33:37AM -0300, Matheus Alves de Almeida wrote:
 
-I've tested that unprivileged lxc still works with these two patches, so feel
-free to add
+> +	if (uspi->s_fshift != ilog2(uspi->s_fsize)) {
+> +		pr_err("%s(): fragment size shift %u does not match fragment size %u\n",
+> +		       __func__, uspi->s_fshift, uspi->s_fsize);
+> +		goto failed;
+> +	}
 
-Tested-by: Serge Hallyn <serge@hallyn.com>
+That's an odd way to do it:
+	if fsize is not a power of 2
+		fail
+	if fsize is below 512 or above 4096
+		fail
+	if fshift is not equal to ilog2(fsize)
+		fail
 
-to the first two as well.
-
--serge
+Why not
+	if fshift < 9 || fshift > 12
+		fail
+	if fsize != (1 << fshift)
+		fail
+and, while we are at it,
+	if fmask != fsize - 1
+		fail
+is also missing there...
