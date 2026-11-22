@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795376242;
-	b=Qdvr/EgPPIHlltZ4UMDqiqPNkn90g/S+Kf1hVGUuJs9URV0VTbLM6Zhozm9mHrrbIlXB
-	 OR0igX7cMxQic1w5EfZ0Z6DEySYtJ6GiItdrz7CPzgWl+E/y52XRLRDK4vGHUKukJWeF7
-	 4DMkDBwZx3f/4gCssOy6jy5CFkGBt1B+RoKoGTC1gKL1UMvlj1D7QrM/qdQuqI9vBKS/B
-	 iLsEt/favmB6urf2AtlHfbUj6oAeZFtwqfAAFieDY+fX8RY4g3idBf3XtT4Q5qypEMCNg
-	 NOI4coU4dtGcGi4KSDWOGvyQN9bKhRG11Gn1c1F/jN9IYG3cuZQHxFXZZv9zjLF6lPA==
+	t=1795376251;
+	b=1KarJaDuhjPeTn49ZGEKlTwIKjr8XzSCKHh0peoo3NOXaIy3vEwF1rL6LXloYk8v51ZZ
+	 RlX1JlZ72qV4Amv0QVI/8XwDrN3sdVxqfkrZR2q9NVfugoZ1iXB555CVrmYfOoNkjodRC
+	 o1u0YhUjmp67RmbcdgPwdLWpN904b9N3eC5r0dhDttT/JbF4ZsLH8admpZd9+1YkAxP1S
+	 VsHXy12YMqYgaOt2PM802RuGtuVwLNd161z8ciJoaZZzUpuuv8QvxobPJIBBGWAZZGPhb
+	 cg8Tas63IPIyedpkGPO6qmuMWmZwCJRlTxoRe/YedPS2AVHD6rOARcm1eKHEoLCwX2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795376242;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795376251;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=cgy8beB6sSd/m8AunHL+Exu9SqwXUH4jGUnQFpHNC2g=;
-	b=zrV2bFvG9jt4qZM5j71SgPeubQ1druz6s8IGjvIjMmosq1cGbceDmLHnmZlsoTQVzQrC
-	 C4sg5VIEGhAFv/G4MMZA3Eww4ro15NGedUAZLncZjds5dYEJ6U3YKnCcRkEOxXai8ouGb
-	 zU69XDkzeFCOoUwU6OA++Honsjqg5ivAwz1tH9hrc/+k/cFNCse4/v1GprfMU5mHp5HLa
-	 dlK7RKUl3dmELFv8pOzdzmLf4bcLJExdbfuu9muvJhotGF9vd5740ECAYMjFfrkpUqSMq
-	 eSIVDs7mYVA4xmBb7zKYu7a3SAuPMESCR9997g9a0h3bQj11QD9eYFPsPIEZ/8E2XOA==
+	bh=zs4d8Qildq2fNc6PLk+GUR8ZjIlQZmHZPkOwBRx3+1A=;
+	b=Pu14LMi6C0MVv0oYIfo4K0I0/bq8AEjm6iw9e2cG7G+3C9SK6JIo9z8L7GaGyYaMVlM7
+	 +cWvZfJLrNuvBx2Z3fML1/7ngla2VJU4XMw7s2qZ11m99uW1cvZD3Fu1PWsFtHMrO3A2N
+	 wSbW+xfw4DDGtboAiQjHJkw1C3ogSxHQPBHtBcgmgxexA68Sl9VzyqeSG16hcuTrRt8hs
+	 GIvTN6/SAMq7RBCvlZ6vSxMsaNPN6MjARkTxmECJkzMkcQ1JdoMmwOeFIZx8sun8Pl9cA
+	 thdy7BulebM0baxX9QtSKy5kZr7rxTSXmXf8p5FKVsN9/hG5Ix+ja3V57yiE9sNK9Lw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MFbZVX98;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W8nWhqyY;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id C0E5F606A32C;
-	Sun, 22 Nov 2026 19:37:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 67B84606A6AD;
+	Sun, 22 Nov 2026 19:37:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MFbZVX98
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 5680E1F000F0;
-	Sun, 22 Nov 2026 19:37:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W8nWhqyY
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 193F91F000C0;
+	Sun, 22 Nov 2026 19:37:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795376242;
-	bh=cgy8beB6sSd/m8AunHL+Exu9SqwXUH4jGUnQFpHNC2g=;
+	s=k20260515; t=1795376250;
+	bh=zs4d8Qildq2fNc6PLk+GUR8ZjIlQZmHZPkOwBRx3+1A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=MFbZVX98oz4AbJTw3EE+xuDLG3zdzugZzGHmoYc6hW7eDec0Blnfzxt5edluonBsu
-	 e0Ei3/23NPNyGX5cyvRmcFvoeLu1mEnHe0QrQdxIt9XFnxpQeXlfHbYCLtlnjnYWBz
-	 Nbcb3MXIwfKxt7e7V4rLH7H0AIyobdyn+16rXrNSmV7u5hbKxwQBPTXwAOWKS4xmiF
-	 H7qCkd/Gt3lIwdBEvC2huYCEAP63fMN+dpNDjqiAJDdVcF4aAkl4mObzlIXk8T0o8H
-	 ayCiozSV6G0LHbRgmoiRS5toCHJx8Wl+Cu6RyA4Z2dEfujWJDRWtHSGWP8nbnF4Pmx
-	 r2J26+nsXFzqg==
+	b=W8nWhqyY1l/5oIhxo9AusbNPDS7pNe2c7jdlfibiK9O4J7YFbmrpPsuK6dub2ROAe
+	 rn9773eP+vZgMLsdrGpMNtNwUR97O+i7Ymi7QxvdMtYxyu/B5vZtW0/SSzz9CikZZG
+	 zz2so70cW+rNG9k2mcDrKZFtWEFpUpG1MUttpQAI7FZabGlKL8TGb/tF7vF0ZmWO80
+	 Hm87LXNBNvD3YulVza7xOlYl39k1q+U50EdgVJtvNyOJtHreMMEnqffEYjwpr841I8
+	 Iu4gBtD2Cfw8Lt+5t4n478r/phiivzEwhQSTNlPRapp8t/upmoP72EBoqdD5BcfafY
+	 ZTCS4Or2D4EEA==
 From: Jarkko Sakkinen <jarkko@kernel.org>
 To: linux-fsdevel@vger.kernel.org
 Cc: Jarkko Sakkinen <jarkko@kernel.org>,
@@ -75,9 +75,9 @@ Cc: Jarkko Sakkinen <jarkko@kernel.org>,
 	Serge Hallyn <sergeh@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: [RFC PATCH v7 20/26] ipc/mqueue: Implement ->set_userland() fs_context operation
-Date: Sun, 22 Nov 2026 21:35:33 +0200
-Message-ID: <20261122193539.3334213-21-jarkko@kernel.org>
+Subject: [RFC PATCH v7 22/26] bpf: Register userland LSM hooks
+Date: Sun, 22 Nov 2026 21:35:35 +0200
+Message-ID: <20261122193539.3334213-23-jarkko@kernel.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261122193539.3334213-1-jarkko@kernel.org>
 References: <20261122193539.3334213-1-jarkko@kernel.org>
@@ -92,72 +92,56 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-mqueue_init_fs_context() captures current->nsproxy->ipc_ns and resets
-fc->user_ns to ctx->ipc_ns->user_ns, overriding the user namespace
-delegated by FSCONFIG_SET_USERLAND and leaving the context bound to the
-caller's IPC namespace.
+BPF LSM programs need sleepable and untrusted hook classifications for
+the userland LSM hooks in order to attach policies to userland
+allocation, namespace sharing, cloning, signaling, and release.
 
-Wire up mqueue_set_userland() to switch ctx->ipc_ns to the target
-userland's IPC namespace, update fc->user_ns to match, and mark mqueue
-with FS_USERLAND_MOUNT.
+Register bpf_lsm_userland_alloc, bpf_lsm_userland_share,
+bpf_lsm_userland_clone, and bpf_lsm_userland_kill in
+sleepable_lsm_hooks, and bpf_lsm_userland_alloc and
+bpf_lsm_userland_free in untrusted_lsm_hooks under CONFIG_USERLAND.
 
-Co-developed-by: David Howells <dhowells@redhat.com>
-Signed-off-by: David Howells <dhowells@redhat.com>
 Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
 ---
- ipc/mqueue.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ kernel/bpf/bpf_lsm.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/ipc/mqueue.c b/ipc/mqueue.c
-index 322c3dd98c44..f3079f7d888b 100644
---- a/ipc/mqueue.c
-+++ b/ipc/mqueue.c
-@@ -32,6 +32,7 @@
- #include <linux/mutex.h>
- #include <linux/nsproxy.h>
- #include <linux/pid.h>
+diff --git a/kernel/bpf/bpf_lsm.c b/kernel/bpf/bpf_lsm.c
+index 468e63dbd922..ac8508a6b242 100644
+--- a/kernel/bpf/bpf_lsm.c
++++ b/kernel/bpf/bpf_lsm.c
+@@ -16,6 +16,7 @@
+ #include <linux/btf_ids.h>
+ #include <linux/ima.h>
+ #include <linux/bpf-cgroup.h>
 +#include <linux/userland.h>
- #include <linux/ipc_namespace.h>
- #include <linux/user_namespace.h>
- #include <linux/slab.h>
-@@ -400,6 +401,20 @@ static struct inode *mqueue_get_inode(struct super_block *sb,
- 	return ERR_PTR(ret);
- }
  
-+static int mqueue_set_userland(struct fs_context *fc, struct userland *userland)
-+{
-+	struct mqueue_fs_context *ctx = fc->fs_private;
-+	struct ipc_namespace *ipc_ns;
-+
-+	scoped_guard(spinlock, &userland->lock)
-+		ipc_ns = get_ipc_ns(userland->ns->ipc_ns);
-+	put_ipc_ns(ctx->ipc_ns);
-+	ctx->ipc_ns = ipc_ns;
-+	put_user_ns(fc->user_ns);
-+	fc->user_ns = get_user_ns(ipc_ns->user_ns);
-+	return 0;
-+}
-+
- static int mqueue_fill_super(struct super_block *sb, struct fs_context *fc)
- {
- 	struct inode *inode;
-@@ -1613,6 +1628,7 @@ static const struct super_operations mqueue_super_ops = {
+ /* For every LSM hook that allows attachment of BPF programs, declare a nop
+  * function where a BPF program can be attached. Notably, we qualify each with
+@@ -404,6 +405,12 @@ BTF_ID(func, bpf_lsm_task_setscheduler)
+ BTF_ID(func, bpf_lsm_userns_create)
+ BTF_ID(func, bpf_lsm_bdev_alloc_security)
+ BTF_ID(func, bpf_lsm_bdev_setintegrity)
++#ifdef CONFIG_USERLAND
++BTF_ID(func, bpf_lsm_userland_alloc)
++BTF_ID(func, bpf_lsm_userland_share)
++BTF_ID(func, bpf_lsm_userland_clone)
++BTF_ID(func, bpf_lsm_userland_kill)
++#endif /* CONFIG_USERLAND */
+ BTF_SET_END(sleepable_lsm_hooks)
  
- static const struct fs_context_operations mqueue_fs_context_ops = {
- 	.free		= mqueue_fs_context_free,
-+	.set_userland	= mqueue_set_userland,
- 	.get_tree	= mqueue_get_tree,
- };
+ BTF_SET_START(untrusted_lsm_hooks)
+@@ -420,6 +427,10 @@ BTF_ID(func, bpf_lsm_sk_free_security)
+ BTF_ID(func, bpf_lsm_task_free)
+ BTF_ID(func, bpf_lsm_bdev_alloc_security)
+ BTF_ID(func, bpf_lsm_bdev_free_security)
++#ifdef CONFIG_USERLAND
++BTF_ID(func, bpf_lsm_userland_alloc)
++BTF_ID(func, bpf_lsm_userland_free)
++#endif /* CONFIG_USERLAND */
+ BTF_SET_END(untrusted_lsm_hooks)
  
-@@ -1620,7 +1636,7 @@ static struct file_system_type mqueue_fs_type = {
- 	.name			= "mqueue",
- 	.init_fs_context	= mqueue_init_fs_context,
- 	.kill_sb		= kill_anon_super,
--	.fs_flags		= FS_USERNS_MOUNT,
-+	.fs_flags		= FS_USERNS_MOUNT | FS_USERLAND_MOUNT,
- };
- 
- int mq_init_ns(struct ipc_namespace *ns)
+ bool bpf_lsm_is_sleepable_hook(u32 btf_id)
 -- 
 2.47.3
 
