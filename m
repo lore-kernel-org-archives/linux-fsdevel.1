@@ -1,54 +1,156 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795358549;
-	b=TacnNIuuHtHXjSy35dm03Zm2kdFgIVlEuoCuOrdZzL+z48HOwthRuuxiZmolPAmSzsYC
-	 sxfKKtk5soRCcXGVOxfT9mgVVpqI9G+twB1BFOgH6y27Z4xmjwPX7mJQPSNQaDFV/BUqZ
-	 M3kcAqlRE54CDp8UyFYTTRA8FtI7bO716nj3RlBX7CZwlESe5yJQXFzjBJ3oyZhGT3x8O
-	 z1CR+q0nDrOiEbf6n86dv8C7CdnKJidhH8TCtqwUnr+0qpAtzu8sXnVs6VjNeukV+hDmJ
-	 XVhXGH8/2PPRhVl6udPtjkBALokJss2Q/VIKDjWhF7B/hKxQNP3g5LRCBiltysKDKiw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795358549;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:X-Developer-Signature:X-Developer-Key:
-	 Content-Transfer-Encoding;
-	bh=A9Zv9/kAKHCUlo9CcVpDmVuBqMvgg3njmRLSGR1Brgo=;
-	b=2+O6gkkm74bpBwZrMBUVQMNzNrepgfTOBH1r8pTswx9cnrq2c0YzIJ2ZVH5+oB7FgJZ9
-	 sycmbemw2+sTwetmCv6iX/bfQHkZVcrv4wAcLdnYidNcMyVzg27gCNZDhP9MnLkZ2uUnj
-	 XCohNyaR5hFDVQCqQ2fEpwIXR4ztHR4t7Ii/3ZlRtjbHp3/3a5zPnOVDmf+/ZcsWXycwx
-	 nxquZXnWmHqh+SI5GAXvOYQIt9FMrPzJdtPbEzurFQgi1HHf3XbLyIxaXhuHB2c2ieKhp
-	 NXCr+zYe9DrHQzyqFk6ZyVujM8SioKOpoZOh0j/A+tGXpYgUPsp+LhnmTyvc/on73dg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="YjX/aBFC";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.48.11
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795361541;
+	b=y6RzJUFhrsV9/0f752v5tyckupzuu8OltnWpmDVSwGsn87+P7uuHEeQdQ05Dn+UWqtrq
+	 PGvmZg4xq/MMWgVGbAYsyjdq8cEtFw2dBavOsA3MORhjz7Im589FaFRccnPdJ3ixwnXGd
+	 wTyTymqjBxQQNztZGiNKg3qoPDNxo0eXYY/nTDK4GKQmV4H/dvK9fvQ277WlqFkuUQzns
+	 YWGCj24Mw8PutQ58+TosKaKLnfQIp83Gj+pfTPEp6HKA7CmuaL3XprOA2QT36xBJtrzT0
+	 jbBweC0YILqt5vY9ctk//G7C+VmHSlLj8pykiBd8FI1KqgL1zARkJwXIXrudi+A3hHQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795361541;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=WhMslJCGDuB5xV6P/V/CS6QxivMchvG1o2S2D3SeU7Y=;
+	b=g5rTTZD/UMz/eBGAgwTs+qSLcv9lhLGejKj9tjczgku48ZPM21AB5+RV2yLSy5Ykil5Q
+	 VR95AtgVYsOS9RNtC8i9KCgA5raXoaDe2wY9Bpdb8Ouh1J7RyKAI5gNopcVJJRTjD451Y
+	 2LefiCzHQgWnUABl/SfvCilkw2SBYtDRJcKCO+jeiE0o0Ej3kiX3apNA2I8d8QQoLS/Gu
+	 wEl/E1g/U0cyDVt8MazT39a1hNcDu/UQlApa4QPghttQf3d/WaxRjFG2IK/9bnKVTlBaj
+	 75/G5zkzYIXDkNILHaoAPcM22G+6aRZpqPdL+Icqhu+GOjPBUuUFxbZ7O2JnHlIpfEQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=cr8yLoOX;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.48.11
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012011.outbound.protection.outlook.com [52.101.48.11])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B38A4606A320;
-	Sun, 22 Nov 2026 14:42:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE8B8606A32C;
+	Sun, 22 Nov 2026 15:32:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CE8B8606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YjX/aBFC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDB7E1F000CF;
-	Sun, 22 Nov 2026 14:42:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795358549;
-	bh=A9Zv9/kAKHCUlo9CcVpDmVuBqMvgg3njmRLSGR1Brgo=;
-	h=From:To:Cc:Subject:Date;
-	b=YjX/aBFCLTcPVlxSkksvyJOHUAfodAEh331vWXoHlUEuRD3kINsUaPS2nOvn/wXFm
-	 06wTxh7RFH8fDWSoruNrGw0TKsagL3T9aIyV37erAd5iIS8RH7vfSz3xC2DezvDRLa
-	 qkvgIcXE8sop21EtRcW13KUBeBMgPFN0VKH6hKBLSg8SQXm2FzQrRw/n44ZIqbeGCE
-	 gJgOs7KnAOwjj8FHWFQSF5xYrsKijeMOwvEydgzPuyQza1Y/NKu9QazdfOtsNgRFXY
-	 ZvNe43wv1mw+N1pJS3o0MCd08F0vjWJb92SIouEazdiSQH2fZpsW0v+O8y2yLt6rDo
-	 YFwXuubhX8xSQ==
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [GIT PULL for v7.4] vfs fixes
-Date: Sun, 22 Nov 2026 15:41:36 +0100
-Message-ID: <20261122-vfs-7.4-rc4.fixes-0bcebc1aae75@brauner>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=cr8yLoOX
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EHDbKitQys4tuIJDtOY5hUPO4Aj3x5WFLIkuQAlApmE2Q4b3YqB9ZH0lsXrMWpNWZv4NiqHhOCcsrGr1WeDorLAYdBe1EzhEuzo2hwf3RVevCgsz1wlZEVWlQABbgcVrtJ8r1wQqeHnlPLJd2OdiWxyCZjL9Go+lUtuOSoVTC0G5YC0SI4AJiCrgdjAPFdMQHWKwcwbNF9OnQ5yHFjl2oO8pdHHQMvJl7Ia5UdOGppFcn48kN6aHfWbXqupCUbc1C7Fv8api71Og+633PRFwVKA1tguNsATBHjC3/Jq9NMFwtyQX7ElH6E9N1POgmukkKV0hqNphXQmGmk0auArSCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WhMslJCGDuB5xV6P/V/CS6QxivMchvG1o2S2D3SeU7Y=;
+ b=G5n5JBi3HZk5TpGj4hj4HR3PdWpu1EqeSUnhBqlDdM8kTUi8QzX+4jKpS5z3HihfW7cgxr9rTFIcU/mtuF7qo8JX4b5ixE3Y796dIzL/qDhx3kXMeZHAltsyrGLj4c/1zvnrE2YhlSjtq9bDac67FJJi1D0XOakMJdgW87uYiH2xI3NAvHVuTZpZnMABCBW/QcUyisX6Tko9D2YkmOt3rOk2oWeLUiSpJZY/LWNCCGy+XABBr6SAiD8/gz+eVZgL496UwaGRxc9KVynJchUZ6Tu/tZMIR5hYe5X6v4Hh9MZzuWijV4SRMj8oNUq5A/Dt+/niX22GJOel+IJ81JH/OA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WhMslJCGDuB5xV6P/V/CS6QxivMchvG1o2S2D3SeU7Y=;
+ b=cr8yLoOXqwaA1c+Xblj201hZ1aXiuuG6UWySgT+ibVPblnFFwvfbrVnxM7sGd3KkhRmA2335SaSiM8fZqoNrGRi2RbSq/mgJHcohbQinfFYLUSw6O2nnFuWCqXKi8ZTDrSJLjpTIwmTLeeXEt3xlYsnRA9PfhT2aQyHh2pjEInlpjG1OQhcURJAY26uUDk94yMcwxH9cHtKmDxRRVRXiurMMIfz34Ge7WZvlu4M9eBLogajqQTY9a1QHUrmdfgVKr3OLxPARno8sqbFL3EjM7/qRiuhvjoB8FqpCZKWwBzJIqxACXORlL9mu+pndzSpz3bgdplgOAMfYw18VkOyLxw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+ by CH3PR12MB9284.namprd12.prod.outlook.com (2603:10b6:610:1c7::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.14; Sun, 22 Nov
+ 2026 15:32:07 +0000
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286%4]) with mapi id 15.21.0639.012; Sun, 22 Nov 2026
+ 15:32:07 +0000
+Date: Sun, 22 Nov 2026 10:32:05 -0500
+From: Yury Norov <ynorov@nvidia.com>
+To: gourry@gourry.net
+Cc: Yury Norov <yury.norov@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	David Hildenbrand <david@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Oscar Salvador <osalvador@suse.de>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Brendan Jackman <brendan.jackman@linux.dev>,
+	Zi Yan <ziy@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Alistair Popple <apopple@nvidia.com>, SJ Park <sj@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Kees Cook <kees@kernel.org>, Kairui Song <kasong@tencent.com>,
+	Barry Song <baohua@kernel.org>, Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Michal Hocko <mhocko@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+	Nico Pache <nico.pache@linux.dev>,
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+	Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
+	Xu Xin <xu.xin@linux.dev>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Lorenzo Stoakes <ljs@kernel.org>, Pedro Falcato <pfalcato@suse.de>,
+	Jann Horn <jannh@google.com>, Chris Li <chrisl@kernel.org>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Youngjun Park <youngjun.park@lge.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, Waiman Long <longman@redhat.com>,
+	Ridong Chen <ridong.chen@linux.dev>, Tejun Heo <tj@kernel.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Dan Williams <djbw@kernel.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-cxl@vger.kernel.org,
+	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+	damon@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 01/60] nodemask: add node-state iterators
+Message-ID: <awMK9V6TbU9Xtzn9@yury>
+References: <20261120-private_nodes_v6-v1-0-74f5f9a115c2@gourry.net>
+ <20261120-private_nodes_v6-v1-1-74f5f9a115c2@gourry.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261120-private_nodes_v6-v1-1-74f5f9a115c2@gourry.net>
+X-ClientProxiedBy: BN9PR03CA0336.namprd03.prod.outlook.com
+ (2603:10b6:408:f6::11) To LV3PR12MB9356.namprd12.prod.outlook.com
+ (2603:10b6:408:20c::21)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,342 +160,133 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=16153; i=brauner@kernel.org; h=from:subject:message-id; bh=Vh2t7QqbU+Kdwrj3MuWNopd+CuPBIrluq/btsqLmWIY=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQz/Xc7Zspx6/8NpojZPxmt34fsTDIJ4FuRmp3/9dPZG IaIp1nXO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACbyn5Xhf3D/4zdedx7Gb/XN /8398XPGrvWeuyMUd2vdEa409j/zazkjw3+HnVzL+857PDyn8+unpPq7hDWXftmkq/z5P3fK5sR mHQYA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
-
-Hey Linus,
-
-/* Summary */
-
-This contains fixes for the current development cycle.
-
-This contains the procfs fixes from the procfs rework I've been doing.
-I've mentioned this on the list. If you'd rather take the fixes during
-the merge window, let me know:
-
-  Fix a lot of old bugs in procfs and in /proc handlers all over the
-  tree. They turned up while reviewing just about every ->proc_read(),
-  ->proc_write() and ->proc_ioctl() for moving procfs to what kernfs
-  does.
-
-  * Resume readdir after the last name it returned instead of at a
-    counted position for both /proc and /proc/sys.
-
-    An entry that was added or removed between two getdents64() calls
-    made caused one entry to be repated or skipped. /proc/sys readdir
-    now also skips an entry that is being unregistered instead of
-    reporting end of the directory.
-
-  * Don't hold the sysctl table while read(), write() and getdents64()
-    of /proc/sys copy to or from userspace, and don't pin a /proc
-    symlink's entry while readlink() copies it out. A copy that faults
-    for as long as userspace wants held up unregister_sysctl_table() or
-    remove_proc_entry(), whose callers hold locks such as RTNL in
-    addrconf and snd_card_mutex in ALSA.
-
-  * Treat a non-directory like a missing directory when resolving a
-    name.
-
-  * make pktgen refuse device names with a '/' or that are taken
-
-  * make pktgen let go of a renamed device when it is unregistered
-    instead of leaving unregister_netdevice() waiting forever
-
-  * Queue the pollers of the sunrpc channel files on a single static
-    wait queue again to fix a uaf.
-
-  * Refuse to map procfs files on NOMMU.
-
-  * Bound the lengths of the esas2r HBA, SMP and firmware ioctls by the
-    struct they were copied into and stop copying kernel pointers out.
-
-  * Keep the position of the PCI and isapnp config space files in a
-    loff_t.
-
-  * Remove /proc/driver/rtc before taking ops_lock.
-
-  * Let proc_remove() remove the entry it was given instead of whatever
-    has its name now.
-
-  * Fix the /proc handlers of ALSA, powerpc, xtensa, scsi, PNP, s390,
-    sparc, um, zorro, toshiba_acpi, libipw, lockd, ntfs3, psi and
-    profiling. Several of them read past or in front of their buffers,
-    handed out uninitialized or freed memory, dropped the last byte of a
-    write, consumed only part of one or returned 0 from it.
-
-- fs: Stop resetting userspace_init_fs to nullfs when PID 1 stops
-  sharing it to fix an Android regression.
-
-- ns: mark internal mount namespaces from mount_subtree() so they're not
-  denied.
-
-- nfs: Reintroduce SB_I_MULTIROOT and raise it again on the superblocks
-  nfs may share between mounts of disjoint subtrees. The flag was lost
-  in the conversion to the new mount api in v5.6 and removed as unused
-  in v5.10. So ".." could walk out of an NFSv2/NFSv3 mount and out of a
-  chroot again once a directory was moved into the other mount's
-  subtree.
-
-- fhandle: Only warn in vfs_dentry_acceptable() when the walk up from a
-  decoded directory ends at a disconnected dentry.
-
-- cachefiles: Size the buffer in cachefiles_preset_object_xattr() with
-  max() instead of min().
-
-- ext4: Remember the file before submitting a direct read instead of
-  taking it from the kiocb afterwards.
-
-- signal: Walk the threads in complete_signal() with
-  list_next_entry_circular() instead of next_thread().
-
-- iomap: Cast the page index to loff_t before shifting it in
-  iomap_fill_dirty_folios().
-
-- xattr: Require the inode owner or CAP_FOWNER to write user.* xattrs on
-  sockets.
-
-- devpts: Create pty nodes with simple_start_creating() under the inode
-  lock of the devpts root, like mknod_ptmx() does.
-
-- kernfs: Clear i_nlink of a removed node's inodes before deactivating
-  the node. A lookup that killed the dentry in between still saw i_nlink
-  at 1, so inotify never sent IN_DELETE_SELF.
-
-- fork: Call copy_exec_state() right before copy_creds() again so it
-  can't fail before rt_mutex_init_task() reset the PI state copied from
-  the parent.
-
-- iov_iter: Check the alignment of what iov_iter_extract_bvecs()
-  actually extracts.
-
-- shmem: Let the remaining reservation instead of the current inode
-  limit decide whether shmem_initxattrs() consumes the space reserved
-  for an xattr.
-
-- bdev: Report the block size as st_blksize when it is larger than the
-  minimum I/O size.
-
-- fuse: Add IOP_SET_ACL_OWNER_CHECK so fuse_set_acl() can do the ACL
-  owner check itself and skip it without default_permissions.
-
-- stat: Reject unsupported flags such as AT_RECURSIVE in the
-  AT_EMPTY_PATH fast paths of fstatat() and statx().
-
-- exit: Read mm->owner with READ_ONCE() in mm_update_next_owner() to
-  match the WRITE_ONCE() on the other side.
-
-- pipe: Annotate the lockless checks of pipe->files in pipe_lock() and
-  pipe_unlock() for KCSAN.
-
-/* Conflicts */
-
-Merge conflicts with mainline
-=============================
-
-No known conflicts.
-
-Merge conflicts with other trees
-================================
-
-No known conflicts.
-
-The following changes since commit 7e1392a42ea288d70a266f6553fe06f57f8647ea:
-
-  Merge tag 'net-7.4-rc3' of git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net (2026-11-12 12:26:14 -0800)
-
-are available in the Git repository at:
-
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.4-rc4.fixes
-
-for you to fetch changes up to d5b84d3d7e902c44b05b106718c579f3d3834812:
-
-  ext4: don't use the kiocb after a direct read was queued (2026-11-22 11:24:12 +0100)
-
-----------------------------------------------------------------
-vfs-7.4-rc4.fixes
-
-Please consider pulling these changes from the signed vfs-7.4-rc4.fixes tag.
-
-Thanks!
-Christian
-
-----------------------------------------------------------------
-Andrew Morton (1):
-      shmem: consume the reserved xattr space despite remount
-
-Avi Weiss (1):
-      fs/stat: reject invalid flags for empty paths
-
-Christian Aurich Zanettini Martins (1):
-      fork: Don't let copy_exec_state() fail before rt_mutex_init_task()
-
-Christian Brauner (65):
-      scsi: esas2r: don't copy kernel pointers out in EXPRESS_IOCTL_GET_MOD_INFO
-      ALSA: cs46xx: hand the region to the region proc files
-      PNP: isapnp: don't go on when isapnp_cfg_begin() fails
-      xtensa: simdisk: remove the proc entry before the disk
-      powerpc/pseries: put the node that the ofdt property commands look up
-      lockd: don't hand out the terminator of nlm_end_grace
-      powerpc/pseries/lparcfg: don't drop the last byte of a write
-      profiling: report it when /proc/profile can't be created
-      zorro: size the proc files like what they serve
-      sparc: led: consume the whole write
-      powerpc/rtas: consume the whole write to /proc/powerpc/rtas/progress
-      sched/psi: don't drop the last byte of a trigger write
-      ALSA: info: keep what was written when a text entry's buffer grows
-      rtc: don't remove /proc/driver/rtc with ops_lock held
-      proc: sysctl: don't stop readdir at an entry that is being unregistered
-      PCI/proc: don't truncate the position of config space accesses
-      PNP: isapnp: don't read past the end of the buffer on a large pread()
-      s390/dasd: don't look in front of the buffer on an empty write
-      platform/x86: toshiba_acpi: reject malformed brightness and fan writes
-      xtensa: simdisk: don't read the file name without the lock
-      powerpc/rtas_flash: don't read past the validate message
-      powerpc/rtasd: zero the error log buffer
-      ALSA: info: don't write past the end of a data entry
-      scsi: BusLogic: don't return 0 from writes to the proc file
-      scsi: ips: don't return 0 from writes to the proc file
-      wifi: libipw: don't return 0 from writes to debug_level
-      scsi: core: NUL-terminate what is written to the host proc files
-      um: NUL-terminate what is written to /proc/exitcode
-      ntfs3: don't warn when a huge label is written
-      proc: don't walk through a non-directory when resolving a name
-      net: pktgen: reject device names with a '/'
-      net: pktgen: don't register a device file under a name that is taken
-      net: pktgen: let go of a renamed device when it is unregistered
-      proc: resume readdir after the last name it returned
-      selftests/proc: check a /proc listing while entries come and go
-      proc: let proc_remove() remove the entry it was given
-      proc: warn about entries left in /proc/net of a dying namespace
-      proc: don't let NOMMU map procfs files
-      proc/vmcore: don't let vmcore_cleanup() run twice at once
-      sunrpc: make queue_wait a global wait queue again
-      scsi: esas2r: bound the lengths of the HBA, SMP and firmware ioctls
-      powerpc/pseries: bound the lengths in the ofdt property parser
-      powerpc/pseries/lparcfg: return h_get_ppp()'s status as a long
-      proc: sysctl: resume readdir after the last name it returned
-      selftests/proc: check a sysctl listing while entries come and go
-      proc: sysctl: copy to and from userspace without holding the table
-      proc: sysctl: look at the table under sysctl_lock when creating an inode
-      proc: sysctl: don't hold the tables while readdir copies to userspace
-      selftests/proc: check that faulting sysctl accesses don't hold up removal
-      proc: don't pin a symlink's entry while readlink() copies it out
-      selftests/proc: check that a faulting readlink() doesn't hold up removal
-      Merge patch series "proc: fix a few old bugs in /proc handlers (Part 1/7)"
-      devpts: create pty nodes under the parent lock
-      cachefiles: fix buffer size in cachefiles_preset_object_xattr()
-      fs: reintroduce SB_I_MULTIROOT
-      fhandle: only warn about disconnected directories
-      Merge patch series "fs: reintroduce SB_I_MULTIROOT"
-      fs: let pivot_root() move userspace_init_fs when nobody shares it
-      fs: don't reset userspace_init_fs when PID 1 stops sharing it
-      Merge patch series "fs: don't reset userspace_init_fs when PID 1 stops sharing it"
-      mount: pass flags to alloc_mnt_ns()
-      ns: don't call the namespace LSM hooks for kernel-internal namespaces
-      Merge patch series "ns: don't call the namespace LSM hooks for kernel-internal namespaces"
-      kernfs: clear i_nlink before deactivating removed nodes
-      ext4: don't use the kiocb after a direct read was queued
-
-Daehyeon Ko (1):
-      iov_iter: validate extracted segment for bvec alignment
-
-Dominik Maier (1):
-      xattr: require inode owner or CAP_FOWNER to write user.* xattrs on sockets
-
-Hengyu Liang (1):
-      bdev: do not report a statx block size below the block size
-
-Hristos Nenkov (1):
-      fuse: preserve daemon-owned ACL permission decisions
-
-Mani Tofigh (1):
-      exit: use READ_ONCE() to read mm->owner
-
-Oleg Nesterov (1):
-      signal: fix lockup in complete_signal() racing with mt exec
-
-Shashank Mohan Jain (1):
-      iomap: fix offset truncation in iomap_fill_dirty_folios() on 32-bit
-
-Zhu Jun (1):
-      pipe: annotate lockless checks of the file count
-
- arch/powerpc/kernel/rtas-proc.c                    |   3 +-
- arch/powerpc/kernel/rtas_flash.c                   |   2 +-
- arch/powerpc/kernel/rtasd.c                        |   2 +-
- arch/powerpc/platforms/pseries/lparcfg.c           |   7 +-
- arch/powerpc/platforms/pseries/reconfig.c          |  24 +-
- arch/sparc/kernel/led.c                            |   3 +-
- arch/um/kernel/exitcode.c                          |   3 +-
- arch/xtensa/platforms/iss/simdisk.c                |  28 +-
- block/bdev.c                                       |   6 +-
- drivers/net/wireless/intel/ipw2x00/libipw_module.c |   2 +-
- drivers/pci/proc.c                                 |  22 +-
- drivers/platform/x86/toshiba_acpi.c                |   8 +-
- drivers/pnp/isapnp/core.c                          |  16 +-
- drivers/pnp/isapnp/proc.c                          |  11 +-
- drivers/rtc/class.c                                |   3 +-
- drivers/s390/block/dasd.c                          |   2 +-
- drivers/scsi/BusLogic.c                            |   2 +-
- drivers/scsi/esas2r/esas2r.h                       |   2 +-
- drivers/scsi/esas2r/esas2r_ioctl.c                 |  48 ++-
- drivers/scsi/esas2r/esas2r_main.c                  |   3 +-
- drivers/scsi/ips.c                                 |   2 +-
- drivers/scsi/scsi_proc.c                           |  16 +-
- drivers/zorro/proc.c                               |   2 +-
- fs/cachefiles/xattr.c                              |   2 +-
- fs/devpts/inode.c                                  |   8 +-
- fs/ext4/file.c                                     |   6 +-
- fs/fhandle.c                                       |   5 +-
- fs/fs_struct.c                                     |  72 ++--
- fs/fuse/acl.c                                      |   9 +
- fs/fuse/inode.c                                    |   6 +
- fs/iomap/buffered-io.c                             |   2 +-
- fs/kernfs/dir.c                                    |  12 +-
- fs/lockd/procfs.c                                  |   2 +-
- fs/namei.c                                         |   4 +-
- fs/namespace.c                                     |  31 +-
- fs/nfs/super.c                                     |   2 +
- fs/ntfs3/super.c                                   |  11 +-
- fs/pipe.c                                          |   4 +-
- fs/posix_acl.c                                     |   3 +-
- fs/proc/generic.c                                  | 164 +++++++--
- fs/proc/inode.c                                    |  38 +-
- fs/proc/internal.h                                 |   1 +
- fs/proc/proc_net.c                                 |  10 +
- fs/proc/proc_sysctl.c                              | 394 ++++++++++++++-------
- fs/proc/root.c                                     |   1 +
- fs/proc/vmcore.c                                   |   5 +
- fs/stat.c                                          |  11 +-
- fs/xattr.c                                         |  10 +-
- include/linux/fs.h                                 |   2 +
- include/linux/fs/super_types.h                     |   1 +
- include/linux/ns/ns_common_types.h                 |   2 +
- include/linux/ns_common.h                          |  20 +-
- include/linux/sunrpc/cache.h                       |   1 -
- kernel/exit.c                                      |   2 +-
- kernel/fork.c                                      |  10 +-
- kernel/nscommon.c                                  |   9 +-
- kernel/profile.c                                   |   8 +-
- kernel/sched/psi.c                                 |   4 +-
- kernel/signal.c                                    |   3 +-
- lib/iov_iter.c                                     |   9 +-
- mm/shmem.c                                         |   2 +-
- net/core/pktgen.c                                  | 115 ++++--
- net/sunrpc/cache.c                                 |  12 +-
- sound/core/info.c                                  |   5 +
- sound/isa/es18xx.c                                 |   6 +-
- sound/pci/cs46xx/cs46xx_lib.c                      |   2 +-
- tools/testing/selftests/proc/.gitignore            |   4 +
- tools/testing/selftests/proc/Makefile              |   4 +
- tools/testing/selftests/proc/config                |   9 +
- tools/testing/selftests/proc/proc-readdir-churn.c  | 333 +++++++++++++++++
- .../selftests/proc/proc-remove-slow-readlink.c     | 191 ++++++++++
- .../selftests/proc/proc-remove-slow-sysctl.c       | 215 +++++++++++
- .../selftests/proc/proc-sysctl-readdir-churn.c     | 152 ++++++++
- 73 files changed, 1740 insertions(+), 411 deletions(-)
- create mode 100644 tools/testing/selftests/proc/proc-readdir-churn.c
- create mode 100644 tools/testing/selftests/proc/proc-remove-slow-readlink.c
- create mode 100644 tools/testing/selftests/proc/proc-remove-slow-sysctl.c
- create mode 100644 tools/testing/selftests/proc/proc-sysctl-readdir-churn.c
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|CH3PR12MB9284:EE_
+X-MS-Office365-Filtering-Correlation-Id: c6485a54-1825-442f-628f-08df48adc424
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|366016|10070799003|1800799024|7416014|376014|10067099003|56012099006|11063799006|4143699003|261021121427099003|261102123227099003|261009223027099003|18002099003|22082099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	LadQk4uEsSebAaX36T2UMlD0k4aavvFJnGPyxq+sADDdoHz7h1S6cTm+9lwN2JuY+RhbZsAgBtH6HMrwaEs/1qoNwhCMXCD2HnT3piotu6CJhWi/zGa/x2kT3WvqgBYvrCRtXMV5byjJlFSa1Jfz2Z8Es8KqjJ/gP6DZ2VArDv3yVj5pPa+ZBvrppiFRCswwB+ZHiGKW9YWzBKGuNP+swVrsTET4lfSO/bT6JGwcEJAk4oAymrrQuP4kHwUsgRG0ONuqW69rZz34qgY2VzJiBrdY0IloGE1UIWWnNTM49Lemtc0UUlQ1LWF+KQtBZLWotV+9HucWijaFAQeLEouCDhaBiHWDCbkPaIYs1ijCLrdLfbpQWCHOIeZDVBboKpLNdpwAH5yTbh9XuDiHQjnOa52O8UH8hVIkGKvO4rmzHkJ4zuxhAeJV5BVjZs1dnRrbf+Zr2yALfauusWyHdhBvzh8mpkvQhguRY1p1v7/SaRa0p2DHBXmd805eyd7d+XI/367SUORKBEhSqopdRKVQQ+s3kmJ5FGjbepuputL8d/8bDEKKf4r1mwN+speML64l5Uja4AhFfhfUX2fQ9bcmlGAVrQbpl3yTTwZajpRZ59PJG/gbGGmT9vfmPokHenri9636b4Tgb3WBRlCk3okioAUGEdJsQCDwDgsbtAGC2bA=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(10070799003)(1800799024)(7416014)(376014)(10067099003)(56012099006)(11063799006)(4143699003)(261021121427099003)(261102123227099003)(261009223027099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?0878Rh0OU0ASRuFo6sTdoF3SxBqX7ikevLQHYzhknEeGzOQ2B2i3oyhkWmcB?=
+ =?us-ascii?Q?vdC0RV17nq5Ut/rsXr2QZcjCnVcWfnPDwx4CE/S/3ITrkFrSxtRIVb57b5TE?=
+ =?us-ascii?Q?12ScIl2aqKaC61hbvkut8h1CScZIOXaKEOSAPZQlVJeBESw1+J54nNhRYJpj?=
+ =?us-ascii?Q?q+N7YQPfjLLtxxFDpFRzb7RZaMPPwn+ImCVVh3yYk0zz1skuph4r4OrNDGtl?=
+ =?us-ascii?Q?qkoqiahw6e2odkS6anbXxrt2Om8f/9pUD9dTILttqGt9LbpROxJ2/A+rs8qB?=
+ =?us-ascii?Q?skcevIIA70HVfuwop8HFzHVfAmhOJh4uX008ShwOtG0uBJHCj0LkE1B75U4A?=
+ =?us-ascii?Q?ebER04WVfRArUCB8JwqdTJcNJXiX9d1MAOsYaEIbQts0iZodjls9ft6wDHFH?=
+ =?us-ascii?Q?r6P+wOoklKSj/vKZOZpZu8J9O6dY9tbmeo5yYfLC2K4WRf53iCXXF23bfd+9?=
+ =?us-ascii?Q?tIFtYp/soKOKQydkgswzkr+ZfFk5L8KWagu2ysOvEfxlM3ztcxZDMt9wPV/a?=
+ =?us-ascii?Q?kD1BPzvOZDDVr8SZPmJ3hEMWqLo5Hwe/zE+iBtxu2MWiZs7YFKFntevkZ/A9?=
+ =?us-ascii?Q?p7RCcL9+gTx8Y3GetF7l+gaEZUFd3mgEyTRwUdkMKMy1AXmt7471f8TFYrAE?=
+ =?us-ascii?Q?ppqEIDUMRaQinZdGh1ahBy2iFSvmNh5qX064NaVJo2nh3I66QQmSzAVKzYHC?=
+ =?us-ascii?Q?h1h2//nE+Ngekq3CW/h9KEsqk+iIvzl5cLCZ42JTQsbpDBnI72HIChThNP8q?=
+ =?us-ascii?Q?7rczyuAAqbWQo/bNvfd3slvoGpWdsjtQBfjyXmHha7ZSsdmPnqhO70FlNKLo?=
+ =?us-ascii?Q?DxPExNWZL3O7MPko9uFk2GpM8EsiD/kdfJtC1ofMNInyivne/bbGTSmeeiif?=
+ =?us-ascii?Q?6Gg7r5MtxZ8tjLyV0WuNqgoEHbohtKw+hpHTortmoZmsTVnhcjvbg7Lm9HL/?=
+ =?us-ascii?Q?dFVu0Pdgj+HSAbUj6Y9zY1DBu0lAdO16r94YDlXyd4TiPnHhK3QOMiMNJZuO?=
+ =?us-ascii?Q?icAU7Udp7fOt7HjE2sFh1hVsMbLTRoANkXvwWs6QKFecXZO7DSJ3eT490eHY?=
+ =?us-ascii?Q?QDnjQ5uCNL+Ao8ZIXN1qwATdl6d4j6vswBAHClf5u5W1wcyA2dCm7+/mXrDe?=
+ =?us-ascii?Q?8l4RUOVPDgu3N28TZqS83YQ27xcjHf2Yb+ijh2PMGCtZpD+WX6XdNwP/1Dve?=
+ =?us-ascii?Q?JgXMO5RnzA8CcoCenR6pxc06iEAxz71/MjWF3b0oXzaMKWDblsxxvi0qL6wk?=
+ =?us-ascii?Q?suYN7jZCmtP8qRBLGWqXe53Ug4Cib3eRbS/Ta4K5zjwgSbKzRZM6axMETgM2?=
+ =?us-ascii?Q?cPDKiMuak1fpXPue32bB10pQn7QbxG8x4LKK3mUC011F2mau0n0MMV2OehIN?=
+ =?us-ascii?Q?pal+m9ZylTSgCp9ICXUOUiMgAjacNp1DuAL5iwETjyo7fiCsC/qbCN9T/wpV?=
+ =?us-ascii?Q?g1qHrtgXxOuaHmAXoVHC4sSB7hGeNfd0gDvODHF17K0jBEWnNdqzAEO/5ZWO?=
+ =?us-ascii?Q?PguKAGxJWxeP2VTmK69UWOvI7hIWQQSbh6PAjuWtGlMY/JQy/91+7SGAHJnf?=
+ =?us-ascii?Q?vjvkTx0LQVwjsvvg2B5FKpNt+c9DmlMgWm79kZ/gKUY3O+/EdnWTD1Pgp4Gq?=
+ =?us-ascii?Q?pjLJ4vb+cGoeqVvNk+Eg72QSgLlZSW0TCWAeyVkAxZnoExgRM3QCTiOyGXdo?=
+ =?us-ascii?Q?jYlbLkU89rqfHTdlofrWERfbLIhveKByfPLzZ3P/Og8PCd8Y5LTrHWML7ZH1?=
+ =?us-ascii?Q?F2/DTg4BcCxL1MBVmHECkDpT6XYb12pDshSJ+5onFzgnC8b4MOgR?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6485a54-1825-442f-628f-08df48adc424
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2026 15:32:07.0533
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rew2IPNPi3eMjUW2rOx/D54VR1hE34BYSZEp/L4/4gyRLjUNdp187rMrRSfQ73nncADw0FzzNhR/N3gz2QevhA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9284
+
+On Fri, Nov 20, 2026 at 01:08:52PM -0500, Gregory Price via B4 Relay wrote:
+> From: "Gregory Price (Meta)" <gourry@gourry.net>
+> 
+> Add first_node_state() and next_node_state(), so callers can walk any
+> node state the way first_memory_node and next_memory_node walk N_MEMORY.
+> 
+> Add for_each_node_mask_state(), which iterates a nodemask intersected
+> with a node state using the bitmap intersection helpers, without a
+> temporary nodemask.
+> 
+> Signed-off-by: Gregory Price (Meta) <gourry@gourry.net>
+> ---
+>  include/linux/nodemask.h | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/include/linux/nodemask.h b/include/linux/nodemask.h
+> index 607373bd83ee..90bdcffa42ea 100644
+> --- a/include/linux/nodemask.h
+> +++ b/include/linux/nodemask.h
+> @@ -411,6 +411,11 @@ enum node_states {
+>  
+>  extern nodemask_t node_states[NR_NODE_STATES];
+>  
+> +/* Iterate the nodes in a mask that also belong to the specified state. */
+> +#define for_each_node_mask_state(node, mask, state)			\
+
+for_each_node_state_and? We've got for_each_node(), and we've got
+for_each_node_state(), so let's figure out consistent naming.
+
+Did you check the codebase for exsisting candidates for this helper?
+
+> +	for_each_and_bit(node, nodes_addr(mask),			\
+> +			 nodes_addr(node_states[state]), MAX_NUMNODES)
+> +
+
+Please use nr_node_ids instead of MAX_NUMNODES.
+
+>  #if MAX_NUMNODES > 1
+>  static __always_inline int node_state(int node, enum node_states state)
+>  {
+> @@ -435,6 +440,12 @@ static __always_inline int num_node_state(enum node_states state)
+>  #define for_each_node_state(__node, __state) \
+>  	for_each_node_mask((__node), node_states[__state])
+>  
+> +#define first_node_state(state)	first_node(node_states[state])
+> +static __always_inline unsigned int next_node_state(int nid, enum node_states state)
+> +{
+> +	return next_node(nid, node_states[state]);
+> +}
+
+At least the following {first,next}_{online,memory}_node must be
+switched to the new helpers. Can you check through the rest of the
+kernel to make sure all candidates of the proposed helpers are
+converted?
+
+>  #define first_online_node	first_node(node_states[N_ONLINE])
+>  #define first_memory_node	first_node(node_states[N_MEMORY])
+>  static __always_inline unsigned int next_online_node(int nid)
+> @@ -481,6 +492,12 @@ static __always_inline int num_node_state(enum node_states state)
+>  #define for_each_node_state(node, __state) \
+>  	for ( (node) = 0; (node) == 0; (node) = 1)
+>  
+> +#define first_node_state(state)	0
+> +static __always_inline unsigned int next_node_state(int nid, enum node_states state)
+> +{
+> +	return MAX_NUMNODES;
+> +}
+> +
+>  #define first_online_node	0
+>  #define first_memory_node	0
+>  #define next_online_node(nid)	(MAX_NUMNODES)
+> 
+> -- 
+> 2.56.1
+> 
