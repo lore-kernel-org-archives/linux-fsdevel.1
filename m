@@ -1,84 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.217
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795315696;
-	b=Emdumt2bRNLHL+pmuCK/ctDOOhmCktow6+ZPANBmYS/fDf7oUwn+5udi2hRzPotRcPgf
-	 gMWbqRZgUBwDXsnxZJGUokKuVK6OwcGNKDP4HpXZRO0LwuOWAALSf5OKk0wM0hS0uKnfI
-	 L3OvkNGGv8LapMgulJOJF9+Xs7hoWfWhAl2sJ0JH9EgD6qJuN9SRYAjLzMPXu+xjZL31W
-	 p8Tv/9hSuAD9M+Y69Gak4rwOvZjMKn4Sz8/in+T/yNkn7MnEyz9xRgFb2rkC2hm77DUv0
-	 EWQxxpaACV1p/ZK9AxZUcFHkwp9viuDYxIwuvE6jnHx1NMryf/eRK16c+zvGrHcBDOg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795315696;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=E9PD9aOANTvQHboEG3uZgcAavMQLIgieVrLH9GH/oL0=;
-	b=HUITgxxbDQxD96sqAAmJgtc2w176EcjU9XysDSg/nAU58r46otw0UZFpjCeMcvaTBVAP
-	 tLMCc6qlPINRr4bvtxCuSEpVTU4pewVyv5iGN+D8treMcTEVhaz/dCbRBy+Nz2Uh9YtgE
-	 7hMkkuqHraDY6njydW0rNkLn3OHxUpXqctXcWTy3HVC98HDLZYXcQFIrlKbHbKxLBbKW8
-	 sHH7bh5R/MEQdGeSIPPUqJrry7FkV7fIFHCKn8+z2OitAYltzVV5m0jTCeg0ON3N3ZV3A
-	 o4Gzp1W38Nlv8e9x+BCQlZOg8audG5rWhfZlowJ/md4b9pOQOxykyMpQr8MTcplIwgw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=vh6p6hz+;
-	arc=none smtp.remote-ip=95.215.58.217
-Received: from mta1.migadu.com (out-217.mta1.migadu.com [95.215.58.217])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795342804;
+	b=WjPmFQPwZR4UcdlMgZP6ahGxwy6is5ewcXMi60PeIwEIsowY/PbhJyiKX2cwsE4cqL8C
+	 CLmWgBqFV1NrNAnqngf/M4CTOfclUR+DvkRigk2ranVDNTLy9QCpxJHntt5OGAQr6217/
+	 fHhiJUe7xNf6m64TP7c6a0aibbKQ6tN3zVNnPCHodHUf2of6nyqoXRC+lNKvEvYybAkLF
+	 2ElQJGALnIc83KXNOkTsXB2c2y6xF6UZScEXacT9ZRkgBl/jLGCLHOzbnw0E6OAkiW0ZM
+	 b4sbcd1u8mRT/p/bvY1MI/StlOSg1d9GqrNXsfWLGcS9b8pliUIBWVULWgMPyDKBsdw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795342804;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=91gqtW4A9hjSh5iScq2FZO46j4FBUtpr76vY0eFs1hM=;
+	b=TloayYlB7B/gTAc4Avzi7DBnYInc404DcC7FZ01+eUxjYaNuwHf8yQAiT011In75BpGy
+	 B0rxQzz+dnM5u1hBhhPzzqEheYuV06E0cJDXPjShk9/gqC2GN+SCKvT5jdX2wRU65UIkY
+	 850tzore9IIHWMck7+H30IJowpxQ49DsfkTztdv+1RXkjt2FhFdb7t32RxRlMARUr+8a8
+	 h81paG/8joZBYD8Z/Sk+Oqh8VR4urTGnjU45QlN1cdsUWI/T1aNGR50tvwtSZnbjc+BbS
+	 +Xt7PL4LI+yE+DdMQfkStkOoTbjn/hIHv1+KjVMX0VgR2kzRxNmmZCk9F8Iomjk1dRA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mRn+WBiQ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C76606A320;
+	Sun, 22 Nov 2026 10:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mRn+WBiQ
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795342803;
+	b=WQcdzKeIk5/68DvQlToAuO/roer+sl2zMWAAfGe1Ejgaf2sKbcNG42lxdQjfjX54909K
+	 D5Z+mkTCqlf6zuS6WDyGvgITrPm8N6FgWbJSmTFznt7aEIiOEpInoJ7HE99deBc2sxrMI
+	 fIo7+1B0iOJ8CgCYTbhr61WaBTUQCcBUwm1IOtT2957E9AxMe6vIQw5ZxCXXsuUNnZRoS
+	 3pTI6pH4bYkMWeCRxBOm+Rg2VhAP6HvTVf5dbw1OF0vBI8reFa/kcV8kh2ljghkG3hCrk
+	 XV+Y9wdPkULJF91880+mgcLFA9nr+qPdaeEHS0SU0OQxqwEEa9c7BxJBuhsMmKWj6ig==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795342803;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=91gqtW4A9hjSh5iScq2FZO46j4FBUtpr76vY0eFs1hM=;
+	b=EbYtYQjlvmI8xDhZH2JI8wEcip7J0t6+cy8UJHWm/sAXvIehNW+wgdBxTpBOk0YBwN0A
+	 OdSs7DtaT9WWqFwZtYcdeu9SLfFVCV4fj8L4cTB9TiFResXHaUfBJMjkhATZ1iP4Rf+Qf
+	 MMUMA9qDRg3+IpQWYBLl/qpPVX9iCqWY6o6qacK8dMWr96ND2D/sw9/AbboBPFCRpxZfq
+	 92WtrpyQ3LhowD8Zl3ZoTg033lItTobTQBk2SmY2VB+iYCrzBQi6qsbAJXNhAV8W+7HmY
+	 EtERaIjKz5ZZVWS41TwaPjyUN4ADyqScFe5NUm34xLjdKfqfHiViikpvmPTVidZQ3CA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528E460A2623
-	for <linux-fsdevel@vger.kernel.org>; Sun, 22 Nov 2026 02:48:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 528E460A2623
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=vh6p6hz+
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=gqIN7txgscTN3NZxToZ9cIdy5PReEg1UWTFzKR5TdBc=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795315693; v=1; x=1795920493;
- b=vh6p6hz+QC7kt4cKEXLjj/gDKNipkYbr+4+Smh8XNRgxwXfkPvvgmAmYgsYyhz7R3RLxeIlk
- B20/wOUqhg7oiduHUlwUtd4lygNKMBS7yp9kJ1W+dnc3n3HQtO+zLT6doeOM2m411cPwI4y8EYI
- V8IdtCGBZ6JBhugZbTcZLmXg=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 943718c149af7563;
-	Sun, 22 Nov 2026 02:48:13 +0000
-X-Mizu-Trace-ID: 943718c149af7563
-X-Migadu-Flow: FLOW_OUT
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Tejun Heo <tj@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Koutny <mkoutny@suse.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>,
-	Jan Kara <jack@suse.cz>,
-	Matthew Wilcox <willy@infradead.org>,
-	David Hildenbrand <david@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <nico.pache@linux.dev>,
-	Usama Arif <usama.arif@linux.dev>,
-	Kiryl Shutsemau <kas@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Meta kernel team <kernel-team@meta.com>,
-	cgroups@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-btrfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 7/7] selftests/cgroup: make test_memcg_high_sync check that throttling holds
-Date: Sat, 21 Nov 2026 18:47:37 -0800
-Message-ID: <20261122024737.2741569-8-shakeel.butt@linux.dev>
-X-Mailer: git-send-email 2.53.1
-In-Reply-To: <20261122024737.2741569-1-shakeel.butt@linux.dev>
-References: <20261122024737.2741569-1-shakeel.butt@linux.dev>
+	by smtp.kernel.org (Postfix) with ESMTPS id 297471F000C6;
+	Sun, 22 Nov 2026 10:20:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795342803;
+	bh=91gqtW4A9hjSh5iScq2FZO46j4FBUtpr76vY0eFs1hM=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=mRn+WBiQa31nxxO9VffIBelOWrPuMHwuIryYFMWZLQxS3CeLuVCyDAa5yYuA0qiw8
+	 zOtTr9wsbkf8N1paU+HlVCfI3/LHNyG/qX/56es3kgpJ9mAzHfgYwhDiXsyFyKfbgs
+	 OZFJlPhbTowGkUhF0D1pfDs34OlKaeMx8Ueduz00nlTEQMl+BQ4T47JVadE52Li0uF
+	 uF7JugDhDzWyrb5K6qYrtlMu0CmUPIDJyMZrvNqLnp/9q49lDb6c1AMx4ToQ8JoFzU
+	 O2TepBmuWLavw2Q9Uxo8IQrzymiGkdiPMNOpTEqsvT61hBDcLHJJ01g6HqNJzQ58vG
+	 RfBoxj1G/iyLA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 7C8994BFF3;
+	Sun, 22 Nov 2026 10:20:02 +0000 (UTC)
+From: =?utf-8?q?Omar_Yi=C4=9Fitcan_Meng=C3=BC_via_B4_Relay?= <devnull+menguomary.gmail.com@kernel.org>
+Date: Sun, 22 Nov 2026 13:20:02 +0300
+Subject: [PATCH] jfs: fix integer overflow in dbDiscardAG() and validate
+ dn_agfree
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -88,99 +83,101 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261122-jfs-fix-dbdiscardag-overflow-v1-1-c3b3230242dc@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAA/yXMwQrCMAwA0F8pOS9gg1Ttr4iHrk1mhqzSzDkY+
+ 3dRj+/yNjBuygbRbdB4UdM6QXS+c5DvaRoYtUB0QAcK3hPhKIaiK5a+qOXUShqwLtzkUd94PFO
+ Q4BNd5ASdg2dj0fXXX29/26sfOc/fE/b9A5fMHyCAAAAA
+X-Change-ID: 20261122-jfs-fix-dbdiscardag-overflow-4826f61a29f7
+To: Dave Kleikamp <shaggy@kernel.org>
+Cc: jfs-discussion@lists.sourceforge.net, 
+ Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ syzbot+29eda1328acf6cf2dbfb@syzkaller.appspotmail.com, 
+ stable@vger.kernel.org, 
+ =?utf-8?q?Omar_Yi=C4=9Fitcan_Meng=C3=BC?= <menguomary@gmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795342801; l=2536;
+ i=menguomary@gmail.com; s=20261121; h=from:subject:message-id;
+ bh=hMHH4yTPBHZUdEF0MQBMA04GLD3DPYMcNION+cySEUY=;
+ b=kFsqLNKFTA0bRSTpgK1ZizBPkY3/f3o5uFzQfSnERdVJVQeHu8RAQUcJumcVCIJDH3fcg7nxg
+ EkbDzhuT90/B3FTj/M3cuwHSXd3FU+dqk0eFGzUfN9R6zORfLYpM7Um
+X-Developer-Key: i=menguomary@gmail.com; a=ed25519;
+ pk=dgRbAFBMBZdJfvBTw9RBcE3WxXn6Yt7GOZFPRpQqpkY=
+X-Endpoint-Received: by B4 Relay for menguomary@gmail.com/20261121 with
+ auth_id=1595
+X-Original-From: =?utf-8?q?Omar_Yi=C4=9Fitcan_Meng=C3=BC?= <menguomary@gmail.com>
+Reply-To: menguomary@gmail.com
 Content-Transfer-Encoding: 8bit
 
-test_memcg_high_sync mlock()s 200M with memory.high=30M and
-memory.max=140M, and expects memory.high to throttle the call before it
-reaches memory.max. But it checked memory.events right after the first
-high event, so it passed as soon as the handler ran once, even if the
-rest of the call was not throttled.
+From: Omar Yiğitcan Mengü <menguomary@gmail.com>
 
-That hid a real gap: with THP=always and the default defrag=madvise,
-THP charges skipped the synchronous handler, and only a few page table
-charges ran it. In a VM, usage reached 85M within 115ms and memory.max
-about 2s later.
+If a corrupted JFS image has a negative per-AG free block count such as
+dn_agfree[agno] == -1, dbMount() currently accepts it without validation
+and stores -1 in bmp->db_agfree[agno].
 
-After the first event, check for 5 seconds that no max event shows up
-and the child is still running, then that memory.current went up.
-Counting high events isn't enough: one handler call can log many while
-it retries reclaim. Also kill and reap the child, which may still be
-throttled.
+When FITRIM later calls dbDiscardAG() with minlen == 1, the signed s64
+value nblocks = -1 is implicitly converted to u64 max_ranges = U64_MAX.
+After do_div(max_ranges, minlen), max_ranges + 1 overflows u64 to 0,
+causing range_cnt to be 0 and kmalloc_objs(struct range2trim, 0, ...)
+to return ZERO_SIZE_PTR (0x10). Since totrim != NULL and the while loop
+(nblocks >= minlen) is skipped, tt->nblocks = 0 dereferences 0x18 and
+triggers a general protection fault.
 
-Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
+Fix this in two places:
+1. Validate bmp->db_agfree[i] >= 0 in dbMount() to reject corrupted
+   on-disk metadata at mount time with -EINVAL.
+2. Return early in dbDiscardAG() when nblocks < minlen, preventing any
+   negative nblocks (for example from runtime corruption) from
+   overflowing max_ranges + 1 and avoiding an unnecessary allocation
+   when an AG has fewer than minlen free blocks.
+
+Reported-by: syzbot+29eda1328acf6cf2dbfb@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=29eda1328acf6cf2dbfb
+Fixes: b40c2e665cd5 ("fs/jfs: TRIM support for JFS Filesystem")
+Cc: stable@vger.kernel.org
+Signed-off-by: Omar Yiğitcan Mengü <menguomary@gmail.com>
 ---
- .../selftests/cgroup/test_memcontrol.c        | 39 +++++++++++++++----
- 1 file changed, 32 insertions(+), 7 deletions(-)
+ fs/jfs/jfs_dmap.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/cgroup/test_memcontrol.c b/tools/testing/selftests/cgroup/test_memcontrol.c
-index bb673012dcf0..1af984761a02 100644
---- a/tools/testing/selftests/cgroup/test_memcontrol.c
-+++ b/tools/testing/selftests/cgroup/test_memcontrol.c
-@@ -771,14 +771,16 @@ static int alloc_anon_mlock(const char *cgroup, void *arg)
+diff --git a/fs/jfs/jfs_dmap.c b/fs/jfs/jfs_dmap.c
+index a841cf21d..94542ed93 100644
+--- a/fs/jfs/jfs_dmap.c
++++ b/fs/jfs/jfs_dmap.c
+@@ -293,8 +293,13 @@ int dbMount(struct inode *ipbmap)
+ 		goto err_release_metapage;
+ 	}
  
- /*
-  * This test checks that memory.high is able to throttle big single shot
-- * allocation i.e. large allocation within one kernel entry.
-+ * allocation i.e. large allocation within one kernel entry. The name is
-+ * from when this was done synchronously in the charge path.
-  */
- static int test_memcg_high_sync(const char *root)
- {
--	int ret = KSFT_FAIL, pid, fd = -1;
-+	int ret = KSFT_FAIL, pid = -1, fd = -1, i;
- 	char *memcg;
- 	long pre_high, pre_max;
--	long post_high, post_max;
-+	long first_high, first_current;
-+	long post_max, post_current;
- 
- 	memcg = cg_name(root, "memcg_test");
- 	if (!memcg)
-@@ -811,17 +813,40 @@ static int test_memcg_high_sync(const char *root)
- 
- 	cg_wait_for(fd);
- 
--	post_high = cg_read_key_long(memcg, "memory.events", "high ");
--	post_max = cg_read_key_long(memcg, "memory.events", "max ");
--	if (post_high < 0 || post_max < 0)
-+	/*
-+	 * The first event only shows that throttling started. For 5 seconds,
-+	 * check that the child is still running and doesn't reach memory.max,
-+	 * then that memory.current went up, so it is throttled, not stuck.
-+	 * High events don't show progress: one handler call can log many.
-+	 */
-+	first_high = cg_read_key_long(memcg, "memory.events", "high ");
-+	first_current = cg_read_long(memcg, "memory.current");
-+	if (first_high < 0 || first_high == pre_high || first_current < 0)
- 		goto cleanup;
- 
--	if (pre_high == post_high || pre_max != post_max)
-+	for (i = 0; i < 50; i++) {
-+		usleep(100000);
-+		post_max = cg_read_key_long(memcg, "memory.events", "max ");
-+		if (post_max < 0 || post_max != pre_max)
-+			goto cleanup;
-+		if (waitpid(pid, NULL, WNOHANG) == pid) {
-+			pid = -1;
-+			goto cleanup;
+-	for (i = 0; i < MAXAG; i++)
++	for (i = 0; i < MAXAG; i++) {
+ 		bmp->db_agfree[i] = le64_to_cpu(dbmp_le->dn_agfree[i]);
++		if (bmp->db_agfree[i] < 0) {
++			err = -EINVAL;
++			goto err_release_metapage;
 +		}
 +	}
-+
-+	post_current = cg_read_long(memcg, "memory.current");
-+	if (post_current <= first_current)
- 		goto cleanup;
+ 	bmp->db_agsize = le64_to_cpu(dbmp_le->dn_agsize);
+ 	bmp->db_maxfreebud = dbmp_le->dn_maxfreebud;
  
- 	ret = KSFT_PASS;
+@@ -1677,6 +1682,10 @@ s64 dbDiscardAG(struct inode *ip, int agno, s64 minlen)
+ 	IWRITE_LOCK(ipbmap, RDWRLOCK_DMAP);
  
- cleanup:
-+	if (pid > 0) {
-+		kill(pid, SIGKILL);
-+		while (waitpid(pid, NULL, 0) < 0 && errno == EINTR)
-+			;
+ 	nblocks = bmp->db_agfree[agno];
++	if (nblocks < minlen) {
++		IWRITE_UNLOCK(ipbmap);
++		return 0;
 +	}
- 	if (fd >= 0)
- 		close(fd);
- 	cg_destroy(memcg);
--- 
-2.53.1-Meta
+ 	max_ranges = nblocks;
+ 	do_div(max_ranges, minlen);
+ 	range_cnt = min_t(u64, max_ranges + 1, 32 * 1024);
+
+---
+base-commit: 4843f6873f7c4835e62f2c73ba0fd538e57a2f22
+change-id: 20261122-jfs-fix-dbdiscardag-overflow-4826f61a29f7
+
+Best regards,
+--  
+Omar Yiğitcan Mengü <menguomary@gmail.com>
+
 
