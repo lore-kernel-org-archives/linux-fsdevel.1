@@ -1,89 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795367380;
-	b=4adJkfQTeVEQaTBELxWuodDTKbKzs3pdU7zL6Xel88bNwxeSeCWmvS4triaGa8v6jKHr
-	 I56l3WEkZSUWFBDn9EnKZRRTxyW2xRjOPw+5GzIQVVoHsBY++btEm11uSDooZTYR2meZ7
-	 fmx5qs7Jo0ibLRC5QHg7Sjuipt/8YmKk/hJhWCGz2R1fzlp6aeEc0JdpG5UryUx7RrWq6
-	 HlY5WxmDcZwF2Qk4flyHoo1Z3tGOXSOoTzA1Q3m0H4BItFJh2U7Dmm/n6Vxdf1XXZ7Ow9
-	 BIv8pJec80MLZlyywQdF/uMZI7E6+79O0AmBuLVlNWkvu1hgoeNIVGtVmfcWVcn0ypQ==
+	t=1795367820;
+	b=U6ON9L7f27GGBJngA65jmHbYVuamyRjIcVV802aiM7txPSfVeJ9/iZxlXhMXMT7qnbWh
+	 iMZM8xTLqOuXImtOZvkEH1HdXXDewl5fW+SPG+ohVItLCDtFKql+Hze9GNX3EsWN6bHKX
+	 4QrUH5zdMX2yt36NPGxEA4ffAHIM2iEpxZLZdqVJMTlSNt7mGjrqDWJH2Wj04YIs8QsYe
+	 I7Q4Iavz/vAfTw/7DHvK26S8omSzcqsjx43uUU/xCBX2w5PKBu2N9cAj/REOyQTUDs5te
+	 CuMW9AJ1gLu6SE8fE85LtHSYWoTXBkZ2XOHWmoBjneSoFEdVRYg47AV+ndoGxmj6KcQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795367380;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Scanned-By;
-	bh=plrqPPTqLUGXyRtF3yviBr2TBAGHrlZ/HQwc2HJI+og=;
-	b=OC0KP9ArT7M4nXjKoRVDNw61jqE9jzTKi5amhN8hWIY2BL8yCQn3I/omN8J12x0ZK0zM
-	 k+MXw1JYNzvJQKwvK+6AvmASqTBRBdcf8g5XSmXqQ+BhGBNRwW7VgIzUfxsuQNwuFKwZ+
-	 Ir/j0o1VykuISvMm+9HIfHPNUVZMvWbySKxlZPdekjSVGWYRbX/WG0HEQUeySGeco/nv5
-	 K/9XlRacsE4rVkYj8hiS+PY7QM4u8dyqWtdsEu6D7Nv6nOapqz1B9LogjsGbE9/9HZnQ6
-	 lX2Ba5gBf8B/DgL2hVP4YbvktzqjdKNUbb7HQgJj9+eft0SfHlkTHKSkLodneSpXWrg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795367820;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=uZBVsygS6D/XCIyZiy9rHnS3W7U40v2cBdi6mraqHsc=;
+	b=dpY5sFQbJFTaMDNsmyHc+KOwMbrC7wsrzPPmmx+UGiKmg6icxslLOz93v4iv3Prkphyr
+	 hiFsHpxL4GXpAu2r9e3uJdniNbbPh8cMteaAHnffGY3BQrvjoss1/4ZZRKdnIAp3nbxCp
+	 voCOX0guUnsFGWeZGn0EHZU0CGjsCX5y2pxkTW/5zapMwUbM+rg3Ojj7G5rkDahCjHLYx
+	 rElwG9s9aYEw12jVpoBV82u8GeIdE2MgPenlGN/7uBT9bQPYEfZr+mEHJQczsTtcIInTH
+	 4OlRImaS3F8XizwFRIN0qyB7e70z4EOgqi1wOPxP8NMw4KAZyQGac9lObT8iM7xb9yg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Ovp9JkQz;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mCUWiBBI;
+	arc=none smtp.remote-ip=209.85.128.49
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBFB4606A32A
-	for <linux-fsdevel@vger.kernel.org>; Sun, 22 Nov 2026 17:09:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DBFB4606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DE6606A685
+	for <linux-fsdevel@vger.kernel.org>; Sun, 22 Nov 2026 17:16:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02DE6606A685
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Ovp9JkQz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795367378;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=plrqPPTqLUGXyRtF3yviBr2TBAGHrlZ/HQwc2HJI+og=;
-	b=Ovp9JkQzxcbQa/8n9xvZnE6pir4DkRuxCW7sBnCQBkjOA9cHCLDqApAGyjzlP3HJ/4YPUj
-	4vo5uq3qb1w0tGWP4f0r6jqTDMWjmV+z2CTIrmvI29f7IvGb+0Tn745ygPVugIxvYMaKqg
-	DXTkoqn7DVioo70kAzV6gJW4geLfpGY=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-639-xbDJYcetNL6n8wUg_nwS_g-1; Sun,
- 22 Nov 2026 17:09:32 +0000
-X-MC-Unique: xbDJYcetNL6n8wUg_nwS_g-1
-X-Mimecast-MFC-AGG-ID: xbDJYcetNL6n8wUg_nwS_g_1795367370
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AFC0F180047B;
-	Sun, 22 Nov 2026 17:09:29 +0000 (UTC)
-Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 56774180054C;
-	Sun, 22 Nov 2026 17:09:26 +0000 (UTC)
-Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
-	oleg@redhat.com; Sun, 22 Nov 2026 18:09:29 +0100 (CET)
-Date: Sun, 22 Nov 2026 18:09:24 +0100
-From: Oleg Nesterov <oleg@redhat.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	Mani Tofigh via B4 Relay <devnull+mt4022.columbia.edu@kernel.org>
-Cc: Breno Leitao <leitao@debian.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	tz2294@columbia.edu, stable@vger.kernel.org,
-	Mani Tofigh <mt4022@columbia.edu>
-Subject: Re: [PATCH] pipe: keep per-write wakeups for EPOLLEXCLUSIVE consumers
-Message-ID: <awMhxEuMHULvk8SA@redhat.com>
-References: <avxWKI795DthE8Sb@redhat.com>
- <CAHk-=wjOq+G=6gte4vX_YxOD_VfE1uZh7=+KHs8N0wU75xyHEg@mail.gmail.com>
- <avyODoFhZ_M7YDU5@redhat.com>
- <CAHk-=wgcBSBtHE+3ceKGjq1jyF64OyoEqf5JPpixowAa80GqNQ@mail.gmail.com>
- <avyVwg-5ef-pXZkG@redhat.com>
- <CAHk-=wjJF8uZLfVbbqei9-fhs9K70i2OnVreCV-rQF9EGKAxJg@mail.gmail.com>
- <CAHk-=wjqParwoB8wb9KfGVpbwUwvKvObpLOo=XPM0GGfkn3ibw@mail.gmail.com>
- <av2juQijIISJAgyf@redhat.com>
- <CAHk-=wg4RgBYZcUU+c16XxdZ4UbAaazJkUS=R6=tpN4xUBdDRw@mail.gmail.com>
- <av3SmRMGDLVAwMzK@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mCUWiBBI
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a210470b49so23018945e9.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 22 Nov 2026 09:16:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795367817; x=1795972617; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=uZBVsygS6D/XCIyZiy9rHnS3W7U40v2cBdi6mraqHsc=;
+        b=mCUWiBBIqRJAdhZb2luukoWxDreQFeot995UR88igZcIS0eYZwCiUfOG4BIu8WBURh
+         Jz7I+C5KnQAK8p48KYG+i5xHtq/Erwa6N+A8cM72sf4Y9nFejquJg2I/1ckw76GjPW+y
+         iS/Dlq+IYSeHrvebzDZxCmewV4Xxm8capneCg1wVXsyZnJBOOfaJmugwbDe790KhzYmF
+         Btx/MyCTV7/38TA9OsUKVJvr51Z2jiG+X6f+spWGWrGenhnQt/8ErarOv3o4P29JS3B3
+         e1I/8S41h1Ej++B26a8Ofo9iLAZaeRNlKnT0Y1Dlbu+vBR2j9f1lvzryGl/0OUBJZ0Gc
+         BuUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795367817; x=1795972617;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=uZBVsygS6D/XCIyZiy9rHnS3W7U40v2cBdi6mraqHsc=;
+        b=gFwuImEZMqA7J0xPpGlHHTDrtQEn+NZqwzWOpyeJwZQ1xaAZPh7bBt8qSjOHHOwOfa
+         OF2GNyaouQaKW9gj8UnSth1b8NoiRHoeMc3WYu48eVpYS6naNgHgzOhqRLlb8GUNSZWc
+         HGYj774OD5Xpe2snexqRWtMBZzlZpC6/Ck2ZS3PR/lwDv0U1PlSlIk1NXJFo8Z+BMqic
+         1nhVfUUfGszlD1YnYw9XXj4HXmwdeAr0Q/RGK6ooSI9qNDOkvHfv1jX2VxZW2VZ+k+10
+         +FBgkpGix/7tMVydG8JIf2I8N4xpoVOudKBETP+gUz45Rp61BNJav89JN6WRJlzUHYki
+         09DA==
+X-Forwarded-Encrypted: i=1; AL+hErERcizLaBnpHgb1PWPt3TF8NjycLtclalQkE016qjgCJ4X1vo8ZVNjqqaUfelfImE3fH/SXORbXgXs28k7F@vger.kernel.org
+X-Gm-Message-State: APuU4Z8a66cLhw2y0Nq09EIbTks6XzxRA51tEYCMbqIVzgQCZJO2+4eL
+	E5JJsrQzYOiK7f8+VrlxLGmZvf70o+4yvGvfZtaQuOKJWy+WDSoB2zzx
+X-Gm-Gg: AZFdTZcdKQZrcTgfUshkIexEWy1iV/fPvCf9mYIAhGwFPg/PngxEyA1Z+unR/mn4GEv
+	DkFNiHAUjkzAcXkyQZJU9jqnsuJ7ZPLyAi+i3s+750axYn2LeXbJXtJqipbxEAw+ce41hW27nfE
+	86IP7X4VnbFyAR3qxY6Bqbu1haXxjHkoo4ILkC4jWqwtGLJOmWz+D7qm6I0VkUTjlhOhDHfSPm9
+	AA3gEXzcgcM2OCoJ0K53hbRld+tVNreDNxYYCVXEBR5M7HeygqezpTlQsuyezmlFXYcmZq5ucIi
+	s9B7jzvNls5LCqjc1Sn55QQ6fZFRSRcxbw3kC9BBYMhQwH6rc7YCsGTrYMRPn8Ie/BUy8qPNmG1
+	Op88s8ypUaMVuYDgJUJY7khzFfB2cqAAYEo+Z6QGpJcg3rgvYnUBSJSC1PkUg8yM6A3bfuRi+Wx
+	tlc4eYoz/sPn7SABadsQdG85HdheaGm4UWOviQqb83OQiY9y/LERck6eufIIHFdTYpkMUCKoUhX
+	XSP72T4u//kDJgcIAnZKiIxDLYq2vG3uC0nzRvtozmgWD2CNL2Dgk0A8yItERYnFUnMpjsCJLv7
+	ReBhAS9vkb7gg3wnz7UGF5g8
+X-Received: by 2002:a05:600c:674b:b0:4bb:6947:3e1d with SMTP id 5b1f17b1804b1-4bb8892c0fcmr182147755e9.20.1795367817148;
+        Sun, 22 Nov 2026 09:16:57 -0800 (PST)
+Received: from [192.168.1.22] ([83.231.69.9])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf630esm18145971f8f.16.2026.11.22.09.16.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Nov 2026 09:16:56 -0800 (PST)
+Message-ID: <2da64337-5135-46ec-b7ef-0e1654f76238@gmail.com>
+Date: Sun, 22 Nov 2026 18:16:54 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -93,289 +92,91 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <av3SmRMGDLVAwMzK@redhat.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] mm/huge_memory: use NOFS when allocating while
+ splitting folios
+To: "David Hildenbrand (Arm)" <david@kernel.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Nico Pache <nico.pache@linux.dev>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ William Kucharski <william.kucharski@oracle.com>,
+ Heiko Carstens <hca@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, "Lorenzo Stoakes (ARM)"
+ <ljs@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
+ Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong <joannelkoong@gmail.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, stable@vger.kernel.org,
+ Chris Mason <mason@kernel.org>
+References: <20261122-migrate_reclaim_deadlock-v1-0-83c56185b0fb@kernel.org>
+ <20261122-migrate_reclaim_deadlock-v1-1-83c56185b0fb@kernel.org>
+Content-Language: en-US
+From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+In-Reply-To: <20261122-migrate_reclaim_deadlock-v1-1-83c56185b0fb@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 11/18, Oleg Nesterov wrote:
->
-> On 11/18, Linus Torvalds wrote:
-> >
-> > Some duplication - with explicit naming of the locking status for the
-> > special cases that are called with the lock already held - is much
-> > preferable to dynamically doing the locking
->
-> OK, this was my plan B ;) I'll try to make a patch this week.
+On 11/22/26 1:42 PM, David Hildenbrand (Arm) wrote:
+> Various callers (migration, memory-failure, s390_wiggle_split_folio) split
+> locked folios without holding a reference on the folio's inode.
+> 
+> Splitting a file folio might allocate memory for the xarray and call
+> filemap_release_folio(). If either ends up in direct reclaim with
+> __GFP_FS, reclaim can evict the inode through the dcache shrinker, and
+> wait in truncate_inode_pages_final() for the folio that we hold locked:
+> 
+>     try_split_folio()
+>       folio_lock(A)
+>       split_folio_to_list(A)
+>         xas_split_alloc()
+>           try_to_free_pages()
+>             super_cache_scan()
+>               prune_dcache_sb()
+>                 iput_final()
+>                   evict()
+>                     truncate_inode_pages_final()
+>                       folio_lock(A)
+> 
+> This requires that nothing else holds a reference on the inode, and can
+> be triggered most easily with FUSE, which evicts inodes on the last
+> reference.
+> 
+> Further, xas_split_alloc() charges the XArray nodes to the memcg, and on
+> cgroup v1, memcg reclaim waits for file folios under writeback if
+> __GFP_FS is set. That can deadlock if writeback waits for a folio lock
+> that we hold, for example with ext4.
+> 
+> Let's fix it by splitting folios in a NOFS scope, so callers don't have
+> to care. A NOFS scope also covers allocations that filesystems make with
+> their own gfp flags, for example in filemap_release_folio().
+> 
+> On NFS, splitting folios with pending writes or ongoing writes to
+> fscache might now fail slightly more often, until these writes have
+> completed. On netfs, only folios that are being written to fscache are
+> affected. All fairly irrelevant.
+> 
+> This has medium urgency.
+> 
+> Fixes: 6b24ca4a1a8d ("mm: Use multi-index entries in the page cache")
+> Fixes: eef88fe45ac9 ("s390/uv: Split large folios in gmap_make_secure()")
+> Fixes: 789763523fb4 ("xarray: honor XA_FLAGS_ACCOUNT in xas_split_alloc()")
+> Cc: stable@vger.kernel.org
+> Reported-by: Chris Mason <mason@kernel.org>
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-Damn, I am stipid.
+LGTM:
 
-So I wrote the patches, but just before sending them, I realized I was wrong.
-Just for the record, see the diff I was going to send at the end.
+Reviewed-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
 
-Yes, __wait_event_interruptible_locked() is buggy, but only in that do_wait_intr*()
-use list_add_tail() regardless of WQ_FLAG_EXCLUSIVE.
-
-I missed that fact that do_wait_intr*() always return 0 if they drop wq->lock,
-and in this case __wait_event_interruptible_locked() will always recheck the
-condition with this lock held. So an exclusive waiter can't miss miss a wakeup.
-
-So we only need to change do_wait_intr*() to check WQ_FLAG_EXCLUSIVE and use
-__add_wait_queue() if it is set. It doesn't make sense to refactor this code.
-
-Mani, can you resend your patch? perhaps it also makes sense to turn the
-"exclusive" arg into wq_flags like the Linus's commit cea5f91daa3ac does.
-
-Oleg.
----
-
-diff --git a/include/linux/wait.h b/include/linux/wait.h
-index b3e94c71cd3e..c30e6b2ee231 100644
---- a/include/linux/wait.h
-+++ b/include/linux/wait.h
-@@ -298,7 +298,6 @@ extern void init_wait_entry(struct wait_queue_entry *wq_entry, int flags);
-  * on purpose; we use long where we can return timeout values and int
-  * otherwise.
-  */
--
- #define ___wait_event(wq_head, condition, state, wq_flag, ret, cmd)		\
- ({										\
- 	__label__ __out;							\
-@@ -326,6 +325,35 @@ extern void init_wait_entry(struct wait_queue_entry *wq_entry, int flags);
- __out:	__ret;									\
- })
- 
-+/*
-+ * Same as ___wait_event(), but called with wq_head->lock held.
-+ * @cmd must release and reacquire this lock around schedule().
-+ */
-+#define ___wait_event_locked(wq_head, condition, state, wq_flag, ret, cmd)	\
-+({										\
-+	__label__ __out;							\
-+	struct wait_queue_entry __wq_entry;					\
-+	long __ret = ret;	/* explicit shadow */				\
-+										\
-+	init_wait_entry(&__wq_entry, wq_flag);					\
-+	for (;;) {								\
-+		long __int = prepare_to_wait_event_locked(&wq_head,		\
-+							  &__wq_entry, state);	\
-+		if (condition)							\
-+			break;							\
-+										\
-+		if (___wait_is_interruptible(state) && __int) {			\
-+			__ret = __int;						\
-+			goto __out;						\
-+		}								\
-+										\
-+		cmd;								\
-+	}									\
-+	__set_current_state(TASK_RUNNING);					\
-+	__remove_wait_queue(&wq_head, &__wq_entry);				\
-+__out:	__ret;									\
-+})
-+
- #define __wait_event(wq_head, condition)					\
- 	(void)__wait_event_state(wq_head, condition, TASK_UNINTERRUPTIBLE)
- 
-@@ -767,26 +795,16 @@ do {										\
- 	__ret;									\
- })
- 
--extern int do_wait_intr(wait_queue_head_t *, wait_queue_entry_t *);
--extern int do_wait_intr_irq(wait_queue_head_t *, wait_queue_entry_t *);
--
--#define __wait_event_interruptible_locked(wq, condition, exclusive, fn)		\
--({										\
--	int __ret;								\
--	DEFINE_WAIT(__wait);							\
--	if (exclusive)								\
--		__wait.flags |= WQ_FLAG_EXCLUSIVE;				\
--	do {									\
--		__ret = fn(&(wq), &__wait);					\
--		if (__ret)							\
--			break;							\
--	} while (!(condition));							\
--	__remove_wait_queue(&(wq), &__wait);					\
--	__set_current_state(TASK_RUNNING);					\
--	__ret;									\
--})
-+extern void do_wait_intr(wait_queue_head_t *);
-+extern void do_wait_intr_irq(wait_queue_head_t *);
- 
-+#define __wait_event_interruptible_locked(wq_head, condition, cmd)		\
-+	___wait_event_locked(wq_head, condition, TASK_INTERRUPTIBLE,		\
-+			     0, 0, cmd(&wq_head))
- 
-+#define __wait_event_interruptible_exclusive_locked(wq_head, condition, cmd)	\
-+	___wait_event_locked(wq_head, condition, TASK_INTERRUPTIBLE,		\
-+			     WQ_FLAG_EXCLUSIVE, 0, cmd(&wq_head))
- /**
-  * wait_event_interruptible_locked - sleep until a condition gets true
-  * @wq: the waitqueue to wait on
-@@ -810,9 +828,14 @@ extern int do_wait_intr_irq(wait_queue_head_t *, wait_queue_entry_t *);
-  * The function will return -ERESTARTSYS if it was interrupted by a
-  * signal and 0 if @condition evaluated to true.
-  */
--#define wait_event_interruptible_locked(wq, condition)				\
--	((condition)								\
--	 ? 0 : __wait_event_interruptible_locked(wq, condition, 0, do_wait_intr))
-+#define wait_event_interruptible_locked(wq_head, condition)			\
-+({										\
-+	int __ret = 0;								\
-+	if (!(condition))							\
-+		__ret = __wait_event_interruptible_locked(wq_head, condition,	\
-+					     		  do_wait_intr);	\
-+	__ret;									\
-+})
- 
- /**
-  * wait_event_interruptible_locked_irq - sleep until a condition gets true
-@@ -837,9 +860,14 @@ extern int do_wait_intr_irq(wait_queue_head_t *, wait_queue_entry_t *);
-  * The function will return -ERESTARTSYS if it was interrupted by a
-  * signal and 0 if @condition evaluated to true.
-  */
--#define wait_event_interruptible_locked_irq(wq, condition)			\
--	((condition)								\
--	 ? 0 : __wait_event_interruptible_locked(wq, condition, 0, do_wait_intr_irq))
-+#define wait_event_interruptible_locked_irq(wq_head, condition)			\
-+({										\
-+	int __ret = 0;								\
-+	if (!(condition))							\
-+		__ret = __wait_event_interruptible_locked(wq_head, condition,	\
-+					     		  do_wait_intr_irq);	\
-+	__ret;									\
-+})
- 
- /**
-  * wait_event_interruptible_exclusive_locked - sleep exclusively until a condition gets true
-@@ -868,9 +896,14 @@ extern int do_wait_intr_irq(wait_queue_head_t *, wait_queue_entry_t *);
-  * The function will return -ERESTARTSYS if it was interrupted by a
-  * signal and 0 if @condition evaluated to true.
-  */
--#define wait_event_interruptible_exclusive_locked(wq, condition)		\
--	((condition)								\
--	 ? 0 : __wait_event_interruptible_locked(wq, condition, 1, do_wait_intr))
-+#define wait_event_interruptible_exclusive_locked(wq_head, condition)			\
-+({											\
-+	int __ret = 0;									\
-+	if (!(condition))								\
-+		__ret = __wait_event_interruptible_exclusive_locked(wq_head, condition,	\
-+					     			    do_wait_intr);	\
-+	__ret;										\
-+})
- 
- /**
-  * wait_event_interruptible_exclusive_locked_irq - sleep until a condition gets true
-@@ -899,10 +932,14 @@ extern int do_wait_intr_irq(wait_queue_head_t *, wait_queue_entry_t *);
-  * The function will return -ERESTARTSYS if it was interrupted by a
-  * signal and 0 if @condition evaluated to true.
-  */
--#define wait_event_interruptible_exclusive_locked_irq(wq, condition)		\
--	((condition)								\
--	 ? 0 : __wait_event_interruptible_locked(wq, condition, 1, do_wait_intr_irq))
--
-+#define wait_event_interruptible_exclusive_locked_irq(wq_head, condition)		\
-+({											\
-+	int __ret = 0;									\
-+	if (!(condition))								\
-+		__ret = __wait_event_interruptible_exclusive_locked(wq_head, condition,	\
-+					     			    do_wait_intr_irq);	\
-+	__ret;										\
-+})
- 
- #define __wait_event_killable(wq, condition)					\
- 	__wait_event_state(wq, condition, TASK_KILLABLE)
-@@ -1218,6 +1255,7 @@ do {										\
-  */
- void prepare_to_wait(struct wait_queue_head *wq_head, struct wait_queue_entry *wq_entry, int state);
- bool prepare_to_wait_exclusive(struct wait_queue_head *wq_head, struct wait_queue_entry *wq_entry, int state);
-+long prepare_to_wait_event_locked(struct wait_queue_head *wq_head, struct wait_queue_entry *wq_entry, int state);
- long prepare_to_wait_event(struct wait_queue_head *wq_head, struct wait_queue_entry *wq_entry, int state);
- void finish_wait(struct wait_queue_head *wq_head, struct wait_queue_entry *wq_entry);
- long wait_woken(struct wait_queue_entry *wq_entry, unsigned mode, long timeout);
-diff --git a/kernel/sched/wait.c b/kernel/sched/wait.c
-index d0521b54eeb3..b7d03ceb80cd 100644
---- a/kernel/sched/wait.c
-+++ b/kernel/sched/wait.c
-@@ -269,12 +269,13 @@ void init_wait_entry(struct wait_queue_entry *wq_entry, int flags)
- }
- EXPORT_SYMBOL(init_wait_entry);
- 
--long prepare_to_wait_event(struct wait_queue_head *wq_head, struct wait_queue_entry *wq_entry, int state)
-+long prepare_to_wait_event_locked(struct wait_queue_head *wq_head,
-+				  struct wait_queue_entry *wq_entry, int state)
- {
--	unsigned long flags;
- 	long ret = 0;
- 
--	spin_lock_irqsave(&wq_head->lock, flags);
-+	lockdep_assert_held(&wq_head->lock);
-+
- 	if (signal_pending_state(state, current)) {
- 		/*
- 		 * Exclusive waiter must not fail if it was selected by wakeup,
-@@ -299,50 +300,37 @@ long prepare_to_wait_event(struct wait_queue_head *wq_head, struct wait_queue_en
- 		}
- 		set_current_state(state);
- 	}
--	spin_unlock_irqrestore(&wq_head->lock, flags);
- 
- 	return ret;
- }
-+EXPORT_SYMBOL(prepare_to_wait_event_locked);
-+
-+long prepare_to_wait_event(struct wait_queue_head *wq_head,
-+			   struct wait_queue_entry *wq_entry, int state)
-+{
-+	guard(spinlock_irqsave)(&wq_head->lock);
-+
-+	return prepare_to_wait_event_locked(wq_head, wq_entry, state);
-+}
- EXPORT_SYMBOL(prepare_to_wait_event);
- 
- /*
-- * Note! These two wait functions are entered with the
-- * wait-queue lock held (and interrupts off in the _irq
-- * case), so there is no race with testing the wakeup
-- * condition in the caller before they add the wait
-- * entry to the wake queue.
-+ * Note! These two wait functions are entered with the wait-queue
-+ * lock held (and interrupts off in the _irq case).
-  */
--int do_wait_intr(wait_queue_head_t *wq, wait_queue_entry_t *wait)
-+void do_wait_intr(wait_queue_head_t *wq)
- {
--	if (likely(list_empty(&wait->entry)))
--		__add_wait_queue_entry_tail(wq, wait);
--
--	set_current_state(TASK_INTERRUPTIBLE);
--	if (signal_pending(current))
--		return -ERESTARTSYS;
--
- 	spin_unlock(&wq->lock);
- 	schedule();
- 	spin_lock(&wq->lock);
--
--	return 0;
- }
- EXPORT_SYMBOL(do_wait_intr);
- 
--int do_wait_intr_irq(wait_queue_head_t *wq, wait_queue_entry_t *wait)
-+void do_wait_intr_irq(wait_queue_head_t *wq)
- {
--	if (likely(list_empty(&wait->entry)))
--		__add_wait_queue_entry_tail(wq, wait);
--
--	set_current_state(TASK_INTERRUPTIBLE);
--	if (signal_pending(current))
--		return -ERESTARTSYS;
--
- 	spin_unlock_irq(&wq->lock);
- 	schedule();
- 	spin_lock_irq(&wq->lock);
--
--	return 0;
- }
- EXPORT_SYMBOL(do_wait_intr_irq);
- 
-
+-- 
+cheers,
+jose a. p-a
