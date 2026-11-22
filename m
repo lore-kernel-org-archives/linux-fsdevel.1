@@ -1,99 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795384612;
-	b=R9HX3uxqhJpqMe8WHKZnD7nDbkTvNEvkdiPuhJBRohz+hS1xKGj1U0XSbOkaSgeSykd2
-	 AXpkmfItqTUHQboV1RL0Xua8d28f7LqcnHD4WiBL6Pt5l7yx38WhE6j3+p46KvCg36uD4
-	 7F43Y59SOYmTHLhW/NpGlD6wgKIZkI2FhH5hDA+dQeLkWwJJ7M4DQNbpKngGcYnSLMgAa
-	 xHO07MXgJFif9JtntdkqsfR0/lWOi5bkA6k0F2/nWo/Ljszq2SCVazGNdSrQbuELQPY7K
-	 p42h5AEQDptj8GMHNrsnTR9WzF12GdnQp6ecxqqVkpV6tKIGoyxxmGunrBtErzSs3bA==
+	t=1795384759;
+	b=vvwS5bYYa/EcAIDOFujFCLO7oE0f9h2kZ9DbHdqR9UkdKGLumoLCIl1yW8k1eQtf9Mbb
+	 HoY3VC3gCWlBwjIsZkeBjHz0ZVz7H4sykehih+FCmKxxSc00n6qWb6w6NBhyHeL2rEGd0
+	 3sJXZ9r9UtWkGjD1cDnN3KpCeo46tZaCvJ4fOYPbvDOFeISDKbCa+ZNnENrVyM7PNWTgQ
+	 yKKGC/Jl/dJ1IHLRv41hUGPVtydmXxH96PqtAhkqO6gesWmKCfa653NlhOpwX/caoMK6+
+	 z1psG8+iyfHNZ1p45/A2mIM1kvcysjLO1FKe4dWdpGh8hhhZijiaZ+3TMVf6jPMQsRg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795384612;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:X-Patch-Reply:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=bwqVDHaqqXUJecFoI8gfarhhx3uMgHGFcxRh37PQR30=;
-	b=DxAIP8oBsZx16Q55Gw1gBpzuv7rRLRHNkyboJpSU0lBk5rUrUYuLjMNWh9fXxecCVnCC
-	 9c7sdYUTXUDo0r1qoppIm5v0FRVFmuzKCa0+v6YhpRUTDMc5CQCXnqe8NmNvU61ZLR3Hv
-	 tRSVSH0ckeSw7VUoW4c6kW+TEibMODi2NxTO4IujMTlvm29n1T0+8YsFEE/rAvzi+2CxT
-	 sgFJkIaFLjE3qemWpGEPg8IEJMIwg1dr26SCUOahpw8cXteTtCOogZRx5HAf5n766sntq
-	 52QF1dOZrunhEui8oi4YGEiWs1MZd5xbbCaJSccnYKoKtiL7ViyJxnJW1P+C+MLuing==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795384759;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=VKVDcIuQaevgGtraEctBRDBAbnJnWgbfI/Qfisvu0r0=;
+	b=ngKWN6Lhosg+aOafGHCx4bUvvP4TlOWREk0JQOaQjvM3BEqqgkC+GpqryLHijJXWeC9w
+	 Ct93oPJtWxNrIE4HnyfhoMzUrOtreWBARJ+2VB9i7tU9TR224xoV8Bxvbyw3boF7UkQFr
+	 WcQR8Ziypm10tQ39l5yqQDMW8QXiASBAtp8zU4Nkrt+jsHKIvgkkznF8sTNDuvR7yolSd
+	 WBx2NmS/nzLh9J3f5rJCBxhgXQNZ9ZxCTzp9H600R2vawn5q68jNJQj+Aubd0W3nYcDc8
+	 ofj0n3n7+sEJozXOU2ZzhjJItkIfH7HrTiqL0GO4bCJA+zpL0GxCSQbhLVm/RAhzcjQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BXie8At5;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cygjGK2Q;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C91606A334;
-	Sun, 22 Nov 2026 21:56:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 264A5606A31A;
+	Sun, 22 Nov 2026 21:59:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BXie8At5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 085171F000CF;
-	Sun, 22 Nov 2026 21:56:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cygjGK2Q
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D0781F000C6;
+	Sun, 22 Nov 2026 21:59:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795384611;
-	bh=bwqVDHaqqXUJecFoI8gfarhhx3uMgHGFcxRh37PQR30=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=BXie8At5QFQ5VGJ5Wgxa+Ryfj2HbGOJ0KDHW1aolgsw2YtdZGPnu8WYcSmeFf9iTy
-	 5wiX3oWysPjoCke2hcQZDizPm34+kAe7FMjSaSZ9srwusVIqRO580db6LxZDAFaZ0+
-	 3aDEW76QVsDdxoBaJCF/eDmBo7SUv8nl1byepex6XqNbxhpJHXHoKY2hbT2kLTC95N
-	 7JnRNOt0TIdCgaQhdXGjEOlBwvV7HGnUumRRGA3StMRgzFJT0plPL8HRWUST+VQqvd
-	 X4RjTcvHCj0K1oKGcN/z3PbXWOEFtUMKW6QRQ4AjrpymszI4/3zzB9pQMRd26c47gs
-	 kxUaKiE3hZ+vA==
-From: Danilo Krummrich <dakr@kernel.org>
-To: Ian Rogers <irogers@google.com>
-Cc: Danilo Krummrich <dakr@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kees Cook <kees@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Srish Srinivasan <ssrish@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <chleroy@kernel.org>,
-	Nayna Jain <nayna@linux.ibm.com>,
-	Mimi Zohar <zohar@linux.ibm.com>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Rich Felker <dalias@libc.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>,
-	Alexander Aring <aahringo@redhat.com>,
-	Felix Kuehling <felix.kuehling@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	Sumanth Korikkar <sumanthk@linux.ibm.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	driver-core@lists.linux.dev,
-	llvm@lists.linux.dev,
-	linux-hardening@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-sh@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	gfs2@lists.linux.dev,
-	xen-devel@lists.xenproject.org,
-	linux-mtd@lists.infradead.org,
-	amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
+	s=k20260515; t=1795384758;
+	bh=VKVDcIuQaevgGtraEctBRDBAbnJnWgbfI/Qfisvu0r0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=cygjGK2Qwk9AC2AgYeX3wIMuyM2D/W4bApQSl3IG+pJ0cP6HqakHMPQLUNCkoH5NF
+	 5lWbm+OaDH/oRuD4/wFvLK+u5lHhxWSYGGOGLKt8I5NQn92eGHCskMtF8M+tNGLmfT
+	 YOCauVmKvNOpjEjykvO0t9wXkc3M6aFy6/QuYsDfv219zt5a8OdvSpHtvQlT/z4ruQ
+	 WaPRcXTS4t/VjF/QRjqxJS6bbnJyvVyl0cxndf+IZ/R5/f9In22RgJpZJCGM4aO2iV
+	 ZeewTk7p1HgGq4TZ7uWMgAzYUKBe6kOHLB6k5nnWQwQuvwf3fC7tmR0BdZyMOOyt47
+	 QQnxSbMV562dg==
+Date: Mon, 23 Nov 2026 08:59:08 +1100
+From: Dave Chinner <dgc@kernel.org>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Qing Zhang <diasyzhangqing@gmail.com>, viro@zeniv.linux.org.uk,
+	jack@suse.cz, raven@themaw.net, djwong@kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/9] Add __must_init and require explicit kobj_type::release
-Date: Sun, 22 Nov 2026 22:56:39 +0100
-Message-ID: <20261122215639.1178566-1-dakr@kernel.org>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261119192520.1983406-1-irogers@google.com>
-References: <20261119192520.1983406-1-irogers@google.com>
-X-Patch-Reply: applied
+Subject: Re: [RFC PATCH] namei: revalidate the symlink dentry before invoking
+ get_link in RCU-walk
+Message-ID: <awNlrO5A-kdDOYvO@dread>
+References: <20261118083945.1449264-1-diasyzhang@tencent.com>
+ <20261120-desillusionieren-holzhammer-mieten-8ec8551ef2b0@brauner>
+ <awB0RE6WN_v4YBbn@infradead.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -103,38 +62,154 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <awB0RE6WN_v4YBbn@infradead.org>
 
-On Thu, 19 Nov 2026 11:25:11 -0800, Ian Rogers wrote:
-> [PATCH v4 0/9] Add __must_init and require explicit kobj_type::release
+On Fri, Nov 20, 2026 at 08:24:36AM -0800, Christoph Hellwig wrote:
+> On Fri, Nov 20, 2026 at 02:59:42PM +0100, Christian Brauner wrote:
+> > This only makes the window smaller.
+> > 
+> > XFS can still reinitialize the inode right after this check and while
+> > get() is running. Then ->get_link() operates on an inode that is being
+> > reset underneath it. And the !get check only catches the case where the
+> > that re-init already finished before we loaded ->get_link.
+> > 
+> > RCU pathwalk relies on inode memory not being reused before a grace
+> > period has passed. XFS itself frees inodes via call_rcu() but the
+> > recycle path hands the same struct inode out again without waiting for
+> > existing RCU walkers.
+> > 
+> > So that should be fixed in XFS, either by not recycling an inode in
+> > place while RCU walkers can still see it or by keeping i_op and the link
+> > state valid across a recycle.
+> 
+> Not recycling the inode really isn't an option, as that means there
+> would cause duplicate inodes in the xfs inode cache.  Keeping i_op and
+> state in place sounds a bit more feasibly, but could be iffy as well.
+> 
+> The best thing would be to find a way to keep the inode alive at the VFS
+> level when XFS marks it reclaimable.  That would be a huge an invasive
+> change, but it would solve this and many other problems as well.
 
-Applied, thanks!
+I don't think that's feasible without a massive rework of the VFS
+inode life cycle management and/or the way XFS tracks inode metadata
+dirtiness for writeback purposes.
 
-  Branch: driver-core-testing
-  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
+Background:
 
-[1/9] Compiler Attributes: Add __must_init macro
-      commit: b8a53320a885
-[2/9] powerpc/secvar: Add missing kobject release callback to secvar_ktype
-      commit: 4d5d4dd2a2e2
-[3/9] sh: sq: Add missing kobject release callback to ktype_percpu_entry
-      commit: d19384f2f3c7
-[4/9] cpufreq: governor: Initialize kobj_type release callback statically
-      commit: 009365942c15
-[5/9] dlm: Wait for kobject release before freeing dlm_ls
-      commit: 48ae948f4285
-[6/9] xen/sys-hypervisor: Add release callback to hyp_sysfs_kobj_type
-      commit: ecaf88d385c1
-[7/9] ubifs: sysfs: Use kset_create_and_add() for ubifs_kset
-      commit: 25d952902dee
-[8/9] drm/amdkfd: Free queue in procfs_queue_type kobject release callback
-      commit: 6d4ff4a020cf
-[9/9] kobject: Require explicit initialization of struct kobj_type::release
-      commit: 45eeed1f8094
+The xfs_iget_recycle() code exists because dirty XFS_IRECLAIMABLE
+inodes are tied into the journal machinery and need writeback before
+they can be reclaimed. This is all invisible to the VFS, and it is
+done via lockless lookups and atomic state checks without the need
+for reference counts within XFS itself.
 
-The patches will appear in the next linux-next integration (typically within 24
-hours on weekdays).
+The issue is that reclaiming such an inode generally requires a log
+force to stabilise it in the journal before it can be written back,
+and the act of writing it back requires access to the inode state.
+Hence the journal requires the XFS inode to live in XFS_IRECLAIMABLE
+state until metadata writeback is complete, regardless of any other
+inode state changes.
 
-The patches are in the driver-core-testing branch and will be promoted to
-driver-core-next after validation.
+xfs_ireclaim() can expedite the writeback portion of reclaim (by
+running an inode flush) but it does not expedite the required
+journal flush if the inode is still dirty in memory. On lookup
+of an XFS_IRECLAIMABLE inode in RCU mode, we cannot directly reclaim
+a dirty XFS_IRECLAIMABLE inode because it requires blocking on both
+a log force and metadata writeback. That's why the inode is sitting
+in the XFS_IRECLAIMABLE limbo in the first place...
+
+That's where the xfs_iget_recycle() code stepped in - it
+reinitialises the VFS portion of the inode without affecting the
+internal journal state of the inode. This allows new modifications to
+be added to the inode and the attached log item without any
+discontinuities in journal state.
+
+The reason it does a full initialisation of the VFS inode is that
+the inode can change identity whilst in XFS_IRECLAIMABLE. i.e. it
+could be unlinked and then reallocated as a different inode (same
+number, different generation), and so the type can change (e.g. REG
+-> DIR) and hence a full VFS init is required to recycle it.
+
+And the reason that we've always done this recycle is for
+performance reasons - the inode allocation algorithms can prefer to
+allocate recently freed inodes (for locality reasons), and hence
+recently unlinked inodes in the IRECLAIMABLE state can be
+reallocated and need recycling because the final unlink state hasn't
+reached stable media before they are recycled.
+
+Doing things like forcing logs, instant reclaim, RCU
+synchronisation, etc have all had significant performance impacts
+due to the additional latency these operations add to common
+workload patterns. Hence the rarity of this recycle issue hasn't
+outweighed the cost of the "simple" fixes to everyday operation.
+
+---
+
+> A good reproducer for the issue would help either way.
+
+IIRC, we reproduced this previously using unlinked inodes and
+exploiting the inode allocation algorithms to immediately reallocate
+said freed inodes whilst they were still in the IRECLAIMABLE state.
+
+I suspect that an acceptible fix here is made up of two parts. The
+first is for clean inodes in IRECLAIMABLE state - they can be freed
+without needing to wait for IO, so if the inode is clean we simply
+reclaim it and return a 'miss' from the fast lookup path. Then the
+lookup will hit the slow path, allocate a new inode, instantiate it
+from the underlying cached inode cluster buffer (i.e. no IO needed)
+and return that newly allocated indoe for the next VFS life cycle.
+
+THis only costs a bit of extra CPU for the reclaim/reallocate case
+for clean inodes, and should avoid the issue for all clean inodes.
+
+For dirty inodes, it's a bit more complex - we are going to have to
+block in the lookup path to resolve it. The fast path is going to
+have to tag the inode as IRECLAIM so that all other lookups will
+avoid it, then drop out of the lockless lookup mode. If the inode is
+pinned, we need to force the log to enable expedited writeback to
+succeed.
+
+Then we can treat it like the clean path - calling
+xfs_inode_reclaim() will then expedite the writeback flushing,
+remove the inode from the cache and schedule it for freeing via
+call_rcu(). Now we can run the cache miss path that will instantiate
+a new inode from the underlying cluster buffer, and that gets
+returned for the new VFS inode life cycle.
+
+These two mods will give correct behaviour in all situations. It
+will still have performance imapcts in the unlink/alloc case,
+though, because that's the typical latency sensitive workload (think
+working with lots of short term temp files) where the current
+xfs_iget_recycle() code works well.
+
+Hence there is a 3rd part to fixing this - avoiding reallocation of
+free inodes still in XFS_IRECLAIMABLE state. Right now we have a
+separation of on-disk indoe allocation (xfs_dialloc()) and in-memory
+inode allocation (xfs_icreate()), with both of these functions being
+paired everywhere we allocate an on-disk inode identically.
+xfs-dialloc() retuns the inode number of the allocated inode, and
+xfs_icreate() instantiates the in-memory inode for that inode
+number.
+
+Moving the instantiation of the in-memory inode to the same place we
+select and allocate the on-disk inode would allow us to avoid
+allocating IRECLAIMABLE inodes on-disk. i.e. we select a candidate
+inode for on-disk allocation, check if it is in-memory already, and
+if so, select a different inode to allocate. Otherwise, allocate the
+in-memory inode and insert it into the cache as XFS_INEW without
+doing any of the final setup, the allocate the on-disk inode for
+that inode number, and then when that succeeds, do the final setup
+of the in-memory inode that enables future lookups to find it in
+cache...
+
+At this point, we handle lookups of IRECLAIMABLE inodes correctly,
+and we avoid the common situation where lookup-based reclaiming of
+dirty IRECLAIMABLE inodes has a major impact on performance...
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+dgc@kernel.org
