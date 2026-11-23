@@ -1,89 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795424460;
-	b=c2AFiJaFk1C8W3Zf3HsApr2Z/dFk3S0xKncaEEppsV8bKIVABGVrIZdLpLCb88aR4vKU
-	 1/pqfIjUqEpKPF23hrpavEEbDr6VYL76Znyj3+70B74g72Qrsiwo8Y1iJoEwd0OxdyLbm
-	 ePBLXGfiQjHR4o5apQBp10HO69/bExnKLh8kkF+O7sclPooICD46qLEC9NoZNMQHgWr1c
-	 jvdBP70JTecgTRS7th+pj73DJQHtoAsnVxMSFGdkA/Jsaeta16OshN3XS8KeHJ+mC/NZP
-	 PsIGzCTXcyKaPBTCVUo54h1+hdeG8mWJE4ntYnV6hN4LFCwSCMpLrOs6blGphSt3h2A==
+	t=1795425330;
+	b=I+GJxei55qrEe1/xDANXqtSZX+V23v6M8riInaesuilpkbNt3XsAM6g3rxZ1HxhQtaFJ
+	 4jsYwdqIWcnaSlhdm8eiqCQ+sa0GDLX3XwazQD2qDnAfAEoK9bOkS06aRSBwytX2orcFV
+	 1Hg7fB8VpA2TZGcjrr7nHpud93d0KfTrlb4XT7KyZGsjCZd8J+0LEmBvfYlDWtkaA5yhy
+	 U4BXtQ4GWnAIw3oGRYtVak2MC2ZXsPInpyxRBrkycj1/IvJJLytGs2mdVmOiKcCnlu6OL
+	 HRcUUTsjlMbEmZSZhf3iw5II0/a/eyEvEbr+q9NzIsXtvjvG4iWNqacgQufsSpF6Rfg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795424460;
-	h=DMARC-Filter:Received:Received:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding:
-	 X-Rspamd-Pre-Result:X-Rspamd-Server:X-Spamd-Result:X-Spam-Flag:
-	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id:X-Rspamd-Pre-Result:
-	 X-Rspamd-Action;
-	bh=+lM7rrM1R/XvKFJcc9D+ndKl/G6mdrWcbu/Y3hUJBMs=;
-	b=GMlvRaB4nlt528yoMKNzg138QXPR4feWtg5sZ+XxnjB0VP27a6ZhoP8h7mZLIimmel/C
-	 LBF+/8Ky9KbmJZc17twJIpRcy4TZWVFK7MSV0cFrriLIZWjDvpPplluyt/RHwkpqgwtpA
-	 e65c+geeDTngFkq9gXWndlFRj+ilc10mnBhCtzfERAudzWoEMWPX7DTnGTm2bGs+fmFnF
-	 yei8EECs5yDMQbZ4aWQ6sH8IUcR1jVQaYC52QlzfSTb9iJUQgPAjKOXunYCLxYptDld+N
-	 1F4mH7gLoBlw1GpoM5gA62BvnnP+GiKuwcANFEBVYRKBeLGyOfKYctq+bVhrPhLFpMw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795425330;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=5QiqAXHt2Hqs0mxyFBDVb49lsswWbsrik6JHjFagC0E=;
+	b=uYuZoMmF9Bs7i2ucsEPjS8X2VMpm/79eaU0Pbiej6b8YuMZsm/beCSl4IZYLgcwIw/gp
+	 BzodvCh3f1SNfHOy/BWPxpe11Ra9LInw0HEY2RgGhTfpOW0U3cDFp6W8vIh+Qgg1nBHmR
+	 rdoxqCQCEuzpqCWYV9pfqMJXyfYV4baqN7xyPZe45XTScYAR6yk3NW+/VZGfi69bHps19
+	 KbYAwQ1k4GDS3uBe7bB1JPcT/PZBE+Lo5tZ/ti7jKywN/9CbYKP0BYAtvHNSjhHN9fRtv
+	 VZ0yz+olqvQm4RCTx5TnIRRFLpG6jqX1N82YJbMEubct1KISvAkEzMysDEQ3wXuA5rg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rXosVCnm;
+	arc=none smtp.remote-ip=74.125.82.178
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609DD606A68F;
-	Mon, 23 Nov 2026 09:01:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 609DD606A68F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7F3051F80D;
-	Mon, 23 Nov 2026 09:00:58 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 33706136D5;
-	Mon, 23 Nov 2026 09:00:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DbG/AsoABGvsBgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 23 Nov 2026 09:00:58 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 6AE3927602; Mon, 23 Nov 2026 10:00:57 +0100 (CET)
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: <linux-fsdevel@vger.kernel.org>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	gfs2@lists.linux.dev,
-	Mike Marshall <hubcap@omnibond.com>,
-	Martin Brandenburg <martin@omnibond.com>,
-	devel@lists.orangefs.org,
-	Dave Kleikamp <shaggy@kernel.org>,
-	jfs-discussion@lists.sourceforge.net,
-	Carlos Maiolino <cem@kernel.org>,
-	linux-xfs@vger.kernel.org,
-	David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	linux-afs@lists.infradead.org,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	fuse-devel@lists.linux.dev,
-	<linux-block@vger.kernel.org>,
-	Chuck Lever <cel@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	linux-nfs@vger.kernel.org,
-	Eric Biggers <ebiggers@kernel.org>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	linux-fscrypt@vger.kernel.org,
-	Jan Kara <jack@suse.cz>
-Subject: [PATCH v3 05/13] jfs: Use inode_is_dirty() in jfs_fsync()
-Date: Mon, 23 Nov 2026 10:00:40 +0100
-Message-ID: <20261123090040.19006-18-jack@suse.cz>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D29A606A31F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 09:15:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5D29A606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rXosVCnm
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-382f4710a17so5229300eec.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 01:15:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795425328; x=1796030128; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5QiqAXHt2Hqs0mxyFBDVb49lsswWbsrik6JHjFagC0E=;
+        b=rXosVCnmkvQMppNL8dpOXhyAzDEi1IGOP1Nx3aBGlOPkY0cbK1y6eIGw8YSsw4YWwa
+         1ptMwAxATLDGC5bQWLJtvxvDqB4BYH20JUrj67akh6uhInyajbXef6jplynZYq5UX6y+
+         U3JamRm+sP+7OfnaTYC2SiwrmiimcfQxLy5Bkq6QZegq+1wbWUeKD2CPMvsrZnloQccu
+         ngZUC30bVvRpoRPLbO1k1hn2H9ai93wC/IMod+rud+wlKQMKjUJoMfkykazDwcPXxOaB
+         +19ddIUnPh/hV4alyMjT2AGM+nvWhRtLA5VplAgwtPHLxyVF8jEpeVMGY1UJMPdy788K
+         10pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795425328; x=1796030128;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5QiqAXHt2Hqs0mxyFBDVb49lsswWbsrik6JHjFagC0E=;
+        b=okGuT1n/U/7DNSpTIhXk68PxXzO3+YwtAxBOouwt9BKgibzzOKoqJOslBvFn7fSg+8
+         sbb5Ucx4Uw0XTlJm43Dt8uNWRZcs/lQ54xmo/DEAw6v2AlJv0c5Jx2SZhxvS8h+6CekO
+         dN7zGscdh6X0F/h4oym4SP/8mHKHCr7S/rN+jelMYXtWBPxqqXt22mT2AeJd4qniD/1M
+         21mXBbADq2uiOlvOqxwZzqW6AslLjCpQ0wC9dZYeW7OMb45wp5wY66xQx+YaN8O7kBiI
+         pVFlg0AuyclAe6foGeYvZjQjuFUDHDyXrjDAYj6/Y1+CCoVmLaxPLz/a4Rn3aAuqLDCK
+         L18w==
+X-Gm-Message-State: APuU4Z9foXwT0se9SfI1mZ9zxoPtJgDBI5Q2cYso376XDMQ19uCt7kxw
+	mQEzGWlJu2XSLPfo59oqIbNWlID4V8Z1uoydgCjy8w+uhw56juI7yipzZoN5Cg==
+X-Gm-Gg: AZFdTZcXPrpDbC5M40w5VxP6kcman7wFl7Xuap4iS6WjC9Szj5dkSUB0QPvfrbGMOgN
+	+LKHC9sPw3laVN9yYgwcNV5ZueMdCHPatILxV5iJa+Mxr9zen005FO2JztVPzGxGpXUyRtvSveC
+	t4PHbfqI399PItqigvZjk9g6g7hqjacQVQvVX7n901EwdLIJauJtMhuPlTaicidvY59SSfbblmE
+	PpIWF7PUQot0E1LZeQoHGEFGHsbiyFcxtbn5bH3g8QnswRhP9G/IOcsMR5aCyVvUl9o5N9GLeTG
+	+cvcuK4gP+h+WHgqJjFGChZoK+YHxP8BtI8PKlTvM6fReK+1fMY1fUFOIP46bBdhd1xDGap8xd2
+	jsvGaZ8OgSpxPzejHZVPZnvHPDEWu2vj+i5GQJsbXzG8ZtxfMNKGd4X5IA7vnhlFB8ZrO4LgGYP
+	gYLs0c/81VCtrDrmq138V+X8gOW1lGPq6Ak2YsV9dDMfr8AbOncZK3mCdivTVVmcjparP8QBYQC
+	+dVHwSL6bceFz2rDp9KnFJ3DfwDnUmexr0WKg4swhxbJKKTOo6in/o2aWYpWy4T0bXryHi/Ev26
+	Wkn+QoqygbBCYTs12FAX0B1nJVDYJzcTIhZcnfRrFg==
+X-Received: by 2002:a05:693c:8803:20b0:386:9b9c:ef1b with SMTP id 5a478bee46e88-3869b9cf99amr6973944eec.3.1795425328281;
+        Mon, 23 Nov 2026 01:15:28 -0800 (PST)
+Received: from a1-free ([161.33.196.121])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385672c6f31sm33641787eec.15.2026.11.23.01.15.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 01:15:27 -0800 (PST)
+From: TAKANO Mitsuhiro <takano32@gmail.com>
+To: linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>
+Cc: linux-xfs@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	TAKANO Mitsuhiro <takano32@gmail.com>
+Subject: [PATCH] iomap: fix kernel-doc warnings in iomap.h
+Date: Mon, 23 Nov 2026 09:15:23 +0000
+Message-ID: <20261123091523.3976398-1-takano32@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261123085601.21199-1-jack@suse.cz>
-References: <20261123085601.21199-1-jack@suse.cz>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -93,49 +95,126 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1029; i=jack@suse.cz; h=from:subject; bh=G2KZ3si9+GMJBvBvY3QFhsaBCqg7CNyaNYSowoLqcTk=; b=owGbwMvMwME4Z+4qdvsUh5uMp9WSGLJZGPbY3e3aaHPOY01SwYaDqltn7v94c+Wx81YPPjavT F8mFiE1o5PRmIWBkYNBVkyRZXXkRe1r84y6toZqyMAMYmUCmcLAxSkAEwkDqm5smxK2947Nm03L NTwfFHG8i1Vn43GdkKssYda/vfxvx5xOxt9SWSeC7PrnzFZTC7Nf9eK8yfUMy5vRJ6MvWMtueZo rljX70MZEMWMpva2r09QO9vzKO2TSIZr+YINv6JMSgS03mKtP3i/vmS4VezRC+7mCRkwyc6baiY ua754rL+usOhVWaK0h55BkXDhhCffsnxfswq8Fe7Qbx4m6n+H+ypPIzC2ffvMjxxGfPSfC4wJCj f836kRFO6R+aNd6pt84nZfLYcsz9kvBggd9GJX99v2eJdF0Lv9mgNhJ/vbeZ+XTGQVbuqYuV1x+ Lryi5N3B6x9nBs+Q47kkZdj8/tv3izqx60xkTVa7PU0HAA==
-X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -4.00
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 7F3051F80D
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
 
-Use inode_is_dirty() helper in jfs_fsync() instead of explicit i_state
-check. This slightly changes behavior in that we no longer trigger inode
-commit if the inode is clean except it still has I_DIRTY_PAGES set after
-data writeout but that is actually a desirable behavior because commit
-is pointless if only folios are dirty.
+kernel-doc -Wall reports eight distinct warnings for include/linux/iomap.h,
+each printed twice:
 
-Signed-off-by: Jan Kara <jack@suse.cz>
+  struct member 'fbatch' not described in 'iomap_iter'
+  struct member 'private' not described in 'iomap_iter'
+  No description found for return value of 'iomap_length_trim'
+  No description found for return value of 'iomap_length'
+  function parameter 'iter' not described in 'iomap_iter_advance_full'
+  No description found for return value of 'iomap_iter_advance_full'
+  No description found for return value of 'iomap_iter_srcmap'
+  No description found for return value of 'iomap_iter_next'
+
+Document @fbatch (the batch of dirty folios iomap_zero_range() passes for
+iomap_fill_dirty_folios() to fill) and @private (the file system's own
+data, opaque to iomap), add the missing @iter to
+iomap_iter_advance_full(), and add Return: sections.
+
+iomap_iter_next() ended its description with "Returns 1 to continue
+iterating, 0 once the range is fully consumed, or a negative errno on
+error." without a colon, so kernel-doc found no return description.  Add
+the colon, and say that 0 is also returned when the file system made no
+progress without marking the mapping stale, as iomap_iter_continue() does.
+
+Fix the two typos in the iomap_iter_srcmap() description, and the
+&i->iomap that renders as a broken cross-reference, while there.
+
+After:
+
+  $ scripts/kernel-doc -Wall -none include/linux/iomap.h
+  (no output)
+
+No functional change.
+
+The changelog and the added kernel-doc text were written with Hermes Agent
+(deepseek-v4.1-flash); I reviewed them against the code and ran
+kernel-doc -Wall on the file before and after.  No build was run, as only
+comments change.
+
+Signed-off-by: TAKANO Mitsuhiro <takano32@gmail.com>
 ---
- fs/jfs/file.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ include/linux/iomap.h | 27 ++++++++++++++++++++-------
+ 1 file changed, 20 insertions(+), 7 deletions(-)
 
-diff --git a/fs/jfs/file.c b/fs/jfs/file.c
-index 2f5bb79c0591..90001d3d90fc 100644
---- a/fs/jfs/file.c
-+++ b/fs/jfs/file.c
-@@ -27,8 +27,7 @@ int jfs_fsync(struct file *file, loff_t start, loff_t end, int datasync)
- 		return rc;
+diff --git a/include/linux/iomap.h b/include/linux/iomap.h
+index 372453dbf2d4..c82608169077 100644
+--- a/include/linux/iomap.h
++++ b/include/linux/iomap.h
+@@ -259,6 +259,9 @@ struct iomap_ops {
+  * @flags: Zero or more of the iomap_begin flags above.
+  * @iomap: Map describing the I/O iteration
+  * @srcmap: Source map for COW operations
++ * @fbatch: Optional batch of dirty folios for zero-range processing, set up
++ *	by iomap_zero_range() and filled by iomap_fill_dirty_folios()
++ * @private: File system specific data for this iteration; opaque to iomap
+  */
+ struct iomap_iter {
+ 	struct inode *inode;
+@@ -282,8 +285,9 @@ int iomap_iter_advance(struct iomap_iter *iter, u64 count);
+  * @pos: File position to trim from.
+  * @len: Length of the mapping to trim to.
+  *
+- * Returns a trimmed length that the operation applies to for the current
+- * iteration.
++ * Return: The length that the operation applies to for the current
++ * iteration: @len, limited to the end of the current mapping and, if
++ * @iter->srcmap is not a hole, to the end of the source mapping.
+  */
+ static inline u64 iomap_length_trim(const struct iomap_iter *iter, loff_t pos,
+ 		u64 len)
+@@ -299,7 +303,9 @@ static inline u64 iomap_length_trim(const struct iomap_iter *iter, loff_t pos,
+  * iomap_length - length of the current iomap iteration
+  * @iter: iteration structure
+  *
+- * Returns the length that the operation applies to for the current iteration.
++ * Return: The length of the current iteration: @iter->len, limited to the end
++ * of the current mapping and, if @iter->srcmap is not a hole, to the end of
++ * the source mapping.
+  */
+ static inline u64 iomap_length(const struct iomap_iter *iter)
+ {
+@@ -308,6 +314,9 @@ static inline u64 iomap_length(const struct iomap_iter *iter)
  
- 	inode_lock(inode);
--	if (!(inode_state_read_once(inode) & I_DIRTY_ALL) ||
--	    (datasync && !(inode_state_read_once(inode) & I_DIRTY_DATASYNC))) {
-+	if (!inode_is_dirty(inode, datasync)) {
- 		/* Make sure committed changes hit the disk */
- 		jfs_flush_journal(JFS_SBI(inode->i_sb)->log, 1);
- 		inode_unlock(inode);
+ /**
+  * iomap_iter_advance_full - advance by the full length of current map
++ * @iter: iteration structure
++ *
++ * Return: Always 0.
+  */
+ static inline int iomap_iter_advance_full(struct iomap_iter *iter)
+ {
+@@ -319,9 +328,12 @@ static inline int iomap_iter_advance_full(struct iomap_iter *iter)
+  * @i: iteration structure
+  *
+  * Write operations on file systems with reflink support might require a
+- * source and a destination map.  This function retourns the source map
+- * for a given operation, which may or may no be identical to the destination
+- * map in &i->iomap.
++ * source and a destination map.  This function returns the source map
++ * for a given operation, which may or may not be identical to the destination
++ * map in ``i->iomap``.
++ *
++ * Return: The source map for the current iteration, or a pointer to
++ * ``i->iomap`` if there is no separate source map.
+  */
+ static inline const struct iomap *iomap_iter_srcmap(const struct iomap_iter *i)
+ {
+@@ -350,7 +362,8 @@ int iomap_iter_continue(const struct iomap_iter *iter, struct iomap *iomap,
+  * compile-time-constant @begin and @end callbacks, the compiler can call them
+  * directly, avoiding the indirect-call overhead.
+  *
+- * Returns 1 to continue iterating, 0 once the range is fully consumed, or a
++ * Return: 1 to continue iterating, 0 once the range is fully consumed or the
++ * file system made no progress without marking the mapping stale, or a
+  * negative errno on error.
+  */
+ static __always_inline int iomap_iter_next(const struct iomap_iter *iter,
+
+base-commit: 4c7bbc7f82ff8820a4c9be8f662430bec640e2da
 -- 
 2.53.0
 
