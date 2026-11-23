@@ -1,50 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.2
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=188.121.53.57
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795403249;
-	b=Au+uccImHo/1/koOQgqyzH1X9Us9dbKabyTX0DIq90YkGK9aeHA7KTnEoL81QfW7YK4M
-	 Mk9+uWKz0KGqwPn1TbLeN6RPuMIKUOVBTE7Rf/7B+Wv2EbqTJlZpg2oS4e5X3ApKp60Yj
-	 mB++fdNZPar8w/BcQK/iarxy07qQUPu1YeFvJqiNGLg+9p1WZ1oaM39uC+oLu6+ufvaHI
-	 baB62li1qTj4c4P7yX1q6yYkRu5Em8lkuPdIvVIR2mkVJlKJ9OAjVOqmCWmnScOWsZNWL
-	 9TuWHu4Ei2TrXD/wCF7pYJ4IcZetxnvmtFa991upsCqeT+4U6P5vGkwkS23eVd4+Jsw==
+	t=1795404260;
+	b=CaxtaqEv04XWk9d7MBBRPCGA2l24QyBQGMikWw5C2DI4Z5VtS2QDe4kbCjpL4OHd74Qq
+	 i1Gbw0yLYrF9EHUlOJTjzKCxZmvt2XEVWsMGMOSgCAY8HjBhxjYnevXlmDuZGArU0slkm
+	 M/LR/euOT1+SnIPPS1KoMTNd/vgrhHjIJ72Rt73/6DaqQAi06Rt3AnBlNvG5eAfnOU99L
+	 DSr5tBXCNdra+OBDqLVe9jc8mwKbNV5eh3Qcd2Jz7bCQ2xuEZpfFL/3E2RRQLsRCxSXd2
+	 EdDyolvX5uQ4/ye/35hnzCVQYZgoMRr9nC3BmP4pdzwdjRYMnJpvWFVVYo3C1tMmJjA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795403249;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-CM-TRANSID:
-	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=eyDqS/O3c0kqK8TrfNnSDeEA8RqYuMsPMyYIE/Q0Xfo=;
-	b=miti/4tqN0hzh317PPqeaUGLj5QkhPNEislZYFDyqRFioTPeLlAOoguwN/QYpd/ZNkQD
-	 1iFAV6SAQbvuk2OuW72t3MxZwCV0A5HxdaUKiMGDK26vWdmXwDLq1g5TC4sZAWWaa4ygX
-	 GbTRBIN/Y4s1YSKwllTypYijqbwsebVDi9tYF3irIHBxSCoRgNXHP98rArybeIn3ezTU4
-	 2dUHkU92m5niVJ4xStma1yi/c1DgjNkhByu9hHRT7i3yPOVh7yNVfVj4Z69BxTFbld6pd
-	 YAgd0oPXXwdSYWEcqLD316VjPQhEZPM5FJ9P1TliVdiFf1qzqqWzusau7MFHyg/TIyA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795404260;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:X-CMAE-Analysis:
+	 Feedback-ID:X-SECURESERVER-ACCT:Date:From:To:Cc:Subject:Message-Id:
+	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
+	 Content-Transfer-Encoding:X-CMAE-Envelope;
+	bh=fb5F1+HV0OZbPTxdQ7/3f15ugGB/LMdBqtkFJnN7Nm8=;
+	b=I4fCemHK9TxZWDtA6fGmOLRur9Z42HCi049LLAoP8M7e8jEEJpXY92KeaRu2N17oT00S
+	 8iRVBWJGi25IRzLp/ZOYJT5mdydQQsT9qy/SyL0BR8C4tjfPhZwLjoLY00xWJP3xppa5H
+	 P6axNzEXgxVE0GWpKo/2qdOqflBi0VGqgW3HcOp1g7Udf5AU64qB5QghfF3MdiJwKtUxq
+	 ph2aR4b/dHNUT7LqBQllt54oniY/iTdETW3Q1TQ1MNGmvPqvkkhVqfpD8xOVEV65i+T4m
+	 AvAlXWgtVQRG884JYSiNFnYEloH1biW4lWUXr0IHXsqVbQLv9/jjTXj3yPj8a4Xzvtw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=jFJwHuZ1;
-	arc=none smtp.remote-ip=220.197.31.2
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+	dmarc=pass header.from=squashfs.org.uk;
+	spf=pass smtp.mailfrom=squashfs.org.uk;
+	dkim=pass header.d=secureserver.net header.i=@secureserver.net header.a=rsa-sha256 header.s=secureserver2 header.b=IqzxPLnf;
+	dkim=pass header.d=squashfs.org.uk header.i=@squashfs.org.uk header.a=rsa-sha256 header.s=secureserver1 header.b=VBdxXJQj;
+	arc=none smtp.remote-ip=188.121.53.57
+Received: from sxplsmtpa04-06.prod.sxb1.secureserver.net (sxplsmtpa04-06.prod.sxb1.secureserver.net [188.121.53.57])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF5E606A333;
-	Mon, 23 Nov 2026 03:07:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DEF5E606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23E8606A31E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 03:24:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C23E8606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=squashfs.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squashfs.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=jFJwHuZ1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
-	Content-Type; bh=eyDqS/O3c0kqK8TrfNnSDeEA8RqYuMsPMyYIE/Q0Xfo=;
-	b=jFJwHuZ1HFJzl9OR+ovjErymF3nyLSyzvVZ3QHhK32cktbkWzxOB7p3Jqgj1/Y
-	e91Ij7P/Tio3xYvwi3AhlsptEchbUgiH9N6uNS0qHVBBiPwo3pDqePHrZFCzu/Hm
-	thZXLMr9tzJeFjqEFQx8umJRX3NLKOIAUmTCaXdwwwfLk=
-Received: from [IPV6:2409:8900:1fd4:b208:1e0e:657f:3fe8:68fc] (unknown [])
-	by gzsmtp2 (Coremail) with SMTP id PSgvCgB3lRyyrQNr7GOJHA--.54075S2;
-	Mon, 23 Nov 2026 11:06:29 +0800 (CST)
-Message-ID: <6d054adc-5b6d-4a1c-b9e5-b32916e06abe@163.com>
-Date: Mon, 23 Nov 2026 11:06:26 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=secureserver.net header.i=@secureserver.net header.a=rsa-sha256 header.s=secureserver2 header.b=IqzxPLnf;
+	dkim=pass (2048-bit key, unprotected) header.d=squashfs.org.uk header.i=@squashfs.org.uk header.a=rsa-sha256 header.s=secureserver1 header.b=VBdxXJQj
+Received: from ravalox ([82.69.79.175])
+	by :SMTPAUTH: with ESMTPSA
+	id VKewx1zMZpVcJVKeyxeBLr; Mon, 23 Nov 2026 03:24:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secureserver.net;
+	s=secureserver2; t=1795404246;
+	bh=fb5F1+HV0OZbPTxdQ7/3f15ugGB/LMdBqtkFJnN7Nm8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=IqzxPLnfYggvmqvmgLzhq/FzVr5nMJsqFSZnyLq6x46UD6/7MVXa/Hl7rErhqx4hZ
+	 EPJvGcOejfRZQwXrhjVXgkB0flxCviiauWQ/wwvTVtTLrcpDg6YxV9qBh72PHR2RTX
+	 99E1mOTUDqSQJnrMJF1jHfvL7Lta5FebpsOghOHBMozjeDIYiMeak3vdMoQ1wrOCfZ
+	 iVx3UntBM8IFNLupbEKyfP1buoOXtdeM+2QMDEdDnbqVnDAjwpeCVmCZ2QJwo+sP8m
+	 svKTtsyw8KU8aQLJ/snr6xyuQpnVeYnWypclG40m4WyAS8i138eOJ9x2mRuL6fyUkP
+	 chghFlENBMtkA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squashfs.org.uk;
+	s=secureserver1; t=1795404246;
+	bh=fb5F1+HV0OZbPTxdQ7/3f15ugGB/LMdBqtkFJnN7Nm8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=VBdxXJQjrwgcvVF37/rAknxuPMbxxB1xKNr+g5scrRKFnxGDAngFc+pb3lJuIWYpY
+	 zUKw5q4yYOINMO7EBCgPi3YOvCQWn9bVa6jzW9q16uYVMtMD8YduBQIWkfDFslAD9+
+	 YrPOxryswsCOHmUCJQpLwkpT+IjRSmaEgcisjhqYYyiQOLkZXhkvpXUfmUhYjCTOHT
+	 78YytrikBdrS697gmsNvErzmsXCp2ofYY/FVQRV5TrrJ050HQRZuraMOWCmNHIo90j
+	 E9wJw5DbnWfusWZFFN95xWs4IOu0jDNJL6uMKNj3NLiqNMtupcRc2ncM5s0Rhi4x7b
+	 L8T540VfX9/nQ==
+X-CMAE-Analysis: v=2.4 cv=D7/SufRj c=1 sm=1 tr=0 ts=6b03b1d5
+ a=84ok6UeoqCVsigPHarzEiQ==:117 a=84ok6UeoqCVsigPHarzEiQ==:17
+ a=kj9zAlcOel0A:10 a=Z4Rwk6OoAAAA:8 a=FXvPX3liAAAA:8 a=OM4U-40VTx3VScZtlVYA:9
+ a=CjuIK1q_8ugA:10 a=HkZW87K1Qel5hWWM3VKY:22 a=UObqyxdv-6Yh2QiB9mM_:22
+Feedback-ID: ddafcf7f7eb0c3020a2d92e6b9fb169e:squashfs.org.uk:ssnet
+X-SECURESERVER-ACCT: phillip@squashfs.org.uk
+Date: Mon, 23 Nov 2026 03:24:02 +0000
+From: Phillip Lougher <phillip@squashfs.org.uk>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christian
+ Loehle <christian.loehle@arm.com>
+Subject: Re: [PATCH v2 17/22] Squashfs: don't store large export table
+ indexes in memory
+Message-Id: <20261123032402.2ef0f237cbc3fd677b048a11@squashfs.org.uk>
+In-Reply-To: <20261112110927.6add17b0552922c5b6b93515@linux-foundation.org>
+References: <20261111234402.252354-1-phillip@squashfs.org.uk>
+	<20261111234402.252354-18-phillip@squashfs.org.uk>
+	<20261112110927.6add17b0552922c5b6b93515@linux-foundation.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; aarch64-unknown-linux-gnu)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -53,230 +86,46 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] ntfs: switch to the new xflags fileattr API
-To: koraynilay <koray.fra@gmail.com>, Namjae Jeon <linkinjeon@kernel.org>,
- Hyunchul Lee <hyc.lee@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>
-Cc: Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
- Jan Kara <jack@suse.cz>, "Darrick J . Wong" <djwong@kernel.org>,
- Andrey Albershteyn <aalbersh@kernel.org>, Amir Goldstein
- <amir73il@gmail.com>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
- Lauri Gates <lauri.gates@gmail.com>, Christoph Hellwig <hch@infradead.org>,
- Dave Chinner <dgc@kernel.org>, linux-btrfs@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, ntfs@lists.linux.dev,
- linux-nfs@vger.kernel.org, linux-api@vger.kernel.org
-References: <20261122000856.536902-1-koray.fra@gmail.com>
- <20261122000856.536902-4-koray.fra@gmail.com>
- <1ebbb85f-3515-4c45-a850-8039aad93800@163.com>
- <DN265Y2EAGQV.1ZD49JSIDMME5@gmail.com>
-Content-Language: en-US
-From: liubaolin <liubaolin12138@163.com>
-In-Reply-To: <DN265Y2EAGQV.1ZD49JSIDMME5@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PSgvCgB3lRyyrQNr7GOJHA--.54075S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3Wr48Gr18Zw4Duryrury7trb_yoW3Gw48p3
-	95CF4jkay8Jry3Can2q3ZIgayFvr4fCF4UZFy5tF18ZF9xtrn3W3ykKryfKFyUursakw1U
-	Way2v39xCrW3Z3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UZiSLUUUUU=
-X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6hU0-msDrbVSSQAA3e
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfBN1rCv2VaseG8nBDIX9nmiVQAAWYxNtgqza7MtGnU7b7zCjwTr1DNXfRjlbmPDUoORJz0frV/y7bHWvtH1+Xlg1Fw+zGPaWBeb4T2K/zx+GuAI2ZyYA
+ nioFcL38IcE1tpSbdhFZn4DgOlP607Dc6slOlGRWa2RhRpTfQ7uOQaRx3wmJYSV4rZccyRp04jqo5t4Fdbeo6xJPPUi+YtQLOvxFycnOc5U0amj02V37BmCK
+ 6Pse1p0Snl0qLbIcIkSnpleqjRSt65hWEJYYjDiGcDF7gQ9lAeaANsbGtwWgEjzfK1B2u6R5kPvhu11y03jG7w==
 
+On Thu, 12 Nov 2026 11:09:27 -0800
+Andrew Morton <akpm@linux-foundation.org> wrote:
 
+> On Wed, 11 Nov 2026 23:43:57 +0000 Phillip Lougher <phillip@squashfs.org.uk> wrote:
+> 
+> > When mounting a Squashfs filesystem, the code reads the entire
+> > export table indexes into memory.  Their size is determined by the
+> > number of inodes in the filesystem.  For the maximum inode
+> > count of 2^32, this will allocate and read 32 MiB.
+> > 
+> > This is an excessive and unnecessary amount of memory because the
+> > indexes do not need to be read into memory in their entirety.  In
+> > addition kmalloc() is used to allocate memory, and this can fail when
+> > large amounts of memory are requested.  Kmalloc() on modern kernels is
+> > usually limited to 4096 KiB.  If panic-on-warn is set, then failure to
+> > allocate memory will result in a kernel panic.
+> > 
+> > This commit uses a 4 page cache if the size of the export table indexes
+> > are 4 pages in size or larger.  A simple and fast lookup array is
+> > retained where the total index size is less than 4 pages in size, which
+> > is the vast majority of Squashfs filesystems.
+> 
+> Thanks.  This patch didn't anticipate the presence of Christian's
+> "squashfs: identify device in mount errors".  To make life easier I've
+> staged Christian's patch behind this 22-patch series.
+> 
+> This required a bit of rework of Christian's patch.  While in there I
+> filled in a few more places which needed Christian's treatment and I
+> made the whole thing more 80-column friendly where that made sense.
+> 
+> Please check:
 
-在 2026/11/23 08:38, koraynilay 写道:
-> On Sun Nov 22, 2026 at 1:49 PM CET, liubaolin wrote:
->>
->>
->> 在 2026/11/22 08:08, koraynilay 写道:
->>> Switch ntfs_fileattr_[gs]et() from the legacy FS_*_FL flags to the
->>> modern xflags (FS_XFLAG_*) fileattr API with masks.
->>>
->>> Introduce FS_XFLAG_COMPR and FS_XFLAG_ENCRYPT and add them to
->>> FS_XFLAG_COMMON (and add FS_COMPR_FL and FS_ENCRYPT_FL to FS_COMMON_FL)
->>> to be used in this API switch.
->>>
->>> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.11
->>> Signed-off-by: koraynilay <koray.fra@gmail.com>
->>> ---
->>>    fs/file_attr.c           |  8 +++++
->>>    fs/ntfs/file.c           | 63 +++++++++++++++++++---------------------
->>>    include/linux/fileattr.h |  6 ++--
->>>    include/uapi/linux/fs.h  |  2 ++
->>
->> Hi koraynilay,
->>      One suggestion on the patch split: would it make sense to put the
->> new COMPR/ENCRYPT xflags and their VFS handling in a separate patch
->> before the NTFS conversion?
->>      The changes to include/uapi/linux/fs.h, include/linux/fileattr.h
->> and fs/file_attr.c introduce generic fileattr support, and the
->> COMMON mask changes also affect other filesystems.
->>      Keeping those changes together in a VFS patch would make the API
->> and compatibility aspects easier to review.
->>      The following NTFS patch could then focus on using the new flags
->> while preserving the existing NTFS behaviour.
-> 
-> Hi Baolin and thanks for the feedback,
-> for now I put them in the same patch since they're not many lines of
-> code changes, but I now also had to add NOCOMP, maybe I'll split it in
-> the next version.
-> 
->> Thanks,
->> Baolin.
->>
->>>    4 files changed, 44 insertions(+), 35 deletions(-)
->>> [...]
->>>    	if (err)
->>>    		return err;
->>>    
->>> -	if (fileattr_has_fsx(fa))
->>> -		return -EOPNOTSUPP;
->>> -
->>> -	/* chattr passes the unchanged read-only flags back to us too. */
->>> -	if (NInoCompressed(ni) || NInoWofCompressed(ni))
->>> -		readonly |= FS_COMPR_FL;
->>> -	if (NInoEncrypted(ni))
->>> -		readonly |= FS_ENCRYPT_FL;
->>> -	if ((fa->flags ^ readonly) & (FS_COMPR_FL | FS_ENCRYPT_FL))
->>> -		return -EOPNOTSUPP;
->>> -	allowed |= readonly;
->>> -
->>> -	/* Case folding is a read-only, mount-wide property. */
->>> -	if (!NVolCaseSensitive(ni->vol))
->>> -		allowed |= FS_CASEFOLD_FL;
->>> -	if (fa->flags & ~allowed)
->> Hi koraynilay,
->>      There is another case worth keeping in mind when replacing this check:
->>      fileattr_fill_flags() only translates a subset of FS_*_FL bits,
->> so some unsupported flags will not appear in fsx_xflags.
->>     For example, a direct SETFLAGS request containing only FS_NOCOW_FL
->> produces fsx_xflags == 0. On a normal file on a case-sensitive mount,
->> the new check would accept that request.
->>     If the file already has persistent NODUMP set, the request would also
->> clear it, since the setter rebuilds linuxflags without NODUMP and writes
->> it back to the EA. The current code rejects the request and leaves the
->> existing attributes unchanged.
->>
->>     Would it be possible to keep validating fa->flags when flags_valid is
->> set, in addition to the xflags check?
-> 
-> We could, but the objective is to have filesystems that implement the
-> new _masks API use only xflags.
+Thanks.  It looks good to me.
 
-Hi koraynilay,
-    That makes sense, and I'm fine with NTFS using only xflags.
-Could we still make sure that legacy SETFLAGS requests with flags 
-unsupported by NTFS are rejected rather than silently accepted after 
-conversion?
-
-Thanks,
-Baolin.
-
-> 
->> Thanks,
->> Baolin.
->>
->>
->>> +	/*
->>> +	 * When userspace uses file_[gs]etattr(), VFS already checks and fails
->>> +	 * with -EOPNOTSUPP if rw_mask & ro_mask != 0 and rw_mask & ~allowed,
->>> +	 * but for FS_IOC_SETFLAGS and FS_IOC_FSSETXATTR VFS can't check for
->>> +	 * allowed flags as these ioctls don't support fsx_xflags_{rw,ro}_mask,
->>> +	 * so we need to check for unsupported flags anyway.
->>> +	 */
->>> +	if (!fa->has_masks &&
->>> +	    ((fa->fsx_xflags & ~NTFS_RW_XFLAGS) ||
->>> +	     fa->fsx_extsize || fa->fsx_projid || fa->fsx_cowextsize))
->>>    		return -EOPNOTSUPP;
->>
->> Hi koraynilay,
->>      Could we keep the existing handling of read-only attributes
->> for legacy SETFLAGS callers here?
->>      On a case-insensitive NTFS mount, the VFS carries over
->> FS_XFLAG_CASEFOLD from the current attributes, since it is not in
->> FS_XFLAG_COMMON.
->> This check would then reject it because CASEFOLD is not in
->> NTFS_RW_XFLAGS, so even chattr +d would fail with EOPNOTSUPP.
->>      The unchanged COMPR/ENCRYPT bits that chattr reads with GETFLAGS and
->> passes back with SETFLAGS would also be rejected on compressed/encrypted
->> files.
->>      Allowing those existing read-only attributes to be passed back
->> unchanged  would let users continue setting and clearing the persistent
->> flags through chattr,as they can today.
->>
->> Thanks,
->> Baolin.
-> 
-> Since I wasn't quite satisfied with this version, I'm working on a
-> revisited v2, that is hopefully cleaner and fixes these bugs and the
-> ones reported by sashiko.
-> 
-> Thanks,
-> koraynilay
-> 
-> 
->>>    
->>>    	forced_immutable = ntfs_is_forced_immutable(vi);
->>> -	if (!(fa->flags & FS_IMMUTABLE_FL) && forced_immutable)
->>> +	if (!(fa->fsx_xflags & FS_XFLAG_IMMUTABLE) && forced_immutable)
->>>    		return -EPERM;
->>>    
->>> -	if (fa->flags & FS_IMMUTABLE_FL) {
->>> +	if (fa->fsx_xflags & FS_XFLAG_IMMUTABLE) {
->>>    		new_fl |= S_IMMUTABLE;
->>>    		/* Do not persist an immutable bit derived from the mount. */
->>>    		if (!forced_immutable ||
->>>    		    (ni->linuxflags & NTFS_LINUXFLAGS_IMMUTABLE))
->>>    			linuxflags |= NTFS_LINUXFLAGS_IMMUTABLE;
->>>    	}
->>> -	if (fa->flags & FS_APPEND_FL) {
->>> +	if (fa->fsx_xflags & FS_XFLAG_APPEND) {
->>>    		new_fl |= S_APPEND;
->>>    		linuxflags |= NTFS_LINUXFLAGS_APPEND;
->>>    	}
->>> -	if (fa->flags & FS_NODUMP_FL)
->>> +	if (fa->fsx_xflags & FS_XFLAG_NODUMP)
->>>    		linuxflags |= NTFS_LINUXFLAGS_NODUMP;
->>> -	if (fa->flags & FS_NOATIME_FL) {
->>> +	if (fa->fsx_xflags & FS_XFLAG_NOATIME) {
->>>    		new_fl |= S_NOATIME;
->>>    		linuxflags |= NTFS_LINUXFLAGS_NOATIME;
->>>    	}
->>> diff --git a/include/linux/fileattr.h b/include/linux/fileattr.h
->>> index 4faa40febf11..219e7c8eb601 100644
->>> --- a/include/linux/fileattr.h
->>> +++ b/include/linux/fileattr.h
->>> @@ -7,12 +7,14 @@
->>>    #define FS_COMMON_FL \
->>>    	(FS_SYNC_FL | FS_IMMUTABLE_FL | FS_APPEND_FL | \
->>>    	 FS_NODUMP_FL |	FS_NOATIME_FL | FS_DAX_FL | \
->>> -	 FS_PROJINHERIT_FL | FS_VERITY_FL)
->>> +	 FS_PROJINHERIT_FL | FS_VERITY_FL | FS_COMPR_FL | \
->>> +	 FS_ENCRYPT_FL)
->>>    
->>>    #define FS_XFLAG_COMMON \
->>>    	(FS_XFLAG_SYNC | FS_XFLAG_IMMUTABLE | FS_XFLAG_APPEND | \
->>>    	 FS_XFLAG_NODUMP | FS_XFLAG_NOATIME | FS_XFLAG_DAX | \
->>> -	 FS_XFLAG_PROJINHERIT | FS_XFLAG_VERITY)
->>> +	 FS_XFLAG_PROJINHERIT | FS_XFLAG_VERITY | FS_XFLAG_COMPR | \
->>> +	 FS_XFLAG_ENCRYPT)
->>>    
->>>    /* Read-only inode flags */
->>>    #define FS_XFLAG_RDONLY_MASK \
->>> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
->>> index e40806b3a69c..09fc7e066485 100644
->>> --- a/include/uapi/linux/fs.h
->>> +++ b/include/uapi/linux/fs.h
->>> @@ -275,6 +275,8 @@ struct file_attr {
->>>    #define FS_XFLAG_CASENONPRESERVING 0x00080000	/* case not preserved */
->>>    
->>>    #define FS_XFLAG_PROJID		0x00100000	/* project ID */
->>> +#define FS_XFLAG_COMPR		0x00200000	/* Compress file */
->>> +#define FS_XFLAG_ENCRYPT	0x00400000	/* Encrypted file */
->>>    #define FS_XFLAG_HASATTR	0x80000000	/* no DIFLAG for this	*/
->>>    
->>>    /* the read-only stuff doesn't really belong here, but any other place is
-> 
+Phillip
 
