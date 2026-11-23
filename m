@@ -1,51 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.40
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795411015;
-	b=Z5ukHmhcBS3fLdpKtAazqM7uMbN2eB2zM4LjGJuMtBEB9VANIlwms7iNQi8if/eQiIpm
-	 XhN66zXRz/FW+jBCDIe+VTOiX3hrskcYeWVKUcshxwjxbbwMbzPdddl2rVdhRNTHTYD0j
-	 kh6I49ht+jzvQaYP57nlt1Q7MXIKDSC/wVOr2m8UyjIGeTl+BxBt+LrBUhUOZMzYCY5ZF
-	 hgwVwzLPKBt3SACMGEHKmIImkFwgWLw5ex7LHqJi8fOmVdXD5rfIy1gxFevd7BtJalaBn
-	 xkqGDzqbPR/74ysepr2shrs+ivM1mIJBe2BhQHf3UIZ5Yv3cQ8JeaRUJCV6gqZx642Q==
+	t=1795411024;
+	b=e0zSHOkTQV1Obvp1NXkAxV78+6OVU0tNORjGBplfbCrXFmAUYP057mZ2m+4koHOzuPN8
+	 J3UVk5MKUDzQgcUHpl/XrXecczNVSoYejv8WUja8RtbhuM1X685DlbzoKjo94T9dSONFI
+	 qTOGNP4ZSAd4JjFD50K9WrYgJfunX3PayjmMjfNXF/OPqhFbnuZ8LhqlR93+iX25MkLJv
+	 iyWYabJRRSu6+yI8HpWzmF8HyFD1rO70XeC7GGos9Z6R+rwtNzsW7j0g6XGduOvoClLIm
+	 WedDtnKdfKr98/fui2U6H0zg48qARtuPK3eDioUGwTq0IK9lFWzO+IFJM0cmFQoldEA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795411015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795411024;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=zUa5uKi0VrDw4UA0BAsczrZyFuWjUpTgTE7iF1Q00ck=;
-	b=sHY+XsbmzX+++SIcwmFOrqhEnYcUFLWJjKfR5XkIe1TYY4zNcfGM0cSIC1fziaZwwLCy
-	 08BNNMi3Sn+gnP+rFkoHjmOoy7S+KHUP0ZgEZzRb9uB6g21mPBfdQFAiCD5L6B+s9kca/
-	 txmR0Nn5vArqImHmSE8Yz2SstdcJ3gtCxrU6RtG7+uGuJLYUK1oDnyMfaoN2L5ddphjdB
-	 9fVMWMz4kImvDfmp32ENjp53K7USRO+qhjvyQ6T/aRrM0EYIurTkKAxVdCfsdLeQuHMq5
-	 rQFWmXsBkhTBa7r7SJ++veXOSGZTUPflipnZfxIbHEN1nO0fgeDFICYJHPU7MSr7d0Q==
+	bh=l7hTPYaQuZs5nowzDqnJXIkZEzk+2TqU+4QHS0z+lDQ=;
+	b=2hjdvg0x9F3YEmNGMkAZT+139Oi3rMWLI4bQ/gjT+DybqHkHzvc8nC4RErAJ6Fvf6gaP
+	 kRXnOc+IcYC4hZhD68A4WCln10JdQ57LSv9pEE//OzsYDiNMrWLUjHm8tvPpopP8GlNHT
+	 hMi+rRpXEOHVwjpTQm/pdYWRfYl1FLlE8/tjSqHBkOwZyz2OTWOlvwOSXZBf/GgPO/IXf
+	 UK5x8yKlUPm09D6r7ggRZ3QtmtyvJI8uemKKSkZ31iOWCpfIVyIciQR9cabsIOeub2WQ7
+	 raIQQHpMgnWiJIyhLmW3txP1UdXvlaAKxweLz5nf403KgkmGd/8s0JMMiiqNDIhZrMg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=wAhSGHE5;
-	arc=none smtp.remote-ip=91.218.175.40
-Received: from mta0.migadu.com (out-40.mta0.migadu.com [91.218.175.40])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=VM6v+3Lg;
+	arc=none smtp.remote-ip=95.215.58.17
+Received: from mta1.migadu.com (out-17.mta1.migadu.com [95.215.58.17])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04CB1606A31A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 05:16:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 04CB1606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0992606A31A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 05:17:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0992606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=wAhSGHE5
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=VM6v+3Lg
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=AmAm6mxlSWJGoWywt8mEuBAs99e9NGK1yr/YzgW36PM=;
+DKIM-Signature: a=rsa-sha256; bh=2ZEKg+Jrv+kzCPhpX87e5eDbagmnSnp9jrTVnPFquSQ=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795411013; v=1; x=1796015813;
- b=wAhSGHE5/tzYzK08snun+0RY1ru0SAREMFedLQhbHkRQd5raTIU3Qtv1acmNi42tgUtB8Yq8
- NXWpZJhDQruy8HL7VGgLzXc62jymyZpYFfZPpgmZdpaapuvNQ+nh4pV216csvRq+kpT+U3JdKWQ
- d58sHTvxfgJ93ljHXhu605jw=
+ t=1795411021; v=1; x=1796015821;
+ b=VM6v+3LgFBxb1Ek0dfJfV0DNwZd1Ll2q4QRrjqvqSwDimdWPIbVwueCN9Wnkrkci6owpWzVe
+ cImJ8qDAZycmtyTHi42ktzvUDwxV25ZVBQdaJB0J7GkbOrJHLG6FYFAZYIotcdE/eM0zIlZ5p8Z
+ pS6LYlhD0JHzs9rD39qLc/zE=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id d908d048c329c710;
-	Mon, 23 Nov 2026 05:16:52 +0000
-X-Mizu-Trace-ID: d908d048c329c710
+Received: by smtp.migadu.com with ESMTPS id d9d86598382e1741;
+	Mon, 23 Nov 2026 05:17:01 +0000
+X-Mizu-Trace-ID: d9d86598382e1741
 X-Migadu-Flow: FLOW_OUT
 From: Tao Cui <cui.tao@linux.dev>
 To: hughd@google.com,
@@ -58,9 +58,9 @@ Cc: linux-mm@kvack.org,
 	linux-fsdevel@vger.kernel.org,
 	cui.tao@linux.dev,
 	Tao Cui <cuitao@kylinos.cn>
-Subject: [PATCH 1/2] shmem: do not inherit FS_CASEFOLD_FL onto non-directories
-Date: Mon, 23 Nov 2026 13:16:28 +0800
-Message-ID: <20261123051629.2547645-2-cui.tao@linux.dev>
+Subject: [PATCH 2/2] Documentation: tmpfs: document casefold option constraints
+Date: Mon, 23 Nov 2026 13:16:29 +0800
+Message-ID: <20261123051629.2547645-3-cui.tao@linux.dev>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261123051629.2547645-1-cui.tao@linux.dev>
 References: <20261123051629.2547645-1-cui.tao@linux.dev>
@@ -77,41 +77,41 @@ Content-Transfer-Encoding: 8bit
 
 From: Tao Cui <cuitao@kylinos.cn>
 
-__shmem_get_inode() copies the parent's SHMEM_FL_INHERITED flags,
-which include FS_CASEFOLD_FL, onto every new inode and ignores the
--ENOTDIR that shmem_set_inode_flags() returns for non-directories.
-A regular file created in a casefold directory therefore reports a
-phantom F flag via FS_IOC_GETFLAGS, and chattr, which writes the
-full reported set back, then fails with ENOTDIR on every flag
-change while dropping NOATIME/NODUMP from the same request.
+The casefold and strict_encoding options require CONFIG_UNICODE (both
+are refused without it), strict_encoding must be given together with
+casefold, and availability can be probed via
+/sys/fs/tmpfs/features/casefold.  None of this was documented.
 
-ext4 and f2fs mask inherited flags by file type; mask
-FS_CASEFOLD_FL for non-directory inodes here too.
+Also disclose that both options only take effect at initial mount and
+are ignored on remount: shmem_reconfigure() never looks at the parsed
+encoding, so e.g. "remount,casefold=utf8-12.1.0" succeeds without
+changing anything, the same way as the mode, uid and gid options.
 
-Fixes: 5cd9aecbc72c ("tmpfs: Add flag FS_CASEFOLD_FL support for tmpfs dirs")
 Signed-off-by: Tao Cui <cuitao@kylinos.cn>
 ---
- mm/shmem.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ Documentation/filesystems/tmpfs.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 1ecda28178e3..46e30b1f5ab8 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -3321,6 +3321,13 @@ static struct inode *__shmem_get_inode(const struct mnt_idmap *idmap,
- 	info->i_crtime = inode_get_mtime(inode);
- 	info->fsflags = (dir == NULL) ? 0 :
- 		SHMEM_I(dir)->fsflags & SHMEM_FL_INHERITED;
-+	/*
-+	 * FS_CASEFOLD_FL is directory-only; mask it for non-directories
-+	 * like ext4_mask_flags()/f2fs_mask_flags() do, or the
-+	 * shmem_set_inode_flags() call below fails with -ENOTDIR.
-+	 */
-+	if (!S_ISDIR(mode))
-+		info->fsflags &= ~FS_CASEFOLD_FL;
- 	if (info->fsflags)
- 		shmem_set_inode_flags(inode, info->fsflags, NULL);
- 	INIT_LIST_HEAD(&info->shrinklist);
+diff --git a/Documentation/filesystems/tmpfs.rst b/Documentation/filesystems/tmpfs.rst
+index d677e0428c3f..032fa55b0411 100644
+--- a/Documentation/filesystems/tmpfs.rst
++++ b/Documentation/filesystems/tmpfs.rst
+@@ -253,6 +253,15 @@ strict_encoding   Enable strict encoding at this mount point (disabled by
+                   and directory with names containing invalid UTF-8 characters.
+ ================= ==============================================================
+ 
++These options require kernel support for casefolding (CONFIG_UNICODE)
++and are refused without it.  strict_encoding must be given together
++with casefold on the same mount; a mount with strict_encoding but no
++encoding fails.  Whether the running kernel supports casefold at all
++can be probed by reading /sys/fs/tmpfs/features/casefold.
++
++casefold and strict_encoding only take effect when given at initial
++mount; on remount they are ignored.
++
+ This option doesn't render the entire filesystem case-insensitive. One needs to
+ still set the casefold flag per directory, by flipping the +F attribute in an
+ empty directory. Nevertheless, new directories will inherit the attribute. The
 -- 
 2.53.0
 
