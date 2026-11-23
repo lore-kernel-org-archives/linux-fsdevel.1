@@ -1,95 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795471275;
-	b=V2WHq/k18siJBlSnk0zr31Y8khBFVzEVurcWf3L3UqEa8f/pz9hEaPAHit9LOUH/wdY1
-	 Z2u81NBDlDRx1WkEOPK1RD86EPV4hwGEBlNJKD0u5cml1HrMd9Ml6D+eapeQwEArsh6GZ
-	 z931TbBpzHOrDI7VHcFaVc1gAev+7/I0odFiYmim+3gFs3kuXQO/SEbZmkKL74+yUhTSl
-	 QAhKJtG8M3nYJfPSIIdzboPtpeO99sLfKqVtREeWsxnM0BSNqa41npG4Kw6E2EzvqGNm8
-	 Wuk/H5bU9js2g3+CsaIaX9CzQms8zn7E0REBTZtJdgaIJaFak2VCzc6lkpO1qATsx5g==
+	t=1795471715;
+	b=VdcR90LJWglebJbuDS8k+wmTiFDyNc5l4QHCKHqAaBFTIASvKmb/DZNBdC/7uBf6lTVc
+	 jtwyuY0Gob9FRd8xZKNeAKviDmVqNNeJivoesBgiZ66+ds6iQHj34m1jmH25+I/71hHmw
+	 U2bgIqVmGWzX80l4EJKVnWKajXMF33GdwwdInDcP42pHRrhb51CfRvtaMP0SlgkD3QFlP
+	 AkrIg2HumM2xV9wof1wV/mhTFTPVgSBUfmTE1cMZIIVBpXmvXlzZI7gOqGhF80v7rsa/B
+	 A/RtLdIt5b6GYKUe5OqZr0fsaMcMC+5dMhFwGq084y03b8he25TdyEeDwMLbpkTNFZA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795471275;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795471715;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Subject:
-	 From:To:Cc:Date:In-Reply-To:References:Autocrypt:Content-Type:
-	 Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=SY2nTkEuXdqViHbemrvX2XFpBsW22sioIJ8+3WgQFdc=;
-	b=LKADzSI1ZCPEzQfmhbHsWJysDIsQ8F0FXc1fPEnQvUqr/JSIcegl2KQzejq8wGPMTBgr
-	 okxkMecHY/WpXBPrMBpXB+9fI3GJ7RGDb6Xw3RpOYBeoVjS8vKfI+LyIcQ28dpuh3fIsR
-	 vojbRh0lIPmSSIAY7zz776lT+dUXHMxOvM8a/woupyepUljaCGBAQdQkjEMjLQIBQaeu5
-	 VPSroY4z9+g9ekk/GLqQ1liiEWufBRL0cb6p7V2JuwcdIrOes2EnucJ5FbF3AAfjHIm4Z
-	 6sEMJdstNYCP7lvKMlgvkP0JgWhSJdA0THUKGZPEKYzyh59PR7+V74+zeyVAwDS87Ew==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Autocrypt:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=texhqw2pvQKkD9Xg5Q6V731C0QC/tI0cOgwUzIDMtYU=;
+	b=c4cgR9bJBYj8b6VP2cm1+UhPfgzIpt/qL3YXK4nAR2H6RQw1KgZrQKV/oqFDP25g+Bm5
+	 Qe4aoykJoTdH1zXXh7iRboyJIPcuo+6ITtWoH4gcGUroUZo1pMIiqlVC5fbY5WzdQwzMw
+	 MRTCPSV/FuNR2nbdlk4sfMEvdw7+SwaNFAr9ySpmjfoZ8LBpp+7nlNMZZyyANC/TlfP3+
+	 w13Q2olH8xfmTnSBSasdg+Bof4m2Hn6JeqtThVGvMbWNX/ursIj8s4fAIwSMQG/CKmtu0
+	 WJIKjdK8rhFa46uhp1oC07ePJ3eJcs2xTATckfwEX4vt3wBDxNZSU9OGiOxxBnubb2g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=dubeyko.com;
 	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b="Bjymhk/X";
-	arc=none smtp.remote-ip=209.85.128.182
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=OE3jPoD3;
+	arc=none smtp.remote-ip=209.85.128.169
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001AF606A326
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 22:01:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 001AF606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F032606A321
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 22:08:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0F032606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Bjymhk/X
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-8b0d126f631so32132417b3.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 14:01:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=OE3jPoD3
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-8b502b9b702so43841137b3.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 14:08:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1795471274; x=1796076074; darn=vger.kernel.org;
+        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1795471714; x=1796076514; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SY2nTkEuXdqViHbemrvX2XFpBsW22sioIJ8+3WgQFdc=;
-        b=Bjymhk/XyQG8bsm48Y7+wfvDjWkCY98pWPAZSUnFcA3N6aaY9bt5zIoD5Z6JC5r9Nd
-         Uj+GhpoE/N2z69u9PySpmkGM+w5umihHmjJFidGfk8qLS3XlJxv8o9uaGo55R8QIrPRZ
-         FzGErHW+hNC0oFCVgfSzTUN8fSq5zHIHP5Gm8Q6z4s/F+SMlQQYTbNPQqcIacLKfhIC/
-         ywHvdXsFj1RhUu488x22yRo6ZcBI8KhqVu6V/6E9EJphPnQNBhL0Q9fVuLgc9sRvpMVz
-         Hs6wz5A2l8j93874y+qBJalJrKFUH/LD5ucG8j6Pocx8d2sKciPJlBQBciuW5eXDoa/8
-         EeWw==
+        bh=texhqw2pvQKkD9Xg5Q6V731C0QC/tI0cOgwUzIDMtYU=;
+        b=OE3jPoD3spWhMvRbeMqnBiUcuvpHgiCIcdYnEHVo93acqTBgn3ar2ZB+IUkSDfnesi
+         MvurJBt0bzEEA503YO7H0vRhdda5zHDaf0+oW92cnQyWxuFd2uTLuKz+kiPhJe9TbhEB
+         yLa8/rQDmMg/h1hnPe8hLe6+ae3Go3XvCddngcQhY4x7eeuyVPW6PTZyokbzQsRwdij1
+         NpdqNSwyU5c5E8/RVhZJWxGtc13NfC6CgPdYmn9Ow40BSBBrWh7J/9i7Qr2+ETyMLB+t
+         gu+ZLrLgnwPlMYnYZM0vN8olDIrvaYaPVku8wt5ZHpsYZ0RgvKc2hw2Ucq3AjON9dVaO
+         7fMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795471274; x=1796076074;
+        d=1e100.net; s=20260707; t=1795471714; x=1796076514;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=SY2nTkEuXdqViHbemrvX2XFpBsW22sioIJ8+3WgQFdc=;
-        b=VnPXPhFOMqjxBUxgMMOaoighiQpapKIt2GSZ3al2v/O0j+QJOGLM9A7xa9r8cEubVV
-         wn15sIXB4382WxTLokvB9F9673hEth73CUtE76d3g0U9k5VlEXFcwvuKcJT3f7rmqPOZ
-         iruSvJ2rUE4z7X8IXjEKLxhAnCZw7OmIMPi02YgXryaHQmOlqcwwdgnqBAJe5OH38egV
-         vk88kERNFzXGBopL77r/xlmxYGIjUFAw6RRkaKe+OkmXsxq0yf44Zqiy+ZiJ7rTqPw+2
-         AabEiHwnraxxhrQ7pvX8Q5iLX/03qfH41E1CPxJXXdpGQi2YE37uOT0K6dENoN8N0WsY
-         Wceg==
-X-Gm-Message-State: APuU4Z+BrTyp2iTgMCaBG7W480ItbwBwqTvXfK2NwSWIYCRupPLtGaCY
-	KG+IGlp+h60swKHLk7JL77wq13xV5+1B821PSfsXY8oLj4dEtIbjd286B6PDXTdKLck=
-X-Gm-Gg: AZFdTZeZ5ZdGATQWfkLHVcClIFhc4/joB6nUdEBz+zKXd+d5pEuhXcbFI5cVBhUY/l5
-	dOxprsJ8pu27VO7qXpkjY4XrA/Fpok1vmotzKpaoPJgRhP1fcqE7cdEPyOVyvA3EfeicRW7dqyt
-	I0UBosIN2WSQkAEdqfXxco0UlyRhWRs5r05EVpynrHqsSGCVMQk26ZhbDA+7pkk2PKf9OSaX+/O
-	h/n2UM7vPj/8l6cjRqH+aPI3sgL1Zcbt/SsTI4o7xJRt9AO+NidHsBRyH34pe3JrbSmmPVOzyzl
-	0kJhfBiSlP/NIxsAEv+JiwCOu5vKtEXT96mHTYooJIwmDFMaO6JjpEvL5O14S6SpLChNo9pb/8U
-	hVsUMTqH+plDkl8dTPetbfv5v0POQ/9RSpOLR27IEHDogkNrRnmypVBnY2Jg7BoY1x9O78VrwIc
-	X553PNHBH/t47STNQkSwlJZn7ePan2uPDokaZma+5SuFOJ2N00WLtI17zwx5knTomBZbmgdbSoR
-	o2ZBtDzbpQlUgbFcW5zwhcj2CYqUlr67E5WaEABD/O3QZTnV5oKvTkcz5KIUdcwwsj4rYkYKi+y
-	bPb2IeRaiAHxeTztRIBPANk8f08CiDcN0S0GeHkrOsnii7ZWG6Vf+86tkbx6M9ZJgmPeuyIr4e7
-	2U83YtcIUUXSJVKGsJgL6A7Te5MNSXsq2cczQIIyQ8nOmsxACKSrOKE8kCijUA2M9FN43YSluTL
-	6wQnefjiXsgUSW8eViH+PAitmQhPWfY+TStm8eZ7d9
-X-Received: by 2002:a05:690c:9a8f:b0:8b4:d6ad:563e with SMTP id 00721157ae682-8b5204ebe2cmr53631047b3.52.1795471273779;
-        Mon, 23 Nov 2026 14:01:13 -0800 (PST)
+        bh=texhqw2pvQKkD9Xg5Q6V731C0QC/tI0cOgwUzIDMtYU=;
+        b=tyPOO9f2+wciiQL0JVE77qJYLxaChp5UZKz8WREObP5JzvjkdfMFhxp44TieBuBUpn
+         m9SVrRsj/0sCRgwbv/rq5BJvwnEZnN3L7p2VlHojOhfs1Ttt3tf/ICLI6SMermwSsGEU
+         oMRtNhUQEwaxDKCIejn1eWw9osemB7FgU2cRGHfieFZjcCf0pmzSdYRC2bfBEIUMwfv+
+         cTnaUQNVBsD2VxvfkMdLDGYP6Hpe5IEO6zXBDcBpJlY9hrWvTwm/GEmfhZBLL9LaNVT8
+         630dWd3hAyhR0zV1aRo5tGAmKbqS87ynRIs4O2KfyBE2jcPpDJVp9wZ4dHYGkwApY6df
+         Ygkw==
+X-Forwarded-Encrypted: i=1; AL+hErG2pg9AUEjeyZG9LJEmjfV+MREUuwi4pGcDc3sAKI5fMvllzVVD8wX4yW4duq5vFvdexM4VKde+m05Xhlj8@vger.kernel.org
+X-Gm-Message-State: APuU4Z+6ya8WqkueID3p1HbXf8vwQ/WJ5ayC/hRJBkDz41WQ8rGhoduy
+	HamYW/fpk3dMxuQ/qDXmwdjoX3agoFSVs8oV89GsDDCOW9lGDNO7UAo5ebrPtVQrEvY=
+X-Gm-Gg: AZFdTZfp8CYtdGcDAcjv2c17ujuD6wOZbYlZraDWUCSVFfXESh5iz5fAShz2AAxo86C
+	NoV0J5tM9wMRwpiGoYW39fpWpLcvHCt5/jDuKZA7D3a/RCtVnHxP+DJ9hI/gJu1LQcJ6tNq0ogs
+	8TShP+6XxosqUXKjdkXZPOPdSuu3R35J9vi4ltcIVwFR5iPGg1li3RsxoxOM6U40vO7ah/1gA/p
+	Pi8hNH6HMLhPjlT5W6iXYptWoGG+yJ9JSpRpKldAjUxsM1YupPfBWU3MdCVyL4Nf72i/RZtb1mp
+	FqssVTeTEinZyhX4K3HpSw1dRVmjYPW4e7L+5Ttag177u5UrKthm+aIL/v8ROkF1olKKUfzF0n+
+	l+PW/TAREgF3o5Aph+fUXMTaHwOKrD+vbC8nAXQe1y89wIdTye/iGQRGTLp4TyFL/N1Gcb1CwWn
+	+UdRd3s20A5ybaZSUiBbXi+Bo4dD7/+/j03y28li0a0Us2aEIGmipCoK+mO5roi4yBws4FBY87m
+	+kga1gpwwGP+/IqLzfMn/p5AO5Lbc4ea9jquJL5N8Hibl9XGW3ibGswhJKKBF1AcMnSwjfQIb7b
+	Q4J9v94KbpDRIB+74FKYLzI9KldqsPwTFqlFBAcqWUtq+W5PD8k5m2tkrsrwscf0PwyVbInjqd2
+	P69VfNNFrnbagqC024UvsznHrfKUlxS6Al5FZxFHdyn+4V4IjJT0yAgxieuDgO7fA+eeIG5nZTQ
+	XsuVQsOJSJga/4gjEKDqQ=
+X-Received: by 2002:a05:690c:2a44:b0:8b2:edac:7a4c with SMTP id 00721157ae682-8b52042bedamr45656947b3.10.1795471713793;
+        Mon, 23 Nov 2026 14:08:33 -0800 (PST)
 Received: from ?IPv6:2600:1700:6476:1430:83a2:1030:d4d1:10b8? ([2600:1700:6476:1430:83a2:1030:d4d1:10b8])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b5202b085bsm51850237b3.16.2026.11.23.14.01.12
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b52030df7bsm52275487b3.31.2026.11.23.14.08.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 14:01:13 -0800 (PST)
-Message-ID: <901ef6fa26b3a5a876ec7328a3ce801572bec200.camel@dubeyko.com>
-Subject: Re: hfsplus: mount loops forever on an HFS wrapper whose embedded
- volume points back at itself
+        Mon, 23 Nov 2026 14:08:33 -0800 (PST)
+Message-ID: <fa6344cbb419012d7deed74d30ae6062eda92fc1.camel@dubeyko.com>
+Subject: Re: [PATCH v2] hfs: avoid reusing occupied CNIDs after deletion
 From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Aymen T <atijari00@gmail.com>, glaubitz@physik.fu-berlin.de, 
-	frank.li@vivo.com
-Cc: linux-fsdevel@vger.kernel.org
-Date: Mon, 23 Nov 2026 14:01:12 -0800
-In-Reply-To: <45bfa4d7-e9e2-45f2-9e12-a794defae64a@gmail.com>
-References: <45bfa4d7-e9e2-45f2-9e12-a794defae64a@gmail.com>
+To: Hengyu Liang <hengyul@cs.unc.edu>
+Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Date: Mon, 23 Nov 2026 14:08:32 -0800
+In-Reply-To: <20261121101918.3395879-1-hengyul@cs.unc.edu>
+References: <20261112110128.4082071-1-hengyul@cs.unc.edu>
+	 <2bbc10eb1dd5ee69329a9307f14fd15b1815b898.camel@dubeyko.com>
+	 <20261113194103.3825961-1-hengyul@cs.unc.edu>
+	 <f59ea6b2a8c60594361ab596d92bdf98a217dd83.camel@dubeyko.com>
+	 <20261121101918.3395879-1-hengyul@cs.unc.edu>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -136,62 +141,70 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-On Sat, 2026-11-21 at 19:17 +0100, Aymen T wrote:
-> Hi,
+On Sat, 2026-11-21 at 05:19 -0500, Hengyu Liang wrote:
+> Hi Slava,
 >=20
-> hfsplus_read_wrapper() follows an HFS wrapper to the embedded HFS+
-> volume and re-reads the volume header there:
->=20
-> =C2=A0=C2=A0=C2=A0 case cpu_to_be16(HFSP_WRAP_MAGIC):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!h=
-fsplus_read_mdb(sbi->s_vhdr, &wd))
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out_free_backup_vhdr;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 wd.abl=
-k_size >>=3D HFSPLUS_SECTOR_SHIFT;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 part_s=
-tart +=3D (sector_t)wd.ablk_start +
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 (sector_t)wd.embed_start * wd.ablk_size;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 part_s=
-ize =3D (sector_t)wd.embed_count * wd.ablk_size;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto r=
-eread;
->=20
-> hfsplus_read_mdb() only checks the embedded signature, two attribute
-> bits and that ablk_size is a non-zero multiple of 512. With
-> drAlBlSt =3D 0 and the embedded extent's start block =3D 0, part_start
-> doesn't move, the next read returns the same wrapper MDB, and the
-> mount spins on that sector for as long as the device answers. There
-> is no iteration limit and no fatal_signal_pending() check, so the
-> mount(2) caller can't be killed. The default: branch can loop the
-> same way: hfs_parse_new_pmap() adds pmPyPartStart without checking
-> it, so an Apple_HFS entry with pmPyPartStart =3D 0 sends it back to
-> reread at the same place. I only reproduced the wrapper case.
->=20
-> On mainline (65e4fd942f72, 7.4.0-rc3) in QEMU, with the image
-> attached
-> as a USB mass-storage device (qemu-xhci + usb-storage) and mounted
-> with
-> flags 0x18e (NOSUID|NODEV|NOEXEC|DIRSYNC|NOSYMFOLLOW): mount never
-> returned, and the device saw 62,680 READs of sector 2 before the
-> 120 s run was killed. The same image with
-> ablk_start =3D 8, embed_start =3D 1 fails the mount with -EINVAL after 5
-> reads.
->=20
-> Fix: refuse a wrapper whose computed part_start doesn't advance (or
-> limit the number of wrapper/partition hops to a small number), and
-> return -EINVAL.
+> Sorry for the late reply. I have an important deadline in early
+> December, so I may be slow to reply until then.
 
-Would you like to send the formal patch with the fix?
+No problem. Take your time.
+
+>=20
+> On Mon, 2026-11-16 at 15:21 -0800, Viacheslav Dubeyko wrote:
+> > You explained a simple case. :) My worry was about the case when we
+> > could delete some number of items between [16, 20]. For example, we
+> > delete 17, 18, and 19 at first. And now we delete item with #20.
+> > So,
+> > leaf A should have 16 as a maximum CNID. And we can use 17 as a
+> > next_id. Correct?
+>=20
+> Correct. I ran this case with the patch on a fresh volume. Creating
+> a, c, e, b, d gives CNIDs 16 to 20 in three leaves:
+>=20
+> =C2=A0 leaf 1: root folder (2), thread of 2, a (16), b (19)=C2=A0=C2=A0 m=
+ax 19
+> =C2=A0 leaf 2: c (17), d (20), e (18)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 max 20
+> =C2=A0 leaf 4: threads of 16 to 20=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 no file or
+> folder
+>=20
+> =C2=A0 rm c (17), rm e (18): not the newest CNID, next_id stays 21;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 leaf max=
+imums 19 and 20 stay
+> =C2=A0 rm b (19):=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 leaf 1's maximum has to be recomputed, the
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 root kee=
+ps 20 (from leaf 2)
+> =C2=A0 rm d (20):=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 leaf 2 is now empty and goes away, the root's
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 maximum =
+has to be recomputed: leaf 1 -> 16,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 root -> =
+16, next_id =3D 17
+>=20
+> The next new file gets CNID 17. I checked it three ways: with the
+> values cached before the deletes, with nothing cached yet, and with a
+> remount between the creates and the deletes. A debug build that
+> compares every cached value with the records after each insert and
+> remove found no mismatch.
+>=20
+> A larger case: 2000 files created in shuffled name order, so the
+> CNIDs are spread over the leaves. Deleting CNIDs 1916..2014 first and
+> then 2015 gives next_id 1916, and the next file gets 1916. Without
+> the
+> patch the same steps end with "File exists". fsck.hfs reports all
+> images as OK.
+>=20
+>=20
+
+OK. Sounds good.
 
 Thanks,
 Slava.
-
->=20
-> Attached: mkhfs.py (python3 mkhfs.py wrap_loop loop.img makes the
-> image; wrap_once makes the control, which needs mkfs.hfsplus).
->=20
-> Thanks,
-> Aymen
