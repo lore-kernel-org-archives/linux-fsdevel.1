@@ -1,54 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.70
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795460189;
-	b=ZNhNMl9dQ9u46iaPB+mryzd6rkxF8irUg8JtDAMaYTHI3WZ9rUK6gkWtTLnvcKc7+Cpo
-	 yNIT9zxVv8qqK2qT0mLiuqf7Axa568HtKZ2Vbd0M/gwK4AGOf+xqT72RckxHOtjlJWAGC
-	 0R1fy7N4FmrgMNrdRa1dx6k+Tf6JIh6ZnlPTf7rJ0s0o2yiKc/j/W/QT6Ao5Uqsk1Ci51
-	 kzenjFKkHahaYb0Ws56+00IPSihTQi9nR2v23eUbp8H07CnnSVqkhQE/8rQCrOw4iewhw
-	 47JDiiwae9uyOzb73WP2tgn/y/RXkeX2j4UaKmpDvhKKMObmU+haPh+1QCwvG7WJ9Tg==
+	t=1795460958;
+	b=3CAmNrDVSs6+lrqsJoWa/NTbaidRy0QEtbZ/dbDxIJ8O06g3CoyhSezxEtOg/RtorICN
+	 bA6pYsAHto4WXumj61eVZnEkXDxVwvjcwq9+JGvu5/WFVV0RZmYJY5DNh1sWx92RjU7QS
+	 e0DOk0b4+CkKdDdrdCjEGZS4UF2jCiSfV8GOXehSfebHquDV01LV4tHwkpMvwgvnuUBEn
+	 QDoWoQjDXxLxj3IwdYE405KIIyPpgwgHlvlQmyrLXj/fEWMO/36k0U1kkvIEWDOxd4Eiu
+	 fh9RK+1kKTm1LpuLe5hiMxCTtPVdB7ZYTVw/tIHD56XoVhxV6OoWtnA5/GQIEb1gBuQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795460189;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Content-Type;
-	bh=OnczQ3wxMDViQssbLqUHjFh88GfCTCb774Gt0G83kDQ=;
-	b=RI2LWYVB/UyrwjKFJL2cAnngyU/qyW/SU3q8QZf15DWOgEV4CZO8NQTB1knHmsiSmNKl
-	 W2jo93x9hPy9eATd0DtS9aTXLprWgrWtBU9e7khbmhBqBTAKhVTtCJ38YBvuDba8g7Cyk
-	 oxZDU331gM1mcarg9IxxfZLPKJca4BHkssvmsTgR4epY8EuVMBTWZXwzf+BJ8H70Xc8DQ
-	 cJ6A1z4iKuW8+djwA6hzf4+RmEcu/4mGmnOCu2UYkct4WfqsJyRFhdA7TD5iqQiwnpQeP
-	 NVoe4eTuQlGNeT7irGi6RY05d48Sfg+Ufv+m9ObT66pY926N5OrgwI67cDTT4dYfhqw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795460958;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=hnd4FzHApDCtU9UwjS+kT2hf5xcYx05j963Ux7biRT8=;
+	b=jEL3o3JXZyzIRESwHDzVX0ON7oDBKvvdsLJX4NTYgom6Rf4tnfpwB4h08favQ5Z7LjW9
+	 agNOhzc4pQptLrye+JuHpg2MzYRM4wurDFNj3WzyunnJ+911w5CdfLtPuk/OpnITmCyB5
+	 h+sv5n0z0GSHFepuEWQCu2QO/lgNhSPM6vQdmrOotg7OZ3nwNq1foD3R3VZh5b9+t1FCo
+	 Igmv68M0l1/FPiHsubYmi48pNcKLLoUqSbxMNWcIU83dJ8HCl47pZqs9MWgTOTDHMx9dX
+	 XJL+SkwK/yOjtagrs3La7DBRRru1PXp+KcDmeKVuZwdjOHm69mjuq9XsW7pH/ZtoFPA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.210.70
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
+	dmarc=none header.from=amutable.com;
+	spf=pass smtp.mailfrom=amutable.com;
+	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=GZyS6fv2;
+	arc=none smtp.remote-ip=209.85.128.53
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6017F606A332
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 18:56:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6017F606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-851f720d7afso2166346a34.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 10:56:29 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D96606A31F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 19:09:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24D96606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=GZyS6fv2
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4bb85e07aadso45393205e9.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 11:09:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1795460956; x=1796065756; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=hnd4FzHApDCtU9UwjS+kT2hf5xcYx05j963Ux7biRT8=;
+        b=GZyS6fv2Uol+dQe7OQZANbIihQkjmno/hg4JD/MjPHwf4JoR9n1K06zEg8hm3wvg+D
+         S6tYpC0CxfDOtImwKqO7UTZhGDwO4l8uFj3QG39TfnkN2QfOVTMi6nfbMvlVtkerX/ls
+         lCkZiaz2LXqgIEk4aznMg+ZsTwE8AvwwZBJGxTfihyZe2bnXx/LLOZr2axRzOj4vc2b0
+         l1O97P/Ovxx1recHjJrAoSxFT8uzpu2rKsZXD88rrRIVIDdZEcWg7CEf6rPMoz2ElL67
+         hLxMdBF9L/xSU6TqnoG2oY1IAzfNh9q2lxBkfo2hUAqL4pGv9ztfgokO7st8goL5cCR5
+         Edxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795460188; x=1796064988;
-        h=content-type:to:from:subject:message-id:date:mime-version
+        d=1e100.net; s=20260707; t=1795460956; x=1796065756;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=OnczQ3wxMDViQssbLqUHjFh88GfCTCb774Gt0G83kDQ=;
-        b=JCVf/nqgRy5syJafcEXOcxNljWT5kM6POxkyreH9/8uMN2pniyDmLK8u6RiRL7LaSK
-         yCeVL6SIDa0OhAMY7Qae98U70ICpHNg8W8QGCBvpkapoMtx7Ip6fAGZlUzYJCWJhVXi5
-         TYzax3wQSYHYxQxf8ZXdRG/RCtRurzZu0DsSOgCUW56BkUxRwgYhwpT7v07pcbM+hRHb
-         nsQVwzaHJGIHjai07+JqFbuUWiXLrTxD22OyEcWR04zq15Lty7BaP9PyATt6axPxNdMM
-         WNQk66p1EiNFT97YSkwS2F9F3m214arPEfgcUUm6InxJfGMspiosLnz8pTu3xdyV5g9b
-         efPQ==
-X-Forwarded-Encrypted: i=1; AL+hErEjr0U5E7ErHOsCKXMg5tHpb24w0Mg+sBkF+nmasjqNXkzastpZwLO4dy/YeRC3iQSiooS5zgcnItg6Cevu@vger.kernel.org
-X-Gm-Message-State: APuU4Z/OoPCipV8/SsT+V8g9L2r8LBwSiWgaSYLlnFk3qTWTOAtGdi+Y
-	7jZ4ue1ns2p8RMGT9zyp0ko1zI/uN6Tl7oiPKgWMCwsZdGlpJXCgTcQcHiE+KqnYtOwfztTGBXM
-	AhdvLaQJZaTVrYI4pFMvZ0tRgyrEI8Srz1WM0d5JmqY6yG162BqKOZow4ojc=
+        bh=hnd4FzHApDCtU9UwjS+kT2hf5xcYx05j963Ux7biRT8=;
+        b=NpXk5EDw8fS3ENckWkDJhK86R/HwO/UerJCkYR0EhzDTxWPMtqj1jR6CZsVjQB5W4F
+         PCCWKX+9wVLQJ5LFGYAXlT0sfUgKzaDWh0+6SLyl6Yv5TlHYIyFCtcxBOMHoJNBVFGBc
+         liClb5JSjaN2/96MjAG6QnBcQBpFPlzKP5CGEpsLnGvIYPMqaajPp5gv/+AqUaIPSUmk
+         ibL6tlWAWXbALXnZn3w+MCgDQSPkaB28/yelav82IVfR1yqv/gXJvY9qPlesUrDdUAQa
+         jEe5/wznVisz1/ddc6Ja/MZW460xLAY2DRWGCwURzUQsZJOaAFWqGc/GpBKFqmPhSR/h
+         P3Rg==
+X-Forwarded-Encrypted: i=1; AL+hErHxjmLo4vwCcLYmhflh0hOv9/bN2Lyt8cFZxVGMJ8fiYIshn7y+hG3ZFLxHYBaiRbXpj3clBAb2OXbQn847@vger.kernel.org
+X-Gm-Message-State: APuU4Z/H8/w+8YjtmZNPRfM/GnLDKQWGHCGwl8eT+e5cp1SOhj1h4C/J
+	ysoIDxs/lEs2pcO5Tsqisj7hSo7tuGLYyub6kqO47HFY4xApK/D7NaeLNk0btEv2mkeT
+X-Gm-Gg: AZFdTZeMrDGkzFzRRSUWTTMo7BuHsmf12V9llYUYM8QJNGvLhzrS8dgsQ6ph8jy6NSX
+	8UBKZScarWvcyRwoYa1XtalGDuVPHScmr6vKzFwSh/vg+n1XzPI0qmmzaCJrL50zR6aP3kXKR6V
+	xh4hlIyaAL8UfjIs1bBOHWMdxDmEu0T3olKNDutQ2DnKQbKhFQ64ielC15J+1AgGWQPf84YwxL5
+	DW8oWq2YyqMW/sOoCCJ4BE+VaRUSmfevZIKV0NDKcPbZtoLRDFKDgRbds6azyMEnJ5gOqIcmQAK
+	w4Jmk+T31l+kqeu063GC6rUq6jHAxlsWkJbKEDbj4JejQ5IE4TWBsvB+9PSNn/IXBzYpSYwCwCX
+	SV3KXEp5QcW10JRJIrS+nDk5sV96JH3dCVyPKLMrVydbiInKdUuPIa2Pjavd+ET6MSMRIqyvq0/
+	aZ6bgcbiQnXfR+5s8WD41w27HT4lNcm9nxgf/ymYXTZCErOsNJq0+xq1j6dzyRkIGNwBvY/NgaE
+	vSCg0Jj9aZYLkuenaM81Vr5SVLBnplEutPOs6e6NgGJfquZVBoDRshB3UPr60E8aaReCgIljNQ8
+	YFQ3w/J8p4PECi7kR7YGQfAU4Cps6NgrwfMCr0ImsGCptGQwn2fsp1PZ/Uv5kEokWtTnBBajEh4
+	pSCzcyAL+UqzP5isGeQD5bciUvLeCQKMxZN3HiQ==
+X-Received: by 2002:a05:600c:4e16:b0:4bb:69b2:d3df with SMTP id 5b1f17b1804b1-4bb88813024mr261994675e9.25.1795460956179;
+        Mon, 23 Nov 2026 11:09:16 -0800 (PST)
+Received: from ?IPv6:2003:cf:572c:2800::777? (p200300cf572c28000000000000000777.dip0.t-ipconnect.de. [2003:cf:572c:2800::777])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884911e3sm441832355e9.6.2026.11.23.11.09.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 11:09:15 -0800 (PST)
+Message-ID: <f47ec71229a8238f23819995884faed725304247.camel@amutable.com>
+Subject: Re: [PATCH v2] xattr: enforce the name and size limits for
+ in-kernel callers
+From: Alexander Mikhalitsyn <alex@amutable.com>
+To: Amir Goldstein <amir73il@gmail.com>, Christian Brauner
+ <brauner@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Miklos Szeredi <miklos@szeredi.hu>, Chris Mason <mason@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Theodore Ts'o	 <tytso@mit.edu>, Carlos
+ Maiolino <cem@kernel.org>, 	linux-fsdevel@vger.kernel.org,
+ linux-unionfs@vger.kernel.org, 	stable@vger.kernel.org
+Date: Mon, 23 Nov 2026 20:09:14 +0100
+In-Reply-To: <20261123165807.1939942-1-amir73il@gmail.com>
+References: <20261123113513.1910906-1-amir73il@gmail.com>
+	 <20261123165807.1939942-1-amir73il@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,112 +107,133 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:6f97:b0:573:30a5:f24d with SMTP id
- 5614622812f47-57a0a10c7f6mr13468904b6e.17.1795460188434; Mon, 23 Nov 2026
- 10:56:28 -0800 (PST)
-Date: Mon, 23 Nov 2026 10:56:28 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6b048c5c.a481e175.27cf24.0021.GAE@google.com>
-Subject: [syzbot] [iomap?] WARNING in iomap_release_folio
-From: syzbot <syzbot+daa4cd155cd8696efe4f@syzkaller.appspotmail.com>
-To: brauner@kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+On Mon, 2026-11-23 at 17:58 +0100, Amir Goldstein wrote:
+> The xattr system calls refuse a name longer than XATTR_NAME_MAX and a
+> value larger than XATTR_SIZE_MAX, but the VFS helpers do not. An
+> in-kernel caller may pass a name or a size that it got from another
+> filesystem, such as overlayfs copy up from a lower layer.
+>=20
+> Check both limits before calling the xattr handler of the filesystem,
+> and fail with the errors that the system calls return for them.
+>=20
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 
-syzbot found the following issue on:
+Dear Amir,
 
-HEAD commit:    4843f6873f7c Merge tag 'sysctl-7.04-fixes-rc4' of git://gi..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=106a12b5580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3cc6a7ee2d24d208
-dashboard link: https://syzkaller.appspot.com/bug?extid=daa4cd155cd8696efe4f
-compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
+Please, feel free to add:
 
-Unfortunately, I don't have any reproducer for this issue yet.
+Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/98fce4d0b21b/non_bootable_disk-4843f687.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/86db8b334894/vmlinux-4843f687.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/94ea4dad441a/bzImage-4843f687.xz
+Kind regards,
+Alex
 
-AI-generated root cause summary:
-`ntfs3` registers iomap folio lifecycle callbacks (`iomap_dirty_folio` and
-`iomap_release_folio`) on `ntfs_aops` and `ntfs_aops_cmpr`, which attach a
-per-block `struct iomap_folio_state` (`ifs`) to folios whenever
-`i_blocks_per_folio(inode, folio) > 1` (such as when NTFS cluster size is
-smaller than `PAGE_SIZE`). However, `ntfs_read_folio()` in `fs/ntfs3/inode.c`
-directly calls `folio_mark_uptodate(folio)` instead of
-`iomap_folio_mark_uptodate(folio)` when `ni->i_valid <= vbo` (and the same
-pattern appears in `ni_read_folio_cmpr`, `ntfs_compress_write`, and
-`attr_make_nonresident`). If an earlier incomplete or aborted iomap
-write/zero-range operation left `ifs` attached to an `!uptodate` folio,
-`folio_mark_uptodate()` sets `PG_uptodate` without updating the `ifs->state`
-uptodate bitmap. When kswapd later reclaims the clean folio via
-`iomap_release_folio()` -> `ifs_free()`, `ifs_is_fully_uptodate(folio, ifs) !=
-folio_test_uptodate(folio)` triggers the `WARN_ON_ONCE`.
-
-full analysis:  https://syzkaller.appspot.com/x/ai_root_cause?x=daa4cd155cd8696efe4f
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+daa4cd155cd8696efe4f@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-ifs_is_fully_uptodate(folio, ifs) != folio_test_uptodate(folio)
-WARNING: fs/iomap/buffered-io.c:295 at ifs_free+0x22d/0x2c0 fs/iomap/buffered-io.c:294, CPU#0: kswapd0/84
-Modules linked in:
-CPU: 0 UID: 0 PID: 84 Comm: kswapd0 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-RIP: 0010:ifs_free+0x22d/0x2c0 fs/iomap/buffered-io.c:294
-Code: 41 5f 5d e9 55 0a bb ff e8 30 8e 4d ff 90 0f 0b 90 e9 0a ff ff ff e8 22 8e 4d ff 90 0f 0b 90 e9 3a ff ff ff e8 14 8e 4d ff 90 <0f> 0b 90 eb c7 44 89 f9 80 e1 07 80 c1 03 38 c1 0f 8c 3d fe ff ff
-RSP: 0018:ffffc90000ed67e0 EFLAGS: 00010293
-RAX: ffffffff827bbe6c RBX: ffff88803922d400 RCX: ffff8880338a8000
-RDX: 0000000000000000 RSI: 0000000000000008 RDI: 0000000000000000
-RBP: 00000000827c3c01 R08: ffffea0000538607 R09: 1ffffd40000a70c0
-R10: dffffc0000000000 R11: fffff940000a70c1 R12: dffffc0000000000
-R13: 1ffffd40000a70c5 R14: 0000000000000008 R15: 0000000000000000
-FS:  0000000000000000(0000) GS:ffff88808a9ea000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fb6145bafe8 CR3: 000000004527b000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- iomap_release_folio+0x254/0x450 fs/iomap/buffered-io.c:826
- shrink_folio_list+0x22e2/0x4d90 mm/vmscan.c:1569
- evict_folios+0x3326/0x4390 mm/vmscan.c:5097
- try_to_shrink_lruvec+0xf22/0x1630 mm/vmscan.c:5271
- shrink_one+0x312/0x10f0 mm/vmscan.c:5318
- shrink_many mm/vmscan.c:5381 [inline]
- lru_gen_shrink_node mm/vmscan.c:5459 [inline]
- shrink_node+0x631e/0x6c50 mm/vmscan.c:6465
- kswapd_shrink_node mm/vmscan.c:7258 [inline]
- balance_pgdat mm/vmscan.c:7429 [inline]
- kswapd+0x1ff4/0x3a20 mm/vmscan.c:7705
- kthread+0x38b/0x480 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+> ---
+>=20
+> Changes since v1:
+> - Check the name in vfs_getxattr_alloc() too (Alex)
+>=20
+> v1:
+> https://lore.kernel.org/r/20261123113513.1910906-1-amir73il@gmail.com/
+>=20
+> =C2=A0fs/xattr.c | 35 ++++++++++++++++++++++++++++++++++-
+> =C2=A01 file changed, 34 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/fs/xattr.c b/fs/xattr.c
+> index 0705801a62cc5..fb5e43d4ff356 100644
+> --- a/fs/xattr.c
+> +++ b/fs/xattr.c
+> @@ -178,6 +178,18 @@ xattr_permission(const struct mnt_idmap *idmap,
+> struct inode *inode,
+> =C2=A0	return inode_permission(idmap, inode, mask);
+> =C2=A0}
+> =C2=A0
+> +/*
+> + * The xattr system calls refuse a name above XATTR_NAME_MAX and a
+> value above
+> + * XATTR_SIZE_MAX, but an in-kernel caller may pass a name or a size
+> that it
+> + * got from another filesystem, such as the lower layer of
+> overlayfs.
+> + */
+> +static int xattr_check_name(const char *name)
+> +{
+> +	if (strnlen(name, XATTR_NAME_MAX + 1) > XATTR_NAME_MAX)
+> +		return -ERANGE;
+> +	return 0;
+> +}
+> +
+> =C2=A0/*
+> =C2=A0 * Look for any handler that deals with the specified namespace.
+> =C2=A0 */
+> @@ -209,10 +221,17 @@ __vfs_setxattr(const struct mnt_idmap *idmap,
+> struct dentry *dentry,
+> =C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 size_t size, int flags)
+> =C2=A0{
+> =C2=A0	const struct xattr_handler *handler;
+> +	int error;
+> =C2=A0
+> =C2=A0	if (is_posix_acl_xattr(name))
+> =C2=A0		return -EOPNOTSUPP;
+> =C2=A0
+> +	error =3D xattr_check_name(name);
+> +	if (error)
+> +		return error;
+> +	if (size > XATTR_SIZE_MAX)
+> +		return -E2BIG;
+> +
+> =C2=A0	handler =3D xattr_resolve_name(inode, &name);
+> =C2=A0	if (IS_ERR(handler))
+> =C2=A0		return PTR_ERR(handler);
+> @@ -408,6 +427,10 @@ vfs_getxattr_alloc(const struct mnt_idmap
+> *idmap, struct dentry *dentry,
+> =C2=A0	if (error)
+> =C2=A0		return error;
+> =C2=A0
+> +	error =3D xattr_check_name(name);
+> +	if (error)
+> +		return error;
+> +
+> =C2=A0	handler =3D xattr_resolve_name(inode, &name);
+> =C2=A0	if (IS_ERR(handler))
+> =C2=A0		return PTR_ERR(handler);
+> @@ -416,6 +439,8 @@ vfs_getxattr_alloc(const struct mnt_idmap *idmap,
+> struct dentry *dentry,
+> =C2=A0	error =3D handler->get(handler, dentry, inode, name, NULL, 0);
+> =C2=A0	if (error < 0)
+> =C2=A0		return error;
+> +	if (error > XATTR_SIZE_MAX)
+> +		return -E2BIG;
+> =C2=A0
+> =C2=A0	if (!value || (error > xattr_size)) {
+> =C2=A0		value =3D krealloc(*xattr_value, error + 1, flags);
+> @@ -434,16 +459,24 @@ __vfs_getxattr(struct dentry *dentry, struct
+> inode *inode, const char *name,
+> =C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void *value, size_t size)
+> =C2=A0{
+> =C2=A0	const struct xattr_handler *handler;
+> +	ssize_t ret;
+> =C2=A0
+> =C2=A0	if (is_posix_acl_xattr(name))
+> =C2=A0		return -EOPNOTSUPP;
+> =C2=A0
+> +	ret =3D xattr_check_name(name);
+> +	if (ret)
+> +		return ret;
+> +
+> =C2=A0	handler =3D xattr_resolve_name(inode, &name);
+> =C2=A0	if (IS_ERR(handler))
+> =C2=A0		return PTR_ERR(handler);
+> =C2=A0	if (!handler->get)
+> =C2=A0		return -EOPNOTSUPP;
+> -	return handler->get(handler, dentry, inode, name, value,
+> size);
+> +	ret =3D handler->get(handler, dentry, inode, name, value,
+> size);
+> +	if (ret > XATTR_SIZE_MAX)
+> +		return -E2BIG;
+> +	return ret;
+> =C2=A0}
+> =C2=A0EXPORT_SYMBOL(__vfs_getxattr);
+> =C2=A0
