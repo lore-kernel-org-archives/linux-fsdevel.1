@@ -1,91 +1,119 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795425330;
-	b=I+GJxei55qrEe1/xDANXqtSZX+V23v6M8riInaesuilpkbNt3XsAM6g3rxZ1HxhQtaFJ
-	 4jsYwdqIWcnaSlhdm8eiqCQ+sa0GDLX3XwazQD2qDnAfAEoK9bOkS06aRSBwytX2orcFV
-	 1Hg7fB8VpA2TZGcjrr7nHpud93d0KfTrlb4XT7KyZGsjCZd8J+0LEmBvfYlDWtkaA5yhy
-	 U4BXtQ4GWnAIw3oGRYtVak2MC2ZXsPInpyxRBrkycj1/IvJJLytGs2mdVmOiKcCnlu6OL
-	 HRcUUTsjlMbEmZSZhf3iw5II0/a/eyEvEbr+q9NzIsXtvjvG4iWNqacgQufsSpF6Rfg==
+	t=1795426829;
+	b=5l1HGq6nP41LWgEy91JzFr+jebeBgiMEtmng6YoShWUFO8cxB7ZGHwhBrlp8dHau9sT/
+	 tp6b2Ys2ER1BdWRyEXsCIulbhZ6bLEbFWUI07vQgOHHxnRmGeCd3QutAWqbAfsBfWKk1U
+	 8z3I+i3y4E9taSOS8omr25JPtiIwSC659dFdankZr1w5xAKnDWVdPhJoloTHBLHdt4R6C
+	 hU6mQjT5Si19q2DQxQB/ncgZAOBu5EBq7MAeSYjgXtmI7/vi6ygde4rhPm6bFD2ImjQ18
+	 YzBcTMUGQ2Qo++rTYXLVvegK6XGB21nJi0WkvMpCVjLGc/aZFMTUxKbBl7sc3k1ANvg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795425330;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795426829;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=5QiqAXHt2Hqs0mxyFBDVb49lsswWbsrik6JHjFagC0E=;
-	b=uYuZoMmF9Bs7i2ucsEPjS8X2VMpm/79eaU0Pbiej6b8YuMZsm/beCSl4IZYLgcwIw/gp
-	 BzodvCh3f1SNfHOy/BWPxpe11Ra9LInw0HEY2RgGhTfpOW0U3cDFp6W8vIh+Qgg1nBHmR
-	 rdoxqCQCEuzpqCWYV9pfqMJXyfYV4baqN7xyPZe45XTScYAR6yk3NW+/VZGfi69bHps19
-	 KbYAwQ1k4GDS3uBe7bB1JPcT/PZBE+Lo5tZ/ti7jKywN/9CbYKP0BYAtvHNSjhHN9fRtv
-	 VZ0yz+olqvQm4RCTx5TnIRRFLpG6jqX1N82YJbMEubct1KISvAkEzMysDEQ3wXuA5rg==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type;
+	bh=thx09sK5axuy1Mqno0O+zJDzS2jXR+z5TmxbMTktwk0=;
+	b=xhwqd/AsWVpVIjZrPf1jlCWmSGL6t3ntzCJNcLxFA7QdURb6K0ReKBmlcNj4e31DPIza
+	 4dHEzyf6scIq6k9kA94y/xLTUnyjDIJEf9i0CZqGNWxbwkgmRKdoNbP46CBzAE9159ud2
+	 Y3dkoL0nqZj/VVii2N34g3UHOCwLlGovOGj87OAavpVfr9lqyDh1FQXngsKJ6Q6dXTQL8
+	 4QW1UfnPqllUvvJ8HZo9Sq06TpdJIbocMYYdosoQseMP12y4Ylgy5oflfAyqAlxWjlh0n
+	 Ve0ruvpMcJBqOawWOlL0KxNoQQIuc5HMcFcfrslSJQcI0vwFXDoiOhz3UhfLcrueUrA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rXosVCnm;
-	arc=none smtp.remote-ip=74.125.82.178
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="piDKX/x+";
+	arc=none smtp.remote-ip=74.125.224.49
+Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D29A606A31F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 09:15:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5D29A606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46968606A31F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 09:40:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46968606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rXosVCnm
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-382f4710a17so5229300eec.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 01:15:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=piDKX/x+
+Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-67be9601f31so2492823d50.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 01:40:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795425328; x=1796030128; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5QiqAXHt2Hqs0mxyFBDVb49lsswWbsrik6JHjFagC0E=;
-        b=rXosVCnmkvQMppNL8dpOXhyAzDEi1IGOP1Nx3aBGlOPkY0cbK1y6eIGw8YSsw4YWwa
-         1ptMwAxATLDGC5bQWLJtvxvDqB4BYH20JUrj67akh6uhInyajbXef6jplynZYq5UX6y+
-         U3JamRm+sP+7OfnaTYC2SiwrmiimcfQxLy5Bkq6QZegq+1wbWUeKD2CPMvsrZnloQccu
-         ngZUC30bVvRpoRPLbO1k1hn2H9ai93wC/IMod+rud+wlKQMKjUJoMfkykazDwcPXxOaB
-         +19ddIUnPh/hV4alyMjT2AGM+nvWhRtLA5VplAgwtPHLxyVF8jEpeVMGY1UJMPdy788K
-         10pQ==
+        d=google.com; s=20260707; t=1795426827; x=1796031627; darn=vger.kernel.org;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=thx09sK5axuy1Mqno0O+zJDzS2jXR+z5TmxbMTktwk0=;
+        b=piDKX/x+zSivG1JjCcMp0ylCzOK+uPgZfR8gWTDeVcnNbIjSW62b/6eBaPu+cMWWqt
+         gZVrswxtbdBy9IVRKyGYvemM5nO7zzKrmbzjA9JouMA1+M0NsPR+0XbUbi5dRiBqU2Si
+         hlt7jGC3ecvkfqTYPMEwNrHg9CUkTwgyjT2w/dbrDhsw9uzRYFaQ0tvFlOLMvULjofzH
+         DWM5Fefly3gSdV+nraMLUYri7Yp/iCBXjiLvL40fOJs1qIvY05MSya4nAKjcGzSBDd/T
+         QSG7C5S9MfDpIDJy1XVCxaUnN4bh3JOqlZuJ1582NshQshH+AFkpy86jJG6nrOGKyaWL
+         6z8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795425328; x=1796030128;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1795426827; x=1796031627;
+        h=content-type:mime-version:references:message-id:in-reply-to:subject
+         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=5QiqAXHt2Hqs0mxyFBDVb49lsswWbsrik6JHjFagC0E=;
-        b=okGuT1n/U/7DNSpTIhXk68PxXzO3+YwtAxBOouwt9BKgibzzOKoqJOslBvFn7fSg+8
-         sbb5Ucx4Uw0XTlJm43Dt8uNWRZcs/lQ54xmo/DEAw6v2AlJv0c5Jx2SZhxvS8h+6CekO
-         dN7zGscdh6X0F/h4oym4SP/8mHKHCr7S/rN+jelMYXtWBPxqqXt22mT2AeJd4qniD/1M
-         21mXBbADq2uiOlvOqxwZzqW6AslLjCpQ0wC9dZYeW7OMb45wp5wY66xQx+YaN8O7kBiI
-         pVFlg0AuyclAe6foGeYvZjQjuFUDHDyXrjDAYj6/Y1+CCoVmLaxPLz/a4Rn3aAuqLDCK
-         L18w==
-X-Gm-Message-State: APuU4Z9foXwT0se9SfI1mZ9zxoPtJgDBI5Q2cYso376XDMQ19uCt7kxw
-	mQEzGWlJu2XSLPfo59oqIbNWlID4V8Z1uoydgCjy8w+uhw56juI7yipzZoN5Cg==
-X-Gm-Gg: AZFdTZcXPrpDbC5M40w5VxP6kcman7wFl7Xuap4iS6WjC9Szj5dkSUB0QPvfrbGMOgN
-	+LKHC9sPw3laVN9yYgwcNV5ZueMdCHPatILxV5iJa+Mxr9zen005FO2JztVPzGxGpXUyRtvSveC
-	t4PHbfqI399PItqigvZjk9g6g7hqjacQVQvVX7n901EwdLIJauJtMhuPlTaicidvY59SSfbblmE
-	PpIWF7PUQot0E1LZeQoHGEFGHsbiyFcxtbn5bH3g8QnswRhP9G/IOcsMR5aCyVvUl9o5N9GLeTG
-	+cvcuK4gP+h+WHgqJjFGChZoK+YHxP8BtI8PKlTvM6fReK+1fMY1fUFOIP46bBdhd1xDGap8xd2
-	jsvGaZ8OgSpxPzejHZVPZnvHPDEWu2vj+i5GQJsbXzG8ZtxfMNKGd4X5IA7vnhlFB8ZrO4LgGYP
-	gYLs0c/81VCtrDrmq138V+X8gOW1lGPq6Ak2YsV9dDMfr8AbOncZK3mCdivTVVmcjparP8QBYQC
-	+dVHwSL6bceFz2rDp9KnFJ3DfwDnUmexr0WKg4swhxbJKKTOo6in/o2aWYpWy4T0bXryHi/Ev26
-	Wkn+QoqygbBCYTs12FAX0B1nJVDYJzcTIhZcnfRrFg==
-X-Received: by 2002:a05:693c:8803:20b0:386:9b9c:ef1b with SMTP id 5a478bee46e88-3869b9cf99amr6973944eec.3.1795425328281;
-        Mon, 23 Nov 2026 01:15:28 -0800 (PST)
-Received: from a1-free ([161.33.196.121])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385672c6f31sm33641787eec.15.2026.11.23.01.15.26
+        bh=thx09sK5axuy1Mqno0O+zJDzS2jXR+z5TmxbMTktwk0=;
+        b=0oNJAbSXkipVGz8qC0BF4QAFYA2T7Uk8rDT/sOBJXN0/mkE30+mmACteod60ygDsOo
+         tgpu/v/GtRYBvmkif5fKCsVzWSirLkhvVTvxjYg2ABTfa8oDGZfI67UQYmBhzhOkThku
+         WutT6pk+n8qJs9Boc7q6CQidsDviJNTraZAailEIR2/BIHqNq9B1mA7TCCoYsivnyGmZ
+         hADPjAazbk1SrtUgPWw5E8vKUGxtTfGQkBZh9B5YekMuP+R0L/jEhCkJGQVtylyNLT6a
+         DoqpMp3I5cDM0JR9df5/5LeiwYanNQP+XR8EiHZE+UM8xJAZcwJ/PmnFz2r7MShZlGrX
+         SR0Q==
+X-Forwarded-Encrypted: i=1; AL+hErHTX4rYUBdBwt40vE5ycnWElxcFeaJ8gfYwNj4DjPEr022gh8BdYH3qME2csYqoL4slvXcUjep/4TGbC7iq@vger.kernel.org
+X-Gm-Message-State: APuU4Z8/vYltYLnYeaaaj7Udm0TpUZnnCAofCXWV9NURmLG4mQKSfdlH
+	Kb0pRs5Y2AeNz2Keo8WwUOD42CUTkcwqE5fb2i2QoSiIrvURuS3TChJfXOAH0jzGYw==
+X-Gm-Gg: AZFdTZeIGzXc85e1rUMssnWR27q6v7kuxOmmoC4lGnSLTayMzNX3snq6jPYDyt365p7
+	jEs8d0ieu4IzgqOa/VNNa3XGOg6KcseHGopxtwHSsG+T37lmoysjl6qGjtZXmMzxW8NbV43F7jP
+	YHyNySSQC6en8q2ZF9rnedEEwK6KEZ2OWM4IibfWsyj50UmD2RiVU6MZvtb9PehU0IzaeS6Kxux
+	Y83Ffdc+CSAGlnAg7axDZ/5cyK6OF6iQJRRcgSZjR3/74jnLsxJbaULbyOKIRx8LICZ6YM8h6km
+	cMNG3N4w9A02OBJVv4KjRdzU1StVJg672c6m8xCBcN2mmLllFmqi+L+nf99Z8msdflCrQkJp2nz
+	qL1QQCVW9u1YGBw9WjruCRV5IcwTCbxg2DXnaw+wi3M3pUgY4DhscFo5KXytombY3S6cLiZYJhx
+	4X0/tmhyXF28UhVAe5HRo7e3y4cqfXAnYJkbtCoWWFUAXr4wH+pK+4wOgLCvTl84cb/DptSPiYG
+	H5ABefMJMj8Wk4bHRHapfaP0XgQhPcg/QBAUKND+MXtgqaL5tPVp6QWOBYh07NKFzGc/wjhuFNR
+	fbC27fB+9+2chZiPXQgjbvlqO+0nO9Hp6GsUlHOc0ZVmWFX6FRQioF3lJEVd/OE3EATqUeFqhw0
+	i1F3IpwcNFt8xuP6YWmQbLvCg
+X-Received: by 2002:a05:690e:bc2:b0:67c:70cf:c90e with SMTP id 956f58d0204a3-67df443b020mr3503639d50.39.1795426826585;
+        Mon, 23 Nov 2026 01:40:26 -0800 (PST)
+Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67df33105fesm5150875d50.7.2026.11.23.01.40.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 01:15:27 -0800 (PST)
-From: TAKANO Mitsuhiro <takano32@gmail.com>
-To: linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>
-Cc: linux-xfs@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	TAKANO Mitsuhiro <takano32@gmail.com>
-Subject: [PATCH] iomap: fix kernel-doc warnings in iomap.h
-Date: Mon, 23 Nov 2026 09:15:23 +0000
-Message-ID: <20261123091523.3976398-1-takano32@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        Mon, 23 Nov 2026 01:40:25 -0800 (PST)
+Date: Mon, 23 Nov 2026 01:40:09 -0800 (PST)
+From: Hugh Dickins <hughd@google.com>
+To: Alen Karnil <alen.karnil@ideasonboard.com>
+cc: Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+    Ackerley Tng <ackerleytng@google.com>, 
+    Alexander Viro <viro@zeniv.linux.org.uk>, Alexandre Ghiti <alex@ghiti.fr>, 
+    Baolin Wang <baolin.wang@linux.alibaba.com>, 
+    Barry Song <baohua@kernel.org>, Binbin Wu <binbin.wu@linux.intel.com>, 
+    Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+    Christoph Lameter <cl@gentwo.org>, 
+    Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+    David Hildenbrand <david@kernel.org>, JP Kobryn <jp.kobryn@linux.dev>, 
+    Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>, 
+    Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>, 
+    Kiryl Shutsemau <kas@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+    Leonardo Bras <leobras.c@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>, 
+    Marcelo Tosatti <mtosatti@redhat.com>, 
+    Matthew Wilcox <willy@infradead.org>, 
+    Mel Gorman <mgorman@techsingularity.net>, 
+    Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>, 
+    Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+    Oscar Salvador <osalvador@suse.de>, Peter Zijlstra <peterz@infradead.org>, 
+    Qi Zheng <qi.zheng@linux.dev>, Rik van Riel <riel@surriel.com>, 
+    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+    Shakeel Butt <shakeel.butt@linux.dev>, 
+    Suren Baghdasaryan <surenb@google.com>, 
+    Vlastimil Babka <vbabka@kernel.org>, 
+    Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>, 
+    Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>, 
+    linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2 00/26] mm/fbatch: drain lru_add_drain() and _all()
+In-Reply-To: <179492383658.1554713.9260140415931487684.b4-review@b4>
+Message-ID: <db50635f-5f02-73a2-83b3-8ec7dc980b56@google.com>
+References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com> <179492383658.1554713.9260140415931487684.b4-review@b4>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -95,126 +123,45 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-kernel-doc -Wall reports eight distinct warnings for include/linux/iomap.h,
-each printed twice:
+On Tue, 17 Nov 2026, Alen Karnil wrote:
+> On Wed, 09 Sep 2026 02:39:08 -0700, Hugh Dickins <hughd@google.com> wrote:
+> > mm/fbatch: drain lru_add_drain() and _all()
+> > 
+> > [PATCH v2 00/26] mm/fbatch: drain lru_add_drain() and _all()
+> > 
+> > This series was prompted by lru_add_drain_all() appearing in watchdog
+> > backtraces: not to blame, but blocked on an unresponsive CPU to run
+> > its workqueue. lru_add_drain_all() is a heavyweight operation, which
+> > we often hope to avoid by a much lighter lru_add_drain(); but even
+> > those local drains can aggravate the lruvec lock contention which
+> > per-cpu fbatches are intended to ease.
+> > 
+> > [...]
+> 
+> Tested-by: Alen Karnil <alen.karnil@ideasonboard.com>
 
-  struct member 'fbatch' not described in 'iomap_iter'
-  struct member 'private' not described in 'iomap_iter'
-  No description found for return value of 'iomap_length_trim'
-  No description found for return value of 'iomap_length'
-  function parameter 'iter' not described in 'iomap_iter_advance_full'
-  No description found for return value of 'iomap_iter_advance_full'
-  No description found for return value of 'iomap_iter_srcmap'
-  No description found for return value of 'iomap_iter_next'
+Thank you, Alen, that's very encouraging and helpful - though I think
+it would be too presumptuous of me to add your Tested-by tag to each
+of the 26: I'll just add your Reviewed-bys to 01 and 02, thanks.
 
-Document @fbatch (the batch of dirty folios iomap_zero_range() passes for
-iomap_fill_dirty_folios() to fill) and @private (the file system's own
-data, opaque to iomap), add the missing @iter to
-iomap_iter_advance_full(), and add Return: sections.
+You may be wondering what became of the series: it's good, and I did
+rebase it to 7.4-rc2, folding in JP Kobryn's fine improvement (thank you)
+to __page_cache_release(), and Kiryl's !folio_test_unevictable() safety
+in lru_add_del_folio().
 
-iomap_iter_next() ended its description with "Returns 1 to continue
-iterating, 0 once the range is fully consumed, or a negative errno on
-error." without a colon, so kernel-doc found no return description.  Add
-the colon, and say that 0 is also returned when the file system made no
-progress without marking the mapping stale, as iomap_iter_continue() does.
+But found there was already a conflict in folio_batch_move_lru() in
+mm/core.git, which would make several of the rc2-based patches not
+directly applicable there; then saw David's "MM: Firefighting mode"
+mail, which confirmed what was becoming apparent, that it would be
+more helpful not to repost the lru_add_drain() series this cycle,
+but rather attempt to review the current fixing activity (I've tried,
+but just cannot keep up with all that David, Lorenzo and others have
+been achieving).
 
-Fix the two typos in the iomap_iter_srcmap() description, and the
-&i->iomap that renders as a broken cross-reference, while there.
+I intend to post again around 7.5-rc1 or -rc2: I'm probably naive
+to hope that the fixing frenzy will be less by then, but I'd better
+go ahead with a repost then, whatever the situation.
 
-After:
-
-  $ scripts/kernel-doc -Wall -none include/linux/iomap.h
-  (no output)
-
-No functional change.
-
-The changelog and the added kernel-doc text were written with Hermes Agent
-(deepseek-v4.1-flash); I reviewed them against the code and ran
-kernel-doc -Wall on the file before and after.  No build was run, as only
-comments change.
-
-Signed-off-by: TAKANO Mitsuhiro <takano32@gmail.com>
----
- include/linux/iomap.h | 27 ++++++++++++++++++++-------
- 1 file changed, 20 insertions(+), 7 deletions(-)
-
-diff --git a/include/linux/iomap.h b/include/linux/iomap.h
-index 372453dbf2d4..c82608169077 100644
---- a/include/linux/iomap.h
-+++ b/include/linux/iomap.h
-@@ -259,6 +259,9 @@ struct iomap_ops {
-  * @flags: Zero or more of the iomap_begin flags above.
-  * @iomap: Map describing the I/O iteration
-  * @srcmap: Source map for COW operations
-+ * @fbatch: Optional batch of dirty folios for zero-range processing, set up
-+ *	by iomap_zero_range() and filled by iomap_fill_dirty_folios()
-+ * @private: File system specific data for this iteration; opaque to iomap
-  */
- struct iomap_iter {
- 	struct inode *inode;
-@@ -282,8 +285,9 @@ int iomap_iter_advance(struct iomap_iter *iter, u64 count);
-  * @pos: File position to trim from.
-  * @len: Length of the mapping to trim to.
-  *
-- * Returns a trimmed length that the operation applies to for the current
-- * iteration.
-+ * Return: The length that the operation applies to for the current
-+ * iteration: @len, limited to the end of the current mapping and, if
-+ * @iter->srcmap is not a hole, to the end of the source mapping.
-  */
- static inline u64 iomap_length_trim(const struct iomap_iter *iter, loff_t pos,
- 		u64 len)
-@@ -299,7 +303,9 @@ static inline u64 iomap_length_trim(const struct iomap_iter *iter, loff_t pos,
-  * iomap_length - length of the current iomap iteration
-  * @iter: iteration structure
-  *
-- * Returns the length that the operation applies to for the current iteration.
-+ * Return: The length of the current iteration: @iter->len, limited to the end
-+ * of the current mapping and, if @iter->srcmap is not a hole, to the end of
-+ * the source mapping.
-  */
- static inline u64 iomap_length(const struct iomap_iter *iter)
- {
-@@ -308,6 +314,9 @@ static inline u64 iomap_length(const struct iomap_iter *iter)
- 
- /**
-  * iomap_iter_advance_full - advance by the full length of current map
-+ * @iter: iteration structure
-+ *
-+ * Return: Always 0.
-  */
- static inline int iomap_iter_advance_full(struct iomap_iter *iter)
- {
-@@ -319,9 +328,12 @@ static inline int iomap_iter_advance_full(struct iomap_iter *iter)
-  * @i: iteration structure
-  *
-  * Write operations on file systems with reflink support might require a
-- * source and a destination map.  This function retourns the source map
-- * for a given operation, which may or may no be identical to the destination
-- * map in &i->iomap.
-+ * source and a destination map.  This function returns the source map
-+ * for a given operation, which may or may not be identical to the destination
-+ * map in ``i->iomap``.
-+ *
-+ * Return: The source map for the current iteration, or a pointer to
-+ * ``i->iomap`` if there is no separate source map.
-  */
- static inline const struct iomap *iomap_iter_srcmap(const struct iomap_iter *i)
- {
-@@ -350,7 +362,8 @@ int iomap_iter_continue(const struct iomap_iter *iter, struct iomap *iomap,
-  * compile-time-constant @begin and @end callbacks, the compiler can call them
-  * directly, avoiding the indirect-call overhead.
-  *
-- * Returns 1 to continue iterating, 0 once the range is fully consumed, or a
-+ * Return: 1 to continue iterating, 0 once the range is fully consumed or the
-+ * file system made no progress without marking the mapping stale, or a
-  * negative errno on error.
-  */
- static __always_inline int iomap_iter_next(const struct iomap_iter *iter,
-
-base-commit: 4c7bbc7f82ff8820a4c9be8f662430bec640e2da
--- 
-2.53.0
-
+Hugh
