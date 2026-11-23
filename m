@@ -1,72 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=199.89.1.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795448643;
-	b=nhqZSwS4/UFCSyquR1fZb/Sf7NTWzRAEv/0k7f4BAqvYPTngjEzuM2zI4k1Oh6B4724A
-	 hS+Qawmlg/i1hdqPr88DGUgS8dgwfWo/BQV0oFtmqw2dG4hG7ROuHF/9IvohkI+aduRnT
-	 Yf5bN7ptTSlQAAKeytm14GWceM0d1VLnsqRvEDsvBGVYcw4mAPw0SpCptWt3Ubhpj9qEw
-	 4T5YXLUd+tHYMj9MIibxFJLeB5gLENb6V1cTDnqVnIjUyd6QYb7fXhimu27fGRnom/oYy
-	 tp6AR4fy7RxdqF45XrSrmTV4wVT/j4xU0p/nYfFnd+1vt69hn6tm7MZ3rWZEzJDMmhw==
+	t=1795450740;
+	b=FFgbVTWp3f4yiQ1K4f0sSgT1pAbW8CBcaWPTdeXr/WXneGmkU6Fo9iDbL0KQm9EaDYnA
+	 0aULFdhH8KFkAmWnygGs7FeGvY4HnepX+Gd5jSv09eyblYkqPpqxT9DCOs0sCh2bDbLUp
+	 kcUv0/xi76dnBhgJcVENn965+HQTbkdW6+3xspe6RnEQBjTQQTYHbeJSiyXSo+gpWn7cQ
+	 HB5vWSuzPsOB9NQ9d89Ru013ElaaUmbonbxu0K/QaQxI1jkDJkDXnhhzAjkZQYonmtpLD
+	 ojBVxmwmhW8HNFAmO/JcXUpn7kE0MOvxr+gqGxJIQyeOf9TGdrF6KvlN5qdGPWxXgJw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795448643;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=o3SOCtJoKICNsA1ttJ020LJOorIPqLqxhGmSDBRPhw0=;
-	b=d47ZjSPYnE2naXF9pRu14cFV9A9GsvNbAGpUKstjo0LK7a8hywt4m/M/IZgyvB1/C8X0
-	 h5YaL2QnO9wLdUJ7UvZhRKid/pvBPQ9BUBwfT/qGE5VFfwF7KjFk2+rDxvvqCaf+FAU+c
-	 d7wT4kHK2wICdFxesqfA4PVjdTEM0sAxPyDLfRXZcDnvP+0XBrevoz7T0w3++/Pdd9dvE
-	 C2Xka5phn20P15MbNj/nrD2iZ6GXlpBxhL6U1ZGJE6DkM4dwmIHyEDhMAJE6LYnxqGeUp
-	 4Gxsw1u/LVOlw0a82cFezh9eySs0GGcY2dt1x62z1U71KnmMeo0/Gussq8bSNiFkhzg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795450740;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Virus-Scanned:Received:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=Qb3afpjfNKL4NW0mFPEpkg1ptnndJIVYWJyHLR3epgc=;
+	b=Y6VRedl3EKwlpDlmx1e4dMsayhI7WdPsCyPKh0/aUixABB19U84OdOIC4b2O3ndLugFr
+	 j8nRj0Q2NztqYAJa2M8Bb+24AY17ASHf+W0PG51KpCFH7A+nRfHpZ/Y9h6MQyWd8Iy3B3
+	 +fTcxnAKEl8bCOhAyhoHTCjAMoA45IZADvIe7GgAjJCCRlcB+AA77rGKOt8aUWUwd+wtG
+	 VOcsyTLN5bnwNuETbFXDjYY7LRLPGCNgrowI4IW6AgIIB4iuSLbfipl6mzAVh9/hH0yln
+	 meNV1Z28xpZtSSxhiMgGGjQr4dnCRwvAc5AOBTAS6KoeswUyJymqmZSUxWkOxGJ6fLQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Th2i2qeV;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=acm.org;
+	spf=pass smtp.mailfrom=acm.org;
+	dkim=pass header.d=acm.org header.i=@acm.org header.a=rsa-sha256 header.s=mr01 header.b=mDy575Ld;
+	arc=none smtp.remote-ip=199.89.1.14
+Received: from 011.lax.mailroute.net (011.lax.mailroute.net [199.89.1.14])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934DD606A334;
-	Mon, 23 Nov 2026 15:44:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA11A606A31A;
+	Mon, 23 Nov 2026 16:18:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA11A606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Th2i2qeV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 221481F000D8;
-	Mon, 23 Nov 2026 15:43:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795448643;
-	bh=o3SOCtJoKICNsA1ttJ020LJOorIPqLqxhGmSDBRPhw0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Th2i2qeVV+3UqjBguZyjAQDAFIoyWMKuiTL1pshJSMujAM0dt1bpZ5xTHBOavBkOk
-	 co26wj1mVHb+tbSpaDj+K5PYIKyN4KJ6y6PA1OoUMqE1Y72nP6Jj5KPCWASS6LIdOt
-	 u0XRu7SxOWPk2gI+seKgn3UIHB17yZ7/KMGOtTD2/ZCFVMLDenoe0Vnxa40BQbXBiD
-	 XOwlIVBBtTBUSBPAnP5GzwNlfZB92FmEeGSboGEOZEX7Eonc6UJRnsXBs6q0GynV3i
-	 cd4p04WMsmf8iDFjqrlsdUwWrgxzqq55jhOpQdp+yQgumL6zE8NKlN46AnSKosU2QE
-	 qG2RHrINsTPXQ==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: Tamir Duberstein <tamird@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Matthew Wilcox <willy@infradead.org>, 
- Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>, 
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
- Roman Gushchin <roman.gushchin@linux.dev>, 
- Andreas Hindborg <a.hindborg@kernel.org>
-Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
- Daniel Gomez <da.gomez@samsung.com>, 
- "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>, 
- Tamir Duberstein <tamird@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>
-In-Reply-To: <20261120-xarray-entry-send-v6-1-1f69d7385f70@kernel.org>
-References: <20261120-xarray-entry-send-v6-1-1f69d7385f70@kernel.org>
-Subject: Re: [PATCH v6 01/12] rust: xarray: minor formatting fixes
-Message-Id: <179544862191.2286374.18027596474344839534.b4-ty@b4>
-Date: Mon, 23 Nov 2026 16:43:41 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=acm.org header.i=@acm.org header.a=rsa-sha256 header.s=mr01 header.b=mDy575Ld
+Received: from localhost (localhost [127.0.0.1])
+	by 011.lax.mailroute.net (Postfix) with ESMTP id 4jYB2q1Tgbz1XM6Hx;
+	Mon, 23 Nov 2026 16:18:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1795450734; x=1798042735; bh=Qb3afpjfNKL4NW0mFPEpkg1p
+	tnndJIVYWJyHLR3epgc=; b=mDy575LdZGhwaCqlKZEzucW3H19DrXMU8Ej1CUQS
+	n3RPo/dKz2JpDqIBXHPGbvwYsv4DgpUV9pPgv4MS4DRja0O3hwSErPBm8vraormq
+	U7b1ls7rL9QexvoJv14a0cAi7eSRqSX0gDGUqRon1y4jTqoZbnfBS5i2SaeFapAl
+	K4rUukPxCDt/5ykRNtG66wGF+kiIS7Ve4M7JAzuY4fiVq0cBQHkuS/09eFHIxDsr
+	4xgvRjDvyeb/DWW535SaD0W46QOOr39aslDAWxIap/BuOrYTMZU1u8ZxwaG0MpNS
+	Z9duMVf21i1R65joYqQ7A8tCG6WvlXkDP6MEM0D6/WSIOg==
+X-Virus-Scanned: by MailRoute
+Received: from 011.lax.mailroute.net ([127.0.0.1])
+ by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id nOt5yBC1lqBa; Mon, 23 Nov 2026 16:18:54 +0000 (UTC)
+Received: from [100.80.227.185] (unknown [104.135.182.41])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4jYB2j75Mhz1XM4Tn;
+	Mon, 23 Nov 2026 16:18:53 +0000 (UTC)
+Message-ID: <0c9c4e2a-2fd9-4e0c-846c-d2f810ee2cd8@acm.org>
+Date: Mon, 23 Nov 2026 08:18:51 -0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -76,33 +70,43 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] jfs: wait for lbmDONE under LCACHE_LOCK in lbmRead()
+To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
+ Edward Adam Davis <eadavis@qq.com>, Jens Axboe <axboe@kernel.dk>,
+ Ming Lei <tom.leiming@gmail.com>, Hillf Danton <hdanton@sina.com>,
+ Tao Cui <cui.tao@linux.dev>, Al Viro <viro@zeniv.linux.org.uk>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ linux-rt-devel@lists.linux.dev, linux-block@vger.kernel.org,
+ stable@vger.kernel.org,
+ syzbot+cd8a9a308e879a4e2c28@syzkaller.appspotmail.com,
+ syzbot+ecf51a7ccb6b1394e90c@syzkaller.appspotmail.com,
+ syzbot+bc273027d5643e48e5b3@syzkaller.appspotmail.com
+References: <20261123-work-loop-backing-file-v1-0-48f83eaf2499@kernel.org>
+ <20261123-work-loop-backing-file-v1-1-48f83eaf2499@kernel.org>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20261123-work-loop-backing-file-v1-1-48f83eaf2499@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
 
+On 11/23/26 5:02 AM, Christian Brauner wrote:
+> diff --git a/fs/jfs/jfs_logmgr.c b/fs/jfs/jfs_logmgr.c
+> index 306165e61438c..e96593d79a1df 100644
+> --- a/fs/jfs/jfs_logmgr.c
+> +++ b/fs/jfs/jfs_logmgr.c
+> @@ -1984,7 +1984,7 @@ static int lbmRead(struct jfs_log * log, int pn, struct lbuf ** bpp)
+>   		submit_bio(bio);
+>   	}
+>   
+> -	wait_event(bp->l_ioevent, (bp->l_flag != lbmREAD));
+> +	lbmIOWait(bp, 0);
+>   
+>   	return 0;
+>   }
 
-On Fri, 20 Nov 2026 14:10:12 +0100, Andreas Hindborg wrote:
-> Fix formatting in xarray module to comply with kernel coding
-> guidelines:
-> 
-> - Update use clauses to use vertical layout with each import on its
->   own line.
-> - Add trailing empty comments to preserve formatting and prevent
->   rustfmt from collapsing imports.
-> - Refer to the kernel crate as `kernel` rather than `crate` in use
->   clauses.
-> - Break long assert_eq! statement in documentation across multiple
->   lines for better readability.
-> 
-> [...]
-
-Applied, thanks!
-
-[01/12] rust: xarray: minor formatting fixes
-        commit: 62cac56c118c96bf2026275a0edc80f1b3a87375
-
-Best regards,
--- 
-Andreas Hindborg <a.hindborg@kernel.org>
-
-
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
