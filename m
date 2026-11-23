@@ -1,64 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=101.204.27.37
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795422655;
-	b=X0gT62ImbdSoO2VCpPAEZjzfAGnRQl5y8dv/NrY3oK4jhnMYg8nemV57nmD0ql+WMP1S
-	 /zW4pezgZs9qc9FMj4MMUy5oPY0oqkjJaUuKyP+xD1xMan72vU5hZMjW1CE5jezeVlXGs
-	 b6STv027YFpU4xYsZ6yz2tW/n56v3eUUu5FYWx6T/SJerAYXg4DuGpqTwEFbdo/hhNuL/
-	 ENkuoO7WyVqPc89X8roZ4u0jd03+eiLJVXFp5bpmNQCclYHGWZxAWgLVYrJvahzsNGDxc
-	 spf0FJHh3MLP87hqDKznpPzrrQyPEtb4h2+2QegCgKKVtZ54ikiLKMf1WVeUcPyvv8A==
+	t=1795423348;
+	b=vWyR0++Fmb1hMHLZNWqxK3scwRoWsKbHR6uRPav5U8YM74NG42v7UeKR/tsMtzeGJa7u
+	 gqjXTVjwkE9Ca23ipO69fvxhiPnHXYGIQk2NlGFN3FPGRUyMsBX1bXwzVqGgOLzix71Sz
+	 J/42c2clxMB5+YBlIzjzfTVHSLFABufTyj0tiLHll9pdxg7r2ZgSPOCOWyz14Bvk6TC3K
+	 Z+3o1GixNnfhij3WTT/yT3gQWHtfYCsz0aW+K6Q9Vn+c3qPPJ5d5udNa8AyK/zNP4HAC2
+	 bZME85czaLP88FEh9L+2UCzmnZythSA2YgsL/52wZ62TYKGMqiTF96vO3w5lR1gp9DQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795422655;
-	h=DMARC-Filter:Received:Received:Received:Received:Date:From:To:CC:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
-	 X-Originating-IP:X-ClientProxiedBy;
-	bh=6tDd9eRJndUwaYYrTyVQpmqvbWmO76hktr/KZipnuAY=;
-	b=l7snZys+o60zJo5QS6ugS67U2gTauk4/d6ygfr/ICobsKWBc6QSKC0/M/TTlSft0Dvif
-	 mg14OKuTSznwk4H7esPMrUuIm9TnOZzMtfDegVobBl5gqeS8labnUMaiwSe94VEWtp+WS
-	 XlEp/vUUIVTRqbUuibjEBwpf3gNnNIJy6iq1ldZut3wrtEoMAXfuP0ePy7ojAM29KBSQO
-	 E4+yG6+e/k6N2QGnGYFfyAw4bWRhmWNpVybVthY7DeXdNE3uETxtoTfFP9tlefGuieq8f
-	 e1UmmHJsx/PrVTw3wSKF2Pre4DhAUyB6GFoqcDNict8sax75o4MywbVPeHKe9w3lazQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795423348;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=GnIk51qj01nRrXsnOHu/fIQGm+CWLUJoNK8st13nPwo=;
+	b=ap0MAgunPnrZh3c1H6ou/gdp8QXv00yMPE6bZiP7hVmpDgwgHCanpXJnjUNx0rWqm0Z5
+	 Zp7+9EUcD33TTqiL9IVRREiotPctPYbSTMzvZLgisCgl1HAu3fIK80nvhgsJ/Wowr0FHg
+	 qyt2J0m47ZP/W+U+I3jUXAJ1PEpfmoSuSD3QxCMN6O2zgVyCh3qdFBNZni2KSg8Npr6Gp
+	 PGHUhUAszS1v4r+EARr6v8qyI5F2JRv6TfZJNUbGgo5NSvzlCCqrHCJb7c6f+zFUkloIT
+	 4OFr6A3Ri8og8cg/uTZEtVx9k9RjwAcGphJAd7nLAkvJPycJlcSIZ1OlQ1izFvN1qPg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=hygon.cn;
-	spf=pass smtp.mailfrom=hygon.cn;
-	arc=none smtp.remote-ip=101.204.27.37
-Received: from spam01.hygon.cn (unknown [101.204.27.37])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9A62606A31A;
-	Mon, 23 Nov 2026 08:30:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9A62606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
-Received: from maildlp1.hygon.cn (unknown [127.0.0.1])
-	by spam01.hygon.cn (Postfix) with ESMTP id 4jXzfS70p3zg1cV;
-	Mon, 23 Nov 2026 16:30:40 +0800 (CST)
-Received: from maildlp1.hygon.cn (unknown [172.23.18.60])
-	by spam01.hygon.cn (Postfix) with ESMTP id 4jXzfR3Pf6zVcB5;
-	Mon, 23 Nov 2026 16:30:39 +0800 (CST)
-Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
-	by maildlp1.hygon.cn (Postfix) with ESMTPS id B48A01555;
-	Mon, 23 Nov 2026 16:30:36 +0800 (CST)
-Received: from hsj-2U-Workstation (172.19.24.226) by cncheex04.Hygon.cn
- (172.23.18.114) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Mon, 23 Nov
- 2026 16:30:37 +0800
-Date: Mon, 23 Nov 2026 16:30:35 +0800
-From: Huang Shijie <huangsj@hygon.cn>
-To: Andreas Gruenbacher <agruenba@redhat.com>
-CC: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <jack@suse.cz>,
-	<hch@infradead.org>, <mic@digikod.net>, <axboe@kernel.dk>,
-	<gnoack@google.com>, <paul@paul-moore.com>, <jmorris@namei.org>,
-	<serge@hallyn.com>, <legion@kernel.org>, <aleksa@amutable.com>,
-	<libaokun@linux.alibaba.com>, <ebiggers@kernel.org>, <djwong@kernel.org>,
-	<sandeen@redhat.com>, <zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>,
-	<yingzhiwei@hygon.cn>, <wujianyong@hygon.cn>, <shijie8@gmail.com>,
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-block@vger.kernel.org>, <gfs2@lists.linux.dev>,
-	<linux-security-module@vger.kernel.org>
-Subject: Re: [PATCH v3 01/11] vfs: add super_iter_inodes()
-Message-ID: <awP5q_CmS3uIqfCw@hsj-2U-Workstation>
-References: <20261120031305.3561045-1-huangsj@hygon.cn>
- <20261120031305.3561045-2-huangsj@hygon.cn>
- <CAHc6FU7VUBLg=gX-xspFfp4jPffdH7Pc4oVx5nRDo7A3aiVWug@mail.gmail.com>
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="EaQgt/Fz";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC16F606A31A;
+	Mon, 23 Nov 2026 08:42:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EaQgt/Fz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 826291F000D1;
+	Mon, 23 Nov 2026 08:42:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795423347;
+	bh=GnIk51qj01nRrXsnOHu/fIQGm+CWLUJoNK8st13nPwo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EaQgt/FzKze3wJRfPGE513dfCman+8X4AAIAVfKUCMeCfM3/W4f2VAZjMrJgJB6kq
+	 C372EOKxHq2ZviLHiLjEagtYFvvN9/INQ1uP41sGgx9Nb+hXWOWwVmPZxDkU8l7ZCw
+	 Jl5pSbNVqfOzUZ1/5wXEMF4Eu+k53AAImFVIq8608Pv93NMzeAiZ9Q5sSX8v/KR5Gv
+	 gN53wRsAQijIlAcvm+fCUYL/3vuyMyPi8ro5V8lt1q0qldyvIcdamjHDpZGFkjHqM6
+	 I39Mq6vo9kacIKif2whQ3zOv5mtGlEPYQX1zi1eiQ7BbX2QZ2/ptBn1r7MYCxIbH1Z
+	 Ql8NtIJIprzrg==
+Date: Mon, 23 Nov 2026 09:42:20 +0100
+From: Andrey Albershteyn <aalbersh@kernel.org>
+To: koraynilay <koray.fra@gmail.com>
+Cc: Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, Jan Kara <jack@suse.cz>, 
+	"Darrick J . Wong" <djwong@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, Lauri Gates <lauri.gates@gmail.com>, 
+	Christoph Hellwig <hch@infradead.org>, Dave Chinner <dgc@kernel.org>, linux-btrfs@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	ntfs@lists.linux.dev, linux-nfs@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH 1/3] vfs: use goto out on error in vfs_fileattr_set()
+Message-ID: <awP8S5KF9v-nqWVY@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+References: <20261122000856.536902-1-koray.fra@gmail.com>
+ <20261122000856.536902-2-koray.fra@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,30 +63,18 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHc6FU7VUBLg=gX-xspFfp4jPffdH7Pc4oVx5nRDo7A3aiVWug@mail.gmail.com>
-X-ClientProxiedBy: cncheex06.Hygon.cn (172.23.18.116) To cncheex04.Hygon.cn
- (172.23.18.114)
+In-Reply-To: <20261122000856.536902-2-koray.fra@gmail.com>
 
-在 Fri, Nov 20, 2026 at 03:56:23PM +0100，Andreas Gruenbacher 写道：
-> > +
-> > +int super_iter_inodes(struct super_block *sb, ino_iter_fn iter_fn,
-> > +                     ino_iter_eligible_fn eligible, void *priv, int flags);
-> > +
-> >  struct super_operations {
-> >         struct inode *(*alloc_inode)(struct super_block *sb);
-> >         void (*destroy_inode)(struct inode *inode);
-> > --
-> > 2.53.0
+On 2026-11-22 01:08:54, koraynilay wrote:
+> Switch from using if (!err) { ... } to the cleaner if (err) goto out;
+> in the main body of vfs_fileattr_set().
 > 
-> Sorry to say, but this has gone quite a bit off course. Can you try a
-> construct like iomap_iter() instead?
+> Signed-off-by: koraynilay <koray.fra@gmail.com>
 
-Christian had suggested to use the following methed:
-  https://lore.kernel.org/all/20261120-mitverantwortlich-drehbaren-kantholz-241300d20168@brauner/
+Looks good to me
+Reviewed-by: Andrey Albershteyn <aalbersh@kernel.org>
 
-Thanks
-Huang Shijie
-
+-- 
+- Andrey
