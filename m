@@ -1,77 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795396648;
-	b=lwMFAWY4Sth6+Te52M7XEozZaLO60hAPaExl/Zuin7YOQ3M9/NQde7U3ZnEZ/Ko1gzUH
-	 i3Vgj124yCUIO41BecVB3AAt7OGsAmZUyboFQah/4Eew50qsGBiN2LFM2XZRfWR7oR8Se
-	 KWrHhtST46TBY99c51r5zIKIP7ll0XsFKs/jiJGyFOl7Kclf3EzyYs9MYvPJd3dmV7kAt
-	 4uTVjHINqZsoZn+IdSR1FWAwKCkTQSYC4SIdDEi6LUAbs8smL8IvN7Tifs7HAngzadRCP
-	 rqsO+amKYFuvemVKyD/xKNIMGBDjJ4Zsyi6SdysUt/YzxlQwuCfdBOaOvdC0oeOz/9g==
+	t=1795397309;
+	b=PaopANNLsp80ZKl4agEL5D4oarQhebJTQTUOgZnXwZFmCI0KGxmrST/SqHXnVIOEw7rw
+	 3w2Y6pbXvvnpw9cpmDsNJrsQU1kQZS7uRxezddU+lTvpOY0TenylUGrL6QhuKK7lTkPL0
+	 p1huMHBi+S8iSwhrW4iwr+oGkieK/KHHj8hqfOXteQqdSYDKAYs/xMehIxZFKvcxqA8SW
+	 HVUYb5d6CVGghp8wISHzmz5njGeposXe5zSiZ8nSpcuEUnJZzVNsAzTLySeyExLn+J0Ie
+	 yk+rBNC0cb2b3Iw7isoxaYR+nhLqCzO8aGhvvu8AX/+rAJOIei7+tQLkG+ZL8XN8utQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795396648;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=0aOCQuegkDUwskKeZ1j/NRStwGaSRAPMc97ZLi2jvTo=;
-	b=t1PlF5JNadRi3FQbyKzCijaUJIj6Um/BPLdNRNl1OCmVoB1hS87Ie8hMgTyQSWUjctJx
-	 uHS3YfMVkM4YUDuT6xcIhPmuKQtIzGL9qM/bHaoZUxGcQQhTnOFUI3XqwyUtyOTixYzO4
-	 6lRMkswUdISJBSE2nowPZXp4+L1CqjUOPofCU5bTSBTf+8ic7fascEJm3T37TYS9Tooqz
-	 x+B/EDLxOjcQbwsry4h4sA6n4eftKBUsXlJSXXgnmvyx6RBh89EZn63VO5L2IbB93n/ay
-	 9GaRimYkJ5hvHGfwD+ewjw5jSioHXwjV7yhIr0XL+TPdTySp2zFx6gw9q8A4FZgPvMw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795397309;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=3nVlInPmwKkJl4MGaIbIDMUH25e+EWVO33tmlKLpUuQ=;
+	b=whp33rbIrDckR3FZFrfdEe0J3vz5mkQ7YbGy9mePrpD19mxOhZXxbY+M04epjrhu7/gS
+	 B24luZX1oYuDT1dmoGS3LWog3MB6/YFkQiljL+prJWQuxKdQhMUbNSqTIaIOJp8eZE9hS
+	 qCHorrpxW/TQQpElJQFzHVd70uxudfv2KVb0vDuz6X+d9Ci8Vv1CUl5QgCj8b4lf4PRjd
+	 4R196lKpezqaOZLMzwvgL0uRFf96b59Gu/eUwCDyuYkkdZR5dK/9ot2rI5Ji/030dopFs
+	 G9lbnzO5rs9MYghbjQp4RMMgGHsunmQWzUmBDK/v4Qb5CtE+i1uufYVBAdtTAWQksMQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oU88Ot+D;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=HFXJi+iV;
+	arc=none smtp.remote-ip=91.218.175.133
+Received: from mta0.migadu.com (out-133.mta0.migadu.com [91.218.175.133])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 7C5BF606A31A;
-	Mon, 23 Nov 2026 01:17:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC4C606A32D
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 01:28:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CDC4C606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oU88Ot+D
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 51A941F000C0;
-	Mon, 23 Nov 2026 01:17:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795396648;
-	bh=0aOCQuegkDUwskKeZ1j/NRStwGaSRAPMc97ZLi2jvTo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oU88Ot+DNQP+6mgTLa+2Y0T8my6gPsAHGZ88SJHShFaf8cOQRDR/RsBGJuK8xoFLK
-	 ie9hfueXtMCampSV8SKLb3OF0QNXZC677qfYNG23pJ5iHahuOwYmCYQaDeoNgy4F/v
-	 WrSodOYpWarCv74fRWHad1uMwFGvOjPMCZF6v7Wi0+rA5eMcDfTGMme0DFDaIYr4Bj
-	 BV8BCmSY+LkBq+1fjI9o6dPp9AmTJdXStFcDzKkDk5gAEWZ2CVD8G/BBRGYx8zrMSG
-	 V37z3MaBHsr34qCd4KVhM7YMEkrvDZO2nf/YcaxeI9eniMitk/+WJmG2GXL3uA5PBi
-	 C9nhE3GDUd0ug==
-Date: Mon, 23 Nov 2026 03:17:24 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
-	containers@lists.linux.dev, linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	Aleksa Sarai <aleksa@amutable.com>,
-	Alexander Mikhalitsyn <alex@amutable.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Giuseppe Scrivano <giuseppe@scrivano.org>,
-	Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
-	Jeff Layton <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
-	KP Singh <kpsingh@kernel.org>,
-	Lennart Poettering <lennart@poettering.net>,
-	Neal Gompa <neal@gompa.dev>, Oleg Nesterov <oleg@redhat.com>,
-	Paul Moore <paul@paul-moore.com>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v7 00/26] userland: Userland containers
-Message-ID: <awOUJCbB_j0BuHvo@kernel.org>
-References: <20261122193539.3334213-1-jarkko@kernel.org>
- <DN25ST0D5K1J.1NI5236BF2BPY@gmail.com>
- <awOQDOel_72Xwjm7@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=HFXJi+iV
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=yfkDOFNangaKsew0JIB+tHmbNmAGU3mvMCj7TinFEwA=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795397305; v=1; x=1796002105;
+ b=HFXJi+iVfgmqTCIRPIxX4n5w2KGjTayE6KuyYt42eqaZJ03ZOaxoubQ3tpkB/1aabwoJrRu1
+ l7vhJdqbDNb2WnBAJoEjY6D3PYH78e2KJ8WzrsY/mpOTbtVe5LeGG7MyJwPFRF9TQb0e7S7Ig/f
+ N8y/Hi81NRbbH4uD4jenQA5g=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 20b39d6dbaa3b65f;
+	Mon, 23 Nov 2026 01:28:25 +0000
+X-Mizu-Trace-ID: 20b39d6dbaa3b65f
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <e9860ead-c5f3-4dd0-beaa-d92396c266d9@linux.dev>
+Date: Mon, 23 Nov 2026 09:28:07 +0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -81,45 +58,181 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <awOQDOel_72Xwjm7@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 6/8] fs: add FMODE_CAN_DMABUF_IO and require it for
+ dma-buf I/O contexts
+To: Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Anuj Gupta <anuj1072538@gmail.com>, Nitesh Shetty
+ <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+ Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com,
+ Philipp Stanner <phasta@kernel.org>, Dan Williams <djbw@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, tytso@mit.edu,
+ Andreas Dilger <adilger.kernel@dilger.ca>,
+ Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo
+ <ojaswin@linux.ibm.com>, "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+ Zhang Yi <yi.zhang@huawei.com>, asml.silence@gmail.com,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ nvdimm@lists.linux.dev, linux-ext4@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Li Wang <liwang@kylinos.cn>,
+ Mengmeng Zhao <zhaomengmeng@kylinos.cn>
+References: <20261113070621.273953-1-mengmeng.zhao@linux.dev>
+ <20261113070621.273953-7-mengmeng.zhao@linux.dev>
+ <20261120-faust-bohnenkraut-reduzieren-a30811186a15@brauner>
+From: Mengmeng Zhao <mengmeng.zhao@linux.dev>
+In-Reply-To: <20261120-faust-bohnenkraut-reduzieren-a30811186a15@brauner>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 23, 2026 at 03:00:00AM +0200, Jarkko Sakkinen wrote:
-> On Mon, Nov 23, 2026 at 12:21:16AM +0000, Alexei Starovoitov wrote:
-> > On Sun, Nov 22, 2026 at 11:35 AM Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> > > v6: https://lore.kernel.org/linux-fsdevel/20261122011809.2667684-1-jarkko@kernel.org/
-> > 
-> > v7 was sent 18 hours after v6. v6 got replies from the bots only.
-> > v1 was +2559 lines. v7 is +5782.
-> > All six findings of sashiko on v6 are still in v7.
-> > None of the seven versions got a reply from the vfs or LSM maintainers.
+On 11/20/26 17:55, Christian Brauner wrote:
+> On Fri, Nov 13, 2026 at 03:06:19PM +0800, Mengmeng Zhao wrote:
+>> From: Mengmeng Zhao <zhaomengmeng@kylinos.cn>
+>>
+>> Add a file mode bit for files that can be the target of dma-buf I/O and
+>> require it when a buffer is registered.  Block device files set it when
+>> the backing disk supports dma-buf I/O, and filesystems can set it for
+>> inodes whose data can be reached without the page cache.  The bit is
+>> coarse: a driver that installs ->init_dma_buf_io_ctx for every
+>> namespace, like nvme, still decides per device at registration.
+>>
+>> dma_buf_io_ctx_create() is the only caller of ->init_dma_buf_io_ctx, so
+>> the capability and the O_DIRECT requirement are checked there for every
+>> file type rather than in each helper; O_DIRECT belongs at registration
+>> because F_SETFL can change it afterwards.  Add bdev_can_dmabuf_io() so
+>> the open-time and registration checks share one predicate.
+>>
+>> Signed-off-by: Mengmeng Zhao <zhaomengmeng@kylinos.cn>
+>> Signed-off-by: Li Wang <liwang@kylinos.cn>
+>> ---
+>>  block/bdev.c                 |  8 ++++----
+>>  block/fops.c                 |  2 +-
+>>  drivers/dma-buf/dma-buf-io.c | 13 +++++++++----
+>>  include/linux/blkdev.h       |  7 ++++++-
+>>  include/linux/fs.h           |  8 +++++++-
+>>  5 files changed, 27 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/block/bdev.c b/block/bdev.c
+>> index 88e3f552f5d4..4e7a7f7e1e8b 100644
+>> --- a/block/bdev.c
+>> +++ b/block/bdev.c
+>> @@ -61,14 +61,12 @@ struct block_device *file_bdev(struct file *bdev_file)
+>>  }
+>>  EXPORT_SYMBOL(file_bdev);
+>>  
+>> -int bdev_init_dma_buf_io_ctx(struct file *file, struct block_device *bdev,
+>> +int bdev_init_dma_buf_io_ctx(struct block_device *bdev,
+>>  			     struct dma_buf_io_ctx *ctx)
+>>  {
+>> -	if (!(file->f_flags & O_DIRECT))
+>> -		return -EINVAL;
+>>  	if (ctx->dmabuf->size > UINT_MAX)
+>>  		return -EINVAL;
+>> -	if (!bdev->bd_disk->fops->init_dma_buf_io_ctx)
+>> +	if (!bdev_can_dmabuf_io(bdev))
+>>  		return -EOPNOTSUPP;
+>>  	return bdev->bd_disk->fops->init_dma_buf_io_ctx(bdev, ctx);
+>>  }
+>> @@ -1041,6 +1039,8 @@ int bdev_open(struct block_device *bdev, blk_mode_t mode, void *holder,
+>>  
+>>  	bdev_file->f_flags |= O_LARGEFILE;
+>>  	bdev_file->f_mode |= FMODE_CAN_ODIRECT;
+>> +	if (bdev_can_dmabuf_io(bdev))
+>> +		bdev_file->f_mode |= FMODE_CAN_DMABUF_IO;
+>>  	if (bdev_nowait(bdev))
+>>  		bdev_file->f_mode |= FMODE_NOWAIT;
+>>  	if (mode & BLK_OPEN_RESTRICT_WRITES)
+>> diff --git a/block/fops.c b/block/fops.c
+>> index 86bf1f298b79..7e5702e047a2 100644
+>> --- a/block/fops.c
+>> +++ b/block/fops.c
+>> @@ -1008,7 +1008,7 @@ static int blkdev_mmap_prepare(struct vm_area_desc *desc)
+>>  static int blkdev_init_dma_buf_io_ctx(struct file *file,
+>>  				      struct dma_buf_io_ctx *ctx)
+>>  {
+>> -	return bdev_init_dma_buf_io_ctx(file, file_bdev(file), ctx);
+>> +	return bdev_init_dma_buf_io_ctx(file_bdev(file), ctx);
+>>  }
+>>  
+>>  const struct file_operations def_blk_fops = {
+>> diff --git a/drivers/dma-buf/dma-buf-io.c b/drivers/dma-buf/dma-buf-io.c
+>> index 8440151de860..9575b7d65ec5 100644
+>> --- a/drivers/dma-buf/dma-buf-io.c
+>> +++ b/drivers/dma-buf/dma-buf-io.c
+>> @@ -152,9 +152,11 @@ static void dma_buf_io_ctx_shutdown(struct dma_buf_io_ctx *ctx)
+>>   * @out_ctx:	[out]	resulting ctx
+>>   *
+>>   * Create a new I/O context from the given DMA buffer for the given file.
+>> - * It only works with files implementing ->init_dma_buf_io_ctx and fails
+>> - * with -EOPNOTSUPP otherwise. Once created, the user can create a map
+>> - * and use it to issue I/O, such as read/write requests, to @file.
+>> + * It only works with files implementing ->init_dma_buf_io_ctx,
+>> + * advertising FMODE_CAN_DMABUF_IO and currently opened for direct I/O,
+>> + * and fails with -EOPNOTSUPP or -EINVAL otherwise. Once created, the
+>> + * user can create a map and use it to issue I/O, such as read/write
+>> + * requests, to @file.
+>>   */
+>>  int dma_buf_io_ctx_create(struct file *file,
+>>  			   struct dma_buf *dmabuf,
+>> @@ -164,8 +166,11 @@ int dma_buf_io_ctx_create(struct file *file,
+>>  	struct dma_buf_io_ctx *ctx;
+>>  	int ret;
+>>  
+>> -	if (!file->f_op->init_dma_buf_io_ctx)
+>> +	if (!file->f_op->init_dma_buf_io_ctx ||
+>> +	    !(file->f_mode & FMODE_CAN_DMABUF_IO))
+>>  		return -EOPNOTSUPP;
+>> +	if (!(file->f_flags & O_DIRECT))
+>> +		return -EINVAL;
+>>  
+>>  	ctx = kzalloc_obj(*ctx);
+>>  	if (!ctx)
+>> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+>> index b98f43478cc0..0cfb6fb6b4e2 100644
+>> --- a/include/linux/blkdev.h
+>> +++ b/include/linux/blkdev.h
+>> @@ -1610,9 +1610,14 @@ struct block_device_operations {
+>>  	int (*alternative_gpt_sector)(struct gendisk *disk, sector_t *sector);
+>>  };
+>>  
+>> -int bdev_init_dma_buf_io_ctx(struct file *file, struct block_device *bdev,
+>> +int bdev_init_dma_buf_io_ctx(struct block_device *bdev,
+>>  			     struct dma_buf_io_ctx *ctx);
+>>  
+>> +static inline bool bdev_can_dmabuf_io(struct block_device *bdev)
+>> +{
+>> +	return !!bdev->bd_disk->fops->init_dma_buf_io_ctx;
+>> +}
+>> +
+>>  #ifdef CONFIG_COMPAT
+>>  extern int blkdev_compat_ptr_ioctl(struct block_device *, blk_mode_t,
+>>  				      unsigned int, unsigned long);
+>> diff --git a/include/linux/fs.h b/include/linux/fs.h
+>> index 99caef43ff3c..f5524fc770d4 100644
+>> --- a/include/linux/fs.h
+>> +++ b/include/linux/fs.h
+>> @@ -121,7 +121,13 @@ typedef int (dio_iodone_t)(struct kiocb *iocb, loff_t offset,
+>>  /* File supports atomic writes */
+>>  #define FMODE_CAN_ATOMIC_WRITE	((__force fmode_t)(1 << 7))
+>>  
+>> -/* FMODE_* bit 8 */
+>> +/*
+>> + * File can be the target of dma-buf I/O.  Set it for files whose data can be
+>> + * reached with direct I/O without the page cache: a dma-buf iterator has no
+>> + * pages to copy, so a buffered path cannot serve it.  The bit is coarse; both
+>> + * the device behind it and O_DIRECT are checked when a buffer is registered.
+>> + */
+>> +#define FMODE_CAN_DMABUF_IO	((__force fmode_t)(1 << 8))
 > 
-> Apologies, I started testing this with bare metal as a result of
-> hotplug, and things just started to roll out as I got a better touch on
-> its use as a result.  The growth is by majority in kselftest. The
-> feature has not really grown but API has shrunk along the way. Still,
-> demonstrating that full detachment from syscall API is important,
-> because it sets a bar for any approach trying to do this.
-> 
-> I had no idea that e.g., that  quality would be even possible but
-> one thing led to another this went a bit out of hands.
-> 
-> I also wanted this to as good form as possible before going on
-> holiday, which I'll be starting tomorrow but this was not a
-> motivative reason.
-> 
-> So yeah, again, apologies.
-> 
-> > 
-> > The way you're spamming people you're only reducing chances of anything going in.
-> 
-> I personally think that "getting in" should not be a goal in the first
-> place. I care more about that whaever gets in has a high bar of
-> quality enough. It can be something different than this but
-> when I read the LWN article about Cells I was alarmed enough
-> so that I had to do this and prove my point.
+> This is stealing yet another FMODE_* bit for special-purpose stuff.
+> We're really really short of them. Did Christoph suggest this?
+Hi Christian, thanks for pointing out this. If I understand correctly, 
+Christoph suggests a new file->f_mode to allow dma-buf check in RFC v1[1]. 
 
-For completeness: I'll consider this final RFC.
+Hi Christoph, do you have any comments or suggestions? I'am happy to adjust
+this in the next version if there is a better approach.
 
-Br, Jarkko
+[1] https://lore.kernel.org/all/20261106104403.GC5668@lst.de/
