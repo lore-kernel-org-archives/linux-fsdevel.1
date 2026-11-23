@@ -1,75 +1,117 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.158
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795462703;
-	b=dr62JT6ZI+Ah+B1Nvts2v+s2gr/XpszQKP5P5ePBkJ+FtPctKMGt90F7s8bpD7olyNVG
-	 pekIBiEAQytbkJQSvDweObY3ebztdWBX/nLmz6DuZrtxrNRuTQbMiFo+GaTD/0ZkhrlMD
-	 wAfMR6eW3+pdZ7FJgEKPPMpmv3iVAKb9eZUJ6juJILeQd+7mFOlER6lYlWF/vM0fFFsxS
-	 fazgVLLhAyee6ki03NvsoT7NAstAG32QYUyTM0eThhO9P6L6pWfK53ixvjBLLMWUFTJeV
-	 DIUkclhUIqjM4ly+1Ubi+HfhhGCv3i+2g4yWp4f38FkB5c4VRgwi7Km7h70f7JhXA+w==
+	t=1795463072;
+	b=2gYnpQyy+J5c0JmM0cZ52J636G+xGfn7nL6XoZvBQKxEfgtU207kvZOZfL641s80w2RW
+	 IpDgJQdORsMd/2kN6UNWJc+qL8NTdtRoZvpATJyf8tqpgXHW7dM9XBu0Co08QPI6Ag5GN
+	 x9ofwcWCfH1qF4WgDrF7ug3ykPIUNqvCfDSSEJHhBiVO2aeLptPf55aZpt6EWsvkNFvIQ
+	 wdzCC9NpFwDrWFJhek35VVKhwUt0Hosq5wmEj9Xka5COk5n9zWFk7Of4dlWoq9eikkU0z
+	 6Y5LklI0iJBZlRyL0BLhT9FV1vMzu6P/GcF8rT8yRzjnNDekqH0aVpzMrJDn5ER7fAw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795462703;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=qlsfwH5iDwzzT2NBuzVFKYURRUdXTETxGoySmkxe1eU=;
-	b=uy8l5X3DDA8+Z7dSWiQG16sCylq1ArXg/eB8l7jolFee54B9vSVPQCn6C13+3SfqI6Ow
-	 J2FUBE0YL+WqgR2iGM+BEYTb60zB2xfQx4zhPYQKxJidq/PiJ6+i8oGGzlpwH7cIMw7sH
-	 dNpr4LRT+SElZgsX2/YKyix5rJx7/Z10VmVKJnry/RPUYdWXJdVZ0+PQRp9TXK3jU8dJT
-	 CEyKznDlp1nJucdVsLn5P6QzQnVLR/SZoz3KFmfZ+Bfu0Tg6/ueJtwWqOnLf6daIfAx7s
-	 5pJLmYAq614wrROWc9t6YnDvi9ozNNm5FOlVhue5uu/Dj6y0YOVglikrEAvyEwQ4kGg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795463072;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:From:To:Cc:Subject:Date:Message-ID:MIME-Version:
+	 Content-Type;
+	bh=4Dvz5NNNlICLTM3r9+Ya7zREyIrxNnm+Dij1r9SaGyU=;
+	b=q/nA+5TXEsLsA00H5DMcxAZ1s/9vuzY0bSOY/uMzWT4bufumtCX72almAy/ZaffI1+TP
+	 jz4oyqeO1dabGR3jGIvMITjJxzhHUvTcuk/fGExGCq4E+azhieqJWbYdDaZN3RNeRQxUr
+	 X7pW3ppQ+E8xJu+u2MD9uBj0f4kfHRziUhWrXNZPZtsex81R8rCDoFco8nVkjdHwsXTY3
+	 kLPzRU9cWZ2wi6GZ1pAHWC9Ld/t3I89BS8suOfYb7/gHVPRxGTyinMLDpL+XKQ+akt/Sl
+	 zXeE5Pe3FIAZWjECuqb/ZKbdxtNPhAOQM3NO1yQ6B11pQUl1aYjrUkUKyobaC44Pn8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P1ijykeE;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=greenberg.science;
+	spf=pass smtp.mailfrom=greenberg.science;
+	dkim=pass header.d=greenberg.science header.i=@greenberg.science header.a=rsa-sha256 header.s=fm1 header.b=XkgzEtbU;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=AUsBnpZR;
+	arc=none smtp.remote-ip=202.12.124.158
+Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 2570760A3801;
-	Mon, 23 Nov 2026 19:38:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05A1606A31A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 19:44:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C05A1606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=greenberg.science
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=greenberg.science
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P1ijykeE
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 478181F0283C;
-	Mon, 23 Nov 2026 19:38:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795462702;
-	bh=qlsfwH5iDwzzT2NBuzVFKYURRUdXTETxGoySmkxe1eU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=P1ijykeEJumWyoLTQoKWfaIxyFipXk8Sc/7YAifOwm4mEQIURt/8ju0zP8y2M4ZqL
-	 W1xTzOyrkwq9ASP7FcBpASYSN21wV76G7N1reOirN/BC7SqVkCp/eg4UYHtvtMe8rO
-	 C8YBlrc/BQk0mZncHY8byUlTruz0duT7E652ApcSkdKl2aP+7uMq+3QhudFKuCK3MR
-	 frD+h3OPio4jbE4HSdlsPjgsuzgt71ItzYg7Pme3WZQRQJYh303cA6Mx33KAlyNlY4
-	 vEJaV1s6zIYM8Mdo1BSE+syRGbA2ydFngK8pY97EaqkVeDH8C0noei0A/rn/RmzqQS
-	 6xiIZrmuMzpXw==
-Date: Mon, 23 Nov 2026 21:38:19 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Casey Schaufler <casey@schaufler-ca.com>
-Cc: Andy Lutomirski <luto@amacapital.net>,
-	Andy Lutomirski <luto@kernel.org>,
-	"Hallgrimur H. Gunnarsson" <halg@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Serge Hallyn <sergeh@kernel.org>, Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	David Howells <dhowells@redhat.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	Jonathan Calmels <jcalmels@3xx0.net>, Jann Horn <jannh@google.com>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Singh KP <kpsingh@kernel.org>, linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-	containers@lists.linux.dev, keyrings@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] userns: introduce capability bounding set for
- user namespacesg
-Message-ID: <awSWK7o9PCk4ApM8@kernel.org>
-References: <20261119104208.782900-1-halg@google.com>
- <20261119104208.782900-2-halg@google.com>
- <CALCETrVqc+1bjH1bhqHee9bsUdk2B6314z7PMexbsnNpMhk14g@mail.gmail.com>
- <CALCETrV=zSxb6sgA08DLiK2bQovdMEj9ycG=Cc71mLn2C5Pgeg@mail.gmail.com>
- <4db941ba-3001-4019-8910-63e534b29f89@schaufler-ca.com>
- <awSVO9Zc-233M7_P@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=greenberg.science header.i=@greenberg.science header.a=rsa-sha256 header.s=fm1 header.b=XkgzEtbU;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=AUsBnpZR
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 106107A061B
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 14:44:31 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Mon, 23 Nov 2026 14:44:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	greenberg.science; h=cc:cc:content-type:content-type:date:date
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm1; t=1795463070; x=1795549470; bh=4Dvz5NNNlI
+	CLTM3r9+Ya7zREyIrxNnm+Dij1r9SaGyU=; b=XkgzEtbUZp852sCZTjZJw236iL
+	CCtpZSQnDPUj0rC7+jivf6UK9jV8WGLOmEJh51YaQPoqbPXzSiQsWK+L32X7tcIc
+	O8bcruCUBu7HB3eWxmkIt2vkENb7QKnw09CSVnJ807jyZSZ9C+FsMgK1O+/XX7Wn
+	LlRzg7banshOfsdUaD1S4fgUrX/Vr/Oz6OB3jH5qhHBVZ+Y5UpRHTqtP0V8rCCRP
+	Uhgm+CQyoLtzLB79eWhXOowgGyGKDlsD5+uKoM52P+1aa8lnNKDmnp3qtr/GdLM9
+	+qixYu//ndr3iC24+nQPwUmGsGtGCixXDd8OzmW5YFXmrDB9p3NRzwQo86ww==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795463070; x=
+	1795549470; bh=4Dvz5NNNlICLTM3r9+Ya7zREyIrxNnm+Dij1r9SaGyU=; b=A
+	UsBnpZRFUHMB1O40+HqXhe2nfdnbIzgGqsoivhXEacfAXkG8zR2huGPKUEqrwN46
+	SHokdWt9MxHL7OSLGCYIPvfJaONeSJGKbMxwBB/xilNklGMfmWt0uy4BbWOkzJYV
+	6sjCJRyveeoO7kaEz2iHQMXzkZvuTuSDCY7SiUXSuz5gMuNLwwTuLOIAPidbu72m
+	/exE6k/hGgOkhZY1K0uRt07/bA7Gc4TCKhncnTKJDWo4Qnw3WYWIjoTJElzjLzNP
+	AvFB0xSC6dq8mjeBwA9RHCxAtKD5RXOWNjkDqZz6rQ45CSf6PH5HKXkB71zBjGeA
+	eJ06hEGokN/QwdSjisCCA==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=greenberg.science a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1795463070; d=greenberg.science;
+	mf=PG1pY2hhZWxAZ3JlZW5iZXJnLnNjaWVuY2U+;
+	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
+	s=fm1:rsa-sha256:N41/HsOGDHGKkbesbgDOj10fs44hQtgSzQtpYRP4B/PixW5
+	mHztaBHFK6x6fZG2zKVvER0gUw/XLymivQaYy97t0o//2bvpTPUT6rCKSRKo9HPf
+	UBxnZhms+EfAQFkc4Ekr5qnmEKn5585PwRm/KJl4XRb381JM516nY0k7wn1L9pvY
+	eUBeKcyRFh0Flvo0/8JKb82Qx+cDC6U+FxRa99obHvnVTBQURbEyfoJ+gHF9hHkL
+	I2oOGJJY1Awuw8qtEoZroO7Q6A8gJVrMUbjh33WyL2vTwVk+FcAx4J6WEsyZgtnC
+	ZFAqNd3K9k8XqJ8xk5A+hy9ItY9GHWoDQVNrSGw==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=9;
+	hn=cc,content-type,date,feedback-id,from,message-id,
+	mime-version,subject,to;
+Message-Instance: m=1; h=sha256:q/sdALHv1mMXtg4k0GfMoz33jFUaYvnaJ30Os/0zKAA=:SnaUuhXAKJ1WGK6qjKCtFtgBFkiarwcJx83d+O5zdJg=;
+X-ME-Sender: <xms:nZcEa_xVj7WKRI6EiToWeEYZgoVIj-ma91YE2y8uWXD0B6xMQ7GX3g>
+    <xme:nZcEawNelOWOebB-K2-1PLBLsk0YuZuH0t6Odu50FINjqwM5-6b7A876dInXUn0c5
+    7kQeLlO9xfXOfOKgZ7rXXl3_TzfWyciroRhmrmQh7v52nEJF15gYYQ2>
+X-ME-Received: <xmr:nZcEa04BoKc6WyBztDCrqm-pKQgVIyOQfFEYtEZAv5Q8vnRQ0C1nly5AUaf5qGLDclBS-Sk1G3wbuHB5Iou5oIA>
+X-ME-Proxy-Cause: dmFkZTEtpVC57NewP72bSEdugBKl8HPruxQdGTMTe00UoZ7i6b88TXn1EzwKJ1hnLveh2N
+    dD66OnqluybOumVGTSajvHJ2OWCW1GNNLboLNKGLQqfJnYgflIiFkjioFcKoSx3B1ehtV9
+    425W4vT0PNZ3T6+USDnRJEChrU95KrJO2VpjkuhvedIsmFB/bgP39eRn8O4ZCZA64glwZO
+    aKUTxbKAQYb4HsjtfYWLBupZhaC4UPHAA0506FsU0xgZ9xidSYQ+kzSbaQS1as0lJUO8gT
+    aiIecpMIpWvQsCsqo7+LPFu8B9HDrFnrISYJ5GNyvlKdoVeWznS02AmcIOGCCnAadpqFoR
+    RQMFVYzPUXRrG2I/gg/KZ9Y+kE3sWPQqoXncGpOWK+E/REXO9SLRMGi2zm9G2gecYSJyNK
+    xgHLwROiVD2W/ETjcNcyuY2DqqJSLceHCA4oQudH/aqegOxynZGkgZrClqVn0Of/j74J+m
+    pcLAAtn2/MR1+UfEdQotj8FzRU8NqI7fQ+W5I7NzCvxOIIIMKw3kJT95GrHr4NcS9ZMlXz
+    lFW+kC6rhomGm05AUn1sD8H6mtVBbEbne8fG9Wxj5L/bY+bvPz05TJ9RoL9aPgByD72Xwt
+    YlN8vQZQ7bHnpGOCsdEJDIHMP6IQijA+XI1dSTqP+EzbL7tiSBrXgcXpvO+w
+X-ME-Proxy: <xmx:nZcEa5njpe_AzVLWT20Z4gN7CeX-16r837ZdhYMtYgMu6XLF8Z_s1A>
+    <xmx:nZcEa9S47Nu59dGTRnAYH5mIFUoLfpOZQW94KNttF2aq0vSmeNgwKA>
+    <xmx:nZcEawGaNnEyhHARlNv6qzvjkgHOErx1_rz7shxPPqUtiVnHMWiZ2w>
+    <xmx:nZcEa6FH_n-JskpCLMTVMNetXz0w8VisU-PKIZ718ZETkAMD4Y0YEg>
+    <xmx:npcEa_BWJCXtmXs9xh8Zct2PvGotKs_7LyBX4IbNyp_CyEulDlxjO6G_>
+Feedback-ID: ib2794684:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 23 Nov 2026 14:44:29 -0500 (EST)
+From: Michael Greenberg <michael@greenberg.science>
+To: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
+ <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
+ mgreenbe@stevens.edu
+Subject: [PATCH] namei: don't count symlinks twice when a lookup restarts
+Date: Mon, 23 Nov 2026 14:44:28 -0500
+Message-ID: <87zeuz5o4j.fsf@hippogriff>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -79,82 +121,167 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <awSVO9Zc-233M7_P@kernel.org>
+Content-Type: text/plain
 
-On Mon, Nov 23, 2026 at 09:35:16PM +0200, Jarkko Sakkinen wrote:
-> On Mon, Nov 23, 2026 at 09:22:29AM -0800, Casey Schaufler wrote:
-> > On 11/20/2026 9:09 AM, Andy Lutomirski wrote:
-> > >> On Nov 19, 2026, at 2:52 PM, Andy Lutomirski <luto@kernel.org> wrote:
-> > >> ﻿On Thu, Nov 19, 2026 at 2:43 AM Hallgrimur H. Gunnarsson
-> > >> <halg@google.com> wrote:
-> > >>> When a process creates a new user namespace, it receives a full set of
-> > >>> capabilities (CAP_FULL_SET) scoped to that namespace. While namespaced
-> > >>> in scope, several of these capabilities (such as CAP_NET_ADMIN and
-> > >>> CAP_NET_RAW) expose broad kernel attack surface that many sandboxes and
-> > >>> containers never need. However, there is currently no configurable way
-> > >>> to withhold such capabilities from user namespaces while still granting
-> > >>> them to workloads that require them.
-> > >>
-> > >> One thought (from the rootns thread): the other decent sized attack
-> > >> surface here is CAP_MOUNT_ADMIN.  Which doesn't exist as a capability
-> > >> bit.
-> > >>
-> > >> A sort of horrible solution (but maybe not so awful) would be to
-> > >> declare that the bits in cap_userns aren't actually capability bits,
-> > >> and that you need the bit in cap_userns *and* the bit in cap_effective
-> > >> to do sensitive things, and that mounting needs cap_userns to have
-> > >> NSCAP_MOUNT_ADMIN *and* cap_effective to have CAP_SYS_ADMIN.
-> > >>
-> > >> I want to sleep on this.  It might actually solve several problems,
-> > >> e.g. controlling creation of ipv4 and ipv6 loopback or tunnel devices
-> > >> or whatever.
-> > > I slept on it. Here’s a counterproposal.  I’m not saying I think this
-> > > is better than this patch set, but I think it’s worth weighting the
-> > > options.
-> > >
-> > > Define a whole new set of privilege bits.  As a
-> > > poorly-painted-bikeshed option, I’ll call them eprivs (for exposure
-> > > privileges - it’s a crappy name but at least it’s pronounceable).
-> > 
-> > I played with a mechanism I called "chits" (all the good terms for security
-> > bits have been consumed for a very long time) that looks a lot like
-> > what you're proposing. I did it to address the CAP_SYS_ADMIN problem,
-> > where any use of the capability opens up a whole barrel of worms.
-> > I cannot, unfortunately, find my patches. :( The basic approach is:
-> > 
-> > A process has an optional set of chits. A process without a chit set is
-> > unaffected by the mechanism. A process with a chit set is allowed only
-> > those operations for which it has a chit. The existing but empty chit set
-> > allows no operations. A process may drop a chit, but not the set, which,
-> > again, can be empty.
-> > 
-> > Because I was after CAP_SYS_ADMIN, I envisioned a call
-> > 	cap_able_chit(capability, chit-list)
-> > but there's no reason there couldn't be a
-> > 	chit_able(chit-list)
-> > as well.
-> > 
-> > I wrote this as an LSM, but the system-wide aspect of it made that
-> > a questionable choice.
-> > 
-> > If you have any interest, I could dig more deeply to try to find the
-> > patches. Otherwise, I'm happy to look at what you come up with.
-> 
-> What if eprivs or chits would take each capability and subvidide
-> them into pieces? CAP_MAC_ADMIN would be formally a set of chits
-> (or eprivs).
-> 
-> And process having e.g., CAP_MAC_ADMIN, would actually have the
-> set of chits that are included to CAP_MAC_ADMIN.
-> 
-> Without that type of relation there's just a space full of chit
-> ;-)
+Since commit 2788cc47f459 ("Don't reset ->total_link_count on nested
+calls of vfs_path_lookup()"), only set_nameidata() sets
+->total_link_count, once per lookup. When a walk in RCU mode fails
+with -ECHILD, filename_lookup(), __filename_parentat(), do_file_open()
+and do_file_open_root() retry it in ref-walk mode with the same
+nameidata, and the retry re-counts every link the abandoned walk had
+already followed. The LOOKUP_REVAL retry after -ESTALE does the same.
 
-This would not prevent from combining your own collections of chit
-that do not map to any specific cap, only that each cap should map
-to a specific set.
+So a path that crosses n symlinks fails with -ELOOP if the RCU walk
+got through more than MAXSYMLINKS - n of them before giving up, which
+is possible for any n > MAXSYMLINKS / 2. A mount or umount anywhere
+on the system can make an RCU walk give up, since it changes
+mount_lock's sequence count, so whether such a lookup fails depends on
+unrelated activity. Opening the first link of a chain for 3 s, in a
+4-CPU KVM guest, while another process mounted and unmounted a tmpfs
+in its own mount namespace:
 
-Br, Jarkko
+         v7.4-rc4               with this patch
+  links  opens      -ELOOP      opens      -ELOOP
+  20     1,350,902  0           1,109,467  0
+  21     1,352,363  259,737     1,036,744  0
+  40       947,012  449,441       571,202  0
+  41       973,308  973,308       852,776  852,776
+
+Without the mount loop, a 40-link chain never failed: 0 of 1.1 million
+openat2() calls on a v7.3 host. The reproducer is below.
+
+The fix is simple: restart the count in path_init(), which begins
+every attempt, at the value set_nameidata() saved, if such a value
+exists. This avoids the DoS risk 2788cc47f459 fixed while fixing the
+incorrect -ELOOP returns.
+
+Fixes: 2788cc47f459 ("Don't reset ->total_link_count on nested calls of vfs_path_lookup()")
+Cc: stable@vger.kernel.org
+Link: https://github.com/rrnewton/hermit/issues/5045
+Signed-off-by: Michael Greenberg <michael@greenberg.science>
+---
+// SPDX-License-Identifier: GPL-2.0
+//
+// Spurious ELOOP from a symlink chain under MAXSYMLINKS, while mounts happen
+// elsewhere on the system.
+//
+//   cc -O2 -Wall -o eloop-retry eloop-retry.c
+//   ./eloop-retry 40 3     # chain of 40 links, open for 3 seconds
+//
+// It makes l1 -> l2 -> ... -> lN -> f in a fresh temporary directory. A child
+// enters its own user and mount namespace and mounts and unmounts a tmpfs
+// there in a loop. The parent opens l1 over and over, and counts the opens
+// that fail with ELOOP. With N <= 20 none should, and with N > 40 all must.
+// With 21 <= N <= 40, an unpatched kernel fails some: a walk that leaves RCU
+// mode with -ECHILD is retried without resetting nd->total_link_count, so the
+// links the first walk followed are counted twice.
+
+#define _GNU_SOURCE
+#include <errno.h>
+#include <fcntl.h>
+#include <sched.h>
+#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/mount.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <time.h>
+#include <unistd.h>
+
+static void die(const char *what)
+{
+	perror(what);
+	exit(1);
+}
+
+int main(int argc, char **argv)
+{
+	int links = argc > 1 ? atoi(argv[1]) : 40;
+	int seconds = argc > 2 ? atoi(argv[2]) : 3;
+	char dir[] = "/tmp/eloop-retry.XXXXXX", name[32], target[32];
+	long opens = 0, eloop = 0, other = 0;
+	struct timespec now, end;
+	pid_t churn;
+
+	if (links < 1 || links > 100 || seconds < 1) {
+		fprintf(stderr, "usage: %s [links 1-100] [seconds]\n", argv[0]);
+		return 2;
+	}
+	if (!mkdtemp(dir) || chdir(dir) < 0)
+		die(dir);
+	if (close(open("f", O_CREAT | O_WRONLY, 0644)) < 0)
+		die("f");
+	for (int i = 1; i <= links; i++) {
+		snprintf(name, sizeof(name), "l%d", i);
+		if (i < links)
+			snprintf(target, sizeof(target), "l%d", i + 1);
+		else
+			snprintf(target, sizeof(target), "f");
+		if (symlink(target, name) < 0)
+			die(name);
+	}
+	if (mkdir("mnt", 0755) < 0)
+		die("mnt");
+
+	churn = fork();
+	if (churn < 0)
+		die("fork");
+	if (churn == 0) {
+		if (unshare(CLONE_NEWUSER | CLONE_NEWNS) < 0)
+			die("unshare");
+		for (;;) {
+			if (mount("t", "mnt", "tmpfs", 0, NULL) < 0)
+				die("mount");
+			if (umount("mnt") < 0)
+				die("umount");
+		}
+	}
+
+	clock_gettime(CLOCK_MONOTONIC, &end);
+	end.tv_sec += seconds;
+	do {
+		int fd = open("l1", O_RDONLY);
+
+		opens++;
+		if (fd >= 0)
+			close(fd);
+		else if (errno == ELOOP)
+			eloop++;
+		else
+			other++;
+		clock_gettime(CLOCK_MONOTONIC, &now);
+	} while (now.tv_sec < end.tv_sec ||
+		 (now.tv_sec == end.tv_sec && now.tv_nsec < end.tv_nsec));
+
+	kill(churn, SIGKILL);
+	waitpid(churn, NULL, 0);
+	printf("%d links: %ld opens, %ld ELOOP, %ld other errors\n",
+	       links, opens, eloop, other);
+	return eloop != 0;
+}
+
+ fs/namei.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/fs/namei.c b/fs/namei.c
+index 925aeb63bfa1..5f39d42ea6be 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -2699,6 +2699,13 @@ static const char *path_init(struct nameidata *nd, unsigned flags)
+ 	nd->flags = flags;
+ 	nd->state |= ND_JUMPED;
+ 
++	/*
++	 * A retry in ref-walk mode after -ECHILD, or with LOOKUP_REVAL after
++	 * -ESTALE, starts the walk over. Start the link count from where we
++	 * left off, so we don't double count.
++	 */
++	nd->total_link_count = nd->saved ? nd->saved->total_link_count : 0;
++
+ 	nd->m_seq = __read_seqcount_begin(&mount_lock.seqcount);
+ 	nd->r_seq = __read_seqcount_begin(&rename_lock.seqcount);
+ 	smp_rmb();
+-- 
+2.53.0
+
