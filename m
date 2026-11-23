@@ -1,76 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.200
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795474335;
-	b=p2dOgdOEvqAFBropP4AeBJ0NhAkGbZTepfdUQjoJ46y7mYtle2nUakScrxCe/L0UAgOD
-	 LnHcZIRhKRIJer7tuyhFD+ib9kpS3uyeNw/7NSlEA7f7q2ufJIcckEVLobrtDo6hQKlML
-	 DTc+o0J5f5Lkz4jyPHN3yve9fNIiCiO9zpiSGU7rOD/v1scxrbvWEBVQFQr9ie6nqTxsn
-	 0pVQ3pIFQXlQXyW/m3GT41DacSS1Okrbij1mfTliDKOUHalq3WueDH0AJV+JfSBs05oK/
-	 CuE8+WtQRznlzI4QqzS29KAteCdM9bAtv1KjZkSLkzkjc+VV0hBreH321fd9NaXF1SQ==
+	t=1795474360;
+	b=mWUopwOA87uDNftebuqaghU3TB4wzsjF92CRsjoRyGvFjXk4S3OZvFW13+A7jVsu1gTo
+	 seiijIzi288Loj3kV8bC5skuR4luSh/ti/bzujGST6HfATq8BfrE/PTACpW4rYuv6YL+h
+	 EfrZSDi01N+X2SEjCd9Is7Bfx+DMva6Q5qxmKxLBVH2gXWTyfxt8V+BGj3u1QU2BFcoV+
+	 CN2p25HZyKCc9QddRJTWEb/sZV7+/nIbQF02+4pns51bodXZCfM9Jj393ygXfXRy1LE5W
+	 T9oXNqL/ExuJJP+J9mV7gjFTdi0hV8PxyLdR5R8h0WTTus6909oAdsAViret6+aKnug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795474335;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=UmTaUK4reXUwzVb93oXwVlnxEqXXaEADfB6OR4M7V58=;
-	b=PtZKRDbcPc4I40dXzGStm9Rnqq38AAFNCmg2wZcteG2WwAAFpJePee9hgMvHwpjncaZ/
-	 dGim1WIUBnvVKVBwJ4HSDUewzSKRNx+Lg9yGQzFXPn3BXt/X/TpGKJROCpKl2Tgx7QjqD
-	 mmXY5epxIIlTt3pXOXcCS8o8mQ2v5Y3gXxkfxoIN8mc8nSmjp80vZ+fjCAjCsJEeFNyC7
-	 wtrEUsfOsXFPpIIbn0bhtfKPMdz5YGBqzkpnc7UNScP/6Eyav4AHxuvOJYbGo4xPj2Ubk
-	 4ciUfMmKYfNGR2GcycD01FWaITtd5U+Tj9i1AWI7JyiFOT8YX3xYEOFokHOpx59UVcw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795474360;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
+	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=RI0AtgIIgYmtt4Ma9wBNFrtD04UI1YpHvkXQ3fFrXjE=;
+	b=jxUyhZoJYlURmoQxle8lT8lxGcjDLGBAl19EgtlGvi0mNrnWkBX9ugxdMQtqOnDX3n/w
+	 i7Aso1bTuzz7vXhiFUAMJBu+Wm2y5kyw3aBr3+crp3F6cEo+5rS4z5yXbf5pLV0/XyxER
+	 S+HtteVQh1s5bZmI1bd4yVhbujxMB0CqJZuEhjSyQJv5UgQSPgEMLv0hEVhbPdgKol9Xr
+	 z9ulojb7RAugbKSZj5Q3wex/jIVhF8A1sSXAmcOHPE47OoCI+NPdC4uqk13SK65zyPoJi
+	 nx0gLsMs2/0ZHsTyoj9LoDWJltjQaUZKMpfhXguqMArUpXTDhRbn3XCDCyqSroPErtg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f+3vFAhu;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--zhenwenliang.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=QJbnfzdo;
+	arc=none smtp.remote-ip=209.85.167.200
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 7E103606A31E;
-	Mon, 23 Nov 2026 22:52:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD67606A32A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 22:52:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DFD67606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--zhenwenliang.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f+3vFAhu
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id BEF0E1F000E6;
-	Mon, 23 Nov 2026 22:52:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795474335;
-	bh=UmTaUK4reXUwzVb93oXwVlnxEqXXaEADfB6OR4M7V58=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=f+3vFAhuzOymo1wUHu3CjVrRJ8d97kRmIwZcfNT6OA1diC3POPAbn26MrKqHAAO/U
-	 3xfHUsCYISsflIvXy0pEIgZu0CepKwoQEUQVJsYermjHB+B0whND6XDCMtNxqnzu7N
-	 sY2HNaGEj/JzD/9EaHsanI9E67O1NNEIMNnf6LH1Xufe7WcGYo/o0EHsYi6L2UIQD0
-	 vBjtguOuXzWh15X8b1DP6ZcPTjzLdhidOalEs0xyw3pHnpxXHvR3rC0qZQIGf3D0gf
-	 3Q4ZZSYKrRrKxiwz1ZEjfOqsDJfnX+9GD38vsVl3n3TLdDgt0e803rhdLbrwHhN8LL
-	 ZAdXHhNHrAMbw==
-Date: Tue, 24 Nov 2026 00:52:11 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Casey Schaufler <casey@schaufler-ca.com>
-Cc: Andy Lutomirski <luto@amacapital.net>,
-	Andy Lutomirski <luto@kernel.org>,
-	"Hallgrimur H. Gunnarsson" <halg@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Serge Hallyn <sergeh@kernel.org>, Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	David Howells <dhowells@redhat.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	Jonathan Calmels <jcalmels@3xx0.net>, Jann Horn <jannh@google.com>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Singh KP <kpsingh@kernel.org>, linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-	containers@lists.linux.dev, keyrings@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] userns: introduce capability bounding set for
- user namespacesg
-Message-ID: <awTDm_EpFNwH9uEy@kernel.org>
-References: <20261119104208.782900-1-halg@google.com>
- <20261119104208.782900-2-halg@google.com>
- <CALCETrVqc+1bjH1bhqHee9bsUdk2B6314z7PMexbsnNpMhk14g@mail.gmail.com>
- <CALCETrV=zSxb6sgA08DLiK2bQovdMEj9ycG=Cc71mLn2C5Pgeg@mail.gmail.com>
- <4db941ba-3001-4019-8910-63e534b29f89@schaufler-ca.com>
- <awSVO9Zc-233M7_P@kernel.org>
- <6a0539de-1a66-4dfd-a21d-aee48ab18f3f@schaufler-ca.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=QJbnfzdo
+Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4cc89e86e9eso4727769b6e.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 14:52:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1795474359; x=1796079159; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=RI0AtgIIgYmtt4Ma9wBNFrtD04UI1YpHvkXQ3fFrXjE=;
+        b=QJbnfzdo+dOVtDHdBjdRE/bxi+HuVKnhQQGaCRKLLYNUMoz8qskc81xHC4xFq7A/n/
+         88VwdEky07fQhkl88C/iBNQj2srO+LtM1YgWCbujyxguGPATn0JV9viUfgpfPILBICMk
+         nZbN14+BMcLzuYfc+S2NeTyyzlvI19c8bVAj7r1+Kj5C/YqP0OJAQpp/mvbOkqzvghGa
+         2NSLeLoJM1/wt8pWhXgdj5V7o7KSFbf15P8H+2CuyCPaEZXZfVAMPiC1iAfoX5JFeshF
+         ee50HgopWUKAPkViI6kmn+qEJP8A8NB8tFYWWPvMGzeiEFbW81BmQn1nPHIwemxYSLUc
+         Bmww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795474359; x=1796079159;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=RI0AtgIIgYmtt4Ma9wBNFrtD04UI1YpHvkXQ3fFrXjE=;
+        b=gjBNy4EIP4uBn8ZyVxRQgF7QQHmFf7MPfY3LXlxC6unOJ3rbdpZM2ZhBMZlH5h6Rws
+         kYnPW08DpPDdBd1dLhhD4FotM7Ryu+syvQixRJV5F+SLUSwwdFQ/neaCNp73EcUgZBxi
+         /RyhSrS20c5KgZuVom2GWkFM5Tf1BsbCZxYEbIsLnQAshGhG+2m6dk4UBWDH6xlfOrmS
+         Y6RjsNXfaZLaOKAi75UGLeja9djns9J6CNEvTptyK2HzQDADfIkl1ABlMj3zoJpdsUrj
+         +fXh5A9kKMLb5WBvcNvPHI6LYL/PrSAEzONXZalTCa9xwSrIaafYoFqvXjMDFOm62uBr
+         HCAA==
+X-Forwarded-Encrypted: i=1; AL+hErE1wifQkMK3D1pLFWS5qKkm5BIbeWNarm7VTU+VTzbEsCIR5V7AZVYcSUh8sndTVQ7x/vs645xfj4jVVJ3O@vger.kernel.org
+X-Gm-Message-State: APuU4Z+83hjzc48dl00G4KFXq9eynCbjOrr4rkGLVaSPE5Y96OuE86gV
+	lugq5lV+6jDCDfoYHZXjkDJpT6BPRe4Btezui5N7dXaQgZachrKzt9I+VWEfw+RGSh8DcvfWhJt
+	/Focg7r56mNjeaTKvOVzmfsqtzbcglg==
+X-Received: from ila11-n1.prod.google.com ([2002:a05:6e02:520b:10b0:51b:fd41:6806])
+ (user=zhenwenliang job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6808:4f4b:b0:571:9bab:e8b7 with SMTP id 5614622812f47-57a025e82f4mr15535524b6e.0.1795474358503;
+ Mon, 23 Nov 2026 14:52:38 -0800 (PST)
+Date: Mon, 23 Nov 2026 22:52:28 +0000
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -79,107 +75,135 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6a0539de-1a66-4dfd-a21d-aee48ab18f3f@schaufler-ca.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.1.809.ga0b61035b5-goog
+Message-ID: <20261123225228.1652446-1-zhenwenliang@google.com>
+Subject: [PATCH] autofs: set wait queue status before releasing waiters
+From: Zhenwen Liang <zhenwenliang@google.com>
+To: Ian Kent <raven@themaw.net>
+Cc: autofs@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Nov 23, 2026 at 01:58:41PM -0800, Casey Schaufler wrote:
-> On 11/23/2026 11:35 AM, Jarkko Sakkinen wrote:
-> > On Mon, Nov 23, 2026 at 09:22:29AM -0800, Casey Schaufler wrote:
-> >> On 11/20/2026 9:09 AM, Andy Lutomirski wrote:
-> >>>> On Nov 19, 2026, at 2:52 PM, Andy Lutomirski <luto@kernel.org> wrote:
-> >>>> ﻿On Thu, Nov 19, 2026 at 2:43 AM Hallgrimur H. Gunnarsson
-> >>>> <halg@google.com> wrote:
-> >>>>> When a process creates a new user namespace, it receives a full set of
-> >>>>> capabilities (CAP_FULL_SET) scoped to that namespace. While namespaced
-> >>>>> in scope, several of these capabilities (such as CAP_NET_ADMIN and
-> >>>>> CAP_NET_RAW) expose broad kernel attack surface that many sandboxes and
-> >>>>> containers never need. However, there is currently no configurable way
-> >>>>> to withhold such capabilities from user namespaces while still granting
-> >>>>> them to workloads that require them.
-> >>>> One thought (from the rootns thread): the other decent sized attack
-> >>>> surface here is CAP_MOUNT_ADMIN.  Which doesn't exist as a capability
-> >>>> bit.
-> >>>>
-> >>>> A sort of horrible solution (but maybe not so awful) would be to
-> >>>> declare that the bits in cap_userns aren't actually capability bits,
-> >>>> and that you need the bit in cap_userns *and* the bit in cap_effective
-> >>>> to do sensitive things, and that mounting needs cap_userns to have
-> >>>> NSCAP_MOUNT_ADMIN *and* cap_effective to have CAP_SYS_ADMIN.
-> >>>>
-> >>>> I want to sleep on this.  It might actually solve several problems,
-> >>>> e.g. controlling creation of ipv4 and ipv6 loopback or tunnel devices
-> >>>> or whatever.
-> >>> I slept on it. Here’s a counterproposal.  I’m not saying I think this
-> >>> is better than this patch set, but I think it’s worth weighting the
-> >>> options.
-> >>>
-> >>> Define a whole new set of privilege bits.  As a
-> >>> poorly-painted-bikeshed option, I’ll call them eprivs (for exposure
-> >>> privileges - it’s a crappy name but at least it’s pronounceable).
-> >> I played with a mechanism I called "chits" (all the good terms for security
-> >> bits have been consumed for a very long time) that looks a lot like
-> >> what you're proposing. I did it to address the CAP_SYS_ADMIN problem,
-> >> where any use of the capability opens up a whole barrel of worms.
-> >> I cannot, unfortunately, find my patches. :( The basic approach is:
-> >>
-> >> A process has an optional set of chits. A process without a chit set is
-> >> unaffected by the mechanism. A process with a chit set is allowed only
-> >> those operations for which it has a chit. The existing but empty chit set
-> >> allows no operations. A process may drop a chit, but not the set, which,
-> >> again, can be empty.
-> >>
-> >> Because I was after CAP_SYS_ADMIN, I envisioned a call
-> >> 	cap_able_chit(capability, chit-list)
-> >> but there's no reason there couldn't be a
-> >> 	chit_able(chit-list)
-> >> as well.
-> >>
-> >> I wrote this as an LSM, but the system-wide aspect of it made that
-> >> a questionable choice.
-> >>
-> >> If you have any interest, I could dig more deeply to try to find the
-> >> patches. Otherwise, I'm happy to look at what you come up with.
-> > What if eprivs or chits would take each capability and subvidide
-> > them into pieces? CAP_MAC_ADMIN would be formally a set of chits
-> > (or eprivs).
-> >
-> > And process having e.g., CAP_MAC_ADMIN, would actually have the
-> > set of chits that are included to CAP_MAC_ADMIN.
-> 
-> That would require that chits have the same inheritance rules as
-> capabilities, and I think that's a really bad idea. I was an active
-> member of the P1003.1e/2c committee that defined capabilities, and
-> was a major advocate of their inclusion in Linux. I wish that I
-> could say they've been successful, but root still rules the roost.
-> I attribute that to the complexity that arose from trying to address
-> privilege via setuid and privilege bracketing at the same time.
-> Chits (or eprivs) as a finer granularity version of capabilities
-> would make granular privilege even harder to sell than it is now.
+autofs_wait() waits without a lock for wq->name.name to become NULL and
+then reads wq->status:
 
-Perhaps (or likely'ish). I'm just unpurging what I meant (even if it
-ought to be wrong):
+	wait_event_killable(wq->queue, wq->name.name == NULL);
+	status = wq->status;
 
-1. You can create F(C) -> S where C is set of caps and S is a set
-   of chits.
-2. G(S) -> C, which finds using some heuristics a set C for which
-   F(C) = S. 
+autofs_wait_release() clears wq->name.name before it stores the status:
 
-> 
-> > Without that type of relation there's just a space full of chit
-> > ;-)
-> 
-> Which is one of the reasons I haven't published anything about them.
-> Even with the scheme being (a lot) simpler than capabilities I don't
-> see it as something I have the resources to complete. If Andy wants to
-> drive the process I'm willing to contribute where I can.
+	wq->name.name = NULL;	/* Do not wait on this queue */
+	wq->status = status;
+	wake_up(&wq->queue);
 
-You should e.g., RFC patch. We're exactly in the situation where
-the skill of not knowing what you're doing is the skill that 
-should be applied with pride ;-)
+wait_event_killable() tests the condition before it sleeps. A waiter
+that gets there after wq->name.name was cleared but before wq->status
+was stored does not sleep, and returns the initial status -EINTR even
+though the daemon reported success. The lookup then fails with EINTR.
+On weakly ordered CPUs nothing orders the two stores for the lockless
+reader either.
 
-Br, Jarkko
+Store the status first, publish wq->name.name = NULL with
+smp_store_release(), and read it with smp_load_acquire() in
+autofs_wait(). autofs_catatonic_mode_locked() already stores the status
+first; use smp_store_release() there too.
 
+Reproduced on v7.4-rc4 in QEMU with a debug-only patch, not part of
+this change, that delays the waiter before its first check and delays
+autofs_wait_release() between the two stores. A stat() that triggers a
+mount failed with EINTR in 5 of 5 runs, although the daemon
+answered AUTOFS_IOC_READY with status 0. With this patch stat()
+succeeded in 5 of 5 runs. Without the delays (one control run)
+we did not see the failure.
+
+The problem was found with a Lean-based formal model of the code and
+AI-assisted analysis. The patch and this description were written with
+AI assistance; a human checked them against the source.
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Signed-off-by: Zhenwen Liang <zhenwenliang@google.com>
+---
+autofs_wait_release() clears wq->name.name before it stores
+wq->status (fs/autofs/waitq.c:518-519 in v7.4-rc4), while autofs_wait()
+tests wq->name.name without a lock and then reads wq->status
+(453-454). A waiter that checks in between does not sleep and returns
+the initial -EINTR (line 413), although the daemon reported success.
+The same order is in next-20261123 and the stable branches we checked
+(5.10.y, 5.15.y, 6.1.y, 6.6.y, 6.12.y, 6.18.y, 7.3.y); it dates back
+to fs/autofs4.
+
+Effect: a path walk that triggers a mount fails with EINTR. Any
+process can hit it by timing; no privilege boundary is involved.
+
+Reproduced on v7.4-rc4 in QEMU (x86_64 TCG, 4 vCPUs) with a debug-only
+patch that adds mdelay() before the waiter's first check and between
+the two stores. A test program acts as the daemon (mounts a tmpfs,
+answers AUTOFS_IOC_READY with status 0) while a child stat()s the
+trigger path:
+
+  v7.4-rc4 + delays:          stat() -> EINTR in 5 of 5 runs
+  + this patch:               stat() OK in 5 of 5 runs
+  no delays (1 control run):  stat() OK
+
+Without the delays we did not see it, and we did not test a weakly
+ordered architecture. The debug patch, test program and logs are
+available on request.
+
+syzbot's open "KCSAN: data-race in autofs_wait / autofs_wait"
+(extid c6d286fd51860df64d9a) concerns the global token counter, not
+these fields, as far as we can tell.
+
+Found by a formal code verification tool under development (Lean-based),
+with AI-assisted analysis; verified by the reproduction above and human
+review. The patch and this text were written with AI assistance and
+reviewed by a human. Point of contact: Zhenwen Liang
+<zhenwenliang@google.com>.
+
+A search of public list archives, git history and syzbot found no
+earlier report. Related, different race: the pending patch "autofs:
+serialize allocation of global wait queue tokens" (Zhu Jun,
+2026-11-11).
+
+ fs/autofs/waitq.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/fs/autofs/waitq.c b/fs/autofs/waitq.c
+index 92c0bbbf452b..2496786a463e 100644
+--- a/fs/autofs/waitq.c
++++ b/fs/autofs/waitq.c
+@@ -29,7 +29,8 @@ static void autofs_catatonic_mode_locked(struct autofs_sb_info *sbi)
+ 		nwq = wq->next;
+ 		wq->status = -ENOENT; /* Magic is gone - report failure */
+ 		kfree(wq->name.name - wq->offset);
+-		wq->name.name = NULL;
++		/* Pairs with smp_load_acquire() in autofs_wait() */
++		smp_store_release(&wq->name.name, NULL);
+ 		wake_up(&wq->queue);
+ 		if (!--wq->wait_ctr)
+ 			kfree(wq);
+@@ -450,7 +451,8 @@ int autofs_wait(struct autofs_sb_info *sbi,
+ 	 * wq->name.name is NULL iff the lock is already released
+ 	 * or the mount has been made catatonic.
+ 	 */
+-	wait_event_killable(wq->queue, wq->name.name == NULL);
++	/* Pairs with smp_store_release() in autofs_wait_release() */
++	wait_event_killable(wq->queue, !smp_load_acquire(&wq->name.name));
+ 	status = wq->status;
+ 
+ 	/*
+@@ -515,8 +517,9 @@ int autofs_wait_release(struct autofs_sb_info *sbi,
+ 
+ 	*wql = wq->next;	/* Unlink from chain */
+ 	kfree(wq->name.name - wq->offset);
+-	wq->name.name = NULL;	/* Do not wait on this queue */
+ 	wq->status = status;
++	/* Do not wait on this queue; pairs with autofs_wait() */
++	smp_store_release(&wq->name.name, NULL);
+ 	wake_up(&wq->queue);
+ 	if (!--wq->wait_ctr)
+ 		kfree(wq);
+-- 
+2.56.1.809.ga0b61035b5-goog
 
