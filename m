@@ -1,100 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.53
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795447799;
-	b=Pp4biW3Uow13LRUAscZvE4rrQ8JHBCZNBGSbmjHI3q2H5iZhv+nIJ7lASWpEuNp27p93
-	 ZnLr1LeLCkHInciMHmCjOPu1NxmG5YbjGIEOAPeDyazEhbRxP0YvA+lHVZZO0L6ZUIWqY
-	 N9yxdDhP4odM2Cze/tVgGwN/IXgYjpIUDHxpVD599tAJiNlY7+PgzboflWHp+jRhkikw0
-	 RQiwyqbhEBSTtcPZgDui14Px7mfIIVZet22tIn6zodQg7aqCCfDqj4czI+xLM43rQJBRr
-	 6mo79CgR4J1WNJT1P7kTdhLZgBmzfhlK0n6L+6xs5RZNdwgXz1GmNuSr5gqiyOb3IPg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795447799;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=XTqD3jTsvce7PV4dxiBL4DNg4qThdQn7thVX1pxBbRQ=;
-	b=B16o4iyHuuK7/bJTRN7j+9NQiEkTM1fGqxHbEgsW1QC2TrCIq4dI5PtNDu1ING3Lp8Y/
-	 zGN9sQJBbA8VQ5ENIiO5zzOyvAml/QR+1pH0FJ1MuiEso7pibRCF1w9JGzDR76tE26b3k
-	 gKsATu79DQST7kZfw0lZ3LtQonMLeRCHuIkEU19OoHo01SnmQoTEANJHhSrIZuHtPPxTv
-	 Scwxon+xcHbRJpVjbRmP5u2DUaeaNKPbZmkygW38ZXZGarNOFv+F14uW7NnQgL1c/Sq5T
-	 mAN5fmJhLKblF+B/MwIzSGUTiJFvwDFY6HUh7ZBDE7U1dWwWD9FXrjoH3cwrvPbJIXg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=U3UavhO0;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.53
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795448425;
+	b=hanSSB6LpQkQdxKm0bfKokc+5z122i7ygdoq51DtOKj5PrQK+c90Sv3vtRNwtZcrJHF/
+	 OFItZOMDVYtC19Mxh5g/Z2NS417eEkq6iyXdmTHFNAC+vuRRElcPYtTQf7nc/DWPhlcJZ
+	 slMsz8jHuwKdMqgRy5Go1YxLTWqlwBLrniokjq8umV9MzEtauMxDZHPhRhTPHs5S6XKNW
+	 8LawwGmL09ERMy+skhy4Gyfc+A+iFY49OV8iuQrZEtQnrBaOIRRx8Izq8nPtp2TPNLj2A
+	 z+HiuCxZysWI7DfCiOqeUxJnJmV9QeVx+aSNrYsmQuj+qJiQqE4yBiUYcupsinmEN6A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795448425;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:From:To:Cc:Subject:In-Reply-To:
+	 Organization:References:Date:Message-ID:MIME-Version:Content-Type:
+	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=TRg73PCpmlZWbc1zT/pf5WUhMtuFRSW1UJ9K9OaWjM8=;
+	b=Ikp9N4DXpDnO++cRmbKuYTrj97dACJxJRpGY2wzOjDoc986Oy18C6mgAofXMCvTTG/5w
+	 q7ERGgx0KLgC+GWaLDO5FClCcJcBmaTCCVA1liLrRJf9Fork/XaOkll5P4SnPX209MKzF
+	 B/auI199P8iKQl9F3KYhj3n5z7jleR0NHrZbw7RMAdfXnqRgwmErk6k5jKnSRf9pmxO1b
+	 JxerUqnKlEbqdWecpMaM09M+LoN7gBx+p1I/CppAMY7OKLGojGXq9HpV6tIYWv1nv9UCG
+	 pb9k788zPvW0knhiMi3sLBuhigLWVVgu6y2+YTmxD0RMLDCydq1fu/7mdRbiyyeDTcQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=seJP6l53;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Uu4VCqg+;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=seJP6l53;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Uu4VCqg+;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45DC5606A31E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 15:29:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45DC5606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FAB60A5BE7
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 15:40:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93FAB60A5BE7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=U3UavhO0
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6b8784a3284so4984646a12.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 07:29:58 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795447797; cv=none;
-        d=google.com; s=arc-20260327;
-        b=p/1KG4TgQFTUqLXydTvDE4hb3iREf28yjAFzMCl7SJrf+Gz0SaL9Ci4U8e0bRSqW3R
-         JTc+mAMHW2Pzdo4zqhipWgFz1doi3sy0o5YkV1tesvSukCR+Hvn9hQIbnd4Wz45wXyAA
-         KT8gJvotqxYGpA70lLR8/8yw0DMEEAzrHLYXz7lwXGpmW80H4tHhkbLmsM5yfnLYhb4Y
-         e/FhVqn+tqhQcaC1/OH0bzBDudFuhkvxXP9Yi7UdNm1sFoOp1ZIEjEPO7SOgJPB6DGXZ
-         +CzRoMPg5MzAINqNiKGxVwJvgvtClNAfPfphuXtSKAfsuHcRC+U0+x3eSlfDZVHND9XA
-         bY7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=XTqD3jTsvce7PV4dxiBL4DNg4qThdQn7thVX1pxBbRQ=;
-        fh=9NjLZC6nT72SfjByomd8a33/CKvKM3o9SBYuf1U2zQ4=;
-        b=dNNMgX4PChtqHJ0Ft9qyUHXg5zH1Z8UjHvDHRzphVNS5OSggr7PgUWKzQ9dvOTOPt7
-         SkEVFIJUDJbOz9jt5iis8GjyMqdebIpp1FvP+6/MFOxupq6JlaV7vb6pCv2XoniJfN9a
-         y5ffaWvRD/bnH0NYyV+XVn2q5ist8ePNK3vTGPygbQn7trdUHGZ2Em9k+ufHYHJPukd2
-         c99JMvdc4HFSPj7WSMrT7sFGdyjtdJprTTQnYfnBE+zGrCw3vIoGHtSaJT5Z6R9Bnf3q
-         90w97hilAoohLKawFnIBnfsSRo1d67QaZSy66yDaddWNG69RV/s7KylaIqs7tLVnl+yW
-         /Q5A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795447797; x=1796052597; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=XTqD3jTsvce7PV4dxiBL4DNg4qThdQn7thVX1pxBbRQ=;
-        b=U3UavhO0vHfet44jf/aYXoS79W6o76/gvGmauPo8EJm4ak5yEu10LKFJc+bYM6DlNU
-         dCfYYbZo4XhCpeXp62rA0WhWPdxwGSBPkk4yinisKQ/3HfliRazobfQ9a7wzP5P/SNIj
-         eY6Fkypy+Iu144S/pfklmW+0egIWItbVB08gm8qw5tnR8zDbFxxrzY0hnU6BZ3IwGmbE
-         LsikLplsus57/TtIIXYJNnBuJ+PJ0Bp+wTkqaQckcSlNsFqJe0wHdq3V547JgL9TtAhO
-         QOlSChEk/jL5J2GuElsY4mHz8m3/NfdWUNuOhXFy5X6AjFyJdiPpdHYlxE7EGBx26kpc
-         vI5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795447797; x=1796052597;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XTqD3jTsvce7PV4dxiBL4DNg4qThdQn7thVX1pxBbRQ=;
-        b=xtGR0bi7I+Qfl62cZLRQkUyMfN967C7nZwkqvH8qxmmJOgnhmHzmDSmRD59Fse4YZR
-         ffW+5hivfsKL6cenrRyBAtekBSsJWqBYtNfseSnLRnKmb+RIXj4l0aLqHeXEAHU+Xre2
-         PD795jgAMHRUparMHuyrtrAoBCxYihMq4rUjNtSX7Lj7ufZAMiEyaalZ34GWHaO76QRE
-         fFStNgfZQeoRFeFwS4IgIT3MO+S9cpnXoLYbyF3U2ltSRNKx9fE8fHgCQNmC8f5LKjuH
-         1FpKgDesiAmC7niIhVEon4w24pcw/XLlpkj4wNaDV4YgT7oBTw0b16zGIJ5GXLn6zzmh
-         FBHw==
-X-Forwarded-Encrypted: i=1; AL+hErE892p8zGKW+2HqvROa4+/yrOC/NrdEffTbTKwlpjUrtZwStBvag7BAfCJbHxaW+Mu3T9C7ISvVFf/SS8DF@vger.kernel.org
-X-Gm-Message-State: APuU4Z/q5hFNcSQrLXXX78IWizehofj+dAMFPpVL/1IMog5uQBapiELd
-	YybkPF5cXYR+VHnWFIPSIE92/6CF57fOBmy/5BCzVKLMhj29FnjK5sPz1x7pI1vKYGpIGQA1r9u
-	rQiBi7u4XCVD8u0jd4WEJfhC9CMSol3A=
-X-Gm-Gg: AZFdTZfSddY8O6HmSiSbb4uufknmpjhwFubytfbLAAJnWH/7MlzRFxOmCC3JtLUsHeR
-	hW/5NkLkn06dgeGziezVcWKQafXJblhQSsUcl1jtAc3Y5r5KvDpJvXDuF4UZYqkb6btNRsoMBk7
-	ZgqXrBAOlk7/8tOigKSyjx9hEhMhSSYu5c7/WyxwrH4snSvOWCO0pIF5TuuKTCVsiAXj+OZILb+
-	e2ApnQRSrUzDXMgC0SbClsFfVIzH80+sZovL+7y4kPJag0rsAEw13VwdseeScHPDePUFASqlOiC
-	EioxucHkXULuT6ohmxpd2aHqrtMmwXn/CEIIGsbGtkmpIodRKLsGc5RVYe9xuzj+2Bou01iEiee
-	2Mb/s3On9QVh1j5UXLIvgT2ZpopVz80yhoOr0OfCi1OLCYsoreEYE/lwHfKFiGvqgLAF7UA==
-X-Received: by 2002:a05:6402:e05:b0:6b4:9919:b54 with SMTP id
- 4fb4d7f45d1cf-6ba37f04a34mr8166206a12.42.1795447796335; Mon, 23 Nov 2026
- 07:29:56 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=seJP6l53;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Uu4VCqg+;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=seJP6l53;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Uu4VCqg+
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C8434220B5;
+	Mon, 23 Nov 2026 15:40:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795448422; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TRg73PCpmlZWbc1zT/pf5WUhMtuFRSW1UJ9K9OaWjM8=;
+	b=seJP6l5362qfLy2H+0bB24QAjb5CTCS231Rn+mUgJfUtsBD3PaI4xJGDmyuFIaTWKxq3b1
+	3bmTCbZFtbdcgQknNloc49mxgrZKYleR7R6SWqBzoN0Wvow98wQmeATFs+EHoCmtmMoMXf
+	4DkaXl84nIjxl8+tISAfz6oxoiIY5aM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795448422;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TRg73PCpmlZWbc1zT/pf5WUhMtuFRSW1UJ9K9OaWjM8=;
+	b=Uu4VCqg+7C5pqg8AKtLNMV9QEJah4IND00ADWLDA+JuizHl9q1MoWO9Y/n+R4EveNxywUs
+	dM7t72dkjgGKlyCw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795448422; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TRg73PCpmlZWbc1zT/pf5WUhMtuFRSW1UJ9K9OaWjM8=;
+	b=seJP6l5362qfLy2H+0bB24QAjb5CTCS231Rn+mUgJfUtsBD3PaI4xJGDmyuFIaTWKxq3b1
+	3bmTCbZFtbdcgQknNloc49mxgrZKYleR7R6SWqBzoN0Wvow98wQmeATFs+EHoCmtmMoMXf
+	4DkaXl84nIjxl8+tISAfz6oxoiIY5aM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795448422;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TRg73PCpmlZWbc1zT/pf5WUhMtuFRSW1UJ9K9OaWjM8=;
+	b=Uu4VCqg+7C5pqg8AKtLNMV9QEJah4IND00ADWLDA+JuizHl9q1MoWO9Y/n+R4EveNxywUs
+	dM7t72dkjgGKlyCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 58F3F1352B;
+	Mon, 23 Nov 2026 15:40:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id LUpAAmZeBGvUJQAAD6G6ig
+	(envelope-from <krisman@suse.de>); Mon, 23 Nov 2026 15:40:22 +0000
+From: Gabriel Krisman Bertazi <krisman@suse.de>
+To: Tao Cui <cui.tao@linux.dev>, hughd@google.com, david@kernel.org,
+ akpm@linux-foundation.org
+Cc: linux-mm@kvack.org, baolin.wang@linux.alibaba.com,
+ andrealmeid@igalia.com, linux-fsdevel@vger.kernel.org, cui.tao@linux.dev,
+ Tao Cui <cuitao@kylinos.cn>
+Subject: Re: [PATCH 0/2] tmpfs: fix casefold flag inheritance and document
+ mount constraints
+In-Reply-To: <20261123051629.2547645-1-cui.tao@linux.dev>
+Organization: SUSE
+References: <20261123051629.2547645-1-cui.tao@linux.dev>
+Date: Mon, 23 Nov 2026 10:40:16 -0500
+Message-ID: <878q2jeeu7.fsf@cartola>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,165 +112,63 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261122000856.536902-1-koray.fra@gmail.com> <20261122000856.536902-3-koray.fra@gmail.com>
- <CAOQ4uxhegn1z=41_MHL1Zu2hXuPtzNhC=x4gd371oaeJE4-weQ@mail.gmail.com> <DN2N6A68PBO1.2QT8ZOARF4I6L@gmail.com>
-In-Reply-To: <DN2N6A68PBO1.2QT8ZOARF4I6L@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 23 Nov 2026 16:29:44 +0100
-X-Gm-Features: Aa3M54rXlfF1ti3csfwg-SOdn_z3DGpZ_P359TQjfteI3PWichkZOxWgdTC23l0
-Message-ID: <CAOQ4uxhDQqEQ3T9NveBFpUmSU032BxrNV5D+_zHj8u9LOQY+qg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] vfs: add xflags mask to fileattr API
-To: koraynilay <koray.fra@gmail.com>
-Cc: Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, Jan Kara <jack@suse.cz>, 
-	"Darrick J . Wong" <djwong@kernel.org>, Andrey Albershteyn <aalbersh@kernel.org>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
-	Lauri Gates <lauri.gates@gmail.com>, Christoph Hellwig <hch@infradead.org>, Dave Chinner <dgc@kernel.org>, 
-	linux-btrfs@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	ntfs@lists.linux.dev, linux-nfs@vger.kernel.org, linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Spamd-Result: default: False [-12.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_COUNT_TWO(0.00)[2];
+	URIBL_BLOCKED(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo,linux.dev:email,kylinos.cn:email];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,linux.dev:email]
+X-Spam-Score: -12.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Mon, Nov 23, 2026 at 2:58=E2=80=AFPM koraynilay <koray.fra@gmail.com> wr=
-ote:
->
-> On Mon Nov 23, 2026 at 2:24 PM CET, Amir Goldstein wrote:
-> > On Sun, Nov 22, 2026 at 1:09=E2=80=AFAM koraynilay <koray.fra@gmail.com=
-> wrote:
-> >>
-> >> Add fa_xflags_rw_mask and fa_xflags_ro_mask to struct file_attr and
-> >> equivalent masks to struct file_kattr.
-> >>
-> >> Also add has_masks selector to struct file_kattr so we can know when a
-> >> user of this API (userspace or filesystem) supports them.
-> >>
-> >> This lets filesystems advertise their support for specific xflags, lik=
-e
-> >> statx.stx_attributes_mask does, and userspace can specify only which
-> >> xflags it wants to change without needing a RMW cycle:
-> >> - on GET: each filesystem that wants to support this new API fills the
-> >>   masks according to its supported and read-only xflags, then:
-> >>   * for boolean xflags: it fills fsx_xflags with the current on-disk v=
-alue
-> >>   * for value xflags: it sets the xflag bit to 1 in fsx_xflags and the
-> >>     xflag value in the struct field;
-> >> - on SET: userspace fills the rw_mask with the bits of the xflags it
-> >>   wants to change, then:
-> >>   * for boolean xflags: it provides the xflag value as a bit in fa_xfl=
-ags
-> >>   * for value xflags: it sets the xflag bit to 1 in fa_xflags and then
-> >>     provides the value in the struct field; if the xflag bit is set to=
- 0
-> >>     instead, this informs the kernel to unset/clear that value.
-> >>
-> >> Since fa_xflags_rw_mask means "I want to change the xflags specified i=
-n
-> >> here", if userspace specifies fa_xflags_rw_mask =3D 0, only check for
-> >> permissions and fileattr support without checking any xflags.
-> >>
-> >> Behaviour of older programs that already use file_[gs]etattr() is
-> >> preserved by checking against FILE_ATTR_SIZE_VER*.
-> >>
-> >> Also add the missing FS_XFLAG_PROJID xflag, to allow userspace to set
-> >> the projid using file_[gs]etattr() by leveraging the new masks.
-> >>
-> >> Finally, in order to prevent the legacy FS_IOC_FSSETXATTR from accepti=
-ng
-> >> FS_XFLAG_PROJID, add a FS_FILE_ATTR_XFLAGS_MASK to support new xflags
-> >> and use it to validate/clamp both the _xflags fields and the masks.
-> >>
-> >> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.11
-> >> Signed-off-by: koraynilay <koray.fra@gmail.com>
-> >> ---
-...
-> >>         err =3D fileattr_set_prepare(inode, &old_ma, fa);
-> >> @@ -424,6 +504,14 @@ SYSCALL_DEFINE5(file_getattr, int, dfd, const cha=
-r __user *, filename,
-> >>                 return error;
-> >>
-> >>         fileattr_to_file_attr(&fa, &fattr);
-> >> +       /*
-> >> +        * Remove xflags added in or after VER1 so userspace programs =
-compiled
-> >> +        * against VER0 don't try to write xflags they don't know abou=
-t (since
-> >> +        * they do RMW).
-> >> +        */
-> >> +       if (usize < FILE_ATTR_SIZE_VER1)
-> >> +               fattr.fa_xflags &=3D FS_XFLAGS_MASK;
-> >> +
-> >
-> > This looks odd.
-> > old struct size with new flags should be -EINVAL not silently drop them
->
-> Right, and the GET path should strip any new flags, so old programs
-> doing RMW will never see them, correct?
->
+Tao Cui <cui.tao@linux.dev> writes:
 
-Yes, I think so.
-
-> >
-> >>         error =3D copy_struct_to_user(ufattr, usize, &fattr,
-> >>                                     sizeof(struct file_attr), NULL);
-> >>
-> >> @@ -460,10 +548,6 @@ SYSCALL_DEFINE5(file_setattr, int, dfd, const cha=
-r __user *, filename,
-> >>         if (error)
-> >>                 return error;
-> >>
-> >> -       error =3D file_attr_to_fileattr(&fattr, &fa);
-> >> -       if (error)
-> >> -               return error;
-> >> -
-> >>         CLASS(filename_maybe_null, name)(filename, at_flags);
-> >>         if (!name && dfd >=3D 0) {
-> >>                 CLASS(fd, f)(dfd);
-> >> @@ -479,6 +563,30 @@ SYSCALL_DEFINE5(file_setattr, int, dfd, const cha=
-r __user *, filename,
-> >>                         return error;
-> >>         }
-> >>
-> >> +       /*
-> >> +        * Userspace said "I don't want to change any flag", so be it =
-I guess.
-> >> +        * Still check for fileattr support and permissions, also in c=
-ase this
-> >> +        * is just a probe.
-> >> +        */
-> >> +       if (usize >=3D FILE_ATTR_SIZE_VER1 && fattr.fa_xflags_rw_mask =
-=3D=3D 0) {
-> >> +               struct inode *inode =3D d_inode(filepath.dentry);
-> >
-> >
-> > No No this is not what this userspace said!
-> >
-> > This user space is the same old chattr programs recompiled with a new
-> > fs.h header file
-> > installed.
+> From: Tao Cui <cuitao@kylinos.cn>
 >
-> Oh, right, I did not think about this case, I hope it doesn't break too
-> much of the new code I changed already for v2 :(
+> Files created in a casefold tmpfs directory inherit the
+> directory-only FS_CASEFOLD_FL flag, which shmem_set_inode_flags()
+> then rejects with -ENOTDIR on non-directories: the inode records a
+> phantom F flag, so the value FS_IOC_GETFLAGS reports can never be
+> written back and attribute changes via chattr fail, dropping
+> NOATIME/NODUMP from the same request.  The casefold mount option
+> constraints that commit 5cd9aecbc72c ("tmpfs: Add flag
+> FS_CASEFOLD_FL support for tmpfs dirs") landed with are also
+> undocumented.
 >
-> > When userspace does not set anything is masks it means "old API"
+>   - P1: mask FS_CASEFOLD_FL for non-directory inodes the way
+>     ext4_mask_flags()/f2fs_mask_flags() do.
+>   - P2: document the CONFIG_UNICODE prerequisite, the
+>     strict_encoding pairing and that both options are ignored on
+>     remount.
 >
-> And so a modern program using masks that passes rw_mask as 0 should be
-> also interpreted as "old API", even if it kinda goes against the
-> definition of rw_mask right?
+> Testing: on a VM with CONFIG_UNICODE=y, before the patch a file
+> created in a +F directory advertises the F flag via
+> FS_IOC_GETFLAGS and chattr +i on it fails with ENOTDIR; after,
+> the flag is not recorded and chattr works as usual.
 
-Yes, but it is not a problem to describe this backward compat exception:
-When (rw_mask | ro_mask) =3D=3D 0, it means "no mask" "set everything"
-but then vfs will not accept new xflags that were not supported in v0
-syscall.
+The series looks good to me.  Feel free to add:
 
-> And other than VER there is no way to know if it's a SETFLAGS compiled
-> against modern fs.h or fileattr VER1 explicitly setting rw_mask to 0,
-> right?
->
+Reviewed-by: Gabriel Krisman Bertazi <krisman@suse.de>
 
-SETFLAGS with explicit 0 rw_mask is not useful and does not make
-sense, so there is no reason to support this in any other meaning than
-legacy programs.
 
-Thanks,
-Amir.
+
+-- 
+Gabriel Krisman Bertazi
