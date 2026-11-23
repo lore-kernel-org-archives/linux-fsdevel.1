@@ -1,98 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795472288;
-	b=zDMBXZ9A+BGfl7wpzX7ZUmnNwwNVJ5FobtWYs5Kpi6UtAFPMZO6XFoU2TjPaljZftvqm
-	 NwQhhFzbRzX1aX3x0A4/NhZNgv87aTAuQjqQ9GG2yxqghdEQdUq/xBEym0ynuU/cg/OAS
-	 OM7SrQCq2ISFZY77fM0ilwS2Vfzc1rxycuvvPVdD9zaeos6idsCiXrq/Dew9huzYkEQqw
-	 C8t4eUe+Dpz51CYC403ySTxaj1TlBFnXMx4qDBwhtta5Wc0U3gshqPEhctOc8XFrxd3qd
-	 tbaUMhhuiZ0eX8NkYDsFTqYkTEmoSOQ3IwYhjRft0wfxk7GC9d1AoOr+Ulgarw878+w==
+	t=1795472755;
+	b=ZwoEGTGSz9HJeAi/9DFvVMxDFaipXO2QJ8GwdAenaAAq+6ZsYXD0Qxic7shG2paZJ4nR
+	 kXl4SMFuCkJMdkFcTnEE60eK17SAX73e4DFLmgBVlbtKk+sD+OlhIe0ixdjPAIk8bhNNO
+	 Nfn57MhrHEoxLvo9D47pm4d0mkgya8lAO+G43IDQGMsrk5fis+xqBp5zoPjuaVoavRdID
+	 eNIJaF/LIUu3JXiJl0ufHvfS3KYuZVfxO/gzWOpVm7kdXimZQb2qU+tjwSinpFkv3x4VI
+	 q04sKvaoXwUF9WkycR+l0XdptwCKqevo8VIwp9gtpRtABNRWB9011efVUXRaNWBEhaA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795472288;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795472755;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Autocrypt:
 	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=+JzEw1NTjpwpKhUYsPVL4QgZ9Yqxc8qT5kiHgIxpGy4=;
-	b=z8YLREfugiLEV4VBu0ndsWBrdFc96q9ABgJJJHPT0KuzLnxrUoXa3OHmx97vqnW0FDO5
-	 lhqncEcnSBeuGYcM6rF65T8Q4qRxH5jxbTIGUyzkZNFb1iXzyHZzwXuH7PLbiwAl9ri+R
-	 BU7jNSF2Y2Q725LDWE/C0+oQTdEEoD9vYtTZjoIMM2biOkuS05XobTHX8og6ssunTc00S
-	 PGFBR+9WBKvPp2tDaPw/1RzbDyFXw5JAFgtNt2TbZtHBqwPUUQIGjQGg5AVqJlOa0RhfY
-	 DEanqWb+Dvf/i1lKdmTBENaLZvzceA3sUIcNc901iIRBfeg6JQk64JDWvjUnVgZGnIw==
+	bh=BtXPIF6zuxugnpKlB3s97+d2G4wbStRwqKqhiNp2vrQ=;
+	b=JobQJmn3Xk6fnN0PuFjiY7Xxt7YHBmiCNODRqlEABFSZN9v+vo3ZKgSu8EL8yh2UjV++
+	 Fm3oj3V9WQbtoW6vAyaLoE5pfHmhPO4D7Aiz/d3I+DTolqkEAjq/QT2PiEMcKGrkPBF36
+	 nT1dni95lNqEWOyEBCh9Vo40QXXHWg5QaIA+2EC0vdASfQJd+DAKse2hOzpwffNecZXg5
+	 KWAj+lc5HFlR1tSIQJKP7hLDAJ3alCW5FwcqCfOlH0hWAkn8RXqGSPJ+641KAsbrywkkq
+	 HHHT/b/GPn19sqrgAArA9vr2+Qm0qMt9xQWzLnavgtr3iDs/lZ5j8IaAEvtnjEJTdpw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=dubeyko.com;
 	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Bxyijer1;
-	arc=none smtp.remote-ip=74.125.224.44
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
+	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=e98dMe6g;
+	arc=none smtp.remote-ip=209.85.128.181
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA03606A321
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 22:18:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1BA03606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 557FB606A322
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 22:25:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 557FB606A322
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Bxyijer1
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-67da564d9f2so5143256d50.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 14:18:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=e98dMe6g
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-8b0dba37a7fso31054597b3.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 14:25:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1795472287; x=1796077087; darn=vger.kernel.org;
+        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1795472754; x=1796077554; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+JzEw1NTjpwpKhUYsPVL4QgZ9Yqxc8qT5kiHgIxpGy4=;
-        b=Bxyijer1uz8P/JT8UYnL/ameNM4PCr4UUHLmQD1yaTO26Vrn8HZkqvS7H740bbYd9B
-         eZ1sVejr3Ge3bRLwHafdZ41JqaXVvZlWy+x3171KDkN5x9KiH9lSbUGc1W5H4t+M+Gsu
-         TTeSaZ+VRjML9qBnyboSNpMpWo9jAp/D8deSXVkBadszV7Z35kv65L4hPGaqQxBK9bWF
-         f9ztY6HpdvgHAPm7e0Aaj4p0ekmvxBHxChezsPM7Z7k0NH6LIMvizSkq4PV0+MB4bcNC
-         I2OLCgxNjCEusw6JU8KLfe1r6Q2Zk16QISNfGEv6dE6OVRyK8boR3aCj9ROfM852uUDT
-         beNg==
+        bh=BtXPIF6zuxugnpKlB3s97+d2G4wbStRwqKqhiNp2vrQ=;
+        b=e98dMe6gm2exhvdBQLkJgkWZLGoa89wM77dlMbQUqONXFgVk7P2OD4YwpM6qTPfqe2
+         zWCMRjEShMVSyo+E7j8bLlZped9v/lmATgSh4sWfVtBiOxXLkUeVZJK2nwaNy93JlLwF
+         4ifnmQfxdlbIui2CDquCFO4ZrctkHCq8oL3dYFNfe5HM7qs7Wx9ywANBnY7cj33+1JF9
+         WFKMDQy2Z8xzz6C1u4sijqGj/tgMNMHMDHLPvFLJnpJNemYbwp7qOIsWuzsgcsNAeK3V
+         KrZINq+g4/HcPCctpz9u7sg/yYZ6mUJDp7mjzyVuL/amBmRb9/ugWY19J1ZxToVih5TM
+         Xycg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795472287; x=1796077087;
+        d=1e100.net; s=20260707; t=1795472754; x=1796077554;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=+JzEw1NTjpwpKhUYsPVL4QgZ9Yqxc8qT5kiHgIxpGy4=;
-        b=xvQqwle1AO3Z4EbzAoDHcgOoI/SALkmzGaLwc8cpPAdg/IxL0ph4B334RVT5+PY5m5
-         xieZe6Id5+LOFRBSuUMdcGTjulfDPutc/vvjn/DXkw0wVYVw9g8Xfsrjs4mRilFpH8JC
-         uyNfSlNE8x8VK9rkVE6AOmgMx4yK/2mTPeAvIlTCtfls11Nwa0KhODc3yhvEQ/I5I66C
-         z+qUO6u8n+ooy2/JfY6DXBDrYm3ALHBffGfUNWGAZqznTfQEnTSLTd8r7tN2Tj2IR5aC
-         2rJBKoEt70VqgbQ8v70yN91xDWoZq9+/ZqPGrFCNSkV5NA1iFxAtiOOp3/liZeMiplbC
-         ggIg==
-X-Forwarded-Encrypted: i=1; AL+hErFKVJYDjkpRtYlpkXHUDMcT8mwL+bj87QYPKmx2rw1SpF4C13/4OdVqMhJpA/Dq6LLNWSSm4yXAFwfRiBZo@vger.kernel.org
-X-Gm-Message-State: APuU4Z8fV61gSwD2UOk/2wvEnJB09EU1h0cV/PIJnjCcfZipyIs0WSBY
-	VmgNv5WvepIha3tA/vU938GgeMCYryFumL/yU0fPSugA0ttIqunpUe3ABV0AovbhM6U=
-X-Gm-Gg: AZFdTZei/gaDITaKtvxPSbq6xpxZPSpWeILbK1ch1YZdTX2QT5NvsBHhJ81bcGchPcv
-	SzAF9jRcEYpOxS37z7fjZuGMNiTYWq92BUcKNuKOtS9Rsuys2oS4zJheZsYf0n/YlUK+jfQ4W4G
-	eRXW9kK4lp8IJKYNNNbZpX5+rpokx3yd+zCvE9etiVQHDpoU+5192xicprJweLuEyK95KdK2+2G
-	KoSFvxqtem4tKO8tm0ONimPZcfK9ohqr8ZIirkywviYLyjeVZKrfiDVSmdfJsG+JgGzAKP15meB
-	G/6w/pkX2997fM/+NC994cKJz+TRvdCCCNTWz0d17uR/rEfU+o+UpSkfTFEwZMxYIKmCutAS4Fk
-	fQN++lSx5DSRj204lpNqaQDraaxurcPVWkzMiTtsTnOzBm/7Cz+GbuwZ7kc6Ag854eLSm/o0KtS
-	2awYIzXECBbKPxXizeQf6gwEdF6Z09kl8uVrjBpU8NquIF2ECwGdWe248vn8o+7TZHPyjXxqGE6
-	a3wX0BFC8uq59N0TC/6dmYaQad1jObZUEZuz1eI2BEXIrEJUeapGERHZ40cP/3hKLxUrYPgSH3w
-	hjagOxABirvjwF9HkfOiShu3rT7jU/E0onAxSYYUe2f4/VwoKSLgwEeCwhL85yxVt7srxPmS94H
-	FA9e0vwIBGnt4YfnnvWj7Oiuh/Yqljs+8TUy3NauN5OT1oY3SY2cud9/HRKJBvw4EQj/crfk=
-X-Received: by 2002:a05:690c:3386:b0:8b4:f757:6ff1 with SMTP id 00721157ae682-8b5204bc0c5mr50521777b3.40.1795472286875;
-        Mon, 23 Nov 2026 14:18:06 -0800 (PST)
-Received: from system76-laptop.attlocal.net ([2600:1700:6476:1430:83a2:1030:d4d1:10b8])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b52033c2d4sm50567147b3.36.2026.11.23.14.18.05
+        bh=BtXPIF6zuxugnpKlB3s97+d2G4wbStRwqKqhiNp2vrQ=;
+        b=JAoOJXjcVJftmtQ5REMJjN/Z21XBYiCRcBvq9ShFqe7G5wgwoeW9EIg7qW3ras6yr8
+         lUk8RUe90c7DoS1R6CS7vw0P7FWw/VHSQkT1U8tfXai2AhyN2grKJxm5J+IG1Mf/ZVnY
+         NYki20SRdZTmR1dNQi05HDYtAXG9vG5lVDGulYgc2HAP9zDOFQlpblltLKcahahKghCE
+         qxG3X05kKd6d5z22t0gNTvZ6JTA6IB3ZwObgAuijMyHuNH++bH+RFOAGJg28zeCMQ34K
+         CBV3AVqmYEElKoAaU2Wl2+YkC9TgoeYGxHnHG1eXw8eMEjF/hLBOisOehQZ/+Vmm8Eug
+         D4Lg==
+X-Forwarded-Encrypted: i=1; AL+hErFW9vbbq1vqPCIiH5YaMu9WcCGnT6KHMT1ww2KNDN14hnd04AuPfnGy6Hr1IxsKDyhbSWEuB1ueNO81V1i0@vger.kernel.org
+X-Gm-Message-State: APuU4Z/XyFmtwqdbog6yHCarfAtAOm1iNsNWYyM4r/iiD467WMU0U2ST
+	xlifgCE9uv57sAQDY9ad7PtdDgWyPTLdt6TxAapd+ejzSBofzHKua0yAZBJXuUUUzvI=
+X-Gm-Gg: AZFdTZc6NwgGWl3sbOarUu5lp/78tt6zt7wY97l/2V9TWuKY0kPgjlicDaPazGVdFdh
+	Y6ojN6zkJ+7/UtfO79j07PKzep+/tFEBf4m/l7vVOCcwARpdSxXA+5fAxT26jfiPO026vmpjh0i
+	inbezzxASI2x+KJ50qZyIoq81quvXUZ5byumEvuTJWWjbc3xm73GhfhOIYrlp2PG9bsXLL5Ea5i
+	Y4knmidFvVkPGOskuABcrdJDwQTSjFadBSAibdkwFej1iOR8vux5J1f8qau/5SkvHJksOM8i0Yg
+	RyVK9fiwujSEMgX0ePpkose4HNytbCZnBSZdTPo0dsdVhc3eWJcEle7JNzAe+XYBsGezaZdJnwa
+	Y26J2VlJ/ec9gNuTiWZSXAt07h7wmlOqLREjimJg5V3uFNU0SQ0pveqCzQt3r95AHdbBxXlnCDp
+	+vTNQ9Rr9OViz1Ifi3lHTC8BW7/FiZy3bw/48SV8UY3YsBJs6vnlVOrcgDMqQfg4fcbIiGkr+go
+	kDBHMffNycO4Faaa4vwveqlZS8qL+In4zCxagnDOxjvJ+IDfmc+6JgSTHE2NVWVo4Wb5LXI0Mx+
+	RAqgdXgnnARiGChMUPNi1fnnt0MGoWBSm4VycTrgghGjPrrVJdtmGHavdeGZbtEvrlRrr+41ktM
+	uUO+Iw5yx7mwtugg9c2GtRkbRGfGdGF67+KhOkmSTXfF2M2Gl+DFk/s6aaFnvspYO51Z3hqyxob
+	ttig8MQzu/6/+Fr0fYhPM=
+X-Received: by 2002:a05:690c:c04:b0:8b3:2d65:2c80 with SMTP id 00721157ae682-8b5204f088cmr50894287b3.54.1795472754273;
+        Mon, 23 Nov 2026 14:25:54 -0800 (PST)
+Received: from ?IPv6:2600:1700:6476:1430:83a2:1030:d4d1:10b8? ([2600:1700:6476:1430:83a2:1030:d4d1:10b8])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b52030d5c3sm51425387b3.32.2026.11.23.14.25.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 14:18:06 -0800 (PST)
-Message-ID: <f9f16109d00dd0caef1bdda38b71ad63e44e78d5.camel@dubeyko.com>
-Subject: Re: [PATCH v2] hfs: avoid reusing occupied CNIDs after deletion
+        Mon, 23 Nov 2026 14:25:53 -0800 (PST)
+Message-ID: <ac4e59cc1a1a89fc5d3b33aa481cfa8372562f2d.camel@dubeyko.com>
+Subject: Re: [PATCH v5 1/5] iomap: add iomap_dio_end_io() helper
 From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Hengyu Liang <hengyul@cs.unc.edu>
+To: Christoph Hellwig <hch@lst.de>, Christian Brauner <brauner@kernel.org>
 Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Date: Mon, 23 Nov 2026 14:18:05 -0800
-In-Reply-To: <20261121101929.3395994-1-hengyul@cs.unc.edu>
-References: <20261112110128.4082071-1-hengyul@cs.unc.edu>
-	 <138ca05e57377469c0e44126314c98d008629229.camel@dubeyko.com>
-	 <aad484f0a78493723cfe379df5916e9f7f2a2bb4.camel@dubeyko.com>
-	 <20261121101929.3395994-1-hengyul@cs.unc.edu>
+	vdubeyko@coreweave.com, linux-xfs@vger.kernel.org, "Darrick J. Wong"
+	 <djwong@kernel.org>
+Date: Mon, 23 Nov 2026 14:25:52 -0800
+In-Reply-To: <20261120182135.GA2183@lst.de>
+References: <20261118004844.3849979-1-slava@dubeyko.com>
+	 <20261118004844.3849979-2-slava@dubeyko.com>
+	 <20261120-flach-befanden-notaufnahme-b0a663466be3@brauner>
+	 <20261120182135.GA2183@lst.de>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -139,149 +141,29 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-On Sat, 2026-11-21 at 05:19 -0500, Hengyu Liang wrote:
-> Hi Slava,
->=20
-> Thanks for the review. OK to all remarks about empty lines. The other
-> points are below; there is one I would like to check with you before
-> v3 (the flag).
->=20
-> On Mon, 2026-11-16 at 17:02 -0800, Viacheslav Dubeyko wrote:
-> > > +static u32 hfs_brec_cnid(struct hfs_bnode *node, u32 off)
-> [...]
-> > This function is completely not clear. You try to read the
-> > hfs_cat_rec. Simply read it and analyze the record. Now it looks
-> > like a
-> > dark magic.
->=20
-> OK.
->=20
-> > Is this insert argument used anywhere?
->=20
-> Yes, in the loop below: an added CNID can only raise the maximum, a
-> removed one can only lower it.
->=20
-> > > +	if (tree->cnid !=3D HFS_CAT_CNID || node->type !=3D
-> > > HFS_NODE_LEAF)
+On Fri, 2026-11-20 at 19:21 +0100, Christoph Hellwig wrote:
+> On Fri, Nov 20, 2026 at 02:48:09PM +0100, Christian Brauner wrote:
+> > On Tue, Nov 17, 2026 at 04:48:40PM -0800, Viacheslav Dubeyko wrote:
+> > > The helper updates i_size without any locking, so it can be used
+> > > only
+> > > by file systems that issue all direct writes extending i_size
+> > > synchronously (IOMAP_DIO_FORCE_WAIT) under inode_lock.
 > >=20
-> > I would like to see some inline function with good name for this
-> > check.
+> > Meh, this should really not be named so it looks like its the
+> > default
+> > completion handler. iomap_dio_end_io() really sounds like it.
 >=20
-> OK.
+> Well, it actually should be the default handler as it does the right
+> thing for simple file systems.=C2=A0 In fact I'd prefer to automatically
+> call it if no ->end_io is set as that would remove a lot of
+> boilerplate.
 >=20
-> > > +	if (!cnid)
-> >=20
-> > The #0 is reserved CNID. It's not good choice for such check.
->=20
-> OK.
->=20
-> > I assume that we limited by tree's height here. Could we used it
-> > instead of infinite loop?
->=20
-> OK.
->=20
-> > I dislike insert like a boolean value. Why do we need to inform
-> > this
-> > function about insert? Why this function cannot make this decision
-> > alone?
->=20
-> OK. In v3 it will run after the record is added or removed, recompute
-> the leaf's maximum, and compare it with the old value, so it no
-> longer
-> needs to know whether a record was added or removed.
->=20
-> > You don't need in done if you are limited by b-tree height.
->=20
-> OK. The loop will still stop early when a node does not change,
-> because
-> then the nodes above it do not change either.
->=20
-> On Tue, 2026-11-17 at 16:20 -0800, Viacheslav Dubeyko wrote:
-> > > + * of an index node. If a child has no max_cnid yet, return the
-> > > number of
-> > > + * that child in @child instead.
-> >=20
-> > Do you mean that we return CNID? I don't quite follow. We always
-> > have
-> > any CNID in the node that will be maximum one for node. How is it
-> > possible "If a child has no max_cnid yet, return the number of that
-> > child in @child instead."?
->=20
-> No, @child is a node number, not a CNID, and this only happens for
-> index nodes. An index record holds a key and the child's node number,
-> but no file or folder CNID, so an index node's max_cnid is the
-> largest
-> max_cnid among its children. If a child has no cached max_cnid yet
-> (for example, it has just been read from disk), the function returns
-> that
-> child's node number; hfs_btree_max_cnid() computes the child first
-> and
-> then comes back to the parent. I will make the name and the comment
-> clearer.
->=20
-> > If it is the index node, then we don't need to traverse the items.
-> > No?
->=20
-> We do need to: each record in an index node points to a child node,
-> so the loop goes over those records to find the largest max_cnid
-> among
-> the children.
->=20
-> > It looks like internal error but not I/O error.
->=20
-> OK, I will return -EFSCORRUPTED.
->=20
-> > The max CNID cannot be lower that HFS_FIRSTUSER_CNID.
-> [...]
-> > I still don't see a necessity in HFS_BNODE_MAX_CNID flag.
->=20
-> These two are related, so let me answer them together.
->=20
-> max_cnid is not stored on disk, so a node that hfs_bnode_find() has
-> just read has no max_cnid yet. For a leaf it could be computed right
-> away, but
-> an index node needs all nodes below it, so computing it at read time
-> would read the whole catalog. That is why the code needs a "not
-> computed yet" state.
->=20
-> I can drop the flag and use max_cnid =3D=3D 0 to mean "not computed yet",
-> by starting the computation of each maximum from HFS_FIRSTUSER_CNID -
-> 1
-> (15) instead of 0, so a computed value is never 0. It has to be 15,
-> not
-> HFS_FIRSTUSER_CNID: a node without user files or folders (only the
-> root
-> folder, CNID 2, or only thread records) then gets 15, and on a volume
-> without user files the root gets 15, so next_id stays 16 (15 + 1).
-> Starting from 16 would give 17 there. Would this work for you?
+> It would be nice to do that and remove the duplicate version in
+> various
+> file systems.
 
-Yes, I think that "max_cnid =3D=3D 0" looks better. And we can introduce a
-constant HFS_INVALID_CNID =3D=3D 0 (or something like this).
-
->=20
-> > We need to have comments at one place for the whole structure. Here
-> > it
-> > looks not good at all.
->=20
-> OK.
->=20
-> > I still don't see the point why should we change anything here?
->=20
-> Changing `<` to `!=3D` does not change the result:
-> hfs_set_next_unused_CNID() updates next_id with cmpxchg only if
-> next_id is still cnid + 1. The `!=3D` check only skips computing the
-> maximum when cnid + 1 > next_id, where nothing would be updated
-> anyway. I will drop this change.
->=20
-> > The max_cnid or max_cnid + 1?
->=20
-> max_cnid. hfs_set_next_unused_CNID() adds 1 itself (and uses
-> HFS_FIRSTUSER_CNID for anything lower), as the old code expected.
->=20
->=20
-
-OK. Let me take another look and double check it when you'll send the
-v3 of the patch.
+So, what's the final consensus on the function name? :) How should I
+name it?
 
 Thanks,
 Slava.
