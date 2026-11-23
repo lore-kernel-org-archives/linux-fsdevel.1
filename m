@@ -1,83 +1,140 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=188.121.53.57
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795404260;
-	b=CaxtaqEv04XWk9d7MBBRPCGA2l24QyBQGMikWw5C2DI4Z5VtS2QDe4kbCjpL4OHd74Qq
-	 i1Gbw0yLYrF9EHUlOJTjzKCxZmvt2XEVWsMGMOSgCAY8HjBhxjYnevXlmDuZGArU0slkm
-	 M/LR/euOT1+SnIPPS1KoMTNd/vgrhHjIJ72Rt73/6DaqQAi06Rt3AnBlNvG5eAfnOU99L
-	 DSr5tBXCNdra+OBDqLVe9jc8mwKbNV5eh3Qcd2Jz7bCQ2xuEZpfFL/3E2RRQLsRCxSXd2
-	 EdDyolvX5uQ4/ye/35hnzCVQYZgoMRr9nC3BmP4pdzwdjRYMnJpvWFVVYo3C1tMmJjA==
+	t=1795404681;
+	b=YVt3Zviypa8Tex1yLtgEDvvTaTIkTpCQjvfhW4wq/V/yiP4RvoT8wGcn9JJESiAm6+/l
+	 eFSgOm3B1WYQA0I86JB4bx5dH9dfDzzvWoIq2+7jhzK+0NB8srIKph1PQewurW4RStuBs
+	 HDCHUz/OaJ4T5ZL0saap2Vg/dxIfl45v1MsunXjT12AGZvtUTLd8fnLz/xqXVEXbfS6Ma
+	 7HF3LnSm/l8JHsIke3ZfP7ngFalwOB/Mw9JPLnkND8NudryPLNr+XsceHhL2ZlsVLvolv
+	 DZyqDJU+9bXGUzb1yBlLGpD7ZxfuRuAm5mQbhjWxajixruflnZReohlE6yXEkA0/EQg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795404260;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:X-CMAE-Analysis:
-	 Feedback-ID:X-SECURESERVER-ACCT:Date:From:To:Cc:Subject:Message-Id:
-	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
-	 Content-Transfer-Encoding:X-CMAE-Envelope;
-	bh=fb5F1+HV0OZbPTxdQ7/3f15ugGB/LMdBqtkFJnN7Nm8=;
-	b=I4fCemHK9TxZWDtA6fGmOLRur9Z42HCi049LLAoP8M7e8jEEJpXY92KeaRu2N17oT00S
-	 8iRVBWJGi25IRzLp/ZOYJT5mdydQQsT9qy/SyL0BR8C4tjfPhZwLjoLY00xWJP3xppa5H
-	 P6axNzEXgxVE0GWpKo/2qdOqflBi0VGqgW3HcOp1g7Udf5AU64qB5QghfF3MdiJwKtUxq
-	 ph2aR4b/dHNUT7LqBQllt54oniY/iTdETW3Q1TQ1MNGmvPqvkkhVqfpD8xOVEV65i+T4m
-	 AvAlXWgtVQRG884JYSiNFnYEloH1biW4lWUXr0IHXsqVbQLv9/jjTXj3yPj8a4Xzvtw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795404681;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=n3/QgCFjzvK6G73Tiampz5hPbLES3QQEgOsn43qeBn8=;
+	b=KvdC7gQKHEUsaonGOkdFASuVC5J8K2esqrU8mj1xJuszWAxmBw//e93XcFDt50RFfuD0
+	 B55ahMYQA/XBt5mNzIhehFbkm1Wg4wGE7r3oTgLKMKpeJNGZZLxeuJJtT+YLtqqx+Zgfh
+	 JyYSM3aVBj4HZUHpnBsg6Gay2BNFodm51q5LoQaaUn+5CgbaLxwOMRqYj1W0yJYcZZmt+
+	 TnEPg/uT7Rx3z6IoCq8MAzbM+G5BwecItTuooFhOZ7XN/4mSQF/ybOVJF6bsfkJMKfLTz
+	 nsF1O5VPa4Xb5IPQCflnMYBHyX5Mi7E08cqHwLRm2ZVvKpEG3TpITo3vgrok0XMwDeQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=squashfs.org.uk;
-	spf=pass smtp.mailfrom=squashfs.org.uk;
-	dkim=pass header.d=secureserver.net header.i=@secureserver.net header.a=rsa-sha256 header.s=secureserver2 header.b=IqzxPLnf;
-	dkim=pass header.d=squashfs.org.uk header.i=@squashfs.org.uk header.a=rsa-sha256 header.s=secureserver1 header.b=VBdxXJQj;
-	arc=none smtp.remote-ip=188.121.53.57
-Received: from sxplsmtpa04-06.prod.sxb1.secureserver.net (sxplsmtpa04-06.prod.sxb1.secureserver.net [188.121.53.57])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=chromium.org;
+	spf=pass smtp.mailfrom=chromium.org;
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=Edl3tDou;
+	arc=none smtp.remote-ip=209.85.210.177
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23E8606A31E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 03:24:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C23E8606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=squashfs.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squashfs.org.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC33606A31E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 03:31:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DFC33606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=secureserver.net header.i=@secureserver.net header.a=rsa-sha256 header.s=secureserver2 header.b=IqzxPLnf;
-	dkim=pass (2048-bit key, unprotected) header.d=squashfs.org.uk header.i=@squashfs.org.uk header.a=rsa-sha256 header.s=secureserver1 header.b=VBdxXJQj
-Received: from ravalox ([82.69.79.175])
-	by :SMTPAUTH: with ESMTPSA
-	id VKewx1zMZpVcJVKeyxeBLr; Mon, 23 Nov 2026 03:24:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secureserver.net;
-	s=secureserver2; t=1795404246;
-	bh=fb5F1+HV0OZbPTxdQ7/3f15ugGB/LMdBqtkFJnN7Nm8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=IqzxPLnfYggvmqvmgLzhq/FzVr5nMJsqFSZnyLq6x46UD6/7MVXa/Hl7rErhqx4hZ
-	 EPJvGcOejfRZQwXrhjVXgkB0flxCviiauWQ/wwvTVtTLrcpDg6YxV9qBh72PHR2RTX
-	 99E1mOTUDqSQJnrMJF1jHfvL7Lta5FebpsOghOHBMozjeDIYiMeak3vdMoQ1wrOCfZ
-	 iVx3UntBM8IFNLupbEKyfP1buoOXtdeM+2QMDEdDnbqVnDAjwpeCVmCZ2QJwo+sP8m
-	 svKTtsyw8KU8aQLJ/snr6xyuQpnVeYnWypclG40m4WyAS8i138eOJ9x2mRuL6fyUkP
-	 chghFlENBMtkA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squashfs.org.uk;
-	s=secureserver1; t=1795404246;
-	bh=fb5F1+HV0OZbPTxdQ7/3f15ugGB/LMdBqtkFJnN7Nm8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=VBdxXJQjrwgcvVF37/rAknxuPMbxxB1xKNr+g5scrRKFnxGDAngFc+pb3lJuIWYpY
-	 zUKw5q4yYOINMO7EBCgPi3YOvCQWn9bVa6jzW9q16uYVMtMD8YduBQIWkfDFslAD9+
-	 YrPOxryswsCOHmUCJQpLwkpT+IjRSmaEgcisjhqYYyiQOLkZXhkvpXUfmUhYjCTOHT
-	 78YytrikBdrS697gmsNvErzmsXCp2ofYY/FVQRV5TrrJ050HQRZuraMOWCmNHIo90j
-	 E9wJw5DbnWfusWZFFN95xWs4IOu0jDNJL6uMKNj3NLiqNMtupcRc2ncM5s0Rhi4x7b
-	 L8T540VfX9/nQ==
-X-CMAE-Analysis: v=2.4 cv=D7/SufRj c=1 sm=1 tr=0 ts=6b03b1d5
- a=84ok6UeoqCVsigPHarzEiQ==:117 a=84ok6UeoqCVsigPHarzEiQ==:17
- a=kj9zAlcOel0A:10 a=Z4Rwk6OoAAAA:8 a=FXvPX3liAAAA:8 a=OM4U-40VTx3VScZtlVYA:9
- a=CjuIK1q_8ugA:10 a=HkZW87K1Qel5hWWM3VKY:22 a=UObqyxdv-6Yh2QiB9mM_:22
-Feedback-ID: ddafcf7f7eb0c3020a2d92e6b9fb169e:squashfs.org.uk:ssnet
-X-SECURESERVER-ACCT: phillip@squashfs.org.uk
-Date: Mon, 23 Nov 2026 03:24:02 +0000
-From: Phillip Lougher <phillip@squashfs.org.uk>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christian
- Loehle <christian.loehle@arm.com>
-Subject: Re: [PATCH v2 17/22] Squashfs: don't store large export table
- indexes in memory
-Message-Id: <20261123032402.2ef0f237cbc3fd677b048a11@squashfs.org.uk>
-In-Reply-To: <20261112110927.6add17b0552922c5b6b93515@linux-foundation.org>
-References: <20261111234402.252354-1-phillip@squashfs.org.uk>
-	<20261111234402.252354-18-phillip@squashfs.org.uk>
-	<20261112110927.6add17b0552922c5b6b93515@linux-foundation.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; aarch64-unknown-linux-gnu)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=Edl3tDou
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-8a052288e41so39096b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 22 Nov 2026 19:31:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1795404680; x=1796009480; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=n3/QgCFjzvK6G73Tiampz5hPbLES3QQEgOsn43qeBn8=;
+        b=Edl3tDoudDKu8O2PRwvYnO8MJvLjWtgoT26qqZAO1ooxzE3Tz8K2jSrkMRJ74CY71T
+         gmeUGNF0Du2akiiBchns1KHvONx24mVE1qX81TBQ16SMRNqU5PNNIc/hqFlKoySErJOB
+         LBybGaxPrLQI6vmhdHWQGORNw914goHqfldQc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795404680; x=1796009480;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=n3/QgCFjzvK6G73Tiampz5hPbLES3QQEgOsn43qeBn8=;
+        b=wuiFUOOLW/7R00FxACQ3l7oBg49oV8xJDaa/4Ex2ROlpLIOf3km+tlQDyIc96Nqeld
+         lIFx8Xp7qS8uAd1YtWgAF5gCFDcmFeFGrSErbwfPy5vZqszSUfWKlXrtJI+92RGBhmmP
+         G8f0UKpPsgR/qKBBOLD3RQFmAtIabqcSj++ZeHKq8oe3U4gMMhtoGhJgt8JrrjIDJebe
+         f86d2GrZr1QHgnKr9SuuMPLgqv3BI73mdh2o8hEIFdTZqnRBH6Ck4ylLzu3XVSEjLkPB
+         FzjuUakbzN6QE31QG7u879qvfPmzOHhaRttkvC2EmLgwF4+ubffn8SshLuv/zHo3IlUi
+         6YRA==
+X-Forwarded-Encrypted: i=1; AL+hErE+n+KGV4xUkxXHIlYnoHIw+9AjaVgyVYr0LfETnOIPEu/KBFSUOr4eHkgoppGXM2jeGBbMXuGCDdiFW5Vj@vger.kernel.org
+X-Gm-Message-State: APuU4Z+XGT2ozLehJUWIc+t3pgLG96oOe1nG0cSquA61zDlqmAH419+I
+	DW2mGq5GOBUrb9kvJhkPS7xeYbg+H/A/lW/OFGrsw3E85eAXFiKOpaClbeQnLA8txw==
+X-Gm-Gg: AZFdTZc37mrm0TgCv9J16DLFqgagKWCI9G0UkTpIEoxDihdpsN1d9HKGtm6JNH1cy/L
+	yix1z8XyxKNiSNTtDVAWzskHjIGbPLoAOaCAR9SEC2g1cdg8f6LeHlqFaq8jgj/F9ROz8WXNzFq
+	7Ojczf/P/wue35+FBJnIatIevq+cz8dXlx0Lgi9GgAv4Ye1xIir0Qs/R0Hstmf9EingEyEtgwPP
+	Dtezj1dhnxOh9Eu78AhM80j9BZHLR2QBxAXmRCkfKUTzRwka51LAV94usRxs5I8wbf83n7vd5rz
+	PZusf+RA7rWbInfoTi2Lu7Pky6TM/HkJ6+lPuggMW4o7UJkdiHA3hNY4n09tzTmR/YMnXFpxrtN
+	XowuGdknXh1KToBf2J489u6BIS3sTky1WC12A3mgbCtSPrJOv693ZM75DFP6Udcy27auoakShX3
+	+SdnsTogaOR0ZSFe/gR9+YFgHZCzOtIC8zKIiaVuviRY5RyirTB0XzFFPx+cZkHKY7zoSY2Z6Qe
+	fw+KoisBxpK/T4ETJJDmB44zzvpT2df4kPy5a+eIGhWYhgOK+PxjkqlPlBudsQH7j+NpAm3pCQW
+	DVrMGp0RTbsucGobjc2tDD0+9WNhyGTPoK/WrNQhH/i6I/DSS37yugkIZT/R5FegKWIYdA==
+X-Received: by 2002:a05:6a00:c1ca:20b0:8b0:4ee8:10b7 with SMTP id d2e1a72fcca58-8c8792b617bmr11211724b3a.1.1795404680238;
+        Sun, 22 Nov 2026 19:31:20 -0800 (PST)
+Received: from localhost (221.247.125.34.bc.googleusercontent.com. [34.125.247.221])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-8c87285c14fsm4712022b3a.15.2026.11.22.19.31.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Nov 2026 19:31:19 -0800 (PST)
+From: Jeff Xu <jeffxu@chromium.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Cc: Jeff Xu <jeffxu@chromium.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Brendan Jackman <brendan.jackman@linux.dev>,
+	Zi Yan <ziy@nvidia.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Marco Elver <elver@google.com>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Dev Jain <dev.jain@arm.com>,
+	Ian Rickards <ian.rickards@arm.com>,
+	Jann Horn <jannh@google.com>,
+	Jeff Vander Stoep <jeffv@google.com>,
+	Jeff Xu <jeffxu@google.com>,
+	Kees Cook <kees@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Peter Collingbourne <peter@pcc.me.uk>,
+	=?UTF-8?q?Pierre-Cl=C3=A9ment=20Tosi?= <ptosi@google.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Will Deacon <will@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Allison Henderson <achender@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	linux-mm@kvack.org,
+	kasan-dev@googlegroups.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	fuse-devel@lists.linux.dev,
+	kexec@lists.infradead.org,
+	netdev@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	rds-devel@oss.oracle.com,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] mm: kasan: skip KASAN for GFP_HIGHUSER
+Date: Sun, 22 Nov 2026 19:31:09 -0800
+Message-ID: <20261123033111.2349160-1-jeffxu@chromium.org>
+X-Mailer: git-send-email 2.56.1.750.gf70dc682cf-goog
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -86,46 +143,61 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfBN1rCv2VaseG8nBDIX9nmiVQAAWYxNtgqza7MtGnU7b7zCjwTr1DNXfRjlbmPDUoORJz0frV/y7bHWvtH1+Xlg1Fw+zGPaWBeb4T2K/zx+GuAI2ZyYA
- nioFcL38IcE1tpSbdhFZn4DgOlP607Dc6slOlGRWa2RhRpTfQ7uOQaRx3wmJYSV4rZccyRp04jqo5t4Fdbeo6xJPPUi+YtQLOvxFycnOc5U0amj02V37BmCK
- 6Pse1p0Snl0qLbIcIkSnpleqjRSt65hWEJYYjDiGcDF7gQ9lAeaANsbGtwWgEjzfK1B2u6R5kPvhu11y03jG7w==
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu, 12 Nov 2026 11:09:27 -0800
-Andrew Morton <akpm@linux-foundation.org> wrote:
+Hi all,
 
-> On Wed, 11 Nov 2026 23:43:57 +0000 Phillip Lougher <phillip@squashfs.org.uk> wrote:
-> 
-> > When mounting a Squashfs filesystem, the code reads the entire
-> > export table indexes into memory.  Their size is determined by the
-> > number of inodes in the filesystem.  For the maximum inode
-> > count of 2^32, this will allocate and read 32 MiB.
-> > 
-> > This is an excessive and unnecessary amount of memory because the
-> > indexes do not need to be read into memory in their entirety.  In
-> > addition kmalloc() is used to allocate memory, and this can fail when
-> > large amounts of memory are requested.  Kmalloc() on modern kernels is
-> > usually limited to 4096 KiB.  If panic-on-warn is set, then failure to
-> > allocate memory will result in a kernel panic.
-> > 
-> > This commit uses a 4 page cache if the size of the export table indexes
-> > are 4 pages in size or larger.  A simple and fast lookup array is
-> > retained where the total index size is less than 4 pages in size, which
-> > is the vast majority of Squashfs filesystems.
-> 
-> Thanks.  This patch didn't anticipate the presence of Christian's
-> "squashfs: identify device in mount errors".  To make life easier I've
-> staged Christian's patch behind this 22-patch series.
-> 
-> This required a bit of rework of Christian's patch.  While in there I
-> filled in a few more places which needed Christian's treatment and I
-> made the whole thing more 80-column friendly where that made sense.
-> 
-> Please check:
+This series moves __GFP_SKIP_KASAN from GFP_HIGHUSER_MOVABLE to
+GFP_HIGHUSER (patch 1) and adds a KUnit test for __GFP_SKIP_KASAN
+(patch 2).
 
-Thanks.  It looks good to me.
+GFP_HIGHUSER_MOVABLE already skips KASAN tagging under
+CONFIG_KASAN_HW_TAGS, whereas GFP_HIGHUSER does not despite sharing the
+same userspace-allocation contract. On an Armv9.2-A device (6.12 kernel,
+kasan.mode=sync), skipping KASAN on GFP_HIGHUSER cuts 32 MB
+/dev/dma_heap/system alloc+free latency by ~80% and improves an
+app-loading OpenGL benchmark by 15-23%. As a side effect, GFP_HIGHUSER
+shmem mappings (such as drm_gem_shmem_helper / panthor [1, 2]) stop
+hitting the swap-in readahead PROT_MTE tag mismatch, though the general
+readahead issue for other gfp masks remains separate.
 
-Phillip
+Changes since v1 [3]:
+- Dropped GFP_HIGHUSER_KASAN, the pipe/FUSE/kexec/RDS conversions, and
+  page_alloc_highuser_kasan (v1 patches 1-4 and 7) following David
+  Hildenbrand's and Tomasz Figa's feedback; kept those callers on
+  GFP_HIGHUSER (2 patches instead of 7).
+- Rewrote patch 1's commit message concisely (Lorenzo Stoakes).
+- Dropped Assisted-by: trailers from the patches, keeping tool
+  disclosure here (Lorenzo Stoakes).
+- Rebased onto mm-unstable (d12eccbcb79a).
+- Kept the fs/kexec/RDS maintainers from v1 on Cc for visibility since
+  those patches were dropped.
 
+Testing: built and booted both commits on arm64 with
+CONFIG_KASAN_HW_TAGS under QEMU (virt,mte=on) across kasan.mode=sync,
+async, and asymm (9/9 runs passed for page_alloc_skip_kasan; 3/3 failed
+as expected when patch 1 was reverted, with the next test still
+passing). Verified W=1 builds with 0 warnings across arm64 (HW_TAGS,
+generic, SW_TAGS, no KASAN) and x86_64 (generic, no KASAN). KUnit tests
+were not run on real hardware.
+
+Tooling: an AI coding assistant was used under the author's direction to
+audit GFP_HIGHUSER callers, draft the KUnit test helper and changelog
+revisions, and run the QEMU/KUnit build and test matrix.
+
+Link: https://lore.kernel.org/r/20260519-panthor-kasan-v2-1-b7384458f076@gmail.com/ [1]
+Link: https://lore.kernel.org/r/20260521105148.5497c281@fedora/ [2]
+Link: https://lore.kernel.org/all/20261116230627.3537051-1-jeffxu@chromium.org/ [3]
+
+Jeff Xu (2):
+  mm: kasan: skip KASAN for GFP_HIGHUSER
+  mm/kasan/kunit: add page_alloc_skip_kasan test
+
+ include/linux/gfp_types.h |  4 ++--
+ mm/kasan/kasan_test_c.c   | 44 ++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 46 insertions(+), 2 deletions(-)
+
+base-commit: d12eccbcb79a4fa35c3aa588eb79056af62eb859
+-- 
+2.56.1.750.gf70dc682cf-goog
