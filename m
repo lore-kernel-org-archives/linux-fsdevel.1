@@ -1,80 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.204.34.130
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795436065;
-	b=SvS/eDTb46Dg3iPL9ObXIzJ5NTuwM6qgrfxiXsvQeJiIMoEY6wAKe74RnaFCIuD0Zb50
-	 mWMExjok10rhCDKal0/EIE/q4y+JfDBjuI2bZlZ51Ldmj6AbH1XX2gGGlWdm9tktqlVxv
-	 R4xx1lUbpIrv8QVWY2Re0mjY4Vl/+QQXoiIo9caekwA/1OJO5UqWDpORK+reV5xoTnqKr
-	 leN5VFEQcIQ3o4/H67yh7xK30X/ueLQU14vxZyfp8tgQT6rRDIUEgINhfS9/pY0oYWiWi
-	 VHJnyp4VciHrOCQ2spm6YtkcaRxmFbI2kfqiTXuiNor4fhFE0vEyNSZeUj93SsX/gfg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795436065;
-	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
-	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:EX-QQ-RecipientCnt:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-QQ-SENDSIZE:Feedback-ID:X-QQ-XMAILINFO:
-	 X-QQ-XMRINFO:X-QQ-RECHKSPAM;
-	bh=8R9rIHAaFsMnWQxjknfOOfJ/h7LG3sqQ6sKXVu0+NAQ=;
-	b=dw8VtX0oexMMe201h+w5eaWnt6kjOI853HBcAQx+zaie3JhWAbgXcNyS3DxQUPGOt8xB
-	 +PU/h7gLlhu56wj00nFTuAu+88Nk1DWmtlOEjrdmvl0UndoscQ1VzejJorc1GolF2Vfr/
-	 l7GAphrcL9qzCgJKlrpD3MZaxLFNbrvzMXFzfLDSqWjuHeBP1NS1srJzMCl8Am/cG96LO
-	 bNYYn2radv0iUjxm+MR0eGAdBHLTJyJX3acuPJG6rpfdG5wTsfalHMKrz/gRfVsluSyfY
-	 JW7RsAtYiej4il2thZzYdQhxS6+g/ynq/gkyC5BXRF97V8xP+7z+x0SBKsXLcdbzxrA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.sustech.edu.cn;
-	spf=pass smtp.mailfrom=mail.sustech.edu.cn;
-	dkim=pass header.d=mail.sustech.edu.cn header.i=@mail.sustech.edu.cn header.a=rsa-sha256 header.s=oemc2211 header.b=28225ABk;
-	arc=none smtp.remote-ip=54.204.34.130
-Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.44
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795438859;
+	b=CtU0W0bYevfuWbFL0maBEQQamh/2wylQeGAVE/XSYA2hVYMr7OYfKOo2xRsgOLeeWTdS
+	 mvSUG+ki1rrsn9IXR5Cp5jzCxwdr2wgWq+LzZMMKN4uqu0EeYE5+RiwKwqBDVqm5zTbyr
+	 wrRnacwk4CeQBsljds5A1jkkjcCA69590SSDfXiw5yX4BWXvYVJ6tKeDhOSOZqrScvXx0
+	 a6LfpjFifos++Eh3r+bYZ6keQhWLuOeosaDl7Gjmm6NpN+hYvrjc6tcgVXtqxe9wLcukk
+	 Yj9nH2VxsRTwdwu1NZYNrnjkSfr1QlMIHqXbydEStMdauLJteVA5EzCiSGYSxXHikPA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795438859;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=AMCJ5wbvnIEodr6Bx3XwSyi7m8Nqsc1HfBhVMog/o3w=;
+	b=OWPuOfPPvBCriGC61b9p1lq6bxBs0q2GvxLJjegF36CMLjdtyVLFrIY3IhVlaA7ahnSP
+	 nfpzl13UJAm5UFeymnh7z9i67OJdDUQNEmyHxGSRKIFvp6Ae0oX5Blmf7Z4aFZEO06C68
+	 uNDxX5DzqeEIbEpbb3kC5UMG0TyYLM6YbY811W0ur2PVEIF6FHIB6hqQpo9Rex/zi8ZaL
+	 ASMY/cgc6sWQ6kNfftAlkCOU/tbZ96tYX0exsrfY6ydAKqq+YGhsxNi09kuOnJ1kdriiO
+	 EzrM6ERUPCZ82Kh97KFssPR8r94BTfJOfU/OZvfzAFWqPT+9PBbgEZNMaQJvexk3v7w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kkson++k;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.44
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18D3606A334;
-	Mon, 23 Nov 2026 12:14:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E18D3606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.sustech.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.sustech.edu.cn
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1411606A31A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 13:00:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F1411606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mail.sustech.edu.cn header.i=@mail.sustech.edu.cn header.a=rsa-sha256 header.s=oemc2211 header.b=28225ABk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mail.sustech.edu.cn;
-	s=oemc2211; t=1795436035;
-	bh=8R9rIHAaFsMnWQxjknfOOfJ/h7LG3sqQ6sKXVu0+NAQ=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=28225ABk1Kj/kDd++ThI0/cRaD8DjObloCIyrhKXk5zvu7nxmCHN88Q/wv59htwQ4
-	 ou6ZAnywinLC+/5LUkCbE9e2bkgMJjkJBRDc9PnapFmGxoKVQj0M1vHUYLPworUZal
-	 8VdJfjA1GVCuYn+biNVfD+20Px5IZNHJN3staQ+E=
-X-QQ-mid: zesmtpip3t1795436029t3564dbb0
-X-QQ-Originating-IP: EIGnwNkguwPdO7+iV1EMKMS19lW+TOqDQgtTB6ad0ac=
-Received: from szdytom-matebook.sustech.edu.cn ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 23 Nov 2026 20:13:47 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 16777655916794046371
-EX-QQ-RecipientCnt: 18
-From: Shi Lecun <shilc2025@mail.sustech.edu.cn>
-To: John Johansen <john.johansen@canonical.com>,
-	Georgia Garcia <georgia.garcia@canonical.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Seth Arnold <seth.arnold@canonical.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Chuck Lever <cel@kernel.org>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Jan Kara <jack@suse.cz>,
-	apparmor@lists.ubuntu.com,
-	linux-security-module@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Fengwei Zhang <zhangfw@sustech.edu.cn>,
-	Josef Bacik <josef@toxicpanda.com>
-Subject: [PATCH v2 2/2] apparmor: mediate file-generated signals
-Date: Mon, 23 Nov 2026 20:13:39 +0800
-Message-ID: <CA5F08835E9B673D+4c9dbc21026e6b6ad4acb1f90255da95c3bbc0b1.1795434950.git.shilc2025@mail.sustech.edu.cn>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <cover.1795434950.git.shilc2025@mail.sustech.edu.cn>
-References: <cover.1795434950.git.shilc2025@mail.sustech.edu.cn>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kkson++k
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6baa6f27904so1399506a12.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 05:00:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795438857; cv=none;
+        d=google.com; s=arc-20260327;
+        b=sEhYCI+ler76EUl9GLY7Aa5yGQKXNlhHIJvXaNvii+lHtbp4Ndke4Xwix6f9Cy/21w
+         jYNKgFfjmXuMbuLPFS4yBYWTLvrAimaN8CUUXVs7CMsWtv0HM7RDko21lQeGGR4Fsdms
+         VbfYzsC8J4r2yj7arisf+WqZlyLtO9ESQMZrDST0s5AFLO1HkcC45Bc8nfjUGHDUBESw
+         +Jw7kDshE6KeZlj0DlEXECjDOnuGngcHkCNQ/3LsqGhAcdAgBwDPsZG830A4y+qj+iOa
+         tvtb7GNqQEQybIhhnTKa3fwo3S3RElI1+JRdJCq1fSAlpxwTQJ4sJV/VKQ8d8EDEjp8S
+         M9DA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=AMCJ5wbvnIEodr6Bx3XwSyi7m8Nqsc1HfBhVMog/o3w=;
+        fh=o4u4E27SFPkSTxkx8k4hLoI9L09lrL6UNX1BFp7JsKc=;
+        b=F+/4wLq1DfKwLfFpojdlx247X+dC8WoqWNiluvLVuiWKx8jKX5ZM/2W1O0LHYPe0Vd
+         XDcQ+WpC/UFkGj6sukmx/LLYd8Dw6PdXexbzgcCjFHtdyQ0Rofn1JlCu/4wsWuwkfS0c
+         AAMhwvAl3CTxAy2kFU9OOnE+4MhUALj5MFyB0xms/2iNnDpQeKhbo8EXUFLjRX9IlcCw
+         bt2AhPMr2zQ3a22K1EKYqoX/eyYlM1H9wxC6U3ezgQYboxWRH8D+4VPkF1qRHU88EYUp
+         QDi5p5p5xLtQyd92sAGneeVlI9yrOLPnQDTEvu0zviweuEIgWI7g0GnB5R0u3MC0JsUF
+         7vsg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795438857; x=1796043657; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=AMCJ5wbvnIEodr6Bx3XwSyi7m8Nqsc1HfBhVMog/o3w=;
+        b=kkson++kiVuuq7GlVJEDUrQHu19KcH/nihH2BzgLa6gbrvy17AZmxY1D1w0dt2h46y
+         /xXI9YCF3W8v6AnWEDT8Xid0rKVtto9xbQeFZkRGR+cb5Y8RIC0oMxupLBYaYJC4CQou
+         6ZJgLzs7wocf6G/7L1QJdpNwS2lbDAistHwZiRuhKs46qZQI5UTzUa+r+vixCZl4Sxxv
+         NpVQv5tq4rxjVYt/Ok4zCR0OsxODa6kreqGz8wEkn4nw5GUASkqE6hP4ExSDLRPowFf2
+         0zimep72RFU7EbpYHdPGxIgrdpvUiN+7UnUUrPJ6dRIQHj227oDE5EmUxVXBkiebQasL
+         M4cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795438857; x=1796043657;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AMCJ5wbvnIEodr6Bx3XwSyi7m8Nqsc1HfBhVMog/o3w=;
+        b=nZi8JiFZtIMR3MrRAI2Evi55bee//rZZeBuZrmmy4/6y9t0MKJKMNgil4b7vKPIho3
+         o/5NUPLrFpzdu718JuwUH1Skh5E0x/mse8nKO1QH+k0K02bHJN1h60KMHdMKovyvbR5N
+         fQ6CeLcnnhvQUEi37i6WXAlu3AjsqV1I/44avJK0JG0HTD7nb7xVn8Ft2U9u25nZJmv5
+         /8BKNrTDNp7TBgsPaYB4sCsVUEKyTc2iXkJyKs1l1qHw6Ri47MKHXIzgIqAU/afeCyNH
+         TwFxrwGieo1jdq/GnUiHxFiDkfG8m42ujAzVNEU5UWrLsb5XxogGTJ1TLtUNCTd8LY9M
+         LCOQ==
+X-Forwarded-Encrypted: i=1; AL+hErHJ/SMIApdpUrzHKtEaB8xNy3P7m9+d6SVG7IUWMohExkyUixPwF0Aa/pqV1aWEVW0+XnxNubTJCYPJOpQt@vger.kernel.org
+X-Gm-Message-State: APuU4Z9cUteYBB3AHc2sEcNpKT9Fs46UW6DEro+DRhaE6PqDIf6aX3pn
+	IoGXUTMmN457Pvvxv+7Aj4rOYlVaBNdzlQTkd8VM0h5sXxPY40PAE1RIPeBHj0EIhknAbJP5wUd
+	I1g16mQU6VBd3QVgoCMu7P8GyuPzETqc=
+X-Gm-Gg: AZFdTZd8HD3D1p6BlylBX3d6Qd+A8/4oz08rklZZd9Hv0KeLDOrJik3nvDHzthApCBI
+	/tvxqf243z8Xf/tTGFm/z27Jwdt+y1AM4qvVA5kqMqjX7QrOl8efqCFEkXPaR7mOmuxdS1SgLfL
+	KNj7O46MbPfHdthNt0ccsHxCmeQ4vo/y8Za4+UK65yPPLTmeuiba4XGP4OQ2Vx0b4ATFxQ4Ehkc
+	ya2PSvPaH6BGKEEwfepc4/vQW4A1CqUZYbOM6YchZWx4HD58DmzX2oGGlKrMjC0fEQGfitkS0aD
+	xzegTq/WIqUvnAJt2P8eotRXS3paF9E2z9gEVE5y2XnNPUx6sgAo16KsVJZsLwe4PKCLc59O1FT
+	W4WQziNRnr6jxKYvXPZPBFUM9SqZqTgM0ULhpiqfozuPUHh3ZcT1O5BNKxLDBGQI6mMZkWw==
+X-Received: by 2002:a05:6402:501d:b0:6ba:659c:8ca3 with SMTP id
+ 4fb4d7f45d1cf-6ba659c8fb1mr5474446a12.10.1795438857096; Mon, 23 Nov 2026
+ 05:00:57 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,85 +104,126 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpip:mail.sustech.edu.cn:qybglogicsvrsz:qybglogicsvrsz4b-0
-X-QQ-XMAILINFO: MQYXLRAkMyaeY8wpkqo7jZgOBxw+kgqczKIw9EnwJXRTVKutOVAZul2Y
-	AY4XBAPeoTg5XfTFMN3FDd4yboSkRX3wPM2fqiuv6/nnze/YDxMI+tAodXAYpFPWj/eRySs
-	64UK7y+W2nkYo303dohVglbi6purY+Yy/2janZ7xzWI4cv3Z626G9df5VGLb5Dv1XOKSZXP
-	ABeqCduf9+RT77uvj7J4n7m2wElVjibGI4PeE+ji8H6OaqVwPoD9wh7ylt84hE3gBzgckhd
-	vsBIatBAlSFe0Um9msBGcNIZVOGslfGCi61mkWuB3+pZQJyvBVhU7GjVzT/yL/Y6KXVN5Gq
-	wSqtw3NkCB/LtfoPXnGF1Ssx7TUI5rGhgX+250b36uDnK06eYuYsLlKwLZcuDRTIVlPhIZQ
-	QNa9Cm+XdVidml1mAZ8tWsnEjmO8qNHt5Fb3nrVlO1jBFNPbcSVoQO2KONgy8oRwgH+xHtc
-	AppzWIk95QkaEFt1ifdTZqIkWBX454B2zVc/9ocwd3dCFsgtZ6x8CCbBy0QHacR2OJNRMi1
-	2qIOfcZ2LtS/LE0sI/AtxgNEk9ygYa4xgv4u1+G6pQSRIJx2PupgOySSh1y63uoA9Gg08hT
-	stMUUStEuwN5B3sVYqJ2YIA/ex77miGArLxQnTe5YCDpVUsDj8FpT/6O95KITtaYNQOQ57+
-	gBVDXWqtqiO+0On9oxkfdmtNMN3HA8r6F46WdyUyR4YcVimTkmfMunzZsCV00mPuBoWaD94
-	c3p9TOd/1V3aB+XSbK8uXl8++2i9hMpGs0qZjFht5UwwgNN71adToNSAFZBwZAR/dwy255H
-	q0eGc2Vorsqo33vIE/dSJFceA/FJmEIbJWp5cGQUM1Iz7QZskZB4ZcpOyQbmcBBg/WEZXhy
-	vcU0ruBHKC8t/k4JaqhmLcwvQPzLxSKZ8KOQuN92GJWyCa1ofSXcvzSytUo8iHi9BW74u+3
-	8L/DrcMOVx346IBXTJLZKel9uf/W0gMD0yN8eKXYoYngtlicPx6GIwpHko6C0xtW6QT11xm
-	e82kDBvAGOgq6h8Gm6rTst9GRuNSuDrVM51+DlJne9veC7YXj+7LfML2Jc1XaUS9p0buV4l
-	/ounfBABtnz45AV08nKBGRXqcPMj0ThnIUbDkkiqiGL
-X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
-X-QQ-RECHKSPAM: 0
+References: <20261122000856.536902-1-koray.fra@gmail.com> <20261122000856.536902-4-koray.fra@gmail.com>
+In-Reply-To: <20261122000856.536902-4-koray.fra@gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 23 Nov 2026 14:00:44 +0100
+X-Gm-Features: Aa3M54oIZEz33KQbWl8M_WOYBLraeDplxcWm8_8Bl8KeH9NFv_L8S3OGX6_s9I0
+Message-ID: <CAOQ4uxgc6pP+_xvJMbqj6wOdGzS75Vn6x6i_vUfCJDD46DAA_Q@mail.gmail.com>
+Subject: Re: [PATCH 3/3] ntfs: switch to the new xflags fileattr API
+To: koraynilay <koray.fra@gmail.com>
+Cc: Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, Jan Kara <jack@suse.cz>, 
+	"Darrick J . Wong" <djwong@kernel.org>, Andrey Albershteyn <aalbersh@kernel.org>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+	Lauri Gates <lauri.gates@gmail.com>, Christoph Hellwig <hch@infradead.org>, Dave Chinner <dgc@kernel.org>, 
+	linux-btrfs@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	ntfs@lists.linux.dev, linux-nfs@vger.kernel.org, linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-File-generated SIGIO and SIGURG notifications use file_send_sigiotask
-rather than task_kill. AppArmor does not implement that hook, so its
-signal send and receive rules are not enforced on this path.
+On Sun, Nov 22, 2026 at 1:09=E2=80=AFAM koraynilay <koray.fra@gmail.com> wr=
+ote:
+>
+> Switch ntfs_fileattr_[gs]et() from the legacy FS_*_FL flags to the
+> modern xflags (FS_XFLAG_*) fileattr API with masks.
+>
+> Introduce FS_XFLAG_COMPR and FS_XFLAG_ENCRYPT and add them to
+> FS_XFLAG_COMMON (and add FS_COMPR_FL and FS_ENCRYPT_FL to FS_COMMON_FL)
+> to be used in this API switch.
+>
+> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.11
+> Signed-off-by: koraynilay <koray.fra@gmail.com>
+> ---
+>  fs/file_attr.c           |  8 +++++
+>  fs/ntfs/file.c           | 63 +++++++++++++++++++---------------------
+>  include/linux/fileattr.h |  6 ++--
+>  include/uapi/linux/fs.h  |  2 ++
+>  4 files changed, 44 insertions(+), 35 deletions(-)
+>
+...
 
-Implement file_send_sigiotask using the credentials of the task that
-set the file owner. The VFS holds those credentials in fown->cred under
-fown->lock, which is held during signal delivery. This also supplies the
-sender identity when delivery runs in interrupt context.
+> diff --git a/fs/ntfs/file.c b/fs/ntfs/file.c
+> index 50be49f4c913..fde6fb2fe39c 100644
+> --- a/fs/ntfs/file.c
+> +++ b/fs/ntfs/file.c
+> @@ -155,31 +155,37 @@ int ntfs_file_release(struct inode *vi, struct file=
+ *filp)
+>   * @dentry: dentry to report the flags of
+>   * @fa: filled in with the flags of @dentry
+>   */
+> +#define NTFS_RO_XFLAGS (FS_XFLAG_COMPR | FS_XFLAG_ENCRYPT | FS_XFLAG_CAS=
+EFOLD)
+> +#define NTFS_RW_XFLAGS (FS_XFLAG_IMMUTABLE | FS_XFLAG_APPEND | \
+> +                       FS_XFLAG_NOATIME | FS_XFLAG_NODUMP)
 
-Reuse the AppArmor signal permission check with the saved credentials
-so it resolves both labels and enforces the send and receive rules.
-Treat a zero signal argument as SIGIO, as specified by the hook.
+Nit: checkpatch may allow 100 chars, but this due formatting is not
+easy on the eyes
+pls break to RO line and indent the broken lines below (
 
-Fixes: cd1dbf76b23d ("apparmor: add the ability to mediate signals")
-Link: https://lore.kernel.org/all/20261120-unrentabel-bambus-genuss-0db3576a8f57@brauner/
-Signed-off-by: Shi Lecun <shilc2025@mail.sustech.edu.cn>
----
- security/apparmor/lsm.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-index eaebc3c60c5a..c5f4abc4eab8 100644
---- a/security/apparmor/lsm.c
-+++ b/security/apparmor/lsm.c
-@@ -1031,9 +1031,6 @@ static int apparmor_task_kill(struct task_struct *target, struct kernel_siginfo
- 	tc = get_task_cred(target);
- 	tl = aa_get_newest_cred_label(tc);
- 	if (cred) {
--		/*
--		 * Dealing with USB IO specific behavior
--		 */
- 		cl = aa_get_newest_cred_label(cred);
- 		error = aa_may_signal(cred, cl, tc, tl, sig);
- 		aa_put_label(cl);
-@@ -1048,6 +1045,13 @@ static int apparmor_task_kill(struct task_struct *target, struct kernel_siginfo
- 	return error;
- }
- 
-+static int apparmor_file_send_sigiotask(struct task_struct *target,
-+					struct fown_struct *fown, int sig)
-+{
-+	lockdep_assert_held(&fown->lock);
-+	return apparmor_task_kill(target, NULL, sig ? sig : SIGIO, fown->cred);
-+}
-+
- static int apparmor_userns_create(const struct cred *cred)
- {
- 	struct aa_label *label;
-@@ -1810,6 +1814,7 @@ static struct security_hook_list apparmor_hooks[] __ro_after_init = {
- 	LSM_HOOK_INIT(file_permission, apparmor_file_permission),
- 	LSM_HOOK_INIT(file_alloc_security, apparmor_file_alloc_security),
- 	LSM_HOOK_INIT(file_free_security, apparmor_file_free_security),
-+	LSM_HOOK_INIT(file_send_sigiotask, apparmor_file_send_sigiotask),
- 	LSM_HOOK_INIT(mmap_file, apparmor_mmap_file),
- 	LSM_HOOK_INIT(file_mprotect, apparmor_file_mprotect),
- 	LSM_HOOK_INIT(file_lock, apparmor_file_lock),
--- 
-2.56.1
+> diff --git a/include/linux/fileattr.h b/include/linux/fileattr.h
+> index 4faa40febf11..219e7c8eb601 100644
+> --- a/include/linux/fileattr.h
+> +++ b/include/linux/fileattr.h
+> @@ -7,12 +7,14 @@
+>  #define FS_COMMON_FL \
+>         (FS_SYNC_FL | FS_IMMUTABLE_FL | FS_APPEND_FL | \
+>          FS_NODUMP_FL | FS_NOATIME_FL | FS_DAX_FL | \
+> -        FS_PROJINHERIT_FL | FS_VERITY_FL)
+> +        FS_PROJINHERIT_FL | FS_VERITY_FL | FS_COMPR_FL | \
+> +        FS_ENCRYPT_FL)
+>
+>  #define FS_XFLAG_COMMON \
+>         (FS_XFLAG_SYNC | FS_XFLAG_IMMUTABLE | FS_XFLAG_APPEND | \
+>          FS_XFLAG_NODUMP | FS_XFLAG_NOATIME | FS_XFLAG_DAX | \
+> -        FS_XFLAG_PROJINHERIT | FS_XFLAG_VERITY)
+> +        FS_XFLAG_PROJINHERIT | FS_XFLAG_VERITY | FS_XFLAG_COMPR | \
+> +        FS_XFLAG_ENCRYPT)
 
+
+Rule:
+
+You cannot add a flag to common without carefully auditing all
+filesystems that support the legacy flag.
+
+FS_XFLAG_ENCRYPT can go into common but must also
+go to FS_XFLAG_RDONLY_MASK because it's read-only for
+all existing fs.
+
+COMPR is rw for some fs and ro for others.
+As with CASEFOLD, you cannot make it COMMON before
+converting all casefold fs to new API so that each can say
+whether it wants RO or RW.
+
+I think there may be a way to deal with this easily since
+ntfs doesn't need to set either but not sure.
+
+>
+>  /* Read-only inode flags */
+>  #define FS_XFLAG_RDONLY_MASK \
+> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> index e40806b3a69c..09fc7e066485 100644
+> --- a/include/uapi/linux/fs.h
+> +++ b/include/uapi/linux/fs.h
+> @@ -275,6 +275,8 @@ struct file_attr {
+>  #define FS_XFLAG_CASENONPRESERVING 0x00080000  /* case not preserved */
+>
+>  #define FS_XFLAG_PROJID                0x00100000      /* project ID */
+> +#define FS_XFLAG_COMPR         0x00200000      /* Compress file */
+> +#define FS_XFLAG_ENCRYPT       0x00400000      /* Encrypted file */
+
+This is a mistake of patch 1. the newline should remain above HASATTR
+which is allocated from the end.
+
+
+>  #define FS_XFLAG_HASATTR       0x80000000      /* no DIFLAG for this   *=
+/
+>
+>  /* the read-only stuff doesn't really belong here, but any other place i=
+s
+
+Thanks,
+Amir.
+>
