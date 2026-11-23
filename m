@@ -1,63 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=101.204.27.37
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.139
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795401110;
-	b=zRbLC/wRmj2km/B20AjoUkzqP1y0gj53BGbqqDlK1PhlwZJtuhsd90xfgQAwyYfSsuEo
-	 EWakmeT+2Vn0XL5nmOyS2p5ROsxlf9j+uWHPXOfs5BftJXaPnGvKsV7k784escaOkJCsy
-	 eB+K3lofgMAkfBoyeJr8RQTZhX8DYuVEE6W98gVQ/OM2rtYZMa7qrh5F0jjD/8uriy9Sy
-	 2Y0QbfwYYwE8kD+UERKQu4Z5iF323Hj9TWYJyhp8z0YQfcMxNcWcxFaW+EU3s1PDipDKX
-	 TFHdPopBnJ7K/5Ovx88Y4WWNVTyRuVOtR8hRwzQoUJot+3PCmGNQpX4bLCmNwMwHPkw==
+	t=1795402824;
+	b=ULx32QWPdIIGs5AcHF1Q0a9Q5qD9S20knkQFryjH6OPM9ptvdwpqQDWpoVVTklaL0t/S
+	 1CdldSaPj3z5H06iBaYJBYXXhNzpucOb9eLtBreovgDiKsh8RWMcUis+9aZvQsCMKCm2C
+	 ZlOsKAKY7Auv3PX97E/PpY73YECRgByP0yCDJ/dqDHIyYWH7Cj+BTHbT5JmYTKg/uQ1pl
+	 ON8q3lbskvWybrp1m4uV52/KcJAM9FYQ7Ps8q0APWR2GNp5i4dzyEIsHLeLGCtp0rOBwi
+	 IZyhrjllZHFfaNZgBtUBNzo67twYANglDHfYeD6jT8WDGqHAMeIuUE1S2YP3KoKnUvA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795401110;
-	h=DMARC-Filter:Received:Received:Received:Received:Date:From:To:CC:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
-	 X-Originating-IP:X-ClientProxiedBy;
-	bh=DubBYw11u39hDCHP507B0e3hI2K38GChIQfRTnxdD6k=;
-	b=VSstbkwALkaobamdDa3lJtNZO9oGXsTgC5UCPpfKda7m8RCna9R+9w6jFDsaKRMGsYjj
-	 KN0xmhbPEosTn6DErdBk/Q/epBkKsmqJ9UqzeaJFEkXomlX9YD3RDTF4sHRNMKcKwb4uY
-	 QCtwfmL1gGClQISnSj1XS6XT8pEqzwZN44a10q7LXhRsLiv+IQAs9ak5KdsdlcntUgjZR
-	 oNwPqWimARBQb1lzcji1Ul70yRNlIF3T26gC9L2NR4nfEXYVBNtrGnJGLHG8REglTJBIO
-	 pZ5PdBbO0cUPQmlBqkiN6g87U7i04Z0ePZ0cNiaEANEFXHKjMrs4in5/5hYFyE7yxhg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795402824;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=+FgxJSlCMhr6jcW4y/MvZaUC1tSRD2CiwZ7Xb0DzK+s=;
+	b=OlBLb+0ZDoeaqsBsSTP66gMcAsfXRcP3RDtiGi1KNLJDW0W61lRuOFp9gjiQLb5r9Jl8
+	 UdI2pdqtzVA52Db+KoYYakwCj3Va5GkuXeEEhP2wNXbXoQFLghBnhbUl6qeZ9qXgoDXWD
+	 G5pYWKs9R/zXBOxkhY9mv0WlMVKNRQEWTIVyiYzOuvSYo+Ry3QWoahyxNyF7VF03+OYdX
+	 Y4PPU5H7/stLK2OYl1uJ65SHS42eGp+JeAfRgO75uUW5DVzaldvLAx7Dsssd0U2SarzLY
+	 Qr4Cra3TAJDWrVguODqi+7pqdUsXp3JWfOTt70EBP+T0IG7WcVqBGwSkswdrmGDrE2A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=hygon.cn;
-	spf=pass smtp.mailfrom=hygon.cn;
-	arc=none smtp.remote-ip=101.204.27.37
-Received: from spam01.hygon.cn (unknown [101.204.27.37])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87528606A31A;
-	Mon, 23 Nov 2026 02:31:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87528606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
-Received: from maildlp1.hygon.cn (unknown [127.0.0.1])
-	by spam01.hygon.cn (Postfix) with ESMTP id 4jXqh34zJCzVcB5;
-	Mon, 23 Nov 2026 10:31:31 +0800 (CST)
-Received: from maildlp1.hygon.cn (unknown [172.23.18.60])
-	by spam01.hygon.cn (Postfix) with ESMTP id 4jXqh073qvzVcB9;
-	Mon, 23 Nov 2026 10:31:28 +0800 (CST)
-Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
-	by maildlp1.hygon.cn (Postfix) with ESMTPS id 95C6216DB;
-	Mon, 23 Nov 2026 10:31:26 +0800 (CST)
-Received: from hsj-2U-Workstation (172.19.24.226) by cncheex04.Hygon.cn
- (172.23.18.114) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Mon, 23 Nov
- 2026 10:31:26 +0800
-Date: Mon, 23 Nov 2026 10:31:24 +0800
-From: Huang Shijie <huangsj@hygon.cn>
-To: Andreas Gruenbacher <agruenba@redhat.com>
-CC: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <jack@suse.cz>,
-	<hch@infradead.org>, <mic@digikod.net>, <axboe@kernel.dk>,
-	<gnoack@google.com>, <paul@paul-moore.com>, <jmorris@namei.org>,
-	<serge@hallyn.com>, <legion@kernel.org>, <aleksa@amutable.com>,
-	<libaokun@linux.alibaba.com>, <ebiggers@kernel.org>, <djwong@kernel.org>,
-	<sandeen@redhat.com>, <zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>,
-	<yingzhiwei@hygon.cn>, <wujianyong@hygon.cn>, <shijie8@gmail.com>,
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-block@vger.kernel.org>, <gfs2@lists.linux.dev>,
-	<linux-security-module@vger.kernel.org>
-Subject: Re: [PATCH v3 0/11] vfs: add inode iteration methods
-Message-ID: <awOlfBGNgQoassIt@hsj-2U-Workstation>
-References: <20261120031305.3561045-1-huangsj@hygon.cn>
- <CAHc6FU7URHetBU9XgP0DSEGjWQfq0tX+ohK8xRVZLEYzgJBeEw@mail.gmail.com>
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="Cn/8pBu3";
+	arc=none smtp.remote-ip=74.125.227.139
+Received: from mail-pj2-f11.google.com (mail-pj2-f11.google.com [74.125.227.139])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB962606A31A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 03:00:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB962606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Cn/8pBu3
+Received: by mail-pj2-f11.google.com with SMTP id d9443c01a7336-2ea993271f2so12228985ad.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 22 Nov 2026 19:00:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795402823; x=1796007623; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+FgxJSlCMhr6jcW4y/MvZaUC1tSRD2CiwZ7Xb0DzK+s=;
+        b=Cn/8pBu3pDIeFt8N15hUWOPvoG7TbKXfgpsTAn47Y2l/zwIyq+2z+kbkma8yPW/4ah
+         4u9MuAo6vM+i5vmLy+43Wo4sPw89W6R+BeaEtdGpf0pyUSE+XP9lIHStApSeuQqbpBG3
+         7hrMsr81GrTEtA/pU8w8vc+0ExsdDtUUaOzQtZPXkXCeu5E2Fl/1M23N6WySO56Tdh4W
+         1NE/CXKFV4BKY52PcUxRFVCGgb8KsXrGz1bJTrwpg8J9nkvapYzl7iuZ6qkVkW1ZhHT5
+         pFWwx7ykDfsj+A7mhgiVNOikPoKnheVCQiFkTagf5IZmueeDcBN0moQkBOfYDBNLGHDQ
+         9sTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795402823; x=1796007623;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+FgxJSlCMhr6jcW4y/MvZaUC1tSRD2CiwZ7Xb0DzK+s=;
+        b=qqw79p34Xgb32I0jdaNtKIMTXUXWnBWf0f8dG3uwV0+GRu0cytZRICP1ebzwCFxNqr
+         EFuHFl2075/8ygwvI12HRA+iLzYZ2mvyd4/bFVCBNG080Xy29QstwiEQUsiqh6RV70fB
+         gTzbjaN3+pwT6skaDrnZaN93EoPaMCv/GPGZ3d8KJ4Knw9+VjrYC8v0aQCJzH7JB/6fq
+         TazS2z5KbST3JeX0SyrIYqrvivLUfiokrh7X/SIYRKZXZCRtPZsgIgW3H5fHkK5LHVOU
+         5fSLsfcjioCj7LR/b77knmZCczy5tAKZ9Hi7YRqCVZ2BWmjk7l7jewVgODrTo8/M02gG
+         3V8A==
+X-Gm-Message-State: APuU4Z8Zq2QaMzEGQ7HO7IqTk/Lg36+RcckcY81MY/yBzQ1fXRcHgBCR
+	N9v1w3Jz9QQuDIJU+S8RoTvVVkAeK5WIgfaTPgmFKL7fizVNrCcEW77WGG0c51wAbBHeYg==
+X-Gm-Gg: AZFdTZcyaBs3hh3+KbSzfhFocM3BJTk+pKfnuCuwG7Og4NtZhO/l+Z3Z/SqNMrC+UCH
+	+89y/7N5n6BW/0bcWo2ibAvc4SLOXiziyeLGri0GMSs9eyxFifLCo0pOQYwDHQkTmGreOf71YS2
+	dOx69kC2/sLctWliAaCRAOyAKIOlVJ4Kk1gxXR7bXXE+CRBSb33T0Xxm0WPMU4APruP0MGEIX19
+	h5tUnNe7i0WxCMnG3e6wi9TT6upJ3eu8MT5O1KRaMafKgZSsnQMyl6S4GZFanFgGU8ixtvf8JRF
+	zjHdk0k1Nudu5/bpwfliYXj+l+rON0dWKcT4/WAjSew5AlKCpRskSjkGP38Gz1Fmme9i/6+0+dm
+	Ih2u4tTxDAGmQ62MvzuKR/eWw1LvzHaR//YKHm2PWGifyFYErsygIMJw65iM0XfFsejHaeo5N9A
+	dFLiieDK0UdvZ4wx8AOMPZc5hVRdvt4maQK7igmks+dyHwJRXBNGDybvPTM5Kv2KxaJuCdkwXGd
+	R4dai9m7dsOGsK7hM8X0eqjSdxlXMrgpqdmRGoM7NWA1d649xKQVJnTxB+bA9pvuzSISpb+w0Ew
+	H3y3wRXUgYbiAI7rxeEGzjyGQSn/Kzd8spJ4D4ELxu7cJsc+fVx6Xpj8rSKLsUkjJ4F8qNoXIKA
+	=
+X-Received: by 2002:a17:902:f603:b0:2e9:6788:9381 with SMTP id d9443c01a7336-2f03f0c1f04mr95101065ad.7.1795402823169;
+        Sun, 22 Nov 2026 19:00:23 -0800 (PST)
+Received: from BSDHENRYMA-PC1.localdomain ([43.132.141.16])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f070a12491sm21615055ad.8.2026.11.22.19.00.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Nov 2026 19:00:22 -0800 (PST)
+From: Henry Martin <bsdhenrymartin@gmail.com>
+To: Matthew Wilcox <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Johannes Weiner <hannes@cmpxchg.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	Henry Martin <bsdhenrymartin@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] mm: fix cachestat NULL pgdat dereference on DAX mappings
+Date: Mon, 23 Nov 2026 11:00:14 +0800
+Message-ID: <20261123030014.3116755-1-bsdhenrymartin@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -67,88 +99,59 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHc6FU7URHetBU9XgP0DSEGjWQfq0tX+ohK8xRVZLEYzgJBeEw@mail.gmail.com>
-X-ClientProxiedBy: cncheex06.Hygon.cn (172.23.18.116) To cncheex04.Hygon.cn
- (172.23.18.114)
 
-在 Fri, Nov 20, 2026 at 03:59:10PM +0100，Andreas Gruenbacher 写道：
-> On Fri, Nov 20, 2026 at 4:13 AM Huang Shijie <huangsj@hygon.cn> wrote:
-> > This series adds two superblock inode iteration helpers,
-> > super_iter_inodes() and super_iter_inodes_locked(), and converts the
-> > open-coded sb->s_inodes walks in the VFS to them.  The design is based on
-> > Dave Chinner's patch set:
-> >   "vfs: improving inode cache iteration scalability"
-> >   https://lore.kernel.org/all/20241002014017.3801899-1-david@fromorbit.com/
-> >
-> > About the two helpers:
-> >
-> >   int super_iter_inodes(struct super_block *sb, ino_iter_fn iter_fn,
-> >                         ino_iter_eligible_fn eligible, void *priv,
-> >                         int flags);
-> >
-> >   static inline int super_iter_inodes_locked(struct super_block *sb,
-> >                                              ino_iter_fn iter_fn,
-> >                                              void *priv);
-> >
-> >   - super_iter_inodes() runs @iter_fn with a referenced inode and with
-> >     sb->s_inode_list_lock __dropped__, so the callback is free to block and
-> >     to do whatever it wants with the inode except drop the reference the
-> >     iterator holds.  The iterator releases that one reference per inode
-> >     itself, so the callback cannot leave a dangling inode behind.
-> >     It is exported because GFS2 can be built as a module.
-> >
-> >   - super_iter_inodes_locked() keeps sb->s_inode_list_lock held for the
-> >     whole walk and takes no inode references at all.  Its callback
-> >     therefore only has an existence guarantee: it must not block and
-> >     must do its own inode state checks and its own reference handling.
-> >     It is internal to the VFS, being declared in fs/internal.h.
-> >
-> >   - The callback is separate from the caller's data, so a caller keeps
-> >     its state in its own structure instead of filling in a shared
-> >     context:
-> >
-> >       typedef int (*ino_iter_fn)(struct inode *inode, void *priv);
-> >
-> >   - %INO_ITER_F_REFERENCED restricts the safe iterator to inodes that
-> >     still have a reference.  It preserves the "only handle referenced
-> >     inodes" rule of landlock's sb-delete walk.
-> >
-> >   - %INO_ITER_F_NOREF does the opposite: only inodes whose reference
-> >     count has already reached zero are handed out.  %INO_ITER_F_NOIGET
-> >     suppresses the reference.  Neither keeps the inode alive, so the
-> >     caller must make it unclaimable itself.
-> >
-> >    Patch 1 adds super_iter_inodes().
-> >    Patch 2 adds super_iter_inodes_locked().
-> >    Patch 3-5 convert the callers which cannot use referenced inodes
-> >            (dquot removal, nr_blockdev_pages() and the
-> >            generic_shutdown_super() poisoning loop).
-> >    Patch 6-11 convert the remaining callers (inode eviction, sync_bdevs,
-> >            drop_pagecache_sb, add_dquot_ref, landlock's hook_sb_delete
-> >            and gfs2_evict_inodes()).
-> >
-> >
-> > BTW:
-> >   This patch set depends a small patch:
-> >   "fs/drop_caches: skip filesystems without fs writeback"
-> >   https://lkml.org/lkml/2026/9/23/675
-> 
-> That link doesn't work for me. When referring to other postings, can
-> you please use lore links?
-Okay. No problem.
+filemap_cachestat() treats every xarray value entry as a workingset
+shadow.  On DAX mappings, value entries are DAX exceptional entries:
+same value bit, different bit layout (flags in the low bits, pfn
+above).  Decoded as a shadow, a DAX entry yields a bogus node id;
+NODE_DATA() for it can be NULL, and lru_gen_test_recent() then
+dereferences it:
 
-> 
-> There also is no posting of a patch with that title from that day on
-> https://lore.kernel.org/linux-fsdevel/. You may be referring to
-> https://lore.kernel.org/linux-fsdevel/20260920072811.2064247-2-huangsj@hygon.cn/,
-> but that patch queue no longer applies. So please post patch queues in
-> a state that applies and optionally, make a git branch available.
-> 
-I will add the kernel version in next version.
+  Oops: general protection fault
+  RIP: 0010:lru_gen_test_recent+0xde/0x300
+  Call Trace:
+   workingset_test_recent
+   filemap_cachestat
+   __x64_sys_cachestat
 
-Thanks
-Huang Shijie
+Any writable file on a DAX mount triggers this once an mmap write
+fault has populated entries.
+
+DAX entries track present pages, not evicted folios.  Count them as
+cached and skip the workingset decode, mirroring the dax_mapping()
+split in the invalidation paths in mm/truncate.c.  PMD-order entries
+are counted as one page, as value entries carry no order information.
+
+This issue was discovered by Tencent CodeBuddy Security.
+Cc: stable@vger.kernel.org
+Fixes: cf264e1329fb ("cachestat: implement cachestat syscall")
+Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
+---
+ mm/filemap.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/mm/filemap.c b/mm/filemap.c
+index a1b2ca5b933c..caad0adde792 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -4694,6 +4694,16 @@ static void filemap_cachestat(struct address_space *mapping,
+ 			void *shadow = (void *)folio;
+ 			bool workingset; /* not used */
+ 
++			/*
++			 * DAX exceptional entries track present pages, not
++			 * evicted folios.  They must not be decoded as
++			 * workingset shadows.
++			 */
++			if (dax_mapping(mapping)) {
++				cs->nr_cache += nr_pages;
++				goto resched;
++			}
++
+ 			cs->nr_evicted += nr_pages;
+ 
+ #ifdef CONFIG_SWAP /* implies CONFIG_MMU */
+-- 
+2.53.0
 
