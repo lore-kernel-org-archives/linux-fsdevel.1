@@ -1,83 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795443035;
-	b=y+wA1KrFup5+dhM/VJGeDB/sRoMK62JafJtTeCxalw2QZP9hCERY0Ny7sNwQ+aEwSz05
-	 ofeWunsGNiadrJhabEvgrww6gLvCGN+4I5wkUBpt3HtaYLmyuCPKpVeTI2GippcQRTpRU
-	 +rF5l0k+eQCOGi+FnFsy3fcZpVWe+SEL4kyzKZcw4PX5GSz3DJCoghwIEwcid8B6xbMYQ
-	 Zlb8WRqmnWVLazv4ZTyivYoIGcMhjuXsomhqKpc1NtN3JoZMJVBzEBD3aXL5ECsulca+Q
-	 y0/nfD0cOx9cw+GNiVdf6i6Nh9fQnSCrX/u2PkVOhi1CEsCqUBabsVV5bvnIXuga1Ag==
+	t=1795443162;
+	b=4laBjmJBB1DTQaNgmbokB/rrlDR2KV3IVQxD6AI9NGuQ0eJIWl+lNZE7KUx3fTGjBm6F
+	 HWwmZvO7wp3mCxPZkdNGAVTVXAnA8+9nWltSyOku2pVpujglrnM3hBWfYSUYFsuSYVY7v
+	 R0bbO57csODZoBrnRfHW+z+cGkm7N0WyNdyExZfRknjEt2JTCmA/G1Qcs0SJXSgdPWHKp
+	 lsIy3jHeErkquEmzfMIhMf3pHQjbmloFUg1hvuZi4iOT+4iDU+AnEVQ9zY45SJRiuQ7YL
+	 aAKE3HprBahBUCxP3IydiA+lSmFeYheHSGljLElRJlfuPWixszawkdXYx41Xdf/WwZw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795443035;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795443162;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:X-Mailer:
-	 References:In-Reply-To;
-	bh=CuMgRbNwzbHcnBEprb4vp2b0/t/8wHp/89cdVf+1khg=;
-	b=K/wSNbiom0t87X/dDpeGQX2ESgY+AcPEyj/Y2RimD0YteZ0uaEzRQBM7gKcLDCAKayPO
-	 Po56mthZ4RXYHtCTG2gu81hpv8D3c+w3lpqsfg1oR2hmXDqYcFUIjNsuJVqopjBcCtjCH
-	 BD5zH99uh/O2GxuxBHxmT9+3w+aE+AyitIIdE5RtDNtLJDfyQGUMTtcga9naoDS8ScYXk
-	 spLACx5CjmPubfOEc0SmQOGSI30nM+1CLMjtUKy/dlQCMJlx0HkhrRh41X2eFIdKbGk1Y
-	 RXLFKPZBAp9QucSh1aRPsV8OEpCpkkaPsmxkEcCaIFDSp8hIGsOUItWgWR9CMvsGm3g==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=FpQteIPOJ7jso2isVNK/FXoPVqd5TxYTuttF9zGO1yA=;
+	b=May+2w9QDgKyAdGcK7Y4QCz1CUIaiDkygSrTt4Z9TZ+/YBeVwrIMCCgxClysb0sTKjSZ
+	 OY/LHMgkkrtT2ASI3eHS3tSYEDr96BG/VXbBU6abclwLr0c07YrhuiWoFOsG7CLokXdCG
+	 cOdDu9Nhgk6YiCH5nAmkezEYBiHPdp3dUEZ36pitFm5AFsBYTFK2U3fhOuY6ddfcuEDDL
+	 fhXxpC8Ur1P60FXwPzn8GwsnKXC5+cCb6kFYJmtzNktmuthzoqQanhKCOVoz6PcqJ4CAw
+	 sL0hvueDiLBraWKL/s56nSPR8pUKV1RYsp0tLQNFU6Y3b7zyAgKTjSvmDV/nKHhcohA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pO+zyumf;
-	arc=none smtp.remote-ip=209.85.128.47
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="HSDIN/qx";
+	arc=none smtp.remote-ip=74.125.82.178
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F55F606A327
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 14:10:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0F55F606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F093606A31F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 14:12:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F093606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pO+zyumf
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a9a8d6cea8so42770945e9.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 06:10:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HSDIN/qx
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-33fb4680717so9180142eec.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 06:12:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795443033; x=1796047833; darn=vger.kernel.org;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-type:mime-version:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=CuMgRbNwzbHcnBEprb4vp2b0/t/8wHp/89cdVf+1khg=;
-        b=pO+zyumfN2hTCRi3iq5NLc4z3g1haVYIkxKoEw23KhrnoeCnmxoW4xCWvhExvnIJt/
-         4gbKTdRC2pDBC5Hp1QDu+A0sp15J8QbF1uz26Txh9nn6GACU+5b0eGJf77ZBrYD4ljq+
-         VVV3TAosIjsC5zJn8eKmTnnWhVsW6mimroaCxKkcPnOjrIMaRqjQxmZWMMEEHiUMLpCa
-         5p6UsfMRL3fW14IdkB9Z+Y3d2oWg/54ukp4uCq+iKOIANK3taEUvY5lWq/haJ8zprVcU
-         w6wYX1Nw8spA/Ix8oPfGxJSdQ1mRWnJ2ch5ULR24WELgRzxBIqSkStDAjP/XrMzlFrUI
-         DGnQ==
+        d=gmail.com; s=20260707; t=1795443161; x=1796047961; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FpQteIPOJ7jso2isVNK/FXoPVqd5TxYTuttF9zGO1yA=;
+        b=HSDIN/qxhXjIe8cpCe89tmnGrEkq/g67ziZZmU9iYOrYOh8IF5sUmzhBx+5YJP1wDM
+         f6Ut/vhOK71Vib7hIAvZxFVaDViu80YZrsA9EZJJEnW3+YaEJPT2ContZLY24lpR2SxN
+         QTvzTWO8r1i3mMO8SzY41qYfMuhHGnX+LxVi63vXhkJSCeBixtwQylAyvfS6zpmPxMO+
+         h3h1ALkFm5mP1ylfVejUswRjCOD+Flu8f+wcxbPSV00bKOYKZDznMCpsfwxmn3HVe/B9
+         53/KwBCt/xCPmR7d6yQsPCiSGcVyVstJNVCqsKCFJ9vZ9KB1jpjFBTOmr5rRTxRd0R9B
+         6gqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795443033; x=1796047833;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=CuMgRbNwzbHcnBEprb4vp2b0/t/8wHp/89cdVf+1khg=;
-        b=j4Lpi+JfkPjJ+KrVCY2WDsOWBQ0JDcIUj61H9N8n6eMU/fxvalqCs1wyxJiw9bvs0q
-         eoIk67emhnM1dJcNRSjbigjZqiPjGdVvBwLyOM0u0mCkG/YkTeIX0y/e5hlRNiH0WGPF
-         2IPx5EuKd7GfqhrLIRd9jIbJtlgNnT8AQ9bDIWcGhLeOnQ5H2TdW3xuP22e0H75pyA/N
-         XVpDXYQGGxThEqy/MUjKdizPkLhdNpmcwV56rEsbJ5lPeU8kWPM5VtLRMVX+LiEgPcXt
-         pDebwad3tfrLnPi/aPszwRTMiHArrisymWNax27Ip4BN4PCTN3gTWyEyy8QGY9LtmsCO
-         8lnQ==
-X-Forwarded-Encrypted: i=1; AL+hErHrFgk0OZweQ4rrin9yU8uqyqbU8MMo75LblnkNKpajbMoSAjiEQxdK+jEpgVzzoOU9+quzkA1MOjLJclFv@vger.kernel.org
-X-Gm-Message-State: APuU4Z8K/Gfv+S8OsIYZ4S15+CtpJLwJcio4eV2g4KOUvf4y3Jn0orE8
-	Oi+ZvGsPjQLdNtbn677TS9JoR3NFcwO7JZHJ39wc4yM6YrT84rh5ikP2
-X-Gm-Gg: AZFdTZdQWk7YL6KqrwnxiIv6wGiq3/qm7qY2c64gdJQc9Vkv/QI2by8HfMeI3FvIEB7
-	4aQkU90ElCNLzZhVBOaKnBUkNxGx6lHOBGJz3NHx0furLG8IlyJC2P+qXLYVQYt4PXC7vuxf6Z9
-	6l4asqC321g0DArGwAMBd3FbEaNR3C4petDxG7fKhR89JvM0yvaNvx+tqoyHRX2UoUO+qiZORE/
-	Y5vkj0SH9A3nt4lSOe81RK8Rme5v9IuSFcjmgpQjDgWCgKgocc7pweaghm5eP35aaCwZbxnGF3g
-	lpRoVyCoQIc+/yeQQZQGDOMA3skeoBj3loFX+I9B6pIJFgsu0mYnazDohZQfMvCjD5jOBVcYZYq
-	zRFpi4CGmBSbuqbrwD1X5tj88690wm/v6K/HqylZ4J7SNZ/PMuQmsWXUzhO3G94VmYrx1u9AUaR
-	fLQZUzD3QaNCChIwonIDLz65un57IjZsTx6luGh5Y+eHlXbUPVEH32TS/m0pwfnejbhi6NTs7X1
-	JvYkLC4Fuoz4oc4u53z1eekjl9qYD4zbeKt4PgrFlJzGse0E/lzGpWm0sGIYSm8V33dbywO9z9J
-	HOQsy54j7Er0kVBpv+5Iguylw88=
-X-Received: by 2002:a05:600c:828e:b0:4a2:526b:d40f with SMTP id 5b1f17b1804b1-4bb88785898mr250028695e9.0.1795443033146;
-        Mon, 23 Nov 2026 06:10:33 -0800 (PST)
-Received: from localhost ([2001:b07:5d26:7a6a:365a:60ff:fe0d:cfc6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906817ccsm170559065e9.5.2026.11.23.06.10.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Nov 2026 06:10:32 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795443161; x=1796047961;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FpQteIPOJ7jso2isVNK/FXoPVqd5TxYTuttF9zGO1yA=;
+        b=2iC+79CXrBz/aZqwKHvKkjbLAm8dpIawx1U49K+Y3IwMo1yQjBwaOHpUK6M+0Oh2wo
+         DMhjlo17ptgJQ92poJ3nLUJQ53MIjGPcYwaBCxQSZEjabjcOpWrU3u6O1gUuGAMc+E28
+         5L76E+Qxipi7qlkDfDyZJk0dnKF1MW2bxAMIYFeo0NAv8BYmJM0gptFnhAaL5heNLaVl
+         wqQyOE5039HGN8W5GQJsA85gVe+U+QAaoieeG/aqGFlPj9PrkIqqahYEc6iUnTVIrpVd
+         1VzzAiH8cRWfbKdz90ptmaXvsv1zVTYyLcp4kd2Xo+Gs75mvsXsxiwCa8CERUR54yMWK
+         lF0w==
+X-Forwarded-Encrypted: i=1; AL+hErG5q6DRd7M/zz54E08CwcU9dVCGcIiL1hDu+c+XWtQqZNAiLJ62z0T/Ngg0k+Q0nqbgQeV3SsOhdUqePDyw@vger.kernel.org
+X-Gm-Message-State: APuU4Z+lwl7FHN68Y3OjYUtSrUYdlnzW9/VGpa3dpQgNzk/t4bWffSE/
+	Ix5B7LBP9tQkOQee2UCQWHhI3cVZdUJ+V90Xf/3JPvquJK6nkVHo759k
+X-Gm-Gg: AZFdTZffp4oC5I+k6hiuh1q7kXM7YiMfC8NIBbuGt/0RyOkMpMgBzTQmqOvI11tut8d
+	KB0oaw6uPFl+HLbzWQoo/mqjDSoU4immKVBuAB9xgy1CfDDy4hFFVturFhvcrDzFi+1bnhkU7uG
+	eX8CYJo0Q9rXPVqQVhmJ0pnJWeGvkcB4mh+0Fp9CFKwlPYTuEHOWq0bEIXhHLFPBqgKbVzLB7mn
+	lAk6IsRawlaJZZnR++FFlYe6x+vgEHWw83te18nCxB1Q9WgJDZltBiPC3+FJ9KsrJCrLA7Bh0s8
+	E3ag/8H+0Cfh7ylV+8vuDNjOxXd+PomrVFR6yD5kmXf3ch+gUr14p0+MySVw8etN7WvAZiEyc1z
+	4AkhGSewttxo+qTdq8aLpVzMTgesickW8fjcYIeZ3kQDKC0an9udBAMCF5+KECkSyWIG1z56g9w
+	7E1BGGm0/CO0UxwKR8tfl/f/Qs0bdPBuwzcNb0zCAnYC0C0EMwVoX1XpOmDQbcysaAsb7vpS0nL
+	Jj0RCF9yoxKvYlczakpvasXNMGmIUndjdD//CRDbzoHMFaFr/HXcwr2WZxYd/aMNIPx9olUBZkR
+	0VZCu8uNgXCFJGnVpI5VHf2mTOXr5DZuGfnK32a6wEADkQjLqw==
+X-Received: by 2002:a05:701b:42d1:20b0:1af:d88f:fc51 with SMTP id a92af1059eb24-1b5568edb1dmr12692628c88.30.1795443161493;
+        Mon, 23 Nov 2026 06:12:41 -0800 (PST)
+Received: from localhost.localdomain ([112.170.44.210])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385672c6f31sm35997230eec.15.2026.11.23.06.12.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 06:12:40 -0800 (PST)
+From: Junyoung Jang <graypanda.inzag@gmail.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Junyoung Jang <graypanda.inzag@gmail.com>,
+	Gwanhyun Lee <gwanhyunlee@gmail.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Bernd Schubert <bernd@bsbernd.com>,
+	Dharmendra Singh <dsingh@ddn.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	fuse-devel@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH 6.12.y] fuse: fix fuse_set_nowrite() race with parallel direct writes
+Date: Mon, 23 Nov 2026 23:12:34 +0900
+Message-ID: <20261123141235.2477526-1-graypanda.inzag@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -86,153 +101,109 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=b1a345f2b4a5254b3632da7c1e235601a7730bbbbe126372d6b8eae348d4;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Mon, 23 Nov 2026 15:10:28 +0100
-Message-Id: <DN2NFOEO4XGN.1PEF1SWOF7YCQ@gmail.com>
-To: "Amir Goldstein" <amir73il@gmail.com>, "koraynilay"
- <koray.fra@gmail.com>
-Cc: "Namjae Jeon" <linkinjeon@kernel.org>, "Hyunchul Lee"
- <hyc.lee@gmail.com>, "Alexander Viro" <viro@zeniv.linux.org.uk>, "Christian
- Brauner" <brauner@kernel.org>, "Chuck Lever" <cel@kernel.org>, "Jeff
- Layton" <jlayton@kernel.org>, "Jan Kara" <jack@suse.cz>, "Darrick J . Wong"
- <djwong@kernel.org>, "Andrey Albershteyn" <aalbersh@kernel.org>,
- =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, "Lauri Gates"
- <lauri.gates@gmail.com>, "Christoph Hellwig" <hch@infradead.org>, "Dave
- Chinner" <dgc@kernel.org>, <linux-btrfs@vger.kernel.org>,
- <linux-xfs@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-fsdevel@vger.kernel.org>, <ntfs@lists.linux.dev>,
- <linux-nfs@vger.kernel.org>, <linux-api@vger.kernel.org>
-Subject: Re: [PATCH 0/3] Add f*_xflags_{rw,ro}_mask flags to the fileattr
- API
-From: "koraynilay" <koray.fra@gmail.com>
-X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
-References: <20261122000856.536902-1-koray.fra@gmail.com>
- <CAOQ4uxgf2KE=Ag13EPAu5=KnrFwt7zRH=im-qmLc8+i10Tjd+Q@mail.gmail.com>
-In-Reply-To: <CAOQ4uxgf2KE=Ag13EPAu5=KnrFwt7zRH=im-qmLc8+i10Tjd+Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---b1a345f2b4a5254b3632da7c1e235601a7730bbbbe126372d6b8eae348d4
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+In 6.12.y, queuing a FUSE_WRITE_CACHE request clears folio writeback
+immediately while keeping the request in fi->writepages until the
+daemon replies. Cached writepage requests can outlive the cached file
+handle in two ways: if write_inode_now() fails in fuse_flush(), it
+returns early before calling fuse_sync_writes(); and if a file is
+mapped with mmap() and closed while clean, final unmapping drops the
+last file reference via fuse_release() without calling fuse_flush().
 
-On Mon Nov 23, 2026 at 2:35 PM CET, Amir Goldstein wrote:
-> On Sun, Nov 22, 2026 at 1:09=E2=80=AFAM koraynilay <koray.fra@gmail.com> =
-wrote:
->>
->> This is a follow up patch series stemmed from [1] and [2], splitting the
->> _mask change for the fileattr API into its own separate patch.
->>
->> The first patch is a preparatory patch so that the code in the patch
->> after can be formatted better.
->>
->> The second patch is the actual implementation, which introduces:
->> - fa_xflags_{rw,ro}_mask fields to struct file_attr
->> - fsx_xflags_{rw,ro}_mask fields and has_masks selector to struct file_k=
-attr
->>
->> These masks have the following semantics:
->> - rw_mask:
->>   * for filesystems: advertise which xflags they support changing
->>   * for userspace: specify which xflags it wants to modify
->> - ro_mask:
->>   * for filesystems: advertise which xflags they support only reading
->>   * for userspace: ignored
->
-> Nice!
-> I think this API description is very clear and coherent
+Once the cached file is released, FOPEN_PARALLEL_DIRECT_WRITES allows
+concurrent direct writes under inode_lock_shared(). If a request is
+still pending in fi->writepages, two direct writers can both enter
+fuse_set_nowrite(). The first sets FUSE_NOWRITE (making fi->writectr
+negative) and waits on fi->page_waitq; the second sees fi->writectr < 0
+and hits BUG_ON(fi->writectr < 0).
 
-Nice.
+Fix this by waiting on fi->page_waitq in fuse_set_nowrite() while
+fi->writectr < 0 before setting FUSE_NOWRITE, and waking waiters in
+fuse_release_nowrite(). Also still run fuse_sync_writes() in
+fuse_flush() when write_inode_now() returns an error so close() drains
+in-flight writes before returning the error.
 
->
->>
->> (ro_mask for userspace was also proposed as a "verification mask"[3] but
->> I left out that semantic to keep this patch series more contained, and
->> can be added later if needed.)
->
-> Not so easily added later.
-> We cannot change the meaning from ignore to verify without any opt-in
-> later, but we could use the combination of
-> rw_mask |=3D X
-> ro_mask |=3D X
->
-> to "verify" (set it as long as it is already set)
+Mainline is unaffected since commit 0c58a97f919c ("fuse: remove tmp
+folio for writebacks and internal rb tree") removed fi->writepages and
+keeps folio writeback active until the daemon replies. Fix the ordering
+directly in 6.12.y rather than backporting that larger rework.
 
-Isn't this just "preserving"?
+This bug was found with an in-house LLM-based tool, and the root cause,
+reproducers, and fix were manually verified by the authors.
 
-> all we need to do now is make sure that the API returns -EINVAL
-> for rw_mask & ro_mask on set.
+Fixes: 153524053bbb ("fuse: allow non-extending parallel direct writes on the same file")
+Cc: stable@vger.kernel.org
+Co-developed-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
+Signed-off-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
+Signed-off-by: Junyoung Jang <graypanda.inzag@gmail.com>
+---
+Tested on v6.12.116 with KASAN in a 2-vCPU QEMU guest using an
+unprivileged FUSE daemon (UID 1000 via fusermount3). Verified against
+both C reproducers (FUSE_SETATTR -EIO on close, and dirty mmap
+followed by munmap after clean close), which previously triggered
+BUG_ON(fi->writectr < 0) and now complete cleanly without BUG or KASAN
+reports. Standalone reproducers are available on request.
 
-Yes, the current (v2) code does
+The patch also applies cleanly to linux-6.6.y (5139929c698c), though
+6.6.y was not runtime-tested.
 
-if (fa->has_masks && (rw_user_mask & ~old_ma->fsx_xflags_rw_mask))
-	return -EOPNOTSUPP;
+ fs/fuse/dir.c  | 10 ++++++++--
+ fs/fuse/file.c |  5 +++--
+ 2 files changed, 11 insertions(+), 4 deletions(-)
 
-at the start of set_prepare(), I think that is enough, since we assume
-the filesystems return the masks such that rw_mask & ro_mask =3D=3D 0.
+diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+index 45cbe0cb2..54b9138fa 100644
+--- a/fs/fuse/dir.c
++++ b/fs/fuse/dir.c
+@@ -1821,8 +1821,13 @@ void fuse_set_nowrite(struct inode *inode)
+ 
+ 	BUG_ON(!inode_is_locked(inode));
+ 
+-	spin_lock(&fi->lock);
+-	BUG_ON(fi->writectr < 0);
++	for (;;) {
++		spin_lock(&fi->lock);
++		if (fi->writectr >= 0)
++			break;
++		spin_unlock(&fi->lock);
++		wait_event(fi->page_waitq, READ_ONCE(fi->writectr) >= 0);
++	}
+ 	fi->writectr += FUSE_NOWRITE;
+ 	spin_unlock(&fi->lock);
+ 	wait_event(fi->page_waitq, fi->writectr == FUSE_NOWRITE);
+@@ -1850,6 +1855,7 @@ void fuse_release_nowrite(struct inode *inode)
+ 	spin_lock(&fi->lock);
+ 	__fuse_release_nowrite(inode);
+ 	spin_unlock(&fi->lock);
++	wake_up(&fi->page_waitq);
+ }
+ 
+ static void fuse_setattr_fill(struct fuse_conn *fc, struct fuse_args *args,
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index 33ba8ae3b..5e01dd2b7 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -538,13 +538,14 @@ static int fuse_flush(struct file *file, fl_owner_t id)
+ 		return 0;
+ 
+ 	err = write_inode_now(inode, 1);
+-	if (err)
+-		return err;
+ 
+ 	inode_lock(inode);
+ 	fuse_sync_writes(inode);
+ 	inode_unlock(inode);
+ 
++	if (err)
++		return err;
++
+ 	err = filemap_check_errors(file->f_mapping);
+ 	if (err)
+ 		return err;
 
->>
->> This allows userspace to not have to do a RMW cycle when using the
->> file_[gs]etattr() syscalls, avoiding possible race conditions and
->> simplifying their usage.
->>
->> Patch 2/3 also introduces the missing FS_XFLAG_PROJID flag so that
->> programs like chattr can leverage the new mask API.
->> FS_XFLAG_PROJID is kept out of the legacy FS_XFLAG_MASK and so it's
->> defined as part of a new FS_FILE_ATTR_XFLAGS_MASK group of xflags that
->> will be used moving forward for any new xflag (like the one proposed in =
-[2]).
->>
->> Patch 3/3 converts fs/ntfs to this new API, to show how it can benefit
->> filesystem drivers too.
->>
->> The series has been tested across NTFS, ext4 (with project quotas), XFS
->> (project quotas and extent size hints), and Btrfs.
->>
->
-> Judging from the number of bugs reported by Sashiko and by my agent
-> on the COMMON flags change,
-> I think this needs test coverage for the old APIs, especially with old bi=
-naries
-> chattt/xfs_io that do the get/set cycle and re-built binaries with new he=
-aders
-> both tested against old and new kernel.
-> Sorry, but the UAPI issues are fragile...
+base-commit: 5c40a1750f44dd6c7292d8c8d0b4ffff1734576e
+-- 
+2.43.0
 
-Yeah, I thought about adding some tests to xfstests yesteday after I
-made my agent test the sashiko issues in my test vm, but I don't want to
-make it generate them and submit them with minimal oversight.
-
-It could still be worth to make it generate them to just test locally,
-then clean them up and submit them after the vfs design/code is
-finalized.
-
-> This is one of the changes that would have been very hard to audit withou=
-t
-> the LLM agents. Hopefully with the agents it is doable, but need to guide
-> them how to review/test for regressions.
-
-Yeah, the amount of edge cases it catches in my code is very high, I
-manually wrote the main vfs code in this patch series, but I took at
-least the same amount of time to fix *some* (considering the amount
-sashiko still reported anyway) of the bugs the robot pointed out.
-
-Thanks,
-koraynilay
-
-> Thanks,
-> Amir.
-
---b1a345f2b4a5254b3632da7c1e235601a7730bbbbe126372d6b8eae348d4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSgVimKafU5DQMcjcDmj22qf5IGXAUCawRJVAAKCRDmj22qf5IG
-XPMqAQDKSRELLXXkJM1eWJs/2jAv9K7PNaXrJgEdc9WUuhVlqwEA+UC/ffcMo2z2
-JMu/9eWe5JddaVS+uSeZePo0JhjpBAg=
-=ToHp
------END PGP SIGNATURE-----
-
---b1a345f2b4a5254b3632da7c1e235601a7730bbbbe126372d6b8eae348d4--
