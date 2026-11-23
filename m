@@ -1,65 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795394675;
-	b=njmtPiOqD8h3qVZyaeRKs/heeSsu289EOUuMVGMMdVYs6NBYhj1NcTtTKagE5NL8T5V9
-	 Ezh2sHrelDrYgXEFydMvM9vVoJnYSuUeHPskh7iU9zuzev03WEf5rfX1X1IW96mhVG1g0
-	 vxHdlqmvsheKOeyIA/j9r/g4fBMzTId8qUefivAiiIwvKd/xwHUPhtx3EDW/YbBT5TFgB
-	 1YbEvI3tUwij8285GPCUk4b3xR4VGEC7ugqQ4Hj0AEHm/cd+9BZnQdvSs74tcMZe62MOr
-	 6O7F/UIz3OA/+TnhIrkL8OAC8eQkL2dZ9dOJfKdP8vh3452nX7tiE7vi+eWYL/0EnJw==
+	t=1795395601;
+	b=SVa4D6LO6kNA0K2asG5r1e+DoMf+OlikkmOu/kCiknvFtiMM0FsfGOAK1cAiXj6guEgC
+	 VsnO8qmeaswjMeLwWxu2HfhEYcqNAx8m3R9btwyQJCQkBtfqWkMFgyhy+TtCaRlADyXJn
+	 73ve1B3mZ5A3UvX5k71kgTL7OR2yydwNJTE1ouiPw0e8t0OJtU0r5WEq9dWYxYxXw2LHE
+	 BYzzG4E3xapCTZmPh9C4vH7yF7HEinto06ljVk2vUZjhT1WTyBS4YFYtepoYkyMJMFuRb
+	 aCjm6tKLPZFDzqbqDaOCkgJRqA8k9ZkRCG2/JYBcHe6nZuT0S9lylouezFVmdbnO6lg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795394675;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=TN3atIghVemOlMWS6OdQtOm4gB9s02HY7cHrHMnNt1g=;
-	b=dRGJS7A8eyYqj/A9XWtA/A3CKaQ5UDBlSUAaN8DUCw9QRAqV/5CphSSC+mTMJJgymtY5
-	 cYCKP9B5+qPE0dcnf73wvZ78u8G2j8Ix05hwr+NdNcJBspBOH40+DxhjIglryfEcCDm4B
-	 MoAolt+0bs3I5G8yWm3S4z17YnNOSwmHk08tA75llDm8QYHL0sbdG+l81ysNrw8BAErRP
-	 beM+gJuRejqucD2mCC249ArnnJ6ZojuJeSHPUbI/SsMaLpdx2O6a/dWAnmE2J0LFwILS0
-	 F21AVSBCWUWSUVAqf1pbJW1rnYa/HIzDv/Lo+MAt4G6DK378hOtqSPpC2NOYj9ETlMw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795395601;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=IH6s3imrOjkSSzYR6/sWOdEeFGUNdEc0JcOzWkitMX4=;
+	b=za1UGW1WgloD1oFmUdvtKHmuJAP/tendyhrfjFMvd03ofzes4PFL+Y9kBZOhMSCWUiem
+	 Wg+Ni/9NGIa9JcKFQQj4D4SroJp52PQt6f6QKUM+FNZN6hg9pQKeif2AZLVK48otaXbv3
+	 Ev0JcT+aan1cLWfxcwUVpHc7EQJYcO7rzJRS7pDe5OLM2ROXMZAgdHQC1laRhV3QA6sMo
+	 mzlv8GzOa/y7+Q6ttz4klAdZEtOlxDG4wqS9XbuzlQjrMRPxrbCpiAyw2h037W+Imc/ej
+	 XuBQfkWeNHsJg7ZCFaMaCQCKpmdH/aqAPO9iQ42RXaRBvRW11JrNspheNvDUDSTITCg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Z3ADhScw;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iyho16XO;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD71B606A33B;
-	Mon, 23 Nov 2026 00:44:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD71B606A33B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id E6863606A693;
+	Mon, 23 Nov 2026 01:00:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Z3ADhScw
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=TN3atIghVemOlMWS6OdQtOm4gB9s02HY7cHrHMnNt1g=; b=Z3ADhScwMuC+uRls6/gs6Q/4nA
-	MMFZuo0UX9R0GXb1cCxFJvko7rCzgYCmmBRUYJzCmF2ih1n/L5KvdYj+dvBWKpJbJcJbt2mC+EK5V
-	1JgsOfz1mzzezHvHMP+068m5rFFXHENOmJFqovAFiUFdtLqtaOVP6WmywhcJacE21CmrZYOaikyTm
-	1u8ZYA9lZ1V9okBI3x5H97qh1XrYuJShsDgDg9VWBt+mB0kchvwCRF6vil1pn+OrMzjy3Z7xR5LMW
-	ZBWgr2XGHt6vWW9WbgvjhRRqe7eyYQoDMEWvrYBJqEfuNts0DoKFXgXIwWGxkYbQuUup3leshLl4j
-	gpIvaIXQ==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xVIAU-000000020Cs-35wA;
-	Mon, 23 Nov 2026 00:44:26 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-fsdevel@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	"Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	v9fs@lists.linux.dev
-Subject: [PATCH] net/9p: client.h: clean up kernel-doc warnings
-Date: Sun, 22 Nov 2026 16:44:25 -0800
-Message-ID: <20261123004425.1770155-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.56.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iyho16XO
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 48E061F000E0;
+	Mon, 23 Nov 2026 00:59:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795395600;
+	bh=IH6s3imrOjkSSzYR6/sWOdEeFGUNdEc0JcOzWkitMX4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=iyho16XOD66JQTO4jubhBZ0x5ppfRmDr3yr5LFUtdo1H0PSKcslH+DafW6vC8Cnkz
+	 DPsyD3bvouIDFeYEgKwGdpN/x9aZcvEM35W8B92UZaq+O0Ce9W9F5NdKyNliOOR8gx
+	 lAtWhb0jQMl38Fx9T01rCfo4aSLPmXHsFlJD+cX0T/6PozwKbSgIWKunHlXCgqZoo6
+	 eTyKYKU7VwfDLK3zD48tZrYgoFjQB95Bh9oATJp4kQjSeGHm1qTq0zgah8HiSlkFSg
+	 pfKe4QtlaYIeRD+rXH6/DNBqw1HpWFM/EnHiiQXg0y7lEwCuZlUww7ZIsj542/TaQr
+	 XDucFZ57yBeBg==
+Date: Mon, 23 Nov 2026 02:59:56 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
+	containers@lists.linux.dev, linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	Aleksa Sarai <aleksa@amutable.com>,
+	Alexander Mikhalitsyn <alex@amutable.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andy Lutomirski <luto@amacapital.net>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Giuseppe Scrivano <giuseppe@scrivano.org>,
+	Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
+	Jeff Layton <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
+	KP Singh <kpsingh@kernel.org>,
+	Lennart Poettering <lennart@poettering.net>,
+	Neal Gompa <neal@gompa.dev>, Oleg Nesterov <oleg@redhat.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+	Serge Hallyn <sergeh@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+Subject: Re: [RFC PATCH v7 00/26] userland: Userland containers
+Message-ID: <awOQDOel_72Xwjm7@kernel.org>
+References: <20261122193539.3334213-1-jarkko@kernel.org>
+ <DN25ST0D5K1J.1NI5236BF2BPY@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -69,99 +80,42 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DN25ST0D5K1J.1NI5236BF2BPY@gmail.com>
 
-Repair all kernel-doc warnings:
+On Mon, Nov 23, 2026 at 12:21:16AM +0000, Alexei Starovoitov wrote:
+> On Sun, Nov 22, 2026 at 11:35 AM Jarkko Sakkinen <jarkko@kernel.org> wrote:
+> > v6: https://lore.kernel.org/linux-fsdevel/20261122011809.2667684-1-jarkko@kernel.org/
+> 
+> v7 was sent 18 hours after v6. v6 got replies from the bots only.
+> v1 was +2559 lines. v7 is +5782.
+> All six findings of sashiko on v6 are still in v7.
+> None of the seven versions got a reply from the vfs or LSM maintainers.
 
-Warning: include/net/9p/client.h:52 Enum value 'BeginDisconnect' not described in enum 'p9_trans_status'
-Warning: include/net/9p/client.h:90 struct member 'refcount' not described in 'p9_req_t'
-Warning: include/net/9p/client.h:132 struct member 'fcall_cache' not described in 'p9_client'
-Warning: include/net/9p/client.h:132 struct member 'trans_opts' not described in 'p9_client'
-Warning: include/net/9p/client.h:147 expecting prototype for struct p9_fd_opts. Prototype was for struct p9_client_opts instead
-Warning: include/net/9p/client.h:243 enum fid_source { FID_FROM_OTHER, FID_FROM_INODE, FID_FROM_DENTRY, }; error: Cannot parse struct or union!
+Apologies, I started testing this with bare metal as a result of
+hotplug, and things just started to roll out as I got a better touch on
+its use as a result.  The growth is by majority in kselftest. The
+feature has not really grown but API has shrunk along the way. Still,
+demonstrating that full detachment from syscall API is important,
+because it sets a bar for any approach trying to do this.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Cc: Aneesh Kumar K.V <aneesh.kumar@linux.vnet.ibm.com>
-Cc: Eric Van Hensbergen <ericvh@kernel.org>
-Cc: Latchesar Ionkov <lucho@ionkov.net>
-Cc: Dominique Martinet <asmadeus@codewreck.org>
-Cc: Christian Schoenebeck <linux_oss@crudebyte.com>
-Cc: v9fs@lists.linux.dev
+I had no idea that e.g., that  quality would be even possible but
+one thing led to another this went a bit out of hands.
 
- include/net/9p/client.h |   22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
+I also wanted this to as good form as possible before going on
+holiday, which I'll be starting tomorrow but this was not a
+motivative reason.
 
---- linux-next-20261120.orig/include/net/9p/client.h
-+++ linux-next-20261120/include/net/9p/client.h
-@@ -38,6 +38,7 @@ enum p9_proto_versions {
- /**
-  * enum p9_trans_status - different states of underlying transports
-  * @Connected: transport is connected and healthy
-+ * @BeginDisconnect: beginning transition to @Disconnected
-  * @Disconnected: transport has been disconnected
-  * @Hung: transport is connected by wedged
-  *
-@@ -75,6 +76,7 @@ enum p9_req_status_t {
-  * struct p9_req_t - request slots
-  * @status: status of this request slot
-  * @t_err: transport error
-+ * @refcount: request refcount
-  * @wq: wait_queue for the client to block on for this request
-  * @tc: the request fcall structure
-  * @rc: the response fcall structure
-@@ -98,6 +100,8 @@ struct p9_req_t {
-  * @trans_mod: module API instantiated with this client
-  * @status: connection state
-  * @trans: transport instance state and API
-+ * @fcall_cache: per-client fcall kmem cache
-+ * @trans_opts: union of struct fd, struct tcp
-  * @fids: All active FID handles
-  * @reqs: All active requests.
-  * @name: node name used as client id
-@@ -137,9 +141,9 @@ struct p9_client {
- };
- 
- /**
-- * struct p9_fd_opts - holds client options during parsing
-+ * struct p9_client_opts - holds client options during parsing
-  * @msize: maximum data size negotiated by protocol
-- * @prot-Oversion: 9P protocol version to use
-+ * @proto_version: 9P protocol version to use
-  * @trans_mod: module API instantiated with this client
-  *
-  * These parsed options get transferred into client in
-@@ -228,25 +232,27 @@ struct v9fs_context {
- 	struct p9_session_opts	session_opts;
- };
- 
-+enum fid_source {
-+	FID_FROM_OTHER,
-+	FID_FROM_INODE,
-+	FID_FROM_DENTRY,
-+};
-+
- /**
-  * struct p9_fid - file system entity handle
-  * @clnt: back pointer to instantiating &p9_client
-  * @fid: numeric identifier for this handle
-+ * @count: reference counter
-  * @mode: current mode of this fid (enum?)
-  * @qid: the &p9_qid server identifier this handle points to
-  * @iounit: the server reported maximum transaction size for this file
-  * @uid: the numeric uid of the local user who owns this handle
-  * @rdir: readdir accounting structure (allocated on demand)
-  * @dlist: per-dentry fid tracking
-+ * @ilist: inode list
-  *
-  * TODO: This needs lots of explanation.
-  */
--enum fid_source {
--	FID_FROM_OTHER,
--	FID_FROM_INODE,
--	FID_FROM_DENTRY,
--};
--
- struct p9_fid {
- 	struct p9_client *clnt;
- 	u32 fid;
+So yeah, again, apologies.
+
+> 
+> The way you're spamming people you're only reducing chances of anything going in.
+
+I personally think that "getting in" should not be a goal in the first
+place. I care more about that whaever gets in has a high bar of
+quality enough. It can be something different than this but
+when I read the LWN article about Cells I was alarmed enough
+so that I had to do this and prove my point.
+
+Br, Jarkko
