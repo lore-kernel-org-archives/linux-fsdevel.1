@@ -1,113 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795423838;
-	b=xwWVeioVDBBE6iT7XQQ+afU8un7a51p6CqW9obhmmEttiGx/+rHOyzyKZU/7reKOJK4q
-	 fmCnhgnFBumTIjmY1C1drqNhib0hThRLV0GhBJ6ZES5nAoDhM8XWIt6YCN2Xg7sMDwdVU
-	 743b+M3gs8OTgGdkJy5GIMMoJRRgYZgmXjHe2SAtHqRTi2L+VXteNjSp7ur2XAna0VbbA
-	 wz0rC9EPb0+TOAAUwbA6WJwR3/kPjLwr71xVJQjC5qBmlpFCLs41SEs0bRBXc/iBSJBQe
-	 gEjggOsKadCsDPdnxJ8q8hnDkHNugu/gVB+D3YOxkHi0IUqCknp8LG5Hf0h0WOZ/95g==
+	t=1795424070;
+	b=HR1A2Lyxi/dApAzdAFL/AsHe6cxIYvcBFMyMdiE82Cxyv6A1J5V/VTPlorDaNOE5NMmM
+	 QVos9yQigQihk8el8oBNdzl3c8nRB82StKsNxVhO48zvjOuL2prruXdT8Z9fWgUek8KMo
+	 hVZkbZv6JNDOun3m9i2QvKoPOmCovzLvWYoMrzUCp+5DNDpIJ47NTaXrXhgAen//WefRB
+	 kbCzgy5267adnNCw8DQ3TQ64P3/uxsoo1tlzDxFVvCLuNLg/0PrRdBVfofWYFUSYYNIWr
+	 5Utl/ZDIotCleDmngDP9VTMFxX2LiP6HDZAem0UrQzvuj6mWhA0FQ+YV4kS5uOd5feA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795423838;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
-	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=P/CKK7Mms0zJAA5i4gpb92rqvvEnBlN6jA564M5z92E=;
-	b=TI+yo6cKcxuTHbCqygwe1ULiEBOS6ojXDfqiYUnE+hocV4xD+cw0UdxZUHoNrJPAs/Lj
-	 bkP2fqA4dO/E+NYOuarVwbmr8z1FPCQtX3+h0KQzyvaftpxzBWJsehqkkrMYoMw+B4NS5
-	 JLtap+OfDxUjMPkbaxKNefQIC/847H7ZjViEyKAH5CsRnB6xFQYZR6t6b0SCDZneKwPd6
-	 1ZbVudtiYCxDPNpWNO42NW1sM4MjAE5GOGoamQd/gJbM0XkscpK7i4Q0hUG6PASpfAhbG
-	 GGxtTUfuoI4IRKe0xEvMw5f21TKNQYmPuSnz2T3sp7pAWzGDD9mJHYxEJHfHkTfLPkg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795424070;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=3l2+EYB5IAhRg1PJ4Js44zono8mAKRvWJrn0noFOBos=;
+	b=IWJruHu6TUDk42+x354TGp8LkgR8r8jWH5TuEzgNkd7D4PIlh5vI+41n/5Exdz45jZdw
+	 1I7i5wvsGpjtgNn5Is7/3Vpt33NRAq/Xy8pMubcuSfX9wgb3JsrRhECKfh+iYi2ZS61EO
+	 10niWt/N4FEilj3rE9bEUqqQp05eMh5A+CBwfT8o7CHGTmuFI9YFVOIsIWYyyrwf/G0sA
+	 fOQOBi+bnwPzzHUeP8fS9NJ7k8eQzK5NCRHc/yEVXbTH9l1tyP9US6lP1VMIdzsD/LseE
+	 mn/3vPHsAxSMIkX595SCC6WxLENFxDbOdYiJd2jFvGEp6MzKGgrlO7aU+hLyq4I6BUw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="FeDdu/CP";
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=EQAxJECC;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="KAgxtTa/";
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Q09KDOS8;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55555606A31A;
-	Mon, 23 Nov 2026 08:50:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 55555606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="b8CCq/Qj";
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C38DA606A327;
+	Mon, 23 Nov 2026 08:54:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C38DA606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=FeDdu/CP;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=EQAxJECC;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=KAgxtTa/;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Q09KDOS8
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DF17D1F7E2;
-	Mon, 23 Nov 2026 08:50:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795423830; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P/CKK7Mms0zJAA5i4gpb92rqvvEnBlN6jA564M5z92E=;
-	b=FeDdu/CPq7vOyW6qWgZM8/zsi1XBiSOQl4sf6fj6p0WfRHjoTSaHANbNW5+Cgzhf/GPkIX
-	Z5rZw18hM4WRbT4cBxa1ROBgrOKzIatsMm69lvaI8u5kK3LWKQ85y0jTKGgXw34M1o7HIl
-	d1JVQcVAFAg5g/5OA5GTLysDU0xSWpY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795423830;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P/CKK7Mms0zJAA5i4gpb92rqvvEnBlN6jA564M5z92E=;
-	b=EQAxJECCaU7sEPTQB5brc02NkR3UjP39dYiZ6sKegG5DMy607TRZwhDG3H1QqHO+duI0e+
-	VrPZt/CbiWYhZMCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="KAgxtTa/";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Q09KDOS8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795423829; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P/CKK7Mms0zJAA5i4gpb92rqvvEnBlN6jA564M5z92E=;
-	b=KAgxtTa/z9YofspAYPeqm6zW4tse8POl8i8uNwmQ9sdyqhGGWP+gwYYwnzct/fgR667e/N
-	30eGfCRroPUn3/l8+wLPBFnc2MkSDaaijZ8EE+KRmUuXQAdaHwtfxd+wZ0zZveoMXr+lZz
-	YFrJ6A53FlkWetPsGNtYCSjPXBHRUpI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795423829;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P/CKK7Mms0zJAA5i4gpb92rqvvEnBlN6jA564M5z92E=;
-	b=Q09KDOS84c9GfH2HDr66k9U8tCIyytWJlD8B6UX6F4gYekzDZ5k6kDRbSlVBfzGy4H0Eau
-	bwWDFSu6Wi0uWuBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B4E081352B;
-	Mon, 23 Nov 2026 08:50:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id UmZ5JVX+A2uOegAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 23 Nov 2026 08:50:29 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 221E8275F1; Mon, 23 Nov 2026 09:50:21 +0100 (CET)
-Date: Mon, 23 Nov 2026 09:50:21 +0100
-From: Jan Kara <jack@suse.cz>
-To: Dave Chinner <dgc@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, 
-	Christian Brauner <brauner@kernel.org>, Qing Zhang <diasyzhangqing@gmail.com>, viro@zeniv.linux.org.uk, 
-	jack@suse.cz, raven@themaw.net, djwong@kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] namei: revalidate the symlink dentry before invoking
- get_link in RCU-walk
-Message-ID: <d2w6jvflihqiyfbht3qv3mgjg3muuuvmhnss5j5dp4zh6axhn2@nsegavvnkpie>
-References: <20261118083945.1449264-1-diasyzhang@tencent.com>
- <20261120-desillusionieren-holzhammer-mieten-8ec8551ef2b0@brauner>
- <awB0RE6WN_v4YBbn@infradead.org>
- <awNlrO5A-kdDOYvO@dread>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=b8CCq/Qj
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A96BB1476;
+	Mon, 23 Nov 2026 00:54:20 -0800 (PST)
+Received: from [10.57.91.245] (unknown [10.57.91.245])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5EDE83F882;
+	Mon, 23 Nov 2026 00:54:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795424063; bh=ykI/c43VekHLh4s+DX69UMu73TIR/+eRfarVxHM0qgA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=b8CCq/QjFlgDBE/HQ51/le1Tvx6bIj3ok6U20/6tBMHepTzBZ0epejSL7lohPcGE5
+	 TccmXxaTX1nOgvhWwz/yDQDmKLfY9hIOwx+ymd8SYuvACzj45XaT4fYDvGJ38LAJvQ
+	 3Ws6uekPCDvBC0r165mQR+Op1SCVMfoJdRpjUC4I=
+Message-ID: <d7dae0fd-a4bd-404b-954e-99236dfca560@arm.com>
+Date: Mon, 23 Nov 2026 08:54:11 +0000
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -117,137 +53,106 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <awNlrO5A-kdDOYvO@dread>
-X-Rspamd-Queue-Id: DF17D1F7E2
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-13.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[infradead.org,kernel.org,gmail.com,zeniv.linux.org.uk,suse.cz,themaw.net,vger.kernel.org];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -13.01
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] mm: kasan: skip KASAN for GFP_HIGHUSER
+To: Jeff Xu <jeffxu@chromium.org>, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
+ <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, Marco Elver
+ <elver@google.com>, Boris Brezillon <boris.brezillon@collabora.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Chia-I Wu <olvaffe@gmail.com>,
+ Dev Jain <dev.jain@arm.com>, Ian Rickards <ian.rickards@arm.com>,
+ Jann Horn <jannh@google.com>, Jeff Vander Stoep <jeffv@google.com>,
+ Jeff Xu <jeffxu@google.com>, Kees Cook <kees@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Peter Collingbourne <peter@pcc.me.uk>,
+ =?UTF-8?Q?Pierre-Cl=C3=A9ment_Tosi?= <ptosi@google.com>,
+ Tomasz Figa <tfiga@chromium.org>, Will Deacon <will@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Miklos Szeredi <miklos@szeredi.hu>, Baoquan He <baoquan.he@linux.dev>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Pratyush Yadav <pratyush@kernel.org>, Allison Henderson
+ <achender@kernel.org>, "David S . Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ linux-mm@kvack.org, kasan-dev@googlegroups.com,
+ linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ fuse-devel@lists.linux.dev, kexec@lists.infradead.org,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+ rds-devel@oss.oracle.com, linux-kernel@vger.kernel.org
+References: <20261123033111.2349160-1-jeffxu@chromium.org>
+ <20261123033111.2349160-2-jeffxu@chromium.org>
+From: Ryan Roberts <ryan.roberts@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20261123033111.2349160-2-jeffxu@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon 23-11-26 08:59:08, Dave Chinner wrote:
-> On Fri, Nov 20, 2026 at 08:24:36AM -0800, Christoph Hellwig wrote:
-> > On Fri, Nov 20, 2026 at 02:59:42PM +0100, Christian Brauner wrote:
-> > > This only makes the window smaller.
-> > > 
-> > > XFS can still reinitialize the inode right after this check and while
-> > > get() is running. Then ->get_link() operates on an inode that is being
-> > > reset underneath it. And the !get check only catches the case where the
-> > > that re-init already finished before we loaded ->get_link.
-> > > 
-> > > RCU pathwalk relies on inode memory not being reused before a grace
-> > > period has passed. XFS itself frees inodes via call_rcu() but the
-> > > recycle path hands the same struct inode out again without waiting for
-> > > existing RCU walkers.
-> > > 
-> > > So that should be fixed in XFS, either by not recycling an inode in
-> > > place while RCU walkers can still see it or by keeping i_op and the link
-> > > state valid across a recycle.
-> > 
-> > Not recycling the inode really isn't an option, as that means there
-> > would cause duplicate inodes in the xfs inode cache.  Keeping i_op and
-> > state in place sounds a bit more feasibly, but could be iffy as well.
-> > 
-> > The best thing would be to find a way to keep the inode alive at the VFS
-> > level when XFS marks it reclaimable.  That would be a huge an invasive
-> > change, but it would solve this and many other problems as well.
+On 23/11/2026 03:31, Jeff Xu wrote:
+> Move __GFP_SKIP_KASAN from GFP_HIGHUSER_MOVABLE to GFP_HIGHUSER so
+> non-movable userspace page allocations also skip KASAN tagging on
+> allocation and poisoning on free under CONFIG_KASAN_HW_TAGS.
 > 
-> I don't think that's feasible without a massive rework of the VFS
-> inode life cycle management and/or the way XFS tracks inode metadata
-> dirtiness for writeback purposes.
+> GFP_HIGHUSER_MOVABLE already skips KASAN because user pages do not hold
+> kernel data structures and tagging every 16-byte MTE granule on
+> allocation and free is expensive. GFP_HIGHUSER has the same contract and
+> differs only in being non-movable, used mainly by DMA-BUF, DRM/GPU
+> buffers, and non-movable HugeTLB.
 > 
-> Background:
+> On an Armv9.2-A device (6.12 kernel, kasan.mode=sync), this reduces
+> 32 MB /dev/dma_heap/system alloc+free latency by ~80% (~59% alloc, ~98%
+> close) and improves an app-loading OpenGL benchmark by 15-23%.
 > 
-> The xfs_iget_recycle() code exists because dirty XFS_IRECLAIMABLE
-> inodes are tied into the journal machinery and need writeback before
-> they can be reclaimed. This is all invisible to the VFS, and it is
-> done via lockless lookups and atomic state checks without the need
-> for reference counts within XFS itself.
+> Callers that access GFP_HIGHUSER pages through kmap_local_page() or
+> page_address() (such as ramfs, pipe/FUSE buffers, kexec, and RDS) lose
+> HW_TAGS checking on those pages. None of them store kernel structs
+> there; this matches the trade-off already made for GFP_HIGHUSER_MOVABLE.
+> Generic and SW_TAGS KASAN are unaffected.
 > 
-> The issue is that reclaiming such an inode generally requires a log
-> force to stabilise it in the journal before it can be written back,
-> and the act of writing it back requires access to the inode state.
-> Hence the journal requires the XFS inode to live in XFS_IRECLAIMABLE
-> state until metadata writeback is complete, regardless of any other
-> inode state changes.
-> 
-> xfs_ireclaim() can expedite the writeback portion of reclaim (by
-> running an inode flush) but it does not expedite the required
-> journal flush if the inode is still dirty in memory. On lookup
-> of an XFS_IRECLAIMABLE inode in RCU mode, we cannot directly reclaim
-> a dirty XFS_IRECLAIMABLE inode because it requires blocking on both
-> a log force and metadata writeback. That's why the inode is sitting
-> in the XFS_IRECLAIMABLE limbo in the first place...
-> 
-> That's where the xfs_iget_recycle() code stepped in - it
-> reinitialises the VFS portion of the inode without affecting the
-> internal journal state of the inode. This allows new modifications to
-> be added to the inode and the attached log item without any
-> discontinuities in journal state.
-> 
-> The reason it does a full initialisation of the VFS inode is that
-> the inode can change identity whilst in XFS_IRECLAIMABLE. i.e. it
-> could be unlinked and then reallocated as a different inode (same
-> number, different generation), and so the type can change (e.g. REG
-> -> DIR) and hence a full VFS init is required to recycle it.
-> 
-> And the reason that we've always done this recycle is for
-> performance reasons - the inode allocation algorithms can prefer to
-> allocate recently freed inodes (for locality reasons), and hence
-> recently unlinked inodes in the IRECLAIMABLE state can be
-> reallocated and need recycling because the final unlink state hasn't
-> reached stable media before they are recycled.
-> 
-> Doing things like forcing logs, instant reclaim, RCU
-> synchronisation, etc have all had significant performance impacts
-> due to the additional latency these operations add to common
-> workload patterns. Hence the rarity of this recycle issue hasn't
-> outweighed the cost of the "simple" fixes to everyday operation.
+> Signed-off-by: Jeff Xu <jeffxu@chromium.org>
 
-I'd just mention one possible solution which you didn't mention below (I
-don't know how complex it would get for XFS but we effectively do this in
-ext4) - make the VFS part of the inode and the journalled portion of the
-inode separate entities in memory (independently allocated & freed). Then
-you can free the VFS portion of the inode while still keeping the
-journalled portion allocated. If the inode location on disk gets
-reallocated, you allocate fresh VFS part and recycle the journalled part.
-In ext4 we have this natural separation between the buffer carrying the
-inode structure on disk which is part of the journalling process and the
-inode itself so this separation is easy there. For XFS I presume this is
-complex or you wouldn't bother with all the separate inode lifetime logic
-but I just wanted to toss this idea out.
+LGTM; I agree with your assessment of the risk.
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+We have seen poisoning pages at free-time being a performance bottleneck because
+the tags are kept inline with data in the cache, and setting the tags therefore
+causes hot data to be evicted to bring in the cold data just to set the tags. We
+had been experimenting with the concept of "elide poison on free" for "in-kernel
+MTE enabled in production" use cases to solve this. But the security analysis is
+a bit complex.
+
+I anticipate that your change is probably solving most of the same performance
+cost in a much more straightforward manner. I'm guessing these DMA/DRM/GPU
+buffers are the largest in-kernel memory allocators for the Android app start
+use case.
+
+Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
+
+> ---
+>  include/linux/gfp_types.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/gfp_types.h b/include/linux/gfp_types.h
+> index c1331bf0b239..bb54c7abfb02 100644
+> --- a/include/linux/gfp_types.h
+> +++ b/include/linux/gfp_types.h
+> @@ -376,8 +376,8 @@ enum {
+>  #define GFP_USER	(__GFP_RECLAIM | __GFP_IO | __GFP_FS | __GFP_HARDWALL)
+>  #define GFP_DMA		__GFP_DMA
+>  #define GFP_DMA32	__GFP_DMA32
+> -#define GFP_HIGHUSER	(GFP_USER | __GFP_HIGHMEM)
+> -#define GFP_HIGHUSER_MOVABLE	(GFP_HIGHUSER | __GFP_MOVABLE | __GFP_SKIP_KASAN)
+> +#define GFP_HIGHUSER	(GFP_USER | __GFP_HIGHMEM | __GFP_SKIP_KASAN)
+> +#define GFP_HIGHUSER_MOVABLE	(GFP_HIGHUSER | __GFP_MOVABLE)
+>  #define GFP_TRANSHUGE_LIGHT	((GFP_HIGHUSER_MOVABLE | __GFP_COMP | \
+>  			 __GFP_NOMEMALLOC | __GFP_NOWARN) & ~__GFP_RECLAIM)
+>  #define GFP_TRANSHUGE	(GFP_TRANSHUGE_LIGHT | __GFP_DIRECT_RECLAIM)
+> 
+> base-commit: d12eccbcb79a4fa35c3aa588eb79056af62eb859
+
