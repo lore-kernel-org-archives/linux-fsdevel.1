@@ -1,76 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795465106;
-	b=uuobfx5mWKgz5kza50QY5/70Uc/XRhBPsLJP0vYZCmsi5lIA6rqrEZZaTTXTdeKmkRQW
-	 wHGEFZXTNyYzDyg4ZFrQ328aklsuKRdSYJriR/hp6zEdvVi9SQjEwLIcAHDeynAqyJ4XG
-	 8Wo2j731CD0KzNy/JyEcPCQyV3+Cfh5fNDL/pwzo7zcWUMObfQWhdmoWOZZwhZjIYYpHz
-	 zIuRnFCBm+gvjYeJfvbIhPqfksUXjrJRY8thHYlH3o4lfo3akzak7mjsk+fBUOTBHmETG
-	 yXx8cnp/xJoyUqU+EephDdXxPqZGe2VKHyx4O7fNJRTBIQXiQdBtBqKEur7sd3+pdqQ==
+	t=1795465379;
+	b=zFhFIEBw18l73Fr/SoFKimgx7GHQb0WFX1AtPzf97Dw7ZWGdOXHREWnaH+U4BydQedji
+	 g9t4i4VHDrPupXCmF+4zi/rXJv08DwcmpH4qVnmfMGiTraieoO/04kdjl4lnC1F2ENwnB
+	 cJIzchCOwpfan7YaIhAHctl6ll25Lkm9OCCdRpoisz22p72sW14tgOn0dgOmT5QkHZM+R
+	 R6vE8HslTgJVePnosE8VzdYXgAiSOwS49l3coCZSCuL/8W3SNLVY8DMoXaax5HFWmJHk0
+	 Cn4G5IZBPTgowStCXcE9MqyXVpP066nY6n6wJSn4CYUgoMIHfJR4rN3lfpXR8EGlN5w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795465106;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=8AUjLkJf+AzfntX6iFDwsoJRr0FO8Zc2d0H24MDxBvI=;
-	b=5qjDrhLWQJ2tBo552pH8dySfLUau+cXiTrfAMuWXsF8E2SqhCYgfd2JOtoDfOKs8s+Bb
-	 CZjo2TOO2UCPWMMauUueGXtZ9MrwU4MegOL0CyxBTpOYqYsKJmmT6yE7cRD5HZUtdSib8
-	 2D9mxI6hEM1SV7rAZN3kM6GZDALitg235KDkFTVcHLJGkj4bpzrQMA6+opoDEmIV0zsyw
-	 E9QvfvQKdbxYfjv2jh9iNny+L6RJQhjQ5w4aFwSKLUxPYilHDQTzALS74kecZXbLDccsW
-	 5uoTSEdMFtjkD0W9E6J+Vu3a+QlzY9VS8WB4X0THdrPjcyk1P8YEgfs9/WsTGpc/SIA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795465379;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=KKXZcV8cKb3Lg1UagSAM58C/qQq0Byjz97EepSOcDvY=;
+	b=uvxI+nl2MNQ6Szlm0ZxoWq+KbhEqmqAgj3QExvfy1UDGqS28y1pYXCicRg+LtlA9GkC8
+	 vEYK8ERtyGJHl5yUth4pbS1l5YvAvXU5LtoGVyIJwcgQAsBp6YndaNWWKqMVmJUgqLC1N
+	 lJUwIxm33xRsvXQBKDLGgszlUIFwz/eMW8Sj1IWJhXRCwy9Z97H7/f3Pk/X3B7S5D0UTo
+	 9ofh5aKTOx3QSv3P9oz6nGPSJiFDTipg7KhH/djK43kZbEuuKcZ7HDGmZH/rDtV1tfDHy
+	 pIyLp/PWrVpVYQcXBhE6yUYUDhhPMJz+Cc0wI7ySLmpWJVSpoRGnkHTmLFBfN6YrJOg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UVyzKebp;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b="SieKh/wJ";
+	arc=none smtp.remote-ip=90.155.50.34
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id D833A606A31E;
-	Mon, 23 Nov 2026 20:18:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29171606A31E;
+	Mon, 23 Nov 2026 20:22:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29171606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UVyzKebp
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 674E81F000C0;
-	Mon, 23 Nov 2026 20:18:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795465106;
-	bh=8AUjLkJf+AzfntX6iFDwsoJRr0FO8Zc2d0H24MDxBvI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UVyzKebpzwIv1Yn/drpovJ7QjKcAtXZdZD3OApmocb00ceKrmEfJyDHHIOPR6rxGL
-	 dTlkkM2zSU+UbZRpUQ+0dvozMcV8vxWcZeWOo0r5n6suKMFSxE8JBMe1jVb3u4rql3
-	 ms3Ao00f7Pon1f08VL7Hn46kMq6Iz6j3sYGeU35V56ovusnZnR6pYUrnDPbWr/p+wb
-	 gIPYdrgT9PV8u20SWsFW944fnSAR4vKt9Jf/y5k3dQM9rNHyJbrWrSx4gBe9b8kfLw
-	 1jiBkulqoMOpNt8DLyxG67WYmZUqfyURRMTL1VvHecFgRyFtDF6VEFNUqMvhuv5ulT
-	 aypeV1ThO2hjw==
-Date: Mon, 23 Nov 2026 22:18:22 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Casey Schaufler <casey@schaufler-ca.com>
-Cc: Andy Lutomirski <luto@amacapital.net>,
-	Andy Lutomirski <luto@kernel.org>,
-	"Hallgrimur H. Gunnarsson" <halg@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Serge Hallyn <sergeh@kernel.org>, Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	David Howells <dhowells@redhat.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	Jonathan Calmels <jcalmels@3xx0.net>, Jann Horn <jannh@google.com>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Singh KP <kpsingh@kernel.org>, linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
-	containers@lists.linux.dev, keyrings@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] userns: introduce capability bounding set for
- user namespacesg
-Message-ID: <awSfjslSDxyWvrHt@kernel.org>
-References: <20261119104208.782900-1-halg@google.com>
- <20261119104208.782900-2-halg@google.com>
- <CALCETrVqc+1bjH1bhqHee9bsUdk2B6314z7PMexbsnNpMhk14g@mail.gmail.com>
- <CALCETrV=zSxb6sgA08DLiK2bQovdMEj9ycG=Cc71mLn2C5Pgeg@mail.gmail.com>
- <4db941ba-3001-4019-8910-63e534b29f89@schaufler-ca.com>
- <awSVO9Zc-233M7_P@kernel.org>
- <awSWK7o9PCk4ApM8@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=SieKh/wJ
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=KKXZcV8cKb3Lg1UagSAM58C/qQq0Byjz97EepSOcDvY=; b=SieKh/wJ1aTov+gaxl5hmOcwwM
+	hFQ5mZXaNyF0dzEWsPJp8agfyi5mQ0Mrrdj8JFcWrv8xBio/0j2WBcKLTPq4Bae0HPPak6s0+oX0K
+	3mheKlnmLI13Izk9zBqmXoMp1i5bll9H9vBHbSNkQzkpo0LQvY5yxokAU+nXiGcMtIP+8HBnDOZ6d
+	9EzE7POVu380aSAOXnTRCxAdU2CGbHfizSz2n+C+224iWNTU1MOt5vFOduTuSgKgkgipe8quFeUJ/
+	2D1jLEKpcRSt3+AnJ4tEN4mW7pduiThuU0WBiTYlNGTgYprHtra6kNVPwy0nMG2IHfnJwuXGrBcO7
+	0rOglfAA==;
+Received: from willy by casper.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xVaYl-00000006z5F-1ZU9;
+	Mon, 23 Nov 2026 20:22:43 +0000
+Date: Mon, 23 Nov 2026 20:22:43 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Nico Pache <nico.pache@linux.dev>,
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	William Kucharski <william.kucharski@oracle.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Claudio Imbrenda <imbrenda@linux.ibm.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	"Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Joanne Koong <joannelkoong@gmail.com>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	stable@vger.kernel.org, Chris Mason <mason@kernel.org>
+Subject: Re: [PATCH 1/2] mm/huge_memory: use NOFS when allocating while
+ splitting folios
+Message-ID: <awSgk1VTUsiVQOAT@casper.infradead.org>
+References: <20261122-migrate_reclaim_deadlock-v1-0-83c56185b0fb@kernel.org>
+ <20261122-migrate_reclaim_deadlock-v1-1-83c56185b0fb@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -80,91 +87,50 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <awSWK7o9PCk4ApM8@kernel.org>
+In-Reply-To: <20261122-migrate_reclaim_deadlock-v1-1-83c56185b0fb@kernel.org>
 
-On Mon, Nov 23, 2026 at 09:38:23PM +0200, Jarkko Sakkinen wrote:
-> On Mon, Nov 23, 2026 at 09:35:16PM +0200, Jarkko Sakkinen wrote:
-> > On Mon, Nov 23, 2026 at 09:22:29AM -0800, Casey Schaufler wrote:
-> > > On 11/20/2026 9:09 AM, Andy Lutomirski wrote:
-> > > >> On Nov 19, 2026, at 2:52 PM, Andy Lutomirski <luto@kernel.org> wrote:
-> > > >> ﻿On Thu, Nov 19, 2026 at 2:43 AM Hallgrimur H. Gunnarsson
-> > > >> <halg@google.com> wrote:
-> > > >>> When a process creates a new user namespace, it receives a full set of
-> > > >>> capabilities (CAP_FULL_SET) scoped to that namespace. While namespaced
-> > > >>> in scope, several of these capabilities (such as CAP_NET_ADMIN and
-> > > >>> CAP_NET_RAW) expose broad kernel attack surface that many sandboxes and
-> > > >>> containers never need. However, there is currently no configurable way
-> > > >>> to withhold such capabilities from user namespaces while still granting
-> > > >>> them to workloads that require them.
-> > > >>
-> > > >> One thought (from the rootns thread): the other decent sized attack
-> > > >> surface here is CAP_MOUNT_ADMIN.  Which doesn't exist as a capability
-> > > >> bit.
-> > > >>
-> > > >> A sort of horrible solution (but maybe not so awful) would be to
-> > > >> declare that the bits in cap_userns aren't actually capability bits,
-> > > >> and that you need the bit in cap_userns *and* the bit in cap_effective
-> > > >> to do sensitive things, and that mounting needs cap_userns to have
-> > > >> NSCAP_MOUNT_ADMIN *and* cap_effective to have CAP_SYS_ADMIN.
-> > > >>
-> > > >> I want to sleep on this.  It might actually solve several problems,
-> > > >> e.g. controlling creation of ipv4 and ipv6 loopback or tunnel devices
-> > > >> or whatever.
-> > > > I slept on it. Here’s a counterproposal.  I’m not saying I think this
-> > > > is better than this patch set, but I think it’s worth weighting the
-> > > > options.
-> > > >
-> > > > Define a whole new set of privilege bits.  As a
-> > > > poorly-painted-bikeshed option, I’ll call them eprivs (for exposure
-> > > > privileges - it’s a crappy name but at least it’s pronounceable).
-> > > 
-> > > I played with a mechanism I called "chits" (all the good terms for security
-> > > bits have been consumed for a very long time) that looks a lot like
-> > > what you're proposing. I did it to address the CAP_SYS_ADMIN problem,
-> > > where any use of the capability opens up a whole barrel of worms.
-> > > I cannot, unfortunately, find my patches. :( The basic approach is:
-> > > 
-> > > A process has an optional set of chits. A process without a chit set is
-> > > unaffected by the mechanism. A process with a chit set is allowed only
-> > > those operations for which it has a chit. The existing but empty chit set
-> > > allows no operations. A process may drop a chit, but not the set, which,
-> > > again, can be empty.
-> > > 
-> > > Because I was after CAP_SYS_ADMIN, I envisioned a call
-> > > 	cap_able_chit(capability, chit-list)
-> > > but there's no reason there couldn't be a
-> > > 	chit_able(chit-list)
-> > > as well.
-> > > 
-> > > I wrote this as an LSM, but the system-wide aspect of it made that
-> > > a questionable choice.
-> > > 
-> > > If you have any interest, I could dig more deeply to try to find the
-> > > patches. Otherwise, I'm happy to look at what you come up with.
-> > 
-> > What if eprivs or chits would take each capability and subvidide
-> > them into pieces? CAP_MAC_ADMIN would be formally a set of chits
-> > (or eprivs).
-> > 
-> > And process having e.g., CAP_MAC_ADMIN, would actually have the
-> > set of chits that are included to CAP_MAC_ADMIN.
-> > 
-> > Without that type of relation there's just a space full of chit
-> > ;-)
+On Sun, Nov 22, 2026 at 01:42:17PM +0100, David Hildenbrand (Arm) wrote:
+> Various callers (migration, memory-failure, s390_wiggle_split_folio) split
+> locked folios without holding a reference on the folio's inode.
 > 
-> This would not prevent from combining your own collections of chit
-> that do not map to any specific cap, only that each cap should map
-> to a specific set.
+> Splitting a file folio might allocate memory for the xarray and call
+> filemap_release_folio(). If either ends up in direct reclaim with
+> __GFP_FS, reclaim can evict the inode through the dcache shrinker, and
+> wait in truncate_inode_pages_final() for the folio that we hold locked:
+> 
+>     try_split_folio()
+>       folio_lock(A)
+>       split_folio_to_list(A)
+>         xas_split_alloc()
+>           try_to_free_pages()
+>             super_cache_scan()
+>               prune_dcache_sb()
+>                 iput_final()
+>                   evict()
+>                     truncate_inode_pages_final()
+>                       folio_lock(A)
 
-With decompose/compose relation it would neither matter if caps
-would have for some reason the same chit. Internally task could
-have just this sets and caps can be dynamically refreshed if
-the process' set has all the chits that compose it.
+The "holding a reference to the inode" piece is a red herring.  We can
+deadlock even without it (although maybe the AI can't see it).  If we
+don't remove __GFP_FS, we can hit this path:
 
-I.e., that would make caps a cached result refresh, and chits
-the actually stored security tokens.
+  folio_lock(A)
+  kmalloc
+    alloc_pages
+      try_to_compact_pages
+	compact_zone_order
+	  compact_zone(MIGRATE_SYNC_LIGHT)
+	    migrate_pages
+	      migrate_pages_sync
+		migrate_pages_batch
+		  try_split_folio
+		    folio_lock(A)
 
-Br, Jarkko
+See this discussion:
+https://lore.kernel.org/all/20200214065504.GK31689@dhcp22.suse.cz/
+which led to patch f2c817bed58d in June 2020.
+
+So yes, anywhere we're allocating memory with a file folio locked, we
+should enter nofs scope.  Perhaps we can teach the AI that rule?
