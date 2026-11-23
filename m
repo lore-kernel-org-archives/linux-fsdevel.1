@@ -1,81 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795444534;
-	b=l01XIGXaF4//jfkahXedomyS43y6wNnrVY5WwcKbIo8n3bFimiX6qPdPKid/kuVaSdVB
-	 Guh9DsbuYOyGXIkduBLjz1V7XtUhWzM4wyXoqf/vuZymaqU49eWtTPKA3I//pzW6ta2Ai
-	 S7RS8XtratK4HLrRSfPx5RYojpuDjL7akr2jj6u/gwVLj1XldpKbjELmle06+E8pAJkic
-	 koLQBDPzyY+tFtYpl5cBjiPwK7PDuhAZfQL03LifmnWJ7CFr6ZRXiOEl9uiCJn+c83haw
-	 1AdzJ2ckZKmLR4xj1poU4/hKJ1Dqrw3I4Ke8RWEUCTh+mL7u3MLQsZ0yIxPepzKfcbQ==
+	t=1795444852;
+	b=vwTm20AugR2A8MVwL5vZYhaqH5aXlqJaQ5T9xQktz0w541iXIfFqXAqFQMBo0JeQanJ5
+	 HGAEJPuXnCMlLRAIAYISNA38sTzCX9GEqodxr5Gfdh9YSzGp+aB9MmJXAAtE9K4+4Ittg
+	 305nyuUb8V0RToPcN/KdM3L2kKKe4aWZywqSWY6ukZnl97UpXJCai0wZn4w1SG3cNiy/M
+	 W89vdXQ4ilJaYQDFLsNZDKrk6SsGjk+C79l2TxY6m2zKaYTTwm5D6OE3rPvGp4DgPYMJi
+	 NrnNyioWo5Drlid3FgTqPBaQLPSTAH2d7hM8QApXHzStoK/xrNoGPk/ffZKn3J28Iow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795444534;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Scanned-By;
-	bh=PcCW+rqNgrACV07eEtKyYGyFh6QSwIbd8Ip3J19mL0A=;
-	b=vOvxpYypIQCuVMDb9TLtJPGMkMlCaslwgWvAxnFMTuTrm1OJC+0u4WOlHlaqRb4PDB1/
-	 9EpUbNbs4kqK2FH/I8gSU+N+26GZhLvnqg8a+XLdhAV8tX7QGalWPGHaInr5Pik36JXFu
-	 9V1afNG4s+XYqbn1rVY6Y+xXIV5bUjNK7b39vhzgBgkfFQ7VjCapqk7UI7EpD1uteV1Gx
-	 von0GbfuaDy6c43w0j+K8P56hRZjOcxq9XpmsNy1r15PfYrn36ieoF6pbbtp+jOHvwTpC
-	 pDqu3N7VCA1Juh/xzS7tC+RR7mijUB0NZ12g32kada7BetdnFmyIdgeVq9ip78CDT4g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795444852;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:MIME-Version:Content-Type;
+	bh=VOsTEFHih5VGh65hIOhMdFK7B8YNvZl3Iglz0jpWLso=;
+	b=A/QnlplHzvhQOWh98U+xYtZTzAM/heZRJihvImz33RhmC82qQhULhmBOml+1NCTkZ3I7
+	 +J4p1uw3fSqLtaIbc5RS3kr+OB+udFVdN8hneqg23Z/bMyB3D5OU3FwkriJEzqLvaGY6N
+	 TC8kGxF/UGLr5AHglnOBpcH4BZNQpQ/Ds7kwcBczGL7sdnFcb36tm19XAObTUBbuqUrFM
+	 AmMylw1rA+LcX67K4olBWXOZ+actacIgTLZAuVFzk02Wu/FFP0JMv8/QKRRBcZPuwPyu+
+	 QyV4AQkABpGOQ0jftrseoTGOgUYBfKfnbGxCvfr4SoTRo4SXxYaex1cjjbxZTN7GNEA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=YKzgrq8W;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EhQuDqUF;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C871606A327
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 14:35:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C871606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97828606A31A;
+	Mon, 23 Nov 2026 14:40:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=YKzgrq8W
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795444533;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PcCW+rqNgrACV07eEtKyYGyFh6QSwIbd8Ip3J19mL0A=;
-	b=YKzgrq8WMo4d6lmbQ0Nz+d1Hnr9sLlcPUUcuA/b7Fase3GVb1kgbyhQE2YkSJ/EeR8Bse9
-	tCcppjbnZAa6zTyzTZhsDQoA0g6e98JEWJRhqXbk0m35GDY82hLckPVCbMJa5hwtHSmUeH
-	THraGhLSuAUTmA2fhG2iKfp86CjgYLQ=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-131-fAw_F4G0O3WqccqgtDoXig-1; Mon,
- 23 Nov 2026 14:35:24 +0000
-X-MC-Unique: fAw_F4G0O3WqccqgtDoXig-1
-X-Mimecast-MFC-AGG-ID: fAw_F4G0O3WqccqgtDoXig_1795444518
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AF90719560B8;
-	Mon, 23 Nov 2026 14:35:17 +0000 (UTC)
-Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 929EA348;
-	Mon, 23 Nov 2026 14:35:14 +0000 (UTC)
-Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
-	oleg@redhat.com; Mon, 23 Nov 2026 15:35:17 +0100 (CET)
-Date: Mon, 23 Nov 2026 15:35:13 +0100
-From: Oleg Nesterov <oleg@redhat.com>
-To: Mani Tofigh via B4 Relay <devnull+mt4022.columbia.edu@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Michal Nazarewicz <mina86@mina86.com>,
-	Wen Yang <wen.yang@linux.dev>, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, tz2294@columbia.edu,
-	Mani Tofigh <mt4022@columbia.edu>
-Subject: Re: [PATCH v2 2/2] sched/wait: Pass wq_flags to
- __wait_event_interruptible_locked()
-Message-ID: <awRPIenAyY1fCRIg@redhat.com>
-References: <20261122-b4-sched-wait-intr-head-v2-0-4a764b64e8ce@columbia.edu>
- <20261122-b4-sched-wait-intr-head-v2-2-4a764b64e8ce@columbia.edu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EhQuDqUF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CD2E1F000C0;
+	Mon, 23 Nov 2026 14:40:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795444852;
+	bh=VOsTEFHih5VGh65hIOhMdFK7B8YNvZl3Iglz0jpWLso=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=EhQuDqUF7DT4TxtUVj9OVj3hTI5W7/nX+vJBMGjIrlutfWt0271APj+JosrDBV2AM
+	 uut6trIXiw9gA5t4IwPJueJwzj9HFtdUmkBzMc25B+WVSM98Cm2yI8DhpgxTSr78Fs
+	 0vCN7pHkECxedbb55AQsjW+X27PRzf58UPb+Tqg+TSlPv/o1rl0l2NzYCEWJL+4g5/
+	 Hw3Auknd7cZH4CLJjUs29SlW4cydIVH/NtK193SF09uzDfVCpDWaX2qCVqmz1rChCw
+	 MLo2KazaBsVn6lCDr4eLo6ojuIsBh555XaGs58UHfZp30JcithhFCYfDtzruEDI36+
+	 FuL+NMy8p6Rsw==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Tamir Duberstein <tamird@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj?=
+ =?utf-8?Q?=C3=B6rn?= Roy
+ Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Alice
+ Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Daniel
+ Almeida <daniel.almeida@collabora.com>, Alexandre Courbot
+ <acourbot@nvidia.com>, Onur =?utf-8?Q?=C3=96zkan?= <work@onurozkan.dev>,
+ Matthew Wilcox
+ <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Lorenzo
+ Stoakes <ljs@kernel.org>, "Liam R.
+ Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Harry
+ Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>, Christoph
+ Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, Roman
+ Gushchin <roman.gushchin@linux.dev>, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org
+Subject: Re: [PATCH v6 08/12] rust: mm: add abstractions for allocating from
+ a `sheaf`
+In-Reply-To: <DN0YBZJNQVW4.2RY9NCR5T33HZ@kernel.org>
+References: <20261120-xarray-entry-send-v6-0-1f69d7385f70@kernel.org>
+ <20261120-xarray-entry-send-v6-8-1f69d7385f70@kernel.org>
+ <DN0YBZJNQVW4.2RY9NCR5T33HZ@kernel.org>
+Date: Mon, 23 Nov 2026 15:40:36 +0100
+Message-ID: <87mrqztxuj.fsf@t14s.mail-host-address-is-not-set>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -85,47 +74,41 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261122-b4-sched-wait-intr-head-v2-2-4a764b64e8ce@columbia.edu>
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+Content-Type: text/plain
 
-On 11/22, Mani Tofigh via B4 Relay wrote:
+"Danilo Krummrich" <dakr@kernel.org> writes:
+
+> On Fri Nov 20, 2026 at 2:10 PM CET, Andreas Hindborg wrote:
+>> +/// An owned allocation from a cache sheaf.
+>> +///
+>> +/// `SBox` is similar to `Box` but is backed by a slab cache allocation obtained
+>> +/// through a [`Sheaf`]. It provides owned access to an initialized object and
+>> +/// ensures the object is properly freed back to the cache when dropped.
+>> +///
+>> +/// The contained `T` is initialized when the `SBox` is returned from alloc and
+>> +/// dropped when the `SBox` is dropped.
+>> +///
+>> +/// An `SBox` holds a reference to the [`KMemCache`] it was allocated from.
+>> +/// Dropping the `SBox` may thus drop the last reference to the cache and
+>> +/// destroy the cache, which may sleep. See the `# Context` section of
+>> +/// [`KMemCache`].
+>> +///
+>> +/// # Invariants
+>> +///
+>> +/// - `ptr` points to a valid, initialized object of type `T`.
+>> +/// - `cache` is the cache from which this object was allocated.
+>> +/// - The object remains valid for the lifetime of the `SBox`.
+>> +pub struct SBox<T: KMemCacheInit<T>> {
+>> +    ptr: NonNull<T>,
+>> +    cache: Arc<KMemCache<T>>,
+>> +}
 >
-> --- a/include/linux/wait.h
-> +++ b/include/linux/wait.h
-> @@ -770,12 +770,11 @@ do {										\
->  extern int do_wait_intr(wait_queue_head_t *, wait_queue_entry_t *);
->  extern int do_wait_intr_irq(wait_queue_head_t *, wait_queue_entry_t *);
->  
-> -#define __wait_event_interruptible_locked(wq, condition, exclusive, fn)		\
-> +#define __wait_event_interruptible_locked(wq, condition, wq_flags, fn)		\
->  ({										\
->  	int __ret;								\
->  	DEFINE_WAIT(__wait);							\
-> -	if (exclusive)								\
-> -		__wait.flags |= WQ_FLAG_EXCLUSIVE;				\
-> +	__wait.flags = (wq_flags);						\
->  	do {									\
->  		__ret = fn(&(wq), &__wait);					\
->  		if (__ret)							\
-> @@ -870,7 +869,8 @@ extern int do_wait_intr_irq(wait_queue_head_t *, wait_queue_entry_t *);
->   */
->  #define wait_event_interruptible_exclusive_locked(wq, condition)		\
->  	((condition)								\
-> -	 ? 0 : __wait_event_interruptible_locked(wq, condition, 1, do_wait_intr))
-> +	 ? 0 : __wait_event_interruptible_locked(wq, condition,			\
-> +						 WQ_FLAG_EXCLUSIVE, do_wait_intr))
->  
->  /**
->   * wait_event_interruptible_exclusive_locked_irq - sleep until a condition gets true
-> @@ -901,7 +901,8 @@ extern int do_wait_intr_irq(wait_queue_head_t *, wait_queue_entry_t *);
->   */
->  #define wait_event_interruptible_exclusive_locked_irq(wq, condition)		\
->  	((condition)								\
-> -	 ? 0 : __wait_event_interruptible_locked(wq, condition, 1, do_wait_intr_irq))
-> +	 ? 0 : __wait_event_interruptible_locked(wq, condition,			\
-> +						 WQ_FLAG_EXCLUSIVE, do_wait_intr_irq))
+> I did only notice this patch just now, will take a closer look later on. But
+> this all looks like it belongs into the alloc module.
 
-Reviewed-by: Oleg Nesterov <oleg@redhat.com>
+Yea, could be we should move it to `alloc`.
+
+Best regards,
+Andreas Hindborg
+
 
