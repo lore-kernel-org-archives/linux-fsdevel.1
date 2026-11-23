@@ -1,77 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795393574;
-	b=n2o/OFk77fcUGA46Sc0QZ9o6CMcVH0jmTSkY7IhLC5tjTsAEc+jUW8HWH/rn2JNsUHwA
-	 brubhQM4D7W1Nqpew5fu7ukUs43VVPoEDkuaR1McI6x6o6m1Q7jfRaDRzT3nbilh89Cab
-	 BpWowLSzhuJkTgNKX0vZEBzaTWPFLMz8/JqI235LrfA58turEUKsJUpZ2nB7Z3/WbMPe0
-	 n+Un2EYMp2jGxx42EkHxek3AD/+spn1Ggu2+WaG1wVXRhbuxsppGOdpd0NGay1Tu/J/10
-	 PJjjsiVzZojwMCFkW4E4pTiCP8SjlMTZcCEilnWlscyVqDtsfrd5br2W8WKa8CDwpmw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795393574;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Np7fZSYURVKo0ykLKnKN/e1CFyZ5GmziW7UTv6oqkBg=;
-	b=JPghQysTF/xfVx2xM+qwIFL0XwQDHoxXDFpZzxpqnLidbstXL90Y3ncwVfZh1FZcvt4o
-	 7bELXuB08zd3HEn6+3TmsQOZ5J02UGQ1C606Q5EUTawcgMQ8K6HqAeg3UqIDTxmnsn33x
-	 0EHaj4NZr8mr/vh6Ekf/uy4i03+bDetjnLL/PNXMggbfANql4oc9p4cVau0QmzsrqYjeD
-	 GFVkM9npoZwPx9jHL2Z6FyuVZMSSfcqm/XLExYJoemBXDlYkHl/IcCir9KI+K7BdeiKr/
-	 dXAnFFX5yWUDopjQFppchNCIsBcEccr1gNwLm7dWU3S6kFUVwwIxd/P0Jg6V4In8gyg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XTTYuAtT;
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795394119;
+	b=3diqTi4pLP5oObvgteQy9e+EpxrghWRE9CvpXSazNEoailAGecglTtVoWAZe7xE1mb2A
+	 HuPicmoQWhJwLRUqkYOBLz3WD95LB2qBA4KOmCyRtrx07isjySJTmA4UQO2vgLwA+sfYx
+	 tbaRGP87ojYPUR0XbSMetwLSc6uFOxoJtpE04xjZEZM/pb0NF2tQ+dIHJ5tNkjpIWWS+b
+	 w31mJSvvhmz+qq1UogJwPTvn0X7YH5MJ9/B5H0YxSbbnuak+KcTL15jNqGfs0+/oahCL9
+	 ZD4IyzXqDukozqx+QIqSywy3Z8yB1zJzAnR3xVzzde+dtk5CaPfmMBPCy83PKaKPpHA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795394119;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=Aw0e5y5c8i9wNYCWYZcYSwD6rNylTLyRH1SurU5T/II=;
+	b=Kptj9lJQv5wC8+irCt/TN9apJg3YY47eurC69FmOLd08LJH1nZNqVu/MKsjq7E6uRzTU
+	 gwVSXb7wBH1/PX54/AVuRZXA3SfGhsGlRYgEvSxud6E17LN4TPVYeiDphxxtki9xHmQEg
+	 RQKtcxFdybsYgsIUyX8X0iYfo9ijz5yZOnE4PvACqNRjDvzlGWVTkyqzTC+V+e/QNt5FV
+	 7HULS154QULq3gYhn80qfyRPem5i/ScpsifMtUyReOqllTLZuqH9mpAci/T8bRe3+Ham4
+	 yILaNWH5QXW6tiNbDac2F876L8Wn5/R/roxn2DizlCize7pFcpv20IGXDnq9S2clx4g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bi81H5Qs;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 92486606A320;
-	Mon, 23 Nov 2026 00:26:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17BB606A335;
+	Mon, 23 Nov 2026 00:35:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XTTYuAtT
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 77F411F000C6;
-	Mon, 23 Nov 2026 00:26:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bi81H5Qs
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795394119;
+	b=ZRaYt6iSQ+XdeGsoPYWRM7Mntlf40YbSFfosLdM492pd2Er0BBR4Y9AuDeAM3H4OFljf
+	 qibb3dphxvZivls/MWgH17d3N2W8Z8lbpg/tFI+MzXaXTTEBf3UE0lCWN6pJMzHcZ+jk+
+	 uDY7KbLlIdMygB40deMcPjeEUpzTCAP0POpMZe71mAH34vwHajjNBv1MPNjsM1dNtGDEM
+	 F4xuwUiuKINSFf01CJSBdHua+lShH1Gm19/J1aeF7hcLVMaNEpxoLGa6ex4cjwjSFjcUG
+	 b+pnclFvhpsybiRIAY+rDpI0jSXtWFw2x0OMPEI8CvX8MnB075Hn+/OzVRJHFgx1pbA==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795394119;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=Aw0e5y5c8i9wNYCWYZcYSwD6rNylTLyRH1SurU5T/II=;
+	b=yB1CHOMwPRMoJ4saKhRcV3WKCOayif54ulcW8cGKryjsAVWrxpy9tTq/fzU3l+qFzqg4
+	 ULNbfW0HRLMDHQmakWXhljetRTerf9DuTgo1ir8YHjxMCseVRm8/pGQg+nkbd89QExw8C
+	 CmkKzNNqUEu3HL/4JIkwNpSUYnwfekmbvClS8TQkCRlQyuO/L+dYtMteWB9o0ApyvLcg0
+	 g9k7okOqg03LnfTtXFIryCyRAB5bjHEiqvcF7kR7DjsVO5HHUIxVt0zQ1QupzJJa2Czq5
+	 wIaARADUNtmMShwEdkedUs3Mtyd/EcvjGhqT27ajsSYw6B05B9p5tVziBMU0yJw0ekw==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id EED341F000C6;
+	Mon, 23 Nov 2026 00:35:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795393574;
-	bh=Np7fZSYURVKo0ykLKnKN/e1CFyZ5GmziW7UTv6oqkBg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XTTYuAtTfAlg0WH9XZNPNM7S+HLBop3wyxrt6AZb8BiQ/Gcs79kUj59MMdnE7zjKQ
-	 6xk0zPvaGdlG8o9ZUMGLAaOiaoDh4dLG6WNkRYPhuhQSyEsvPBz3KMQjuS6m7xd5dG
-	 Ot9O95tbcPRy9IHFMgYR0M5uFEZsIn+69FEAQlQR3rWR6ymXF88kwRbDdIo+Jw4lgY
-	 YKAHH8A25VOQvWrywy5q8chM2R+ortwz1L4AYTL89LZ/Swh1LO/3fuwj1dPvoYQS1e
-	 rxcdFPD4rGTTlycsU6r7F/Z5zD9ej6TCW+7qcXWzVmur1oME5eDf3FDMxcpULj0bY5
-	 LbOIMT1N38+0Q==
-Date: Mon, 23 Nov 2026 02:26:10 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-fsdevel@vger.kernel.org, Andy Lutomirski <luto@amacapital.net>
-Cc: bpf@vger.kernel.org, containers@lists.linux.dev,
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-	linux-security-module@vger.kernel.org,
-	Aleksa Sarai <aleksa@amutable.com>,
-	Alexander Mikhalitsyn <alex@amutable.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Giuseppe Scrivano <giuseppe@scrivano.org>,
-	Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
-	Jeff Layton <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
-	KP Singh <kpsingh@kernel.org>,
-	Lennart Poettering <lennart@poettering.net>,
-	Neal Gompa <neal@gompa.dev>, Oleg Nesterov <oleg@redhat.com>,
-	Paul Moore <paul@paul-moore.com>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v7 00/26] userland: Userland containers
-Message-ID: <awOIIuoNvNLZ_scF@kernel.org>
-References: <20261122193539.3334213-1-jarkko@kernel.org>
- <awOEa303zNUDrzA3@kernel.org>
- <awOFGIWekH9-vlhM@kernel.org>
- <awOHVCpztLQv4Uwv@kernel.org>
+	s=k20260515; t=1795394119;
+	bh=Aw0e5y5c8i9wNYCWYZcYSwD6rNylTLyRH1SurU5T/II=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=bi81H5QsX9pC2wnI1jjKZxU4I8nB5fWBkSLmikTK11DTGIKNEiUClOVGvEiDowN/N
+	 iNw5n4/4vl45lZ0UzK2VKeONLzaP2qHimygwZioGnYGfenm8n6BUyYQs+P1mIVWHrn
+	 AZQhxNMVYVyFS/IyywBoZcshRUBnKHZYpBZBJQ1ekQqDhvHw3gP7UHo8jjyhkvPUd0
+	 WFc1VEfM4CTRLGKqMRExSJXlToA992mlbP6JevMLyXxiEwgcqRU4vWb0Q3HaT8ZdCl
+	 6WEyFkN12pbSaYk7vDh2HQeGhKsPrUOckTMKvyHiP7oymrM0ANwYVsCCFPsb0imUse
+	 JfcbshCTTHVNg==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 6E68E4C268;
+	Mon, 23 Nov 2026 00:35:12 +0000 (UTC)
+From: Mani Tofigh via B4 Relay <devnull+mt4022.columbia.edu@kernel.org>
+Date: Sun, 22 Nov 2026 19:35:12 -0500
+Subject: [PATCH v2 1/2] sched/wait: Queue non-exclusive waiters at the head
+ in do_wait_intr*()
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -81,47 +83,108 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <awOHVCpztLQv4Uwv@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261122-b4-sched-wait-intr-head-v2-1-4a764b64e8ce@columbia.edu>
+References: <20261122-b4-sched-wait-intr-head-v2-0-4a764b64e8ce@columbia.edu>
+In-Reply-To: <20261122-b4-sched-wait-intr-head-v2-0-4a764b64e8ce@columbia.edu>
+To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>
+Cc: Oleg Nesterov <oleg@redhat.com>, 
+ Linus Torvalds <torvalds@linux-foundation.org>, 
+ Christian Brauner <brauner@kernel.org>, 
+ Michal Nazarewicz <mina86@mina86.com>, Wen Yang <wen.yang@linux.dev>, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ tz2294@columbia.edu, stable@vger.kernel.org, 
+ Mani Tofigh <mt4022@columbia.edu>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795394112; l=2797;
+ i=mt4022@columbia.edu; s=20261026; h=from:subject:message-id;
+ bh=t/EKiWQssfQXpF3qKY+ICig437H7rd2qHOCQVtDp+ik=;
+ b=hi28efIN5xw0rW8lQiQmA2+zT+36chA36KU7jbGMXczzHAIy4UrZqhhw3fCp1sc48I4ucPyEe
+ 13y386I3s5/ATqO3+fGstJNOY5FgHx+57ZWo4tav9uDc5o0l1U6Fqiq
+X-Developer-Key: i=mt4022@columbia.edu; a=ed25519;
+ pk=gljCMQDuxyKPmd5y37CRpEJGSPXDV1MyAnHBhCgXl0I=
+X-Endpoint-Received: by B4 Relay for mt4022@columbia.edu/20261026 with
+ auth_id=1322
+X-Original-From: Mani Tofigh <mt4022@columbia.edu>
+Reply-To: mt4022@columbia.edu
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 23, 2026 at 02:22:49AM +0200, Jarkko Sakkinen wrote:
-> On Mon, Nov 23, 2026 at 02:13:16AM +0200, Jarkko Sakkinen wrote:
-> > On Mon, Nov 23, 2026 at 02:10:23AM +0200, Jarkko Sakkinen wrote:
-> > > On Sun, Nov 22, 2026 at 09:35:13PM +0200, Jarkko Sakkinen wrote:
-> > > > SYSCALLS
-> > > > ========
-> > > > 
-> > > > Two new system calls are proposed:
-> > > > 
-> > > > 1. userland_open(): open an opaque staircase-initialized container
-> > > >    object (modeled on Intel SGX enclave initialization with separate
-> > > >    build and live states) with no embryonic state, opting selected
-> > > >    shared namespaces in via an allow-list instead of unshare semantics.
-> > > > 2. userns_set_idmap(): configure all UID, GID, and project ID map
-> > > >    extents for a container user namespace in a single atomic system
-> > > >    call.
-> > > 
-> > > Andy, perhaps a bit too far of the box idea but I'll just throw this out.
-> > > 
-> > > An alternative to userland_open() would a file e.g., virtual device
-> > > file, and necessary wiring for open().
-> > > 
-> > > Then the added syscall surface would reduce only to userns_set_idmap(),
-> > > and it adds more robustness to access control (e.g. who can create
-> > > containers).
-> > > 
-> > > What do you think of this?
-> > 
-> > Also, easy way to detect the feature. This does make sense to me.
-> 
-> This as a side-effect would enable LKM compilation, and reorganization
-> of the beef of the core feature as a driver. Not sure what would be
-> the best location for the driver tho, perhaps just drivers/userland.
-> 
-> I.e., full decoupling from the syscalls.
+From: Mani Tofigh <mt4022@columbia.edu>
 
-Right, and LKMs are great for live patching. This has enough quantative
-weight.
+A task blocked in read() on an eventfd or timerfd can sleep forever
+while the file is readable, if an epoll(EPOLLEXCLUSIVE) watcher of the
+same file was added before it.
 
-Br, Jarkko
+eventfd and timerfd wait with wait_event_interruptible_locked_irq().
+do_wait_intr_irq() adds the reader at the tail, behind the exclusive
+epoll entry, and __wake_up_common() stops after waking that entry.  If
+the woken epoll task is killed or leaves without reading, nothing wakes
+the reader:
+
+  Task E                   Task A                 Task C
+  epoll_wait(ep, -1)
+    /* EPOLLEXCLUSIVE */
+                           read(efd)
+                             /* queued after E */
+                                                  write(efd, 1)
+                                                    /* wakes E, stops */
+                                                  kill(E, SIGKILL)
+                           /* still asleep, efd is readable */
+
+A periodic timerfd doesn't wake A either, since the timer is restarted
+only by a read.
+
+prepare_to_wait_event() and add_wait_queue() add non-exclusive waiters
+at the head, which is what __wake_up_common() relies on.  eventfd did
+the same itself before it switched to these helpers.
+
+Do the same in do_wait_intr() and do_wait_intr_irq().  This only changes
+the order in which non-exclusive waiters are woken.  Each of them still
+gets every wakeup.  With the fix, A is woken by the write.
+
+Fixes: 22c43c81a51e ("wait_event_interruptible_locked() interface")
+Cc: stable@vger.kernel.org
+Signed-off-by: Mani Tofigh <mt4022@columbia.edu>
+---
+ kernel/sched/wait.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/kernel/sched/wait.c b/kernel/sched/wait.c
+index f8d6d8b9d03e..342dec5fd937 100644
+--- a/kernel/sched/wait.c
++++ b/kernel/sched/wait.c
+@@ -319,8 +319,12 @@ EXPORT_SYMBOL(prepare_to_wait_event);
+  */
+ int do_wait_intr(wait_queue_head_t *wq, wait_queue_entry_t *wait)
+ {
+-	if (likely(list_empty(&wait->entry)))
+-		__add_wait_queue_entry_tail(wq, wait);
++	if (likely(list_empty(&wait->entry))) {
++		if (wait->flags & WQ_FLAG_EXCLUSIVE)
++			__add_wait_queue_entry_tail(wq, wait);
++		else
++			__add_wait_queue(wq, wait);
++	}
+ 
+ 	set_current_state(TASK_INTERRUPTIBLE);
+ 	if (signal_pending(current))
+@@ -336,8 +340,12 @@ EXPORT_SYMBOL(do_wait_intr);
+ 
+ int do_wait_intr_irq(wait_queue_head_t *wq, wait_queue_entry_t *wait)
+ {
+-	if (likely(list_empty(&wait->entry)))
+-		__add_wait_queue_entry_tail(wq, wait);
++	if (likely(list_empty(&wait->entry))) {
++		if (wait->flags & WQ_FLAG_EXCLUSIVE)
++			__add_wait_queue_entry_tail(wq, wait);
++		else
++			__add_wait_queue(wq, wait);
++	}
+ 
+ 	set_current_state(TASK_INTERRUPTIBLE);
+ 	if (signal_pending(current))
+
+-- 
+2.53.0
+
+
