@@ -1,85 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795427733;
-	b=NZSbVi9oQV3K86/WPOacVXoAi+zaY6kTCq886cJKWcsE3WWW+6V1qIoWMdmrF7ez4hdI
-	 lNg+ebYvsp3gr2k4QqVe7Gf75D9VmZpUFlL3NSHHgBmMjW1hEL+0W4E/2SND/eAWMWNOw
-	 2svuPhTdAWIZl4TI7e32WgInYHuSMBo99av5EIqtE230RQx6kjgjz05RV3YsmMZtBSzPk
-	 keJ/6ZyXqj/RlIBUZUls0AKnwJrGTs5ugqYu20c0v0xjU+w7vE/Qh69qVYnE5RWokA7VN
-	 AnVhVLLhV3/xoakI+AZKdFxY0JMvNzOEPeDAT4t3z5/suN0IJ3Zt8Pw9YKTw8a2K5qg==
+	t=1795427744;
+	b=L40utZimWoQvWxWQFWM9/5dKkRDQCjNG9cGDmUP9/4vIdeuy/we0TbyRzhu7QaTh71cN
+	 clzlzWLYjgcFkboiMdQfL2T9jHwYAukOynB/0sGXO/79Z6qG6sJQM4rayw3ffemImSPfb
+	 6BnK3R+2QHhb1Cm+Ei1nHn9QwVeh4Whh4UM0aiaHNkhyjJvE4zKP4XK+JoxUUhMUOk7hp
+	 d3cZ5HWDE7C1ezEOlPdW9DGAdilr/N3ToFkBFb0PNseN8EjVw+0z04PP1w0JF3Xw6vgtL
+	 iTbxEWfAoBeJhHGplly3KWjNoeBN7IcHIOpklXrOWezha13NwuWs1JFCBX5ziyzp+Vw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795427733;
-	h=DMARC-Filter:X-UUID:X-CTIC-Tags:X-CID-P-RULE:X-CID-O-INFO:X-CID-INFO:
-	 X-CID-META:X-CID-BVR:X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:
-	 Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=ExBrdivvPGnMfALa1gyv4ambGV9X8LsRbMUTFusz2lM=;
-	b=rIjl+sbI2lbEQKpWFpSrzPS5yomQJlqVB787jx+4g4qxxG2jIKTi7fCPk6PAjatUUXho
-	 vyT0mRBh2zF59Hm6vltDzTJ4JBpAendwwLJ2KkhcKNjxVMfeM3vGvk40y1X5erdmUZzrL
-	 9zumVeg48m98VLk1rKh+mvYVMCal8CqM8y93+aqcQkTiNzlL1OfAdMHQGEJlngLcyEVFl
-	 zTEinGB7SnV1UHZqTs6bIox8WiQqYampSntbxc/TiTv603yHrYAuTtLCJkv4P+ZzY/3Oa
-	 RVAXkrR4EqP0L8+IgKNgG6SU4AS4sXuqSO21OpDJWpI1zbKcv3fFXWHjpcvgAPmsDfA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795427744;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
+	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=rgoNuDkqEE6/XLCYK+MqMrq9yvTsYpNIi/CFbubIxQs=;
+	b=AsqsnMlkqiZ3AZE13vaSQowaMuc3uV1ayHy++NmlHVOg5eZdUUP+QIMEuTa8TRlM8XiF
+	 kp/WGVEnSxGRpDdJi7ZeMIoecLVRMC4MT7gl2v62GJColTyOK0u0v2uIS//2iBThWkPMB
+	 mYtAtGNSBtnY1wKa4fFTMpot3rurToAVXY1Un2rRu8Ovdqsta7VmY+RPGLIvBAIfpDB/I
+	 WOeoR+d037iZdQbW3ynAQAtvA2ymCAxQgwT+Gbmo92cLa3IcI1cyGF7KutqwEpFh0GBXA
+	 6/1BLBHD+KkTP0p/Pj1euHCkvlW97QKMtyAAWDdgoxKBQBk77msAtDrbeD47+Ow4how==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=1DCNN3MZ;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=k1jEXeog;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=MPxohavb;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=K79Y+slm;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98F5606A31A;
-	Mon, 23 Nov 2026 09:55:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E98F5606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: ff3964bee72311f19a56ed5b684f684d-20261123
-X-CTIC-Tags:
-	HR_CC_CHARSET, HR_CC_CHARSET_NUM, HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME
-	HR_CC_NO_NAME, HR_CHARSET, HR_CHARSET_NUM, HR_CTE_8B, HR_CTT_MISS
-	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME, HR_SJ_LANG
-	HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE, HR_SJ_PHRASE_LEN
-	HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NAME, IP_TRUSTED
-	SRC_TRUSTED, SA_TRUSTED, SA_EXISTED, SN_EXISTED, SPF_NOPASS
-	DKIM_NOPASS, DMARC_NOPASS, CIE_BAD, CIE_GOOD_SPF, GTI_FG_BS
-	GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:d9d3e7ed-4998-436a-99a2-9ca028c2f262,IP:10,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:10
-X-CID-INFO: VERSION:1.3.19,REQID:d9d3e7ed-4998-436a-99a2-9ca028c2f262,IP:10,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:10
-X-CID-META: VersionHash:7db8b62,CLOUDID:a8d4509ebbf7a42d767ec0deb1659f01,BulkI
-	D:261123175525VOW09MFG,BulkQuantity:0,SF:17|19|38|66|78|102|127|153|865|89
-	8,TC:nil,Content:0|15|50|99,EDM:-3,IP:-2|1,URL:0,File:nil,RT:nil,Bulk:nil,
-	QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-	,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_IBB
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: ff3964bee72311f19a56ed5b684f684d-20261123
-X-User: liwang@kylinos.cn
-Received: from computer.. [(116.128.244.169)] by mailgw.kylinos.cn
-	(envelope-from <liwang@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 137605619; Mon, 23 Nov 2026 17:55:21 +0800
-From: Li Wang <liwang@kylinos.cn>
-To: Miklos Szeredi <miklos@szeredi.hu>,
-	German Maglione <gmaglione@redhat.com>,
-	Vivek Goyal <vgoyal@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>
-Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
-	"Michael S . Tsirkin" <mst@redhat.com>,
-	fuse-devel@lists.linux.dev,
-	virtualization@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	virtio-fs@lists.linux.dev,
-	Li Wang <liwang@kylinos.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] virtiofs: fix potential unmount or device removal hang due to stuck FORGETs
-Date: Mon, 23 Nov 2026 17:54:55 +0800
-Message-Id: <20261123095455.88622-1-liwang@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99801606A321;
+	Mon, 23 Nov 2026 09:55:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99801606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=1DCNN3MZ;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=k1jEXeog;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=MPxohavb;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=K79Y+slm
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5383321F63;
+	Mon, 23 Nov 2026 09:55:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795427741; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rgoNuDkqEE6/XLCYK+MqMrq9yvTsYpNIi/CFbubIxQs=;
+	b=1DCNN3MZ4B6aQWFnfDJNKAtwTT7/VOuCv/ueinYT5R3cM91RXG6G9Sjjmw7jGqzZ1u/5DJ
+	HF+7+MfJedw4sZIGpeClfjwWlWqV6plYC+0sIKIhpWX1bWcm9l9tGd+kN21KrBdsUnjQTZ
+	hAMvh39nXsDB0z/PmzMjcgU3IbOS7Ls=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795427741;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rgoNuDkqEE6/XLCYK+MqMrq9yvTsYpNIi/CFbubIxQs=;
+	b=k1jEXeogzPNadSptgKWUibxBmXqgQcqUixgz2as2tHyyIH0P0ZOUGE32goJrY4pJhEg2AX
+	NiM3C7nFUHZ/coDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=MPxohavb;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=K79Y+slm
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795427740; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rgoNuDkqEE6/XLCYK+MqMrq9yvTsYpNIi/CFbubIxQs=;
+	b=MPxohavb+35oUD0xZZNVF4sXIA3YwiyZq+me2KnEwyj1k0BVsGnP8ugaPhsJmzvtyJ3FJ5
+	/ylobmZRXJy28sK3tBtxSpI5+Wrt+IEyYt6ED4evaUU5Q3+BOY9Fcv2Kch/jAqSIt4OXTR
+	epnn6T/M1tAECMcIs1+NRyEfZlT8f1U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795427740;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rgoNuDkqEE6/XLCYK+MqMrq9yvTsYpNIi/CFbubIxQs=;
+	b=K79Y+slmsPJfxExDcsEktpUpRHZV6QwT5R9gxUalDh9VEw5Yg2STMUT3lx2QDMVyhOJ+Er
+	Z7UxGpVTTDZ7keAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2D9F113510;
+	Mon, 23 Nov 2026 09:55:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id WJPqApwNBGvEPgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 23 Nov 2026 09:55:40 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id B574427634; Mon, 23 Nov 2026 10:55:39 +0100 (CET)
+Date: Mon, 23 Nov 2026 10:55:39 +0100
+From: Jan Kara <jack@suse.cz>
+To: NeilBrown <neil@brown.name>
+Cc: Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Ian Kent <raven@themaw.net>, 
+	Jake Edge <jake@lwn.net>
+Subject: Re: [PATCH v5 2/5] fsnotify: update children flags only when adding
+ mask bits
+Message-ID: <gm4htzbmvnabg7pvvkzge4atqxgwjy7zlrbmofpx4ahuujw67e@excduwsuxzaz>
+References: <20261119025942.2848130-1-neilb@ownmail.net>
+ <20261119025942.2848130-3-neilb@ownmail.net>
+ <mk7u4brorzgbyol7x4nyolufk3s3piqwqd5hnya3nhoq43d5ui@x5sdqeyrhde6>
+ <179539972541.1728055.8282722306710793371@noble.neil.brown.name>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -89,58 +117,125 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <179539972541.1728055.8282722306710793371@noble.neil.brown.name>
+X-Rspamd-Queue-Id: 5383321F63
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-13.01 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,zeniv.linux.org.uk,kernel.org,gmail.com,vger.kernel.org,themaw.net,lwn.net];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,brown.name:email,suse.com:email]
+X-Spam-Score: -13.01
 
-virtqueue_add_outbuf() returns -ENOSPC when the virtqueue is full.  On
-this path it can also return -ENOMEM, when a split-ring DMA mapping
-fails, or -EIO, when the virtqueue is broken or a packed-ring mapping
-fails.  send_forget_request() turns only -ENOSPC into 1, so
-virtio_fs_hiprio_dispatch_work() stops and waits for a completion.  Any
-other error frees that FORGET and drops its in_flight count, then
-returns the negative errno.  The worker treats every non-zero return as
-a reason to stop, so the rest of queued_reqs is left unexamined.
+On Mon 23-11-26 13:08:45, NeilBrown wrote:
+> On Fri, 20 Nov 2026, Jan Kara wrote:
+> > On Thu 19-11-26 13:57:02, NeilBrown wrote:
+> > > From: Amir Goldstein <amir73il@gmail.com>
+> > > 
+> > > Since we only ever set the PARENT_WATCHED flag from
+> > > fsnotify_recalc_mask(), there is never a need to update children flags
+> > > when removing mark mask bits only when adding them.
+> > > 
+> > > Add a helper fsnotify_recalc_mask_and_update_children() to be called
+> > > in cases where updating children flags may be needed (i.e. add mark).
+> > > 
+> > > Also avoid update children walk with mark spinlock held.
+> > > This was only done by dnotify and can be easily avoided.
+> > > 
+> > > neilb: added update_children flag in fcntl_dirnotify() so we only
+> > >   do the update when needed.
+> > > 
+> > > Fixes: 172e422ffea20 ("fsnotify: clear PARENT_WATCHED flags lazily")
+> > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> > > Signed-off-by: NeilBrown <neil@brown.name>
+> > 
+> > One question to Amir below. Otherwise I like it.
+> > 
+> > > +/*
+> > > + * Recalculate mask and update children dentry PARENT_WATCHED flags if the
+> > > + * connector started watching children.  When parent stops watching, we
+> > > + * clear false positive PARENT_WATCHED flags lazily in __fsnotify_parent().
+> > > + *
+> > > + * The caller must make sure connector and connector->obj cannot disappear
+> > > + * under us.  This is achieved by holding mark->group->mark_mutex for a
+> > > + * mark on this list.  mark->lock must not be held by the caller.
+> > > + */
+> > > +void fsnotify_recalc_mask_and_update_children(
+> > > +					struct fsnotify_mark_connector *conn)
+> > > +{
+> > > +	if (fsnotify_recalc_mask(conn))
+> > >  		fsnotify_conn_set_children_dentry_flags(conn);
+> > >  }
+> > >  
+> > > @@ -367,8 +383,8 @@ void fsnotify_modify_mark_mask(struct fsnotify_mark *mark, u32 set, u32 clear)
+> > >  		recalc = true;
+> > >  	spin_unlock(&mark->lock);
+> > >  
+> > > -	if (recalc)
+> > > -		fsnotify_recalc_mask(mark->connector);
+> > > +	if (recalc && fsnotify_recalc_mask(mark->connector) && set)
+> > 
+> > Amir, why is the '&& set' check here? Under normal circumstances if
+> > fsnotify_recalc_mask() return's true, 'set' is true as well. We can be
+> > racing with other updates to the connector list of marks and in that case our
+> > fsnotify_recalc_mask() call could be the first one that noticed the marks
+> > attached to the inode are now watching children and is thus resposible for
+> > setting children dentry flags even if 'set' was false. So I think it can do
+> > only harm...
+> > 
+> > And for similar reasons I believe fsnotify_recalc_mask() call in
+> > fanotify_remove_mark() needs to be updated to
+> > fsnotify_recalc_mask_and_update_children() as well. Standalone
+> > fsnotify_recalc_mask() is simply never safe unless it is followed by the
+> > update children later - perhaps make it __must_check?
+> 
+> Hmmm.... I had thought that the group lock would prevent these races but
+> I guess not.  Maybe one mark can be in multiple groups???
 
-hiprio dispatch_work is scheduled only from
-virtio_fs_hiprio_done_work(), which runs from that virtqueue interrupt.
-Once no descriptor is outstanding, the device raises no interrupt and
-nothing walks the list.  virtio_fs_send_forget() submits a new FORGET
-directly and does not schedule the worker.  The queued entries are
-reached again only if that new FORGET is placed on the virtqueue and
-the device completes it.  A new FORGET that itself gets -ENOSPC,
--ENOMEM or -EIO does not schedule dispatch_work.
+Mark belongs to a single group. But fsnotify_recalc_mask() calculates mask
+from all marks attached to an inode and different marks can belong to
+different groups. So group->lock indeed doesn't protect us from parallel
+changes to the list.
 
--EIO stays -EIO for every later add.  New FORGETs never enter the ring,
-so they never produce the completion that would run the worker.
-Entries already queued still hold in_flight.  virtio_fs_drain_queue()
-waits for in_flight to reach zero before it flushes dispatch_work, and
-unmount or device removal hangs.  -ENOMEM can succeed on a later
-attempt, but with an empty ring the same entries wait until some later
-FORGET both enters the ring and completes.  Each such completion
-retries only the head of the list and stops again when that head fails.
+> Given that, I don't think I can form a sensible opinion on Amir's
+> revised patch.  It looks OK and I think I can see what it is trying to
+> achieve and how it achieves it, but I'm less confident that I can see if
+> that is the thing that needs to be achieved.
+> 
+> So Jan - if you could review that so I can add your reviewed-by when I
+> repost, that would be great.
 
-After the FORGET is dropped, return 0 so this same worker invocation
-continues with the rest of queued_reqs.  A full queue still returns 1.
+Yes, the patch looks good to me now.
 
-Fixes: a62a8ef9d97d ("virtio-fs: add virtiofs filesystem")
-Cc: stable@vger.kernel.org
-Signed-off-by: Li Wang <liwang@kylinos.cn>
----
- fs/fuse/virtio_fs.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-index d247a02cdca9..d2d1e8fe3a91 100644
---- a/fs/fuse/virtio_fs.c
-+++ b/fs/fuse/virtio_fs.c
-@@ -655,6 +655,8 @@ static int send_forget_request(struct virtio_fs_vq *fsvq,
- 			kfree(forget);
- 			if (in_flight)
- 				dec_in_flight_req(fsvq);
-+			/* Dropped.  Let the worker keep going. */
-+			ret = 0;
- 		}
- 		goto out;
- 	}
+								Honza
 -- 
-2.34.1
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
