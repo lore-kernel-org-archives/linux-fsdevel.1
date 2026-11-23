@@ -1,103 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795453091;
-	b=VgJSUjwXELJhtdsYwsWglhdIinw2OagK0MRK97Nx5/EbIfHq8wu1FZbggc1kKRBF75my
-	 iQ14F+ZM5ss6u77cokP03a7Gvv1UnHviQiTo3W+cxHaPAZpx84O9ye8Y/6I330jnXlMp3
-	 4qhRJfBG27djKB19U5RDLkSuSix83Sba3kN3hGRHYK7EySU5yfSuI3idYcrUFd5k37iY2
-	 SVxrm3Gc1qWpHXiQ0/VHqpOoNPe64DmjItycNSbgTnVncWZjwn/bqjulOXb5mmiTBNLLo
-	 ozsd1f5FeKCBPsWrl2LqNvexZdPCFSl1pbckR7E5SmFftlmBmCbji8VcoeeHMDlzmqA==
+	t=1795454382;
+	b=DxMdMSPhuszX0g8kKQ7aJifEknLJhomUrh24YWH2kNuZ8KIEDSHdibsbEmfoo8CeG5d8
+	 UGpB4SaJd6HMd0+o+kmkXWn30lqStM6cwIMhU1Se0sHqM5PK2tRMC1AbgPkL47s8gxDAy
+	 XF8FGt0Vsk8git4OBKbG5JuS0Qt02WWXW1Wu2UyRxw/WN/oTlZEW7W9yPNwgVoH+W02Hh
+	 zHJyu1L1KmnXJJZiyqAxnHVqXsjBi+IdFx0bUUUct2N67xR55deyih71AlTDbAHwKE9FV
+	 2UrCF0/q9PWsLUy8f8eSYR/4n6wqtm3qgg10yMOyRuBVCrkM/31oEB4U+08MkuofZWA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795453091;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=ET5i7Z4z+p1A+lXOmLQS8UTZbl0dmHPPBOT7XFIXf1c=;
-	b=ZMY7Dy7mPHbHdZhpeXo0nETGFcTk5usNEf4aqdvMTXqJIRMp+cs4YIozewy992z3Rnih
-	 RUZFEtYfr9agvGzZaWjFHmaGgroqBbLX+iuzZgnESdCc/jXq8BmHNjB5e7l55Fz6qdloc
-	 Mk3vJAwISa0+5brQ0laarsPSh5s6Gh5qJY5Xc2Ms3rNlsziT6+6aU+VFbyElCvjXZRLH4
-	 14WiwaC5LRB1e8Bm16aQONK+/0/v/0DVvZ1QH2n2wYNIgZ3yDOiui0i7V2k/vQ5ivaoFp
-	 nxDS3m1unwtrnXXSH/fJ48twlrsNM8dky9iUs4H6zIOTi9NYZgg6d9IztZPBU3I+8pQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795454382;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=+FrBWwyWG2ofrr4+eX/hR4EQoleVZwLseOTkT4V6vlI=;
+	b=3vhUMx0w1ek6O3MqR9SL77wL54zt3NqES3KudcICUtNXB5hsDsl7bgsla6IVeWV8RtYY
+	 t3WuC3utdsceDNZ5ZzkJIOI+CgpJ2iRM0P8GB9f38N0FHrO3F8DuSNbTWpE4f5kC2pcHo
+	 7fHm9ib4vEoF+T4k5wnp1OW7MS8zXwmIkEGPMJkf9aKQBjNjfeqon1IyY1JD8y8NgJAwg
+	 Td6+tVMyAJhzMCmuC42ub3zC5aYSNmFAng3wPnVZMu0iPMHQS+dP4T11CcG20ZYA9aBBn
+	 jJM2t7Tr/29pyjWLDSRmtHKBZozg67QNQAModtA3/UAGQ6IexSbmlTinrxnq+dFCttA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ghM5RF2F;
-	arc=none smtp.remote-ip=209.85.128.41
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VIwVVeNh;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE127606A31F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 16:58:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BE127606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB2A606A31F;
+	Mon, 23 Nov 2026 17:19:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ghM5RF2F
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4bb5b8ef642so29849725e9.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 08:58:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795453089; x=1796057889; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ET5i7Z4z+p1A+lXOmLQS8UTZbl0dmHPPBOT7XFIXf1c=;
-        b=ghM5RF2FQl80hQKyHvN2jllTrtM1CJh/o7VdiRneRI+3bez8N5CpLxGZnZQnz7WkIj
-         tbMOThvQa6A+CELTNOQ4z+JHx1EiPb1nkXzpSXtg2HFCbKqUJpEdk+O3JTaAylWitP09
-         UuBWje5M6fjoi/DpfxMR6zbQl2hPRB4bJ4EoZi2PZg2GKAX2+uFbPUJdArtt0ehuUenD
-         P2ab0kEvFhUQdLsAwU0DNhp6n9Sk9TaFCTEqo2UEgERZ7JCNNQ1BpIu/Kx++sAISi1+j
-         ej+Ph8fSV2xIk1Qt3ICeViLbIWNt3GfWdvvOW2CN/ejzoPTh0KzAifKoE+c4MSrU6CqH
-         QRHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795453089; x=1796057889;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ET5i7Z4z+p1A+lXOmLQS8UTZbl0dmHPPBOT7XFIXf1c=;
-        b=t9mFy97uUMpWxjauqyJ5FQkcRiu4DUnh6XSKkKZ2Ps8xrRwUavyakmNSIj8Mt7HtGB
-         dFAQ30XXcPJ66FVNoCjNAHHOpHLldVkb8q/CsYcVoUX3xQk8WZ+8RmfIplBsAxzAU0lg
-         /HbaNBnw+K50M+ygG2nzR7JfLuSwSiawTViQoosyDrI0m1Bo8ue07YGoFkCtkXRpRfQL
-         YZAh9mtoJ8Mx3OkZTDVcUPWE09gbvr6YDh2uxBNCLzNDxH/mD1akqD83G1p3fMxbBfpP
-         HarLra+GPNu8bHO3WvSwnOge487Vhb9B7ISF2iynz3pJE5gPri57knRvuF+NjcWDAwBf
-         yhLA==
-X-Forwarded-Encrypted: i=1; AL+hErFdQuMUkwfyx/D7eLtimiGVOJjBmsv7H+InDoLre/1LkvoavS3nh8iVIzln8r3Isl4OqsyuFvr3rET1Sck2@vger.kernel.org
-X-Gm-Message-State: APuU4Z9UKfEDVNH7XiwO3H245AKLMFD+4F1ylTav7hS1o8A8jNRKVEEH
-	TpHQi3813ptQbweMCfy6CSc4FAwDnKFTUXDv/PGciiciPzju2lC+i47/
-X-Gm-Gg: AZFdTZcbQ+ws7gKXaS+WeagQjA06zmKojy7q6Ha6NiP+wVtELhjJYVZaMBrrWOk6hpw
-	GghTD1uX9e1mu5SDC+Qv1lTGeeDJ7ipDoyCGgI0UVw3NgfMsvOLUhirEbvukzG9meRAzXmH4BE4
-	h5FDuCFCsLaB0P9LXG/WNFYJFybW2VKDCzLNQdfuXRWlwEWqL0G1GuNdk5DDF4SLiwArgIVfYzB
-	vjrne8OdoZD7aJbgzOVgcTJHY85CIvG9KLUzLxukpE+FshEITI55Qk0F+LPsmTlAJ5KS0WI/04q
-	aCRED9XCre6+SkxHy2d8iLBn9ERDbuTexPDHLuJt9KQLeqTX8WvVKN9dI+9jrurCZolX9dk+elZ
-	PCGAcWW3OcKF+ebJeM+fapjJBsg1wVezMhOHXo+Bw3ancYtKJ3CZpKir+7vUl+OBVMhcSH/gdDy
-	z6gVgxdr08DB210QqlFhGYcR5kRf5OOSUU5RywFfjn+8JMqxYPnrhVlg1ISdUTcYvJZR5Gd4ZnF
-	jjIZ80Zmv5NgP7mWqy1JnkOFwKNboTJOMnY3GLOfaRWu21QsHt40uSXQDFwdcx0LRPLKjPEc3ae
-	tWuu+lRiN/Fi+zLSVWF/y26dqhU55g5dg/LgxuPGb9SUu/oLpMYGMJY1SAmU6h9GrxG6H31pBtf
-	buAII8MoBOe4ejTTRbee/Hgnjd8jaf00q
-X-Received: by 2002:a05:600c:1d8c:b0:4bb:5345:606b with SMTP id 5b1f17b1804b1-4bb8882358dmr243856655e9.31.1795453088912;
-        Mon, 23 Nov 2026 08:58:08 -0800 (PST)
-Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906817ccsm179329005e9.5.2026.11.23.08.58.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 08:58:08 -0800 (PST)
-From: Amir Goldstein <amir73il@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Chris Mason <mason@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Carlos Maiolino <cem@kernel.org>,
-	Alexander Mikhalitsyn <alex@amutable.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-unionfs@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v2] xattr: enforce the name and size limits for in-kernel callers
-Date: Mon, 23 Nov 2026 17:58:07 +0100
-Message-ID: <20261123165807.1939942-1-amir73il@gmail.com>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261123113513.1910906-1-amir73il@gmail.com>
-References: <20261123113513.1910906-1-amir73il@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VIwVVeNh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 288E81F000ED;
+	Mon, 23 Nov 2026 17:19:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795454382;
+	bh=+FrBWwyWG2ofrr4+eX/hR4EQoleVZwLseOTkT4V6vlI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VIwVVeNhymyUQbQGqVW+YvmnbRNxn3o3mDgtXy2kVL1odzz+6vHr3rCL+goN9oazP
+	 xs4kvt2oTdgnqOqWqY2FkW723eDXl7qikinE6Guq8722FcmwaCF694l4SS7R8+2noh
+	 q+/8zFyWiI2pvGhVQgvCkQbVkvchKaeDHtHSIDkHR1oJoamLhwGxZrgnkHc7gN1h+s
+	 Uf5LnSW5vBIv369w4YmF2j1ZX139ZyOivzs34UdGX/m2OgpEVzFjG1CtHzEmx0/jk/
+	 FtuVbXaTY9r4923X4trQ7gXKaLBoalcTruyuAbtUUJZ7nyBctAuwnWwx14gN37jWiC
+	 A47d6bJ5Vs09Q==
+Date: Mon, 23 Nov 2026 17:19:30 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Usama Arif <usama.arif@linux.dev>
+Cc: Andrew Morton <akpm@linux-foundation.org>, apopple@nvidia.com, 
+	byungchul@sk.com, david@kernel.org, gourry@gourry.net, jannh@google.com, 
+	joshua.hahnjy@gmail.com, liam@infradead.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, matthew.brost@intel.com, mhocko@suse.com, 
+	pfalcato@suse.de, rppt@kernel.org, surenb@google.com, vbabka@kernel.org, 
+	ying.huang@linux.alibaba.com, ziy@nvidia.com, kas@kernel.org, hannes@cmpxchg.org, 
+	riel@surriel.com, shakeel.butt@linux.dev, kernel-team@meta.com, 
+	baolin.wang@linux.alibaba.com, Nico Pache <nico.pache@linux.dev>, ryan.roberts@arm.com, 
+	dev.jain@arm.com, baohua@kernel.org, lance.yang@linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH v3 1/5] mm/migrate_device: avoid leaking folio references
+ during THP splitting
+Message-ID: <awR1nOpAuZ48BXFk@gremlin>
+References: <20261123163301.1568240-1-usama.arif@linux.dev>
+ <20261123163301.1568240-2-usama.arif@linux.dev>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -107,115 +65,69 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261123163301.1568240-2-usama.arif@linux.dev>
 
-The xattr system calls refuse a name longer than XATTR_NAME_MAX and a
-value larger than XATTR_SIZE_MAX, but the VFS helpers do not. An
-in-kernel caller may pass a name or a size that it got from another
-filesystem, such as overlayfs copy up from a lower layer.
+On Mon, Nov 23, 2026 at 08:32:07AM -0800, Usama Arif wrote:
+> migrate_vma_split_unmapped_folio() takes an extra folio reference because
+> split_huge_pmd_address(..., true) drops one when it splits a PMD.
+>
+> However, migrate_vma only holds mmap_lock for reading. A concurrent
+> MADV_DONTNEED can clear the migration PMD, or split it into PTE migration
+> entries, before the split helper takes the PMD lock. The helper then does
+> nothing and leaves the extra reference behind. folio_split_unmapped()
+> fails with -EAGAIN due to the unexpected reference, and the reference is
+> never dropped, so the source THP is leaked.
+>
+> If a THP is faulted in at the same address inside that window it is
+> worse: freeze = true replaces the new folio's mappings with migration
+> entries that nothing will ever remove, and drops a reference the caller
+> never took.
+>
+> An existing migration PMD is expanded into PTE migration entries even
+> with freeze = false. Use that mode and remove the extra folio_get(). The
+> reference already held by migration keeps the source folio alive whether
+> or not its PMD migration entry still exists.
+>
+> Reported-by: Zi Yan <ziy@nvidia.com>
+> Closes: https://lore.kernel.org/all/DLZ48KMS7YG8.3BTM0UUU8CTU2@nvidia.com/
+> Fixes: 4265d67e405a ("mm/migrate_device: add THP splitting during migration")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Usama Arif <usama.arif@linux.dev>
+> Reviewed-by: David Hildenbrand (Arm) <david@kernel.org>
+> Reviewed-by: Zi Yan <ziy@nvidia.com>
+> Reviewed-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
 
-Check both limits before calling the xattr handler of the filesystem,
-and fail with the errors that the system calls return for them.
+LGTM so:
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
----
+Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-Changes since v1:
-- Check the name in vfs_getxattr_alloc() too (Alex)
+> ---
+>  mm/migrate_device.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+>
+> diff --git a/mm/migrate_device.c b/mm/migrate_device.c
+> index 9e19fadfa65c67..3286bb8a4b73ee 100644
+> --- a/mm/migrate_device.c
+> +++ b/mm/migrate_device.c
+> @@ -920,12 +920,7 @@ static int migrate_vma_split_unmapped_folio(struct migrate_vma *migrate,
+>  	unsigned long flags;
+>  	int ret = 0;
+>
+> -	/*
+> -	 * take a reference, since split_huge_pmd_address() with freeze = true
+> -	 * drops a reference at the end.
+> -	 */
+> -	folio_get(folio);
+> -	split_huge_pmd_address(migrate->vma, addr, true);
+> +	split_huge_pmd_address(migrate->vma, addr, false);
+>  	ret = folio_split_unmapped(folio, 0);
+>  	if (ret)
+>  		return ret;
+> --
+> 2.53.1-Meta
+>
 
-v1: https://lore.kernel.org/r/20261123113513.1910906-1-amir73il@gmail.com/
-
- fs/xattr.c | 35 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 34 insertions(+), 1 deletion(-)
-
-diff --git a/fs/xattr.c b/fs/xattr.c
-index 0705801a62cc5..fb5e43d4ff356 100644
---- a/fs/xattr.c
-+++ b/fs/xattr.c
-@@ -178,6 +178,18 @@ xattr_permission(const struct mnt_idmap *idmap, struct inode *inode,
- 	return inode_permission(idmap, inode, mask);
- }
- 
-+/*
-+ * The xattr system calls refuse a name above XATTR_NAME_MAX and a value above
-+ * XATTR_SIZE_MAX, but an in-kernel caller may pass a name or a size that it
-+ * got from another filesystem, such as the lower layer of overlayfs.
-+ */
-+static int xattr_check_name(const char *name)
-+{
-+	if (strnlen(name, XATTR_NAME_MAX + 1) > XATTR_NAME_MAX)
-+		return -ERANGE;
-+	return 0;
-+}
-+
- /*
-  * Look for any handler that deals with the specified namespace.
-  */
-@@ -209,10 +221,17 @@ __vfs_setxattr(const struct mnt_idmap *idmap, struct dentry *dentry,
- 	       size_t size, int flags)
- {
- 	const struct xattr_handler *handler;
-+	int error;
- 
- 	if (is_posix_acl_xattr(name))
- 		return -EOPNOTSUPP;
- 
-+	error = xattr_check_name(name);
-+	if (error)
-+		return error;
-+	if (size > XATTR_SIZE_MAX)
-+		return -E2BIG;
-+
- 	handler = xattr_resolve_name(inode, &name);
- 	if (IS_ERR(handler))
- 		return PTR_ERR(handler);
-@@ -408,6 +427,10 @@ vfs_getxattr_alloc(const struct mnt_idmap *idmap, struct dentry *dentry,
- 	if (error)
- 		return error;
- 
-+	error = xattr_check_name(name);
-+	if (error)
-+		return error;
-+
- 	handler = xattr_resolve_name(inode, &name);
- 	if (IS_ERR(handler))
- 		return PTR_ERR(handler);
-@@ -416,6 +439,8 @@ vfs_getxattr_alloc(const struct mnt_idmap *idmap, struct dentry *dentry,
- 	error = handler->get(handler, dentry, inode, name, NULL, 0);
- 	if (error < 0)
- 		return error;
-+	if (error > XATTR_SIZE_MAX)
-+		return -E2BIG;
- 
- 	if (!value || (error > xattr_size)) {
- 		value = krealloc(*xattr_value, error + 1, flags);
-@@ -434,16 +459,24 @@ __vfs_getxattr(struct dentry *dentry, struct inode *inode, const char *name,
- 	       void *value, size_t size)
- {
- 	const struct xattr_handler *handler;
-+	ssize_t ret;
- 
- 	if (is_posix_acl_xattr(name))
- 		return -EOPNOTSUPP;
- 
-+	ret = xattr_check_name(name);
-+	if (ret)
-+		return ret;
-+
- 	handler = xattr_resolve_name(inode, &name);
- 	if (IS_ERR(handler))
- 		return PTR_ERR(handler);
- 	if (!handler->get)
- 		return -EOPNOTSUPP;
--	return handler->get(handler, dentry, inode, name, value, size);
-+	ret = handler->get(handler, dentry, inode, name, value, size);
-+	if (ret > XATTR_SIZE_MAX)
-+		return -E2BIG;
-+	return ret;
- }
- EXPORT_SYMBOL(__vfs_getxattr);
- 
--- 
-2.56.1
-
+--
+Cheers, Lorenzo
