@@ -1,114 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.157
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=101.204.27.37
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795399734;
-	b=24rgb93cylKrnjCqKuZ17MVScTziAKetT3IKM5CpzanC83w9WVDXxvDpmVwPlOHHCLhB
-	 nQyAGrWN5/FYLMTJUgFjTu8lfsCWij9WHRVgaVP//hj7ZufLjbLVtIlK9zdZHcdWTXDmg
-	 /ZaXWzwP+rw0ycGcC0NHg4jMC39lPwyuUG0u+ft2B27IZanSFkamAZEQX5iKwg3Kn+7rh
-	 syX4U0ms+lmlVSTIZqFS8ZHPPAupqWkV1hbrKqwEY5rmmKv5QERBJPzMlJQuK04Usr05Z
-	 Hxg8nn/tSZU5rtewh0zWRQ61aFoWor4LsMgnmlJHRJCfAOhJlr2MzbUheBckyUcFjTw==
+	t=1795401110;
+	b=zRbLC/wRmj2km/B20AjoUkzqP1y0gj53BGbqqDlK1PhlwZJtuhsd90xfgQAwyYfSsuEo
+	 EWakmeT+2Vn0XL5nmOyS2p5ROsxlf9j+uWHPXOfs5BftJXaPnGvKsV7k784escaOkJCsy
+	 eB+K3lofgMAkfBoyeJr8RQTZhX8DYuVEE6W98gVQ/OM2rtYZMa7qrh5F0jjD/8uriy9Sy
+	 2Y0QbfwYYwE8kD+UERKQu4Z5iF323Hj9TWYJyhp8z0YQfcMxNcWcxFaW+EU3s1PDipDKX
+	 TFHdPopBnJ7K/5Ovx88Y4WWNVTyRuVOtR8hRwzQoUJot+3PCmGNQpX4bLCmNwMwHPkw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795399734;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Content-Type:Content-Transfer-Encoding:MIME-Version:From:To:
-	 Cc:Subject:In-reply-to:References:Date:Message-id:Reply-To;
-	bh=ooxMvdZXMju3msGTAmKvtfVxQuizzxh7ftVHrTzzQ/c=;
-	b=bXRe9YkgWUOGnSBp5+ADSVj5n7V3pqpOfyIDnPdA/Sq6yWsM2Noycy45ZCOF/uh4Ofjg
-	 AJLwxF2+L1kHg0QSeeOGU/XuAsPQ/JIynG4ZgYx4LpfUrlcBV/Hce3JSnnNXo9GxInTXR
-	 vPqgdNeVCtSsOFwnCOW8auNcwtRYLn337lmD5CAl0BDZvlc2IEVdsgzbbaojfpXQw6qeg
-	 m9k/AVoYwfp5uR9NrWUmYo05FkWzYKyseZoPgVIU5LLUe/pckdRyTm3WQk0RrWY9qEasg
-	 0tKzSWTOE9B1OXPuT//4qS2Cwvx2d1U7GcpY6WVAXpbfExYPM65e5fO/88DRX4gEeQg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795401110;
+	h=DMARC-Filter:Received:Received:Received:Received:Date:From:To:CC:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
+	 X-Originating-IP:X-ClientProxiedBy;
+	bh=DubBYw11u39hDCHP507B0e3hI2K38GChIQfRTnxdD6k=;
+	b=VSstbkwALkaobamdDa3lJtNZO9oGXsTgC5UCPpfKda7m8RCna9R+9w6jFDsaKRMGsYjj
+	 KN0xmhbPEosTn6DErdBk/Q/epBkKsmqJ9UqzeaJFEkXomlX9YD3RDTF4sHRNMKcKwb4uY
+	 QCtwfmL1gGClQISnSj1XS6XT8pEqzwZN44a10q7LXhRsLiv+IQAs9ak5KdsdlcntUgjZR
+	 oNwPqWimARBQb1lzcji1Ul70yRNlIF3T26gC9L2NR4nfEXYVBNtrGnJGLHG8REglTJBIO
+	 pZ5PdBbO0cUPQmlBqkiN6g87U7i04Z0ePZ0cNiaEANEFXHKjMrs4in5/5hYFyE7yxhg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ownmail.net;
-	spf=pass smtp.mailfrom=ownmail.net;
-	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm3 header.b=n9gueB8s;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=czXj2zpV;
-	arc=none smtp.remote-ip=202.12.124.157
-Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C8C606A31A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 02:08:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48C8C606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm3 header.b=n9gueB8s;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=czXj2zpV
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id B3C5A7A03A9
-	for <linux-fsdevel@vger.kernel.org>; Sun, 22 Nov 2026 21:08:52 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Sun, 22 Nov 2026 21:08:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
-	1795399732; x=1795486132; bh=ooxMvdZXMju3msGTAmKvtfVxQuizzxh7ftV
-	HrTzzQ/c=; b=n9gueB8s+iA5PrAg5jMelWY8XRukOio5KrRUwwI9Ud2G7rTSwpo
-	RzczQNwexLuZmOEYHUpEsasseI9sgfLWd8ZrRICcDI6tISgtbQzoQCMlAm9R+I7B
-	bipBFkGKektYI8X7qh1Nu5TmuYIx0/BOsevC/0/err2z2LqFwP6mk8wQ2sXgm4bQ
-	NBa5FjMZEPogS5RWH9va/sHX5QOVVFbunyIn2BmybaFfuP5LDqUOKFaH4PK1bwnj
-	JOgefS4JVDZEc0lDCpxTrBIOnN3gI4QR+znrbVUb5drUxwR9KEGZDplCPpI2ELnP
-	ENZQmWoTKIEve0hU4/MVZWfcEFDRoaN3IWw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795399732; x=
-	1795486132; bh=ooxMvdZXMju3msGTAmKvtfVxQuizzxh7ftVHrTzzQ/c=; b=c
-	zXj2zpVAFo7XiFvd7wg3JGx1iWKro9ncdau6Eboa/p44ZNV2lZYai0Jyv2qVztNq
-	DTr5Qg4ClFTNVrpB7LYxeHI3jh9EuGNnljzbLcFJnJQdJWrFdcMXG5IsWM6wjYFD
-	m0pF0Nkf7hmfpmW9PmAIZm7OBWopX4VMKmu3aTStpTNxPvcGTPnnublfrCOSTIos
-	Bd7A94a2vdaV6qLrmSfxv+yF88kqkq6Qas6ANx+o1M4wyu55G88RcyfIFz2C9ds7
-	iWPo8FowLbszC1nPoRxJ+muXRvozZ60sMP+1F53Ma9SqCheCv8mXlCxKVfVRYsXY
-	Cck0Nnl58LhoDBsk/X85A==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=ownmail.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795399732; d=ownmail.net;
-	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
-	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
-	s=fm3:rsa-sha256:hDrmLwCVKOpw4hIuFG1gFtqbilpu5UhHv76mdowpfb0j8Al
-	ZbLdOkkJO0GtGPg3AWQNN8B9oOOra+7vLLi6vv4kaiY8eEy7bTso4RAyprbsqdEg
-	mnfAoCq+/0fDBHk/ZnH8eAfL3dPz6zIe/mQUhxfGYaMOPIkEyUYQSdCN3qBAvcGf
-	pRjjAfJVnjC/BGG1kVnZu7wOzZSjZGVtxNME8gSkB5AgPXqI0LTiZSX/hLbpCS+Q
-	HpiEG4ZdJ2XdJVaa/tP7QqSdLWSxSgeySkABCos3zrrFNCCOW5fIr8d4Yhmla6/D
-	PIsLMW518Ta9x59zkmDc+xLtlmQ8HEiIjCSmrhQ==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=13;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,reply-to,
-	subject,to;
-Message-Instance: m=1; h=sha256:fSkPfXsYE/29bpqoux9Sb00xe2WdRT5y5ocHkmMVaDY=:0B0R4a0Uxs8mO8xU1NS2W7JyQlf1V5qQb/qqBvheRXY=;
-X-ME-Sender: <xms:M6ADaz-D_um56qWNVRdxKN30k79sV_iKSs-NFcJpaZrKh_4_yDsEqQ>
-    <xme:M6ADayRcEB6m7TXohpNNDK3sUgGxN8r2VnqZBm__lEhBRDtSTcq3MYl9ViU7HOMm8
-    7pKs43jwLB54StrpVYxainx1l2BsIWnctgLErqx_AG2XJrXklQ>
-X-ME-Received: <xmr:M6ADa0poDTA0vo-yeUGL-WEteC_sQ_1GQYVEADdtGb-mRH9XxjXZrF_zGTAe69ZgiSBuVeKDvgUGC5bxnyEx5dv6a2k3bTQ>
-X-ME-Proxy-Cause: dmFkZTGZpma1LXTEdkMh92n9ALRzM3tfBPhC16pjSbsHa8ntcNq6/iu1QYyKVgIRZnL8AQ
-    9FPgZC5un1n7N8IyLHFWo4O0ZY0vUbzbSVAuOYxyM8uZzPGSqW+z+pedlPQJ6dFOUtjcT7
-    MmNPrfqwhsPqiAO9I6CZ5EzdkBqbcZz8lGd5d9pDzEqVuYBDSLcuM8GXMDEcvHWbJ75zCa
-    RoT9dMREvK9wYnKfls6MmDH/BaiIr76vcpSIR5zvpQkc3Hy5zXXn5+lC/s8tQIcOr/GwUb
-    WGQxO1f4FpGKQfxWQ+pN7AI4mLv/R0txYCiy7H1U/smXSpicCMZh+xVLNsVyMvx3GG0sXL
-    tdMu5rXD82dAUcZaQrkJYmBcKOYxu2tFl2J4Hid/z1BXGg6kAPEtk2ZPGiMgraEyWtBns6
-    V94C3evkxsuL4BI/TVI6RpYPH6JNH/1f8UDKNGak9syxmYnHU/PaY0JDaV7Vl2zpmzN05x
-    K7/tDVpp7YP/LYG0pireBRmhM3MeiYQuqQXFSxMHAHcIjazhQgjdtspBmSl7oqclQoX1d6
-    475BCn0cgteeYJoMKSJ3NAnfuUyvPCKzIO3MsH1o1Fe82OUVLNLcUfu8TJlIIctLf+iNqv
-    G1CSZs55B47/GVbvmuAWzfB1u37eycJcE2DyZ7OHJeA8kHTv+DDsgsDwuIhA
-X-ME-Proxy: <xmx:M6ADa_mYLN_N7btLPMlFZYMGnEFqqz7FFBnGjSLYS3kRvBYBpBdktg>
-    <xmx:M6ADa9cHeYwanuJr2aFP98v2Ot2rcUX6dYKkfcKzu6ndUdBGiA6hlw>
-    <xmx:M6ADa7o2aUoM_craC8bz0ilazehW-VPwZdl2Zq2ajzl9CUrH01H63A>
-    <xmx:M6ADa3Nldr6lsNU12PlGlFXnXljmOeHcFXiIF63ITP21g6FuzBiX2A>
-    <xmx:NKADa1taq4Wj8x2Evp11SNBmAnzr4JPTi2wJbltVwb40xFGMfPFnq6zf>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 22 Nov 2026 21:08:49 -0500 (EST)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dmarc=pass header.from=hygon.cn;
+	spf=pass smtp.mailfrom=hygon.cn;
+	arc=none smtp.remote-ip=101.204.27.37
+Received: from spam01.hygon.cn (unknown [101.204.27.37])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87528606A31A;
+	Mon, 23 Nov 2026 02:31:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87528606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
+Received: from maildlp1.hygon.cn (unknown [127.0.0.1])
+	by spam01.hygon.cn (Postfix) with ESMTP id 4jXqh34zJCzVcB5;
+	Mon, 23 Nov 2026 10:31:31 +0800 (CST)
+Received: from maildlp1.hygon.cn (unknown [172.23.18.60])
+	by spam01.hygon.cn (Postfix) with ESMTP id 4jXqh073qvzVcB9;
+	Mon, 23 Nov 2026 10:31:28 +0800 (CST)
+Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
+	by maildlp1.hygon.cn (Postfix) with ESMTPS id 95C6216DB;
+	Mon, 23 Nov 2026 10:31:26 +0800 (CST)
+Received: from hsj-2U-Workstation (172.19.24.226) by cncheex04.Hygon.cn
+ (172.23.18.114) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Mon, 23 Nov
+ 2026 10:31:26 +0800
+Date: Mon, 23 Nov 2026 10:31:24 +0800
+From: Huang Shijie <huangsj@hygon.cn>
+To: Andreas Gruenbacher <agruenba@redhat.com>
+CC: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <jack@suse.cz>,
+	<hch@infradead.org>, <mic@digikod.net>, <axboe@kernel.dk>,
+	<gnoack@google.com>, <paul@paul-moore.com>, <jmorris@namei.org>,
+	<serge@hallyn.com>, <legion@kernel.org>, <aleksa@amutable.com>,
+	<libaokun@linux.alibaba.com>, <ebiggers@kernel.org>, <djwong@kernel.org>,
+	<sandeen@redhat.com>, <zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>,
+	<yingzhiwei@hygon.cn>, <wujianyong@hygon.cn>, <shijie8@gmail.com>,
+	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-block@vger.kernel.org>, <gfs2@lists.linux.dev>,
+	<linux-security-module@vger.kernel.org>
+Subject: Re: [PATCH v3 0/11] vfs: add inode iteration methods
+Message-ID: <awOlfBGNgQoassIt@hsj-2U-Workstation>
+References: <20261120031305.3561045-1-huangsj@hygon.cn>
+ <CAHc6FU7URHetBU9XgP0DSEGjWQfq0tX+ohK8xRVZLEYzgJBeEw@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -118,109 +67,88 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Jan Kara" <jack@suse.cz>
-Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
- "Amir Goldstein" <amir73il@gmail.com>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, "Ian Kent" <raven@themaw.net>,
- "Jake Edge" <jake@lwn.net>
-Subject:
- Re: [PATCH v5 2/5] fsnotify: update children flags only when adding mask bits
-In-reply-to: <mk7u4brorzgbyol7x4nyolufk3s3piqwqd5hnya3nhoq43d5ui@x5sdqeyrhde6>
-References: <20261119025942.2848130-1-neilb@ownmail.net>
-  <20261119025942.2848130-3-neilb@ownmail.net>
-  <mk7u4brorzgbyol7x4nyolufk3s3piqwqd5hnya3nhoq43d5ui@x5sdqeyrhde6>
-Date: Mon, 23 Nov 2026 13:08:45 +1100
-Message-id: <179539972541.1728055.8282722306710793371@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHc6FU7URHetBU9XgP0DSEGjWQfq0tX+ohK8xRVZLEYzgJBeEw@mail.gmail.com>
+X-ClientProxiedBy: cncheex06.Hygon.cn (172.23.18.116) To cncheex04.Hygon.cn
+ (172.23.18.114)
 
-On Fri, 20 Nov 2026, Jan Kara wrote:
-> On Thu 19-11-26 13:57:02, NeilBrown wrote:
-> > From: Amir Goldstein <amir73il@gmail.com>
-> >=20
-> > Since we only ever set the PARENT_WATCHED flag from
-> > fsnotify_recalc_mask(), there is never a need to update children flags
-> > when removing mark mask bits only when adding them.
-> >=20
-> > Add a helper fsnotify_recalc_mask_and_update_children() to be called
-> > in cases where updating children flags may be needed (i.e. add mark).
-> >=20
-> > Also avoid update children walk with mark spinlock held.
-> > This was only done by dnotify and can be easily avoided.
-> >=20
-> > neilb: added update_children flag in fcntl_dirnotify() so we only
-> >   do the update when needed.
-> >=20
-> > Fixes: 172e422ffea20 ("fsnotify: clear PARENT_WATCHED flags lazily")
-> > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> > Signed-off-by: NeilBrown <neil@brown.name>
->=20
-> One question to Amir below. Otherwise I like it.
->=20
-> > +/*
-> > + * Recalculate mask and update children dentry PARENT_WATCHED flags if t=
-he
-> > + * connector started watching children.  When parent stops watching, we
-> > + * clear false positive PARENT_WATCHED flags lazily in __fsnotify_parent=
-().
-> > + *
-> > + * The caller must make sure connector and connector->obj cannot disappe=
-ar
-> > + * under us.  This is achieved by holding mark->group->mark_mutex for a
-> > + * mark on this list.  mark->lock must not be held by the caller.
-> > + */
-> > +void fsnotify_recalc_mask_and_update_children(
-> > +					struct fsnotify_mark_connector *conn)
-> > +{
-> > +	if (fsnotify_recalc_mask(conn))
-> >  		fsnotify_conn_set_children_dentry_flags(conn);
-> >  }
-> > =20
-> > @@ -367,8 +383,8 @@ void fsnotify_modify_mark_mask(struct fsnotify_mark *=
-mark, u32 set, u32 clear)
-> >  		recalc =3D true;
-> >  	spin_unlock(&mark->lock);
-> > =20
-> > -	if (recalc)
-> > -		fsnotify_recalc_mask(mark->connector);
-> > +	if (recalc && fsnotify_recalc_mask(mark->connector) && set)
->=20
-> Amir, why is the '&& set' check here? Under normal circumstances if
-> fsnotify_recalc_mask() return's true, 'set' is true as well. We can be
-> racing with other updates to the connector list of marks and in that case o=
-ur
-> fsnotify_recalc_mask() call could be the first one that noticed the marks
-> attached to the inode are now watching children and is thus resposible for
-> setting children dentry flags even if 'set' was false. So I think it can do
-> only harm...
->=20
-> And for similar reasons I believe fsnotify_recalc_mask() call in
-> fanotify_remove_mark() needs to be updated to
-> fsnotify_recalc_mask_and_update_children() as well. Standalone
-> fsnotify_recalc_mask() is simply never safe unless it is followed by the
-> update children later - perhaps make it __must_check?
+在 Fri, Nov 20, 2026 at 03:59:10PM +0100，Andreas Gruenbacher 写道：
+> On Fri, Nov 20, 2026 at 4:13 AM Huang Shijie <huangsj@hygon.cn> wrote:
+> > This series adds two superblock inode iteration helpers,
+> > super_iter_inodes() and super_iter_inodes_locked(), and converts the
+> > open-coded sb->s_inodes walks in the VFS to them.  The design is based on
+> > Dave Chinner's patch set:
+> >   "vfs: improving inode cache iteration scalability"
+> >   https://lore.kernel.org/all/20241002014017.3801899-1-david@fromorbit.com/
+> >
+> > About the two helpers:
+> >
+> >   int super_iter_inodes(struct super_block *sb, ino_iter_fn iter_fn,
+> >                         ino_iter_eligible_fn eligible, void *priv,
+> >                         int flags);
+> >
+> >   static inline int super_iter_inodes_locked(struct super_block *sb,
+> >                                              ino_iter_fn iter_fn,
+> >                                              void *priv);
+> >
+> >   - super_iter_inodes() runs @iter_fn with a referenced inode and with
+> >     sb->s_inode_list_lock __dropped__, so the callback is free to block and
+> >     to do whatever it wants with the inode except drop the reference the
+> >     iterator holds.  The iterator releases that one reference per inode
+> >     itself, so the callback cannot leave a dangling inode behind.
+> >     It is exported because GFS2 can be built as a module.
+> >
+> >   - super_iter_inodes_locked() keeps sb->s_inode_list_lock held for the
+> >     whole walk and takes no inode references at all.  Its callback
+> >     therefore only has an existence guarantee: it must not block and
+> >     must do its own inode state checks and its own reference handling.
+> >     It is internal to the VFS, being declared in fs/internal.h.
+> >
+> >   - The callback is separate from the caller's data, so a caller keeps
+> >     its state in its own structure instead of filling in a shared
+> >     context:
+> >
+> >       typedef int (*ino_iter_fn)(struct inode *inode, void *priv);
+> >
+> >   - %INO_ITER_F_REFERENCED restricts the safe iterator to inodes that
+> >     still have a reference.  It preserves the "only handle referenced
+> >     inodes" rule of landlock's sb-delete walk.
+> >
+> >   - %INO_ITER_F_NOREF does the opposite: only inodes whose reference
+> >     count has already reached zero are handed out.  %INO_ITER_F_NOIGET
+> >     suppresses the reference.  Neither keeps the inode alive, so the
+> >     caller must make it unclaimable itself.
+> >
+> >    Patch 1 adds super_iter_inodes().
+> >    Patch 2 adds super_iter_inodes_locked().
+> >    Patch 3-5 convert the callers which cannot use referenced inodes
+> >            (dquot removal, nr_blockdev_pages() and the
+> >            generic_shutdown_super() poisoning loop).
+> >    Patch 6-11 convert the remaining callers (inode eviction, sync_bdevs,
+> >            drop_pagecache_sb, add_dquot_ref, landlock's hook_sb_delete
+> >            and gfs2_evict_inodes()).
+> >
+> >
+> > BTW:
+> >   This patch set depends a small patch:
+> >   "fs/drop_caches: skip filesystems without fs writeback"
+> >   https://lkml.org/lkml/2026/9/23/675
+> 
+> That link doesn't work for me. When referring to other postings, can
+> you please use lore links?
+Okay. No problem.
 
-Hmmm.... I had thought that the group lock would prevent these races but
-I guess not.  Maybe one mark can be in multiple groups???
+> 
+> There also is no posting of a patch with that title from that day on
+> https://lore.kernel.org/linux-fsdevel/. You may be referring to
+> https://lore.kernel.org/linux-fsdevel/20260920072811.2064247-2-huangsj@hygon.cn/,
+> but that patch queue no longer applies. So please post patch queues in
+> a state that applies and optionally, make a git branch available.
+> 
+I will add the kernel version in next version.
 
-Given that, I don't think I can form a sensible opinion on Amir's
-revised patch.  It looks OK and I think I can see what it is trying to
-achieve and how it achieves it, but I'm less confident that I can see if
-that is the thing that needs to be achieved.
-
-So Jan - if you could review that so I can add your reviewed-by when I
-repost, that would be great.
-
-Thanks,
-NeilBrown
-
-
->=20
-> 								Honza
->=20
-> --=20
-> Jan Kara <jack@suse.com>
-> SUSE Labs, CR
->=20
+Thanks
+Huang Shijie
 
