@@ -1,112 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795413195;
-	b=qd5Zngnq8uYQU8EPcR5KFKxGI+IdKaxKiVu6jZuyDfeVYB6bFv9r4/1/1JWODeL++EJ5
-	 pXtb6l2XL7Qt7hWKquCW6eTgM/wWYU88lB/lC8SlYn88oBzGZstmtEJ8HaLlo2Z9CCWJL
-	 aw3FbxKsJWouPloFTDtE9lhlL6fObcwuZ6r5gNxeS00SADx2/z2UNgpbGRM06YkCG7JWN
-	 H2qm6P/meVevA4RdvoNRaMWS+x+6LFkGFX4wXm4bb9EVKgK4GCFJOTe5HjYxlwZtD28Xz
-	 pVfudnt7yH8Q+Zgr/Bvho75i5eVST/jf/nASzFg0aTB1v1u3/xA2FJMtS+5NEYzm3rg==
+	t=1795414286;
+	b=m74MXK5U/Ii/cF5P1/MK0zWND4oW10C5AzXzjIm0iRmwxZoMTpkzBQrFrdn4h9bCQKc4
+	 KCnBm2zLToBqicbDbweiPOabdWBEm6Vd6MMC13F83h5syngC2hiyoqwau2c7hiN26rfGg
+	 zMG2VfiPZOBZxZ+UhLhF77VFe8MoK91VX5d8lj6NDo/kc1q7mNZxqXV0cxDIMNTkeuxrX
+	 zQA+RsiCdyffwVdyZUpVa6Z5wOtdxtU0oJKfXbQfeKolA9tUbfm2bMWC2ZsTmFbZWDChj
+	 2RbCJvqASulogEiJqUvVyRJe5afdD1I3j+3W8C8HY5JF95wjd9HQ7vpWvLFw0YkY5Fw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795413195;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795414286;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:In-Reply-To:References:MIME-Version:
 	 Content-Type:Content-Disposition:Message-ID:User-Agent;
-	bh=eQLd8QgogrHpSVXIhi24k1QGI+Nh03QUKUs1yU2g3aM=;
-	b=Z5H4pBO1SMyoEeRsnoT1bPA6tkt6HaxufYbnh3VwvHez5akeXQ0dbRLyYvKqu++udLCe
-	 YQqtlAH1B7BKfAVKuf07nv8h97DIIB+AkG6bw37LZyR35A5SsPN9QESano1zqfT++RGf/
-	 M6yGZ0Sx5RcrXPoCgwgqgqy0R5KyCMLLN+leBjUvodr8eoVdms7R0iDPlBY6YEHzcw3CB
-	 NcgaE2o0Lleyf3I/ShJ7KV3QpuIU4nWHYAZu+a0xx4TkSTJX67FBoUb9tLHTiT2kQwfr2
-	 JC/hy9cSqbbNu+YFt3nCzK/GDd2/5XOpUVMBWsAT38ONzxYamo/6M0U9GOUVjH7bL9w==
+	bh=GwvMLEpH06q7oweFh5LKZ8RQkrZMsU7+3f+WbZdQx1g=;
+	b=DETkVyKDY6GPBrh6SO3jKkWYTPa/AExYB1en/GMRZGLB02GGPSZ8szhNBCIYLEtLKAL4
+	 9IwMxtDz4pVNfnpETrEo0Y9c1kACWydBexUQdw/JB5YfgEeO87KxHh0iyKkRc7gkCXFme
+	 +p3jQ2ahVmFEHkxBOHC39ffhCr7Y1EDtGIejl8BjzVm7OiMhAPW41FE18U1hJS88qo8ps
+	 vWKeLWPJUeSCxSQ7Cl9ht6w/52Oe86AVx4wXPRq62zZDibh5U8PYoXbSC9udFty8Jll8x
+	 avZWaaD7vgxR87RjgyYshUg04rJnRpw20ISyU+04XG/7bo3WQJdMRGPcuktLA0P443Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=chrisdown.name;
 	spf=pass smtp.mailfrom=chrisdown.name;
-	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=kegsq8uh;
-	arc=none smtp.remote-ip=209.85.128.176
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=AuJUjnTC;
+	arc=none smtp.remote-ip=74.125.224.44
+Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44837606A31A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 05:53:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 44837606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F334606A31F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 06:11:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6F334606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=kegsq8uh
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-8b3402105b9so19013347b3.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 22 Nov 2026 21:53:14 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=AuJUjnTC
+Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-67da564d9f2so3821802d50.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 22 Nov 2026 22:11:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1795413193; x=1796017993; darn=vger.kernel.org;
+        d=chrisdown.name; s=google; t=1795414285; x=1796019085; darn=vger.kernel.org;
         h=user-agent:message-id:content-disposition:content-type:mime-version
          :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=eQLd8QgogrHpSVXIhi24k1QGI+Nh03QUKUs1yU2g3aM=;
-        b=kegsq8uhmtxjR/pJOhtAujkXAVHKSFRBNZ5lrlH8efJHm2VcBfXxdujDKKMzi5Mipr
-         SfZAkGi5sRSP+SBD+2v7+dgCYbevza04Rs72gGs6ihAO9KvLXlkEoHv3/sb+u215IWoK
-         T4VxePiP3BCDMF9LUIJVizvgJEpFQ3Q5wjM0M=
+        bh=GwvMLEpH06q7oweFh5LKZ8RQkrZMsU7+3f+WbZdQx1g=;
+        b=AuJUjnTCDQjW0sRwRqkQGsiRz50XnJQVN/9h3eRtAnqxV0IaqTgeMpJuWE3mreXHZ0
+         u2Dw7h3nBX3Ar9XXtj4bp43M36cLvvdQYcjsAAxJFTaMuMtU3M4puk/LB+8kTFQZupyX
+         eyIfE+2JhjPpcsCBYSMq4yMW+VCdu3YJiCIcc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795413193; x=1796017993;
+        d=1e100.net; s=20260707; t=1795414285; x=1796019085;
         h=user-agent:message-id:content-disposition:content-type:mime-version
          :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=eQLd8QgogrHpSVXIhi24k1QGI+Nh03QUKUs1yU2g3aM=;
-        b=TRE6K54GyS7HGIFv7RSeQZv06fat3SKGBFR/KG/f9miXplfeF3DMmgRULAp/+j5hZA
-         ImbjzQszdoXjwO9JEsOZ6lF+0+SiDreeH2DvPp2d4wVxAdf4R9um5tcVGXLn5ky5ph5P
-         E6TslVERCruyXwSHLKZ0XtXvbWNFSui2ITsbXoEer2RYMlOQtGhWVXzj6/mcruLFOZAm
-         oCLiIcT/D0rfALb0fvtxxp2dRd6aLQc2Gh+hZ+wQ6gXxXbq2Dc/1qIXDsvsRDd1vAC8P
-         hVJtulUpfWzYwY6hJ7Pc9JCPUMnpslrjC7p/Pu2lFNLwhOicC5d2p1lIVNZ6zNe6H6tb
-         seiw==
-X-Forwarded-Encrypted: i=1; AL+hErFJASObWznnpt7JILb+SZ7kURsgpRs2D4lo0ZRfbTLKu1FnWKsRrCOSgpg/lg7xGo8lmtTmRMrAQ+1Fv4eP@vger.kernel.org
-X-Gm-Message-State: APuU4Z9zMP11WxF1oeajx2YGPRjEeBm3ZULIjpJpkvA8RzVnPy5Fj85V
-	SavbWEuh+DwmEHxZ+GWJD2ilvvNuFJZXWC83sYD8HX+VreuraJ4CodUOkYneeF1opMA=
-X-Gm-Gg: AZFdTZe8w0eRO+3ir5mI/EabJDRVB6gzb7QhxGJ2ZpXvExQYCIgJLHEt1QlsCJSAy2i
-	7kuG7N/eZ1Y4ZRTTWVvVQyqYsoJMa1FyRdLs1lakjiesl+2sv87YcXwGZMyr3UesgLRH23gh+7r
-	vanPoO7GwfR+bKCtmU20FuDDyWJCWslKJMv0GMdDM82Ra+8NQr70vSTYAF7Amhon9ZLGrLX/tPU
-	ch5AbeBIy7Vqw87bJU6GUe+CTRSIN5VZOf/lSXoiockO72uBp4SVtHFU1YzYLpjfbf/W5bsz5xy
-	2BacKDprEl7tUoXihIfVQGHTZRM5pvx7rB3LaDgl+MwEAYt40VorK7Ujh9LJdYeUJKyoQ4m2p+1
-	WHtHcnfqpeQNmzn/VwzlUpIiXnZmZrKTMOJT6Fo0++bIjyzoCi2qYs8e0a6GIacSk6iSUtvcPLe
-	rjYogzRKBV9L5axnq2CgFFxdrnfgKNmfQ2FIpxKjkvoR8D19cTVA+k1aY95sIuxgmffZrTOro63
-	0V3KEwB1BguqX+5LHFUrgnS2qXf1hIbWEcP6DYWBJRjmZoA3JrNfYtZpxhYVp23SuAx2r3jzVyc
-	9S4JQGfViDDV8h7kUq18Lo4N3B46cYDW1nAIVoNQZGpXNagnlqeTczTKlBGKObSw1a21AIhMrms
-	7JSpydpt3hBZkl8BIX88PN7dNYaAUc/pSGyOfRzXraa9rVNQhDW64gPHTm0kvPjjBOMjguVBtFX
-	9Ztet9QsDIhgy4RhAMhRuuosmOSOyTZUw7zOakGRjsHMwu6zLUiVNrQ5/AcxOLMD8uU0zkF8sLt
-	CWMaznsSmmq5gC7r1FQbaj0mtJ47q4aOKHydFvMub+Q9f3gooCzrg9v7mq2MeB3Fw==
-X-Received: by 2002:a05:690c:630f:b0:8b4:dfc2:be60 with SMTP id 00721157ae682-8b520528bc4mr36338177b3.107.1795413193110;
-        Sun, 22 Nov 2026 21:53:13 -0800 (PST)
+        bh=GwvMLEpH06q7oweFh5LKZ8RQkrZMsU7+3f+WbZdQx1g=;
+        b=vBF6sdsJB3WcrKOx0sg/VipugHlOo+a2+UaVkzOH3RDxwTQ/d1pSMi+9iMw8nqwLyl
+         sIaiTN7CkSTtPCjsC4WsQW3A5RTCZfc5HpBV4Isx83Exjvsz3fVpCFVPUoDJEu35p7K6
+         CRWSNYRZ/ZfBAnmoaS5F4YT3SmXJsuV69l/Uz/cq4p42oeZbx+Z27GpvHOT8Nad3J9Lc
+         Um8cBySxnrzoDVAqk6Szbvieusg+NSdHhiHeYuA2HmQea/0bUCzWsjnVbGxIIm26he0g
+         Z/46aTl0rZqF0QuJxOHECB/MMLMGs7IWv8CdO+hfPmGDUhWOGII05ZcXcrCVfq42A/9G
+         /crQ==
+X-Forwarded-Encrypted: i=1; AL+hErHo268yrbpNBmtf9pan2D7XqwkLXiRWQR7GH5Tp8V4iS2cQBlz4u6N9x5aft8BoX2mTDUbtIjD64T6Xrxyy@vger.kernel.org
+X-Gm-Message-State: APuU4Z92R7AWjxfpKQNOlNlZxAPhoMRepOrooW9joXltv6byKx03JJ2z
+	0JIIuf+O7kBcpre0MgwGg8/HveCnp9qtsCsPztn/Wrs03s56H5jRpT68OBhIgECHYPs=
+X-Gm-Gg: AZFdTZeYVQiUmGPK7VM0YZ7eUElA9g+Jq1nhkBKtKjTuIdvy2xYUOJ4Zzu74O5J9d8+
+	E+DbSlbJUeZCI/zWW1Y81nVnY7GTytW61wUTSc/rbYHsQ0zMehmJihhJj5mDZ/DWDWPd6OP9Gfm
+	QuZQlYDNex2NX1Vgp/t5vwt0VLzDhGD+cXWFGz6v5H1WHB67Iu0uVuDMq4ZaGNr3uCYVMCTT0rl
+	PVEZPCShOFLNqcqkiPoFbkUTzFnLskHiMvajreI3hHf0yzSzGmUbiX42eTMdTMw4dgEJc4Li3an
+	PHe3Dlx3MwsSjz/lz7Fg/x0IdKfyhvNG382rb4fXCBsY77MfQ6D7imJB2VDDDIXBIoSu5GriPtA
+	NTTEMUAd08qI+IaxKgoDRZNlN9+vIa2u9u7KSV9kVEV0t5nClbIlGMbFwD4EeDY4NjUc16KcS4O
+	cU8pGFH5SUnDGNOlwGOxG6cGngXxL/8GM9k0Pg9vkoOEZll7r0+S4Q6ybTeDOClBEP0ZbZJz+yi
+	TNBkFcKzaf5wxdi5kJcADfOguFo+41CqpO2h3hjgxU7gxp9PpZKgSDmEgzkAyYhTmy0JUfBmGDv
+	Bmqj9TEhy+OFG2Xzk6L1St9x974mIo6JBqpZEFGqQWbIR6boVQxxVmkKhb02qtzyen90sbbeI05
+	BEmliSMon1z2FVqhQ6CQQuAROTuJ2qxHVwz/PYpbTKAlyk3ZLt1jNn/SEJihNxn2o/gu1lv253L
+	0QvbQEeoR9aImHx+HFmUvGiORjhiBA/YRZDe4b/aq2cDfnWTwUkmP3JiVutQ2fBS/Luzoacn/Z1
+	Gwpmm1JBSE2ks6nUiokuAOUXic1CGzANxPyvH8a4X9H
+X-Received: by 2002:a05:690e:4012:b0:67d:c046:4f71 with SMTP id 956f58d0204a3-67df43d2bb2mr4679580d50.23.1795414285477;
+        Sun, 22 Nov 2026 22:11:25 -0800 (PST)
 Received: from [172.20.0.3] (static-host-74-205-137-217.epbinternet.com. [74.205.137.217])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b5202dd36dsm41031237b3.26.2026.11.22.21.53.11
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b5202bc515sm43136087b3.19.2026.11.22.22.11.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 21:53:11 -0800 (PST)
-Date: Sun, 22 Nov 2026 21:53:09 -0800
+        Sun, 22 Nov 2026 22:11:24 -0800 (PST)
+Date: Sun, 22 Nov 2026 22:11:21 -0800
 From: Chris Down <chris@chrisdown.name>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Liam R. Howlett" <liam@infradead.org>, Nico Pache <nico.pache@linux.dev>,
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	William Kucharski <william.kucharski@oracle.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Claudio Imbrenda <imbrenda@linux.ibm.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	"Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>, Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>, Miklos Szeredi <miklos@szeredi.hu>,
-	Joanne Koong <joannelkoong@gmail.com>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	stable@vger.kernel.org, Chris Mason <mason@kernel.org>
-Subject: Re: [PATCH 0/2] mm: fix deadlock on the folio lock due to inode
-	eviction
-In-Reply-To: <20261122-migrate_reclaim_deadlock-v1-0-83c56185b0fb@kernel.org>
-References: <20261122-migrate_reclaim_deadlock-v1-0-83c56185b0fb@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Omar Sandoval <osandov@osandov.com>,
+	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v3] proc/kcore: allow disabling /proc/kcore at boot
+In-Reply-To: <20261118-masken-disput-miesmacher-27d6baaae6a8@brauner>
+References: <7c10f2e01b6f19229c83e81d887a87f5d1151841.1794904698.git.chris@chrisdown.name>
+	<20261118-masken-disput-miesmacher-27d6baaae6a8@brauner>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -118,26 +102,46 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-Message-ID: <awPUxY7eDWuo_5qP@chrisdown.name>
+Message-ID: <awPZCeNqLKVpnbKj@chrisdown.name>
 User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
 
-Hi David,
+Hi Christian,
 
-Thanks, this looks good. I exercised that in a VM:
+Thanks for picking this up!
 
-- with the series applied, migrate_pages() on a virtiofs file mapping
-   no longer allocates destination folios while it holds folios from
-   the batch locked
-- splitting a file THP no longer passes __GFP_FS to the XArray node
-   allocations
-- and the migration and split_huge_page selftests still pass
+Christian Brauner writes:
+>Iow, it would be nicer if someone took the time and came up with some
+>boot setting that is a list of memory protection settings instead of
+>spraying ever more kernel command line switches that nobody can
+>reasonably remember or use.
 
-That said, I didn't manage to practically trigger the deadlock with a
-virtiofs mbind() migration racing an unmap before this patch. It might
-just be that I am unlucky though, and the code looks correct.
+Hmm, I agree that would be nicer, but I don't see a good way to do it. How
+would you suggest going about it?
 
-Given that for the whole series:
+In my mind, the model one would have for a list like that is mitigations=,
+but it didn't replace the specific switches, right? For example, retbleed=
+and mds= have nevertheless stayed. In that case, the list sets their
+defaults, but more specific switches win out over it.
 
-Reviewed-by: Chris Down <chris@chrisdown.name>
+These are the problems I see with a list like that:
+
+1. I don't know where the list would live. A list of memory protection
+    settings in procfs would cover two switches today (that is, kcore= and
+    proc_mem.force_override=). Anything wider crosses into mm and security
+    (I have similar switches out for slab hardening and mseal, for example),
+    and it isn't clear to me who would own that or decide what goes on it.
+
+2. Lockdown already has a list of what gives access to kernel memory,
+    with entries for /proc/kcore, /dev/mem, kprobes and so on (although
+    not for FOLL_FORCE), but lockdown= only takes the two levels.
+    Selecting individual entries was proposed last year, and the lockdown
+    maintainers turned it down because most entries can be bypassed when
+    they are used on their own [1]. So a wider list would have to be a
+    second one next to lockdown's.
+
+Did you have something specific in mind in terms of a design and what it
+would encompass?
 
 Chris
+
+[1] https://lore.kernel.org/r/2vldrnqs6fbljqqp6vbwmkushx6dxcpephgb6svmu5i64lijpy@lg37aflddv3b
