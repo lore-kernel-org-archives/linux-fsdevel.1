@@ -1,59 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795410985;
-	b=xbbByEegY9US6Odf4NovQF2B42XZRyWZOemj+KLASyUNcXUtt8y27nB5YyCY22TYLgf0
-	 9gQQn5wWxlkr8x/RjYmahof+xCTU7w5LqRDjZ9TviVZMw9DXHQ60JbQifYrM2VRWHrnK5
-	 +jkhVatVMYVnO9kfMFeHc518bvKY5IcoSvylG5gGezfn2EL1kOPHLSgFxojB2soWRD6of
-	 8L8PdHIaenyuBHeh7kzNxakrBh21wFls63OeR7mOOOajmN4Y/XN3uqVneBVZEwZ5NUb1+
-	 YgIU5Y8hqNoWh1iiZxR79koBPuw0Cz/zWDU+GS5UczNTw4glStHErFcBPsNEW3H17Dw==
+	t=1795411007;
+	b=mqrdDufb10G4m1jKQr9WNlx+A7l5s+C8IuLZdPPcJJd+oNvJVIB2Iegu7K4gFaXvgLlh
+	 0int7V9K5zPlAKOzWzNOkHX/PikztwxXPKAcjqxHQrUMeYGWdkycTsnvUAVbiw+4aA2GC
+	 zCpQ0V8oBkXoGQDjkXmjSM2jA4OT3TOKuU/WrHjQfdbIOe3FLS/hwKzT7Cx04YcJZkWdx
+	 SRzxHXg1CPv31VJEgidqHKbct6DVIKfYePjWbLC+aOa1o/kQzJLjCL6U9pcpv5AzaRiY6
+	 KT6dyFMoAJfAgZHMWn1Yu2NsPCjElbgWvYXq75UT9FEoWWxjLbHMiFQtM1NUQsNUctw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795410985;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
-	 Mime-Version:Subject:Reply-To:Sender:From:To:CC:X-Priority:
-	 X-Content-Kind-Code:In-Reply-To:X-CPGS-Detection:X-Drm-Type:
-	 X-Msg-Generator:X-Msg-Type:X-Reply-Demand:Message-ID:Date:
-	 X-CMS-MailID:Content-Transfer-Encoding:Content-Type:X-Sendblock-Type:
-	 CMS-TYPE:X-CPGSPASS:X-CPGSPASS:cpgsPolicy:X-CFilter-Loop:
-	 X-CMS-RootMailID:References;
-	bh=r5Z6BlcBuMGN6YcRZqc0PnW/X18q5FAHDnfGNUaecNY=;
-	b=yWTJ7qhmOY27tR3wXsIqUhLgLGPSgu4CzuDlDVEUZWJ0DT2c+D/Kvau6WZVKm6vLT/nu
-	 JrlGqcZsg2N3U17h8iA50A8v6dhc+4Zo1/9qwBJGnTjuLZAB+6OKn7M6iug4ArjAWiRLf
-	 dPQURjl2WUlL6JB7I0WsIelHDzLZcwpoOUqxRkYHXNB1nA7dMP0vIB3jgxHpUhTroBOxO
-	 xs/izAhfn/NXBDIpA360p1xFTALeUGhYh6bA2UgyI4AIuMVzQvEFnlCcFPm7hEf3e7rgb
-	 zBMshDFhjbBtjPRIwDcGiPgXmDJcY8UnrKBI1X4u5eVVhOkoyFXyZR3XAbV/oEPlo5A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795411007;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=ATtbdInCTfCLTMOr7GSbNivMP7bT/TsUu68gzYudVls=;
+	b=xAQU44BoA2xXUod+sFuSNo3QMyHbo+/hKbzPChgXgFEcVF8uq0a+T5O2vy9t76i1IH8Q
+	 nUCR5yRxhhcqlxD4ikwwAehyfUDKTvJ1QfoDRtWyhRUL3xdetrnaRlqgvnsHmrD6H0a0J
+	 zhrAQxLsegf8bsKqshzYTkFvdAGRGZ3tx2eca3X39X52xTxWK9kvaPZkLJ9urApU8rPiz
+	 p2m/b91kj8RR4Ws0UcEgnRHBl3/5U/3gS9diK7p30sL4JlpWWsOx7vaY8ZDUer4kf9LIm
+	 ALNt0RAqqYUJm5mcECVhS37sxAVZ0MuhcQ7xbmPZJolDIl0fK+BtCCK9yptdY625thQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=samsung.com;
-	spf=pass smtp.mailfrom=samsung.com;
-	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b="rKiR/444";
-	arc=none smtp.remote-ip=203.254.224.34
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=qBXXpIpR;
+	arc=none smtp.remote-ip=95.215.58.9
+Received: from mta1.migadu.com (out-9.mta1.migadu.com [95.215.58.9])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DDD5606A31A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 05:16:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5DDD5606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA62606A31E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 05:16:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AA62606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=rKiR/444
-Received: from epcas2p2.samsung.com (unknown [182.195.41.54])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20261123051622epoutp0424c25d707b3e93ca3385f42d19855f71~qlMa8xV7t1855918559epoutp04-
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 05:16:22 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20261123051622epoutp0424c25d707b3e93ca3385f42d19855f71~qlMa8xV7t1855918559epoutp04-
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1795410982;
-	bh=r5Z6BlcBuMGN6YcRZqc0PnW/X18q5FAHDnfGNUaecNY=;
-	h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
-	b=rKiR/444DeEpMhCliz9Wt9Zd3MNFpL9TbmEbYsKvQ1nTg2ai/Itxa0jE3eBx/qpbm
-	 0tRFzvRlv5e+EYBqfBAYeFb/vCXnV4n9p9b3Vn7JqBOvJNQe53HiSe8ITj+ykMpm36
-	 OT9mv4P4Fx34IQKgkdQ41AONK4IuZz4mmVhnNXaQ=
-Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
-	epcas2p2.samsung.com (KnoxPortal) with ESMTPS id
-	20261123051622epcas2p28ce34ddbddc2dd758bfdeb29de21e853~qlMaUwYtd1102411024epcas2p2T;
-	Mon, 23 Nov 2026 05:16:22 +0000 (GMT)
-Received: from epcas2p4.samsung.com (unknown [182.195.38.205]) by
-	epsnrtp04.localdomain (Postfix) with ESMTP id 4jXvLF42jKz6B9mH; Mon, 23 Nov
-	2026 05:16:21 +0000 (GMT)
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=qBXXpIpR
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=4ZVQu84GIhvyCFBAaRbAzEUdagqqwSKzjRDGIZcVneQ=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795411004; v=1; x=1796015804;
+ b=qBXXpIpRoEH0/5sLMDtF5f1T8vbxYlouvNobBVVxs9O0EtUr1qJIcw9jy0sQKCVEpsxPy1iQ
+ thpP6wBcy0C/nPUTU75XaV465u8YME6O4VffO4elBkxbQGND2kAS39fblMfwib45emdsDLQIehQ
+ ln4ZAzZk2gouGCM6v9+xnrxU=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id b4f2a7d411dd012f;
+	Mon, 23 Nov 2026 05:16:44 +0000
+X-Mizu-Trace-ID: b4f2a7d411dd012f
+X-Migadu-Flow: FLOW_OUT
+From: Tao Cui <cui.tao@linux.dev>
+To: hughd@google.com,
+	david@kernel.org,
+	akpm@linux-foundation.org
+Cc: linux-mm@kvack.org,
+	baolin.wang@linux.alibaba.com,
+	andrealmeid@igalia.com,
+	krisman@suse.de,
+	linux-fsdevel@vger.kernel.org,
+	cui.tao@linux.dev,
+	Tao Cui <cuitao@kylinos.cn>
+Subject: [PATCH 0/2] tmpfs: fix casefold flag inheritance and document mount constraints
+Date: Mon, 23 Nov 2026 13:16:27 +0800
+Message-ID: <20261123051629.2547645-1-cui.tao@linux.dev>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -62,237 +69,29 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Subject: [RFC PATCH RESEND 1/3] block: distinguish unspecified and explicit
- device-default write streams
-Reply-To: suho.son@samsung.com
-Sender: Suho Son <suho.son@samsung.com>
-From: Suho Son <suho.son@samsung.com>
-To: "axboe@kernel.dk" <axboe@kernel.dk>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>
-CC: "tj@kernel.org" <tj@kernel.org>, "hannes@cmpxchg.org"
-	<hannes@cmpxchg.org>, "mkoutny@suse.com" <mkoutny@suse.com>,
-	"corbet@lwn.net" <corbet@lwn.net>, "skhan@linuxfoundation.org"
-	<skhan@linuxfoundation.org>, "rdunlap@infradead.org"
-	<rdunlap@infradead.org>, "viro@zeniv.linux.org.uk"
-	<viro@zeniv.linux.org.uk>, "brauner@kernel.org" <brauner@kernel.org>,
-	"jack@suse.cz" <jack@suse.cz>, "io-uring@vger.kernel.org"
-	<io-uring@vger.kernel.org>, "cgroups@vger.kernel.org"
-	<cgroups@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "ngeol564@gmail.com" <ngeol564@gmail.com>,
-	KiYoung Lee <kiyoung77.lee@samsung.com>, JinHeon Kim
-	<jinheon09.kim@samsung.com>, Suho Son <suho.son@samsung.com>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-In-Reply-To: <20261123051521epcms2p2445107f926f3acaa2d51c5e12abea90e@epcms2p2>
-X-CPGS-Detection: blocking_info_exchange
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20261123051620epcms2p77535b9a42e657932e12f3367f98344a3@epcms2p7>
-Date: Mon, 23 Nov 2026 14:16:20 +0900
-X-CMS-MailID: 20261123051620epcms2p77535b9a42e657932e12f3367f98344a3
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-X-CPGSPASS: Y
-X-CPGSPASS: Y
-cpgsPolicy: CPGSC10-223,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20261123051521epcms2p2445107f926f3acaa2d51c5e12abea90e
-References: <20261123051521epcms2p2445107f926f3acaa2d51c5e12abea90e@epcms2p2>
-	<CGME20261123051521epcms2p2445107f926f3acaa2d51c5e12abea90e@epcms2p7>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-From: Suho Son <suho.son@samsung.com>
+From: Tao Cui <cuitao@kylinos.cn>
 
-bio->bi_write_stream uses zero to mean two different things: "the
-issuer did not express a stream" and "place this write in the
-device-default stream".  With the io_uring per-I/O attribute and the
-inode write hint as the only producers this conflation is harmless,
-but it prevents a later, lower-precedence producer from telling
-whether a stream was requested at all.
+Files created in a casefold tmpfs directory inherit the
+directory-only FS_CASEFOLD_FL flag, which shmem_set_inode_flags()
+then rejects with -ENOTDIR on non-directories: the inode records a
+phantom F flag, so the value FS_IOC_GETFLAGS reports can never be
+written back and attribute changes via chattr fail, dropping
+NOATIME/NODUMP from the same request.  The casefold mount option
+constraints that commit 5cd9aecbc72c ("tmpfs: Add flag
+FS_CASEFOLD_FL support for tmpfs dirs") landed with are also
+undocumented.
 
-Introduce WRITE_STREAM_NONE ((u8)-1) as the "unset" sentinel and
-initialize bios with it in bio_init()/bio_reset().  Resolve any
-residual sentinel to the device default (0) in
-submit_bio_noacct_nocheck(), before the bio can be turned into a
-request or merged, so drivers never observe the sentinel regardless
-of kernel configuration.
+  - P1: mask FS_CASEFOLD_FL for non-directory inodes the way
+    ext4_mask_flags()/f2fs_mask_flags() do.
+  - P2: document the CONFIG_UNICODE prerequisite, the
+    strict_encoding pairing and that both options are ignored on
+    remount.
 
-In blkdev_direct_IO(), keep the existing precedence and add the
-missing distinction: a concrete stream is validated against the
-device limit; otherwise the inode write hint is used if it was
-actually set (WRITE_LIFE_NOT_SET no longer maps to stream 0);
-otherwise the sentinel is left for later resolution.
-
-Also carry ki_write_stream through kiocb_clone(), which is used by
-forwarded direct I/O (fs/backing-file.c, fs/erofs/ishare.c), so a
-clone does not silently drop the issuer's stream selection.
-
-No driver changes: NVMe converts bi_write_stream to FDP placement
-identifiers as before.
-
-Signed-off-by: Suho Son <suho.son@samsung.com>
----
- block/bio.c               |  3 ++-
- block/blk-core.c          | 12 ++++++++++++
- block/fops.c              | 25 +++++++++++++++++++------
- include/linux/blk_types.h | 13 +++++++++++++
- include/linux/fs.h        | 11 ++++++++++-
- 5 files changed, 56 insertions(+), 8 deletions(-)
-
-diff --git a/block/bio.c b/block/bio.c
-index b0fcc69de6535..0fbf0dfefe85c 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -223,7 +223,7 @@ void bio_init(struct bio *bio, struct block_device *bdev, struct bio_vec *table,
- 	bio->bi_flags = 0;
- 	bio->bi_ioprio = 0;
- 	bio->bi_write_hint = 0;
--	bio->bi_write_stream = 0;
-+	bio->bi_write_stream = WRITE_STREAM_NONE;
- 	bio->bi_status = 0;
- 	bio->bi_bvec_gap_bit = 0;
- 	bio->bi_iter.bi_sector = 0;
-@@ -278,6 +278,7 @@ void bio_reset(struct bio *bio, struct block_device *bdev, blk_opf_t opf)
- 	bio_uninit(bio);
- 	memset(bio, 0, BIO_RESET_BYTES);
- 	atomic_set(&bio->__bi_remaining, 1);
-+	bio->bi_write_stream = WRITE_STREAM_NONE;
- 	bio->bi_io_vec = bv;
- 	bio->bi_bdev = bdev;
- 	if (bio->bi_bdev)
-diff --git a/block/blk-core.c b/block/blk-core.c
-index 2ee079c1ce150..5054a6e21020c 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -765,6 +765,18 @@ void submit_bio_noacct_nocheck(struct bio *bio, bool split)
- 
- 	blk_cgroup_bio_start(bio);
- 
-+	/*
-+	 * Resolve the write-stream sentinel before the bio can be turned into
-+	 * a request or merged. By now every higher-precedence producer has had
-+	 * its chance (an io_uring per-I/O attribute at init time, io.stream via
-+	 * bio_set_ioprio()); a field still holding WRITE_STREAM_NONE expressed
-+	 * no stream, so it falls back to the device default (0). This is the
-+	 * single point that guarantees the sentinel never reaches the driver,
-+	 * independent of CONFIG_BLK_CGROUP_IOSTREAM.
-+	 */
-+	if (bio->bi_write_stream == WRITE_STREAM_NONE)
-+		bio->bi_write_stream = 0;
-+
- 	if (!bio_flagged(bio, BIO_TRACE_COMPLETION)) {
- 		trace_block_bio_queue(bio);
- 		/*
-diff --git a/block/fops.c b/block/fops.c
-index a0ccadaa9c79d..4dab46da49032 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -417,20 +417,33 @@ static ssize_t blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
- 	if (iov_iter_rw(iter) == WRITE) {
- 		u16 max_write_streams = bdev_max_write_streams(bdev);
- 
--		if (iocb->ki_write_stream) {
-+		if (iocb->ki_write_stream &&
-+		    iocb->ki_write_stream != WRITE_STREAM_NONE) {
- 			if (iocb->ki_write_stream > max_write_streams)
- 				return -EINVAL;
--		} else if (max_write_streams) {
-+		} else if (max_write_streams &&
-+			   !(iocb->ki_flags & IOCB_WRITE_STREAM_EXPLICIT)) {
- 			enum rw_hint write_hint =
- 				file_inode(iocb->ki_filp)->i_write_hint;
- 
- 			/*
--			 * Just use the write hint as write stream for block
--			 * device writes.  This assumes no file system is
--			 * mounted that would use the streams differently.
-+			 * No concrete stream was expressed on this I/O and
-+			 * the issuer did not request the device default
-+			 * explicitly either (in which case the concrete
-+			 * stream 0 is kept so neither the inode write hint
-+			 * nor a cgroup io.stream value applies). Use the
-+			 * inode write hint as the write stream for block
-+			 * device writes (this assumes no file system is
-+			 * mounted that would use the streams differently);
-+			 * otherwise leave the field as WRITE_STREAM_NONE so a
-+			 * lower-precedence producer (io.stream) can fill it
-+			 * in at submit time.
- 			 */
--			if (write_hint <= max_write_streams)
-+			if (write_hint != WRITE_LIFE_NOT_SET &&
-+			    write_hint <= max_write_streams)
- 				iocb->ki_write_stream = write_hint;
-+			else
-+				iocb->ki_write_stream = WRITE_STREAM_NONE;
- 		}
- 	}
- 
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index 1a5812fa40529..016707437702f 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -203,6 +203,19 @@ typedef __u32 __bitwise blk_opf_t;
- typedef unsigned int blk_qc_t;
- #define BLK_QC_T_NONE		-1U
- 
-+/*
-+ * Sentinel value for bi_write_stream / ki_write_stream meaning "no write
-+ * stream expressed". Distinguished from an explicit request for the
-+ * device-default stream (0): a concrete stream set by an issuer (e.g. an
-+ * io_uring per-I/O write attribute) always wins, while a field still holding
-+ * WRITE_STREAM_NONE lets a lower-precedence producer (io.stream) fill it in.
-+ * The submit path converts any residual WRITE_STREAM_NONE to 0 before the bio
-+ * reaches the driver. Both fields are u8, so the sentinel is (u8)-1 = 255;
-+ * kernel interfaces limit selectable stream identifiers to 0..254, so the
-+ * sentinel never collides with a stream an issuer can request.
-+ */
-+#define WRITE_STREAM_NONE	((u8)-1)
-+
- /*
-  * main unit of I/O for the block layer and lower layers (ie drivers and
-  * stacking drivers)
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 99caef43ff3c4..e796a1858e187 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -357,6 +357,13 @@ struct readahead_control;
- /* kiocb is a read or write operation submitted by fs/aio.c. */
- #define IOCB_AIO_RW		(1 << 22)
- #define IOCB_HAS_METADATA	(1 << 23)
-+/*
-+ * The issuer explicitly requested the device-default write stream
-+ * (IORING_WRITE_STREAM_DEFAULT in the io_uring SQE): ki_write_stream
-+ * holds a concrete 0 and must not be overridden by the inode write hint
-+ * or a cgroup io.stream value.
-+ */
-+#define IOCB_WRITE_STREAM_EXPLICIT	BIT(24)
- 
- /* for use in trace events */
- #define TRACE_IOCB_STRINGS \
-@@ -374,7 +381,8 @@ struct readahead_control;
- 	{ IOCB_NOIO,		"NOIO" }, \
- 	{ IOCB_ALLOC_CACHE,	"ALLOC_CACHE" }, \
- 	{ IOCB_AIO_RW,		"AIO_RW" }, \
--	{ IOCB_HAS_METADATA,	"AIO_HAS_METADATA" }
-+	{ IOCB_HAS_METADATA,	"AIO_HAS_METADATA" }, \
-+	{ IOCB_WRITE_STREAM_EXPLICIT, "WRITE_STREAM_EXPLICIT" }
- 
- struct kiocb {
- 	struct file		*ki_filp;
-@@ -2202,6 +2210,7 @@ static inline void kiocb_clone(struct kiocb *kiocb, struct kiocb *kiocb_src,
- 		.ki_filp = filp,
- 		.ki_flags = kiocb_src->ki_flags,
- 		.ki_ioprio = kiocb_src->ki_ioprio,
-+		.ki_write_stream = kiocb_src->ki_write_stream,
- 		.ki_pos = kiocb_src->ki_pos,
- 	};
- }
--- 
-2.43.0
+Testing: on a VM with CONFIG_UNICODE=y, before the patch a file
+created in a +F directory advertises the F flag via
+FS_IOC_GETFLAGS and chattr +i on it fails with ENOTDIR; after,
+the flag is not recorded and chattr works as usual.
 
