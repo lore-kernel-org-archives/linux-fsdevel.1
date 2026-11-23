@@ -1,136 +1,123 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.154
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795471715;
-	b=VdcR90LJWglebJbuDS8k+wmTiFDyNc5l4QHCKHqAaBFTIASvKmb/DZNBdC/7uBf6lTVc
-	 jtwyuY0Gob9FRd8xZKNeAKviDmVqNNeJivoesBgiZ66+ds6iQHj34m1jmH25+I/71hHmw
-	 U2bgIqVmGWzX80l4EJKVnWKajXMF33GdwwdInDcP42pHRrhb51CfRvtaMP0SlgkD3QFlP
-	 AkrIg2HumM2xV9wof1wV/mhTFTPVgSBUfmTE1cMZIIVBpXmvXlzZI7gOqGhF80v7rsa/B
-	 A/RtLdIt5b6GYKUe5OqZr0fsaMcMC+5dMhFwGq084y03b8he25TdyEeDwMLbpkTNFZA==
+	t=1795472063;
+	b=W/l/EC31q6B515OW2Kl6zOr8YJsdNf6jUliBlawUN1ulCQqergKLwFpREttbSUf7bZvf
+	 lCnGhfoZ0yAOdgwII0p2DIbztdKtqXGmc/QEAEPCAcKR0ZS29XZGbsGeVbQNjLM9EJ27T
+	 bOUNY32I+vHe7/0Sj/5a6iVLftUNAoz9F0kOa3PevsD3tQRtuHGCXvltyJ/JVs9rQGTeN
+	 Znt5q4HI4Pdh0Rm7zMAcIciiHaH3y3eUZwafQyctUtFTE6Vtig8FxNzV9PzfNc5AIGDbh
+	 98XV9gRab+qvZB1cJkfl8f3G9rEkSGqzwQom9UBjkz1X8vFfEq4a7e3hUJJg5swZD2A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795471715;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Autocrypt:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=texhqw2pvQKkD9Xg5Q6V731C0QC/tI0cOgwUzIDMtYU=;
-	b=c4cgR9bJBYj8b6VP2cm1+UhPfgzIpt/qL3YXK4nAR2H6RQw1KgZrQKV/oqFDP25g+Bm5
-	 Qe4aoykJoTdH1zXXh7iRboyJIPcuo+6ITtWoH4gcGUroUZo1pMIiqlVC5fbY5WzdQwzMw
-	 MRTCPSV/FuNR2nbdlk4sfMEvdw7+SwaNFAr9ySpmjfoZ8LBpp+7nlNMZZyyANC/TlfP3+
-	 w13Q2olH8xfmTnSBSasdg+Bof4m2Hn6JeqtThVGvMbWNX/ursIj8s4fAIwSMQG/CKmtu0
-	 WJIKjdK8rhFa46uhp1oC07ePJ3eJcs2xTATckfwEX4vt3wBDxNZSU9OGiOxxBnubb2g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795472063;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:Reply-To:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=IbCiR8d2eZiKOk58JEVx47w03etPQT8jvh2gktu/Xvc=;
+	b=pZeTjHW33i4iXislyZnDa/90VcsVKiDdrp+o/aSwycWN5Z9Jj73+kII5JVJ4xc4Pio/X
+	 mV/LTrLU3Y9cvCaUZ5YZ9dBCSPCfhlXJ9Q9Hh3a8A8p3F8zhvYq2gSD/HrqcM29oUZ+56
+	 PseKakAPkiaJvPnZw6w3q7hwbgDA2hJqvjvZbs8NYUPuokRP5/0TR0IY4SIDF9BsO1Ulg
+	 LRmPInlLlCSEAwt+w9CzMjtFXcaQ4EVt396grf7JSKbZfPisy5FGuyEF59DZX9oRLuEqI
+	 TE+Wm2l308PhhaNtHiwCIp1zAc5d0DJkI4PGoIyQJ4J9Oel324qNDL7RwLssedVXRIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=dubeyko.com;
-	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=OE3jPoD3;
-	arc=none smtp.remote-ip=209.85.128.169
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=ownmail.net;
+	spf=pass smtp.mailfrom=ownmail.net;
+	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm3 header.b=mfe1rNXK;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b="FTz8HZ/q";
+	arc=none smtp.remote-ip=103.168.172.154
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F032606A321
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 22:08:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0F032606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21085606A31E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 22:14:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21085606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=OE3jPoD3
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-8b502b9b702so43841137b3.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 14:08:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1795471714; x=1796076514; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=texhqw2pvQKkD9Xg5Q6V731C0QC/tI0cOgwUzIDMtYU=;
-        b=OE3jPoD3spWhMvRbeMqnBiUcuvpHgiCIcdYnEHVo93acqTBgn3ar2ZB+IUkSDfnesi
-         MvurJBt0bzEEA503YO7H0vRhdda5zHDaf0+oW92cnQyWxuFd2uTLuKz+kiPhJe9TbhEB
-         yLa8/rQDmMg/h1hnPe8hLe6+ae3Go3XvCddngcQhY4x7eeuyVPW6PTZyokbzQsRwdij1
-         NpdqNSwyU5c5E8/RVhZJWxGtc13NfC6CgPdYmn9Ow40BSBBrWh7J/9i7Qr2+ETyMLB+t
-         gu+ZLrLgnwPlMYnYZM0vN8olDIrvaYaPVku8wt5ZHpsYZ0RgvKc2hw2Ucq3AjON9dVaO
-         7fMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795471714; x=1796076514;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=texhqw2pvQKkD9Xg5Q6V731C0QC/tI0cOgwUzIDMtYU=;
-        b=tyPOO9f2+wciiQL0JVE77qJYLxaChp5UZKz8WREObP5JzvjkdfMFhxp44TieBuBUpn
-         m9SVrRsj/0sCRgwbv/rq5BJvwnEZnN3L7p2VlHojOhfs1Ttt3tf/ICLI6SMermwSsGEU
-         oMRtNhUQEwaxDKCIejn1eWw9osemB7FgU2cRGHfieFZjcCf0pmzSdYRC2bfBEIUMwfv+
-         cTnaUQNVBsD2VxvfkMdLDGYP6Hpe5IEO6zXBDcBpJlY9hrWvTwm/GEmfhZBLL9LaNVT8
-         630dWd3hAyhR0zV1aRo5tGAmKbqS87ynRIs4O2KfyBE2jcPpDJVp9wZ4dHYGkwApY6df
-         Ygkw==
-X-Forwarded-Encrypted: i=1; AL+hErG2pg9AUEjeyZG9LJEmjfV+MREUuwi4pGcDc3sAKI5fMvllzVVD8wX4yW4duq5vFvdexM4VKde+m05Xhlj8@vger.kernel.org
-X-Gm-Message-State: APuU4Z+6ya8WqkueID3p1HbXf8vwQ/WJ5ayC/hRJBkDz41WQ8rGhoduy
-	HamYW/fpk3dMxuQ/qDXmwdjoX3agoFSVs8oV89GsDDCOW9lGDNO7UAo5ebrPtVQrEvY=
-X-Gm-Gg: AZFdTZfp8CYtdGcDAcjv2c17ujuD6wOZbYlZraDWUCSVFfXESh5iz5fAShz2AAxo86C
-	NoV0J5tM9wMRwpiGoYW39fpWpLcvHCt5/jDuKZA7D3a/RCtVnHxP+DJ9hI/gJu1LQcJ6tNq0ogs
-	8TShP+6XxosqUXKjdkXZPOPdSuu3R35J9vi4ltcIVwFR5iPGg1li3RsxoxOM6U40vO7ah/1gA/p
-	Pi8hNH6HMLhPjlT5W6iXYptWoGG+yJ9JSpRpKldAjUxsM1YupPfBWU3MdCVyL4Nf72i/RZtb1mp
-	FqssVTeTEinZyhX4K3HpSw1dRVmjYPW4e7L+5Ttag177u5UrKthm+aIL/v8ROkF1olKKUfzF0n+
-	l+PW/TAREgF3o5Aph+fUXMTaHwOKrD+vbC8nAXQe1y89wIdTye/iGQRGTLp4TyFL/N1Gcb1CwWn
-	+UdRd3s20A5ybaZSUiBbXi+Bo4dD7/+/j03y28li0a0Us2aEIGmipCoK+mO5roi4yBws4FBY87m
-	+kga1gpwwGP+/IqLzfMn/p5AO5Lbc4ea9jquJL5N8Hibl9XGW3ibGswhJKKBF1AcMnSwjfQIb7b
-	Q4J9v94KbpDRIB+74FKYLzI9KldqsPwTFqlFBAcqWUtq+W5PD8k5m2tkrsrwscf0PwyVbInjqd2
-	P69VfNNFrnbagqC024UvsznHrfKUlxS6Al5FZxFHdyn+4V4IjJT0yAgxieuDgO7fA+eeIG5nZTQ
-	XsuVQsOJSJga/4gjEKDqQ=
-X-Received: by 2002:a05:690c:2a44:b0:8b2:edac:7a4c with SMTP id 00721157ae682-8b52042bedamr45656947b3.10.1795471713793;
-        Mon, 23 Nov 2026 14:08:33 -0800 (PST)
-Received: from ?IPv6:2600:1700:6476:1430:83a2:1030:d4d1:10b8? ([2600:1700:6476:1430:83a2:1030:d4d1:10b8])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b52030df7bsm52275487b3.31.2026.11.23.14.08.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 14:08:33 -0800 (PST)
-Message-ID: <fa6344cbb419012d7deed74d30ae6062eda92fc1.camel@dubeyko.com>
-Subject: Re: [PATCH v2] hfs: avoid reusing occupied CNIDs after deletion
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Hengyu Liang <hengyul@cs.unc.edu>
-Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Date: Mon, 23 Nov 2026 14:08:32 -0800
-In-Reply-To: <20261121101918.3395879-1-hengyul@cs.unc.edu>
-References: <20261112110128.4082071-1-hengyul@cs.unc.edu>
-	 <2bbc10eb1dd5ee69329a9307f14fd15b1815b898.camel@dubeyko.com>
-	 <20261113194103.3825961-1-hengyul@cs.unc.edu>
-	 <f59ea6b2a8c60594361ab596d92bdf98a217dd83.camel@dubeyko.com>
-	 <20261121101918.3395879-1-hengyul@cs.unc.edu>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
- NFdvziOa4FgUBC4X71upsZIoZJeii2V/Jtc3B4g==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm3 header.b=mfe1rNXK;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=FTz8HZ/q
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 382F1140032D
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 17:14:22 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-07.internal (MEProxy); Mon, 23 Nov 2026 17:14:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to; s=fm3; t=1795472062; x=1795558462; bh=IbCiR8d2eZ
+	iKOk58JEVx47w03etPQT8jvh2gktu/Xvc=; b=mfe1rNXKzs5m6kdSoIt5YhrX2a
+	zIAA4X8DHpe3MVf5CjrYRbL3TxSTp33cnFGbMsZ/6Oz0jg95I+1KdfFM+y8NKOzn
+	2pE94vMPH5gRfRf1N9WG2LQlfGhAwCCbPoB2LqdDlcyeSgoGK9jHamHj/7ETu8ib
+	41E1SzxHapgneV634bGRTjt+JYsKhZW5ofvu/s8r+GgD3Gi5x+8PNLsLZEh9ZMJe
+	uLieccoF5rRQh7RaPdkPpBNHm8GnGC/8yModWM2mZPMp8JOE/H2rvjikQauxI6TX
+	kU1yZCFgkk3dGaByEVdY4KtvU5ECOMZRYyWnXKb2T0lLPCNX8ocS2Ik8XucQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1795472062; x=1795558462; bh=IbCiR8d2eZiKOk58JEVx47w03etP
+	QT8jvh2gktu/Xvc=; b=FTz8HZ/qBKBnYpqILOr53voObqrpktkMQub3OanJoBZF
+	U0jLgZY2/q2fzxTFMJ3eQzCAACrKsF6e4OrIjCN3ircFz4rb8GliJFtb2xymeEZ3
+	Bitq8B+vjag9S1KpHes/Nny8PHaTYQFOhEwK6IwK5d2xAvNAMIDI4ytihjjQ3bjT
+	tToD/8npPlR1BoIp3FwNnmMaG7g4gr3QiSNZnFS0qFV0jKc+1eXqVOKj0jTKHWwf
+	fohUN2t7aySjZjBg+A77WLRG2RDjp0gNF2/qxakVwRr8PMBZm29bTLIdSRGPFuy7
+	HJvE5RxDpbslrHPhoMCQWhigH+jRliZMJoi1eL+1mQ==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=ownmail.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1795472062; d=ownmail.net;
+	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
+	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
+	s=fm3:rsa-sha256:t9Xie4x0cOuCzqZaJxnmQL+bG4GYsMFTz4XKv7XBTcR9XTv
+	crzKwY3F+n5jn3rnEQwRsu0xf9qE0LAlAJhic0furu7XzZ7jDTalPsbzGcKe7ZUG
+	xbgAJV7B4tZojLbvofmr9YKLWuliaKQEh4pPu5vQj8TFL8/iuPkwVgYR/UPTB8Kh
+	zxhjv/ecASKngCBlgXcFaEWCZdobTyqVWU52jyGCyYqxYQ8monzqwkXMvQGkmdJY
+	WQDmqtPPqnXgcguKpCBSxwqgRSfGbSapJ1wpWd/PyFdePE9soA78s4hUjuHPaOws
+	vwHv/8Z6PgAWF5rxVnwMmnlBk9qGBG+tLEik19g==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=10;
+	hn=cc,content-transfer-encoding,date,feedback-id,from,
+	message-id,mime-version,reply-to,subject,to;
+Message-Instance: m=1; h=sha256:ooiMroJmkru1/3XCWYzijis1bVvzzcBIH4vbpYzr7WM=:QrdR4dHKgdWvXClJ7lVhfNUmY4YJfqql5vXEq/oKRu4=;
+X-ME-Sender: <xms:vboEaxCTPuu7fJIKFuFeMG740Bk2QCcnj3x4nA7mGmJfgKoQi9MUGA>
+    <xme:vboEayHeOAd1Rx1hTf2oXAZj45pPqrD1Fn74_Y1TfeYSykpZYr-M-ElxyiXyXxkPv
+    qV19EsV7ujRYFU5FxF1K21dvqsqWrcMnIFImj2V7NzZ4Qkgkk8>
+X-ME-Received: <xmr:vboEawMPUhZ0HSrlwxZ5V08L1in8CNvsn-j4TD2WsKbfbIQ23LYrvB_Twq3Kc-RGgmPOoBpr3k4OMf1h6_3LC799tSH6UCU>
+X-ME-Proxy-Cause: dmFkZTGcNstBYvgmqsYHLz1rqThJgXWMb/LvRu+5qYLtp3QPSnqCMzboC3tG8E7JVB/CBs
+    GSpY3QKa/f+w+YW1nwt7eb9lmfQLqf0KDHxkUiFdNFH6NafHdTzQ+v4U3UNzK9Pj3xysJy
+    s+8cWV7AU/LdxvIkSiZSIo7jFZ2DLwmAaIK695vY8xUfWclW4xMpBKnOKU/mWG8lv5cnRy
+    trQ8Eb6tI9uE02B2cNdLcH9LW7uR3Ts6IzHONb9NRua7xJmC4p82jQZImMkph3cHEy4w3o
+    hOvqkrAMZCcXIDefPJK+4ZwmC7ovOEVy1kEaR73zmZyMKT0/emadktoWS6wDj7JQ9lLQcd
+    iYfqQHYPCUKFSvAm5qcUqwfb5/AagBSsgTUb9yHeQv16f2tiGJfDo3DHhN/KgwxROwn8VG
+    DXyzzprJxOCuiPGJHH7kd0uChQcJHFGFE8irKBQeOMwDAJTjKCiip5z60vqre6rZx+DTQs
+    qA1e10l3x/KweMSRYe8XnGR8Wop9G1U8YFnTQG1iqgbfFJ16g5VF0CK2KJN8YJXtdDNKwQ
+    eO2WqIFi4Gq/q5ai+n9ov0+B6Ti640iPvDzutMRnWL+KDrzciaRqUqJ0RYLiwinfJXs3x3
+    5LpQovU9quwkGA1E1pSIc3/UBy+qR+QiMNfYGFfuUDpbss4qgDAMrSIBrS7g
+X-ME-Proxy: <xmx:vboEa77LvbiZvQd_e50-H0Ez5oR3voWeX5uCwN4fjTGW9hZW0K2fAQ>
+    <xmx:vboEa7ijhEbYTpreGxgNrrjtIR3kxmDfddUjHFCQa32PBBwYyxY3Bw>
+    <xmx:vboEa4e70sDISxB-NyhohEPMLGju7v9bhiZdKNUNG4hetELWDd0elw>
+    <xmx:vboEa7wesCmut3gU6LKkh-upaaElYMb-Vmyhhmm78E70aL49MC6MFA>
+    <xmx:vroEaxTDGNQP90sSRVlpi01YncudJVnnZ-rlEh_G89GCH9N8QMEDzA81>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 23 Nov 2026 17:14:19 -0500 (EST)
+From: NeilBrown <neilb@ownmail.net>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Amir Goldstein <amir73il@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ian Kent <raven@themaw.net>,
+	Jake Edge <jake@lwn.net>
+Subject: [PATCH v6 0/5] Fix easy bits of the negative dentry problem
+Date: Tue, 24 Nov 2026 09:12:37 +1100
+Message-ID: <20261123221410.3328780-1-neilb@ownmail.net>
+X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
+Reply-To: NeilBrown <neil@brown.name>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -140,71 +127,47 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2026-11-21 at 05:19 -0500, Hengyu Liang wrote:
-> Hi Slava,
->=20
-> Sorry for the late reply. I have an important deadline in early
-> December, so I may be slow to reply until then.
-
-No problem. Take your time.
-
->=20
-> On Mon, 2026-11-16 at 15:21 -0800, Viacheslav Dubeyko wrote:
-> > You explained a simple case. :) My worry was about the case when we
-> > could delete some number of items between [16, 20]. For example, we
-> > delete 17, 18, and 19 at first. And now we delete item with #20.
-> > So,
-> > leaf A should have 16 as a maximum CNID. And we can use 17 as a
-> > next_id. Correct?
->=20
-> Correct. I ran this case with the patch on a fresh volume. Creating
-> a, c, e, b, d gives CNIDs 16 to 20 in three leaves:
->=20
-> =C2=A0 leaf 1: root folder (2), thread of 2, a (16), b (19)=C2=A0=C2=A0 m=
-ax 19
-> =C2=A0 leaf 2: c (17), d (20), e (18)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 max 20
-> =C2=A0 leaf 4: threads of 16 to 20=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 no file or
-> folder
->=20
-> =C2=A0 rm c (17), rm e (18): not the newest CNID, next_id stays 21;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 leaf max=
-imums 19 and 20 stay
-> =C2=A0 rm b (19):=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 leaf 1's maximum has to be recomputed, the
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 root kee=
-ps 20 (from leaf 2)
-> =C2=A0 rm d (20):=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 leaf 2 is now empty and goes away, the root's
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 maximum =
-has to be recomputed: leaf 1 -> 16,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 root -> =
-16, next_id =3D 17
->=20
-> The next new file gets CNID 17. I checked it three ways: with the
-> values cached before the deletes, with nothing cached yet, and with a
-> remount between the creates and the deletes. A debug build that
-> compares every cached value with the records after each insert and
-> remove found no mismatch.
->=20
-> A larger case: 2000 files created in shuffled name order, so the
-> CNIDs are spread over the leaves. Deleting CNIDs 1916..2014 first and
-> then 2015 gives next_id 1916, and the next file gets 1916. Without
-> the
-> patch the same steps end with "File exists". fsck.hfs reports all
-> images as OK.
->=20
->=20
-
-OK. Sounds good.
+This v6:
+ - fixes the autofs changes in 1/5
+ - updates d_duplicate() in 1/5
+ - uses a new version of 2/5 from Amir
+ - Fixes the skipping of cursors in 4/5
 
 Thanks,
-Slava.
+NeilBrown
+
+Original intro - revised:
+
+ I was reading about the negative dentry problem in
+ https://lwn.net/Articles/1079407/ and thought I would have a go at the
+ easy bits.  Given how involved some of that was I'm glad I didn't try
+ the tricky bits!
+
+ So I didn't try to reduce the number of negative dentries or handle
+ them differently to positive dentries.  I just tried to address
+ specific symptoms.
+
+ This series addresses two reported symptoms.
+  1/ refcounts on parents can potentially overflow if there are billions
+     of (negative) children.  This was the easiest easy bit.  The first
+     patch is all that is needed.
+
+  2/ Walking the ->d_children list can take arbitrarily long and can
+     trigger soft lockups.  I haven't addresses the "arbitrarily long"
+     part, but the "soft lockups" is relatively easy.
+     With this in place I would feel more confident addressing
+     the "arbitrarily long" part if that seemed worth while.
+
+ The core idea is to use a common helper for all walking of
+ ->d_children, and teach it to drop the lock and schedule when needed,
+ inserting a cursor to keep its place.  This simple idea requires that
+ nothing should be holding any other lock while walking ->d_children
+
+
+ [PATCH v6 1/5] VFS: don't count references through ->d_parent
+ [PATCH v6 2/5] fsnotify: update children flags only when parent
+ [PATCH v6 3/5] fsnotify: don't hold i_lock while walking d_children
+ [PATCH v6 4/5] Add d_for_each_positive_child family of iterators
+ [PATCH v6 5/5] Use d_for_each_positive_child() in fsnotify.
