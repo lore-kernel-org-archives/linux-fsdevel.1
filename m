@@ -1,121 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=170.10.133.124
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795435023;
-	b=JthDuuZbJxSHPWJvQq5K1pthQquNw84TZcdd+CVs1trJmIhxhm+Z7k16dz6YW7K1iDDO
-	 FP4P0t5Hcr98gqClimTPGxxwr9nwen6OpDAkhdnqSeryv6JhRx8yaq45fHWSg8ZV/PH0+
-	 PckET3l7KufhLFIbdn6MSaTn0kXgEJYEoe+ahP0WgcEtKHm9haQYG3cXpOkoG5KVanSlI
-	 ulUSL3G3z27Dz1Isi0LoD9JFV6rDe1JlEr6KPfxTjpAB/1pEZgSXeTnbfiOzMEKeV06E8
-	 O/QWAHf0Yci0wHYpptTtbJ9seLwJ7Q27Q7AAtl+0OecyTxxnQ0WHu5Cm94yat3skAAA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795435023;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:MIME-Version:References:In-Reply-To:From:Date:
-	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=oqxTqGc37dwDnLjYZnqU54myhb23sMonqleeRzhUP+A=;
-	b=ttuk6udyA0WiedOPoBl4sMuim1E55CjRYrhzouL8o0Jk5M1QDeii0d/6RdNTuzFLKKN5
-	 gU8p3PAxMxv0eJKDaaEAATjLbbxWM54RxQXh4cAaw59BwdxvNWoASDKM0ZRaAp2AgHaPT
-	 GMu3mGGidig+6S4AEt3o9UmWy/WlUkFM4gMLOOGsleR0cuA1DxDd61TWm3auC0IVkLe+C
-	 f+RGCLtnENPnjeE3sAS5spp6hUT8kS4UMcXDqicLThGlAhh0u4ydQdh/ETClopEMEn9Si
-	 nVY0gGtawBRdoWj/DxQAiyg2cyOtnOlFpHUvL3a2qqNjKGEDF8kZ0jXUE07gkgGQbIQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=E+gRbUMk;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=uE3fBkPq;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.92.39.34
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795436057;
+	b=lkjWZsu51TbopRHD4OHsvl906W7KnlQmP33Ik/Kc22zNhC5W80tn+WS+VTrf1J7bUck7
+	 5tgN3OH19BRiceI3uq0yxUd+M08N6wUERDFaxMPL+5PVbmzyCPSQZW/oLdo+HSOSsB2ro
+	 ozHtDLCfgDKHJAwGzH3wxW3f/uiYePBA7XSY/sTq3pKh7O4RXZTXnSAoslT0vW31N58EQ
+	 Epm2oznA3yfSKei6CLJSlsxbViFMMIQrV9XKMta6c7JW7pyAY8O5LXmugiqF/0m4OBPvi
+	 AlrRnsFQrCh13g7D+ipx9NxEKWzRFqht0ICotYRlrkEnn/8z+dAhdXAQdCOQtqT5KAg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795436057;
+	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
+	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:EX-QQ-RecipientCnt:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-QQ-SENDSIZE:Feedback-ID:X-QQ-XMAILINFO:
+	 X-QQ-XMRINFO:X-QQ-RECHKSPAM;
+	bh=3QWgbE9JTgCNI8EuJiLgYuGNI+x7+zvWM0IxDoEAQu0=;
+	b=kiLvdVpMHu05qeVAIS3v2c628demdfZiFB15ez0fAgX3Fn09WuOjtCHDeyhyYT4Mrdzl
+	 91CPZ1bILEsiBPKlSt9+/F7OMFDDXLtfqIoY1+8hzhV7uiA5WAJPN+Ppir+4TeNHWxlhw
+	 T6mYAPuRg6sCzVAalEnpcY1N2pPLILWK5RoBgX54j/2hJwmsfxUCJQJoV1683nboocwgt
+	 ZlLR3R+J1xO9XTpriVUPOBghspiezGrtZnRb5T87VQ0TyoDJB5uNKtTxzXk+6c3djwcCi
+	 chUE18H7eB8qG5FW+YnOI4VEVUWefZE4XdUKPkrLJ+KA2Xj7HIFnPhi1MzedBrgB6xA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=mail.sustech.edu.cn;
+	spf=pass smtp.mailfrom=mail.sustech.edu.cn;
+	dkim=pass header.d=mail.sustech.edu.cn header.i=@mail.sustech.edu.cn header.a=rsa-sha256 header.s=oemc2211 header.b=NaKuHQhR;
+	arc=none smtp.remote-ip=54.92.39.34
+Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA6B606A31E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 11:57:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7BA6B606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E22606A31A;
+	Mon, 23 Nov 2026 12:14:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C3E22606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.sustech.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.sustech.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=E+gRbUMk;
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=uE3fBkPq
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795435021;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oqxTqGc37dwDnLjYZnqU54myhb23sMonqleeRzhUP+A=;
-	b=E+gRbUMkXzr0ftgnphVyzjzHx4e5SigwzrZsgeRJCNybCOx25/aMeDa/5uK8JDEq0XaT8T
-	/GotI0hz8XNeEaCJySIHX7w0tJVAPDeoB3onXSvfuP5VncwyfmwP7YIzUrYUIH/3A0FxwR
-	7vcuuTbyVgva45tbdLQt4k2HsLFCp7w=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-516-uOhaUuG5MxCXTZJblBGxpw-1; Mon, 23 Nov 2026 11:56:59 +0000
-X-MC-Unique: uOhaUuG5MxCXTZJblBGxpw-1
-X-Mimecast-MFC-AGG-ID: uOhaUuG5MxCXTZJblBGxpw_1795435019
-Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-8b35b88aa94so39050097b3.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 03:56:59 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795435019; cv=none;
-        d=google.com; s=arc-20260327;
-        b=eDi4/l7+rVzZ4vZKX8N7KfUTeI5WkGDhlTZdWniZuWuj6Gfma4pPOYJKeIg5j2xzuQ
-         N5v+WtrA4DrhOHqFslUG3TWAvZE6z+y+K8x+9jIM89j3yLYEY9N49+ZOHBIGkN1ESii8
-         LkDOjJZZBJkXZAx5YzcueUWpg+wDniZguu1UNP8uTXKWwN6XMJdhvHXqeH2/oC/OLkEq
-         Ozg/9rDU4j47YmjBMKDZBH1y69JEZai0c4SI1S32kwx2/OZEppic2zBHOyZlHmDMjtK2
-         DysJHCehN7GR9rxeXtmxXlt6Ds3Io1kJt0TWSRP9Iwp3bawXiqxn/bvKJSCmgWyez7v2
-         FmKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=oqxTqGc37dwDnLjYZnqU54myhb23sMonqleeRzhUP+A=;
-        fh=0olrEOmm+wiaYQOQMml3Xs2jlnMuKRQRwX4E6xlL9Go=;
-        b=jqpdZ5LsbCb7VEbFzV1EhqyzwprYcaV+M/qQEt4a3Q3Llt1dnv77cyNM+8Z/ZBvGwb
-         n2CxZWw3MMC6Ohu0Onpv+QzEKdGgPk6ODg0H1UhUAVbl2aOtkac+IVX4xxKQDpYZOler
-         QW8sMLZFQ/Z0pCIa4BaDh6jrxwTpIJA2/2N2pDNMm5WkSZRgvQp/6E9pLj6I0kh/+lbk
-         2VlOODooVYxZWdpQWB5Q+R3lR9cncyPBV/i//ZiPbRhwTLwOLGWDiZxAbQGhjrSvNoHD
-         +N9ec0sPvGKiZ81Yp4fHtleeUxWTV0tNbUiKMgw09jxpy/ylricniqwb0TksmpgwI32x
-         SD2A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1795435019; x=1796039819; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=oqxTqGc37dwDnLjYZnqU54myhb23sMonqleeRzhUP+A=;
-        b=uE3fBkPqZHuiV0zspXRYOlAIWjlsHa1xBh411w5ZfvWMkXRNiiCke1/VIMPgMms1cw
-         emY44vAHwtWhEcy7QqtIcvwOEdAwbKkZT8gnb9pQg0GRhv+aCfl0/3pN6c2nOCFBkDar
-         iGBmarvx33bHtPnyd2m47JeR2vILjrFMW30NjMcE/im19C0YwNf7Uq+VbBh8Wk5nFQLx
-         yBFDMgB0Mwuu4r5ESKndz4VGkwJYcIa35a1H7nmRqItTsgjc2xx+eBvQ9LJx9KO0qV9n
-         z/pm0z3kBbliJnL+sIRkMzmJlO0XRf5FW2DcnXZseXLmODP/phiKBd4puY5oi/HQexhT
-         c+hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795435019; x=1796039819;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oqxTqGc37dwDnLjYZnqU54myhb23sMonqleeRzhUP+A=;
-        b=qKEjC5acjXBIPNgUUr6paL87DiVmHl/4dAoUKpzTd+4+I3rhs2XGKyMCQvuNJxd4+p
-         3qVl3YajLxuYMhI7XA/0bf7FPLc5/4Uz+9NX8ixF9ntldtkVgrfs1aHRDqmE3ykfIv4g
-         /UeeT/GEOjOAVBuDwrKKA96XiqfglU7Ve35VE+iFJ86MMx+Ma9eQLneVhmBxVAQeBcnx
-         fi1YRTauB1o95yLxeaIZT60JnJCrMQekfR7Xd0M2anP15DDmlGd93ubNnn0CZylhg5l6
-         wLSchKauKYN9ip/H4lfCRnOVtJ/jN2O5UF0xEQs8riN4U8iY7QaDU3IIQoafjmFrFVs5
-         Lx/g==
-X-Forwarded-Encrypted: i=1; AL+hErHjmPINtG6J7vujT3AeXFiY/8ZCrw96wxlAn1WDJ3MYZAEpug08Qe1MJ17jGbbwyAQvefQPeY0xl9gBjwR4@vger.kernel.org
-X-Gm-Message-State: APuU4Z/CCc3d8AB+lxldu3y0L3JY68oCqwh7zVFEA+lG5tFmkXTqKzhR
-	lobMOGZHQ/suTUYfVZR7ARACTbt53ZmdK9rE29k7Nq8Tt2DcVFarZ+q+pVZFVYF66EATnIDMO+0
-	F0t29bBvJyT2Lz7qqk+5p57HLu3lL8iRyPzY6TSJcRtTvwXql/tN5GhsU2Bl32QcWmGPBugBrfj
-	zKKYdTtUWF1wPppyYkY3wJ7yAFN9myRa+0H5+iHWpi+Q==
-X-Gm-Gg: AZFdTZcQ0xliUX6bi4+/PCBadTBo9xi07kS2UANQMVmSw/jxGzIJtbXxH1BHfWzvh7/
-	uyaQTMijDWBVtHNJNS6N6zUhJjBZ9rKLB0lyORDiIk31F8U/d1645GUg8Bf/CbKLSi6B0s3yCCw
-	Ule0GguX2saYHyQ4ZdfBSDJgsmQ25k0DSF5zGy9FBRpG+XKr1D3VgMC948M5HATnvUr5jICQutw
-	IbH/5LzKuXMMnZHJxygV9/3ErzYzTcHP2ztAQlkdN/NvQ==
-X-Received: by 2002:a05:690c:6b05:b0:8b3:ba8d:2f55 with SMTP id 00721157ae682-8b52043567emr39667137b3.33.1795435018738;
-        Mon, 23 Nov 2026 03:56:58 -0800 (PST)
-X-Received: by 2002:a05:690c:6b05:b0:8b3:ba8d:2f55 with SMTP id
- 00721157ae682-8b52043567emr39667047b3.33.1795435018370; Mon, 23 Nov 2026
- 03:56:58 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=mail.sustech.edu.cn header.i=@mail.sustech.edu.cn header.a=rsa-sha256 header.s=oemc2211 header.b=NaKuHQhR
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mail.sustech.edu.cn;
+	s=oemc2211; t=1795436029;
+	bh=3QWgbE9JTgCNI8EuJiLgYuGNI+x7+zvWM0IxDoEAQu0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=NaKuHQhRJxM4jEiWgf4dZmN857FLsAO+RSivFPnZT/l4Z0iBfzg6Cu606Vi83zLEK
+	 kJTmVXFODpH5G2kK/xZ+IeLj6tjRpvJWR8MDWaf5cEYCf2IHmMiCLx19m38797l3J2
+	 FJRiB/oUqlx/nf017BclRNVu8zyFGU21ucHtrkPg=
+X-QQ-mid: zesmtpip3t1795436021te6e3bb2a
+X-QQ-Originating-IP: Sj26k+D6uYcfCBTX6NHi2eIOb1plH40EHm6kfq5R6RA=
+Received: from szdytom-matebook.sustech.edu.cn ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 23 Nov 2026 20:13:39 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 4516808389515707458
+EX-QQ-RecipientCnt: 18
+From: Shi Lecun <shilc2025@mail.sustech.edu.cn>
+To: John Johansen <john.johansen@canonical.com>,
+	Georgia Garcia <georgia.garcia@canonical.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Seth Arnold <seth.arnold@canonical.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Chuck Lever <cel@kernel.org>,
+	Alexander Aring <alex.aring@gmail.com>,
+	Jan Kara <jack@suse.cz>,
+	apparmor@lists.ubuntu.com,
+	linux-security-module@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Fengwei Zhang <zhangfw@sustech.edu.cn>,
+	Josef Bacik <josef@toxicpanda.com>
+Subject: [PATCH v2 0/2] apparmor: mediate asynchronous file signals
+Date: Mon, 23 Nov 2026 20:13:37 +0800
+Message-ID: <ACA178EA434CEC59+cover.1795434950.git.shilc2025@mail.sustech.edu.cn>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -125,51 +82,63 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261120031305.3561045-1-huangsj@hygon.cn> <20261120031305.3561045-2-huangsj@hygon.cn>
- <CAHc6FU7VUBLg=gX-xspFfp4jPffdH7Pc4oVx5nRDo7A3aiVWug@mail.gmail.com> <awP5q_CmS3uIqfCw@hsj-2U-Workstation>
-In-Reply-To: <awP5q_CmS3uIqfCw@hsj-2U-Workstation>
-From: Andreas Gruenbacher <agruenba@redhat.com>
-Date: Mon, 23 Nov 2026 12:56:47 +0100
-X-Gm-Features: Aa3M54pdTCvZmmXjws9eztEBY-s6WsNxLh4ieFxp9T0N0Za24a02lla1XE5V3KA
-Message-ID: <CAHc6FU7rAr4Mbf3KssQdsxhdk7D+2SzxSydkyw7cgykGGJOi=A@mail.gmail.com>
-Subject: Re: [PATCH v3 01/11] vfs: add super_iter_inodes()
-To: Huang Shijie <huangsj@hygon.cn>
-Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
-	hch@infradead.org, mic@digikod.net, axboe@kernel.dk, gnoack@google.com, 
-	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, legion@kernel.org, 
-	aleksa@amutable.com, libaokun@linux.alibaba.com, ebiggers@kernel.org, 
-	djwong@kernel.org, sandeen@redhat.com, zhongyuan@hygon.cn, 
-	fangbaoshun@hygon.cn, yingzhiwei@hygon.cn, wujianyong@hygon.cn, 
-	shijie8@gmail.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
-	gfs2@lists.linux.dev, linux-security-module@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpip:mail.sustech.edu.cn:qybglogicsvrsz:qybglogicsvrsz4b-0
+X-QQ-XMAILINFO: OcJU98wqb2KenZJTsuJv2H1WV1fxV5qoVzFFzanG3py9zFhKZkTu4NjM
+	QEna3IBPZJgjq3liqIrLBqnT9dWm1Hq8cpmEBMRDBdGfzW09CwK33fvmoyyGIHXG1tRpD21
+	pTcUEavF9q/4eoLPrd6PqwKDR7mKV+XwqoKUcB6g0xBPATMuzkAa8ypTkW97TlB+aw3GhIm
+	x3LGZhKXNfL07vchpoi9HklUflGg8t7+73FLnJuaPMGCg2yhsFs1ZTFTfhw90Tnnz8uNSJN
+	QYMywQ4UL9vlbf3vvrSYv2Hv1pSoXTC0QsbldFfVwep/Cb8Bsx0XIowlpfSAWZXZoEOwzcc
+	FK2HpNpRtEVVAB4hKDEI5BJ/bhwsLUWcF46/paTa1uiA7P5NRcNVsq/WKIfPmc3biTYL1Hd
+	rY7mMIj3eErqBlj+IKEh3ts3y/Y1626AMqXP9pAV9b6L4B8M7qO9ofPZ5CR3i38/JYPyHr+
+	lFxz4kNTKuyvhv0MzZyU92BKJ6EWlkxhirVqoHenUNP2L9QX0+mGLR3/K/lhwFYsyNLhIx/
+	OkIVx5wCto1klOeZ2HHUQ1DIlO5wI0i3vmi6vhfLriocw4HGyI2geXhNKwx4W6aPAlh3U1S
+	UPapUIem/uZpOAYR5RcwhhP9LC2cq+G6yv3C+qx8XjQDm8ihDduqFqNm6jrNNg2WF3nA/9l
+	wT0rrA18CttHYpmGZzWeSHzAGsIbkXlxWQKVIy1SbrkLsu8zMNl/n61djxV9b/vLs/IobO3
+	coXBbS6QGHuPEFVwgxM08e5ZG7ILiDcTwaUNu++lFVOJwGz6GAhiXLPtGhNpU1lrZ1003nm
+	xndDAvi1NUykViESbdpdH7h57HC4elS5BmrOgsfsSHSRlOE2//doNwfA8idRb2xQTbm/UIm
+	x2wwMvo+Hhqtt1+7m3ChpQ0vHnV6n+0TbAbftM3Y35BG+jSUl5kvCzzlGVzHyinTg5bDbGS
+	W8yFs2p/E4rGHfhHfI3A3ntriVHcQX6oZJPpy+Y6BkCHGneMUXcxCcTjjuocsJ+gJGIClxF
+	UBUqyaQDCnAYtzOXXCDlJbs+ru9lCiy03hICNLlobvzQMb0V4BtCiWy0WGyzdNp2jMXRGld
+	soFOc2Ucua/R0sQ7wh5wD6t8NtapxT5Gw==
+X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
+X-QQ-RECHKSPAM: 0
 
-On Mon, Nov 23, 2026 at 9:31=E2=80=AFAM Huang Shijie <huangsj@hygon.cn> wro=
-te:
-> =E5=9C=A8 Fri, Nov 20, 2026 at 03:56:23PM +0100=EF=BC=8CAndreas Gruenbach=
-er =E5=86=99=E9=81=93=EF=BC=9A
-> > > +
-> > > +int super_iter_inodes(struct super_block *sb, ino_iter_fn iter_fn,
-> > > +                     ino_iter_eligible_fn eligible, void *priv, int =
-flags);
-> > > +
-> > >  struct super_operations {
-> > >         struct inode *(*alloc_inode)(struct super_block *sb);
-> > >         void (*destroy_inode)(struct inode *inode);
-> > > --
-> > > 2.53.0
-> >
-> > Sorry to say, but this has gone quite a bit off course. Can you try a
-> > construct like iomap_iter() instead?
->
-> Christian had suggested to use the following methed:
->   https://lore.kernel.org/all/20261120-mitverantwortlich-drehbaren-kantho=
-lz-241300d20168@brauner/
+This series rechecks permission when asynchronous signal delivery falls
+back to SIGIO and extends AppArmor signal rules to file-generated
+SIGIO and SIGURG.
 
-Yes, that's what I meant.
+The AppArmor patch uses fown->cred, introduced by Josef Bacik's
+8a1e6dacbe37 ("fcntl: use cred_ids_allow_sigio()") in the VFS
+vfs-7.5.cred branch.
 
-Thanks,
-Andreas
+Build-tested fs/fcntl.o and security/apparmor/ on x86-64 with
+CONFIG_SECURITY_APPARMOR=y.
+
+Changes since the RFC
+- Move the fcntl fix to patch 1 and carry Christian Brauner's Acked-by.
+- Use fown->cred in AppArmor and reuse its existing signal permission
+  check. Drop the RFC's file_set_fowner hook and private credential
+  storage.
+- Rebase onto the VFS vfs-7.5.cred branch and drop the RFC prefix.
+
+Link to the RFC:
+https://lore.kernel.org/linux-security-module/9F545A02F22B16BB+20261107154928.3519030-1-shilc2025@mail.sustech.edu.cn/
+
+Codex helped adapt the AppArmor hook and revise the changelogs based on
+the RFC and Christian's review.
+
+Shi Lecun (2):
+  fcntl: recheck signal permissions before falling back to SIGIO
+  apparmor: mediate file-generated signals
+
+ fs/fcntl.c              |  3 +++
+ security/apparmor/lsm.c | 11 ++++++++---
+ 2 files changed, 11 insertions(+), 3 deletions(-)
+
+
+base-commit: d2b2489b608fab4710734de727430eb6b590f025
+-- 
+2.56.1
 
