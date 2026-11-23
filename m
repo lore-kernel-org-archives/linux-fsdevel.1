@@ -1,103 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795460958;
-	b=3CAmNrDVSs6+lrqsJoWa/NTbaidRy0QEtbZ/dbDxIJ8O06g3CoyhSezxEtOg/RtorICN
-	 bA6pYsAHto4WXumj61eVZnEkXDxVwvjcwq9+JGvu5/WFVV0RZmYJY5DNh1sWx92RjU7QS
-	 e0DOk0b4+CkKdDdrdCjEGZS4UF2jCiSfV8GOXehSfebHquDV01LV4tHwkpMvwgvnuUBEn
-	 QDoWoQjDXxLxj3IwdYE405KIIyPpgwgHlvlQmyrLXj/fEWMO/36k0U1kkvIEWDOxd4Eiu
-	 fh9RK+1kKTm1LpuLe5hiMxCTtPVdB7ZYTVw/tIHD56XoVhxV6OoWtnA5/GQIEb1gBuQ==
+	t=1795462516;
+	b=KVodzSI4ciIMzpz4oekWX6TYG4PMI46WYGENtIssFWJiRvzMZgAPXFNwJtWmux3wrJZq
+	 VYkpZ4l01AFG2PevgRGNmaOi7tKEW7Ld0gpopukRKV41L6/YzHE+dySTA1mjBB7Jzp3RX
+	 hcBIWAtuL+ssIBUARAAUXymv2RWONUuczNBbrthnmPW5ST4l0DwAKTWTcz+dhnsQeUyA7
+	 BQ3ni1FHyiHoKcfgIppPKVFsuPILWP/ZD1dv+rRmT814VLwW2iQ5GFYKDHsmqxBgs4Yt5
+	 Atv6j6GKgumsN1SfdQm+5rQdtj4igNqNcSotaHAG5+n8Gdv8CQ66FjK7mWKPJNISyxw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795460958;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=hnd4FzHApDCtU9UwjS+kT2hf5xcYx05j963Ux7biRT8=;
-	b=jEL3o3JXZyzIRESwHDzVX0ON7oDBKvvdsLJX4NTYgom6Rf4tnfpwB4h08favQ5Z7LjW9
-	 agNOhzc4pQptLrye+JuHpg2MzYRM4wurDFNj3WzyunnJ+911w5CdfLtPuk/OpnITmCyB5
-	 h+sv5n0z0GSHFepuEWQCu2QO/lgNhSPM6vQdmrOotg7OZ3nwNq1foD3R3VZh5b9+t1FCo
-	 Igmv68M0l1/FPiHsubYmi48pNcKLLoUqSbxMNWcIU83dJ8HCl47pZqs9MWgTOTDHMx9dX
-	 XJL+SkwK/yOjtagrs3La7DBRRru1PXp+KcDmeKVuZwdjOHm69mjuq9XsW7pH/ZtoFPA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795462516;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=HEYr25BwavW4B0nOGSoBgW57x7aoPk1h9WB+MxPRJ64=;
+	b=5GxfzTXZnOwmRjJy6kLhD1CPM8A9U2k3UhOLcUah0kODI5Wclr7F6xpcNSVfM8gK4WWN
+	 LaRmcqnJMbOYPqzDt+cwprvqngv4znUOvb3Z4HxCV0MOQ8wuz8vZIpjkFUP6s2O5WmDHN
+	 ekqxhMYwTaJqO7jOegfP2rEm4Ko2ShAeyY/cQDFmonijCB8cOEN38JmKecwvGVLpUcnvh
+	 ArhsA3pVO3/cXb+NoiKOQhd9ANLFjIr1fZaZyaoO/2VLZ0g4SW62qMfNhdRjgSiv6b9SO
+	 vbDI7/pLgvedrezUCWiSj9tIChiIgAit9+Qp/wYz5aIRX/GplMUkO5rXG5Gx9rgiMJg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amutable.com;
-	spf=pass smtp.mailfrom=amutable.com;
-	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=GZyS6fv2;
-	arc=none smtp.remote-ip=209.85.128.53
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nB2Qms66;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D96606A31F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 19:09:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24D96606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 3EDD4606A31A;
+	Mon, 23 Nov 2026 19:35:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=GZyS6fv2
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4bb85e07aadso45393205e9.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 11:09:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1795460956; x=1796065756; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=hnd4FzHApDCtU9UwjS+kT2hf5xcYx05j963Ux7biRT8=;
-        b=GZyS6fv2Uol+dQe7OQZANbIihQkjmno/hg4JD/MjPHwf4JoR9n1K06zEg8hm3wvg+D
-         S6tYpC0CxfDOtImwKqO7UTZhGDwO4l8uFj3QG39TfnkN2QfOVTMi6nfbMvlVtkerX/ls
-         lCkZiaz2LXqgIEk4aznMg+ZsTwE8AvwwZBJGxTfihyZe2bnXx/LLOZr2axRzOj4vc2b0
-         l1O97P/Ovxx1recHjJrAoSxFT8uzpu2rKsZXD88rrRIVIDdZEcWg7CEf6rPMoz2ElL67
-         hLxMdBF9L/xSU6TqnoG2oY1IAzfNh9q2lxBkfo2hUAqL4pGv9ztfgokO7st8goL5cCR5
-         Edxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795460956; x=1796065756;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hnd4FzHApDCtU9UwjS+kT2hf5xcYx05j963Ux7biRT8=;
-        b=NpXk5EDw8fS3ENckWkDJhK86R/HwO/UerJCkYR0EhzDTxWPMtqj1jR6CZsVjQB5W4F
-         PCCWKX+9wVLQJ5LFGYAXlT0sfUgKzaDWh0+6SLyl6Yv5TlHYIyFCtcxBOMHoJNBVFGBc
-         liClb5JSjaN2/96MjAG6QnBcQBpFPlzKP5CGEpsLnGvIYPMqaajPp5gv/+AqUaIPSUmk
-         ibL6tlWAWXbALXnZn3w+MCgDQSPkaB28/yelav82IVfR1yqv/gXJvY9qPlesUrDdUAQa
-         jEe5/wznVisz1/ddc6Ja/MZW460xLAY2DRWGCwURzUQsZJOaAFWqGc/GpBKFqmPhSR/h
-         P3Rg==
-X-Forwarded-Encrypted: i=1; AL+hErHxjmLo4vwCcLYmhflh0hOv9/bN2Lyt8cFZxVGMJ8fiYIshn7y+hG3ZFLxHYBaiRbXpj3clBAb2OXbQn847@vger.kernel.org
-X-Gm-Message-State: APuU4Z/H8/w+8YjtmZNPRfM/GnLDKQWGHCGwl8eT+e5cp1SOhj1h4C/J
-	ysoIDxs/lEs2pcO5Tsqisj7hSo7tuGLYyub6kqO47HFY4xApK/D7NaeLNk0btEv2mkeT
-X-Gm-Gg: AZFdTZeMrDGkzFzRRSUWTTMo7BuHsmf12V9llYUYM8QJNGvLhzrS8dgsQ6ph8jy6NSX
-	8UBKZScarWvcyRwoYa1XtalGDuVPHScmr6vKzFwSh/vg+n1XzPI0qmmzaCJrL50zR6aP3kXKR6V
-	xh4hlIyaAL8UfjIs1bBOHWMdxDmEu0T3olKNDutQ2DnKQbKhFQ64ielC15J+1AgGWQPf84YwxL5
-	DW8oWq2YyqMW/sOoCCJ4BE+VaRUSmfevZIKV0NDKcPbZtoLRDFKDgRbds6azyMEnJ5gOqIcmQAK
-	w4Jmk+T31l+kqeu063GC6rUq6jHAxlsWkJbKEDbj4JejQ5IE4TWBsvB+9PSNn/IXBzYpSYwCwCX
-	SV3KXEp5QcW10JRJIrS+nDk5sV96JH3dCVyPKLMrVydbiInKdUuPIa2Pjavd+ET6MSMRIqyvq0/
-	aZ6bgcbiQnXfR+5s8WD41w27HT4lNcm9nxgf/ymYXTZCErOsNJq0+xq1j6dzyRkIGNwBvY/NgaE
-	vSCg0Jj9aZYLkuenaM81Vr5SVLBnplEutPOs6e6NgGJfquZVBoDRshB3UPr60E8aaReCgIljNQ8
-	YFQ3w/J8p4PECi7kR7YGQfAU4Cps6NgrwfMCr0ImsGCptGQwn2fsp1PZ/Uv5kEokWtTnBBajEh4
-	pSCzcyAL+UqzP5isGeQD5bciUvLeCQKMxZN3HiQ==
-X-Received: by 2002:a05:600c:4e16:b0:4bb:69b2:d3df with SMTP id 5b1f17b1804b1-4bb88813024mr261994675e9.25.1795460956179;
-        Mon, 23 Nov 2026 11:09:16 -0800 (PST)
-Received: from ?IPv6:2003:cf:572c:2800::777? (p200300cf572c28000000000000000777.dip0.t-ipconnect.de. [2003:cf:572c:2800::777])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884911e3sm441832355e9.6.2026.11.23.11.09.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 11:09:15 -0800 (PST)
-Message-ID: <f47ec71229a8238f23819995884faed725304247.camel@amutable.com>
-Subject: Re: [PATCH v2] xattr: enforce the name and size limits for
- in-kernel callers
-From: Alexander Mikhalitsyn <alex@amutable.com>
-To: Amir Goldstein <amir73il@gmail.com>, Christian Brauner
- <brauner@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Miklos Szeredi <miklos@szeredi.hu>, Chris Mason <mason@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Theodore Ts'o	 <tytso@mit.edu>, Carlos
- Maiolino <cem@kernel.org>, 	linux-fsdevel@vger.kernel.org,
- linux-unionfs@vger.kernel.org, 	stable@vger.kernel.org
-Date: Mon, 23 Nov 2026 20:09:14 +0100
-In-Reply-To: <20261123165807.1939942-1-amir73il@gmail.com>
-References: <20261123113513.1910906-1-amir73il@gmail.com>
-	 <20261123165807.1939942-1-amir73il@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nB2Qms66
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id E34091F000C4;
+	Mon, 23 Nov 2026 19:35:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795462515;
+	bh=HEYr25BwavW4B0nOGSoBgW57x7aoPk1h9WB+MxPRJ64=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=nB2Qms66XD3m7ZFDdqumsz3O75zEBJR3hO0COkHwXQeCNxLtD6cs6LAZ4JTYySHDz
+	 jSg/+/+avc0A3vbj4dDLsNs/G9gBO5b5YeXTols78J6ds3V725snBllIozgbwbT4Uw
+	 WhDNHahlXVr+SI21zxlXpXeCcB5H7jxaGkYIuOncPEqQuP4T+OQMfaBEPjhb233EG+
+	 fWqI+ly+/aARaBGdC3mebxWb004oPLrrsdJyyN1B+G3PeGJ9IY8kSqxYys9LH7n5ck
+	 /v2axwcsM4QZY0LnftV9ZR1Z8Bx2iouZMAvZRJpopVyZAtzJuc1gmgNagSKtaTA8+6
+	 6jQ8HaOPqlJ6g==
+Date: Mon, 23 Nov 2026 21:35:12 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Casey Schaufler <casey@schaufler-ca.com>
+Cc: Andy Lutomirski <luto@amacapital.net>,
+	Andy Lutomirski <luto@kernel.org>,
+	"Hallgrimur H. Gunnarsson" <halg@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Serge Hallyn <sergeh@kernel.org>, Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	David Howells <dhowells@redhat.com>, Kees Cook <kees@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	Jonathan Calmels <jcalmels@3xx0.net>, Jann Horn <jannh@google.com>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	Singh KP <kpsingh@kernel.org>, linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
+	containers@lists.linux.dev, keyrings@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] userns: introduce capability bounding set for
+ user namespacesg
+Message-ID: <awSVO9Zc-233M7_P@kernel.org>
+References: <20261119104208.782900-1-halg@google.com>
+ <20261119104208.782900-2-halg@google.com>
+ <CALCETrVqc+1bjH1bhqHee9bsUdk2B6314z7PMexbsnNpMhk14g@mail.gmail.com>
+ <CALCETrV=zSxb6sgA08DLiK2bQovdMEj9ycG=Cc71mLn2C5Pgeg@mail.gmail.com>
+ <4db941ba-3001-4019-8910-63e534b29f89@schaufler-ca.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -107,133 +78,77 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4db941ba-3001-4019-8910-63e534b29f89@schaufler-ca.com>
 
-On Mon, 2026-11-23 at 17:58 +0100, Amir Goldstein wrote:
-> The xattr system calls refuse a name longer than XATTR_NAME_MAX and a
-> value larger than XATTR_SIZE_MAX, but the VFS helpers do not. An
-> in-kernel caller may pass a name or a size that it got from another
-> filesystem, such as overlayfs copy up from a lower layer.
->=20
-> Check both limits before calling the xattr handler of the filesystem,
-> and fail with the errors that the system calls return for them.
->=20
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+On Mon, Nov 23, 2026 at 09:22:29AM -0800, Casey Schaufler wrote:
+> On 11/20/2026 9:09 AM, Andy Lutomirski wrote:
+> >> On Nov 19, 2026, at 2:52 PM, Andy Lutomirski <luto@kernel.org> wrote:
+> >> ﻿On Thu, Nov 19, 2026 at 2:43 AM Hallgrimur H. Gunnarsson
+> >> <halg@google.com> wrote:
+> >>> When a process creates a new user namespace, it receives a full set of
+> >>> capabilities (CAP_FULL_SET) scoped to that namespace. While namespaced
+> >>> in scope, several of these capabilities (such as CAP_NET_ADMIN and
+> >>> CAP_NET_RAW) expose broad kernel attack surface that many sandboxes and
+> >>> containers never need. However, there is currently no configurable way
+> >>> to withhold such capabilities from user namespaces while still granting
+> >>> them to workloads that require them.
+> >>
+> >> One thought (from the rootns thread): the other decent sized attack
+> >> surface here is CAP_MOUNT_ADMIN.  Which doesn't exist as a capability
+> >> bit.
+> >>
+> >> A sort of horrible solution (but maybe not so awful) would be to
+> >> declare that the bits in cap_userns aren't actually capability bits,
+> >> and that you need the bit in cap_userns *and* the bit in cap_effective
+> >> to do sensitive things, and that mounting needs cap_userns to have
+> >> NSCAP_MOUNT_ADMIN *and* cap_effective to have CAP_SYS_ADMIN.
+> >>
+> >> I want to sleep on this.  It might actually solve several problems,
+> >> e.g. controlling creation of ipv4 and ipv6 loopback or tunnel devices
+> >> or whatever.
+> > I slept on it. Here’s a counterproposal.  I’m not saying I think this
+> > is better than this patch set, but I think it’s worth weighting the
+> > options.
+> >
+> > Define a whole new set of privilege bits.  As a
+> > poorly-painted-bikeshed option, I’ll call them eprivs (for exposure
+> > privileges - it’s a crappy name but at least it’s pronounceable).
+> 
+> I played with a mechanism I called "chits" (all the good terms for security
+> bits have been consumed for a very long time) that looks a lot like
+> what you're proposing. I did it to address the CAP_SYS_ADMIN problem,
+> where any use of the capability opens up a whole barrel of worms.
+> I cannot, unfortunately, find my patches. :( The basic approach is:
+> 
+> A process has an optional set of chits. A process without a chit set is
+> unaffected by the mechanism. A process with a chit set is allowed only
+> those operations for which it has a chit. The existing but empty chit set
+> allows no operations. A process may drop a chit, but not the set, which,
+> again, can be empty.
+> 
+> Because I was after CAP_SYS_ADMIN, I envisioned a call
+> 	cap_able_chit(capability, chit-list)
+> but there's no reason there couldn't be a
+> 	chit_able(chit-list)
+> as well.
+> 
+> I wrote this as an LSM, but the system-wide aspect of it made that
+> a questionable choice.
+> 
+> If you have any interest, I could dig more deeply to try to find the
+> patches. Otherwise, I'm happy to look at what you come up with.
 
-Dear Amir,
+What if eprivs or chits would take each capability and subvidide
+them into pieces? CAP_MAC_ADMIN would be formally a set of chits
+(or eprivs).
 
-Please, feel free to add:
+And process having e.g., CAP_MAC_ADMIN, would actually have the
+set of chits that are included to CAP_MAC_ADMIN.
 
-Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
+Without that type of relation there's just a space full of chit
+;-)
 
-Kind regards,
-Alex
-
-> ---
->=20
-> Changes since v1:
-> - Check the name in vfs_getxattr_alloc() too (Alex)
->=20
-> v1:
-> https://lore.kernel.org/r/20261123113513.1910906-1-amir73il@gmail.com/
->=20
-> =C2=A0fs/xattr.c | 35 ++++++++++++++++++++++++++++++++++-
-> =C2=A01 file changed, 34 insertions(+), 1 deletion(-)
->=20
-> diff --git a/fs/xattr.c b/fs/xattr.c
-> index 0705801a62cc5..fb5e43d4ff356 100644
-> --- a/fs/xattr.c
-> +++ b/fs/xattr.c
-> @@ -178,6 +178,18 @@ xattr_permission(const struct mnt_idmap *idmap,
-> struct inode *inode,
-> =C2=A0	return inode_permission(idmap, inode, mask);
-> =C2=A0}
-> =C2=A0
-> +/*
-> + * The xattr system calls refuse a name above XATTR_NAME_MAX and a
-> value above
-> + * XATTR_SIZE_MAX, but an in-kernel caller may pass a name or a size
-> that it
-> + * got from another filesystem, such as the lower layer of
-> overlayfs.
-> + */
-> +static int xattr_check_name(const char *name)
-> +{
-> +	if (strnlen(name, XATTR_NAME_MAX + 1) > XATTR_NAME_MAX)
-> +		return -ERANGE;
-> +	return 0;
-> +}
-> +
-> =C2=A0/*
-> =C2=A0 * Look for any handler that deals with the specified namespace.
-> =C2=A0 */
-> @@ -209,10 +221,17 @@ __vfs_setxattr(const struct mnt_idmap *idmap,
-> struct dentry *dentry,
-> =C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 size_t size, int flags)
-> =C2=A0{
-> =C2=A0	const struct xattr_handler *handler;
-> +	int error;
-> =C2=A0
-> =C2=A0	if (is_posix_acl_xattr(name))
-> =C2=A0		return -EOPNOTSUPP;
-> =C2=A0
-> +	error =3D xattr_check_name(name);
-> +	if (error)
-> +		return error;
-> +	if (size > XATTR_SIZE_MAX)
-> +		return -E2BIG;
-> +
-> =C2=A0	handler =3D xattr_resolve_name(inode, &name);
-> =C2=A0	if (IS_ERR(handler))
-> =C2=A0		return PTR_ERR(handler);
-> @@ -408,6 +427,10 @@ vfs_getxattr_alloc(const struct mnt_idmap
-> *idmap, struct dentry *dentry,
-> =C2=A0	if (error)
-> =C2=A0		return error;
-> =C2=A0
-> +	error =3D xattr_check_name(name);
-> +	if (error)
-> +		return error;
-> +
-> =C2=A0	handler =3D xattr_resolve_name(inode, &name);
-> =C2=A0	if (IS_ERR(handler))
-> =C2=A0		return PTR_ERR(handler);
-> @@ -416,6 +439,8 @@ vfs_getxattr_alloc(const struct mnt_idmap *idmap,
-> struct dentry *dentry,
-> =C2=A0	error =3D handler->get(handler, dentry, inode, name, NULL, 0);
-> =C2=A0	if (error < 0)
-> =C2=A0		return error;
-> +	if (error > XATTR_SIZE_MAX)
-> +		return -E2BIG;
-> =C2=A0
-> =C2=A0	if (!value || (error > xattr_size)) {
-> =C2=A0		value =3D krealloc(*xattr_value, error + 1, flags);
-> @@ -434,16 +459,24 @@ __vfs_getxattr(struct dentry *dentry, struct
-> inode *inode, const char *name,
-> =C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void *value, size_t size)
-> =C2=A0{
-> =C2=A0	const struct xattr_handler *handler;
-> +	ssize_t ret;
-> =C2=A0
-> =C2=A0	if (is_posix_acl_xattr(name))
-> =C2=A0		return -EOPNOTSUPP;
-> =C2=A0
-> +	ret =3D xattr_check_name(name);
-> +	if (ret)
-> +		return ret;
-> +
-> =C2=A0	handler =3D xattr_resolve_name(inode, &name);
-> =C2=A0	if (IS_ERR(handler))
-> =C2=A0		return PTR_ERR(handler);
-> =C2=A0	if (!handler->get)
-> =C2=A0		return -EOPNOTSUPP;
-> -	return handler->get(handler, dentry, inode, name, value,
-> size);
-> +	ret =3D handler->get(handler, dentry, inode, name, value,
-> size);
-> +	if (ret > XATTR_SIZE_MAX)
-> +		return -E2BIG;
-> +	return ret;
-> =C2=A0}
-> =C2=A0EXPORT_SYMBOL(__vfs_getxattr);
-> =C2=A0
+Br, Jarkko
