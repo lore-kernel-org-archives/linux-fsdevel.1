@@ -1,49 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795424313;
-	b=MX8VnnDg6+dapCRaei1gQAV5zlkZj42jkiUbAQ6r5DyPJz6Xh9ueRKxTF5nggP3a53iQ
-	 vs88pShsQ4865GfIj9u00Y/ueuI/+UaxgpR4yhHb4d5dJdWLlBjGTVDVv6oOy1Etsd3ib
-	 BEEpA/6oRsYns4Ysw1/mIBKqHE8D/6Eu0RCd68NoOZ6bUO0vq7DohqcS6zSF13DCEH0d/
-	 oaNBkwEJ5Awcpbr0x/xe4c2JWet5ulEmTNHaVF8YCnXmrbMOO5JMBOc+OnIIZp7AwZfxn
-	 gDOEkOHFwl8w6XccR69uFo/OkOw7H/SdnEd0GlFujeB99XHGWtr0yGl4T3xZbG1EMTQ==
+	t=1795424460;
+	b=NGJ0NlliKQUeUJ9hhOLbLYBFjiAUnszH+QcELKG2GCMNBOssR6P/tYKtnFtyJ+TZixlz
+	 E+U4aZCxoVWLKvigZLTwNJrbVBm3/5YQyv+vvdJpkkM70q5Y9ChwNLZO+HUreyghFmlGs
+	 kP8g32NMZyt4i+WqtHv2d8rOXf9nkfOJk2vB5Q43nhDld9wpDpmLnAIKYAr+oo9IwitBb
+	 o2/SaTRUG/VcAUuZ+U12nDRBjW3nIINs0sUtDhuS1r7eAd55ZW4jDAzibMwzux9gEOvHk
+	 9SIVr/06MNWdQeGPCGuWfaKdRmyEuG+BJ7+Q2RrYWc4x4oEO6eICEmhP/T9jhiI+nWQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795424313;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=b3WMjSBwi5PFDvIaCpQd7Axi/XWPxIYqZlMheE6sk7Q=;
-	b=sIvehgBMbjwdqGlTAQ9AwBphQxzmF7BmJTV11amiST1OX3VsFf06jx2ezQlZy7iqeD5q
-	 Etgv6ovvgQH5t44cDSKf+ILioqxoq6lLqS7Zn5trSFjr0a8945Q9X9jMz/MAIL8kNjuvC
-	 FS2Sj6NXf+zAcTaeQBNVREPfsXGfHHsnM9LX7Q+HaVOTMhF2DUB5Ro+lEKp8mjK6O5zLM
-	 UXurJKAQiEEHq9q3jefuIbgeyoHI8d8zqADkZdoVhf8RRR6SWufARGKccPyyHT5imEte8
-	 gwXkZ2n58PewiLgwtDvXs4/1SyeTwO2y80+N23VMGpdSnaHMoQEjhuZoRATKaUFbI5g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795424460;
+	h=DMARC-Filter:Received:Received:Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding:
+	 X-Rspamd-Pre-Result:X-Rspamd-Queue-Id:X-Rspamd-Pre-Result:
+	 X-Rspamd-Action:X-Rspamd-Server:X-Spam-Level:X-Spamd-Result:
+	 X-Spam-Flag:X-Spam-Score;
+	bh=uPhxwqgRwFr2c0Wk/MJfXbhM5TnmiRTw7EakaKv1UGA=;
+	b=HJhCmbBhN75aP0BfK3wQm8Uq65TD/Sox1z/3QSuXE+8uFUALV7uEEHuNfTwcOgYHvkrn
+	 slB+yD2BXgPPN1ueEuhknGJpj8/z2FwB2adBrmBGvqx+KfOWYOILb8pqWDTtKb+Lm2dH0
+	 RLvL+w4uL9JJh+7z1rM+FILFYXeahclG391Jlih6o/2KJei69b2DwxR933964/5vYSMtE
+	 ZLSn3Zi/oHYLaNaajozERBwFGmFORSMlUBEwO8KdbAkAdJb0FQppYJlW1RE4MQ29tp9LC
+	 P5x/t9A0gojsh5U3chxmqDsCyCD68sASAANEhCBTMgLoMNdYf+gR3e8E8xt44JO1qjw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=ljFKBqmi;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A6C7606A31E;
-	Mon, 23 Nov 2026 08:58:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A6C7606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=ljFKBqmi
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DB6561A25;
-	Mon, 23 Nov 2026 00:58:28 -0800 (PST)
-Received: from [10.57.91.245] (unknown [10.57.91.245])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BFF623F882;
-	Mon, 23 Nov 2026 00:58:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795424311; bh=IyuQOHegOm7o8+idks5YbotHgA2kGInEw/MsLFSwZbI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ljFKBqmieG86A9o17mg2OKClKeqYmywjsi88qro4DKa+Bzf6DMkYNr9cZvknPpkUp
-	 MK+dIkOffcqanqO2jC1axlvaTs8nppW4q108uU909LcHYNdp1I6oK5movdwY5TJcih
-	 uXIzdw84Y8RliXz46ZJI31Ytyxy9qn1kOEfkLx1Q=
-Message-ID: <7a3ffc6a-866d-472b-91d6-886ca8095008@arm.com>
-Date: Mon, 23 Nov 2026 08:58:20 +0000
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918DE606A32A;
+	Mon, 23 Nov 2026 09:00:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 918DE606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 01B2B1F7F3;
+	Mon, 23 Nov 2026 09:00:58 +0000 (UTC)
+Authentication-Results: smtp-out2.suse.de;
+	none
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CF80413532;
+	Mon, 23 Nov 2026 09:00:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id B2ulLMkABGvgBgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 23 Nov 2026 09:00:57 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id 54A9B275FA; Mon, 23 Nov 2026 10:00:57 +0100 (CET)
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: <linux-fsdevel@vger.kernel.org>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	gfs2@lists.linux.dev,
+	Mike Marshall <hubcap@omnibond.com>,
+	Martin Brandenburg <martin@omnibond.com>,
+	devel@lists.orangefs.org,
+	Dave Kleikamp <shaggy@kernel.org>,
+	jfs-discussion@lists.sourceforge.net,
+	Carlos Maiolino <cem@kernel.org>,
+	linux-xfs@vger.kernel.org,
+	David Howells <dhowells@redhat.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	linux-afs@lists.infradead.org,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	fuse-devel@lists.linux.dev,
+	<linux-block@vger.kernel.org>,
+	Chuck Lever <cel@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	linux-nfs@vger.kernel.org,
+	Eric Biggers <ebiggers@kernel.org>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	linux-fscrypt@vger.kernel.org,
+	Jan Kara <jack@suse.cz>,
+	"Pankaj Raghav (Samsung)" <pankaj.raghav@linux.dev>
+Subject: [PATCH v3 01/13] bdev: Drop pointless loop from blkdev_flush_mapping()
+Date: Mon, 23 Nov 2026 10:00:36 +0100
+Message-ID: <20261123090040.19006-14-jack@suse.cz>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261123085601.21199-1-jack@suse.cz>
+References: <20261123085601.21199-1-jack@suse.cz>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -53,131 +94,78 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] mm/kasan/kunit: add page_alloc_skip_kasan test
-To: Jeff Xu <jeffxu@chromium.org>, Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
- <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>, Marco Elver
- <elver@google.com>, Boris Brezillon <boris.brezillon@collabora.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Chia-I Wu <olvaffe@gmail.com>,
- Dev Jain <dev.jain@arm.com>, Ian Rickards <ian.rickards@arm.com>,
- Jann Horn <jannh@google.com>, Jeff Vander Stoep <jeffv@google.com>,
- Jeff Xu <jeffxu@google.com>, Kees Cook <kees@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Peter Collingbourne <peter@pcc.me.uk>,
- =?UTF-8?Q?Pierre-Cl=C3=A9ment_Tosi?= <ptosi@google.com>,
- Tomasz Figa <tfiga@chromium.org>, Will Deacon <will@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Miklos Szeredi <miklos@szeredi.hu>, Baoquan He <baoquan.he@linux.dev>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pratyush Yadav <pratyush@kernel.org>, Allison Henderson
- <achender@kernel.org>, "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- linux-mm@kvack.org, kasan-dev@googlegroups.com,
- linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- fuse-devel@lists.linux.dev, kexec@lists.infradead.org,
- netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
- rds-devel@oss.oracle.com, linux-kernel@vger.kernel.org
-References: <20261123033111.2349160-1-jeffxu@chromium.org>
- <20261123033111.2349160-3-jeffxu@chromium.org>
-From: Ryan Roberts <ryan.roberts@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20261123033111.2349160-3-jeffxu@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1749; i=jack@suse.cz; h=from:subject; bh=GZumrknrM8DPyabr5Jne8KkRCS0p4/yNON9cCW4wy70=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBrBAC4xsOQMPEQ2oKCGhB4uItf13zp0U70aCwz8 BgxDEqYscuJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCawQAuAAKCRCcnaoHP2RA 2Yg5B/42IPKKHMy6SSIbhPKxdCra8evAwnyXErezZac3fbRHGUyfm2yWf5konhAEdX/MLMTYQDt /cr4G9mwfK3/V0zMBR2I2u07NDAl2X9fnk7M+qBRQ5nMlv7nGooy48BccVa6qi1XdCekw9BZOuD 4/jDvTQy0fmEcr64knYRC+oSlc/r+nThyOkEAzk1iZCzdjjQhLZl6zAJDPcf1iL01TJwfwZ8GBO APpIdoItWy7+qAmaDZddSfNwxedGcf43/Ju1297VRa8qbXDM21j9E/fbmK+syjfw+MSZyjrtnsp OGwtIwKfv8OL3hw9OvBMuWeFt8mgXY4s8P0TNKFi7kyDubak
+X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Queue-Id: 01B2B1F7F3
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -4.00
 
-On 23/11/2026 03:31, Jeff Xu wrote:
-> Add a KUnit test (page_alloc_skip_kasan) to verify that page allocations
-> using __GFP_SKIP_KASAN (GFP_KERNEL | __GFP_SKIP_KASAN, GFP_HIGHUSER, and
-> GFP_HIGHUSER_MOVABLE) under CONFIG_KASAN_HW_TAGS:
-> 
-> 1. Reset page_kasan_tag() to KASAN_TAG_KERNEL (0xff) across all sub-pages
->    of a high-order allocation, and
-> 2. Return a match-all (0xff) linear-map pointer from page_address() that
->    does not trigger a KASAN fault even when the underlying physical
->    granules carry a mismatched tag (such as KASAN_TAG_INVALID or
->    restored userspace PROT_MTE tags).
-> 
-> Tested on arm64 with CONFIG_KASAN_HW_TAGS under QEMU (virt,mte=on) with
-> kasan.mode=sync, async and asymm.
-> 
-> Signed-off-by: Jeff Xu <jeffxu@chromium.org>
+bdev_write_inode() is really odd loop calling write_inode_now(). The
+bdev doesn't have any pages by now and if there are any dirty bits in
+the inode state, they are stale. Just call write_inode_now() once to
+clear them.
 
-Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
+Reviewed-by: Pankaj Raghav (Samsung) <pankaj.raghav@linux.dev>
+Signed-off-by: Jan Kara <jack@suse.cz>
+---
+ block/bdev.c | 25 ++++++-------------------
+ 1 file changed, 6 insertions(+), 19 deletions(-)
 
-> ---
->  mm/kasan/kasan_test_c.c | 44 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 44 insertions(+)
-> 
-> diff --git a/mm/kasan/kasan_test_c.c b/mm/kasan/kasan_test_c.c
-> index f34163e19bd6..72342137bb18 100644
-> --- a/mm/kasan/kasan_test_c.c
-> +++ b/mm/kasan/kasan_test_c.c
-> @@ -380,6 +380,49 @@ static void page_alloc_uaf(struct kunit *test)
->  	KUNIT_EXPECT_KASAN_FAIL_READ(test, ((volatile char *)ptr)[0]);
->  }
->  
-> +static void page_alloc_skip_kasan_helper(struct kunit *test, gfp_t gfp)
-> +{
-> +	struct page *pages;
-> +	size_t order = 2;
-> +	char *ptr;
-> +	size_t i;
-> +
-> +	pages = alloc_pages(gfp, order);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, pages);
-> +
-> +	for (i = 0; i < (1UL << order); i++) {
-> +		/*
-> +		 * __GFP_SKIP_KASAN allocations must carry the match-all tag
-> +		 * in page->flags, and so in page_address(), not a random tag.
-> +		 */
-> +		KUNIT_EXPECT_EQ(test, page_kasan_tag(pages + i),
-> +				(u8)KASAN_TAG_KERNEL);
-> +
-> +		ptr = page_address(pages + i);
-> +		KUNIT_EXPECT_EQ(test, (u8)get_tag(ptr), (u8)KASAN_TAG_KERNEL);
-> +
-> +		/*
-> +		 * The memory tags of such pages are arbitrary: stale poison,
-> +		 * or tags set by userspace through PROT_MTE. Accesses via
-> +		 * page_address() must not fault regardless.
-> +		 */
-> +		kasan_poison(ptr, PAGE_SIZE, KASAN_TAG_INVALID, false);
-> +		KUNIT_EXPECT_KASAN_RESULT(test, WRITE_ONCE(*ptr, 0),
-> +					  "WRITE_ONCE(*ptr, 0)", false);
-> +	}
-> +
-> +	__free_pages(pages, order);
-> +}
-> +
-> +static void page_alloc_skip_kasan(struct kunit *test)
-> +{
-> +	KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_KASAN_HW_TAGS);
-> +
-> +	page_alloc_skip_kasan_helper(test, GFP_KERNEL | __GFP_SKIP_KASAN);
-> +	page_alloc_skip_kasan_helper(test, GFP_HIGHUSER);
-> +	page_alloc_skip_kasan_helper(test, GFP_HIGHUSER_MOVABLE);
-> +}
-> +
->  static void krealloc_more_oob_helper(struct kunit *test,
->  					size_t size1, size_t size2)
->  {
-> @@ -2369,6 +2412,7 @@ static struct kunit_case kasan_kunit_test_cases[] = {
->  	KUNIT_CASE(kmalloc_large_invalid_free),
->  	KUNIT_CASE(page_alloc_oob_right),
->  	KUNIT_CASE(page_alloc_uaf),
-> +	KUNIT_CASE(page_alloc_skip_kasan),
->  	KUNIT_CASE(krealloc_more_oob),
->  	KUNIT_CASE(krealloc_less_oob),
->  	KUNIT_CASE(krealloc_large_more_oob),
+diff --git a/block/bdev.c b/block/bdev.c
+index f20f91b3176e..9fa72df4f47a 100644
+--- a/block/bdev.c
++++ b/block/bdev.c
+@@ -60,24 +60,6 @@ struct block_device *file_bdev(struct file *bdev_file)
+ }
+ EXPORT_SYMBOL(file_bdev);
+ 
+-static void bdev_write_inode(struct block_device *bdev)
+-{
+-	struct inode *inode = BD_INODE(bdev);
+-	int ret;
+-
+-	spin_lock(&inode->i_lock);
+-	while (inode_state_read(inode) & I_DIRTY) {
+-		spin_unlock(&inode->i_lock);
+-		ret = write_inode_now(inode, true);
+-		if (ret)
+-			pr_warn_ratelimited(
+-	"VFS: Dirty inode writeback failed for block device %pg (err=%d).\n",
+-				bdev, ret);
+-		spin_lock(&inode->i_lock);
+-	}
+-	spin_unlock(&inode->i_lock);
+-}
+-
+ /* Kill _all_ buffers and pagecache , dirty or not.. */
+ static void kill_bdev(struct block_device *bdev)
+ {
+@@ -755,7 +737,12 @@ static void blkdev_flush_mapping(struct block_device *bdev)
+ 	WARN_ON_ONCE(bdev->bd_holders);
+ 	sync_blockdev(bdev);
+ 	kill_bdev(bdev);
+-	bdev_write_inode(bdev);
++	/*
++	 * All data is written out and evicted but inode can have some stale
++	 * I_DIRTY bits set. Call write_inode_now() to get rid of them so that
++	 * the inode can be evicted.
++	 */
++	write_inode_now(BD_INODE(bdev), 1);
+ }
+ 
+ static void blkdev_put_whole(struct block_device *bdev)
+-- 
+2.53.0
 
