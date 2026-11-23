@@ -1,100 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.42
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795445772;
-	b=o0QjNNZ0k13E5Lxp3sOwyqXv/stImt5e37/F4/0nAsOfCFa05YpoA5IdhBLwn3mH2a6p
-	 JBr+8jBE7JwzMkMIkUASk0NCtm0+WLtSzZ/YwUJJckIgUiib6sXwES2ix9KwNMyRa37Go
-	 RvDtq3QiMtAR3qkiGOdC6gtu34yOYi7jRVTm6yKaTMD2rCWOW8tkMeCzmnSti9QlWXPzH
-	 lcMwy5vygtzbEU9Q2lOfum3K6zAjqGBPgXGuRo35jEyOb9fwqFJl3ixZWSeXzXtH67k+A
-	 eeIs4xxdGnUlEd1q3CWmTLROiS/O2x57qH/7UqUOntb/fQMbcHxAYvRzQrI7Nj1ILhw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795445772;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.47
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795446898;
+	b=SmGcBaI2wax/rkKdCyddY57W2s4aQTvOOE7D4LG8gXT2ROnIcvjM96yPNj+A4Q+PVXQQ
+	 Vpnfu3h9cKlztAqzQtSA7gYWeE3lCsOsoxHC6yv8zs7dDZh95/DdAJOTRRcMVoZ6xJ/FN
+	 KlLHHXWxI8LMCqRLeqklorSPWKEdaw1380aXCpvN9iIEOFEHbzsCQbTFTHSO84aBtd2VZ
+	 0BoIbNEp36DO33w1rtnhhkDFO53VESxuR00fPvLu3i67z5p0oBPDb+Bc7ykqFbQTkvTli
+	 WWoPpUoYr97kXoPPSP3f2Zfj6wDlsniG1SdTzY3rofs1/D9hYLLm7SLW5gTKpeqg5ag==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795446898;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=iLBZumrqdFfo+uoEqy5DjzVlLpVK7yMeWhuKRObIsyk=;
-	b=GGOCeaHLyVV8v3qo0Wy6XasTIvOKCRm1VZpCnybmhrwphxTh6Ip0wFzTw9LEDMzvwgql
-	 a7m4I/Ugvar1gw8qjacJv2Sxmzq/elRPjXlDLuhvZNyqBBiZcWzvhkWoWPmhbd3fyH8zG
-	 wVTzFZoOtjYhuYThxqbnl8w3ZUa99V3bsydgbWQpwfrGSHzbYNx1h5Q63TnVVZ5UKUWjA
-	 fe6vVp7bt92HhiX4ILW9xG3hnvkmiit7DA0DBzACBnVUJTa7AsRB5ddu1cX4Mtnl1gHSE
-	 6mCmc43OIX6W16dEgaULANhKg1gqTntCFjots4KcHImskDxgbIxR8Uirl/MXmrB2gEw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To;
+	bh=L5M3f6tXuCeudVEXZHMryiVzKAWS6njMK2AQVRvQJEE=;
+	b=dsqytWzKrzsr+c4UCVBF+QlXkS97pKL6l0Q79Qstd9sTyGwcC6I/TdNRFNDXW8bORZDm
+	 Y1KQA/mfJdy0KqEYGq/2XwYw0yslTLp0c2qVHKlyDrByrs+KuHpvc3IwsHpthB3RVcFPy
+	 3/1AZPTYmYNQIWdVk+IGI5L1sUDRbtGAGcN5uHZVJyaUL3eSTkFXBqKr0xQIFKN3m+xeZ
+	 EqLb5dS4I77vB/VGSjtAF4jzTNgMp7HF3CUKNxuM+r47oZn/cYG+TLUcDcQw0k+xME3Jn
+	 0tfh6aGYM7Kj/SzY5748Bxr9jFr7lXgM1gztVUDqkKYyAeaMHyp8ELlgc1BGKdqfK5g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wqeG4UVx;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.42
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HWJhogjW;
+	arc=none smtp.remote-ip=209.85.221.47
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F053606A339
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 14:56:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5F053606A339
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F1B606A31E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 15:14:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A4F1B606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wqeG4UVx
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6ba38c41804so3825606a12.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 06:56:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795445771; cv=none;
-        d=google.com; s=arc-20260327;
-        b=HIdxw6D7YxaIF9AGYeoJpYyxvHg1unyFC51mCPhKUfar/64K6JsFQhkEPtgSLo1PrT
-         nYJZoCrMMhdKZLriUMqM3CKsDSsGVKEeVDs4PWXvP8uVspz37OJqOTxJfT3wKbOusIcF
-         WNHUzPsbswamFmPH1PO95SdX2UyWikbOkdsRO709nydSmaGpofw/pMelpFRgMmtihRCg
-         fd6sC+76yA0Gne6J5f6BGTdEXT1oFK2uZxqP1XJLG9eDdImOaoGAE3OLokE2O0bk7aWm
-         cOYvEl1MjfjkWHB6xIqCJaWa52PD9+FxD3MEyJE8VVRM1tjsaSCjL0/CP8QTk9L4nTma
-         2R6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=iLBZumrqdFfo+uoEqy5DjzVlLpVK7yMeWhuKRObIsyk=;
-        fh=ON/XJw3HWYMMENJSbkzZkavIUlmNkT/XkoMCNBOHUUw=;
-        b=i5ucgBYbFF0ysMZDq5FSJuhMoJykVwBVB183r3Ns4R5ZM/U5iI2lRU+f73I+MWPd8B
-         V35cqUdGSFv8o3JUS3VJE0DK/ZbZrHkWb+X+dXqigtDUfrauyeV0qGVnrIPmxtpFLhIr
-         H+oUejqpjtyo4H4Hzyj+WVkxzz4IdvBg4LuIJxdCmHMuQ/riKEw0okYeXcr5M4YQLJFH
-         9cZQBH6/eKhESr1X4R8mJ4to4leYs1fxc4e+cphBjan0INhBtPexRP1hCiX42WBGW6Rq
-         8kaFKiKdqCbT7i9YTeXyfizxMmnaEIxvkG5JvWI1O+OdqRHK+BKqX9FINziPbg8bn9lb
-         VTrw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HWJhogjW
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48e20ed3b9dso3067126f8f.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 07:14:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795445771; x=1796050571; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=gmail.com; s=20260707; t=1795446896; x=1796051696; darn=vger.kernel.org;
+        h=in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=iLBZumrqdFfo+uoEqy5DjzVlLpVK7yMeWhuKRObIsyk=;
-        b=wqeG4UVxEsqawGNw4hgj4cfTFQ6arGqHSUO6imUiUMeXa8Rm1J1TOte1yUPje6cwe+
-         TH7GIH833ISdvF+478dTG3g3rLc8GhsHBKY9tqDuuQG6ExZLNhc6wL4HurcYB7XYzYdM
-         k1c8ZPl+i2LZWoD5sDSXAeuyZzpwDmF+lV5KF+mNx7I24cADkXDh2iddswNPgtjRQiod
-         98Rf1TYJCpfC9KwAJ5lRFDyGvcIpE/pXspm8dgf3k6SDEHnakNvYQAXllHZS4/z97Zhl
-         7Cy4Ubz5DFhoeGRxQ9Dvdf2g25hW/qM8ZE/LRkxbNQ4Q7lkYgGaDdPliMsLLJbdE54BG
-         tBDg==
+        bh=L5M3f6tXuCeudVEXZHMryiVzKAWS6njMK2AQVRvQJEE=;
+        b=HWJhogjW4F7JhplhpATcu7xz59o+fdiJyJlkt4Gd5l5/alTmIffqCyC0lg0JI87ZC2
+         fA/OtviKtevbQLCl2rIUMBl7Ek+oP1Ud7Pjnca/Gv0LTzFPZZDRFooI76KWfhXOqv93h
+         9uP98akzjfJ3mjOzyCA2srhUm2bD2Ry1Bxvs6nAw3OPXRN6Edbamdyhho39D6Bc+02rc
+         ZuhDfErCAJzIsFZjkfDLHMixxhJjOO7bDj7V8iq52XySePXOBpm/CX5ufH5KlPItNWsZ
+         CAbXKtJtwZMPPhH7O8d5xBhV5U+gLxoKlRN0stX6IW/2cWExG+NLrT9GC8zOp8ox3ErA
+         /sUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795445771; x=1796050571;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1795446896; x=1796051696;
+        h=in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=iLBZumrqdFfo+uoEqy5DjzVlLpVK7yMeWhuKRObIsyk=;
-        b=Y8CSI4jLzCAQyLeSkmxBJpy+909Ovle2uCENjOxlo/FQum7uZALVr+SGlvUFPAXS4B
-         M71d654zu2o7JMMveaYJN7jOeY5QBwrnZdhDqg2BzNW35WuWqtpNivqEskwnnM70JdZ1
-         +y1D6rTKud1X8e9qArv97PpbiShP8q9N/QgEKxsfklX9JNY+r3eeNkikKNipDlYTHKWP
-         sMgrUxvrIENgKEoofT9sdctNPiCX6gu7tefNU0oKHZzZAJJZjGvymYK2lv4JRBjSjKpB
-         ES9wpl2qGOP9YmeFsKVna4QUxpNqcRJfNPeJjkG5WKNnzxkrfElj0xr1FYDlA88rw1fJ
-         4Izw==
-X-Forwarded-Encrypted: i=1; AL+hErFF/cQO4yrG7RuoUd5qf0evEze+vfsIV61lvyid7S8pxRqilXi/xZWzKtYOm8KkTqi/fYm4ni7nMYyz4tIc@vger.kernel.org
-X-Gm-Message-State: APuU4Z81Hm63ehgXYOJD/MY/V3/B4ZIMcNS62hKG3CNjye35a7/J7aAe
-	Nv95BLdRU8HRWm7sK4gycOSHfMDj3/+cxiGenOLYMvB2mXlLzJBzPKhi0EeH6tqnjbL9rcTwE9r
-	4HkV1R8xNXxw+vPMlNMn2OHo2TNGoNpI=
-X-Gm-Gg: AZFdTZcfcp/b/WzF2SZKHWIKFNl5UtFeAv2VHElgUbNi9UY7wxff0Agypow3Om2pklN
-	x/FBEEZCHV1A3k/p023twMiUXTWYiFnaAqhHetle0q7YIvYRFXnBSa04h8+GbgRY/YnFKBtyek7
-	Mdte2BfwUtgajJuPwu20bxWHHw/8KhFxlSCQyMMQ0bQvEWi4Ly7C8bdyanHg1VnvKeDvoygXlfl
-	9Mfgt164F2RAPs6gLDLH7Y1JrnvQ9ZkvCdjP9kHy7U9Bf5zqZpZvwNB7lBANmJpUof2M4o7bhU+
-	fLb4n8KL11PcvNA6DidI72Gfiho40CB90QDkc1FRJjI3AXLRTSZtIgXcJYrr5ICM+xRf7r1Q7EC
-	74/+l8jrZrw8ZK321EqAP8M0xXtTtWZBMA6QFdV8s2adpi4b1garSHV4Ia7zZSeklEbdgGg==
-X-Received: by 2002:a05:6402:5516:b0:6b6:ef7f:600d with SMTP id
- 4fb4d7f45d1cf-6ba37e74244mr7852050a12.21.1795445770471; Mon, 23 Nov 2026
- 06:56:10 -0800 (PST)
+        bh=L5M3f6tXuCeudVEXZHMryiVzKAWS6njMK2AQVRvQJEE=;
+        b=FIOf88U3sp7JeQjbEgyrgH8/IV20W+5ZZtnQaVXtfqHiYR085SRdKv+BDAPmuEUWX1
+         aMgIeMfVYk3GqpnFECeLgiebxiWcnS9qMGVf/wKZwGgK8h3oFm6ZduXRQ+3tH6htnFDa
+         IK+H/nx1qPqu6VBJ3sYiVlKezWuNSZZRJF9NqvhR1KylVn4gUIB8QBCnFzYeRgBINw4Y
+         GaKHfMkK3stcbgRLrMVl5Dn1KVWLF0b/O/vrgUc6cW3M0FaVwctsKi1LXUHAF3KIBQY8
+         m+STqR1ipxhgCBh5OTKhaINrGwuQLP+EhUS4JUUe7nBvE/5yWU4iuaaaN2HwPexWTWnN
+         HIsA==
+X-Forwarded-Encrypted: i=1; AL+hErFUcvSvbz2cDmBcD8tCMk5gvAys9upunHUN1hL7nBEmr5CTejOsr+mcVPHMAkto4O7i6RYXN3i0SudKd2Qx@vger.kernel.org
+X-Gm-Message-State: APuU4Z/638bp3q18/dKzluL2gyVmlcG8SVhQchDIQZXXsXZwgSO8VBSI
+	RltBFvpeMbk79qRV6zEY1fC+JotZHbpgllPa5bs/VoY6J8pLsL8KrW9gd2HHFADM
+X-Gm-Gg: AZFdTZefOfOBs9Ul07Shjl7AGaxRua8iiPsxOaHRMWr8BNbRVtkmTrOrWf0aeyzZweK
+	/Loxd6ZHuc5Ldu7Sepff7w48xEhfAhuh69siWK2BziKL5gd75qVc2jkTe3E/yKQHV8//t6QSWFp
+	OFxS9uqYnoz0ZpBd4o/yRW4uglEcd7ZavwOaxJfi36hnR7/+mJYy2NXVjx2TBj1jqFVJ1JiVLQL
+	ZqCwcHso+faM7ibGqaqNI5BxmmFdcsH6i5shpTtI+rcA6bb3rrGw2FjyGMx3MsFy9i7evL91AnC
+	UPkcK5GFT3pkDrTdMvxRiH7y4ygskzpYDjX9Fm3aeRPQOwqwvEB2hDyrtndg6myMe2vWJooynOg
+	KgXMlHvdOiAWrPu0iFtr+IJTrMGumMDQNHaIkgvCsGY4SaqLYg3iqgGUSLHL5/+aeWxQONcpXjD
+	Khr13Q71hEOBkhz3p7X+NBBZSa3hG/g7+bzM5z6NV2UmBjcGe2TfRwjyyX6vufg4Zke5ykLM7/G
+	3G1H0JJvMGl6iT7PWcdT/HqCKV27a9aTsBl/t7FAKy4whl2C/stcfnA5AS8+9Ozb42VgFap9nN9
+	HonBcYD0zY4DmA3basAcVoW9sajyx+c7hVbogMWRzdcGkADvJi7kEYt4r8fcvSuk1enhqB5i3qI
+	dgSg=
+X-Received: by 2002:a05:6000:4b15:b0:48d:df08:307c with SMTP id ffacd0b85a97d-4abb8ac0d92mr20304624f8f.44.1795446895827;
+        Mon, 23 Nov 2026 07:14:55 -0800 (PST)
+Received: from localhost.localdomain ([196.178.137.149])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ad644140b5sm19778632f8f.17.2026.11.23.07.14.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 07:14:55 -0800 (PST)
+From: mohamedalibouhaouala@gmail.com
+To: jack@suse.cz
+Cc: willy@infradead.org,
+	corbet@lwn.net,
+	mohamedalibouhaouala@gmail.com,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: filesystems: update filesystem type, superblock and inode documentation
+Date: Mon, 23 Nov 2026 16:14:38 +0100
+Message-ID: <20261123151438.47681-1-mohamedalibouhaouala@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <p7wf376fhejkqtke2l6jxwzytlhiiaidjdaeapw36jxukbk2qx@kyk2wc5m
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -103,154 +100,21 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
+
+hurn>
+References: <p7wf376fhejkqtke2l6jxwzytlhiiaidjdaeapw36jxukbk2qx@kyk2wc5m
+hurn>
 MIME-Version: 1.0
-References: <20261122000856.536902-1-koray.fra@gmail.com> <20261122000856.536902-4-koray.fra@gmail.com>
- <CAOQ4uxgc6pP+_xvJMbqj6wOdGzS75Vn6x6i_vUfCJDD46DAA_Q@mail.gmail.com>
- <DN2N0BY83OY2.1OV3ZAZFSWCDG@gmail.com> <CAOQ4uxg9O-R_SUPAZ75ESGB99-4Z4EEUKGMkCF2f-sXkGPq1GA@mail.gmail.com>
- <DN2NVGUNO0GA.89JAB2PVI0LA@gmail.com>
-In-Reply-To: <DN2NVGUNO0GA.89JAB2PVI0LA@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 23 Nov 2026 15:55:57 +0100
-X-Gm-Features: Aa3M54p3kKL3ZKUzvEHZq54IOonM6T5WCFB3q5vIRbaCh5i5swbxajRtrCtjW5o
-Message-ID: <CAOQ4uxjuAN0FdxGr_-OccO5qnUuLF5oxOq7L_545tG3+36EKFw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] ntfs: switch to the new xflags fileattr API
-To: koraynilay <koray.fra@gmail.com>
-Cc: Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, Jan Kara <jack@suse.cz>, 
-	"Darrick J . Wong" <djwong@kernel.org>, Andrey Albershteyn <aalbersh@kernel.org>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
-	Lauri Gates <lauri.gates@gmail.com>, Christoph Hellwig <hch@infradead.org>, Dave Chinner <dgc@kernel.org>, 
-	linux-btrfs@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	ntfs@lists.linux.dev, linux-nfs@vger.kernel.org, linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 23, 2026 at 3:31=E2=80=AFPM koraynilay <koray.fra@gmail.com> wr=
-ote:
->
-> On Mon Nov 23, 2026 at 3:14 PM CET, Amir Goldstein wrote:
-> > On Mon, Nov 23, 2026 at 2:50=E2=80=AFPM koraynilay <koray.fra@gmail.com=
-> wrote:
-> >>
-> >> On Mon Nov 23, 2026 at 2:00 PM CET, Amir Goldstein wrote:
-> >> > On Sun, Nov 22, 2026 at 1:09=E2=80=AFAM koraynilay <koray.fra@gmail.=
-com> wrote:
-> >> >>
-> [...]
-> >> > Rule:
-> >> >
-> >> > You cannot add a flag to common without carefully auditing all
-> >> > filesystems that support the legacy flag.
-> >>
-> >> Yeah, sashiko pointed out a problem in f2fs, and I could reproduce it =
-in
-> >> testing, where adding COMPR to COMMON makes f2fs crash, it also needs
-> >> NOCOMP in COMMON.
-> >>
-> >
-> > I don't think this is correct, or at least not enough.
-> > My agent said that this breaks or changes things on  f2fs/ext4/ubifs
-> > I didn't bother to check if all of them are true - I doubt it
-> > bottom line - need careful audit and good testing.
->
-> Yes, definitely.
->
-> >
-> >> > FS_XFLAG_ENCRYPT can go into common but must also
-> >> > go to FS_XFLAG_RDONLY_MASK because it's read-only for
-> >> > all existing fs.
-> >> >
-> >> > COMPR is rw for some fs and ro for others.
-> >> > As with CASEFOLD, you cannot make it COMMON before
-> >> > converting all casefold fs to new API so that each can say
-> >> > whether it wants RO or RW.
-> >>
-> >> How's CASEFOLD currently handled? in the v2 I'm drafting, I added
-> >> fileattr_mask_to_legacy() and fileattr_legacy_to_mask(), which convert
-> >> between the old format (filtering by FS_XFLAGS_MASK) and the new mask
-> >> format.
-> >>
-> >
-> > Good question.
-> > Need to check this.
->
-> Can you do that? If not, I'll check tonight, no problem.
->
+Hello Jan,
 
-CASEFOLD is set in FS_XFLAG_RDONLY_MASK and NOT set
-in COMMON
+I checked the patch against both master and vfs-7.5.misc. It applies cleanly on top of both branches, without conflicts.
 
-Therefore, doing set with the old xflags API for the common flags always
-preserves the old CASEFOLD.
+The previous documentation work I submitted was a separate patch updating Documentation/filesystems/locking.rst.
+I wasn't aware of any ongoing work overlapping with the changes in this patch.
 
-This is kind of ugly and works but its hard to see the design there
-so hopefully all the new helpers and masks will sort this and make it
-more explicit.
+Please let me know if you had a different set of changes in mind.
 
-IOW, ENCRYPT can use the VERITY RDONLY and COMMON
-precedent because it is read-only across all fs (via this API).
-
-COMPR (for the purpose of ntfs patch) can follow the precedent
-of CASEFOLD of RDONLY and ~COMMON, which somehow works.
-
-Note that for fs that were converted to the xflags_mask API,
-COMMON should be irrelevant.
-
-COMMON is only used in SET to do GET and preserve the ~COMMON
-bits of the "other" API flavor.
-
-With the xflags_mask API, unless we adopt the "verify" feature
-there needs to be no internal GET with user SET and then COMMON
-is not used at all relevant at all for those fs (e.g. ntfs) only the
-_fill_ converters are important.
-
-> >> > I think there may be a way to deal with this easily since
-> >> > ntfs doesn't need to set either but not sure.
-> >>
-> >> We could export the 2 other helpers I added for v2 (xflags_to_flags an=
-d
-> >> flags_to_xflags) and make NTFS use them?
-> >> Though adding the fileattr_ prefix will make the current (v2) vfs code
-> >> maybe too verbose.
-> >>
-> >
-> > Honestly, I can't say for sure - you can try
-> >
-> > I think you may need a different set of helpers fileattr_prep_ used by =
-the
-> > filesystsems that are converted to xflags_mask, which may be different =
-from
-> > the set of helpers used by the user facing ioctls but I'm not sure.
-> >
->
-> I guess I'll think about it when I move NTFS's impl to the updated vfs
-> code.
->
-> > The thing is - this is all hard to wrap our heads around
-> Yes.
-> > You and I have parts of the design in our heads w.r.t backward
-> > compat with legacy API, both UAPI and vfs internal api.
-> >
-> > I think you should put it in writing to see that you and I have
-> > not left anything out because this v1 surely does get it wrong
-> > in several places both wrt legacy UAPI breakage and internal
-> > API correctness.
->
-> I agree, now the version in my head is not finalized yet, so I'll do
-> that in the v2 patch/cover letter.
->
-> TLDR is "use the legacy to/from mask converters whenever needed, so:
-> - user legacy -> fs legacy: keep as the old code did
-> - user legacy -> fs mask: fileattr_legacy_to_mask()
-> - user mask -> fs legacy: fileattr_mask_to_legacy()
-> - user mask -> fs mask: pass it through
->
-> (before finalizing the GET path I want to finish the SET path).
->
-
-Maybe for me if I don't see the full picture, full get-set cycle
-it's hard for me to judge.
-
-Thanks,
-Amir.
+Best regards,
+Mohamed Ali
