@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795448636;
-	b=w7oUvmjCzmIPW9+iJ6xXp2TiJpkN3xhbl4+G7gOS+aplHs+FOlAi3SfNvixLI79XPA8B
-	 1W69SHTk+r9IKzhuhRINsFCIUBn2UnVc+U/gUKN1j4BG6ItMWxc4pLC7qQYAYT+X3RB60
-	 NK6PK0Cdh2AWX/PWcflahfR35RdB7Mcx3mm3hflb0EaRje1yWcgsxS/kJqZg4q/L4YSPc
-	 b7gFH+YT8q4KWHm/a6QV+7r/cosmz+uB+JksN1u5BRPVL6lKHXXQvHDp+vNlpHjc24Ugl
-	 TiMXyuytU0n/jKbAdKGe8KKxPxsqs/j1qi9fJwWUOZzzIzY+57cEU5sgUtLHLUWQHvw==
+	t=1795448643;
+	b=nhqZSwS4/UFCSyquR1fZb/Sf7NTWzRAEv/0k7f4BAqvYPTngjEzuM2zI4k1Oh6B4724A
+	 hS+Qawmlg/i1hdqPr88DGUgS8dgwfWo/BQV0oFtmqw2dG4hG7ROuHF/9IvohkI+aduRnT
+	 Yf5bN7ptTSlQAAKeytm14GWceM0d1VLnsqRvEDsvBGVYcw4mAPw0SpCptWt3Ubhpj9qEw
+	 4T5YXLUd+tHYMj9MIibxFJLeB5gLENb6V1cTDnqVnIjUyd6QYb7fXhimu27fGRnom/oYy
+	 tp6AR4fy7RxdqF45XrSrmTV4wVT/j4xU0p/nYfFnd+1vt69hn6tm7MZ3rWZEzJDMmhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795448636;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795448643;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer;
-	bh=hBPO8PLZh/UMuGqLsh8NXe6Y8zhuf+A17Ivj1B29j0w=;
-	b=ud6sQ72ELWgYjtXAnktU17SsqmM9/Dw1Ge17BQCqW1E8o5k3cxh+cne3K37aogwsVlbZ
-	 aqdgmbG4Fi99Tr4DuTBczGypks4icJyQTW/ZcMyoCZjQj115I8Nh5QaJI79tFgzpNrDx9
-	 ged7hQZXEqmpVu5lvJBQtX73syb7b0k734U4CaT1rwkGE7a1I3/OPZicpPpwP4JjGo8GA
-	 WHn5Up83gmLtRzyOh7iba25j+7Ptujugs1wz+2yEKEKvU+yuxfXPQaGYJoIi9u7SlKule
-	 G6aAqjG2j8gLET9cIDECaTtoBaqg0Jf31dRBWh1D4IjtzRY+Pr5OwRXZuUiNn/BUh9g==
+	bh=o3SOCtJoKICNsA1ttJ020LJOorIPqLqxhGmSDBRPhw0=;
+	b=d47ZjSPYnE2naXF9pRu14cFV9A9GsvNbAGpUKstjo0LK7a8hywt4m/M/IZgyvB1/C8X0
+	 h5YaL2QnO9wLdUJ7UvZhRKid/pvBPQ9BUBwfT/qGE5VFfwF7KjFk2+rDxvvqCaf+FAU+c
+	 d7wT4kHK2wICdFxesqfA4PVjdTEM0sAxPyDLfRXZcDnvP+0XBrevoz7T0w3++/Pdd9dvE
+	 C2Xka5phn20P15MbNj/nrD2iZ6GXlpBxhL6U1ZGJE6DkM4dwmIHyEDhMAJE6LYnxqGeUp
+	 4Gxsw1u/LVOlw0a82cFezh9eySs0GGcY2dt1x62z1U71KnmMeo0/Gussq8bSNiFkhzg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iyOa9O5u;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Th2i2qeV;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758A2606A31A;
-	Mon, 23 Nov 2026 15:43:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934DD606A334;
+	Mon, 23 Nov 2026 15:44:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iyOa9O5u
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DB5C1F000C4;
-	Mon, 23 Nov 2026 15:43:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Th2i2qeV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 221481F000D8;
+	Mon, 23 Nov 2026 15:43:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795448636;
-	bh=hBPO8PLZh/UMuGqLsh8NXe6Y8zhuf+A17Ivj1B29j0w=;
+	s=k20260515; t=1795448643;
+	bh=o3SOCtJoKICNsA1ttJ020LJOorIPqLqxhGmSDBRPhw0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=iyOa9O5u1hxkBN1iYeKSim3KOhj5jcUJNMQDYXDnqEGOmkJAMGeQLrzTFh+WHpntx
-	 K9OOvxxzjl/Gl0PvdxP/UjAT1CWNjcoq2ZOneGSusAJrVZ9VP/fOoxIf10b+nHAYzi
-	 StubXUlwEjKuzg/YW4RhCym6lkQYF6qrDRTz1IUVXl59jzKgZtfboNav3YeXY+qk26
-	 7gsSgU/EiYkcQqCoTPiyu9qpfqAtnXhK//EFtHDaVs4anY3dcqWJ3IrAtLkVRYaQpf
-	 HRNLIEihnz/7iJkFyCWrAs3j0Rwg0E7Rwdyz+szoCV774CKQb9TDQcTW0R3qTCQhrC
-	 Z1ycA4RAGW+PQ==
+	b=Th2i2qeVV+3UqjBguZyjAQDAFIoyWMKuiTL1pshJSMujAM0dt1bpZ5xTHBOavBkOk
+	 co26wj1mVHb+tbSpaDj+K5PYIKyN4KJ6y6PA1OoUMqE1Y72nP6Jj5KPCWASS6LIdOt
+	 u0XRu7SxOWPk2gI+seKgn3UIHB17yZ7/KMGOtTD2/ZCFVMLDenoe0Vnxa40BQbXBiD
+	 XOwlIVBBtTBUSBPAnP5GzwNlfZB92FmEeGSboGEOZEX7Eonc6UJRnsXBs6q0GynV3i
+	 cd4p04WMsmf8iDFjqrlsdUwWrgxzqq55jhOpQdp+yQgumL6zE8NKlN46AnSKosU2QE
+	 qG2RHrINsTPXQ==
 From: Andreas Hindborg <a.hindborg@kernel.org>
 To: Tamir Duberstein <tamird@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
  Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
@@ -58,13 +58,14 @@ To: Tamir Duberstein <tamird@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
  Andreas Hindborg <a.hindborg@kernel.org>
 Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
- Daniel Gomez <da.gomez@samsung.com>, Tamir Duberstein <tamird@kernel.org>, 
+ Daniel Gomez <da.gomez@samsung.com>, 
+ "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>, 
+ Tamir Duberstein <tamird@kernel.org>, 
  "Liam R. Howlett" <liam@infradead.org>
-In-Reply-To: <20261120-xarray-entry-send-v6-2-1f69d7385f70@kernel.org>
-References: <20261120-xarray-entry-send-v6-2-1f69d7385f70@kernel.org>
-Subject: Re: [PATCH v6 02/12] rust: xarray: add debug format for
- `StoreError`
-Message-Id: <179544862193.2286374.1413505668892113541.b4-ty@b4>
+In-Reply-To: <20261120-xarray-entry-send-v6-1-1f69d7385f70@kernel.org>
+References: <20261120-xarray-entry-send-v6-1-1f69d7385f70@kernel.org>
+Subject: Re: [PATCH v6 01/12] rust: xarray: minor formatting fixes
+Message-Id: <179544862191.2286374.18027596474344839534.b4-ty@b4>
 Date: Mon, 23 Nov 2026 16:43:41 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -80,15 +81,25 @@ Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
 
 
-On Fri, 20 Nov 2026 14:10:13 +0100, Andreas Hindborg wrote:
-> Add a `Debug` implementation for `StoreError<T>` to enable better error
-> reporting and debugging. The implementation only displays the `error`
-> field and omits the `value` field, as `T` may not implement `Debug`.
+On Fri, 20 Nov 2026 14:10:12 +0100, Andreas Hindborg wrote:
+> Fix formatting in xarray module to comply with kernel coding
+> guidelines:
+> 
+> - Update use clauses to use vertical layout with each import on its
+>   own line.
+> - Add trailing empty comments to preserve formatting and prevent
+>   rustfmt from collapsing imports.
+> - Refer to the kernel crate as `kernel` rather than `crate` in use
+>   clauses.
+> - Break long assert_eq! statement in documentation across multiple
+>   lines for better readability.
+> 
+> [...]
 
 Applied, thanks!
 
-[02/12] rust: xarray: add debug format for `StoreError`
-        commit: fe0612239662b50da2fb7b95409be1f3aa7a2f1f
+[01/12] rust: xarray: minor formatting fixes
+        commit: 62cac56c118c96bf2026275a0edc80f1b3a87375
 
 Best regards,
 -- 
