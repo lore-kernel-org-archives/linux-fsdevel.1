@@ -1,117 +1,143 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.158
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795463072;
-	b=2gYnpQyy+J5c0JmM0cZ52J636G+xGfn7nL6XoZvBQKxEfgtU207kvZOZfL641s80w2RW
-	 IpDgJQdORsMd/2kN6UNWJc+qL8NTdtRoZvpATJyf8tqpgXHW7dM9XBu0Co08QPI6Ag5GN
-	 x9ofwcWCfH1qF4WgDrF7ug3ykPIUNqvCfDSSEJHhBiVO2aeLptPf55aZpt6EWsvkNFvIQ
-	 wdzCC9NpFwDrWFJhek35VVKhwUt0Hosq5wmEj9Xka5COk5n9zWFk7Of4dlWoq9eikkU0z
-	 6Y5LklI0iJBZlRyL0BLhT9FV1vMzu6P/GcF8rT8yRzjnNDekqH0aVpzMrJDn5ER7fAw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795463072;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:From:To:Cc:Subject:Date:Message-ID:MIME-Version:
-	 Content-Type;
-	bh=4Dvz5NNNlICLTM3r9+Ya7zREyIrxNnm+Dij1r9SaGyU=;
-	b=q/nA+5TXEsLsA00H5DMcxAZ1s/9vuzY0bSOY/uMzWT4bufumtCX72almAy/ZaffI1+TP
-	 jz4oyqeO1dabGR3jGIvMITjJxzhHUvTcuk/fGExGCq4E+azhieqJWbYdDaZN3RNeRQxUr
-	 X7pW3ppQ+E8xJu+u2MD9uBj0f4kfHRziUhWrXNZPZtsex81R8rCDoFco8nVkjdHwsXTY3
-	 kLPzRU9cWZ2wi6GZ1pAHWC9Ld/t3I89BS8suOfYb7/gHVPRxGTyinMLDpL+XKQ+akt/Sl
-	 zXeE5Pe3FIAZWjECuqb/ZKbdxtNPhAOQM3NO1yQ6B11pQUl1aYjrUkUKyobaC44Pn8A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=greenberg.science;
-	spf=pass smtp.mailfrom=greenberg.science;
-	dkim=pass header.d=greenberg.science header.i=@greenberg.science header.a=rsa-sha256 header.s=fm1 header.b=XkgzEtbU;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=AUsBnpZR;
-	arc=none smtp.remote-ip=202.12.124.158
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.23.26
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795464068;
+	b=AqUKxDSNDudMuhT0MXBIqpy0SG2cmjc/5zJ244fl9YLAtt+/NSGIIvPMsg7B+MBXdERv
+	 l6IMPlcQxWtEFp17Y9jvQ2a73Xy/vZkCbB25noqDYzWX0+FeTgBEOQ6kOIF5o60ZjM3cp
+	 Tm2H6NQdjb1KUvx+K55QAFc/M62cmEfm8x7a14/40Ll7a7McXnyd6UGM4SEbGLq6s2HPv
+	 hqdKCWNfde0CFnGkyUSTx4aUYyLdl/Fd3dEPHzLEX9LcDQDumBRKCmWS0NQARg5S6mXP6
+	 vqsUSYheWHRFtfz+/Uoe7DZ314zhkr3XlOYFHW0FXXm41L1dKsq/+beNA/aICnE8VmA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795464068;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
+	 Thread-Topic:Thread-Index:Date:Message-ID:Accept-Language:
+	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:msip_labels:
+	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
+	 x-ms-office365-filtering-correlation-id:
+	 x-ms-exchange-slblob-mailprops:x-microsoft-antispam:
+	 x-microsoft-antispam-message-info:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:
+	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=TpkK+B/5zyEyi1NA3ifqYhtCSnPDEN7yi7PPjRJFfbU=;
+	b=xibokKuc/ruYCQrNLzbKUAxsk39SUCwaMbusc0TUvFv0Y4DYY5T0rtjurH0otfl105y3
+	 4+2XF4rKBQI9I0ccoX3v6YrQPcPeC0mJVd/02Qbxs9UAF5V1LlQ+L9ebmETrbLmkHk/SO
+	 sQBC8ggwCWPYzWorQJU92tp4xkNpqH7W7R3TuDBX7ANUVZVqxvNZOamQVqyrn6gLYeKY3
+	 qvgFwtiloBOujWAwWdwfz0lvu803FP59y7TpAFQH0hudJ8Pg2gSKT7mv+qZqtxt2sFYUj
+	 M0Oxj0/CqLrb4pvXB0jotkGB/Kh9N8yZu37nZMFuAngJzZFzMIWkwRVJG37nq/agjLA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=outlook.com;
+	spf=pass smtp.mailfrom=outlook.com;
+	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=JrX89QKZ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.23.26
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azolkn19010026.outbound.protection.outlook.com [52.103.23.26])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05A1606A31A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 19:44:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C05A1606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=greenberg.science
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=greenberg.science
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93873606A31E;
+	Mon, 23 Nov 2026 20:01:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93873606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=greenberg.science header.i=@greenberg.science header.a=rsa-sha256 header.s=fm1 header.b=XkgzEtbU;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=AUsBnpZR
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 106107A061B
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 14:44:31 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Mon, 23 Nov 2026 14:44:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	greenberg.science; h=cc:cc:content-type:content-type:date:date
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to; s=fm1; t=1795463070; x=1795549470; bh=4Dvz5NNNlI
-	CLTM3r9+Ya7zREyIrxNnm+Dij1r9SaGyU=; b=XkgzEtbUZp852sCZTjZJw236iL
-	CCtpZSQnDPUj0rC7+jivf6UK9jV8WGLOmEJh51YaQPoqbPXzSiQsWK+L32X7tcIc
-	O8bcruCUBu7HB3eWxmkIt2vkENb7QKnw09CSVnJ807jyZSZ9C+FsMgK1O+/XX7Wn
-	LlRzg7banshOfsdUaD1S4fgUrX/Vr/Oz6OB3jH5qhHBVZ+Y5UpRHTqtP0V8rCCRP
-	Uhgm+CQyoLtzLB79eWhXOowgGyGKDlsD5+uKoM52P+1aa8lnNKDmnp3qtr/GdLM9
-	+qixYu//ndr3iC24+nQPwUmGsGtGCixXDd8OzmW5YFXmrDB9p3NRzwQo86ww==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795463070; x=
-	1795549470; bh=4Dvz5NNNlICLTM3r9+Ya7zREyIrxNnm+Dij1r9SaGyU=; b=A
-	UsBnpZRFUHMB1O40+HqXhe2nfdnbIzgGqsoivhXEacfAXkG8zR2huGPKUEqrwN46
-	SHokdWt9MxHL7OSLGCYIPvfJaONeSJGKbMxwBB/xilNklGMfmWt0uy4BbWOkzJYV
-	6sjCJRyveeoO7kaEz2iHQMXzkZvuTuSDCY7SiUXSuz5gMuNLwwTuLOIAPidbu72m
-	/exE6k/hGgOkhZY1K0uRt07/bA7Gc4TCKhncnTKJDWo4Qnw3WYWIjoTJElzjLzNP
-	AvFB0xSC6dq8mjeBwA9RHCxAtKD5RXOWNjkDqZz6rQ45CSf6PH5HKXkB71zBjGeA
-	eJ06hEGokN/QwdSjisCCA==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=greenberg.science a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795463070; d=greenberg.science;
-	mf=PG1pY2hhZWxAZ3JlZW5iZXJnLnNjaWVuY2U+;
-	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
-	s=fm1:rsa-sha256:N41/HsOGDHGKkbesbgDOj10fs44hQtgSzQtpYRP4B/PixW5
-	mHztaBHFK6x6fZG2zKVvER0gUw/XLymivQaYy97t0o//2bvpTPUT6rCKSRKo9HPf
-	UBxnZhms+EfAQFkc4Ekr5qnmEKn5585PwRm/KJl4XRb381JM516nY0k7wn1L9pvY
-	eUBeKcyRFh0Flvo0/8JKb82Qx+cDC6U+FxRa99obHvnVTBQURbEyfoJ+gHF9hHkL
-	I2oOGJJY1Awuw8qtEoZroO7Q6A8gJVrMUbjh33WyL2vTwVk+FcAx4J6WEsyZgtnC
-	ZFAqNd3K9k8XqJ8xk5A+hy9ItY9GHWoDQVNrSGw==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=9;
-	hn=cc,content-type,date,feedback-id,from,message-id,
-	mime-version,subject,to;
-Message-Instance: m=1; h=sha256:q/sdALHv1mMXtg4k0GfMoz33jFUaYvnaJ30Os/0zKAA=:SnaUuhXAKJ1WGK6qjKCtFtgBFkiarwcJx83d+O5zdJg=;
-X-ME-Sender: <xms:nZcEa_xVj7WKRI6EiToWeEYZgoVIj-ma91YE2y8uWXD0B6xMQ7GX3g>
-    <xme:nZcEawNelOWOebB-K2-1PLBLsk0YuZuH0t6Odu50FINjqwM5-6b7A876dInXUn0c5
-    7kQeLlO9xfXOfOKgZ7rXXl3_TzfWyciroRhmrmQh7v52nEJF15gYYQ2>
-X-ME-Received: <xmr:nZcEa04BoKc6WyBztDCrqm-pKQgVIyOQfFEYtEZAv5Q8vnRQ0C1nly5AUaf5qGLDclBS-Sk1G3wbuHB5Iou5oIA>
-X-ME-Proxy-Cause: dmFkZTEtpVC57NewP72bSEdugBKl8HPruxQdGTMTe00UoZ7i6b88TXn1EzwKJ1hnLveh2N
-    dD66OnqluybOumVGTSajvHJ2OWCW1GNNLboLNKGLQqfJnYgflIiFkjioFcKoSx3B1ehtV9
-    425W4vT0PNZ3T6+USDnRJEChrU95KrJO2VpjkuhvedIsmFB/bgP39eRn8O4ZCZA64glwZO
-    aKUTxbKAQYb4HsjtfYWLBupZhaC4UPHAA0506FsU0xgZ9xidSYQ+kzSbaQS1as0lJUO8gT
-    aiIecpMIpWvQsCsqo7+LPFu8B9HDrFnrISYJ5GNyvlKdoVeWznS02AmcIOGCCnAadpqFoR
-    RQMFVYzPUXRrG2I/gg/KZ9Y+kE3sWPQqoXncGpOWK+E/REXO9SLRMGi2zm9G2gecYSJyNK
-    xgHLwROiVD2W/ETjcNcyuY2DqqJSLceHCA4oQudH/aqegOxynZGkgZrClqVn0Of/j74J+m
-    pcLAAtn2/MR1+UfEdQotj8FzRU8NqI7fQ+W5I7NzCvxOIIIMKw3kJT95GrHr4NcS9ZMlXz
-    lFW+kC6rhomGm05AUn1sD8H6mtVBbEbne8fG9Wxj5L/bY+bvPz05TJ9RoL9aPgByD72Xwt
-    YlN8vQZQ7bHnpGOCsdEJDIHMP6IQijA+XI1dSTqP+EzbL7tiSBrXgcXpvO+w
-X-ME-Proxy: <xmx:nZcEa5njpe_AzVLWT20Z4gN7CeX-16r837ZdhYMtYgMu6XLF8Z_s1A>
-    <xmx:nZcEa9S47Nu59dGTRnAYH5mIFUoLfpOZQW94KNttF2aq0vSmeNgwKA>
-    <xmx:nZcEawGaNnEyhHARlNv6qzvjkgHOErx1_rz7shxPPqUtiVnHMWiZ2w>
-    <xmx:nZcEa6FH_n-JskpCLMTVMNetXz0w8VisU-PKIZ718ZETkAMD4Y0YEg>
-    <xmx:npcEa_BWJCXtmXs9xh8Zct2PvGotKs_7LyBX4IbNyp_CyEulDlxjO6G_>
-Feedback-ID: ib2794684:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 23 Nov 2026 14:44:29 -0500 (EST)
-From: Michael Greenberg <michael@greenberg.science>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
- <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
- mgreenbe@stevens.edu
-Subject: [PATCH] namei: don't count symlinks twice when a lookup restarts
-Date: Mon, 23 Nov 2026 14:44:28 -0500
-Message-ID: <87zeuz5o4j.fsf@hippogriff>
+	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=JrX89QKZ
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zTyka9dwtOrcWJrQW4tV7DOMrJh/2ZY/toE7tshFJSvPE1sGEIf1px3molqKKrtVCWDhpajutyf+HhRUyf7zWTJJmgvldS3EIB2FJr2UccviApDdS58J055gW02r5PdeeHOYRncpUhu0XF9k4XoQUnw6BrrS9cBPlrl20/hMHZjQwlKTn+xOWZzBmhV1rQHnZ7MjsY0dSo6qDyWyq19/XcGZHG1WtWefja1mTphoevdAq0HpDYmoG6SzpjLp4swYEsQR7VWiXiGxSgG+Zu5yamADG9zHLOAG36jV1Gk8raXdzi7mZpZEbCFF2LQBkqrbqjc/W2YfTSraMYYc45bADw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TpkK+B/5zyEyi1NA3ifqYhtCSnPDEN7yi7PPjRJFfbU=;
+ b=e8oGMBN0doTXYRkG99axlr4gQ+6wSBY6uM/VM8y686gclhR8VzXK36c+QsnDrgK8fxx0RkbRclu2mek6LP7VSVQ9rmXsqkCjueMxg3JiGcZxccKqC14ZFy186N5+ZeNhmPbcnzgmXq3RHsTlbyh0sZtUrcmgjaFrdpYaZ3AKyqLzqrWw4BQogAtg4rTacgwuZnQgfeagz8/u/BbRfKMUoXrAKis6QTFa/cvcWzq18FblPfCG3lwNiCXx5Wk8oZcILkTH8zibWOvtq3K5xPHtGSkCCvsb68UMYZbO9+FHSXjUKWhFLCu/OiYzRQ23qs/d3f857ja5YYTOttN8kcMn0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TpkK+B/5zyEyi1NA3ifqYhtCSnPDEN7yi7PPjRJFfbU=;
+ b=JrX89QKZOBPav8V6I89WAbyxirvCKztyK4bfGeu78p99o17OJIUS2NSCEkL1SD2rnmaAD4C/wEBrkKV3BrfyL/FljkKwKvdxYOp1MhS8Wz0sq/Rfs4mPiZdHwvo5TZB3ivNIjMUZ6FUakdsTO9Ikzln8YBztprNzPuJ/pxQIq0NG6wV3SWmKkizKJ0ZriK0EYDO3XlzbzMAXcSOI3mFdPZWdCNfZf3umEkwLWxofmbrnQ3ZRo1CBVInwr2StiW/m3MwwUgifwHjuGyttZJF7og11HjG0tZ3d+K63eQ33kSwXo+I+WCvxgsBNLa2d943z6GlSRRtpmx9WeShMys5FgQ==
+Received: from DM4PR15MB6276.namprd15.prod.outlook.com (2603:10b6:8:185::22)
+ by PH0PR15MB4637.namprd15.prod.outlook.com (2603:10b6:510:89::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Mon, 23 Nov
+ 2026 20:01:04 +0000
+Received: from DM4PR15MB6276.namprd15.prod.outlook.com
+ ([fe80::cfd2:b16d:7d13:943f]) by DM4PR15MB6276.namprd15.prod.outlook.com
+ ([fe80::cfd2:b16d:7d13:943f%5]) with mapi id 15.21.0639.012; Mon, 23 Nov 2026
+ 20:01:04 +0000
+From: theBIT5 x3zk <x3zk@outlook.com>
+To: "linkinjeon@kernel.org" <linkinjeon@kernel.org>
+CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: ntfs: deleting $Extend breaks subsequent mount
+Thread-Topic: ntfs: deleting $Extend breaks subsequent mount
+Thread-Index: AQHde4R8xv4yfu0CbUa8W2Kg8yjy6g==
+Date: Mon, 23 Nov 2026 20:01:04 +0000
+Message-ID:
+ <DM4PR15MB6276A5C442568B4C7E604AA386452@DM4PR15MB6276.namprd15.prod.outlook.com>
+Accept-Language: ru-RU, en-US
+Content-Language: ru-RU
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR15MB6276:EE_|PH0PR15MB4637:EE_
+x-ms-office365-filtering-correlation-id: 478f34aa-14ff-406e-9b47-08df499c8166
+x-ms-exchange-slblob-mailprops:
+ 5fu/r660v9Mj6U6kz+12O9pZy2TuKGHDKOloGPM4VKu8Yhq50RGK/HGBR5z0RIUBcgTLWpfcf5zELr1+jVhQNZLKTK5YfLaBxkLj40Q0QUgCt0EqTTGQZPXmir78ekFJQHrySiM1IizLvmNeZyssGK426kAx0QOzIR40IKHm//5zlp9sMjpBnGrsS/lqvfEQfLCX/2zbPKfo42+nnN+NZOLA0z3c519bncUpcxRGc1K9oJPKgimBedbt4T3UQ0uIdyfEzkUIxWiVS4MfRk+nsvGN777H5zVuPBtuhPujEetNTNFcxDi487rqr2bvjJ38SS4pBVdD5sPXea4efYAF5KXXDwS3lvJ2RHZ1nh/BdQkCpq+jq1O8PN5q9M8An/k6sTRLYWtoIA8cmjaPj3bPloM27C2O0+Zu4tWMvfxAZ5B2zkhWrTR0HEQpIb8gy3oxDxzkfAKLYCZ3h2uod8QRcLMGdWsTD0XwhaSVJ1fWSsq80awcqVYf2qWuvrAMtYt5PRZGUVefe8M72JerP9Ed1Zf2sQ4lOj8qS0x2TcQIpFAezNWarj+ns1eqVjeylrJTsm2udMXEULhfsUx9+D6n1G1AeedeZ8ld1oqELiAT2w/eUGU7kAvCwLQrUzTKCGzzMJx2wvJkSAntT0XU2pxf5twkXBCriuZXahlhxTMqBUhmHHI67lgEZ8FwJxYg6WBQJs90zBRkC5tJip5VIZZpiQNXJ74osjsv8KbbGRf5FmI=
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|8060799015|19110799012|15080799012|15030799006|8062599012|20031999006|31061999003|24021099003|39105399006|6050399003|4140399003|3412199025|440099028|26104999009|102099032|3430499035|40105399003;
+x-microsoft-antispam-message-info:
+ =?koi8-r?Q?sn4fY86WZ+J82oqj6dvTDmWuyTrVJJVGXbIiu99QXgCjUhhJ+565BKVPhe5gNB?=
+ =?koi8-r?Q?Y1ECbXpkEJo7NAb1mBkY526kFJI/6e4Z7tFUIt5N1auvqDjMGi/f/QH2xbbS55?=
+ =?koi8-r?Q?TKc1XqXnC3deQsPP6/Hnu89Dq3Asapm0mbJFtFxVi0k4Q7c7lO5e1S/0e4kaZq?=
+ =?koi8-r?Q?K17TxKqOoZOzqmzFqrSyl3lpZHNttXpFDD6hfKPg5zi7anra943VtLSQYnj575?=
+ =?koi8-r?Q?Lo3nIFarx8ap7V76jSaDfq4gAKUye+K8AoeFFH2RmYI8i/0KGdXGC7y2NUt0wf?=
+ =?koi8-r?Q?X2IU3jTEU0W3h9kAEt1Y/ipBc+lx9gzg1zxIyCRgNRNooo9SB2Xb4w5LAb9WkX?=
+ =?koi8-r?Q?AK1ochMuyQ5y11qAaWEY1+y+w7nkDtWQjqfPME8ToMRJcZsD4DvkncEGiawSXF?=
+ =?koi8-r?Q?LIiHc6ESK4NCvS3dXRyD66Y5YsYnKh+3N+iBZxqs1ednkv9PJs0/bkCpYv/ni6?=
+ =?koi8-r?Q?rBI8DYaqK1XV/wdQAs2kqQDVHV4/sWEwWkqT0Y4rWf2+RolDqmqPsWr9/2QfTf?=
+ =?koi8-r?Q?OGr/xqwrb6vn3+VLjYjF/fh/OpvP6j/DRI5eHeZ8OjBcU230XD9dTd78N7WYER?=
+ =?koi8-r?Q?oMMx3TNxS3H5A9+3FXkzkvzQJXdD6AnEBzddtmIvaVh8hD+mr5b0mJEjTqB3kq?=
+ =?koi8-r?Q?Z3+41yhLh73qRca2HsYctGpj+VI+EglDCV57YBhaw2BXnc6TgarXE0kyOrrM1R?=
+ =?koi8-r?Q?5Kl9tNWPPSipCHGNoo7kup482eOQua50mMlYOTdaal4pyZ++f6DSDxqXTn99EI?=
+ =?koi8-r?Q?vYSyCfYzb3odX4ueZafO+Ai4WAcWQj98TlDjgdnTSudreVIAbeCbSQl2XBh4+R?=
+ =?koi8-r?Q?86dJrTY+zrrgzHwccHcrwdW7I870/p40CKwmoDWAZs1V0cuMOG0LBHGyX7zAjU?=
+ =?koi8-r?Q?GLaHzB8mwSwfCgF8yBxz5KY9fDyDPsyWFoMff6RymtGBmID28VzURRWavndtz2?=
+ =?koi8-r?Q?IijCTmDQkFWzvQdOeatRclftNSD/Pvss?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?koi8-r?Q?ve9aGKqledcTSyIN0hSIYBB83WtVC6X3Ysk7jx2bsaZhlos2DGVwYyYebMDyR0?=
+ =?koi8-r?Q?0ziha0l0gwdbIiTpZjAAhjBRArKXR8FN2zNXKBYZek7LDasP4zq8xbWk0TSH6U?=
+ =?koi8-r?Q?a/7KtKAQMMp3jDMO4Gc6bCF4NM6Wf7+rEsrunIZdFYQR3cJoDdxZmFwjLqh2h7?=
+ =?koi8-r?Q?ZgDNci+BG7n82zAqP+RIrO6A6yC78czFyAZ+I/DIMeAwvw7tzRI1wS4DNWr8hm?=
+ =?koi8-r?Q?Aom6CeT7fBVB0S5ztXvABx035LrLl4QBD/xm36iERguS1fVt+8BUD9EORrg+SF?=
+ =?koi8-r?Q?zbLeKMlx+sj33pi3kmA79qMTEBWMgvJXlSlRH3FjaWDloQ3DxaNeEnQxaQUptX?=
+ =?koi8-r?Q?Ee8kCbAD3WVldt+CGARPc8NUcwrvcofM1cRzNs2+pstvJEcZ8YEqmKQcFHLy8q?=
+ =?koi8-r?Q?4H1/e6gqF184OOt/Pk+3Q74Y4N7F7mSeDJO81lt5c5rnHpOD+i//zQhRGJMNCq?=
+ =?koi8-r?Q?MhGfqdOwoiezHS/UuiDQcB28mzZx6oE9UgNEUeDjGAZNyLWhmlPnUax4gxEejy?=
+ =?koi8-r?Q?HerqPuCOWi2h0+19r9SQrblbdxIq1J9mfjVZZHYo59GlOtyNmce1Gih6+9mroS?=
+ =?koi8-r?Q?fLotM7eqzAws2zBPy76Wftn1aqnd8QExGY876jcA93QaVr+Gs3RclXrCquK41x?=
+ =?koi8-r?Q?3y52P7nKMdn5dz0ubyOEeCZU72KCQCe5tb0yBEMaVMoBuhgLgvcGyU8IEZZAyW?=
+ =?koi8-r?Q?78d0/hkIYr7PJU7y2tQazOMrqT8gbZEOk9m3cgcDiYGXFtYFed0Ov6DcV+TbQ7?=
+ =?koi8-r?Q?T2UHsQFKF4DDpw++BCuR3AqGlId5tOGZg8ReHqrz477aFCi0euZx24cxxDT2t3?=
+ =?koi8-r?Q?j1uwDWD4Rg82oMYwXU/JKTojdsOxSAIa095qaTgzWA4yj+Q8YOFBYh/3awbrZN?=
+ =?koi8-r?Q?t2q73hQcWZSwpqZny3kfejkzAnsJheZLpme6V+tBuZIPmDA5GNxZB+78KUgRqd?=
+ =?koi8-r?Q?70AIO/ToRSFXYPLSbEZRi75ubYUgaaEV9zYuzrqs+I+6iWNckr1y+oVxre+X5U?=
+ =?koi8-r?Q?uykHwkcy/erAC7H1sv3Fo5CDX3mdO6ttxhB6vPL/qZd1xy80k3BV4g+9S2BCF7?=
+ =?koi8-r?Q?fr/5Bcdk+Tf7++BPB6ZfhqdRAe+EEinW9BdCViSzhrtyzlNfUXUFjniZQ1WMZx?=
+ =?koi8-r?Q?s/S3zj7h68bq0fgUDeKj7zoFq9baCpbFi1H8HzADCTGsvk8YeaIKkeiBY9HnSg?=
+ =?koi8-r?Q?FOwMBFLks/hrZFQoJDf3/SSiOR0f4r4zBwUqmx25Il6y0jfe8P2qt8l+a19zhC?=
+ =?koi8-r?Q?MF9VvEIzBkGZLLF7GI4PPkX3DdGzOAR18IWR7BmxKIs/zNaxpfKDjaNZzBOwCo?=
+ =?koi8-r?Q?7Lp1mbT9NzluP6a+COUog1E=3D?=
+Content-Type: text/plain; charset="koi8-r"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -121,167 +147,43 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR15MB6276.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 478f34aa-14ff-406e-9b47-08df499c8166
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Nov 2026 20:01:04.4437
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR15MB4637
 
-Since commit 2788cc47f459 ("Don't reset ->total_link_count on nested
-calls of vfs_path_lookup()"), only set_nameidata() sets
-->total_link_count, once per lookup. When a walk in RCU mode fails
-with -ECHILD, filename_lookup(), __filename_parentat(), do_file_open()
-and do_file_open_root() retry it in ref-walk mode with the same
-nameidata, and the retry re-counts every link the abandoned walk had
-already followed. The LOOKUP_REVAL retry after -ESTALE does the same.
-
-So a path that crosses n symlinks fails with -ELOOP if the RCU walk
-got through more than MAXSYMLINKS - n of them before giving up, which
-is possible for any n > MAXSYMLINKS / 2. A mount or umount anywhere
-on the system can make an RCU walk give up, since it changes
-mount_lock's sequence count, so whether such a lookup fails depends on
-unrelated activity. Opening the first link of a chain for 3 s, in a
-4-CPU KVM guest, while another process mounted and unmounted a tmpfs
-in its own mount namespace:
-
-         v7.4-rc4               with this patch
-  links  opens      -ELOOP      opens      -ELOOP
-  20     1,350,902  0           1,109,467  0
-  21     1,352,363  259,737     1,036,744  0
-  40       947,012  449,441       571,202  0
-  41       973,308  973,308       852,776  852,776
-
-Without the mount loop, a 40-link chain never failed: 0 of 1.1 million
-openat2() calls on a v7.3 host. The reproducer is below.
-
-The fix is simple: restart the count in path_init(), which begins
-every attempt, at the value set_nameidata() saved, if such a value
-exists. This avoids the DoS risk 2788cc47f459 fixed while fixing the
-incorrect -ELOOP returns.
-
-Fixes: 2788cc47f459 ("Don't reset ->total_link_count on nested calls of vfs_path_lookup()")
-Cc: stable@vger.kernel.org
-Link: https://github.com/rrnewton/hermit/issues/5045
-Signed-off-by: Michael Greenberg <michael@greenberg.science>
----
-// SPDX-License-Identifier: GPL-2.0
-//
-// Spurious ELOOP from a symlink chain under MAXSYMLINKS, while mounts happen
-// elsewhere on the system.
-//
-//   cc -O2 -Wall -o eloop-retry eloop-retry.c
-//   ./eloop-retry 40 3     # chain of 40 links, open for 3 seconds
-//
-// It makes l1 -> l2 -> ... -> lN -> f in a fresh temporary directory. A child
-// enters its own user and mount namespace and mounts and unmounts a tmpfs
-// there in a loop. The parent opens l1 over and over, and counts the opens
-// that fail with ELOOP. With N <= 20 none should, and with N > 40 all must.
-// With 21 <= N <= 40, an unpatched kernel fails some: a walk that leaves RCU
-// mode with -ECHILD is retried without resetting nd->total_link_count, so the
-// links the first walk followed are counted twice.
-
-#define _GNU_SOURCE
-#include <errno.h>
-#include <fcntl.h>
-#include <sched.h>
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/mount.h>
-#include <sys/stat.h>
-#include <sys/wait.h>
-#include <time.h>
-#include <unistd.h>
-
-static void die(const char *what)
-{
-	perror(what);
-	exit(1);
-}
-
-int main(int argc, char **argv)
-{
-	int links = argc > 1 ? atoi(argv[1]) : 40;
-	int seconds = argc > 2 ? atoi(argv[2]) : 3;
-	char dir[] = "/tmp/eloop-retry.XXXXXX", name[32], target[32];
-	long opens = 0, eloop = 0, other = 0;
-	struct timespec now, end;
-	pid_t churn;
-
-	if (links < 1 || links > 100 || seconds < 1) {
-		fprintf(stderr, "usage: %s [links 1-100] [seconds]\n", argv[0]);
-		return 2;
-	}
-	if (!mkdtemp(dir) || chdir(dir) < 0)
-		die(dir);
-	if (close(open("f", O_CREAT | O_WRONLY, 0644)) < 0)
-		die("f");
-	for (int i = 1; i <= links; i++) {
-		snprintf(name, sizeof(name), "l%d", i);
-		if (i < links)
-			snprintf(target, sizeof(target), "l%d", i + 1);
-		else
-			snprintf(target, sizeof(target), "f");
-		if (symlink(target, name) < 0)
-			die(name);
-	}
-	if (mkdir("mnt", 0755) < 0)
-		die("mnt");
-
-	churn = fork();
-	if (churn < 0)
-		die("fork");
-	if (churn == 0) {
-		if (unshare(CLONE_NEWUSER | CLONE_NEWNS) < 0)
-			die("unshare");
-		for (;;) {
-			if (mount("t", "mnt", "tmpfs", 0, NULL) < 0)
-				die("mount");
-			if (umount("mnt") < 0)
-				die("umount");
-		}
-	}
-
-	clock_gettime(CLOCK_MONOTONIC, &end);
-	end.tv_sec += seconds;
-	do {
-		int fd = open("l1", O_RDONLY);
-
-		opens++;
-		if (fd >= 0)
-			close(fd);
-		else if (errno == ELOOP)
-			eloop++;
-		else
-			other++;
-		clock_gettime(CLOCK_MONOTONIC, &now);
-	} while (now.tv_sec < end.tv_sec ||
-		 (now.tv_sec == end.tv_sec && now.tv_nsec < end.tv_nsec));
-
-	kill(churn, SIGKILL);
-	waitpid(churn, NULL, 0);
-	printf("%d links: %ld opens, %ld ELOOP, %ld other errors\n",
-	       links, opens, eloop, other);
-	return eloop != 0;
-}
-
- fs/namei.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/fs/namei.c b/fs/namei.c
-index 925aeb63bfa1..5f39d42ea6be 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -2699,6 +2699,13 @@ static const char *path_init(struct nameidata *nd, unsigned flags)
- 	nd->flags = flags;
- 	nd->state |= ND_JUMPED;
- 
-+	/*
-+	 * A retry in ref-walk mode after -ECHILD, or with LOOKUP_REVAL after
-+	 * -ESTALE, starts the walk over. Start the link count from where we
-+	 * left off, so we don't double count.
-+	 */
-+	nd->total_link_count = nd->saved ? nd->saved->total_link_count : 0;
-+
- 	nd->m_seq = __read_seqcount_begin(&mount_lock.seqcount);
- 	nd->r_seq = __read_seqcount_begin(&rename_lock.seqcount);
- 	smp_rmb();
--- 
-2.53.0
-
+Hi,=0A=
+=0A=
+Was messing around with the new ntfs driver (fs/ntfs) on 7.4.0-rc3-1-mainli=
+ne=0A=
+and noticed you can just rm -rf '$Extend' even without show_sys_files.=0A=
+After umount, the filesystem fails to mount again.=0A=
+=0A=
+Steps:=0A=
+=0A=
+# mount -t ntfs /root/ntfs.img /mnt -o loop=0A=
+# cd /mnt=0A=
+# ls '$Extend'=0A=
+'$ObjId'  '$Quota'  '$Reparse'=0A=
+# rm -rf '$Extend'=0A=
+# cd /=0A=
+# umount /mnt=0A=
+# mount -t ntfs /root/ntfs.img /mnt -o loop=0A=
+mount: /mnt: wrong fs type, bad option, bad superblock on /dev/loop0,=0A=
+       missing codepage or helper program, or other error.=0A=
+=0A=
+dmesg:=0A=
+ntfs: volume version 3.1, dev loop0, cluster size 4096=0A=
+ntfs: (device loop0): load_system_files(): Failed to load $Extend.=0A=
+ntfs: (device loop0): ntfs_fill_super(): Failed to load system files (-22).=
+=0A=
+=0A=
+--=0A=
+theBIT5=
