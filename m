@@ -1,96 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795414286;
-	b=m74MXK5U/Ii/cF5P1/MK0zWND4oW10C5AzXzjIm0iRmwxZoMTpkzBQrFrdn4h9bCQKc4
-	 KCnBm2zLToBqicbDbweiPOabdWBEm6Vd6MMC13F83h5syngC2hiyoqwau2c7hiN26rfGg
-	 zMG2VfiPZOBZxZ+UhLhF77VFe8MoK91VX5d8lj6NDo/kc1q7mNZxqXV0cxDIMNTkeuxrX
-	 zQA+RsiCdyffwVdyZUpVa6Z5wOtdxtU0oJKfXbQfeKolA9tUbfm2bMWC2ZsTmFbZWDChj
-	 2RbCJvqASulogEiJqUvVyRJe5afdD1I3j+3W8C8HY5JF95wjd9HQ7vpWvLFw0YkY5Fw==
+	t=1795415779;
+	b=SajduHBzCHzfkV7sP5jAMMf2jnP2bQUZvRxDtM7BFy9o61ccnl2Q8ufN8nZ4URfysKQl
+	 KGYCmsBT4CtKtXWPRcU7L1u4yiqjeF84sPP+ZjW5GaRHdj7eZuwUFIex727myuG2KzTZ8
+	 zO9lCqcuwckUBhNrmMB9UATyX1n7eGlDG8fFkVTd0BwUBeahdEeeh7lxGfFwbl0d4G4xF
+	 5O1XvwlN2OCsmW06ULV5p7VmmUIdXF8RAwisUpNUsTQBlgcLy1hgUcvmC6o7xmHocC7Aj
+	 pB9S2+NXGaPGN3r5iU3ZspPqEOcWiBy+UdQY37S5bYkiBpH7bgVYKgVLz/aK6TTHgTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795414286;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795415779;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Disposition:Message-ID:User-Agent;
-	bh=GwvMLEpH06q7oweFh5LKZ8RQkrZMsU7+3f+WbZdQx1g=;
-	b=DETkVyKDY6GPBrh6SO3jKkWYTPa/AExYB1en/GMRZGLB02GGPSZ8szhNBCIYLEtLKAL4
-	 9IwMxtDz4pVNfnpETrEo0Y9c1kACWydBexUQdw/JB5YfgEeO87KxHh0iyKkRc7gkCXFme
-	 +p3jQ2ahVmFEHkxBOHC39ffhCr7Y1EDtGIejl8BjzVm7OiMhAPW41FE18U1hJS88qo8ps
-	 vWKeLWPJUeSCxSQ7Cl9ht6w/52Oe86AVx4wXPRq62zZDibh5U8PYoXbSC9udFty8Jll8x
-	 avZWaaD7vgxR87RjgyYshUg04rJnRpw20ISyU+04XG/7bo3WQJdMRGPcuktLA0P443Q==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=QhvI4EcrcVWaHsYhZmDudDFBhnWCIbKlWCXMmkXssF4=;
+	b=OlawDnJiA98N/7qneVr42R7vlvHZXuGyK/VKXGzEKwlPNQKe649urziIP5Ovgdn1YHbL
+	 3dUeF88WjwdlzDcoK/mvVKCFzksbMYWjebC2QXc9oFTsYg5dv+DpDDSs5oVdFGEkRK/K0
+	 nDuosAnfi8IiPNgZzhoPYo81wCNuxiIuE7Bxgik5JHAyWnah95PYPLWyCeXq/OywQ0ZIe
+	 8n0PKrEwOrI8IG2c2F6mk2THgSyhkJeuqgoye9QR/RdQ2wQ8NS8PegFj/XEpn8Np+uaao
+	 kXPlfAuJ6ZqLuLjQ0BxKkkQAkyWvhFarFO+SKVf2ELe+OXUBZ6jGew/DaPv2R5ufvIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chrisdown.name;
-	spf=pass smtp.mailfrom=chrisdown.name;
-	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=AuJUjnTC;
-	arc=none smtp.remote-ip=74.125.224.44
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Hhm0AkSU;
+	arc=none smtp.remote-ip=209.85.210.173
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F334606A31F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 06:11:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6F334606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9A6606A321
+	for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 06:36:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA9A6606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=AuJUjnTC
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-67da564d9f2so3821802d50.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 22 Nov 2026 22:11:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Hhm0AkSU
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-8b5e147f101so257128b3a.3
+        for <linux-fsdevel@vger.kernel.org>; Sun, 22 Nov 2026 22:36:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1795414285; x=1796019085; darn=vger.kernel.org;
-        h=user-agent:message-id:content-disposition:content-type:mime-version
-         :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=GwvMLEpH06q7oweFh5LKZ8RQkrZMsU7+3f+WbZdQx1g=;
-        b=AuJUjnTCDQjW0sRwRqkQGsiRz50XnJQVN/9h3eRtAnqxV0IaqTgeMpJuWE3mreXHZ0
-         u2Dw7h3nBX3Ar9XXtj4bp43M36cLvvdQYcjsAAxJFTaMuMtU3M4puk/LB+8kTFQZupyX
-         eyIfE+2JhjPpcsCBYSMq4yMW+VCdu3YJiCIcc=
+        d=gmail.com; s=20260707; t=1795415778; x=1796020578; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=QhvI4EcrcVWaHsYhZmDudDFBhnWCIbKlWCXMmkXssF4=;
+        b=Hhm0AkSUUa+Z/fHjxiMfsCHJXzOyXPfkaLLLIfSST7VLKaAWLPm7Hpiq1C1/k7IS4T
+         4DI7WG/V0FJut0sFk0hARo6tSTpwlSXNlRkVbe+3FLm72R/dmivobmzTC5y0W7NjvYh4
+         bkeLcp0b6ucPMFYKAog51kVYCbugTIirC5Vha6tNjsSLpNuABv/3halzbyo7EFqPugUr
+         rJuBvSBOekQKA5Oc495UW17RrC/dBnyuSwlW5NbWfRqieoRw0OwoxEQHpu7gDbERGt2a
+         uf6FvcsjtplNqoaor55/vU2lZWSUwWlgNd84nxKlUDWQWq7gn+uQwuwcfItDMH+kRK1G
+         rdeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795414285; x=1796019085;
-        h=user-agent:message-id:content-disposition:content-type:mime-version
-         :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GwvMLEpH06q7oweFh5LKZ8RQkrZMsU7+3f+WbZdQx1g=;
-        b=vBF6sdsJB3WcrKOx0sg/VipugHlOo+a2+UaVkzOH3RDxwTQ/d1pSMi+9iMw8nqwLyl
-         sIaiTN7CkSTtPCjsC4WsQW3A5RTCZfc5HpBV4Isx83Exjvsz3fVpCFVPUoDJEu35p7K6
-         CRWSNYRZ/ZfBAnmoaS5F4YT3SmXJsuV69l/Uz/cq4p42oeZbx+Z27GpvHOT8Nad3J9Lc
-         Um8cBySxnrzoDVAqk6Szbvieusg+NSdHhiHeYuA2HmQea/0bUCzWsjnVbGxIIm26he0g
-         Z/46aTl0rZqF0QuJxOHECB/MMLMGs7IWv8CdO+hfPmGDUhWOGII05ZcXcrCVfq42A/9G
-         /crQ==
-X-Forwarded-Encrypted: i=1; AL+hErHo268yrbpNBmtf9pan2D7XqwkLXiRWQR7GH5Tp8V4iS2cQBlz4u6N9x5aft8BoX2mTDUbtIjD64T6Xrxyy@vger.kernel.org
-X-Gm-Message-State: APuU4Z92R7AWjxfpKQNOlNlZxAPhoMRepOrooW9joXltv6byKx03JJ2z
-	0JIIuf+O7kBcpre0MgwGg8/HveCnp9qtsCsPztn/Wrs03s56H5jRpT68OBhIgECHYPs=
-X-Gm-Gg: AZFdTZeYVQiUmGPK7VM0YZ7eUElA9g+Jq1nhkBKtKjTuIdvy2xYUOJ4Zzu74O5J9d8+
-	E+DbSlbJUeZCI/zWW1Y81nVnY7GTytW61wUTSc/rbYHsQ0zMehmJihhJj5mDZ/DWDWPd6OP9Gfm
-	QuZQlYDNex2NX1Vgp/t5vwt0VLzDhGD+cXWFGz6v5H1WHB67Iu0uVuDMq4ZaGNr3uCYVMCTT0rl
-	PVEZPCShOFLNqcqkiPoFbkUTzFnLskHiMvajreI3hHf0yzSzGmUbiX42eTMdTMw4dgEJc4Li3an
-	PHe3Dlx3MwsSjz/lz7Fg/x0IdKfyhvNG382rb4fXCBsY77MfQ6D7imJB2VDDDIXBIoSu5GriPtA
-	NTTEMUAd08qI+IaxKgoDRZNlN9+vIa2u9u7KSV9kVEV0t5nClbIlGMbFwD4EeDY4NjUc16KcS4O
-	cU8pGFH5SUnDGNOlwGOxG6cGngXxL/8GM9k0Pg9vkoOEZll7r0+S4Q6ybTeDOClBEP0ZbZJz+yi
-	TNBkFcKzaf5wxdi5kJcADfOguFo+41CqpO2h3hjgxU7gxp9PpZKgSDmEgzkAyYhTmy0JUfBmGDv
-	Bmqj9TEhy+OFG2Xzk6L1St9x974mIo6JBqpZEFGqQWbIR6boVQxxVmkKhb02qtzyen90sbbeI05
-	BEmliSMon1z2FVqhQ6CQQuAROTuJ2qxHVwz/PYpbTKAlyk3ZLt1jNn/SEJihNxn2o/gu1lv253L
-	0QvbQEeoR9aImHx+HFmUvGiORjhiBA/YRZDe4b/aq2cDfnWTwUkmP3JiVutQ2fBS/Luzoacn/Z1
-	Gwpmm1JBSE2ks6nUiokuAOUXic1CGzANxPyvH8a4X9H
-X-Received: by 2002:a05:690e:4012:b0:67d:c046:4f71 with SMTP id 956f58d0204a3-67df43d2bb2mr4679580d50.23.1795414285477;
-        Sun, 22 Nov 2026 22:11:25 -0800 (PST)
-Received: from [172.20.0.3] (static-host-74-205-137-217.epbinternet.com. [74.205.137.217])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b5202bc515sm43136087b3.19.2026.11.22.22.11.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 22:11:24 -0800 (PST)
-Date: Sun, 22 Nov 2026 22:11:21 -0800
-From: Chris Down <chris@chrisdown.name>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Omar Sandoval <osandov@osandov.com>,
-	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v3] proc/kcore: allow disabling /proc/kcore at boot
-In-Reply-To: <20261118-masken-disput-miesmacher-27d6baaae6a8@brauner>
-References: <7c10f2e01b6f19229c83e81d887a87f5d1151841.1794904698.git.chris@chrisdown.name>
-	<20261118-masken-disput-miesmacher-27d6baaae6a8@brauner>
+        d=1e100.net; s=20260707; t=1795415778; x=1796020578;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=QhvI4EcrcVWaHsYhZmDudDFBhnWCIbKlWCXMmkXssF4=;
+        b=LbbR99WZt7u7wgRjHV7f6cGwKJ8QnS5JG4SDkdZjA0XpJY23x4Qu8tkhpPGPzkSde9
+         Aw1zD6ChKrYpv+BSAGtU10lNk9VASmaJkdnKiuHwzYKL61UdQywMweT2Fi0k3gTwpE+q
+         H53ZOmJkEKisw6rHP1dcze2yrjZZf6R2QKj3lj1uI132pM5flm7qcgG20cMzYzFJJBZh
+         YnyQFl0m9lYHFbS2zuclMjT0i+2X96p6i8kU5UZhvpwpnzbV/4+CycLDvi7s+/h7/xIA
+         mF1ns1bJf5YIUAO03UlKPuLVmH7i6tkRQBPwpJBa7BtapE7RobzTafbVG1tKg7sDDDWO
+         Oh1g==
+X-Forwarded-Encrypted: i=1; AL+hErFTrH+w1b5qgpUCexRV3rnazAGls0gahxgR0GortzgZdtzfkw6GJ+kIFfdgjUwScocHpykm6DHZ8kP3f6u9@vger.kernel.org
+X-Gm-Message-State: APuU4Z/zVUrOwlCWEEbrkm+15w2sXzWb/rfQ6m5U3K8I7W0KBrNyq7Q9
+	bL5uyadign+1xXVQcVaHNnNR/z79W57HND0KQQCCMf25e+RqoNYQcgpz
+X-Gm-Gg: AZFdTZcTS/RLkfRv0JG05q58tvzlIA6/29MwfwBZ4WDoIltyHDuGCGUvPwW7/Nrco5q
+	zaf2vVBk5ppITohUZ3atE42O0CIUOXOhOsLPwbbiAA8Vr1Vk74qCEm76P2lf1mJQGpaAnnTXBbb
+	Ju7vyeKY10AcfgMt/tlHHW8CA3soTz1W/jJ/YosCQ8L6SAM45e9MoAhzLVwgcC80wyyK2AxgQY0
+	GQv7kzVaHK88lbS8+A5bTxrVm1CFv7XoWnMmuXGr+kIEMiGXk49U2XS8rrSAPE17AB0tEYIpzCY
+	nJ76oWSkOG6/5Oj/ynmwiV00GOAa3XLL2jNyFlddDDCWSr90J5ZU4oy53YQA2td5itqPOB4s6Ev
+	EEkjlC76kGymO3ogLHoOBvtUUV60EB4KggptdirdjgCBLrNLs7++0FhUWa0wUjKViBNPUF3jxyO
+	dCTPjPw0FsiQU5aOvc17+b0WQwGB1JIfgx185wkSbCcLaOSO2wy4kRO0Y/YEmrYU/jIF1ODipBf
+	UgoPVn6/4prY+xLK4Wm59H41o7hF4bRiF3gB+b0arvlGWrvPqsxctvWmIzuvf2lGA21wiBueRL5
+	KkKCSpNItAmwDNU74VMd/DxTfWzsK2qEU7lBtbKXgZjOgeSXXXwmiz/PbXTp02RmIKoKZ5rmtWB
+	sfNFg25O/o7SF/JJ+
+X-Received: by 2002:a17:902:e38b:b0:2f0:7707:227c with SMTP id d9443c01a7336-2f0770728c8mr46065645ad.4.1795415777889;
+        Sun, 22 Nov 2026 22:36:17 -0800 (PST)
+Received: from localhost.localdomain ([139.159.170.71])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f118c88sm47430695ad.56.2026.11.22.22.36.14
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 22 Nov 2026 22:36:17 -0800 (PST)
+From: Qihang <q.h.hack.winter@gmail.com>
+To: Li Wang <liwang@kylinos.cn>
+Cc: German Maglione <gmaglione@redhat.com>,
+	Vivek Goyal <vgoyal@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Eugenio Perez <eperezma@redhat.com>,
+	virtualization@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	fuse-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	virtio-fs@lists.linux.dev,
+	Qihang <q.h.hack.winter@gmail.com>
+Subject: [PATCH v5] fuse: virtio-fs: fix lost wakeup on a full virtqueue
+Date: Mon, 23 Nov 2026 14:36:09 +0800
+Message-ID: <20261123063609.82014-1-q.h.hack.winter@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <6c6cea56-1af2-4a37-b081-83244d5e09cd@kylinos.cn>
+References: <6c6cea56-1af2-4a37-b081-83244d5e09cd@kylinos.cn>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,48 +107,119 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Message-ID: <awPZCeNqLKVpnbKj@chrisdown.name>
-User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
+Content-Transfer-Encoding: 8bit
 
-Hi Christian,
+virtio_fs_enqueue_req() drops fsvq->lock when virtqueue_add_sgs() fails
+with -ENOSPC, and the caller requeues the request in a second critical
+section.  Completion processing can run in between: it reaps a
+completion, finds queued_reqs empty, and does not schedule dispatch.  If
+the queue then goes idle, the request can remain on queued_reqs and keep
+in_flight above zero.  A subsequent virtio_fs_drain_queue() can wait
+indefinitely.
 
-Thanks for picking this up!
+On -ENOSPC, add the request to queued_reqs before releasing fsvq->lock,
+as send_forget_request() does.  This prevents
+virtio_fs_requests_done_work() from checking queued_reqs between the
+failed submission and the insertion.  Both callers can then return
+immediately on -ENOSPC.
 
-Christian Brauner writes:
->Iow, it would be nicer if someone took the time and came up with some
->boot setting that is a list of memory protection settings instead of
->spraying ever more kernel command line switches that nobody can
->reasonably remember or use.
+Free req->argbuf before adding the request to queued_reqs.  Once
+fsvq->lock is released, the dispatch worker may already have taken the
+request, so the -ENOSPC return path must skip any further access to req.
 
-Hmm, I agree that would be nicer, but I don't see a good way to do it. How
-would you suggest going about it?
+Count the request in in_flight on its first submission.  A retry keeps
+the existing count.
 
-In my mind, the model one would have for a list like that is mitigations=,
-but it didn't replace the specific switches, right? For example, retbleed=
-and mds= have nevertheless stayed. In that case, the list sets their
-defaults, but more specific switches win out over it.
+Fixes: 106e4df1206b ("virtio-fs: improved request latencies when Virtio queue is full")
+Cc: stable@vger.kernel.org # 6.11+
+Link: https://lore.kernel.org/all/sashiko-outbox-204365@kernel.org/
+Signed-off-by: Qihang <q.h.hack.winter@gmail.com>
+---
 
-These are the problems I see with a list like that:
+Since v4, queue the request under fsvq->lock on -ENOSPC, as Li Wang
+suggested, and drop completion_seq.
 
-1. I don't know where the list would live. A list of memory protection
-    settings in procfs would cover two switches today (that is, kcore= and
-    proc_mem.force_override=). Anything wider crosses into mm and security
-    (I have similar switches out for slab hardening and mseal, for example),
-    and it isn't clear to me who would own that or decide what goes on it.
+ fs/fuse/virtio_fs.c | 37 ++++++++++++++++++++++++-------------
+ 1 file changed, 24 insertions(+), 13 deletions(-)
 
-2. Lockdown already has a list of what gives access to kernel memory,
-    with entries for /proc/kcore, /dev/mem, kprobes and so on (although
-    not for FOLL_FORCE), but lockdown= only takes the two levels.
-    Selecting individual entries was proposed last year, and the lockdown
-    maintainers turned it down because most entries can be bypassed when
-    they are used on their own [1]. So a wider list would have to be a
-    second one next to lockdown's.
+diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
+index d247a02..4d4f2e3 100644
+--- a/fs/fuse/virtio_fs.c
++++ b/fs/fuse/virtio_fs.c
+@@ -596,12 +596,8 @@ static void virtio_fs_request_dispatch_work(struct work_struct *work)
+ 		ret = virtio_fs_enqueue_req(fsvq, req, true, GFP_KERNEL);
+ 		memalloc_nofs_restore(flags);
+ 		if (ret < 0) {
+-			if (ret == -ENOSPC) {
+-				spin_lock(&fsvq->lock);
+-				list_add_tail(&req->list, &fsvq->queued_reqs);
+-				spin_unlock(&fsvq->lock);
++			if (ret == -ENOSPC)
+ 				return;
+-			}
+ 			req->out.h.error = ret;
+ 			spin_lock(&fsvq->lock);
+ 			dec_in_flight_req(fsvq);
+@@ -1433,7 +1429,11 @@ static unsigned int sg_init_fuse_args(struct scatterlist *sg,
+ 	return total_sgs;
+ }
+ 
+-/* Add a request to a virtqueue and kick the device */
++/*
++ * Add a request to a virtqueue and kick the device.  If the virtqueue is
++ * full, queue the request on fsvq->queued_reqs for the dispatch worker and
++ * return -ENOSPC; the caller must not queue it a second time.
++ */
+ static int virtio_fs_enqueue_req(struct virtio_fs_vq *fsvq,
+ 				 struct fuse_req *req, bool in_flight,
+ 				 gfp_t gfp)
+@@ -1503,6 +1503,20 @@ static int virtio_fs_enqueue_req(struct virtio_fs_vq *fsvq,
+ 	vq = fsvq->vq;
+ 	ret = virtqueue_add_sgs(vq, sgs, out_sgs, in_sgs, req, GFP_ATOMIC);
+ 	if (ret < 0) {
++		if (ret == -ENOSPC) {
++			/*
++			 * Queue the request before dropping fsvq->lock, so
++			 * virtio_fs_requests_done_work() cannot check
++			 * queued_reqs between the failed add and the
++			 * insertion.  Release argbuf first, as dispatch may
++			 * retry the request as soon as the lock is dropped.
++			 */
++			kfree(req->argbuf);
++			req->argbuf = NULL;
++			list_add_tail(&req->list, &fsvq->queued_reqs);
++			if (!in_flight)
++				inc_in_flight_req(fsvq);
++		}
+ 		spin_unlock(&fsvq->lock);
+ 		goto out;
+ 	}
+@@ -1527,7 +1541,8 @@ static int virtio_fs_enqueue_req(struct virtio_fs_vq *fsvq,
+ 		virtqueue_notify(vq);
+ 
+ out:
+-	if (ret < 0 && req->argbuf) {
++	/* On -ENOSPC, dispatch may already have taken req. */
++	if (ret < 0 && ret != -ENOSPC && req->argbuf) {
+ 		kfree(req->argbuf);
+ 		req->argbuf = NULL;
+ 	}
+@@ -1564,13 +1579,9 @@ static void virtio_fs_send_req(struct fuse_iqueue *fiq, struct fuse_req *req)
+ 	if (ret < 0) {
+ 		if (ret == -ENOSPC) {
+ 			/*
+-			 * Virtqueue full. Retry submission from worker
+-			 * context as we might be holding fc->chan->bg_lock.
++			 * Retry from worker context: we might be holding
++			 * fc->chan->bg_lock here.
+ 			 */
+-			spin_lock(&fsvq->lock);
+-			list_add_tail(&req->list, &fsvq->queued_reqs);
+-			inc_in_flight_req(fsvq);
+-			spin_unlock(&fsvq->lock);
+ 			return;
+ 		}
+ 		req->out.h.error = ret;
+-- 
+2.54.0 (Apple Git-157)
 
-Did you have something specific in mind in terms of a design and what it
-would encompass?
-
-Chris
-
-[1] https://lore.kernel.org/r/2vldrnqs6fbljqqp6vbwmkushx6dxcpephgb6svmu5i64lijpy@lg37aflddv3b
