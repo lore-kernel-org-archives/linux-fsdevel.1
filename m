@@ -1,119 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795527471;
-	b=q7KpEermPxtsFkT3e1pF8v0lVfdOsop8KJOJnd9OMxrMZBCjY1w1C4SB1pKMpIU3sOHu
-	 f9A4udwISpiQXtJLYCQA6cFJrRBOhBDpl/DpsjbLWbyre5FgVPdxPzpkHqT/Rs3ib2bzO
-	 7gsJSYe7GB92s/JtJ/SY+Fdwbe5DbYx9bGv5xfzA8r8LMmZJ98UsfJ8FhNBuhATLyk+Lc
-	 HNGQQV68VPoLNvTmejhF3JFDgoGPalY8//5uaV32yUFWSYF1R+tFdRRVmEH5cbuW4iF4f
-	 9sws12FjouofJ2977d9++LXxXYoBGoJnJHX/ssYdaVKpElxge86MfHlPLAILHCsz1sw==
+	t=1795527788;
+	b=NlTGChXpfDCsfJsXYMBQOSMwx/6Or3k0nqqnxxtlUa6bSxh6/4DgCTXpozn7nW4xEPVv
+	 KNYEPghbDsWqXAZ+SMQFDoJxtPJfdlTMU100cCWHz+2bCAGKDVysSYuGjetfOgYTqGJGY
+	 U62Ul0yvmmrHT8LftRHTDLG40Y1OD9asNKbe9eyvuqJqBRLteFoIRaz9pBe9FmTLmyHfL
+	 gFf/Ng8XP+8ygZUTgKwV43RJuViMkLA0xwkRHnLyDIf88e0EHNiOA2pv8Z0AC28xfpkfI
+	 q2HEzdIGLWDdw1mR/vHHulupaA1hUT4BZT3yvdnDPYyAJmDm5WLz3+0+/2KM301F+RQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795527471;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
-	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=qoBXvSkKFB/hg52/Z3aOD/B3EVltr1cS716I45qk3To=;
-	b=uaaf9L+PubH3Ee1VeD3z9EOfWr3K+BoJfFV4kzBO2uhl4IBS6nlfGP9t1+jg0eybdVOd
-	 3pdUZsBv7U9U1skfy5Dn/YsZE7FtV7EnC7XFqquFa5f3PcY3klHvQLdJ6fWvlYvEenfWG
-	 HqnNKARoRaR96FotuE7M7Gg/mKpndWaBRwTCZX7+UhBN7ProGCczCwjY5qGf24fLxYwhf
-	 5W2rZLuQcnXAavcFOYZWi5EwdBZm0BfqUejGF4B1NioQy2I6uooVJbbMivqvLR/14fJqw
-	 zwmkc9odpWLrJI6RrWtevkyZSUvifCNRb2Y3tQe4KeM/JAAkbN+CnR2vRnN9SYGseCA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795527788;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=brzZArmNiLtGojpfrPzTD6W6ojCzehjU0YLNHRgcuT0=;
+	b=gpmkIU0ZtAiQgc3w7ONTr4kgg3zoRJVwp7jGMoM4T9MVqLvbBoMqaR/nqOlcy057Aq8b
+	 k3N9Wl50jgQdupmWki3nx5qtVQcXwxc2Mewhz2K0d85iPHSKIy30lOgm5xLEWfuh09dXd
+	 T7LeEGTUYxWEf1DCYxpUuOPwMdWgsJOK6P3oT/d+Gf1N0eXHjFM496N9vbnUvOGkfyYvA
+	 PKX8bp8hsC/mwaTZj99TUz2rqcEuPbVITY/4CQvSQwpIN4fFT0bCRUm1ZLATTy8hc3UHi
+	 uWYkiYC0LMHmjwl84S/No/V5U3CRkT0s4BFNUaDprViaLT49rEFhe4jdnnYNCQjMhxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="lco/hl8N";
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=alZaJIH1;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=GrSTaFhB;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="ctYW/Eio";
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="LIMq/QQ4";
+	arc=none smtp.remote-ip=74.125.82.178
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442F2606A321;
-	Tue, 24 Nov 2026 13:37:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 442F2606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2FF606A321
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 13:43:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CF2FF606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=lco/hl8N;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=alZaJIH1;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=GrSTaFhB;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ctYW/Eio
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 406AD22045;
-	Tue, 24 Nov 2026 13:37:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795527469; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qoBXvSkKFB/hg52/Z3aOD/B3EVltr1cS716I45qk3To=;
-	b=lco/hl8NuT52rOMTnhNPzkjxpgpMKgl5c3r+lYMfoziPUpXwuaQx+YQB23RIMuyWSJoVfU
-	TUOGfqMXf4Y4pJvrqFDCf/IsBODVwW5Uu53J8OeC9k4Z+RFDuT7q/cVpWQPmHdwv9erbgi
-	zajCwIL9kCHg3J+pIg8O76WcPmWTXjs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795527469;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qoBXvSkKFB/hg52/Z3aOD/B3EVltr1cS716I45qk3To=;
-	b=alZaJIH1IM9U6rlVlGHsk+Nm/4PIyn5M2HQasw4PKpXD7H47cw09mbtw4MdzByNUE8L6qc
-	scbWYIb+TmQeX8Cg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GrSTaFhB;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="ctYW/Eio"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795527468; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qoBXvSkKFB/hg52/Z3aOD/B3EVltr1cS716I45qk3To=;
-	b=GrSTaFhBy00Ek0GciUVJgmyZIVu/eK/cYxonxQUwIRdDtq6VMbDnZh37Ab97BSn1RmQI2+
-	FZnIXV5iW8EatUHjUF+mDKTWJgrZ/lHOdKnZoHJhSgHxDtXUcfRl9beaLWkphKKt2baAjS
-	e6tcTJQNO2u7VK1SyExVAA2Bl/Hnwco=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795527468;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qoBXvSkKFB/hg52/Z3aOD/B3EVltr1cS716I45qk3To=;
-	b=ctYW/Eioa17vHbXnyPyrRNPD6yw6zFKUA5N6TmPXc7/uSEQumQBUZg5I8OHCCD+uGU7Odw
-	RqDRkTlHGnYqB0Dg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D1B6B13505;
-	Tue, 24 Nov 2026 13:37:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8+SPJimTBWuuewAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Tue, 24 Nov 2026 13:37:45 +0000
-Date: Tue, 24 Nov 2026 13:37:43 +0000
-From: Pedro Falcato <pfalcato@suse.de>
-To: John Hubbard <jhubbard@nvidia.com>, 
-	Christoph Hellwig <hch@infradead.org>, Jan Kara <jack@suse.cz>
-Cc: David Hildenbrand <david@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, Peter Xu <peterx@redhat.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, linux-ext4@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Michal Hocko <mhocko@kernel.org>, linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH RFC 0/5] mm: GUP dirty + ->release_folio() fixes
-Message-ID: <awWNyDZT2SVu2Zp9@pedro-suse.tail5790ac.ts.net>
-References: <20261119-gup-dirty-what-v1-0-236d69f25c24@suse.de>
- <4f096d70-6f94-4148-8f47-242b8551e5f9@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LIMq/QQ4
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-386c4d2e2ccso950505eec.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 05:43:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795527787; x=1796132587; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=brzZArmNiLtGojpfrPzTD6W6ojCzehjU0YLNHRgcuT0=;
+        b=LIMq/QQ4IIOm/eSfjVYX9OYrBv+JICUXfm7eoJEziTS8SSvQ1VCdNwGawxg5azfH2P
+         zWRj6sNn8svVifemctHXIXbLh6osXMxMaslwGCz41WlgX+85W7qL7VRytLPfQCdAigPc
+         uFQCeJRsUmXkPuusCP9lXk/4eCUsXD2M9dEnlwDnbbL3nxayAbGPg7B0gf0W3KYZhkj2
+         eR6VRDU7TGfuIy0UOJjTZIG/0EeH35KgrG7/Mb//cNUiRvKd/uxlnUWZDT5WlVVuHNcb
+         Mu+1u9F8VM8gw6wmBKpXKX7jK0PBQY63JMQhSktozqFZ5pbgEEqcEgkoARLAiEULvlXp
+         R5eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795527787; x=1796132587;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=brzZArmNiLtGojpfrPzTD6W6ojCzehjU0YLNHRgcuT0=;
+        b=W+ZXHLLyvrydjNkkzzItMOGtKfyVVox1bKF2f1hLz+oD4JSP4MH3iAmQJ3ZGj/C6+v
+         Tlw+D6KcjGKv8JenhShXvACPLR9RtnuL4sxoA3+UUrjVOezpB0tDx3khev+pWdBORzxw
+         yjo5+a/ckZurhsoEoVgenfX0Vx8rEcZ2wpeypzOM69xun2ACcUL5v7UlRyjW774UOxPQ
+         K+Vur6Ul51pp5qVHo+NavUH9B1AmrDdpfY3w0hEN53MdcDCWUV43Lyao3mx1Z9ehki1A
+         2l3MOE1ncSpeIEAobU/5BRrc0FTqVFoVr8hXGVvMcg7jacfd5mAtSLrA6IHat4qapmXH
+         ovLA==
+X-Forwarded-Encrypted: i=1; AL+hErGEnlS9CvANAP88sjxnHHf9IKNg892k11c1BNqoPV82QUL9GD/rxfp/3L5UO+NPMelnJjtwG7OLiX9nTF+T@vger.kernel.org
+X-Gm-Message-State: APuU4Z/b3e8tkk2kNWw5NNYu1mKSdFi9xoMCAxpdRmKH/ahMLvp+7qLK
+	KKuyC5srTIBBp4YN/o9S1MRv9gIqVOHLp/6ZFLllciswbBcfXIPpTzQYZ+XwqiMb
+X-Gm-Gg: AZFdTZexylahaq1TgO8L8Evcu5tThLbQPNR90TAJRnxvpozXudeaxKoHFWSgCV03qCv
+	HDLbgG99WHwQ3DLm+j/e7sIrO0hlYkff89aSxTMA00kbjQryA914ZTerjZZPLgFRr22TlpQRizq
+	8Guo8Jt5s9VO0UuWFkSyPsTMoTzxy1TZkkj+K0lgX85qLJ8uR2hMrXytykTF9VN2lg9Wcfkz05N
+	+H0bynPG+XlnyAKS5q4KakwgkCV4ZLWwX8HRXBfq6J541CPhBUOybPEmwu9ayr3Wup7GR6ROCLE
+	vloAyCr4DNQjroVvOkOlGHJADtX1wOxwW2j66lD9HOLXpT7Udg9Dycg4S9L5YijuSjlM55rZKAt
+	00dPaIkRSTS+BwCj7VRHsKDtsBGQ2pmpUc5SIkA7SE/u7rNEwU7NOQQltqUEZZVjocVBVaBsYca
+	kAVMSjNHvX6/BQQkLB1zqOoYUcNQYrk8jz233d+n9DbI8yVr1ZxK17pneDkk1FQM+fZCOTK3Z65
+	NfTpWGsv9E1PIvQchCJ+XggF4fdkIGXgcLezLtP4hvRR9BrRjLmEsr/TbpQgsxXe4PeDFrDgNz4
+	sSb7cCCvp1C18N5m2kLq0Dop5msm9YzghiLOCA==
+X-Received: by 2002:a05:7301:241b:b0:386:b526:24d2 with SMTP id 5a478bee46e88-386b52636aemr5818777eec.41.1795527786632;
+        Tue, 24 Nov 2026 05:43:06 -0800 (PST)
+Received: from [192.168.29.85] ([2405:201:8026:213e:1412:77ad:61f2:79f2])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385665f21aesm56592586eec.4.2026.11.24.05.43.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 05:43:06 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -123,145 +88,83 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4f096d70-6f94-4148-8f47-242b8551e5f9@nvidia.com>
-X-Spamd-Result: default: False [-13.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[37];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RL89xh3ijk4gdpeanxbepagf1s)];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	URIBL_BLOCKED(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -13.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 406AD22045
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2] fs: sync: fix overflow check in sync_file_range()
+From: mdshahid03@gmail.com
+To: Jan Kara <jack@suse.cz>
+Cc: mdshahid03@gmail.com, viro@zeniv.linux.org.uk, brauner@kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <zwxt7yvljy7znovloyduos7zkkz7eelu7xd6qzkrl6io36bkq7@ecppjcso6uao>
+References: <20261119053827.69933-1-mdshahid03@gmail.com>
+ <zwxt7yvljy7znovloyduos7zkkz7eelu7xd6qzkrl6io36bkq7@ecppjcso6uao>
+Date: Tue, 24 Nov 2026 19:12:48 +0530
+Message-Id: <179552776870.188650.15795112817617044806.b4-reply@b4>
+X-Mailer: b4 0.16.0
 
-Hi John, Christoph, Jan,
+Thanks Jan for review.
 
-Thank you for your replies. Since you largely share the same point, I'll
-combine this into a single reply.
+It is strange ,i did not found this review mail in my confugured (gmail)
+until ,I opened b4.
 
-On Thu, Nov 19, 2026 at 04:55:30PM -0800, John Hubbard wrote:
-> On 11/19/26 12:10 PM, Pedro Falcato wrote:
-> > Sooo.... It turns out GUP dirty and ->release_folio() interact really
-> > weirdly. This was initially reported by some AI agent, and David let me
-> > know.
+On 2026-11-19 11:04 +0100, Jan Kara wrote:
+> On Thu 19-11-26 11:08:27, mdshahid03@gmail.com wrote:
+> > From: Mohammad Shahid <mdshahid03@gmail.com>
 > > 
-> > The basic issue is:
-> 
-> The basic issue is covered in a series of LWN articles that span 5 or
-> 6 years:
-> 
->     https://lwn.net/Kernel/Index/#Memory_management-get_user_pages
-> 
-> Probably good to read and absorb that. There's a lot.
->
-
-Thanks. I was aware of some of this, but it's good to take a fresh look again :)
- 
-> The problem remains not fully solved. pin_user_pages() is a building
-> block, but we need to fully coordinate with filesystems in order to
-> finish. It's good that you are looking at this.
-> 
-> >  - ->dirty_folio() relies on buffers/IFS/etc being attached to the
-> >    folios. It _cannot_ attach them itself, as dirty_folio() cannot
-> >    block.
-> >  - certain MM paths (reclaim, khugepaged, folio split, etc) are very
-> >    trigger-happy when it comes to asking filesystems to release them. In
-> >    most cases, barring any dirty folios, buffers, it will just drop
-> >    them.
-> >  - there is no problem in usual IO submission, but issues start to pop
-> >    up with GUP, where the code flow (roughly) becomes:
-> >         [get_user_pages(), etc]
-> >            ->page_mkwrite() called here, or before
-> >              ->private correctly populated with whatever the filesystem
-> >                expects.
-> >              folio is marked as dirty, initially.
-> >        *write finishes*
-> >        folio_lock();
-> >        folio_mark_dirty();
-> >          ->dirty_folio()
-> >               dirty_folio expects ->private to be populated by
-> >               ->page_mkwrite(), ->write_begin().
-> >        folio_unlock();
+> > Use check_add_overflow() to detect overflow when calculating
+> > the end byte of the requested range.
 > > 
-> > What happens if any filemap_release_folio() runs (and succeeds) between
-> > the initial dirtying (plus eventually writeback) and the write to the
-> > folio completes? Welp, it's unpredictable. ext4 for example will
-> > WARN_ONCE, and likely drop data (see ext4_dirty_folio()).
+> > Reject negative offsets and lengths before performing the
+> > addition.
 > > 
-> > So, what can we do about it? It's complicated, hence why this is an RFC.
-> > For the possible solutions:
-> >  - ->dirty_folio() attaching this FS information itself is not really
-> >    possible in many cases. ->dirty_folio() can't block, nor is it even
-> >    guaranteed to hold the folio lock while being called.
-> >  - Can pincount help? Kind of. Things like folio_maybe_dma_pinned() are
-> >    rough, and don't deal with the usage of get_user_pages(FOLL_WRITE).
-> >    pincount itself isn't available in the common order-0 case, and not
-> >    available on order-1 as well on 32-bit, but who cares about that^W^W^W^W^W
-> >  - Could get_user_pages() ban FOLL_WRITE? Mayhaps. I would not be
-> >    opposed to that, but that's probably a larger change than ideal for stable,
-> >    and I'm not familiar enough with GUP requirements to decide to go that way.
-> >    This would require migrating all FOLL_WRITE users to
-> >    pin_user_pages().
-> >  - Can the whole system be reworked? Probably, but not for stable.
-> > 
-> > This patch series is really rough but kind-of works. Instead of using
-> > folio_maybe_dma_pinned(), which only interacts with pin_user_pages(), I
+> > Signed-off-by: Mohammad Shahid <mdshahid03@gmail.com>
 > 
-> pin_user_pages() was specifically introduced for this exact class of
-> problem. get_user_pages() is now meant for other, much more limited cases.
-> I've attempted to document that, here:
+> Looks good. Feel free to add:
 > 
->     https://docs.kernel.org/core-api/pin_user_pages.html
-
-Ok, so I guess you want me to drop the hacks to make GUP FOLL_WRITE not
-screw itself over? To be clear, the rest is still broken, even with pin_user_pages().
-It just means we get nicer looking fixes, and I can drop patch 3.
-
-It's unclear (to me) whether we care about any straggling get_user_pages
-FOLL_WRITE users. A quick look around doesn't find me many; most seem to have
-been converted to pin_user_pages() (though, admittedly, I don't know how many
-of these are converted in stable; do we care?). Perhaps piling on a patch
-to simply disallow get_user_pages(FOLL_WRITE) is ok? Giving Lorenzo's idea
-a go again :)
-
-FWIW I asked my least-favourite chatbot about get_user_pages(FOLL_WRITE) users,
-and it found me a couple of cases. But little enough that it sounded fixable.
-But, again, I don't know if this reflects stable, or whether we really care
-that much.
-
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> 
+> 							Honza
+> 
 > > ---
-> > base-commit: 9663aa0da7070d958e333477ce0720512e9fa016
-> > change-id: 20261116-gup-dirty-what-b73da748f5d1
+> >  fs/sync.c | 10 ++++------
+> >  1 file changed, 4 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/fs/sync.c b/fs/sync.c
+> > index 4a84dd837b86..a1ef2b619cfc 100644
+> > --- a/fs/sync.c
+> > +++ b/fs/sync.c
+> > @@ -10,6 +10,7 @@
+> >  #include <linux/slab.h>
+> >  #include <linux/export.h>
+> >  #include <linux/namei.h>
+> > +#include <linux/overflow.h>
+> >  #include <linux/sched.h>
+> >  #include <linux/writeback.h>
+> >  #include <linux/syscalls.h>
+> > @@ -233,13 +234,10 @@ int sync_file_range(struct file *file, loff_t offset, loff_t nbytes,
+> >  	if (flags & ~VALID_FLAGS)
+> >  		goto out;
+> >  
+> > -	endbyte = offset + nbytes;
+> > -
+> > -	if ((s64)offset < 0)
+> > -		goto out;
+> > -	if ((s64)endbyte < 0)
+> > +	if (offset < 0 || nbytes < 0)
+> >  		goto out;
+> > -	if (endbyte < offset)
+> > +
+> > +	if (check_add_overflow(offset, nbytes, &endbyte))
+> >  		goto out;
+> >  
+> >  	if (sizeof(pgoff_t) == 4) {
+> > -- 
+> > 2.43.0
+> > 
+> -- 
+> Jan Kara <jack@suse.com>
+> SUSE Labs, CR
 > 
-> A git alias to wrap "git format-patch" with a sed(1) invocation is a great way
-> to avoid accidentally "leaking" gerrit change-id's into a posting, fwiw.
+> 
 
-I appreciate the advice, but this is gunk that b4 adds to every patchset ;) 
 
--- 
-Pedro
