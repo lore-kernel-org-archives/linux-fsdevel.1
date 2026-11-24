@@ -1,80 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795550101;
-	b=dQhyTjJuOB3mtMnCjwhT7fU1nw2nyNB09amnWFrj8qNYM6c2qbhB+FnvN91lXGR1fNvD
-	 V5u2dIqUp+9y91oI6uXdiAnoNgMdGiNQXkE4Pe+QGBrCPZDwJi3opfvLv72f1OvtxZ8FA
-	 P7FSH/eKsIZFL7VIkerC0ipdwZ4/ovlfEk+ybr84A0hCJlId8Dm91PmZqt9Lc/S6UtYIK
-	 Qx2exdnveXZIQbhHGY6b+iQuI7WGF3tIT3lHUajN63EZ3WY2g4ItfIxsVmLAR5/IFWSMI
-	 kcTl6Q63F1XpCeGBabaQDJ4p6kSrZU+t0q7tnuyrPNcqBH0lQuaW62H5PXQqfL4MycQ==
+	t=1795550114;
+	b=nLQArIjL5VhY8JvjJGoeyLYdkWEAwympuZOsTMMZPAmB+au8UoDRmVQkmQlHrjYjIrmq
+	 T7gyrh0pSFPx9alUYQpu9+cfKu4KREaLYxMKGHSiAf8dGVrn2w6Ip3NwDNnYCX7rzS25D
+	 iIEQcw0B0iTLJ9OG77yWVP6ctKSS6p8gzZpg8JYUyZzAzJDeovWrHzTz+QqI+2cixLS/U
+	 9Q0LlKS9kJl3WtCsCNr8+pB8zN9Zd+UBiqoTfllfSPDmJTOWS4j4RLRbpxn+QTmcxch+Q
+	 rzinqbMsLGEXVDja+Y2zU4ajVYObxjBWsu1nfqRS2tYr1Km0lRtK4t+V4BpNgXP1cKA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795550101;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795550114;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=IV7aCStFZdnFeaXhFPoQdGrpPnMKMt+5GDtnao0aM7M=;
-	b=R7CJL1qu3KCAkkN4p7kcI/dHTTLnb72oh4dQ4y08TSXaaz1BmrV/KMNOYU75RF/fv64G
-	 OAzy8gFBR46WoystijaDu+rJbsBEut7XKZZnw78CTlDeisRZvOX9x+xK2e8VkdHtbPkRt
-	 RscP1jBAeY8sWRmmbrm0+tBxwvv4z1UXLwDh3UI1SrnWdebAWvfr7be3MJCHzCE6uQ8V1
-	 BCTT4oLy5HKyvNttu4EACWMnkevFzQM3z60+C1eKG3+Fq/CA6K8ZgYwf6U4RQhRvuN4yR
-	 2s9MwLc2UdSjhyo+t2BAl2LgEO9QIVz7ObV4A2XDI/m5jJEV4T1JZj+7IRUYP0TzDEQ==
+	bh=UfXL7pTzXBkITvsNUdQnzu2e0Gb3CsC6gpsm26wxQeI=;
+	b=AtVK45cYzACW97zYnEq4x9csD5vjM4bkkTkSuTnlhLPfHv8aRhqk6M91h4plJoTJSVxT
+	 G9XicycXvqWMp2aaZElDQWf9EJJ6Ka94UMW1eUWJVw5wiczxJjEy4jmhkIEh7M9gyJGdH
+	 sWdlxQyT8DjFGMDtiIBu0yt5vCk0dQ0R+w1xjJTfcfExT/c5KGgyIlnBBZzdYMHigyyhd
+	 Vjq6Y6q3rX20JWIysaBx1f60+1skSQU4Lyy+q3hHyLHA0H0ZkHNvP7rumXbNVmsZgkJ3R
+	 ZB0duUloevJKW9pXIX3ygcG8WAZC7yhN/rATI8g8jiWJC6B0BeoSR32vuejW5cPPNZw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=chromium.org;
 	spf=pass smtp.mailfrom=chromium.org;
-	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=F8BWsB0n;
-	arc=none smtp.remote-ip=209.85.210.181
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=NzN+FZj7;
+	arc=none smtp.remote-ip=209.85.210.182
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22AE1606A323
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 19:55:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22AE1606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50E2606A33B
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 19:55:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C50E2606A33B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=F8BWsB0n
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8a07b5f2795so395947b3a.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 11:55:00 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=NzN+FZj7
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-8b5e147f101so417583b3a.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 11:55:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1795550100; x=1796154900; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1795550113; x=1796154913; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=IV7aCStFZdnFeaXhFPoQdGrpPnMKMt+5GDtnao0aM7M=;
-        b=F8BWsB0nCAqeb/AWcfO+HDVK8mZYlTd5OrAGXo+PDo4qNalYx0D3fOywTn36jlGI3o
-         c+cNELy8fDLVUhaoRcT08PS33thK2uCkqwfG9C9YuYZMNa4hOWdKcnZwta+H9xQ9PyXj
-         BerC9R4yihNnd8XXBnr17D3gJaZI3rr46c44Q=
+        bh=UfXL7pTzXBkITvsNUdQnzu2e0Gb3CsC6gpsm26wxQeI=;
+        b=NzN+FZj7y2Q4CIkzbGAvBjRkEx0HupldjNkvzS3Uq4m6W7oVevksM1jk/CdTgX0TP8
+         TS2U/IBomPj149qQpXWRfe2Su6jATx66oZt3XTcs/nZf2XR9Qa69rABd5cA/Dr6lo3d7
+         HiwpVVdI3Jb4tt7uE2eXPvcCBWRN74AsTjFIs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795550100; x=1796154900;
+        d=1e100.net; s=20260707; t=1795550113; x=1796154913;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IV7aCStFZdnFeaXhFPoQdGrpPnMKMt+5GDtnao0aM7M=;
-        b=gC1sUaU1ajDjZk9n3P9sSxhTy8SJz/o+DKvOElM7AEPM61i+qnr+SYHaFkPQTGoCKd
-         feo+SYUEikqp7kgiAIVO9oFU4IqKiMDLOM7nLaL4S258617pjpmZTb0pYL860hwLpvvU
-         IDlZw3LqlVFEfacT93bKxnHLI3wTRMKcL8ugtzQH1QQne3gr/75YhY7XRWH340kQSECc
-         p6nwhSZMDeuh5zl1OkVQqa1AeirwQgO9OOtfBlUgUyOte+uWjZQsXKLnM1pbtg7eGDrz
-         BsLHH9b0owAaMSFZ92JaAvY2vt/akxQiBDJsZKhz+Gn2Rh9NTMvOpelVmqt5C3w6KdF/
-         WQBA==
-X-Forwarded-Encrypted: i=1; AL+hErHmFy/qojFVYHBZvHSlXa+E18a59iw8zGY5h/7mbHdJDLfkZpGJrDvzKeFbpLDexBTZwAlIk+qOvjXLyR2o@vger.kernel.org
-X-Gm-Message-State: APuU4Z/88INBPYlfwdGmF29n/RjSbAWBcZh8sxpSgZF0HZI6yBWXt+q4
-	7upTmVRcQ8cODLI+XwKYBf2qQa3fHCARQ6EI4ukWImAfRwtVoACF4V80+EzYDG7dBg==
-X-Gm-Gg: AZFdTZcADm2yJPf0ykRZikPzuPox+n6cxpuMouuPnUSlki3RXP88daCnw7ck+n6b5A2
-	NMbWyUtrQTkd2DTOn/QyFUn4MIQiXDPlYN0nMGeRqtiUf2LDDpvRBJyPI0onpiOFwDeRr7ormW9
-	5RWILd82yxQM1g7yts4p/yPsW4x42gKSK/K+Ze733bIsfSZxOIvXdyIzzJGDH2pyxaqDQffkvUe
-	OzR8i1NN3Auc54nE+MWDBPKAtijXSHf5VUSYi0onYjlRGPcTud6tYoaeGRLrwuvV4l4pGlLqofN
-	1FdTphHJOqknruYEbth2wfyXbtjI3pt0KH8Yp60HOCZntmkopvxCtSTWn73j7TOwavoVxhiFUZg
-	/RugGMm9ZHl4P43kwyRsz5+tVD7cERT9NSinCH8TVJfO/MNnGGhB0Et0Px5Edg6Wq638yUapm9h
-	632BbM8BffJqISWg9Qhjn9M8/tEZ/nWa8SpZVW9Y9vFXFKFnDHGIOhToyInkkGWxHcSEYWdnJhE
-	CjevCJckXCAvgtqPiH9YMKmw+V38Cr+3LHZtgNbPYH0X2qg2PxVyMYD/0NfmfApValXmFZxB6dK
-	4uwY1nfua+/jt9WcjLsyuFdbLJdCjcX7HHEG435BMAswXD3/c0KNTKzimLFrB7ivS2zAKw==
-X-Received: by 2002:a17:903:4688:b0:2f0:7d6d:4a09 with SMTP id d9443c01a7336-2f07d6d4bc1mr137239435ad.1.1795550100419;
-        Tue, 24 Nov 2026 11:55:00 -0800 (PST)
+        bh=UfXL7pTzXBkITvsNUdQnzu2e0Gb3CsC6gpsm26wxQeI=;
+        b=QTlaJN26vBEpcGaDZ1RfjjQiOK9mDRq5TR04dnOo/3zw2tpaJ3KqOHVVHsNvi4dJSn
+         yx9eak1FP3lz66wdKloV1N3m+YjewolWdAlaxUmryMtMPJqW5jnmVUAGb5UyrlCWjPNl
+         ehn16KvkLFdu6ff5YI7av+Ox3ageHg43PmVZR8GGLrUMGIUShlFhh0pFovzTBrzZuFtc
+         pq7kfAVb0xOQ3sOmi1rvqssB3utUrc3XCh9gqc86I4vSrDuoQqDQQKwHeRVONZMC2wOs
+         v617eunYICw3O67VQ0uagLdyqZZdpM2v4KSBklMpGjvcVSdQll6gcAa7JJ73rcwhkr8q
+         AXDQ==
+X-Forwarded-Encrypted: i=1; AL+hErFlXko/tKoQjQHIKRD3syVmGUx+yW+PhZo14DzNAzY2Zuxbh5FL6QJhzLAsFBxBDTbgFG/TKrsZ6Ysy1wNu@vger.kernel.org
+X-Gm-Message-State: APuU4Z/8Xfa5DE+CqFcsIB2kv6LDvTEUncb04WwDyKO1oVFzMBw48cJX
+	/75AbAiERkfmgvzoK65RagDeD9opVE0eg++y28UiX4LBV1VWds73XH3jfeMIS2EBnQ==
+X-Gm-Gg: AZFdTZcO6H+VMhCdtgJ14ASVwlnVMSrAwA/993niL/4/CAbf6M43ViGOOVekwEhRLch
+	lhSTdxAI418azpZXAKgP+ha0uj8hYaHBbu2aGG9pf8W/OGW1TzpLW719XoEmhI6mYkXRuzJvspa
+	8yJpRvH4WRLZ+kw7r2vUcuMmftgLnsMjO/3vLY9Xu/3txD1LNeaB4YFnC46OTRPPGs7kc3NEt05
+	PJJbukJRLF8Z/D7f6xBDVIM7cDQPdMroGhdVswQ9CLEi3z6KI1enUYnd5qb4eNr2wbp3LQFI5dt
+	n9J4VTjjMsoLBEgn71X6Y4rK470d6+mTFnJyCGC2mOYJ9e0+8z6L+L55sWkC5VmBBcZZezz0U5A
+	cXE+2Hfz/btNiYWL3ATk9KyPWQGUiyz/KVoCHEE4lpidVTnfkbSrU0lrlqMepkRGmQsj9O00/EN
+	5SRgSOgdFjwwqCcMSzJfY9U51WOf5e5JwWUeSedF4onMS90sUrjc+nv9I6pDqjpBqqUREybB89I
+	60RQy037i0i6hkZCbYZ5yrebtGKqd1zKZ12hOjEagiWOYMN9KSjjLPSchWYWgFO5IWUbcqreVmM
+	vD3Y4d/5ixLlLcmMPewwRhAPRyrFJYZElJdNvNBoUL2fND4IzlGJgKBiF9o03pqYPqYASdCUVMu
+	cuUxEYVE5vH0UAQU=
+X-Received: by 2002:aa7:804c:0:b0:8a0:646e:7e16 with SMTP id d2e1a72fcca58-8c87b4f38cbmr15568834b3a.2.1795550112810;
+        Tue, 24 Nov 2026 11:55:12 -0800 (PST)
 Received: from localhost (221.247.125.34.bc.googleusercontent.com. [34.125.247.221])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-2f03f142b8bsm72335435ad.70.2026.11.24.11.54.58
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-8c872e4c43bsm7550418b3a.26.2026.11.24.11.55.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Nov 2026 11:55:00 -0800 (PST)
+        Tue, 24 Nov 2026 11:55:12 -0800 (PST)
 From: Jeff Xu <jeffxu@chromium.org>
 To: David Hildenbrand <david@kernel.org>
 Cc: Jeff Xu <jeffxu@chromium.org>,
@@ -132,12 +133,12 @@ Cc: Jeff Xu <jeffxu@chromium.org>,
 	linux-rdma@vger.kernel.org,
 	rds-devel@oss.oracle.com,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] mm: kasan: skip KASAN for GFP_HIGHUSER
-Date: Tue, 24 Nov 2026 11:54:55 -0800
-Message-ID: <20261124195455.164425-1-jeffxu@chromium.org>
+Subject: Re: [PATCH v2 2/2] mm/kasan/kunit: add page_alloc_skip_kasan test
+Date: Tue, 24 Nov 2026 11:55:08 -0800
+Message-ID: <20261124195508.164641-1-jeffxu@chromium.org>
 X-Mailer: git-send-email 2.56.1.839.g22a8290db9-goog
-In-Reply-To: <7ed1f755-5759-4b5b-ae00-a814f16b7903@kernel.org>
-References: <20261123033111.2349160-1-jeffxu@chromium.org> <20261123033111.2349160-2-jeffxu@chromium.org> <7ed1f755-5759-4b5b-ae00-a814f16b7903@kernel.org>
+In-Reply-To: <74dd67a2-eaff-4bbb-8105-4481fbbdd016@kernel.org>
+References: <20261123033111.2349160-1-jeffxu@chromium.org> <20261123033111.2349160-3-jeffxu@chromium.org> <74dd67a2-eaff-4bbb-8105-4481fbbdd016@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -149,31 +150,83 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 24, 2026 at 09:10:53AM +0100, David Hildenbrand (Arm) wrote:
+On Tue, Nov 24, 2026 at 09:17:45AM +0100, David Hildenbrand (Arm) wrote:
 > On 11/23/26 04:31, Jeff Xu wrote:
-> > -#define GFP_HIGHUSER	(GFP_USER | __GFP_HIGHMEM)
-> > -#define GFP_HIGHUSER_MOVABLE	(GFP_HIGHUSER | __GFP_MOVABLE | __GFP_SKIP_KASAN)
-> > +#define GFP_HIGHUSER	(GFP_USER | __GFP_HIGHMEM | __GFP_SKIP_KASAN)
-> > +#define GFP_HIGHUSER_MOVABLE	(GFP_HIGHUSER | __GFP_MOVABLE)
+> > +static void page_alloc_skip_kasan_helper(struct kunit *test, gfp_t gfp)
+> > +{
+> > +	struct page *pages;
+> > +	size_t order = 2;
 >
-> Can we please add a big fat comment above GFP_HIGHUSER, explaining why we use
-> __GFP_SKIP_KASAN and which security impact this has?
+> Why magic value two?
+>
+> Should be const.
 
-Sure, I'll add a comment above GFP_HIGHUSER in v3:
+Just a small non-zero order so the loop checks tag resets on sub-pages
+as well as the head page. I'll change it to "const unsigned int order = 2;"
+and add a brief comment explaining that in v3.
 
-/*
- * GFP_HIGHUSER (and GFP_HIGHUSER_MOVABLE derived from it) sets
- * __GFP_SKIP_KASAN to skip HW_TAGS tagging on allocation and poisoning on
- * free. These pages are meant for userspace data (e.g. anonymous and page
- * cache pages, DMA-BUF, GPU/DRM buffers) rather than kernel data structures,
- * and tagging every granule on allocation and free is expensive.
- *
- * Security impact: under CONFIG_KASAN_HW_TAGS, these pages carry the
- * match-all tag (0xff), so kernel accesses via page_address() or
- * kmap_local_page() lose HW_TAGS out-of-bounds and use-after-free
- * detection. Callers that store kernel data structures in these pages
- * should not use GFP_HIGHUSER. Generic and SW_TAGS KASAN are unaffected.
- */
+> > +	char *ptr;
+> > +	size_t i;
+> > +
+> > +	pages = alloc_pages(gfp, order);
+> > +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, pages);
+> > +
+> > +	for (i = 0; i < (1UL << order); i++) {
+>
+> "1 << order" is sufficient.
+
+Will change to "1 << order" in v3.
+
+> > +		/*
+> > +		 * __GFP_SKIP_KASAN allocations must carry the match-all tag
+> > +		 * in page->flags, and so in page_address(), not a random tag.
+> > +		 */
+> > +		KUNIT_EXPECT_EQ(test, page_kasan_tag(pages + i),
+> > +				(u8)KASAN_TAG_KERNEL);
+>
+> Squeeze this into a single line.
+
+Will do in v3.
+
+> > +
+> > +		ptr = page_address(pages + i);
+> > +		KUNIT_EXPECT_EQ(test, (u8)get_tag(ptr), (u8)KASAN_TAG_KERNEL);
+> > +
+> > +		/*
+> > +		 * The memory tags of such pages are arbitrary: stale poison,
+> > +		 * or tags set by userspace through PROT_MTE. Accesses via
+> > +		 * page_address() must not fault regardless.
+> > +		 */
+> > +		kasan_poison(ptr, PAGE_SIZE, KASAN_TAG_INVALID, false);
+> > +		KUNIT_EXPECT_KASAN_RESULT(test, WRITE_ONCE(*ptr, 0),
+> > +					  "WRITE_ONCE(*ptr, 0)", false);
+>
+> Why do we care about checking HW behavior? (match-all working)
+
+Good point, match_all_ptr_tag() already tests match-all behavior in
+hardware. I'll drop the kasan_poison() and KUNIT_EXPECT_KASAN_RESULT()
+checks in v3. That also lets me drop the local ptr variable.
+
+> > @@ -2369,6 +2412,7 @@ static struct kunit_case kasan_kunit_test_cases[] = {
+> >  	KUNIT_CASE(kmalloc_large_invalid_free),
+> >  	KUNIT_CASE(page_alloc_oob_right),
+> >  	KUNIT_CASE(page_alloc_uaf),
+> > +	KUNIT_CASE(page_alloc_skip_kasan),
+>
+> Don't we have to limit this case to having actual MTE-capable HW etc?
+
+No extra gating is needed here: on non-MTE hardware (or with kasan=off),
+kasan_init_hw_tags() returns early without calling kasan_enable(), so
+kasan_suite_init() sees !kasan_enabled() and aborts the suite before any
+test case runs. For Generic and SW_TAGS builds,
+KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_KASAN_HW_TAGS) skips the test,
+matching the rest of kasan_kunit_test_cases[].
+
+I confirmed this by booting the HW_TAGS kernel under QEMU with mte=off
+and with kasan=off: in both cases the suite fails to initialize and no
+test case runs.
+
+I'll add a short comment in page_alloc_skip_kasan() noting that in v3.
 
 Thanks,
 Jeff
