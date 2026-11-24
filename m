@@ -1,98 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.69
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795546686;
-	b=EvLT/WGSmR7vb3HF3zj/z4xorWTbmRS9YQ5oeGXXQnvAq8wDjbZ0JIwPdU8xrd07nHYT
-	 5XZb9MXngjSHW/xr8bJLR5KMTWzxvnRQgBrdUaXjPPXwvdhg0QRAMsc2dXf23BFOI6BK4
-	 vRviyOC1MfmmPv8u2pZ5136X0Gg94zaVl+fRiy/TycmfF9Qc0K7Mz+RIBWB/n+0ITadm9
-	 9eh0H0ONcuK7lEKxpCxZjsb1gexByjVcsYSytfnSGhG9KpTS6YTS1ngn4SKpa2KPYt8uk
-	 Cd0MILAtB66YatPYpMwIM0l85KAX/1JBmnWrTx2ZGN/usxO9uYj5mRrg/zHe94VVqHQ==
+	t=1795547746;
+	b=JCigzADtMdMatO3cIitv0ip87U42Rchn9cqSCXdWXk+hs7boFWaEgQkTGFGvt7MTolP7
+	 W1RuMMYg3oeDJzXr4b+ziU8/cV1q5qMLK27kbkmrSzuO40Bk5k3sVtltlWYieAnF1T6tA
+	 Y9w/UMqCzE4GKbBKTh6Vc5If4xI+EG5lHbmmNctMXXa0m4dDp0ZjLb2A54dqBeic6OWaG
+	 7VumGHpI9JNPuBPwvbSVB98a36Zeqh5WDMYhe6Oi2d+TVNgScp+dlYkfFvWe9B/3gWYgO
+	 v0rOXlFdgm/kKRgNueBy4RL3Ixrw2O44pS8hV0ajv71Kh/7vI1+ZD1X6S4z3Mu+US+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795546686;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:Received:Received:Received:Message-ID:Subject:From:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:
-	 MIME-Version:User-Agent:X-TM-AS-GCONF:X-Proofpoint-Reinject:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:X-Proofpoint-GUID:
-	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=uqq04Dy6isK/nibhKSp5arYzUNNXHVOftTNvu6kl/OA=;
-	b=WJ73aw6ylyPK4X6DHB2I2qVG+h9pZIYMOar+jqAU8y1Cg0lTfxh2wqlPygLCGB6+lcCk
-	 OQ1x04U/UElsV56PRIh3Ml40OrC+xhJbuyvbPdear3HJWMMZ4O368sahmSl/3u64vwz/2
-	 safvhhmFKqLFwMY6QaLFJqctjJpaDKhGGpEAm/ecZzXt3V+Kr3YSY0Ga6RDPM2cIWlhnM
-	 bNk756dTN028PFe4+emmk7ih0iVX9e8OrT8U/r9J4tbwBfumw6NolYmGY5ZsyI5J8JsR3
-	 GKPjkPhwc1UBPRh7KwiBDUgULLIUcWU+6nN2mF12aZ0cFx1z77yFxPwa+YVfvx1uhMQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795547746;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:In-Reply-To:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Cc:Content-Type;
+	bh=iVaX5nAlkBKMSj8rUpfeIOl3ibSmoRV5kmxp9WpM+9Y=;
+	b=xBWzlNPPKwP7+kuDUJU0S9knhfwVvRM8JUCuzAZ8CGmedl0+BHqzd4oo7DTlUR4tu7az
+	 sRSlYQ3bBY+eUCI/4CypGR8DMnI4Zif1VkG2By6pS3vuLDq2i6rNb5OhvR1TJJMGV1Syt
+	 vqy4QXompmFZPnvkzJrcqCvKs9IzVwlvIUzWcfIxnP1kzAnl0ktI2EdFz+n+4K7GwC+IW
+	 PPOrXjgOHJ5tavyi76VrW5j63LW4tmljMnDa1f/jqLZ/0XAelvaP82noEKmAVz+Wa19q1
+	 bwbvaSbGcRTX0rNug5JPb+CqsJs9xRJSaZmHxyThdVCtxuTjsd2d8oEUyf/qDoKEslQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.ibm.com;
-	spf=pass smtp.mailfrom=linux.ibm.com;
-	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=HfV3u0oY;
-	arc=none smtp.remote-ip=148.163.158.5
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.210.69
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com [209.85.210.69])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FF6E606A321;
-	Tue, 24 Nov 2026 18:58:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FF6E606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=HfV3u0oY
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AOIYld43227618;
-	Tue, 24 Nov 2026 18:57:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=uqq04D
-	y6isK/nibhKSp5arYzUNNXHVOftTNvu6kl/OA=; b=HfV3u0oYsHK/2oysOj7z7w
-	d/1edf/+i3BrSGx8kohgNwUJx3hS97CxKYZaqldB7DXk17NXBgKCtupb6asdpLnN
-	W0BsbYY11JMsYv652cyBGcYMiF7aEsPYRQD+d82CbP1F3A/0FXkKSF0ri1aagOnA
-	A6xBx9jHsZ3K2XH6prPoF/46EGIXu2JrhJd0iOVHc+tYh9HstEQDMfgFch0P+de4
-	wGHTEcPdW4l5t4OhWn8iHXkIK9K19nBzIK/tM1vzVKhPXL/ISXCDSXRrFwJ1WNu9
-	dLATIKrkr8gfkFcFePD/gsW/08nd+XuGFGz+kN2589qmZgiREA/zZdXYKd2ojFtw
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j34g18taa-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 24 Nov 2026 18:57:46 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AOIZW7J3101401;
-	Tue, 24 Nov 2026 18:57:45 GMT
-Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4j3p0vkvhn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 24 Nov 2026 18:57:45 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AOIurgx31195846
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 24 Nov 2026 18:56:54 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id EA14D58056;
-	Tue, 24 Nov 2026 18:57:44 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2C1A558052;
-	Tue, 24 Nov 2026 18:57:44 +0000 (GMT)
-Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.4.47])
-	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 24 Nov 2026 18:57:44 +0000 (GMT)
-Message-ID: <d22a4eafc73dcb6d2c80862f422fe69d54e79f4b.camel@linux.ibm.com>
-Subject: Re: [PATCH v2 06/13] ima: handle errors from resolving the real
- inode
-From: Mimi Zohar <zohar@linux.ibm.com>
-To: Christian Brauner <brauner@kernel.org>,
-        Amir Goldstein
- <amir73il@gmail.com>, linux-fsdevel@vger.kernel.org
-Cc: Chris Down <chris@chrisdown.name>, Miklos Szeredi
- <mszeredi@redhat.com>,
-        linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bpf@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
-        linux-mm@kvack.org
-In-Reply-To: <20261116-work-ovl-d_real-v2-6-90564c4ae347@kernel.org>
-References: <20261116-work-ovl-d_real-v2-0-90564c4ae347@kernel.org>
-	 <20261116-work-ovl-d_real-v2-6-90564c4ae347@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 24 Nov 2026 13:57:43 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6112606A32E
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 19:15:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6112606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f69.google.com with SMTP id 46e09a7af769-83edc5c5ae9so5039927a34.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 11:15:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795547745; x=1796152545;
+        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=iVaX5nAlkBKMSj8rUpfeIOl3ibSmoRV5kmxp9WpM+9Y=;
+        b=FwzBbm0CwQS6KAky3K9jryzh11C/588U3GkBhDy9hzZrhaJM/grWnfn4N4l9sA6lw/
+         DTJ6eemV+v7NHxi1LdbZOxIe1aRWyU715o3MP4bXr/eZBE7J1Oz2ZKMyxf2Nh9TZxinc
+         BwxsttdBx54zU5N9uDuX7EW802VrUVkO4dTj5GFKxmYdtDxaez89mjj4hqUCtiJJJFmD
+         pxvZ6MKzv7j0CIr3w4IRl24s4E736QKzxVZueRS0boIMKs3jiUG/shVcKKJEcHjLNr1G
+         JmusmEEjPCbOV/ibjyQ5RmcCzeR1qphTy0dxuRie3VKz4KtLQcYlqM/felmQ5XcwSkKY
+         d+Cg==
+X-Forwarded-Encrypted: i=1; AL+hErHkSPbt5WQSlvzyvAKNf0S7KFZ1i3BASBk90147UQTGBFGfC9NpbuxN/CANsdkMpRfysuhp6P4E6h6GziCt@vger.kernel.org
+X-Gm-Message-State: APuU4Z/uOO0e/UxzNaAS0OydFcoKKL+dQ+chD6CCdI1cxQh0U47mmf77
+	1rSaKTUiBfUjW5gXu+DtBHefcyf77bVfDGrMbMvAIhx+/SgmeRtYEi97Ud/jbiVdze9SIgynJ1S
+	mq0UWQi5IHHXCF/qmY0NZJmzgjUoEnHBPb3nSbatQ3t7Az8UMl6Ppzb9rNLM=
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -102,68 +58,115 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Evolution 3.58.3 (3.58.3-2.fc43) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: yZjGn-DEeq1kE4tVMh88FNtfLffg03sv
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI0MDA3MyBTYWx0ZWRfX61M3IaFKEsaH
- 7mS6MNfRj/IINRdNIeW6tGSQh3Ue5NbtgMDCNRXnLJ5OBU41aPp0+wD1i+vutgxz/3h/j9mJs5G
- Kea5URj1fxQhihtFOZid/BAAI03/vXQ=
-X-Proofpoint-GUID: NedgcETWwMWTjELFHod-RGSG4ukHSub7
-X-Authority-Analysis: v=2.4 cv=c8M+0h9l c=1 sm=1 tr=0 ts=6b05de2a cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=VwQbUJbxAAAA:8
- a=VnNF1IyMAAAA:8 a=lMkFumaAjUwUa6GXabIA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI0MDA3MyBTYWx0ZWRfXyr1nQkXtkjai
- DyvG50RFNvMZx7HXm6G4R2VhVPWuhpDl0ODZObKFI/5i9UjVKCRWDNEtYSBwO5tR18KcDHXxbjS
- WeC8RQlng8HO9axVheyKPB/GnxVt127Z7IbLPYelZK9I9G09/Q+VnYJPoDLQyl80iQTsQJHRbGF
- JYrcAG4FYcRLeWBrTy81y2EXqZ+jT9zu5ZQoHnG7iLDSE9L980eeEWLawlLzTDPqHXA1Mhbw1Qm
- 1QQqDxnUDyJNXMssDkwH/MD6ocinO5NE4vU258iOrRj0CCJnu4XKi8oB0UnO5s/y7Q3J9o5+N/e
- nE/aH7AaB4PGybrLyST/CIMwLQaOOiFWe9FGTSvm/Mt4NRQNNfD+pATTeprrWDUCjG4UPWnCTov
- sSb3/51afK0h8df7UmmItmgeHTWtIxX4F9NjEBaq9M0GN6z8AU0TqTfCCEdB1UFWgkp2t+BOj0Q
- oCK32Ok7gkRButWmKQw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-24_05,2026-11-23_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1011 malwarescore=0 suspectscore=0 bulkscore=0
- priorityscore=1501 phishscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611240073
+X-Received: by 2002:a05:6808:4488:b0:4d6:90f3:74ad with SMTP id
+ 5614622812f47-57a0b644678mr16259886b6e.45.1795547744778; Tue, 24 Nov 2026
+ 11:15:44 -0800 (PST)
+Date: Tue, 24 Nov 2026 11:15:44 -0800
+In-Reply-To: <20261119-gup-dirty-what-v1-0-236d69f25c24@suse.de>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6b05e260.e1ffc79a.44bf.0000.GAE@google.com>
+Subject: [syzbot ci] Re: mm: GUP dirty + ->release_folio() fixes
+From: syzbot ci <syzbot+ci6dc3bd0a53405de7@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, axelrasmussen@google.com, baohua@kernel.org, 
+	baolin.wang@linux.alibaba.com, baoquan.he@linux.dev, david@kernel.org, 
+	dev.jain@arm.com, hannes@cmpxchg.org, jack@suse.cz, jhubbard@nvidia.com, 
+	kas@kernel.org, kasong@tencent.com, lance.yang@linux.dev, liam@infradead.org, 
+	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-nfs@vger.kernel.org, 
+	ljs@kernel.org, mhocko@kernel.org, mhocko@suse.com, nico.pache@linux.dev, 
+	peterx@redhat.com, pfalcato@suse.de, qi.zheng@linux.dev, rppt@kernel.org, 
+	ryan.roberts@arm.com, shakeel.butt@linux.dev, stable@vger.kernel.org, 
+	surenb@google.com, usama.arif@linux.dev, vbabka@kernel.org, 
+	weixugc@google.com, willy@infradead.org, yuanchu@google.com, ziy@nvidia.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 2026-11-16 at 10:44 +0100, Christian Brauner wrote:
-> d_real() is about to be able to fail for D_REAL_DATA. So switch IMA
-> from d_real_inode() to d_real_data_inode() and deal with the error.
->=20
-> Currently, if overlayfs fails to resolve the data of a file it hands
-> back the overlayfs inode. process_measurement() then sees
-> real_inode =3D=3D inode, skips the detection of changes in the backing fi=
-le
-> and returns the cached verdict. That's the wrong default. With
-> metacopy and verity this isn't limited to files nobody opened yet
-> either. A metadata-only copy-up of an open file makes overlayfs validate
-> the verity digest of the data again on the next D_REAL_DATA lookup and
-> that can fail.
->=20
-> So if the inode hosting the data can't be resolved in
-> process_measurement() we can't tell whether the data changed. Treat it
-> like a change and clear IMA_DONE_MASK and measured_pcrs so the file is
-> evaluated again. The metadata check for EVM stays independent of that.
->=20
-> This is a no-op until d_real() can actually fail.
->=20
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+syzbot ci has tested the following series
 
-The patch, itself, looks fine, but I'm not able to reproduce the error.
+[v1] mm: GUP dirty + ->release_folio() fixes
+https://lore.kernel.org/all/20261119-gup-dirty-what-v1-0-236d69f25c24@suse.de
+* [PATCH RFC 1/5] mm/khugepaged: fix filemap_release_folio() interaction with GUP dirty
+* [PATCH RFC 2/5] mm/huge_memory: fix filemap_release_folio() interaction with GUP dirty
+* [PATCH RFC 3/5] mm/vmscan: avoid releasing FS metadata for !FOLL_PIN gup folios
+* [PATCH RFC 4/5] mm/vmscan: be more careful when releasing FS metadata if buffer_heads_over_limit
+* [PATCH RFC 5/5] mm/filemap: refuse releasing maybe_dma_pinned folios
 
-The existing IMA overlay tests are working with and without this patch set.=
-  The
-tests check:
-* test 1: checks file signature is copied
-* test 2: checks backing file signature is copied up to overlay
-* test 3: detects modified backing file
+and found the following issue:
+WARNING in filemap_release_folio
 
-Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
+Full report is available here:
+https://ci.syzbot.org/series/852fc6fd-04c3-494d-a18d-4072753d5c47
 
-Mimi
+***
+
+WARNING in filemap_release_folio
+
+tree:      linux-next
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next
+base:      bb7a206a3ffb0992b3600205b7cf2bcbd228d339
+arch:      amd64
+compiler:  Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
+config:    https://ci.syzbot.org/builds/789b8ec7-0fce-48b1-bd3f-130fad443c68/config
+syz repro: https://ci.syzbot.org/findings/b27d3479-eda0-470a-a735-8bde8b489eea/syz_repro
+
+ __do_sys_exit_group kernel/exit.c:1134 [inline]
+ __se_sys_exit_group kernel/exit.c:1132 [inline]
+ __x64_sys_exit_group+0x3f/0x40 kernel/exit.c:1132
+ x64_sys_call+0x18c6/0x18d0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x171/0x540 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+------------[ cut here ]------------
+1
+WARNING: mm/filemap.c:4574 at filemap_release_folio+0x579/0x6a0 mm/filemap.c:4574, CPU#1: syz.0.32/5940
+Modules linked in:
+CPU: 1 UID: 0 PID: 5940 Comm: syz.0.32 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:filemap_release_folio+0x579/0x6a0 mm/filemap.c:4574
+Code: 89 df 48 83 c4 10 5b 41 5c 41 5d 41 5e 41 5f 5d e9 2c 88 58 00 e8 47 76 b7 ff 48 89 df 48 c7 c6 a0 82 39 8c e8 e8 74 16 ff 90 <0f> 0b 90 e9 00 fc ff ff e8 2a 76 b7 ff 48 89 df e8 a2 26 00 00 41
+RSP: 0000:ffffc90003486d78 EFLAGS: 00010246
+RAX: d29da7cf2dd17300 RBX: ffffea0006c30400 RCX: 0000000000000046
+RDX: 0000000000000000 RSI: ffffffff8e935905 RDI: ffff8881720f1e00
+RBP: dffffc0000000000 R08: ffffffff9014c6eb R09: 1ffffffff20298dd
+R10: dffffc0000000000 R11: fffffbfff20298de R12: 0000000000000001
+R13: ffffea0006c30408 R14: 1ffffd4000d86080 R15: 1ffffd4000d86081
+FS:  00007f9243ca06c0(0000) GS:ffff8882a7801000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fb8ff871a20 CR3: 000000016d7f6000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ collapse_file mm/khugepaged.c:2426 [inline]
+ collapse_pmd+0x389d/0x6bd0 mm/khugepaged.c:2869
+ collapse_single_pmd+0x1c74/0x36b0 mm/khugepaged.c:2921
+ madvise_collapse+0x3e7/0x920 mm/khugepaged.c:3313
+ madvise_vma_behavior+0xffe/0x4cb0 mm/madvise.c:1390
+ madvise_walk_vmas+0x57d/0xb70 mm/madvise.c:1742
+ madvise_do_behavior+0x385/0x540 mm/madvise.c:1937
+ do_madvise+0x327/0x3a0 mm/madvise.c:2035
+ __do_sys_madvise mm/madvise.c:2044 [inline]
+ __se_sys_madvise mm/madvise.c:2042 [inline]
+ __x64_sys_madvise+0xa6/0xc0 mm/madvise.c:2042
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x171/0x540 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f9242da8fd9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f9243ca0028 EFLAGS: 00000246 ORIG_RAX: 000000000000001c
+RAX: ffffffffffffffda RBX: 00007f9243026180 RCX: 00007f9242da8fd9
+RDX: 0000000000000019 RSI: 000000000060005f RDI: 0000200000000000
+RBP: 00007f9242e37fed R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f9243026218 R14: 00007f9243026180 R15: 00007fff1d17f228
+ </TASK>
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
