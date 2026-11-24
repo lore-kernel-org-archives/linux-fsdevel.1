@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795561201;
-	b=kOzHm5G5R2USPXHQonqB90b1QgcZx0JFmvAIILbLT8FHq8nKjjBVu8JglPd/NpOwq/rj
-	 sFeRi4ifdFIJdpA6HnJ0iErHFml7r5GgPUtgdjuxTyuFePphAJnLDRN3RQHeAMWZzzSX+
-	 f1ZKcO0Bxj4R67pXcMsfc7dDJUWez6dWgz82jQSHNe3rUvQ9lIhHVOIfwrjJeAO6dE2cB
-	 03rea/teBKBQUfGYH+9Fvf4IfuTb8zHNPJ7M3gZBqprcYfwudT+Jedx9pLgw5mfZBQlSA
-	 Xr9VoiwCTvuwiw2ehPSGoWBLR26UVzPpmYMkdKXLjiTIpasYWmHUVpFAWswVlxTy08Q==
+	t=1795561213;
+	b=dBOnPkJ64HlXleNM1m7Qk54l+vr+lmPIX8Pkf+Aj9RE68gGX3pb0b4Ow6QKM0uh7tc80
+	 C7CPrvpEIiz05BRAIXJWFV9HkFbPmI5KXmQOYgw+W7DjHtDXjPZnHVZk2vQGbo2lq4P6o
+	 cZ5PgbIGSlFzAmP2uf5hktWyNq2mnyfm4pBR6sGkUuShX+Woo9M8Gx616fci2UafE63YJ
+	 qnG9P+jHIdD8ln+Ug77zm/LBZC9t7fDPnW6jlsg06Qjw1Xl/axaBz9b+UcMj8rJ4p5/Gg
+	 fpvCfr7ACD6h0apmOY3ug/5t+azzbx5VjDHjUaMpUUPLJdcZaVhhHtLb1GGc4OMC3ww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795561201;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795561213;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=2C+rk0NMFrbNe0MIF80ZOVKYf9Ba1s/rRNRNQryPHiI=;
-	b=YRyMPKDEwDdzfGuJ7No80GL0/VyOebyJrjnsxoq9Rl89CvAGMW3Mk3+jpxfvzPoBd+lN
-	 UQihrwfCeQwelxjc4uTVJ0X644vansUrAxGYIebHOscHl9MyKp2WkM7nnG/bAZdk0odzI
-	 efGDgWB1misFSCNAObNsEAuBXAxN+gjwXErQU9T3HaoNlq/I3aAO/Mm5OySX/Djtwrn6+
-	 2z1KMUQhJGR8e4TpO1Kmkl9jnabLN9CBxLx0QmkSY2a0Ad25R3dS+F9z4rDDoONFus8Do
-	 MiGQN/C3DnczZn+7QezU4HsD63TBF2be63g5MDJAoHVL8UCBixYHlXblPF2/iEmg13A==
+	bh=kG9Qh13joT/rVCnoPcocJxtcYRE0b9tjEwh3hGBMBRQ=;
+	b=JJyYG0Zfy0YYiE2lZhWrmhmOYBsLvv6PjdE6inBLy/A/Ek6lsbRyVGgcUkQ3yRbkzJnp
+	 ME4BcALrXWC7CSHlHxwJ7qfR5U1rvgZ/GiakrQE31OES480qJkPAL+TIrA+wNj8RqY1qg
+	 m4mX+K1Uf05ijIBxpeFiwfpTgcWApAU3XPCr0UPlxBXHiQawQ+dtkQw2Tv8LJFki9Dq2w
+	 MEJRhdIFKo0ZHIYsokrJLZLxqVUnmmDZk6DYvgGPYqqEn/I5Ap4iwIGWsca8xg5c37/gS
+	 dSgN7ihqDtvZb/G0JOedDFbJoHej3g4EiNpkCdLPT+k9W7bSvZqge4ea1cb87nkdGLQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hoYetZWl;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SSVRCz46;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C35606A323;
-	Tue, 24 Nov 2026 23:00:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02917606A336;
+	Tue, 24 Nov 2026 23:00:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hoYetZWl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAAFD1F00A03;
-	Tue, 24 Nov 2026 22:59:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SSVRCz46
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 149CA1F00AE3;
+	Tue, 24 Nov 2026 23:00:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795561200;
-	bh=2C+rk0NMFrbNe0MIF80ZOVKYf9Ba1s/rRNRNQryPHiI=;
+	s=k20260515; t=1795561211;
+	bh=kG9Qh13joT/rVCnoPcocJxtcYRE0b9tjEwh3hGBMBRQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=hoYetZWllIRpmPQF74b7ybaKlEXv909X9hNNs3Vh3+uUBNryWcSAREVRtA2X8aGQK
-	 R+B58C1v8sVQBTKcBmlfOmtFmKAHG8mh+5r4Z1GT4jzelIBRvs9r+JQwOOl6BVrJJ7
-	 DNthuig7J98GenpKv0/mReuEIadEb9NPzjLLg+wYCQiMIZVDMBr9do2cKIK3toXV3P
-	 56Y5TToG+R5vWWB67rigS/Cgv+m3XyBNFZ5qXSvLJD+gSQ4AD4pq+ECkfedjLOIYzQ
-	 ZKCFxfnRWVYUFVURfD2npzjWd3OurLpzmkAlvrSy807UQlFpMqYch4YAvz20Pv9nai
-	 V4uxt/vinYcXA==
+	b=SSVRCz46ehCh55Kj4DqnxRYUuOiDxe0mjpCZdwE6ZHxs3DLXenc1NI7Cq8lulVJDO
+	 i6XAwipYoR4lcEd+4h2gBJ5KS/J8yNW2M/yo4zqHTspksPgKgXy9k3E07WIyG5S59L
+	 FWIn8gyYfZKMc8y0pBBaZeeEd6FtVUYEjGp5I2W4LbZYpz7K5RODom8YqpfiyuXwik
+	 0ojvkZNBtOUaFSk5wm4RBKo/2gk2QYDvoq41zL4b+eOe5WodKuEUp/B2mf3otFzaNg
+	 g/NpyMEP1o6dhODIfOaxkHZqVCSL5X/iwo6yQRUh6wddQsuBJpFvdDikPa5vIere4B
+	 rx6X7SrEIjLQQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Tue, 24 Nov 2026 23:58:31 +0100
-Subject: [PATCH RFC 08/19] selftests/exec: test exec with a shared signal
- table
+Date: Tue, 24 Nov 2026 23:58:34 +0100
+Subject: [PATCH RFC 11/19] selinux: revalidate inherited files before
+ taking exec_update_lock
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261124-work-exec-update_lock-v1-8-e489035395b8@kernel.org>
+Message-Id: <20261124-work-exec-update_lock-v1-11-e489035395b8@kernel.org>
 References: <20261124-work-exec-update_lock-v1-0-e489035395b8@kernel.org>
 In-Reply-To: <20261124-work-exec-update_lock-v1-0-e489035395b8@kernel.org>
 To: Jann Horn <jannh@google.com>
@@ -65,315 +65,140 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  selinux@vger.kernel.org, Kees Cook <kees@kernel.org>, linux-mm@kvack.org, 
  linux-security-module@vger.kernel.org, apparmor@lists.ubuntu.com, 
  David Hildenbrand <david@kernel.org>, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
 X-Mailer: b4 0.17-dev-04696
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9968; i=brauner@kernel.org;
- h=from:subject:message-id; bh=llT2zgJ1sk7ce873wnC1YeARhaC2FQU0cnTsE6LZXFk=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSzie2PE47dV/bx2BTe7uYVVjOtjOQW+3rzuSy5uYXN+
- ZnNvIb7HaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABPx28nw3ydz64Pc7LnzDSJ9
- invWGixn/rbaOTqXLWnfQ7/X340zdzL803h4stxgCf+RQykSz4xL93x6o3ZwVzeP286ePu1pMYs
- EWQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4552; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=qkAv1M929y64I19wC8Cu8ZECHEnR673EN13elCJRS20=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSziR0q+nvvr9oF1h5306fr+5I0luzUbvljePvsvK9Tp
+ JJ/eord6ChlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjIGQ9Ght/sOT0ftvlf9Q4Q
+ VNBxjA66dco+PV7jNFfCvL0nfRb/y2D4K9Tz5uv292sPGScXfpxa3leaeDlEZsXBpzfclq7KXzG
+ rjAUA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Test that exec gives a task that shares its signal table with another
-process a private one:
+When an exec transitions to a new SID flush_unauthorized_files()
+revalidates the controlling terminal and the inherited files against the
+new SID. Files the new SID isn't allowed to use are replaced with the
+null device. This is done from selinux_bprm_committing_creds() which
+runs with exec_update_lock held for writing.
 
-- handlers the processes shared are reset in the new image
+Replacing a file closes the old one and so calls its ->flush() method
+which can block waiting on the filesystem. So a hung filesystem blocks
+everyone who needs the exec_update_lock of that task. And a FUSE server
+that looks at the task it serves the flush request for deadlocks:
 
-- an ignored signal stays ignored in the new image
+  exec                                 FUSE server
+  begin_new_exec()
+    exec_mmap()
+      down_write(exec_update_lock)
+    security_bprm_committing_creds()
+      flush_unauthorized_files()
+        replace_fd()
+          filp_close()
+            fuse_flush()
+                                       do_task_stat()
+                                         down_read(exec_update_lock)
 
-- the other process keeps all of its handlers
+With a FUSE server that reads /proc/<pid>/stat of the task that sent the
+flush request the exec hangs until the server is killed:
 
-- a signal the other process ignores right after vfork() returned isn't
-  ignored in the new image
+  task:se-target       state:S pid:143
+  Call Trace:
+   __schedule+0x53e/0x13f0
+   schedule+0x36/0x100
+   request_wait_answer+0x1a9/0x320
+   fuse_chan_send+0x110/0x250
+   fuse_flush+0x1af/0x1f0
+   filp_flush+0x33/0x90
+   filp_close+0x12/0x30
+   do_dup2+0xbf/0x1b0
+   replace_fd+0x7e/0xd0
+   selinux_bprm_committing_creds+0x1a7/0x2d0
+   security_bprm_committing_creds+0x1e/0x30
+   begin_new_exec+0x6dc/0xf90
+   load_elf_binary+0x12a/0x1990
+   bprm_execve+0x39d/0x870
+   do_execveat_common.isra.0+0x165/0x180
+   __x64_sys_execve+0x38/0x50
+   do_syscall_64+0x110/0x600
+   entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-The task is created with CLONE_SIGHAND but without CLONE_THREAD so it
-isn't taken care of by de_thread(). For the last one the parent runs in
-a realtime scheduling class on the cpu of the task so that it gets to
-ignore the signal as soon as it's woken up.
+  task:se-fuse         state:D pid:142
+  Call Trace:
+   __schedule+0x53e/0x13f0
+   schedule+0x36/0x100
+   schedule_preempt_disabled+0x11/0x20
+   rwsem_down_read_slowpath+0x186/0x5f0
+   down_read_killable+0x78/0x1b0
+   do_task_stat+0x87/0x10c0
+   proc_single_show+0x67/0xe0
+   seq_read_iter+0x11c/0x480
+   seq_read+0x127/0x1c0
+   vfs_read+0xd8/0x4a0
+   ksys_read+0x7c/0x110
+   do_syscall_64+0x110/0x600
+   entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
+The flush is a forced request so the exec can't even be killed while it
+waits for the reply.
+
+This is the same problem that commit e780259b54e6 ("exec:
+do_close_on_exec() before taking exec_update_lock") fixed for
+close-on-exec files.
+
+Fix this by moving the revalidation into the new bprm_revalidate_files
+hook which is called before exec_update_lock is taken.
+
+Fixes: 6650527444da ("proc: protect ptrace_may_access() with exec_update_lock (part 1)")
+Cc: stable@vger.kernel.org
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- tools/testing/selftests/exec/.gitignore        |   1 +
- tools/testing/selftests/exec/Makefile          |   2 +
- tools/testing/selftests/exec/unshare-sighand.c | 236 +++++++++++++++++++++++++
- 3 files changed, 239 insertions(+)
+ security/selinux/hooks.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/tools/testing/selftests/exec/.gitignore b/tools/testing/selftests/exec/.gitignore
-index 4613c68537395..b27f4db42f87b 100644
---- a/tools/testing/selftests/exec/.gitignore
-+++ b/tools/testing/selftests/exec/.gitignore
-@@ -16,6 +16,7 @@ null-argv
- !load_address.c
- /recursion-depth
- /set-exec
-+/unshare-sighand
- /update-lock-fault
- xxxxxxxx*
- pipe
-diff --git a/tools/testing/selftests/exec/Makefile b/tools/testing/selftests/exec/Makefile
-index 3756a250f9591..70f090a5f7648 100644
---- a/tools/testing/selftests/exec/Makefile
-+++ b/tools/testing/selftests/exec/Makefile
-@@ -21,6 +21,7 @@ TEST_GEN_PROGS += recursion-depth
- TEST_GEN_PROGS += null-argv
- TEST_GEN_PROGS += check-exec
- TEST_GEN_PROGS += update-lock-fault
-+TEST_GEN_PROGS += unshare-sighand
+diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+index 4ec9ec723cacc..71ea94f663772 100644
+--- a/security/selinux/hooks.c
++++ b/security/selinux/hooks.c
+@@ -2529,6 +2529,20 @@ static inline void flush_unauthorized_files(const struct cred *cred,
+ 		fput(devnull);
+ }
  
- # binfmt_misc must not be reachable as an exec source or as a stacking layer,
- # or an 'F' entry can pin the instance that owns it. Unprivileged, no bpf.
-@@ -117,6 +118,7 @@ $(OUTPUT)/binfmt_misc_interplimit: CFLAGS += $(TOOLS_INCLUDES)
- $(OUTPUT)/binfmt_misc_interplimit: ../filesystems/utils.c
- 
- $(OUTPUT)/update-lock-fault: LDLIBS += -lpthread
-+$(OUTPUT)/unshare-sighand: LDLIBS += -lpthread
- 
- # --- binfmt_misc bpf ('B') handler test ---------------------------------
- # The struct_ops bpf objects are compiled against the running kernel's BTF.
-diff --git a/tools/testing/selftests/exec/unshare-sighand.c b/tools/testing/selftests/exec/unshare-sighand.c
-new file mode 100644
-index 0000000000000..425b46d4d5c9c
---- /dev/null
-+++ b/tools/testing/selftests/exec/unshare-sighand.c
-@@ -0,0 +1,236 @@
-+// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Test exec in a task that shares its signal table with another process
-+ * without being one of its threads, i.e. CLONE_SIGHAND without CLONE_THREAD.
-+ * The exec has to give the task a private table before it resets the
-+ * handlers so the other process keeps the table they shared. If the other
-+ * process waits for the task in vfork() the task has to have its private
-+ * table before that process runs again.
++ * Close files for which the new task SID is not authorized. Called before
++ * exec_update_lock is taken as closing files may block in the filesystem.
 + */
-+#define _GNU_SOURCE
-+#include <pthread.h>
-+#include <sched.h>
-+#include <signal.h>
-+#include <stdbool.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/mman.h>
-+#include <sys/wait.h>
-+#include <unistd.h>
-+
-+#include "kselftest_harness.h"
-+
-+#define STACK_SIZE	(64 * 1024)
-+
-+/* Makes the exec'd image check its dispositions. */
-+#define EXECED_ARG	"execed"
-+/* Makes the exec'd image check the signal its vfork() parent ignored. */
-+#define EXECED_VFORK_ARG	"execed-vfork"
-+
-+/* Exit status of a sharer that never made it into the exec'd image. */
-+#define EXIT_NO_EXEC	127
-+
-+/* Handled before the clone. */
-+static const int handled_signals[] = { SIGUSR1, SIGUSR2 };
-+/* Handled by the sharer right before its exec. */
-+#define SHARER_SIGNAL	SIGTERM
-+/* Ignored before the clone. */
-+#define IGNORED_SIGNAL	SIGHUP
-+/* Ignored by a vfork() parent as soon as it runs again. */
-+#define VFORK_SIGNAL	SIGINT
-+
-+/* How often a vfork() parent races with the exec of its child. */
-+#define VFORK_ROUNDS	16
-+
-+/* How much the thread that holds the mmap lock has to work on. */
-+#define WRITER_SIZE	(1UL << 30)
-+
-+static void handler(int sig)
++static void selinux_bprm_revalidate_files(const struct linux_binprm *bprm)
 +{
++	const struct cred_security_struct *new_crsec = selinux_cred(bprm->cred);
++
++	if (new_crsec->sid == new_crsec->osid)
++		return;
++
++	flush_unauthorized_files(bprm->cred, current->files);
 +}
 +
-+static int set_disposition(int sig, sighandler_t disposition)
-+{
-+	const struct sigaction sa = { .sa_handler = disposition };
-+
-+	return sigaction(sig, &sa, NULL);
-+}
-+
-+static const char *disposition_name(sighandler_t disposition)
-+{
-+	if (disposition == SIG_DFL)
-+		return "default";
-+	if (disposition == SIG_IGN)
-+		return "ignored";
-+	return "handled";
-+}
-+
-+static bool has_disposition(const char *who, int sig, sighandler_t disposition)
-+{
-+	struct sigaction sa;
-+
-+	if (sigaction(sig, NULL, &sa))
-+		return false;
-+	ksft_print_msg("%s: signal %d (%s) is %s\n", who, sig, strsignal(sig),
-+		       disposition_name(sa.sa_handler));
-+	return sa.sa_handler == disposition;
-+}
-+
-+/* The signals with a handler must have @handled, the ignored one SIG_IGN. */
-+static bool check_dispositions(const char *who, sighandler_t handled)
-+{
-+	bool ret = true;
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(handled_signals); i++)
-+		ret &= has_disposition(who, handled_signals[i], handled);
-+	ret &= has_disposition(who, SHARER_SIGNAL, handled);
-+	ret &= has_disposition(who, IGNORED_SIGNAL, SIG_IGN);
-+	return ret;
-+}
-+
-+static int setup_dispositions(void)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(handled_signals); i++) {
-+		if (set_disposition(handled_signals[i], handler))
-+			return -1;
-+	}
-+	return set_disposition(IGNORED_SIGNAL, SIG_IGN);
-+}
-+
-+static int sharer(void *arg)
-+{
-+	/* The parent only gets to see this if the table really is shared. */
-+	if (!set_disposition(SHARER_SIGNAL, handler))
-+		execl("/proc/self/exe", "unshare-sighand", EXECED_ARG,
-+		      (char *)NULL);
-+	_exit(EXIT_NO_EXEC);
-+}
-+
-+TEST(exec_unshares_sighand)
-+{
-+	char *stack;
-+	int status;
-+	pid_t pid;
-+
-+	ASSERT_EQ(setup_dispositions(), 0);
-+
-+	stack = mmap(NULL, STACK_SIZE, PROT_READ | PROT_WRITE,
-+		     MAP_PRIVATE | MAP_ANONYMOUS | MAP_STACK, -1, 0);
-+	ASSERT_NE(stack, MAP_FAILED);
-+
-+	pid = clone(sharer, stack + STACK_SIZE,
-+		    CLONE_VM | CLONE_SIGHAND | SIGCHLD, NULL);
-+	ASSERT_GT(pid, 0);
-+	ASSERT_EQ(waitpid(pid, &status, 0), pid);
-+	ASSERT_TRUE(WIFEXITED(status));
-+	/* The exec'd image has the handlers reset and SIG_IGN inherited. */
-+	EXPECT_EQ(WEXITSTATUS(status), EXIT_SUCCESS);
-+
-+	/* The table was shared up to the exec and the exec left it alone. */
-+	EXPECT_TRUE(check_dispositions("parent", handler));
-+
-+	EXPECT_EQ(munmap(stack, STACK_SIZE), 0);
-+}
-+
-+struct mmap_writer {
-+	pthread_t thread;
-+	char *map;
-+	bool stop;
-+};
-+
-+/*
-+ * Hold the mmap lock for writing most of the time. An exec that waits for
-+ * the mmap lock of the old mm after it has woken up a vfork() parent gives
-+ * that parent all the time it needs.
-+ */
-+static void *mmap_writer(void *arg)
-+{
-+	struct mmap_writer *writer = arg;
-+
-+	while (!__atomic_load_n(&writer->stop, __ATOMIC_RELAXED)) {
-+		mprotect(writer->map, WRITER_SIZE, PROT_NONE);
-+		mprotect(writer->map, WRITER_SIZE, PROT_READ);
-+	}
-+	return NULL;
-+}
-+
-+static int vfork_sharer(void *arg)
-+{
-+	execl("/proc/self/exe", "unshare-sighand", EXECED_VFORK_ARG,
-+	      (char *)NULL);
-+	_exit(EXIT_NO_EXEC);
-+}
-+
-+TEST(exec_unshares_sighand_before_vfork_returns)
-+{
-+	struct sched_param param = { .sched_priority = 1 };
-+	struct mmap_writer writer = {};
-+	cpu_set_t cpu;
-+	char *stack;
-+	int status;
-+	pid_t pid;
-+	int i;
-+
-+	stack = mmap(NULL, STACK_SIZE, PROT_READ | PROT_WRITE,
-+		     MAP_PRIVATE | MAP_ANONYMOUS | MAP_STACK, -1, 0);
-+	ASSERT_NE(stack, MAP_FAILED);
-+
-+	/* One page table entry per page, all of them the zero page. */
-+	writer.map = mmap(NULL, WRITER_SIZE, PROT_READ,
-+			  MAP_PRIVATE | MAP_ANONYMOUS | MAP_NORESERVE, -1, 0);
-+	ASSERT_NE(writer.map, MAP_FAILED);
-+	madvise(writer.map, WRITER_SIZE, MADV_NOHUGEPAGE);
-+	madvise(writer.map, WRITER_SIZE, MADV_POPULATE_READ);
-+	ASSERT_EQ(pthread_create(&writer.thread, NULL, mmap_writer, &writer), 0);
-+
-+	/*
-+	 * The task that is cloned below runs on our cpu and, as the policy
-+	 * isn't inherited, not in a realtime scheduling class. On a kernel
-+	 * with preemption we run as soon as it wakes us up and it doesn't get
-+	 * any further meanwhile. Without the privilege for that only an exec
-+	 * that sleeps after it has woken us up is caught.
-+	 */
-+	CPU_ZERO(&cpu);
-+	CPU_SET(sched_getcpu(), &cpu);
-+	if (!sched_setaffinity(0, sizeof(cpu), &cpu))
-+		sched_setscheduler(0, SCHED_FIFO | SCHED_RESET_ON_FORK, &param);
-+
-+	for (i = 0; i < VFORK_ROUNDS; i++) {
-+		ASSERT_EQ(set_disposition(VFORK_SIGNAL, SIG_DFL), 0);
-+
-+		pid = clone(vfork_sharer, stack + STACK_SIZE,
-+			    CLONE_VM | CLONE_VFORK | CLONE_SIGHAND | SIGCHLD,
-+			    NULL);
-+		/* The task has its own table. This is none of its business. */
-+		set_disposition(VFORK_SIGNAL, SIG_IGN);
-+		ASSERT_GT(pid, 0);
-+		ASSERT_EQ(waitpid(pid, &status, 0), pid);
-+		ASSERT_TRUE(WIFEXITED(status));
-+		ASSERT_EQ(WEXITSTATUS(status), EXIT_SUCCESS) {
-+			TH_LOG("round %d: ignored after vfork(), ignored in the exec'd image", i);
-+		}
-+	}
-+
-+	__atomic_store_n(&writer.stop, true, __ATOMIC_RELAXED);
-+	ASSERT_EQ(pthread_join(writer.thread, NULL), 0);
-+	EXPECT_EQ(munmap(writer.map, WRITER_SIZE), 0);
-+	EXPECT_EQ(munmap(stack, STACK_SIZE), 0);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	struct sigaction sa;
-+
-+	if (argc == 2 && !strcmp(argv[1], EXECED_ARG))
-+		return check_dispositions("exec'd image", SIG_DFL) ?
-+		       EXIT_SUCCESS : EXIT_FAILURE;
-+	if (argc == 2 && !strcmp(argv[1], EXECED_VFORK_ARG)) {
-+		if (sigaction(VFORK_SIGNAL, NULL, &sa))
-+			return EXIT_FAILURE;
-+		return sa.sa_handler == SIG_DFL ? EXIT_SUCCESS : EXIT_FAILURE;
-+	}
-+	return test_harness_run(argc, argv);
-+}
+ /*
+  * Prepare a process for imminent new credential changes due to exec
+  */
+@@ -2542,9 +2556,6 @@ static void selinux_bprm_committing_creds(const struct linux_binprm *bprm)
+ 	if (new_crsec->sid == new_crsec->osid)
+ 		return;
+ 
+-	/* Close files for which the new task SID is not authorized. */
+-	flush_unauthorized_files(bprm->cred, current->files);
+-
+ 	/* Always clear parent death signal on SID transitions. */
+ 	current->pdeath_signal = 0;
+ 
+@@ -7690,6 +7701,7 @@ static struct security_hook_list selinux_hooks[] __ro_after_init = {
+ 	LSM_HOOK_INIT(netlink_send, selinux_netlink_send),
+ 
+ 	LSM_HOOK_INIT(bprm_creds_for_exec, selinux_bprm_creds_for_exec),
++	LSM_HOOK_INIT(bprm_revalidate_files, selinux_bprm_revalidate_files),
+ 	LSM_HOOK_INIT(bprm_committing_creds, selinux_bprm_committing_creds),
+ 	LSM_HOOK_INIT(bprm_committed_creds, selinux_bprm_committed_creds),
+ 
 
 -- 
 2.53.0
