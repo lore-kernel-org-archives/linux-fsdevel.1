@@ -1,111 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.135.74
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795556029;
-	b=GpMM7xBiqvPRCOsrQecgkTAbXKz6JOu0nsteHBnLYSJTGHPb6Mv9bWTKdrBMRixWcpj/
-	 R5o4fEcq+ffsJTapu9RUeuiZSIh8dHmb33rOjWkWf6Emy8Q+porL+jxzx2v7HTK4Q3+Gz
-	 Eb6/RN3QRKCvuUYmsefcH+7B6iwyZYCv/otnzrQOF6xs9p5hIhbAO1fhAYJVG1Ckv87RA
-	 pLbdZ9c8CimkWVHDSmJtdGghz5pOz9mh9MYRCADI4pPb5Rg/AYNKKlRJ4aiSqjakysuRc
-	 YUbMq/H8BjqcJ+vxDBKRq7HcNKUi8tLx4F7f3sobRfS/lh+IW3mfcXbpARjtzGLJtVA==
+	t=1795556053;
+	b=gVwHMkreu3ZoFYNX8mR8ac5tVyWC+DddFm05bDGX6VThRsyE0V8lezyKs/K7k86Rc7Hy
+	 GMbEqFHKW66X5bYERWZhmgu8cLBMHjYHZt69x6XWQuzUsFanTXq7zxTfRaczD6lw1IKlb
+	 ChRiJ2nNkMLPhDFbAUTYSL4Bp9BaZRW7SuaOM+0aU+aqjvbZgW6mrI2o84MisgjZZcedZ
+	 5xH2H/iXNv14sxjx0ikhmmZEMe+Hd8x6sz6VGLb2W1hYvNGdoH7WIi/ki2nnvtQMnuVsu
+	 RURk26uwHmfRFKZa0303pCH4LF0KKkpffBScdS+BQVPH/co2tNKokRhiEQDt6dDfojA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795556029;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-Spam-Details-Enc:
-	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=rzs3vXtV1f6glRfCbRyWQ0qJwRwJG7R79LUnSb70XXY=;
-	b=0Ge7qmOoy8WLrBAdtvwADsnUNr+14Ym0ohYrBITVPqCyZxZG50VVER4NOi+p7mQnq6sX
-	 QwXfFKc+nCNrLmkS2Nn0dUor7W4JCBg5Gm42ppaABKmFd3KYIGNrQfzBj3XY725Tj/Usi
-	 ERYuxxEA7snFCtcVQwWzncxW1wdMAQ44Y9WjQ/bTx4F5ngZbMtYmErHuPG+Td14FSXc9R
-	 5e3rZ5fWzxdOEIKgtqLHpxZVk5HQ6EmVcqML828mPz2ZYFpWeDKSGaHEa36Qnn7V6fwsP
-	 BUf77Anf6RHs5NaFtPqEZxMxDNepZUK+Pxy0CUTXKsyqgQ72pxJ3Oqg8YSLY0LDhIPg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795556053;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=O9lMyeWaR2AVa49Y0bfc4zD6I2/RGDgVBYEZU7qaCoU=;
+	b=L5GBcpH1zva0+aWUgIoY5PjPf+5YMksvuOFTtjs0JcOrLTh9CkdSJOYvhhWbjaoIPTcO
+	 dz3rvyLMB3DPa8xRhSibTqccYDqaDoFuPnO+7E+PRw+Rt0ZjiHZApEjaqpM4sBwu4i0xK
+	 kjc8pBQh9GnvkvjhCOO2r0AGg11zDV9jX4RopXwsEYSd/NOPzdT1YGH2jtR+Y91sg+Ugm
+	 9Rf2mgSORwvW19JL3C5qX5/Ttd23coQiYZvKTAODWYPnpP/FypueSAmWKkIHRrE8iaSSA
+	 gqxl9CE4NZmi74JqKL8LfrpcRtbdWYnbL0l0in2pJM2D9h8LTeJMJxWDq/KxmN5U3LA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=columbia.edu;
-	spf=pass smtp.mailfrom=columbia.edu;
-	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=kSOSSptg;
-	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=qs5iwDns;
-	arc=none smtp.remote-ip=148.163.135.74
-Received: from mx0a-00364e01.pphosted.com (mx0a-00364e01.pphosted.com [148.163.135.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BmLl1+G3;
+	arc=none smtp.remote-ip=74.125.82.47
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED77E606A31E
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 21:33:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED77E606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D017E606A326
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 21:34:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D017E606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=kSOSSptg;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=qs5iwDns
-Received: from pps.filterd (m0499199.ppops.net [127.0.0.1])
-	by mx0a-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AOLXT9B992105
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 16:33:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=rzs3
-	vXtV1f6glRfCbRyWQ0qJwRwJG7R79LUnSb70XXY=; b=kSOSSptg03PNAGft46fI
-	0u8m3JFtsUQBmcPW8Y2leohVFkOf7foSZk95k8rFf/kFtHUSanpwx0t/ugSl9SFN
-	c3NNzsoNngeXMT4KbGM7h/y1CMr1BLNUsVadlTTnbuOhmKJVAByccPWBiccHzYAy
-	UBiWEXUXVzizUoT7E/zrXakX7q9pkGSLZvkqJW5lf6WKPWEWacErCcZASbtOzPGG
-	3sW9wy3xWsbOtSDzEIKjUFed5DLQACMV1FRPeQrbWfaq/zMqO1sKf5F+zJqOUanJ
-	NrIcQp/xzTCKhsNEK/0cB521vEVFeeNbqNYBoP1BGFWbwqpN+sk0j9ZqLi5SNEIz
-	gg==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 4j5bwjmkgu-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 16:33:47 -0500 (EST)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-947a607ec40so486128585a.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 13:33:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BmLl1+G3
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-1a2761c69fbso5515752c88.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 13:34:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=columbia.edu; s=lionmail; t=1795556027; x=1796160827; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rzs3vXtV1f6glRfCbRyWQ0qJwRwJG7R79LUnSb70XXY=;
-        b=qs5iwDnsetN6f44XCjqu+ML5LMoMj4pbZ0AHrmrIXPA9Okv+NgRmZBgSziyV94ZvYg
-         rChh+SfJvG5OjG4Wo1opxFZmVLLMmPkw1buWHj3lPgxBTMCNot6AXu0rGiJfuekRjCZG
-         +2mniKv+bzhzq4mZwcmkY79ajtZ08RBa6DAx5h5fM3AX8cOdU0vaKMqEO4z2aGNfG+kF
-         TJVuuDhLcXxgg5bjV5R8wwIOQoX1ruO8vqv1N206amA1fELGmthmhYUkv4KTl7Gwn0xL
-         dgcgHhvZlyF7qzk3XyC8N60G0vOpznAtaAQIuPuHeSvRAyi6Zvd/nn8Gu8axtIlXsfCC
-         5kAA==
+        d=gmail.com; s=20260707; t=1795556051; x=1796160851; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=O9lMyeWaR2AVa49Y0bfc4zD6I2/RGDgVBYEZU7qaCoU=;
+        b=BmLl1+G3ZH6+c5VVnAmGmT9Omfce7d3hpxSsCSV+KZQAMBmC/cZ8/hdcgKiSapeFgu
+         CPnU9XWPc4owJpKpRcKClt6zXGnSMn1VoEMEqBLrZfcWKaLdK0xDNV6bpRagoK5engx/
+         lDdR9Ej4UchNA19tJUpCjWhJ77zNzahgtWNqIC6alvczb6SR8xkz9OpZJGSQMUJK1pN8
+         qUvyf/oLvp3HSUqU3I13MrHeN0WYW/pGzoQiq8nyIQLKnGJmP8YrTtcs08W+sqm72zJ6
+         GVurAfx3fg2mSJQZni7IeZRcbISOaIvIBat7T723CZEYtzla2uqfrEjMvQx3CxRqONm+
+         8Eew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795556027; x=1796160827;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1795556051; x=1796160851;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=rzs3vXtV1f6glRfCbRyWQ0qJwRwJG7R79LUnSb70XXY=;
-        b=psixpWnb9tDinKslFqtyQXRnbQ/sQQCIwdx++GUDB1P1ZmrwFcEchXt8eIjBAA/0tB
-         MqhCPHWzPgUIHSQvLRurwo/HvalZ6Vlp0I4BgVh9LWtuUTDtcqfTlmv3prLguruJTs5L
-         1p8jMjTGYrsqBY1CB5dcdnqgU9rJ6ogSnBazHsR+5d6o9tR+B4J9q1Ii/EnZyuhyPten
-         y2OUlWnIHQS4Pdfz2LpVUNlrHlxkQynpKUtieyUrL7KWWODYh58/bWfuAxM1hC+y3Dje
-         aNGY2JvZv1qzFHLlWrTEKjNvCPlvJwat/vt9LJSxTl2440CFq2xfEk+39M1keWNCNbOr
-         n/fA==
-X-Forwarded-Encrypted: i=1; AL+hErF7eXZmGbrP/UJnthBDVDLZM/sUQjL/xV+tSbZeNCgVWUoiPzXJYuZkyH2OirxCDUIrTsKgNVgQaX+9LcJT@vger.kernel.org
-X-Gm-Message-State: APuU4Z/EsV2KZjGDi+rXK/rleyR+MDLIajmto2JKi5zrgZzZwd6sVA+Q
-	2jXErmH21PJEIXojL1EIxtIbgl5znkCGwNzvYECMxDUaxC++k6qHQU4xwywbsnY4Nz6cC9Swf8f
-	kk8WF9lPo14BMC+2YY3LaigyJNHlT5jLypI71SiQcENVPn2GuMu3E/3I6nL6WG2o=
-X-Gm-Gg: AZFdTZeFrPE3cV1TA/MNLqfAzw43wWIfrx6BarLTbopkiCApxCcvUoiYEDvzTWqGy4O
-	1mRjMbtGlZN3c9EH9xYWL8YuETTYc2ZlVcsMPm5BAsCpWrqw2hzG1KwhcpJz/0G2t3TcYECATOG
-	g21Fjy9qSTOSKqJz6ihGKpA0J2tkzbL7swcL0dkp5OF4rv5BnI63cMr67xsLrydX443MvcQT66N
-	KM28xIBMwCbw1VyeAaszg0RRl0GyrafIHZUFIrwSI0sj77saew8G5Nfwi539/ik7QtJqr+BujuX
-	xDSp+Z75qo5hfkfsIPuaUMVzv2oVdC7Wf4d/D0ft7a/ly/LO1GPARnPk4Fqth9biObZ4vbNB4Di
-	KSdGgCB4l10RWlXmOIeRmHbS/12hiOMowU8hF907VpITfzIZL+kUvfFMdsZQu6EvP6A==
-X-Received: by 2002:a05:620a:46a4:b0:949:70f1:de35 with SMTP id af79cd13be357-949ba825d86mr2914937985a.7.1795556026853;
-        Tue, 24 Nov 2026 13:33:46 -0800 (PST)
-X-Received: by 2002:a05:620a:46a4:b0:949:70f1:de35 with SMTP id af79cd13be357-949ba825d86mr2914934585a.7.1795556026424;
-        Tue, 24 Nov 2026 13:33:46 -0800 (PST)
-Received: from [10.206.101.158] ([129.236.231.128])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-949bb40efc4sm1138097285a.36.2026.11.24.13.33.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Nov 2026 13:33:45 -0800 (PST)
-Message-ID: <da1f8a21-9250-42cc-bf87-072eb28ce475@columbia.edu>
-Date: Tue, 24 Nov 2026 16:33:45 -0500
+        bh=O9lMyeWaR2AVa49Y0bfc4zD6I2/RGDgVBYEZU7qaCoU=;
+        b=wCdCVGsW0Sk+NTlWLGQbdP2x7e24br/woCpgGQlcXM+qKkb9e5TTGZH7Mx++IH72Eu
+         bbKH2DPzVh9cJc1Sws0UhpDaQJRAbzGdN2XAEvYVuMNxqU3WzEAPFdXvd3a1Y2J1hZ+d
+         6ke6IdQ1JBMtqu+ElJlwfIHEs+S1lBnbPCGlN4dqk/eKiyo4NtJ/M09mg/zNQZaIxCpc
+         d3n/igW+vTrHhliwXLAkglkOpdENZJQ9cUCi2F+AB7i9sLiJEq+SLUlEi2gUvNJhDOCg
+         BUFHZjdoAtxI3neJ+nWA5K6ryEwOgzZZayRKenERZcMmnUPNFUnR9n0NQIyMv9LI/LZN
+         J3Zg==
+X-Gm-Message-State: APuU4Z9rbBOPLHRQUww9XMlV9DuCjILWQznZbFJEGERJReRQGjQaUY10
+	FKNsviv/70sx/suuC7MtwX4vRKwdt2ohujKNRCH+JZfMQ6cnjcGWHwVqeJcmrWc5
+X-Gm-Gg: AZFdTZd15uuwAOhZAEZMWWnfufyDNusdPDVXfhCsWrLo9On19+sopQNeeP6/8TXHhG7
+	uyo72yVNZAGFSLZDlSwiWBKSheeQ8ZC0c00hxoj7kXEbJBmW5tgc3jK17BIGHtBLxgHPdWqMv4q
+	Qw4I0D6DLM4UJQhAlIGHFfefATumUuEnb7dabHbpLShze/QDuuy1GnXcXCboGGltEZaxmlzx+Qp
+	u1qEgDHik3egFmtQh7U7TNTD1XlF6AmVskQNWjkHUv4I08ioRhsVhebs0QdmxacuYeVTsWdxBFT
+	xqAvW/RH2keaVqWoegkaIWgsWXgC/AlKNzl9MO/O579D/OI9IC+5q9x4ZBadAmaupdXTFXJhayQ
+	mBXbBm0jOLJ82UqOFZDsaIBhd0AH668Y7z/VPBntpIf6lpVuMVgBlpLGZEaVxme3oNeoKooy6vs
+	n/xBJqBSQStIfT+FhXvLz08VSL/71yfd3SQyh/oSrqMT4BDkpGsi1Ym5uOUQCkOao/guHL6XEAV
+	ms0+urSG4p0kOri5oGAOhwScBcglrl5kpDnrq5hekwRAtbjLgbzgFRgqbS0CubSQiCR+4QNT5Ko
+	89HCfzVf5uIkO0ptbNTnAg0aLwsEp4+YQU9hldcyPF6+5sXW9PQkaLQ9vnsqUl8IKCba+CY2MdK
+	DjeS8F4APqmY=
+X-Received: by 2002:a05:7022:b0c8:b0:1b2:6855:998a with SMTP id a92af1059eb24-1b556911007mr14191850c88.34.1795556051100;
+        Tue, 24 Nov 2026 13:34:11 -0800 (PST)
+Received: from dev-oss-0.tail8d7c7c.ts.net (c-73-70-201-200.hsd1.ca.comcast.net. [73.70.201.200])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5567ffa8csm43704981c88.7.2026.11.24.13.34.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 13:34:10 -0800 (PST)
+From: Qian Xiao <heyheyco@gmail.com>
+To: Matthew Wilcox <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Krystian Kaniewski <krystianmkaniewski@gmail.com>,
+	Qian Xiao <heyheyco@gmail.com>
+Subject: [PATCH] xarray: fix index jumping backwards in xas_find_marked()
+Date: Tue, 24 Nov 2026 13:34:09 -0800
+Message-ID: <20261124213409.2224472-1-heyheyco@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -115,76 +97,188 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm/filemap: only drop dropbehind folios on uncached reads
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>,
-        Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, Tianyi Chen <hi@tychen.cc>
-References: <20261120-filemap-dropbehind-read-v1-1-a373ac3fd993@columbia.edu>
- <awDGsqkIaasAjaNB@casper.infradead.org>
-Content-Language: en-US
-From: Tal Zussman <tz2294@columbia.edu>
-In-Reply-To: <awDGsqkIaasAjaNB@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI0MDA4NCBTYWx0ZWRfX+O68LBxRiCHB
- aeXGqolooIaB71+eKN1afvOC3S70o0fJw1BsiPUBRwV5S3qZl3f0mhdggoQCBDjq1NSi/uVPQgo
- m0EEo80wwHyGsia6wUlEUrxrvZfCQpn+FUJf65fD20fbDaLVR/q5YKe0N8ml/MvjLvkanTGhJlH
- oSRDiHTK0v+Iw5ivZmfvWwoNMXNK+coG1P2mbaVzBaXMc1IZcv+ur81hqL1okPwdvBPTzxKRWcW
- VhF+cz2MwZCVF4bFBPui/ASoXVhFtziEWwdcTK+qcg9cKPBhJGdAqKYHVUrpwD9ZrA7K3BGuql4
- /Ekr10JW6x2R3hEqRm2aLstSHqWn0bvUUJyARBIBllTde50Flw8+D3UtN75DzRBlUCueuZRhrqw
- Ps4rp6E0zigCTVlusiBNcOgTFrxuW1F7S3LAXW/dRYV3rRUQeaOt+CTVaDGV0VfSkEdpw+hbSVr
- UQfqyYYtvEupMlAprFQ==
-X-Authority-Analysis: v=2.4 cv=VsC2kO2n c=1 sm=1 tr=0 ts=6b0602bb cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=LNQXEAmb7IHcZyFqmLK0PA==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=G--0XuH5328wxK7v7Suf:22
- a=jlrA_JLHis1J6U7XA0UA:9 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-GUID: TSHEL3SBElERhS9MP_rTGz1R9g9bxCs-
-X-Proofpoint-ORIG-GUID: TSHEL3SBElERhS9MP_rTGz1R9g9bxCs-
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI0MDA4NCBTYWx0ZWRfXyN8siNwEWEUg
- 11SH/AMrSun/+jT5hcLMxHvsBIsENK2iiyAyGo815+LJ4O9hmoxpUKvRmAmn/ff3A0A7VULyAne
- ZXgInEWZXuh/OCbjYDVTryszD2VUx9KN/YaRMvUSRHXHEPzfIQth
-X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11976
- signatures=596817
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=10 lowpriorityscore=10 suspectscore=0
- spamscore=0 adultscore=0 clxscore=1015 bulkscore=10 malwarescore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611240084
+Content-Transfer-Encoding: 8bit
 
-On 11/20/26 5:16 PM, Matthew Wilcox wrote:
-> On Fri, Nov 20, 2026 at 02:51:17PM -0500, Tal Zussman wrote:
->> An RWF_DONTCACHE read marks the folios it brings into the page cache as
->> dropbehind, and filemap_read() drops them from the page cache once it
->> has copied from them. Readahead can bring in folios past the end of the
->> read, and those stay in the page cache with the flag set.
-> 
-> I like your patch, but now I'm wondering whether RWF_DONTCACHE should
-> trigger readahead.  Yes, I'm sure we want to use the ->readahead entry
-> point for filesystems, but I think that an uncached read should not
-> bring in pages that weren't specifically requested.
-> 
-> Something like this, maybe?
-> 
-> +++ b/mm/readahead.c
-> @@ -590,7 +590,7 @@ void page_cache_sync_ra(struct readahead_control *ractl,
->           * readahead will do the right thing and limit the read to just the
->           * requested range, which we'll set to 1 page for this case.
->           */
-> -       if (!ra->ra_pages || blk_cgroup_congested()) {
-> +       if (!ra->ra_pages || blk_cgroup_congested() || ractl->dropbehind) {
->                  if (!ractl->file)
->                          return;
->                  req_count = 1;
-> 
+xas_find() keeps xa_index when a lookup starts inside a multi-index
+entry stored in a non-leaf node, and aligns xa_offset with that index
+before advancing. xas_find_marked() still does neither.
 
-Hmm, wouldn't this badly degrade streaming reads with DONTCACHE? Readahead
-wouldn't bring anything in, and reads larger than a page would be read in
-a page at a time since req_count is set to 1.
+Walking from a sibling slot to the canonical slot calls
+xas_move_index(), so a start index such as 127 becomes 0. After the
+cursor has been walked, xa_offset can also stay on the canonical slot
+while xa_index is inside a later slot of the same entry. The next
+xas_find_marked() then recomputes xa_index from the stale offset. If
+the entry is split, the call returns a marked entry below the index
+already reached. xas_find() returns the following entry in the same
+situation.
 
-If the goal is to avoid having uncached reads bring in extra pages, then
-the forced read should at least cover the whole request. But I'm still not
-convinced that we want to completely disable readahead in this case.
+Resolve the sibling without moving xa_index. Before advancing a cursor
+that has already been walked, set xa_offset from xa_index the same way
+xas_find() does. Keep skipping sibling entries at the return site.
+
+The userspace XArray test suite passed. The kernel was not built.
+
+Fixes: b803b42823d0 ("xarray: Add XArray iterators")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Qian Xiao <heyheyco@gmail.com>
+---
+ lib/test_xarray.c | 104 ++++++++++++++++++++++++++++++++++++++++++++++
+ lib/xarray.c      |  12 ++++--
+ 2 files changed, 113 insertions(+), 3 deletions(-)
+
+diff --git a/lib/test_xarray.c b/lib/test_xarray.c
+index 615f7730a5bd..ddc392d42d29 100644
+--- a/lib/test_xarray.c
++++ b/lib/test_xarray.c
+@@ -1316,6 +1316,109 @@ static noinline void check_multi_find_4(struct xarray *xa)
+ #endif
+ }
+ 
++static noinline void check_multi_find_marked_nonleaf(struct xarray *xa)
++{
++#ifdef CONFIG_XARRAY_MULTI
++	unsigned int order = XA_CHUNK_SHIFT + 1;
++	unsigned long next = 1UL << order;
++	unsigned long start = next - 1;
++	XA_STATE(xas, xa, start);
++	XA_STATE_ORDER(split, xa, 0, 0);
++	void *entry;
++	unsigned long i;
++
++	/* Multi-index entry in two slots of a non-leaf node, both marked. */
++	xa_store_order(xa, 0, order, xa_mk_index(0), GFP_KERNEL);
++	xa_set_mark(xa, 0, XA_MARK_0);
++	XA_BUG_ON(xa, xa_store_index(xa, next, GFP_KERNEL) != NULL);
++	xa_set_mark(xa, next, XA_MARK_0);
++
++	rcu_read_lock();
++	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
++	XA_BUG_ON(xa, entry != xa_mk_index(0));
++	XA_BUG_ON(xa, xas.xa_index != start);
++
++	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
++	XA_BUG_ON(xa, entry != xa_mk_index(next));
++	XA_BUG_ON(xa, xas.xa_index != next);
++
++	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
++	XA_BUG_ON(xa, entry != NULL);
++	rcu_read_unlock();
++
++	xa_destroy(xa);
++	XA_BUG_ON(xa, !xa_empty(xa));
++
++	/* Split the multi-index entry after a lookup begins inside it. */
++	xa_store_order(xa, 0, order, xa_mk_index(0), GFP_KERNEL);
++	xa_set_mark(xa, 0, XA_MARK_0);
++	XA_BUG_ON(xa, xa_store_index(xa, next, GFP_KERNEL) != NULL);
++	xa_set_mark(xa, next, XA_MARK_0);
++
++	xas_set(&xas, start);
++	rcu_read_lock();
++	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
++	XA_BUG_ON(xa, entry != xa_mk_index(0));
++	XA_BUG_ON(xa, xas.xa_index != start);
++	rcu_read_unlock();
++
++	xas_split_alloc(&split, xa_mk_index(0), order, GFP_KERNEL);
++	if (xas_error(&split)) {
++		XA_BUG_ON(xa, true);
++		goto out;
++	}
++	xas_lock(&split);
++	xas_split(&split, xa_mk_index(0), order);
++	for (i = 0; i < next; i++)
++		__xa_store(xa, i, xa_mk_index(i), 0);
++	xas_unlock(&split);
++
++	rcu_read_lock();
++	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
++	XA_BUG_ON(xa, entry != xa_mk_index(next));
++	XA_BUG_ON(xa, xas.xa_index != next);
++
++	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
++	XA_BUG_ON(xa, entry != NULL);
++	rcu_read_unlock();
++
++	xa_destroy(xa);
++
++	/* Nothing marked past the index already walked. */
++	xa_store_order(xa, 0, order, xa_mk_index(0), GFP_KERNEL);
++	xa_set_mark(xa, 0, XA_MARK_0);
++	XA_BUG_ON(xa, xa_store_index(xa, next, GFP_KERNEL) != NULL);
++
++	xas_set(&xas, start);
++	rcu_read_lock();
++	entry = xas_load(&xas);
++	XA_BUG_ON(xa, entry != xa_mk_index(0));
++	XA_BUG_ON(xa, xas.xa_index != start);
++	rcu_read_unlock();
++
++	xas_set(&split, 0);
++	xas_split_alloc(&split, xa_mk_index(0), order, GFP_KERNEL);
++	if (xas_error(&split)) {
++		XA_BUG_ON(xa, true);
++		goto out;
++	}
++	xas_lock(&split);
++	xas_split(&split, xa_mk_index(0), order);
++	for (i = 0; i < next; i++)
++		__xa_store(xa, i, xa_mk_index(i), 0);
++	xas_unlock(&split);
++
++	rcu_read_lock();
++	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
++	XA_BUG_ON(xa, entry != NULL);
++	rcu_read_unlock();
++
++out:
++	xa_destroy(xa);
++	XA_BUG_ON(xa, !xa_empty(xa));
++#endif
++}
++
+ static noinline void check_find_1(struct xarray *xa)
+ {
+ 	unsigned long i, j, k;
+@@ -1440,6 +1543,7 @@ static noinline void check_find(struct xarray *xa)
+ 	check_multi_find_2(xa);
+ 	check_multi_find_3(xa);
+ 	check_multi_find_4(xa);
++	check_multi_find_marked_nonleaf(xa);
+ }
+ 
+ /* See find_swap_entry() in mm/shmem.c */
+diff --git a/lib/xarray.c b/lib/xarray.c
+index 48f440d114e1..4d943791a7b4 100644
+--- a/lib/xarray.c
++++ b/lib/xarray.c
+@@ -1495,6 +1495,14 @@ void *xas_find_marked(struct xa_state *xas, unsigned long max, xa_mark_t mark)
+ 		xas->xa_offset = xas->xa_index >> xas->xa_node->shift;
+ 	}
+ 
++	if (advance &&
++	    xas->xa_offset != get_offset(xas->xa_index, xas->xa_node)) {
++		if (!xas->xa_node->shift)
++			xas->xa_offset = ((xas->xa_index - 1) & XA_CHUNK_MASK) + 1;
++		else
++			xas->xa_offset = get_offset(xas->xa_index, xas->xa_node);
++	}
++
+ 	while (xas->xa_index <= max) {
+ 		if (unlikely(xas->xa_offset == XA_CHUNK_SIZE)) {
+ 			xas->xa_offset = xas->xa_node->offset + 1;
+@@ -1507,10 +1515,8 @@ void *xas_find_marked(struct xa_state *xas, unsigned long max, xa_mark_t mark)
+ 
+ 		if (!advance) {
+ 			entry = xa_entry(xas->xa, xas->xa_node, xas->xa_offset);
+-			if (xa_is_sibling(entry)) {
++			if (xa_is_sibling(entry))
+ 				xas->xa_offset = xa_to_sibling(entry);
+-				xas_move_index(xas, xas->xa_offset);
+-			}
+ 		}
+ 
+ 		offset = xas_find_chunk(xas, advance, mark);
+-- 
+2.53.0
+
