@@ -1,97 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795527155;
-	b=fdOUBC0o24XTcWXL428SiYwan7rhekX8npSVKUQDfnnbEXH+Eubg+/fR8tXZtsRt3+Px
-	 phayLNn66pdMBMGjQp2NsdUfWNcRn5+KiS5qhHHsahtxQPiyNx4ioMWnUZ9m/of/k8het
-	 SEEQxOiwH4d7hb93Br73nhh/HYaGPE/Q9zZ0aRkrJekxXjIR6KJAi94i7UaNq3tg89Blw
-	 siytVHYglDTrSR2VWPxsm5I4gSng36c4wQyR5CCuxm5GFrS5I/5CTw8JH4mwBGy2LENU2
-	 Yqyhnq/vcn3tOAH6BhUdywcv/XWghhYxDlxfPaiUnAclYn/PHBSpKaoGCIArE441c/g==
+	t=1795527377;
+	b=p4MQcFSHwQmRzUfVrlIGT3CD+4RsNx1isRwYbYaKsWgyZuQb5BS0OZhPhhIfYqzMJDR5
+	 dRQUTfWAZMqRB7YPBRds92PgYUWhJ83XlrJnjnUZIGYWSRsE2m635RzDW1fUzh7zWXImM
+	 G0/EOvopfgS7LGWZiS0nODElys2D7Dwzxt55eKvAuXl14kwzrKA/cRlGwoex1ehmxqMht
+	 ipj+Rhoz16GCS48f0GuanSQfH1wlqve93wzJ1lKMs2th+GV7tCLc5XSd5cBjq2Y25JgUi
+	 uFoHostHdInp0QqsTtbfHUuPKn3FayUK4Sp5YKJaWhRboEhEl5yqQnaO6xf2+rJgmww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795527155;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=yoACHzjvOAJdvpPuferIsXvKypwVQHWVjU7r+31tcrg=;
-	b=EtbhN8S4oNDvmYPTlFCCv0X6RNmjN6bUSx+RYvMNv+dDYswJ0pBYBiAP2ujyoDoI4HZ5
-	 sYxdR7C8L/NtUUolPUNABVSrdUjmsJhfUqtkTvHmb5GDrmS8UEik863YFNEmDZtO4eIl6
-	 9tiayV8GoiUU+7pdZAkuDlSaca0Cp7AXPBoOnKXTR42Ut2rGPg4IwM8waINDDCg3jXbBQ
-	 KTtIwJLvPPNqZQPcGYW3b/bVj4HDZcWGBnagutkJxbwPKPDZ6LozTmEAFmyWDgn4TzBys
-	 EiM0M8k0mBQ7QlshqklzIqrY8FMxY6nbH9EZDtU+PO1HVljk940tmrAZ6rtYXW5YO9A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795527377;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Scanned-By;
+	bh=+ig6FTaY9UYhfakPyt5XHggpDeHMd5GJavSEOD3Ro6k=;
+	b=uIMT8c6k5TBkYcMHoRiDkdvcyRVqV4VzCmbydJXI/Q6DmZe19mSczLJIHSfkSbqdgYFv
+	 HBZOKF61qy3HjBufbgOa3JToaN/fM74UFrnlAWTjOUaf8N/R1mH6WHJrXCL6UR/GeiBi5
+	 4jWtsYef6GvH5sAhlaP4un6wXy/+A81ocP6fnD22SW9bzkskOboDKGIr7AmWJPdwlLa5c
+	 kMTrFvIKlUx1B1RtqXPJLeFLhh4be0z/5ZhObwKtFJDShGPqxmn8VsMX3HTyJqheFNxGE
+	 VwMYK7CVbUDvGwyNH/XZvzPeMnhUmgxa+RBA8qwp63zW+xsk95oDnsCcWxYSZvc9mxg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ueMG2Buz;
-	arc=none smtp.remote-ip=209.85.214.175
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=E+umrPM9;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF71606A321
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 13:32:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9CF71606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C045C606A332
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 13:36:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C045C606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ueMG2Buz
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2f0414c1062so25713215ad.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 05:32:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795527154; x=1796131954; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:content-type:message-id
-         :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=yoACHzjvOAJdvpPuferIsXvKypwVQHWVjU7r+31tcrg=;
-        b=ueMG2BuzcgorKMzxH8JBpCaCkce4MHYb65SghwgmoIdop3I24opihHNjsT4k2iRBAY
-         2Jr1dFgGBH0EMuSfTEDizUl4WjpEkvL9dKhu5Bw1KGfx2S2c2ozToi041YPCqbwyJL1g
-         BwRbQMrvHhZ1ItlbnnQLK5Zb5vCsPSqY+G4nWKogFt9DGxgOEhXMyqf2prnC8M1LOOI+
-         8d1AB1yQEh8qjda3MgTV5k1S67CLlAzktnh94Y1zFk9GEaWj4ZJzziQl5sxfOWSJvffD
-         kVoloIRmRyElZlA6Q/N9wQzax7HM2jxeXn8q1KC/p/kvS/hKJABSl+6jMaDettt006Wr
-         I6+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795527154; x=1796131954;
-        h=mime-version:content-transfer-encoding:content-type:message-id
-         :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yoACHzjvOAJdvpPuferIsXvKypwVQHWVjU7r+31tcrg=;
-        b=lMA3yXkxAfwr23jkB7CV7oOzXnJKLfR6WEvDPE4hcTU9HHRmwHrGY1f0O7Ulz2RyDg
-         0mgopNk8F2kyVAPTSXlgcGJF+09aCWTMMK1KKav0vZf5N3pQSDc9HE/CMnCSE/HO8vxv
-         Qk6KPx0sqUGYIXaPjZiOKdoP0vfUwD6OkEbczmxTr97Zqv1pjULgJ2mGBc9fv/qx7ry0
-         x9CS5hdRunIIkm3rHMwTKeSXXhA89fQ2XOqu8JuIPZmggdBl1i0UCrIiTDAwwPUN5QWk
-         z4OTzaVNWrxU3nx0+9LpwN1OrCPYDsmt8J8Gh1Z/H0ZrNWCG0DoJW+kr4oruxu9WSXm5
-         VrWQ==
-X-Forwarded-Encrypted: i=1; AL+hErHrkXbgiJDc+gzTNgEJuzkpkXXhTK6OMkL7xYhZGCy2egDo57r3GKRIhpCwR2FLVxdkPcHEQcJ5q8FoZABd@vger.kernel.org
-X-Gm-Message-State: APuU4Z+oiuvWlQfS5xRaEVQRNmmDX3O6+4q1TbBvckzBnc8TBzJkmNCO
-	EfoGnr2ltZqmHpA60YbVfwr28F5XIwz2ez9gECE2e1/JZnuqsHJDusCC
-X-Gm-Gg: AZFdTZci/27+cvkf79sGEkfGL1sdIVkTD0GoAnhbsDNfEoYObqxpQuLL5bbjufHUDCO
-	5+LquADO5XfJbNwcMXV5uIOANp2qBCiXkpK9HKYFNGINxt2ao49jnpcNk4M17n53Zau3CCnXHpH
-	TbME0x1w9aJPCa3vA3t+cMSdWAR+bnEwP8FBBrcnUt2Ji/OPidFuD+LNN83djzjk7Dh2500zkvX
-	Z8eXLAZDJuD20IUTN+g4Hg7hESReYxro5+EVAe0rIiOqOZMSkrwGAtzltN0VvlYCju7ZviyhNxL
-	qjg7vwlHhaA2K81cPsIeqWD59g5ib/zxROC1v8rL/bRzGGTXpx3ZLLYnNzEUalfpcxvtFIGULJh
-	N2wfEHgIWaH4Mty4EginOL8R1VYhuJDvPRSrTrBS1DOm4r4AB4PmFnIBO0n0d37pR2qhQsvhRnN
-	wUU+pAi13QoxeFlEc9UEQIjKyRaYoEA5nVLT3h/230MPtYjrYvJkYY40ASbASWjZvO/UTF3jo+v
-	I0eNzHlQKNaqe6qmoakjN0/JKOTcbaUg9qmhnXneSfTey/sc5jzpZ98vNpD15TOVACHQPI=
-X-Received: by 2002:a17:902:e80b:b0:2e9:9a19:c43 with SMTP id d9443c01a7336-2f03f118277mr143962275ad.15.1795527153946;
-        Tue, 24 Nov 2026 05:32:33 -0800 (PST)
-Received: from [172.21.0.2] (vldb.skku.ac.kr. [115.145.173.180])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f118c7dsm69525075ad.55.2026.11.24.05.32.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 05:32:33 -0800 (PST)
-Date: Tue, 24 Nov 2026 05:32:33 -0800 (PST)
-From: Kyuwon Cho <kyuwoncho18@gmail.com>
-To: Ding Feng <dingf3ng@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- Ian Kent <raven@themaw.net>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH] statmount: retry an overflowed string before reporting -EOVERFLOW
-In-Reply-To: <20261120033644.99834-1-dingf3ng@gmail.com>
-References: <20261120033644.99834-1-dingf3ng@gmail.com>
-Message-ID: <179552693473.1490262.10477620788152048784@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=E+umrPM9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1795527375;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+ig6FTaY9UYhfakPyt5XHggpDeHMd5GJavSEOD3Ro6k=;
+	b=E+umrPM9+KaL1jMATmL2K4gyZL9oX2Qqbk2QBIukSOtIB/l4xc5WZjxc7esHjIiRhw9pb5
+	xwdCO7NqhP8VdafiFPimDrbSkjkursZgU+ceIFapc+q5EpgjTeHcmvRCbW+1ARt3W3R0IT
+	ryvtD0pjzngltQ+wOIckI+YNIRXhqjM=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-106-ZdDEksctOqGrPB9-9Qiw8A-1; Tue,
+ 24 Nov 2026 13:36:09 +0000
+X-MC-Unique: ZdDEksctOqGrPB9-9Qiw8A-1
+X-Mimecast-MFC-AGG-ID: ZdDEksctOqGrPB9-9Qiw8A_1795527367
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0AB561800344;
+	Tue, 24 Nov 2026 13:36:07 +0000 (UTC)
+Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id B4F295B1;
+	Tue, 24 Nov 2026 13:36:03 +0000 (UTC)
+Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
+	oleg@redhat.com; Tue, 24 Nov 2026 14:36:06 +0100 (CET)
+Date: Tue, 24 Nov 2026 14:36:02 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: mt4022@columbia.edu, Jens Axboe <axboe@kernel.dk>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Michal Nazarewicz <mina86@mina86.com>,
+	Wen Yang <wen.yang@linux.dev>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, tz2294@columbia.edu,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] sched/wait: Queue non-exclusive waiters at the
+ head in do_wait_intr*()
+Message-ID: <awWSwmvaTwBxfU-r@redhat.com>
+References: <20261122-b4-sched-wait-intr-head-v2-0-4a764b64e8ce@columbia.edu>
+ <20261122-b4-sched-wait-intr-head-v2-1-4a764b64e8ce@columbia.edu>
+ <CAHk-=wj_eqNh+gNhCQh3exrL5Pmo5hbZBcL0W-4Ah_Nw0Kegzw@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -101,31 +87,60 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wj_eqNh+gNhCQh3exrL5Pmo5hbZBcL0W-4Ah_Nw0Kegzw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-Hi Ding,
+On 11/23, Linus Torvalds wrote:
+>
+> Finally, I think we should make the return value from the wakeup
+> function be a bitmask, and count "exclusive" as only "we haven't seen
+> this bit returned yet". And then *real* exclusive users that actually
+> guarantee that they react to the wakeup return all bits set, but the
+> sh*t-for-brains garbage that is "epoll" only returns its own bit set -
+> so we only wake up *one* epoll user, but we wake up other users anyway,
+> because epoll clearl yis lying about its "exclusivity".
 
-Moving the check one step further up, above the "seq->count == start"
-return, also fixes a case where a string is dropped without any error:
+Ah, I don't think this can work... Suppose that ep_poll_callback()
+returns its own EP_XXX bit set. Should __wake_up_common() wake up
+the next waiter? It can't know until it calls ->wake_up_fn() which
+can wakeup another epoll waiter.
 
-	/* signal a retry */
-	if (unlikely(seq_has_overflowed(seq)))
-		return -EAGAIN;
+Well. It is not that I like this idea (and I bet neither you ;) but
+we can add WQ_FLAG_EPOLLEXCLUSIVE set by ep_ptable_queue_proc() and
+__io_queue_proc(), and change __wake_up_common() to check it
 
-	if (seq->count == start)
-		return ret;
+	static int __wake_up_common(struct wait_queue_head *wq_head, unsigned int mode,
+				int nr_exclusive, int wake_flags, void *key)
+	{
+		wait_queue_entry_t *curr, *next;
+		bool seen_epoll = false;
 
-The NUL written after a string that ends one byte before the end of the
-seq buffer leaves seq->count == seq->size. The next string then emits
-nothing, and the early return drops it with no error and no retry. For
-example, with a tmpfs mounted on a 12278-byte path, statmount() for
-STATMOUNT_FS_TYPE | STATMOUNT_MNT_ROOT | STATMOUNT_MNT_POINT |
-STATMOUNT_SB_SOURCE returns 0 without STATMOUNT_SB_SOURCE, with or
-without your patch, and returns it with the check moved up.
+		lockdep_assert_held(&wq_head->lock);
 
-Could you fold this into a v2?
+		list_for_each_entry_safe(curr, next, &wq_head->head, entry) {
+			unsigned flags = curr->flags;
+			int ret;
 
-We found this with an LLM-guided test generator, a research prototype
-we are developing.
+			if ((flags & WQ_FLAG_EPOLLEXCLUSIVE) && seen_epoll)
+				continue;
 
-Thanks,
-Kyuwon
+			ret = curr->func(curr, mode, wake_flags, key);
+			if (ret < 0)
+				break;
+			if (ret && (flags & WQ_FLAG_EXCLUSIVE)) {
+				if (flags & WQ_FLAG_EPOLLEXCLUSIVE)
+					seen_epoll = true;
+				else if (!--nr_exclusive)
+					break;
+			}
+		}
+
+		return nr_exclusive;
+	}
+
+for the start.
+
+Oleg.
+
