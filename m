@@ -1,59 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.36
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795506346;
-	b=xpjUbX+/Oth7KPuMYqQD28tVS+o1oYMmXi/A5ameqLL8rk/ZSRvgjDiCgFwFGXIrolLz
-	 2obMgBZOOokmRontm1cy+gqPor+GDNeAO2xVksgY4w6BulbiXD8uwxxD52j6fPR+n1nzr
-	 lAxOUnE12KkMekMtx/ie2/RdpHP3HY3NcGragEHkZtOKnDKrrBLucfpVZ/ldcqLQX/GQe
-	 zEWRdnYM0wNmMHjGAyBPCfAYOoxe1xYYhMVlQBaxAbB+rLBqyfIOgxLu8uw6HG8GFIlrz
-	 ZkzrSMfsbDOlt3K03D9Gmmis6vVxRul25q59R99tzabp13CFtqBrY6T2tBbSxFIDv2A==
+	t=1795507015;
+	b=rX/XsblCRnxMogRyk2X5vjpGR+kRHB1DPf4DTPTYGBpfbs6W8cVi8W56c75FbcczCHsa
+	 jynx1X/gR4X5U6PMnozEvMNM0xHMoOJdJQ6VfNg8nI2qKf5f+904wIf5p/pSGst6RHw5U
+	 9kTqnGxs2sNPLfq8yJiAav60I5n+MsfibOFcxcrv8urALlmi3N9qZnxGmIS2z4RReGjIk
+	 oB1IykS3luFRc2i197BuAzTmAuHI63rU9Ze2EuSiwxhUweI5PoW4j+vMuohWqxbVc+9X4
+	 A6Vsj+mZ91CkRmP4atnwFoBCdS3yzjYFRT9jrcyzCsUnkbrr/DlcrkpfI7VSsXPQBMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795506346;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:CC:Subject:In-Reply-To:
-	 Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=Thn+VaFVC1REryUWa6XAf56aRbZr1l1qS8ugDKgj6oQ=;
-	b=BUMfa7TvWEa1Zzitv8Be1omMIcXY2IW/TVyjMIAWNyDUhew88R+XsBqM3zKCwz3SON0y
-	 1xl/LgLOGiMgTqoQlIXuJb1BuYQaV59L9oZWHrL6DW6Za9Sx8ylnPs3jos8bxwYZWxfeu
-	 zsazYPgD8pKUpjPTXJf4xxpjWlDm5YDghLyTJxuFUwJKYlZPCjkXhEhJSO4Rf+dZ+BbmA
-	 0EHPdGEooL0vx9T3PgnGeoHMD1txiMEu/Xpv5E7a4EcCsrBvJTE7Fc4vw6Pvz+VNwPGrT
-	 K8r9vEr+3806FrSUTmQjs+FKP4DP5p2T/suhWQoPUQmT2u+1rSBeCd/T6ToeA9+BqYw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795507015;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=dkoXTcH1JAkjWwF6GsRFSEWSiFpC/R5+hZya15+v0Xk=;
+	b=ar0NGpDtI8paq6jJQWb5s8xlq98imvo8cCikX4sorFzxXKyzFrvuXuDJ3mmR/FuHGQMa
+	 IH3qBQXxl9xv7gA7R3GJ1Dr4YxVf3isdcPuEy9lsMMwE+LLBvQlwazcwfiWnCzPTYu3hd
+	 pCvhZO8z/CRZffQ42N4SXFIGxL1cgs2pFOk0jVGxo5LEY6rrk2gzrqiiEoOt8d00Wv+qI
+	 3m28wPlsXDe4KPKN7cDlq3q49HagmbFPI8S/9J20LVw13UkvdbkXDiRgMs8LIXVyLqvgn
+	 Hhf6FpI+muNK/OGEQWs9pJUJFSpvjFA+CjCmWeYvVL6Xii6BQa5u4p9VYFi1DrPkyxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=tEiwZMT2;
-	arc=none smtp.remote-ip=91.218.175.36
-Received: from mta0.migadu.com (out-36.mta0.migadu.com [91.218.175.36])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LokYdQRV;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07D8606A322
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 07:45:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C07D8606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A04606A31E;
+	Tue, 24 Nov 2026 07:56:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=tEiwZMT2
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=n4sjkNswfGhBdYtaSlqhTBoXLN/YX3BFxi2FIUhtl0c=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795506343; v=1; x=1796111143;
- b=tEiwZMT2M5Qf+XnP4mL2Ld4GFXG3lqRlkDJYSN1LMgH4VIjsLiOi/IyFB0pTzZLmmAt/R8yW
- fJVdSXa5zvkUSVG3CWfAqLzybCJrO7XrphJRVoo6a7ujJQse9ER3Fi4Q1FLTEuQUeZBr1Kqn4cr
- 1+FO4Bs8/JIbI0yCyUVR00wE=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 84eae793db55e172;
-	Tue, 24 Nov 2026 07:45:43 +0000
-X-Mizu-Trace-ID: 84eae793db55e172
-X-Migadu-Flow: FLOW_OUT
-Date: Tue, 24 Nov 2026 07:45:40 +0000
-From: Bradley Morgan <bradley.morgan@linux.dev>
-To: nilayvaish@google.com
-CC: brauner@kernel.org, dhowells@redhat.com, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] watch_queue: use page_private() accessors
-In-Reply-To: <20261124033740.833270-1-nilayvaish@google.com>
-Message-ID: <74B03DB4-CE55-410E-8E18-E6B8A02FFC26@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LokYdQRV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 290CE1F00AD4;
+	Tue, 24 Nov 2026 07:56:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795507015;
+	bh=dkoXTcH1JAkjWwF6GsRFSEWSiFpC/R5+hZya15+v0Xk=;
+	h=From:Subject:Date:To:Cc;
+	b=LokYdQRVeQL9w6siU2QHUOrjlKa5qeLIcwIEfHkEm+Tl+QY5A4isUBqDEYeIIfOyC
+	 ynhYHavHuIYoffgRdyycob+JZxqt+i00MMasjRp5lMD9ht6rgwKeJyquDmBA0gxK3S
+	 9kaEEbWJO+qg/z/yXyZ5zbAOL8SpEC6Z7FJ/0r7iTN+fqPeT79oLQM9WJokQjNlI+i
+	 uP3WtnCDJtbNl53jH6gOFtq5ZXmOM75M7O4IPXoc8G6HL5STelDA2GMFpyfUN5StgL
+	 jY2syRPmIPrQP3j2FlGHbKzubbD/RxWmkn0vJBhnPsUPx2IilBguxapmgjTnza5FjF
+	 Xaef3I//eHBng==
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: [PATCH v2 0/2] mm: fix deadlock on the folio lock when migrating
+ and splitting folios
+Date: Tue, 24 Nov 2026 08:56:42 +0100
+Message-Id: <20261124-migrate_reclaim_deadlock-v2-0-03cc147e1e36@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,72 +54,106 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAA/3WNywqDMBAAfyXs2RSzVbGe+h9FJCarbn2kJFZax
+ H8vWnrscWCYWSGQZwpQiBU8LRzYTVAIjASYTk8tSbZQCMAYM6VQyZFbr2eqPJlB81hZ0nZwppd
+ JQpgTYlZfLEQCHp4afh3pW/nl8KzvZOa9txsdh9n59/Fe1O79Nvh/sygZy/xs0kzlaR039bUnP
+ 9Fwcr6Fctu2D3h3uTLTAAAA
+X-Change-ID: 20261121-migrate_reclaim_deadlock-44e28e226b9d
+To: Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ "Liam R. Howlett" <liam@infradead.org>, Nico Pache <nico.pache@linux.dev>, 
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+ William Kucharski <william.kucharski@oracle.com>, 
+ Heiko Carstens <hca@linux.ibm.com>, 
+ Alexander Gordeev <agordeev@linux.ibm.com>, 
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+ Johannes Weiner <hannes@cmpxchg.org>, 
+ "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, 
+ Matthew Brost <matthew.brost@intel.com>, 
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+ Gregory Price <gourry@gourry.net>, 
+ Ying Huang <ying.huang@linux.alibaba.com>, 
+ Alistair Popple <apopple@nvidia.com>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong <joannelkoong@gmail.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, "David Hildenbrand (Arm)" <david@kernel.org>, 
+ stable@vger.kernel.org, Chris Mason <mason@kernel.org>, 
+ "Jose A. Perez de Azpillaga" <azpijr@gmail.com>, 
+ Chris Down <chris@chrisdown.name>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2518; i=david@kernel.org;
+ h=from:subject:message-id; bh=MPoyzCuILfG9ldGlrGnz5jnvIuovqvdkY8Yn+Us+N4c=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLJZnW2/Rk+Z+sbf8+7ydXGvhUScHu97E99oXHHLs/TcD
+ NGNSp68HaUsDGIcDLJiiixBwfcNXr5cV1vtxscMM4eVCWQIAxenAEykfgYjwxaG2IO7A3fOM3Wc
+ uapiI7vcmYVyJ//zZKX+3Mn+Rt6h7RzDf+fuf46KJ19db9M/0bm+4IsspyxHUV0S13x5cZXW7uk
+ 17AA=
+X-Developer-Key: i=david@kernel.org; a=openpgp;
+ fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-On 24 November 2026 03:37:40 GMT, Nilay Vaish <nilayvaish@google.com>
-wrote:
->watch_queue records the number of the first note of each buffer page in
->page->private, reading and writing the field directly.
->
->struct page is being shrunk as part of the memdesc work, and its private
->field is one of those that will move. Direct users have to go through
->the accessors before that can happen.
->
->Use page_private() and set_page_private() instead, like the rest of the
->kernel, so that the code no longer depends on where struct page keeps
->the field.
->
->No functional change.
+Whenever we allocate memory with __GFP_FS while holding folio locks, we
+can deadlock on the folio lock when triggering direct reclaim or
+compaction.
 
-Cool!
+For example, evicting inodes with a populated page cache takes folio
+locks, and if we happen to need one of the folio locks we already hold,
+we'll deadlock.
 
-I like this, makes sense.
+FUSE makes this example easier to trigger, because it evicts inodes on
+the last reference. A similar deadlock with FUSE was recently fixed in
+FUSE [1].
 
+Let's handle folio splitting by simply running in NOFS context. We only
+perform small allocations, so it doesn't really make a difference.
+Interestingly, this also fixes one of a handful of possible memcg v1
+deadlocks.
 
-Reviewed-by: Bradley Morgan <bradley.morgan@linux.dev>
+For page migration, change the code to allocate destination folios
+without holding folio locks, which is in any case the right thing to do
+to reduce folio lock holding times.
 
+Some of this might also be fixable using Jan's work on deferred inode
+reclaim [2]. However, that is not stable material, and not allocating
+folios while holding other folio locks is an improvement on its own.
 
->
->Signed-off-by: Nilay Vaish <nilayvaish@google.com>
->---
->
->Notes:
->    This patch was written with the help of an AI coding assistant (Gemini).
->    
->    Based on next-20261123.
->
-> kernel/watch_queue.c | 4 ++--
-> 1 file changed, 2 insertions(+), 2 deletions(-)
->
->diff --git a/kernel/watch_queue.c b/kernel/watch_queue.c
->index e2bdd5fb0db1..eeb7fb9bc0fd 100644
->--- a/kernel/watch_queue.c
->+++ b/kernel/watch_queue.c
->@@ -71,7 +71,7 @@ static void watch_queue_pipe_buf_release(struct pipe_inode_info *pipe,
-> 	bit /= WATCH_QUEUE_NOTE_SIZE;
-> 
-> 	page = buf->page;
->-	bit += page->private;
->+	bit += page_private(page);
-> 
-> 	set_bit(bit, wqueue->notes_bitmap);
-> 	generic_pipe_buf_release(pipe, buf);
->@@ -284,7 +284,7 @@ long watch_queue_set_size(struct pipe_inode_info *pipe, unsigned int nr_notes)
-> 		pages[i] = alloc_page(GFP_KERNEL);
-> 		if (!pages[i])
-> 			goto error_p;
->-		pages[i]->private = i * WATCH_QUEUE_NOTES_PER_PAGE;
->+		set_page_private(pages[i], i * WATCH_QUEUE_NOTES_PER_PAGE);
-> 	}
-> 
-> 	bitmap = bitmap_alloc(nr_notes, GFP_KERNEL);
->
->base-commit: 3191063649dbf7c0d0b768e1f3655e4c5fc6edb5
->prerequisite-patch-id: d52d42a2ec9ddc2b12b3412ec0d07254b417e60f
->prerequisite-patch-id: d8338f943ba7ae297eefbb26dabc3bcfe7994461
->prerequisite-patch-id: 3d99b53c242296b89d7f7b41f1995188f5a02369
->
+Unprivileged users can trigger this deadlock with FUSE and
+mbind()/migrate_pages(); however, it requires multiple NUMA nodes and
+quite some luck.
 
---- Thanks!
+I reproduced the original deadlocks with FUSE and made sure they can no
+longer be triggered with these fixes. Further, I ran the usual migration
+and folio splitting selftests.
+
+[1] https://lore.kernel.org/all/20250925224404.2058035-1-joannelkoong@gmail.com/
+[2] https://lore.kernel.org/all/20261009133253.20102-1-jack@suse.cz/
+
+Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+---
+Changes in v2:
+- Adjust cover letter (incl. subject), the patch descriptions and code
+  comments: allocating with __GFP_FS while holding folio locks can
+  deadlock also through compaction, independent of inode references
+- Collect tags
+- Link to v1: https://patch.msgid.link/20261122-migrate_reclaim_deadlock-v1-0-83c56185b0fb@kernel.org
+
+---
+David Hildenbrand (Arm) (2):
+      mm/huge_memory: use NOFS when allocating while splitting folios
+      mm/migrate: allocate destination folios before locking a batch
+
+ mm/huge_memory.c |  10 +++++
+ mm/migrate.c     | 133 +++++++++++++++++++++++++++++++++++++++----------------
+ 2 files changed, 106 insertions(+), 37 deletions(-)
+---
+base-commit: eb01811cc3713af1f78dfe18fa89c5270ebfc767
+change-id: 20261121-migrate_reclaim_deadlock-44e28e226b9d
+
+Best regards,
+--  
+David Hildenbrand (Arm) <david@kernel.org>
+
