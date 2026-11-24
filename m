@@ -1,54 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795495555;
-	b=nzMXTbx2g4Hh34c9S79CdLROfp2bI+TuX+nOWyYr1AKw4/tfZVhIxHSZ3isGeHN8Gmhy
-	 4iUp8WlPS+xn+AIYXhfu2emdK7xO75vLHG0ZV9aepddKQR/JjYteSlz6V5FsVs+V08bc6
-	 EGosinGbRlKOAY72KNzChYMfNe50SrT3hP1/V/9J0S508V68JLU94/MV0ShHxTTnjBLg3
-	 hZMOEWxKaq1KMzHWuXKu7k0oAKgVUglGtQkKN7JvgB1OLn1+TWI8rD6qelKSGM5yVYKtg
-	 rEQHG8RN4R59O9+EEVoDSxf24M6JPv5PUHGn3iY30ZGEbLwf0Kx/r7DiLnN3/D0F9ug==
+	t=1795500051;
+	b=s9s/IvziT1nSKjKqS340/B1RcVPhB4s7wY51meXyWAqZhz2MUoHuLXx6ZlGjYUqLiZrT
+	 fpzCn0qiGzHkf49p3+byX3srazX5Ww6BcPcwy8NI5Z949xP+XXQtaUw706+E1bA0wpTIQ
+	 tULnz5Mdlp1VWEn3WURYLlHAlAC0UYsx31XUurobclVdvgLHMyG3f4/Ou0sO1zJNlTQJO
+	 ycDSHQGUMVSYbIThYCFcIYXhMIrec6xgZ42gkVK2aXtBDRBrw5Tbvga4oj5H8Qz9+pbXU
+	 +tQPDsBZDAstzmQP1dlWMUTZz1tt7h5cpoIhYn0NngPMZcjbWhjkoAo5AzW2LRIoZnA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795495555;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:In-Reply-To:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Content-Type;
-	bh=uyV6ROrO1CtSDtUiRySsm1MrJZ9iaX3jNj12OZgR3iU=;
-	b=3glkU2nSevmqf9Ld98vGzqP0T7XHzeC4mOPYFH781YZpciCkRuSYvstxEBSKOnp6qtU7
-	 a/F2Dge5C2XcdvdX8VuYANqgZWHPdmu9iRzoakcMff6h37HddIRwQ1F3YXfVKeIFCXiDf
-	 HRgQ7Bw4A1L0Jonrp0Vz/smqW1UuBz1SX2BNUGullOo2XsyHpWJNffl2499DDeuM+CqAj
-	 55dKztKfSdpOk7wCvDoiyWKv07r0QrpfDUpAl4lucCeIfvPv0JgrCfErkg7vPftEqnSU4
-	 YbacSSKTZXP++okCUN+eZb03Wqmcknkkl9cZg2V3dcRQZEdBLjCBMvz68MZQ0KPC+gw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795500051;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Content-Type:Date:Message-Id:From:To:Subject:In-Reply-To:References:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=/SLHfkNsrCjSRx5Wz9p+DTV861mq73QFj5nkNZKg5lU=;
+	b=4lEyRQ/IUiOMfxw6VRgYHtRwUCjiuNWmr3Ij6RTuxLh41b27nM2siQHdm95Rui0Xf2FV
+	 DE4gbfyknfywU3FGnec0BhtQNFOhyOR2ilG+POUEWp4tdVLBgyRqJwmJk3MsWFyQAoEUi
+	 67MWi4EWm6Ld/fKf+fCipx+iwQEJhs1lG3/3RTNwM8cXfGJmBLDkqM2fG9T78xx26DjfA
+	 YhJUOb25NwEt0FMj1a3VrqDqN1cZWY8wvecce0/PqILBPiY8s9pJ8Ty5yFoa7X8WDkxgu
+	 4oJKckHakV3CyoQvb+fMpuR2kHz2L/VGU5CfAvnIutnNHnKO7PTOEOg+MBA+/otxeeA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.167.197
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=q1+Zpv7v;
+	arc=none smtp.remote-ip=209.85.215.178
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEAA4606A321
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 04:45:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EEAA4606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4fb73e868aaso4536411b6e.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 20:45:54 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0012D606A32C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 06:00:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0012D606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=q1+Zpv7v
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-cde1479f76fso2453697a12.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 22:00:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795500050; x=1796104850; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:references:in-reply-to
+         :subject:to:from:message-id:date:content-type:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=/SLHfkNsrCjSRx5Wz9p+DTV861mq73QFj5nkNZKg5lU=;
+        b=q1+Zpv7vRdLuNryjubIcK9p1C6hYtJyM8s4Ya+V8PgQONvpdTC7Ua853SGJTsIUcXQ
+         M0pFVL8Do2Ry2wiXUj3cxeKtoqtmO0eJBjUj9twM08oj3aaj/1mWJSU3N4CXDAYxBpCK
+         on+bdLfyiTexuyK1b6zmgwGoqKXFL4GeCN4DTr+jWK4djxI0BL1/DadGxeBp6DK7jASk
+         tRKgLLfGrF8S9KN1UlG+krPmugZz0AWnplxbg1kncJbcJLBXntvKA8UjrUbEBTdBxIUf
+         JruoLYhZMGVzT+PZrzx9sT1rk+fc369T12hC6PaBt2ez90GghipDT83vmsUcG8y9Od5P
+         M7qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795495554; x=1796100354;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=uyV6ROrO1CtSDtUiRySsm1MrJZ9iaX3jNj12OZgR3iU=;
-        b=y7pnA8kVnys2EhxJmZF9M1jyZUp/nz12XxUeXWGFhsCEAakdMQdvyhLkzhisWrT3j9
-         MZXQRPwplcZ+T3hgIg+Su8WWd4jcdtKfWySW+KVBBVWSdy+u+osThdbF8sI8fBsaiwxC
-         +87C6VkQERz7fnWFOferaYN2pfvTP06cMmzq7jTaXN3jGzoGaOEdIx+HUurAc486RuHV
-         2JIVd+luDS2K+4YvLMUkzZJPkblOKsK7ta96fZKfeZzZW58ANYLC0KOVCy5xJp8jNIN3
-         5M6QVGgugLDAJFj1JMbbtzsZHXD5O2vUUlIjQada1ZoKSSgiitxNQ2QsFO/w2DUOlyUA
-         CDmw==
-X-Forwarded-Encrypted: i=1; AL+hErHUnsTlTebKSHefV+Gjq2416f1Nhj/wor8BQZdleLPLuuvjF4DZsDNpDJI0UFyRk9NuLa/Tu6+cL/q/IEbR@vger.kernel.org
-X-Gm-Message-State: APuU4Z9tcENbGoiOx3ABcv5qavH0QPZ8pOSNjrYKy4o3NnXu/w7UDUjB
-	s06UqL/S2NEFGve7YbprH7xnPZZP2LZxniZomLPrpKrd+5Wd15sUIPyIBSU0m8qZ+MXaHO4bB2p
-	6XJuSZpRlU767MZQqAYMbvNeleUmZ7tn1+piF5C7h1anojULt3wVmJuCi8ZU=
+        d=1e100.net; s=20260707; t=1795500050; x=1796104850;
+        h=mime-version:content-transfer-encoding:references:in-reply-to
+         :subject:to:from:message-id:date:content-type:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/SLHfkNsrCjSRx5Wz9p+DTV861mq73QFj5nkNZKg5lU=;
+        b=is4NlESSNdBRSxtNPNJ/AHAxf3mKMw9ZRq6ERjQc2sg4t84LPl3ME3c1JEcKe3ixrX
+         UfZjTKHCA9dCJQx3OOtNwawEW7piouBpx5E+UqaMDrW5AojO8eQh1Jnzz2ZteH/zDFL7
+         zs4piY0ev1MFbHS9PP2ER5u62SwCk2OgEPItWC+5P0t704A0STQwBZk/GzhCh57dgjgD
+         NaFeHdw432c7uVah6M7fsLg4PduBF0YUjaZTge54E5OU91qqbdA8/YsxeXUEKreVlAil
+         ltqKrYrjvhA57aCfOhXD9DG1ciQnv/bus/65DdXTw2Djg/Yhy+d0VTt+4qkqmJyhADgt
+         1ULQ==
+X-Forwarded-Encrypted: i=1; AL+hErFbb/cJGbR3gUaT7BTx2CJUhkeipYXf0tgpgZDgSqzfHaI+ClIbSsaKPC7iFcV3FFuLA1Hl6VixqVD+wts9@vger.kernel.org
+X-Gm-Message-State: APuU4Z8ZexTT2YL+hf22E+biHPdA88qH6A5bFNYJALPnpfjrozGVbZwd
+	hM5mFC2oA5UU9SOGhCYGLzVUwCYWZcmZHYb1wF1TxKnipMGH6E6xTnVH
+X-Gm-Gg: AZFdTZfuPSXJ+r1PqJ3lCAaZTIJztHrosnzA+lJA427Vm790tzm+r2oKgSBCJUkZzcD
+	ldOjVst0KInzkCswAFZyMsfnKBo1bczupv8WFzs2uokMdEUB5JC55bYu0AsuPtzwo5nSfF1bnyn
+	eXIjmXkZxXtOt3gmT01kAHWpXXJoTQjd1anafIfgCe1Y5mepESjpTYZoaoNPSOjKIh57R2L2sXb
+	7nE2skWuQqE9SJmsaKQySOAEQ3YkBfQ9XlobPOsigVX449pQfefCdrt7f5bCaqex9jjsuv7VPWK
+	JsRdlIKomNbgWYp4nwihw8mEylXzkkwQbvnvOV4X3LvGqbVI+HT7xqPMmtXgLv+810Ke7+5unTa
+	tkLFa4GblIZXYdVy8gqRDaOya2V6CHouO+EYpoD3r4pVPrYGqfiN31np7WVOrEGSVWpK9L6QHHh
+	814Fsd1nkZan1cAMrdFaT4HeOHP1JDGQk1ex+SfH2fPGVC1B2sUYl4c0J//fwRfP5eYeGV3lmIV
+	FYiEupBy5ICE9Yh+LbtL0vJgPRp20dvPgUj9qWld0dH+r0tqXoEPXXp8eUC8D42Zvp2r4YY5bad
+	h4wU35qYLhAauXO3I9YXGmj6PiesiIhUKIYxKvSNxrSQNOwMLFEG6uQyImiakZgvICURaFML4iL
+	RgAIjzzHXPj2ao8ahubQTp5ASGJ6MINsMDtU=
+X-Received: by 2002:a05:6a21:780a:b0:3e2:8b64:2ca0 with SMTP id adf61e73a8af0-4014d35f1bamr11982201637.49.1795500050075;
+        Mon, 23 Nov 2026 22:00:50 -0800 (PST)
+Received: from localhost ([153.61.198.255])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cde6d03adafsm6596544a12.23.2026.11.23.22.00.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Nov 2026 22:00:49 -0800 (PST)
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 24 Nov 2026 06:00:49 +0000
+Message-Id: <DN37NBGPJJG9.2DSVDCKS3UYTV@gmail.com>
+From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
+To: "syzbot" <syzbot+b6f8640465bdf47ca708@syzkaller.appspotmail.com>,
+ <akpm@linux-foundation.org>, <andrii@kernel.org>, <bpf@vger.kernel.org>,
+ <brauner@kernel.org>, <daniel@iogearbox.net>, <jack@suse.cz>,
+ <jmorris@namei.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <linux-security-module@vger.kernel.org>, <netdev@vger.kernel.org>,
+ <paul@paul-moore.com>, <penguin-kernel@I-love.SAKURA.ne.jp>,
+ <serge@hallyn.com>, <syzkaller-bugs@googlegroups.com>,
+ <takedakn@nttdata.co.jp>, <jhs@mojatatu.com>, <netdev@vger.kernel.org>,
+ <tomoyo-users_en@lists.sourceforge.net>, <viro@zeniv.linux.org.uk>
+Subject: net: act_gate bug. was: [syzbot] [tomoyo?] [mm?] INFO: rcu detected
+ stall in security_file_ioctl (9)
+In-Reply-To: <6b051681.58b41460.7037.0590.GAE@google.com>
+References: <6b051681.58b41460.7037.0590.GAE@google.com>
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,118 +108,90 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:f07:b0:4cb:f21b:6f91 with SMTP id
- 5614622812f47-57a0a719e9bmr15482730b6e.36.1795495554014; Mon, 23 Nov 2026
- 20:45:54 -0800 (PST)
-Date: Mon, 23 Nov 2026 20:45:53 -0800
-In-Reply-To: <673fdc18.050a0220.363a1b.012c.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6b051681.58b41460.7037.0590.GAE@google.com>
-Subject: Re: [syzbot] [tomoyo?] [mm?] INFO: rcu detected stall in
- security_file_ioctl (9)
-From: syzbot <syzbot+b6f8640465bdf47ca708@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, andrii@kernel.org, ast@kernel.org, 
-	bpf@vger.kernel.org, brauner@kernel.org, daniel@iogearbox.net, jack@suse.cz, 
-	jmorris@namei.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-security-module@vger.kernel.org, netdev@vger.kernel.org, 
-	paul@paul-moore.com, penguin-kernel@I-love.SAKURA.ne.jp, serge@hallyn.com, 
-	syzkaller-bugs@googlegroups.com, takedakn@nttdata.co.jp, 
-	tomoyo-users_en@lists.sourceforge.net, viro@zeniv.linux.org.uk
-Content-Type: text/plain; charset="UTF-8"
 
-syzbot has found a reproducer for the following issue on:
+On Mon, Nov 23, 2026 at 08:45 PM syzbot <syzbot+b6f8640465bdf47ca708@syzkaller.appspotmail.com> wrote:
+> rcu: 	         hardirqs   softirqs   csw/system
+> rcu: 	 number:     5264          0            0
+> rcu: 	cputime:      138      52351           25   ==> 52490(ms)
 
-HEAD commit:    3896ae4adf5f tun: complete the zerocopy buffer of packets ..
-git tree:       net
-console output: https://syzkaller.appspot.com/x/log.txt?x=16305bbe580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d44b06612b68f56
-dashboard link: https://syzkaller.appspot.com/bug?extid=b6f8640465bdf47ca708
-compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1740f363580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11305bbe580000
+It's not tomoyo, mm or bpf. Looks like act_gate.
+Zero new softirqs in 52 sec, so one hrtimer_run_softirq() doesn't return.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/ca6f81eb80f4/disk-3896ae4a.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/e88582fee6d7/vmlinux-3896ae4a.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/a978638f7ba7/bzImage-3896ae4a.xz
+> RBP: ffff88807ed35538 R08: ffffffff91be1bbf R09: 1ffffffff237c377
+> R10: dffffc0000000000 R11: fffffbfff237c378 R12: ffff8880b8228600
+> R13: ffffffff89fd0480 R14: ffff8880b8228600 R15: 1ffff1101704514a
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+b6f8640465bdf47ca708@syzkaller.appspotmail.com
+The registers with lockdep struct sizes:
 
-rcu: INFO: rcu_preempt self-detected stall on CPU
-rcu: 	0-....: (10499 ticks this GP) idle=f474/1/0x4000000000000000 softirq=18751/18751 fqs=4770
-rcu: 	         hardirqs   softirqs   csw/system
-rcu: 	 number:     5264          0            0
-rcu: 	cputime:      138      52351           25   ==> 52490(ms)
-rcu: 	(t=10500 jiffies g=18789 q=10129 ncpus=2)
-CPU: 0 UID: 0 PID: 5837 Comm: syz-executor Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/06/2026
-RIP: 0010:__raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:211 [inline]
-RIP: 0010:_raw_spin_unlock_irqrestore+0x47/0x80 kernel/locking/spinlock.c:221
-Code: f7 e8 3d d4 99 f5 f7 c3 00 02 00 00 74 05 e8 10 79 c6 f5 9c 58 a9 00 02 00 00 75 29 f7 c3 00 02 00 00 74 01 fb bf 01 00 00 00 <e8> c4 c4 8a f5 65 48 8b 05 8c 0d d7 08 48 85 c0 74 18 5b 41 5e e9
-RSP: 0018:ffffc90000007e18 EFLAGS: 00000206
-RAX: 0000000000000002 RBX: 0000000000000287 RCX: 0000000000000101
-RDX: 0000000000000003 RSI: ffffffff8e6a85cd RDI: 0000000000000001
-RBP: ffff88807ed35538 R08: ffffffff91be1bbf R09: 1ffffffff237c377
-R10: dffffc0000000000 R11: fffffbfff237c378 R12: ffff8880b8228600
-R13: ffffffff89fd0480 R14: ffff8880b8228600 R15: 1ffff1101704514a
-FS:  000055557acc5500(0000) GS:ffff8881233ff000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00005612e0743768 CR3: 0000000077760000 CR4: 00000000003526f0
-Call Trace:
- <IRQ>
- __run_hrtimer kernel/time/hrtimer.c:2075 [inline]
- __hrtimer_run_queues+0x2bf/0xa10 kernel/time/hrtimer.c:2136
- hrtimer_run_softirq+0x1e3/0x2e0 kernel/time/hrtimer.c:2153
- handle_softirqs+0x265/0x8d0 kernel/softirq.c:669
- __do_softirq kernel/softirq.c:703 [inline]
- invoke_softirq kernel/softirq.c:542 [inline]
- __irq_exit_rcu+0xc6/0x220 kernel/softirq.c:786
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:809
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
- sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1062
- </IRQ>
- <TASK>
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-RIP: 0010:lock_acquire+0x232/0x350 kernel/locking/lockdep.c:5947
-Code: ff ff ff e8 50 07 64 0a f7 44 24 10 00 02 00 00 0f 84 38 ff ff ff 65 48 8b 05 12 e1 3d 13 48 3b 44 24 50 75 33 fb 48 83 c4 58 <5b> 41 5c 41 5d 41 5e 41 5f 5d c3 cc cc cc cc cc 48 8d 3d 37 27 1d
-RSP: 0018:ffffc9000326f700 EFLAGS: 00000296
-RAX: 3c7ff0ca9698f600 RBX: 0000000000000000 RCX: 0000000000000046
-RDX: 000000000e8f2ff9 RSI: ffffffff8e936150 RDI: ffffffff8c8e9880
-RBP: ffff8880281e8000 R08: ffffffff817889cf R09: 0000000000000000
-R10: ffffc9000326f838 R11: ffffffff81b3b880 R12: ffffffff9015a2e0
-R13: 0000000000000002 R14: 0000000000000000 R15: 0000000000000246
- rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
- rcu_read_lock include/linux/rcupdate.h:849 [inline]
- class_rcu_constructor include/linux/rcupdate.h:1216 [inline]
- unwind_next_frame+0xac/0x2550 arch/x86/kernel/unwind_orc.c:495
- arch_stack_walk+0x11b/0x150 arch/x86/kernel/stacktrace.c:25
- stack_trace_save+0xa9/0x100 kernel/stacktrace.c:122
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3f/0x90 mm/kasan/common.c:79
- kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:599
- poison_slab_object mm/kasan/common.c:267 [inline]
- __kasan_slab_free+0x70/0x90 mm/kasan/common.c:299
- kasan_slab_free include/linux/kasan.h:239 [inline]
- slab_free_hook mm/slub.c:2780 [inline]
- slab_free mm/slub.c:6637 [inline]
- kfree+0x1c7/0x650 mm/slub.c:6930
- tomoyo_path_number_perm+0x4ba/0x5f0 security/tomoyo/file.c:741
- security_file_ioctl+0xc3/0x2a0 security/security.c:2534
- __do_sys_ioctl fs/ioctl.c:592 [inline]
- __se_sys_ioctl+0x47/0x170 fs/ioctl.c:584
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x171/0x540 arch/x86/entry/syscall_64.c:89
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f2e4e9a91ab
-Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00
-RSP: 002b:00007fffff379100 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 0000000000000005 RCX: 00007f2e4e9a91ab
-RDX: 00007fffff379160 RSI: 0000000000008933 RDI: 0000000000000005
-RBP: 00007f2e4ea394f3 R08: 0000000000000000 R09: 00007fffff379470
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000003
-R13: 00007f2e4f764620 R14: 0000000000000006 R15: 0000000000000000
- </TASK>
-sched: DL replenish lagged too much
+  reg       value             points to
+  --------  ----------------  --------------------------------------
+  R14       ffff8880b8228600  cpu_base
+  R15 << 3  ffff8880b8228a50  clock_base[HRTIMER_BASE_TAI_SOFT].seq
+  RBP       ffff88807ed35538  kmalloc-512 + 0x138, tcf_gate->hitimer
+
+act_gate has the only soft hrtimer that can be on CLOCK_TAI.
+bpf_timer_init() rejects that clock.
+
+TCA_GATE_CYCLE_TIME is an unchecked u64. In gate_timer_func():
+
+  n = div64_u64(ktime_sub_ns(now, base), cycle);
+  close_time = ktime_add_ns(base, (n + 1) * cycle);
+
+With base = 0 and cycle = U64_MAX, n is 0 and close_time is -1.
+The timer restarts in the past and __hrtimer_run_queues() runs it again.
+It's there since
+commit a51c328df310 ("net: qos: introduce a gate control flow action").
+
+Jamal,
+taprio's INT_MAX limit doesn't fit. tdc uses cycle-time of 600 sec.
+The diff saturates the sum instead.
+Here is a potential fix:
+
+diff --git a/net/sched/act_gate.c b/net/sched/act_gate.c
+index 711cf24..5422d60 100644
+--- a/net/sched/act_gate.c
++++ b/net/sched/act_gate.c
+@@ -45,8 +45,9 @@ static void gate_get_start_time(struct tcf_gate *gact,
+ 				const struct tcf_gate_params *param,
+ 				ktime_t *start)
+ {
+-	ktime_t now, base, cycle;
+-	u64 n;
++	u64 cycle = param->tcfg_cycletime;
++	ktime_t now, base;
++	u64 rem;
+ 
+ 	base = ns_to_ktime(param->tcfg_basetime);
+ 	now = gate_get_time(gact);
+@@ -56,10 +57,9 @@ static void gate_get_start_time(struct tcf_gate *gact,
+ 		return;
+ 	}
+ 
+-	cycle = param->tcfg_cycletime;
+-
+-	n = div64_u64(ktime_sub_ns(now, base), cycle);
+-	*start = ktime_add_ns(base, (n + 1) * cycle);
++	/* cycle is an unchecked u64, the sum must not wrap into the past */
++	div64_u64_rem(ktime_sub(now, base), cycle, &rem);
++	*start = ktime_add_safe(now, cycle - rem);
+ }
+ 
+ static void gate_start_timer(struct tcf_gate *gact, ktime_t start)
+@@ -107,15 +107,8 @@ static enum hrtimer_restart gate_timer_func(struct hrtimer *timer)
+ 
+ 	now = gate_get_time(gact);
+ 
+-	if (ktime_after(now, close_time)) {
+-		ktime_t cycle, base;
+-		u64 n;
+-
+-		cycle = p->tcfg_cycletime;
+-		base = ns_to_ktime(p->tcfg_basetime);
+-		n = div64_u64(ktime_sub_ns(now, base), cycle);
+-		close_time = ktime_add_ns(base, (n + 1) * cycle);
+-	}
++	if (ktime_after(now, close_time))
++		gate_get_start_time(gact, p, &close_time);
+ 
+ 	gact->next_entry = next;
+ 
