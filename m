@@ -1,120 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.143
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.97.179.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795536729;
-	b=RZGD7Vc88NHO6/Hl/WAFf3mpF6adJauPxz0JYvwTZZuuCKwhyHp/qfFQk47uGQhZlnDg
-	 ua/sQn3yWUSgNmOLmhSOZsZRMjZES+f09/PrpvNNeJU+VATz9AbUl+QxcqXVaO9fiL+7V
-	 ZLqZKv/uzBZ+tUteYerYdOwEq2VAO2HIZX4+yDrrSdjmKeuczk+cCFYky9AVhzdLkNleH
-	 aMcgJjlHZbSfSJVdzQTB7mpIZ/5qEjkKPay02Hwip7nF2aGdzLDzUHbQ/d+w1d2Y1wh+H
-	 2OyVDawyvbp0MvSYShpuH3AOmWVzZGK1xWNvuoE/5GclspIYBxABkyPKuYNtSZd5Qzw==
+	t=1795536810;
+	b=aq+6otKwSuabhawNwkrfqVHOBp8P6OnCGEx09blR+CTgjzHert+8Az/bpUapPfqsst8C
+	 uwYozOGpw0CNOzN7Fz9h33Hp6SeJ/dpyCR4vK6O9YoZFniMQkGGvGQJCG+RtTv8BV2wrg
+	 eFPU18GOtFuz0l3gdFLVk0/aavw/n21gA25B8eve2eEW1SmD8sCoQZgEBXiheb9lPEa/Z
+	 W2sp+AVSYGqQHJ9CpacCBv0NoFZD2TI1z8EoOGoA9UPk8dyOuhNyVNIGRnzRX1s31+4l3
+	 TH3zR7ogTOHPOfFll3fhTGemD0JDq5s4QxJ/HIVqWAR1ln0UeleoYTIXGXss7787NiA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795536729;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type;
-	bh=kavqrmLGpGeX5X8Sqs6AVTpgYP3MA4DA32ch48L36nM=;
-	b=La3alCUEKbPvLd/G66UQkJa7hOJTcVmDhpcMRkuxEXF9d+Kc/iJT99rfItqkWJdwA/fL
-	 9NTvZLSLNlyeF3xZEijhSODQIrrTjDek0q11ZLHwkUrLBEjKYI38EEEHnbbO3xdepL1Ke
-	 Z2PMBecNqk8YANGlClPJa1lX3io9YBbi7BeqwZjLR570qfGW2ABzmAnQWR8x9hGNQioKl
-	 pOTfgg8k9qIeub8a9z62CQ6u6/WLv0EMpW/RiJ39mTXOrjc+y7R6d7Zauf+wQfR+yiicc
-	 p/Qm8DyYHv05UZVEO9Lnjay4+qVYdSRXM2OjEtDZl8qe+IaC3hm+81W6xBQHtyc+07A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795536810;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:In-Reply-To:
+	 References:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=9Yy6grSCr+u8lAghLloqJJERK2XEpnnBGJ2Uw0VUpVM=;
+	b=QPZ0QEFTD+YcYqQ82mMccj8YSN3rTGrOqIZOZhUWC52OpFdqMmwVPvydCyD1A1GflUt5
+	 RZmVAfotNPHBOGM1xqK2TQpmdxojH26zLw5HO77ArYZ8PnmupoBDW2lWKxnVsV6vj3JRG
+	 9Tdc7f2mUqy9itCP9YaUr/yhrzWeNzn6sI+JNW1Ic+LPAX20KdUhYsQEkg8XvrkVKICy2
+	 egUarDZG8IEO/QTyXhXyP/TiS64xG2tV8nLYnfWBOqyp+SLBR3+2EqN2I72tZFOcS6K15
+	 1Izav4HGO7bwRsdWgrE1jZsyy77Z8F9MerQBtNi34NugnboKjb7XmuN748zCrCyN2KQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=greenberg.science;
-	spf=pass smtp.mailfrom=greenberg.science;
-	dkim=pass header.d=greenberg.science header.i=@greenberg.science header.a=rsa-sha256 header.s=fm1 header.b=XlMbiapV;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b="57m/pOiU";
-	arc=none smtp.remote-ip=103.168.172.143
-Received: from flow-a8-smtp.messagingengine.com (flow-a8-smtp.messagingengine.com [103.168.172.143])
+	dmarc=pass header.from=igalia.com;
+	spf=pass smtp.mailfrom=igalia.com;
+	dkim=pass header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=oj5sRO0x;
+	arc=none smtp.remote-ip=213.97.179.56
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BF9606A329
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 16:12:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22BF9606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=greenberg.science
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=greenberg.science
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159D0606A68D;
+	Tue, 24 Nov 2026 16:13:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 159D0606A68D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=greenberg.science header.i=@greenberg.science header.a=rsa-sha256 header.s=fm1 header.b=XlMbiapV;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=57m/pOiU
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailflow.phl.internal (Postfix) with ESMTP id 38170138066A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 11:12:07 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Tue, 24 Nov 2026 11:12:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	greenberg.science; h=cc:cc:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1795536727;
-	 x=1795543927; bh=kavqrmLGpGeX5X8Sqs6AVTpgYP3MA4DA32ch48L36nM=; b=
-	XlMbiapVtK2MvOjvpfTgRzNa65x/mx7K/Q5vMnw/YO/Wphs/iVTVar+QY1sjBGTH
-	sPBxK3zZQc1GJ3nOr58mjkNJ3x+KYWbyJoEMimANKBviNNbR5/irVD1YE1G2FYWL
-	v03odM0lNaIMa727EaZcEbV82tR9ergoqxYNFzb17FmWVd5wkMQlBYWqiFvCPKjI
-	RBvwDx27VNkB+fuObNMwD81p02mAkWbNGmtXJBsNNEhJWEPTW1+PhFcEju6cT/bg
-	aJA/kJY1fd9t9A8H9FTmMpuLfyA5Hw9tKr+rw2pXu+RhdrFtxxjljsOks/gcbsdF
-	WIf94C8iL/6qLGGSfnaQlA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1795536727; x=1795543927; bh=kavqrmLGpGeX5X8Sqs6AVTpgYP3MA4DA32c
-	h48L36nM=; b=57m/pOiUMBINck0za1OGBmzj1cqm9IwloTprXh7S9XhBWpoFzx/
-	hmup6F8dIJlFkSPin5/39oJNxdA0deb7wV9Bbp9wbaYnVHnj5L4bUAj2jnzBPNnP
-	tR3Dha9Rbxufgnbwe2zjN55yvAwXgxS9PcmylYQ32aVFXpIF54MWR57fVPahrfff
-	pcodInDJJO9ZqiAqJ+f4RRObHBZPdtRWrh5GajJSXtDOKAXkOyoqxxrZk5A1ZGqr
-	Tpv7QteycXQjWr7nc73hDFPRu7pLJjwlGqgzLBR3mhAKrspjpCDs+Hcp7sbD8kFY
-	EICxJoYpdeBGzCl85QtSS7le57cuT1u8pVw==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=greenberg.science a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795536727; d=greenberg.science;
-	mf=PG1pY2hhZWxAZ3JlZW5iZXJnLnNjaWVuY2U+;
-	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
-	s=fm1:rsa-sha256:rXanIOhamPfoFCHqfH5MdG3pRWLXp1fLSwN7zv0yDXpVTvV
-	kASm7V9WyMNEmsvMXRSfrNNCmKCBO5bp0E3n+aaasSvLVbtHoN74joS5+3T+wCyo
-	ll2IkysyosHl2Kn7FQk7/rQ82r5TzxIImc62pCcNDBMbaGVHzmR+25mMHLnUvF3q
-	3vfZj8E5lx/QFNF+2Goa2uaRoDcmfeV/sCxUAc5Di+sy4t+gOE4sim+gqtw9tlqh
-	IPFqwQWjfoi3J9w2cudZCyPWKAGNoQhba+49w2n5v8sqQWZuhRAojB0YLb3uuHCr
-	8UAPI23kqT2i+gcn/f3kZGSR/Heg3fhcVw607zQ==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=11;
-	hn=cc,content-type,date,feedback-id,from,in-reply-to,message-id,
-	mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:rYbzNi02L9qoh9AqsFS3Qr2IwWk8GUbcnLCBpTav1lw=:w6J9vuYaGxv5oMVq7U8acYcy5eP42DqkqZlvpLPG0to=;
-X-ME-Sender: <xms:V7cFa4Uj-VYjVOXlUKTuSSmZkcDSN4o2x1RmxNxiGW6WnLS6cnqY6Q>
-    <xme:V7cFa4DrL0G_LCHRzOceEkuotZkr2zX03J2Q4y7ssVw9YDocncAAJeHVh1vQ7TOAI
-    w0sx0XrHr2qClBvQd7gHcCabBraHx4icjN6CubVwEvU6s9tmQsuPV9nlQ>
-X-ME-Received: <xmr:V7cFa_5Y53Dy7ND9_PEJM4Tt8HRpCFRGO2LxP_DpntzRa2hRUIY_EwYrhNp6>
-X-ME-Proxy-Cause: dmFkZTGAfQ8ijDtb/R2UaPaetkQfL2SGYdcvA7GlIGbKGJOYHZHffVuQyryaM9svOCDuw3
-    8RqwCdml00Y3nR85ll87A4YQ/yOxrjtZYlYSnGr2IGUEd6LXSaSneyUKHD48wbTN7ajg4R
-    5j7TepRbA90Ay4N9NFBwL4bBZ6voYx5VMrJMmPTg90lILN/OxEK/y5KzSBmqGpaGDiEXMu
-    uWfYbeJJMCAO3Ykhm6ZpLSafZ8LzGMmOEQEGKqvJaDrUijiFF81+tss4ONRZhPOPLNnfkW
-    bccLEkaOrJjwtSbYjNOGo50BB8n9+nf4jqNynEfus1EKmDp2nrMstvnKMoKQ09IQgnejg6
-    L4kl78swiqoznABsW1phrZ4YSiv1ER/DWfC4ADrj/U9AKqPgws0FmcAweEKHWJaTg1ObkF
-    MAzoK4gDFq/o1mLY877TVGGB/Is0tI248uqKKYdVuox5t1svP1QStTUwIjJQPidjBKSWGL
-    +RcDjLXlQRLA2OlJOFRy69jMIa1ebW3Et2qssMhnOYqaqHiD218NXvRxXM3KQ4tTvrZ+WK
-    Kq58WCg/aG9ac1exG6eSNLZVZMbdxvAWdnxAGYuXKEYavoFFdedhmRvR+MOb+qF9eHUwVy
-    U7zuKkz2tyRP8tCvy3f5tE7qy2pbunC88znlmQY2ApqDQahqE7xauNJpLodw
-X-ME-Proxy: <xmx:V7cFa7z-yVW7f0u4bQjZIiirC89for4MnT7VaQLL5gLF6bXPb2wQvQ>
-    <xmx:V7cFa-zwQIIp-F6_nag2aZ07aYvvjI33KdiMqZRIwn5RS06yRCKXhw>
-    <xmx:V7cFa7zGSxVNOTM5YTAN65O1gzRpUVzS4fFGX3x6JGXYRoYQBADkdw>
-    <xmx:V7cFawZDNph8sy9QQ4u4KGIfqIP5Cn5dF57Gm4ByHjV_i63_m1EBOQ>
-    <xmx:V7cFa24kUDPpwPOTOAt4mTPJnKOfZJINtZIYW9sW6obBRQcBi7EG7F2l>
-Feedback-ID: ib2794684:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 24 Nov 2026 11:12:06 -0500 (EST)
-From: Michael Greenberg <michael@greenberg.science>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] namei: don't count symlinks twice when a lookup restarts
-In-Reply-To: <20261124035245.GX989762@ZenIV>
-References: <87zeuz5o4j.fsf@hippogriff> <20261124031649.GW989762@ZenIV>
- <20261124035245.GX989762@ZenIV>
-Date: Tue, 24 Nov 2026 11:12:06 -0500
-Message-ID: <87o6be5hux.fsf@hippogriff>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=oj5sRO0x
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:From:Reply-To;
+	bh=9Yy6grSCr+u8lAghLloqJJERK2XEpnnBGJ2Uw0VUpVM=; t=1795536809; x=2110896809; 
+	b=oj5sRO0xxkA6BisA81n2Z/+2j9cOdVjjLzi0FWZK+6ecdrSuyLXnMee0KAf0ytdU6FoE6a7oD/7
+	A7qZ2ZgTrEfMjrXy7WsgaHN31e8iaZAkgVarn1DvND/fCGNdV/IEVAsAhhQVPZS6oq6y2ajZyoMc4
+	PgHIJL4QxGKEWom+kmj1aWVF5rM2RTYQ0qQjmmBWQNwt40fRFGb3Niu4g/q+fq2ClcBWG6Wk/dUp9
+	kFEWxK47MuaEASUNQFTbwhWhQFlfk5DMQyzjfpS18BwFkqSME/Qq/TogUdfiSVo/4mdo5jwG9rzy1
+	F964EsjOKeeHSBII37pCs6SF3uD0DiEmAK5w==;
+Received: from bl17-56-70.dsl.telepac.pt ([188.82.56.70] helo=localhost)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1xVt8z-00000003Y4b-3vgI;
+	Tue, 24 Nov 2026 17:13:22 +0100
+From: Luis Henriques <luis@igalia.com>
+To: koraynilay <koray.fra@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,  Christian Brauner
+ <brauner@kernel.org>,  Jan Kara <jack@suse.cz>,  Edward Adam Davis
+ <eadavis@qq.com>,  Amir Goldstein <amir73il@gmail.com>,  Miklos Szeredi
+ <miklos@szeredi.hu>,  linux-kernel@vger.kernel.org,
+  linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] vfs: fix file_getattr hint to request xflags
+In-Reply-To: <20261124150108.189282-1-koray.fra@gmail.com>
+References: <20261124150108.189282-1-koray.fra@gmail.com>
+Date: Tue, 24 Nov 2026 16:13:18 +0000
+Message-ID: <87se0qb42p.fsf@igalia.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -124,167 +68,195 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 2026-11-24 at 03:52:45 AM, Al Viro wrote:
+On Tue, Nov 24 2026, koraynilay wrote:
 
-> On Tue, Nov 24, 2026 at 03:16:49AM +0000, Al Viro wrote:
->> On Mon, Nov 23, 2026 at 02:44:28PM -0500, Michael Greenberg wrote:
->> > So a path that crosses n symlinks fails with -ELOOP if the RCU walk
->> > got through more than MAXSYMLINKS - n of them before giving up, which
->> > is possible for any n > MAXSYMLINKS / 2. A mount or umount anywhere
->> > on the system can make an RCU walk give up, since it changes
->> > mount_lock's sequence count, so whether such a lookup fails depends on
->> > unrelated activity. Opening the first link of a chain for 3 s, in a
->> > 4-CPU KVM guest, while another process mounted and unmounted a tmpfs
->> > in its own mount namespace:
->> 
->> You don't need mount to kick you out of RCU mode - just walk through
->> /proc/self/root/... at given step of the chain and you'll get deterministic
->> behaviour; no races needed at all.
-
-The racy mount loop is how I hit the bug. A deterministic reproducer
-would be much nicer, but I tried to build one and couldn't trigger the
-bug.
-
-It seems that proc's get_link (proc_pid_get_link()) returns -ECHILD in
-RCU mode, and then pick_link() calls try_to_unlazy(), which could only
-fail (as far as I can tell) with a concurrent change, like a mount. When
-it succeeds, we continue in ref-walk mode with a correct count and no
-restart.
-
-Here's a run on an unpatched 7.3 host, with the proc link at positions 1,
-10, 19, and last.
-
-Links           ELOOP (out of 1000 calls)
-21, 30, 40      0
-41              1000
-
-I get the same results through /proc/self/root, /proc/<pid>/root, and
-/proc/thread-self/root. Code is at the bottom... maybe I messed up, or
-maybe you meant a different approach?  The only other path I found that
-returns -ECHILD to the caller without trying to unlazy itself is
-security_inode_follow_link() in pick_link(), the SELinux invalid-label
-case in inode_security_rcu().
-
->> Bug is real, but I'm not sure I like your solution - duplication
->> between path_init() and __set_nameidata() is confusing.  We can't
->> just drop that part of __set_nameidata() - it's possible to get
->> from set_nameidata() to restore_nameidata() without ever reaching
->> path_init(), e.g. in do_file_open() if alloc_empty_file() fails,
->> so it can't be dealt with that way, but...
-
-I'm happy with either solution, though I think it's a bit clearer to
-have just one line in `path_init` (rather than an invariant and sentinel
-value to keep track of).
-
->> Let me think a bit; if we go with your variant, we'll need a very clear
->> comment along the lines of "it's not really redundant - removing either
->> will break things" added in both places.
-
-Here's a draft of comments for my patch.
-
-In __set_nameidata():
-
-	/*
-	 * path_init() sets this again at the start of every attempt, which
-	 * is not redundant: a caller can reach restore_nameidata() without
-	 * calling path_init(), e.g. do_file_open() when alloc_empty_file()
-	 * fails, and restore_nameidata() copies this count back to the
-	 * outer lookup. Without this assignment, restore_nameidata() would
-	 * copy back an uninitialized count; without the one in path_init(),
-	 * links are counted twice when a lookup restarts.
-	 */
-	p->total_link_count = old ? old->total_link_count : 0;
-
-In path_init():
-
-	/*
-	 * Each attempt (the first, the ref-walk retry after -ECHILD, the
-	 * LOOKUP_REVAL retry after -ESTALE) starts counting links again from
-	 * the count of the lookup this one is nested in, if any, so that
-	 * links an abandoned attempt followed are not counted twice. This
-	 * repeats the assignment in __set_nameidata() on purpose; see the
-	 * comment there.
-	 */
-	nd->total_link_count = nd->saved ? nd->saved->total_link_count : 0;
-
-Would you like a v2 with these comments added? Alternatively, I'd be
-happy to send a patch with your -1 approach (and similar comments in
-__set_nameidata() and restore_nameidata()).
-
-> One possibility would be
-> 	p->total_link_count = -1;
-> in __set_nameidata(), same change as in your variant in path_init()
-> and
-> 	if (unlikely(old) && now->total_link_count > 0)
-> 		old->total_link_count = now->total_link_count;
-> in restore_nameidata().  Not sure I like that variant, though...
+> When using a FUSE mount over an underlying filesystem that supports
+> xflags, querying them from userspace with file_getattr() strips them
+> because file_getattr sets flags_valid =3D true so FUSE uses
+> FS_IOC_GETFLAGS instead of FS_IOC_FSGETXATTR.
 >
-> One thing to keep in mind is that reserve_stack() is not the only
-> place where we bump that thing - follow_automount() is another and
-> there we don't have nameidata on hand...
+> Fix it by setting fsx_valid =3D true instead.
+>
+> Output when using a simple FUSE mount that simply forwards the ioctls to
+> the underlying fs:
+>
+> before the fix:
+>
+>   /xfs/file: FS_IOC_FSGETXATTR: ret=3D0, projid=3D69
+>   /xfs/file: file_getattr:      ret=3D0, projid=3D0
+>   /ext4/file: FS_IOC_FSGETXATTR: ret=3D0, projid=3D42
+>   /ext4/file: file_getattr:      ret=3D0, projid=3D0
+>
+> after the fix:
+>
+>   /xfs/file: FS_IOC_FSGETXATTR: ret=3D0, projid=3D69
+>   /xfs/file: file_getattr:      ret=3D0, projid=3D69
+>   /ext4/file: FS_IOC_FSGETXATTR: ret=3D0, projid=3D42
+>   /ext4/file: file_getattr:      ret=3D0, projid=3D42
+>
+> Fixes: cb184dd19154 ("fs: init flags_valid before calling vfs_fileattr_ge=
+t")
+> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.11
+> Signed-off-by: koraynilay <koray.fra@gmail.com>
+> ---
+> Hi, I found this issue while working on the v2 of [1], here is the
+> reproducer, not in the commit message because of the size.
+>
+> script:
+>
+>   #!/bin/bash
+>   truncate -s 100M xfs.img
+>   truncate -s 100M ext4.img
+>   mkfs.xfs xfs.img
+>   mkfs.ext4 -O project ext4.img
+>   mkdir xfs ext4
+>=20=20=20
+>   mount xfs.img xfs
+>   mount ext4.img ext4
+>   touch {xfs,ext4}/file
+>=20=20=20
+>   chattr -p 69 xfs/file
+>   chattr -p 42 ext4/file
+>=20=20=20
+>   mkdir fuse
+>   ./repro_fuse_getattr fuse "$PWD"/xfs/file
+>   ./repro_fuse_getattr fuse "$PWD"/ext4/file
+>=20=20=20
+>   umount xfs ext4
+>
+> where repro_fuse_getattr is a simple fuse mount, compiled with:
+>
+>   gcc repro_fuse_getattr.c -o repro_fuse_getattr $(pkg-config fuse3 --cfl=
+ags --libs)
+>
+> and used like:
+>
+>   ./repro_fuse_getattr <fuse_mount_dir> <full_path_to_real_file>
+>
+> repro_fuse_getattr.c:
+>
+>   #define _GNU_SOURCE
+>   #define FUSE_USE_VERSION 35
+>   #include <fuse3/fuse.h>
+>   #include <stdio.h>
+>   #include <string.h>
+>   #include <errno.h>
+>   #include <fcntl.h>
+>   #include <unistd.h>
+>   #include <sys/syscall.h>
+>   #include <sys/ioctl.h>
+>   #include <sys/mount.h>
+>   #include <linux/fs.h>
+>=20=20=20
+>   /* needed to get the file's file descriptor for the ioctl */
+>   static int my_getattr(const char *path, struct stat *st, struct fuse_fi=
+le_info *fi)
+>   {
+>   	memset(st, 0, sizeof(*st));
+>   	if (!strcmp(path, "/")) {
+>   		st->st_mode =3D S_IFDIR | 0755;
+>   		st->st_nlink =3D 2;
+>   		return 0;
+>   	}
+>   	return stat(fuse_get_context()->private_data, st) < 0 ? -errno : 0;
+>   }
+>=20=20=20
+>   /* pass down the ioctl to the fs */
+>   static int my_ioctl(const char *path, unsigned int cmd, void *arg,
+>   		    struct fuse_file_info *fi, unsigned int flags, void *data)
+>   {
+>   	int fd =3D open(fuse_get_context()->private_data, O_RDONLY);
+>   	int ret =3D ioctl(fd, cmd, data);
+>   	close(fd);
+>   	return ret < 0 ? -errno : 0;
+>   }
+>=20=20=20
+>   static const struct fuse_operations ops =3D {
+>   	.getattr =3D my_getattr,
+>   	.ioctl   =3D my_ioctl,
+>   };
+>=20=20=20
+>   int main(int argc, char *argv[])
+>   {
+>   	const char *mnt =3D argv[1]; /* FUSE mount point */
+>   	const char *real_file =3D argv[2]; // full path of the file on the
+>   					 // underlying fs
+>=20=20=20
+>   	/* start FUSE */
+>   	pid_t pid =3D fork();
+>   	if (pid =3D=3D 0) {
+>   		char *fuse_argv[] =3D { "fuse", "-f", (char *)mnt, NULL };
+>   		return fuse_main(3, fuse_argv, &ops, (void *)real_file);
+>   	}
+>=20=20=20
+>   	usleep(300000); /* wait for FUSE mount */
+>=20=20=20
+>   	/* Query the file attributes through FUSE mount */
+>   	char fuse_file[4096];
+>   	snprintf(fuse_file, sizeof(fuse_file), "%s/file", mnt);
+>=20=20=20
+>   	int fd =3D open(fuse_file, O_RDONLY);
+>=20=20=20
+>   	struct fsxattr x =3D {};
+>   	int ret_fsget =3D ioctl(fd, FS_IOC_FSGETXATTR, &x);
+>=20=20=20
+>   	struct file_attr fa =3D {};
+>   	long ret_sys =3D syscall(SYS_file_getattr, -100, fuse_file, &fa, sizeo=
+f(fa), 0);
+>=20=20=20
+>   	close(fd);
+>=20=20=20
+>   	printf("%s: FS_IOC_FSGETXATTR: ret=3D%d, projid=3D%u\n",
+>   	       real_file, ret_fsget, x.fsx_projid);
+>   	printf("%s: file_getattr:      ret=3D%ld, projid=3D%llu\n",
+>   	       real_file, ret_sys, (unsigned long long)fa.fa_projid);
+>=20=20=20
+>   	umount(mnt);
+>   	return 0;
+>   }
+>
+> Thanks,
+> koraynilay
+>
+> [1]: https://lore.kernel.org/all/DN2YMTH77KWE.3IPE9OG8377X0@gmail.com/T/#t
+>
+>  fs/file_attr.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/fs/file_attr.c b/fs/file_attr.c
+> index 833e03810b24..3b249a0a6b36 100644
+> --- a/fs/file_attr.c
+> +++ b/fs/file_attr.c
+> @@ -383,7 +383,7 @@ SYSCALL_DEFINE5(file_getattr, int, dfd, const char __=
+user *, filename,
+>  	struct path filepath __free(path_put) =3D {};
+>  	unsigned int lookup_flags =3D 0;
+>  	struct file_attr fattr;
+> -	struct file_kattr fa =3D { .flags_valid =3D true }; /* hint only */
+> +	struct file_kattr fa =3D { .fsx_valid =3D true }; /* hint only */
 
-I don't _think_ this is an issue for follow_automount(), which receives
-&nd->total_link_count (from handle_mounts(); follow_down() passes NULL),
-which path_init() resets.
+Isn't this reintroducing the bug that was fixed by commit
 
-Overall, we make three kinds of attempts:
+cb184dd19154 ("fs: init flags_valid before calling vfs_fileattr_get") ?
 
- - RCU mode
- - ref-walk, after -ECHILD
- - ref-walk with LOOKUP_REVAL, after -ESTALE
+Maybe fuse_fileattr_get() shouldn't be handling FS_IOC_FSGETXATTR at all,
+and FS_IOC_FSGETXATTR handling should be moved into fuse_do_ioctl()
+instead?  (Or, more likely, I'm missing something!)
 
-With the patch, each of these either uses the outer lookup's count or 0,
-yielding -ELOOP after 40. An unlucky lookup that makes all three
-attempts will follow up to 120 links (40 per attempt), but no successful
-path will have more than 40. Before the patch, we stopped at 40 but
-paths of 21 to 40 links could fail with -ELOOP early.
+Cheers,
+--=20
+Lu=C3=ADs
 
-Michael
+>  	int error;
+>=20=20
+>  	BUILD_BUG_ON(sizeof(struct file_attr) < FILE_ATTR_SIZE_VER0);
+>
+> base-commit: 3857587d9d6fa44d40d1c73bde6a39f6f7a5216c
+> --=20
+> 2.56.0
+>
+>
 
----
-#!/usr/bin/python3 -I
-#
-# try to get a premature ELOOP using proc's root magic link
-#
-# Usage: proc-eloop.py DIR    (chains are built in fresh directories in DIR)
-
-import errno, os, sys, tempfile
-
-PREFIXES = {
-    "self/root": ("/proc/self/root", 2), # /proc/self is a link
-    "pid/root": (f"/proc/{os.getpid()}/root", 1),
-    "thread-self/root": ("/proc/thread-self/root", 2), # /proc/thread-self is a link
-}
-
-def trial(total, magic, prefix, tries=1000):
-    path, cost = PREFIXES[prefix]
-
-    d = tempfile.mkdtemp(dir=sys.argv[1])
-    open(os.path.join(d, "f"), "w").close()
-    plain = total - cost
-
-    for i in range(1, plain + 1):
-        nxt = f"l{i + 1}" if i < plain else "f"
-        target = f"{path}{d}/{nxt}" if i == magic else nxt
-        os.symlink(target, os.path.join(d, f"l{i}"))
-
-    eloop = 0
-
-    for _ in range(tries):
-        try:
-            os.close(os.open(os.path.join(d, "l1"), os.O_RDONLY))
-        except OSError as e:
-            if e.errno != errno.ELOOP:
-                raise
-            eloop += 1
-    return eloop
-
-print(os.uname().release)
-for prefix in PREFIXES:
-    for total in (21, 30, 40, 41):
-        cells = []
-        for magic in (1, 10, 19, total - PREFIXES[prefix][1]):
-            cells.append(f"@{magic}:{trial(total, magic, prefix)}")
-        print(f"{prefix:16} {total} links, ELOOP of 1000:", " ".join(cells))
