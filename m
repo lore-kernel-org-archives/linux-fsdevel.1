@@ -1,100 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.50
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795525703;
-	b=1esG+2yThKLAfNb8AbfXrPZHwrIkmipOo/nIEFiigDxjqcjScpf0PfNfLdxl+Y/l9p1o
-	 9WjZtEgt5J7hTGAitxPd5V4uj1UbTKNzV3IK/IKsLaFhV9j4/hSUBlo6jSsDLkfJwbZK8
-	 y9h5RwZikjkWMTftrnOrAxe1o811cVWEK0Xp02fF6zU8VzU0YcDrWdDhgiShELlAXko9Q
-	 TwOlo4wM780Slsa0xhfGeofv7AVcn+92xo+V9rHAio1DnfTesiByyNpbjns7EJmLHaBQB
-	 QWxAjCR07hLyXcg9rxOeyzlH+PZ3ifdt0sDsUZvTDfFORfS8UaWHgNNAalDUShrYatw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795525703;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795526666;
+	b=pgkUOtXJ4EysKok0hoaCd2b4orON4uHZMMUCFMyqxVOKfFocPz3zTpwecUHSlu/jFht3
+	 kURrJaXhCCbwwsajC5xDWEwvxwA+ZAzRwju4sZiLgJnc/M+q+x76XNAA2mONB7Nou0GW2
+	 wrN1nQhuXMS9JzOvCtpsWqvSWE0L1jqZfEAeWpswvj5bYLYapRsiSgArLo2gX56dnS1Oj
+	 ewZ25Rfxz5z/fA9FF9WWFBKneTG/5RvF+FTWCBf2lF1qRISASHnLMrSc9cyOuAsDftEHe
+	 Gw3CRDztPsDOLeP83Zl2NbTmXwMpLnAsN5/87hzC46Ww6MgTmQ+GD5ZKsFDAteoyL6Q==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795526666;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=AkNAAAtF4o2icxeAY7gUNPpfbhQGP8DAKlQu3i/mLV4=;
-	b=iq2QWAoAGRJYdu6poqi5DczbMDy++5Fd+u+9FDQ75vwpJJRA8pX7vGrazwKUUqGXG7Oy
-	 FezobRZWcS/n1hED5BuZ0QW+V5H2vqWNvNQNoQUOfVMpOQ1ZTJFRByMLpivg93T5yyDoX
-	 EgxlhZy8k6cSN4Z0hwmNpLhqMjNIDWHAM5kf32fBxAhkTyhwB4K5r8gja9+z+JzZMAdC2
-	 DukAF7OvvLxwOabk6i35q53dCTSQFlKagfQAArgCLIzpkStlmggYvO7yNv1h7PtaBkSwC
-	 W9S/6iQeS7RUsa/JVFXXg/R2g3Smo5KhH0TqzvkoGpNvpB0AaOaIOKxc9ZeGomRzLaw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=j2lGOfpuqWA9c5CeS3NsQ/3TJJfRuyj6wTBADsS42iU=;
+	b=KgqHpe3cpw8HgH2yT8Aww8MSE4LpmvpBSpXyPn5mUEthIsYTviXlu9q1Q1lnvBxv1VLG
+	 uqJ5vIhGd2ZgA+8CDoY+hFE/qf7fq0SwIH7tKPxp6q6p0lgsM4sZed4GGPXAimwz/GV/A
+	 cnnHtxhFZI2Hyr2o/4WHZn60y1AAHYqvBMAJI6GijNWNFNLBkq3lIa7sBkBltWt54xR8p
+	 ZazrXPQTvD6QZrURdrQYc1r6dEJ8x+YxwBJLgARSpssstVvXl+Ngvft8AAX2G2wwgQC4G
+	 0tskYLyo57Mbz3kUF+lfwPc1Rs8xnqWcGPXVImIjB3kB8b0VmnsSBkvO/FVnxyArPgA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SlpgVcv5;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.50
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="e2qVYdC/";
+	arc=none smtp.remote-ip=209.85.128.42
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8DDF606A327
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 13:08:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B8DDF606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB0B606A321
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 13:24:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ACB0B606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SlpgVcv5
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c4d427836e9so612308066b.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 05:08:22 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795525701; cv=none;
-        d=google.com; s=arc-20260327;
-        b=oelZA8VWVq4ps1RzwBVWXlHj0SqZTqI5UIZEp17DkxsrExST0mY044HWszHcJbJKVh
-         8FGZ9erBd5U1m1XUCo70Tz96x3DZeg3M6L1zz0sdizk6NZDUKHthFAcZerLw4MpCm8sz
-         GsSKpPKfMqdr2g/0qM9CIpWN1CxVuXiI5cL5zuIa2htmUp67d2KHTtKrkImy0zMDfSdl
-         8RBUhTwkS+T+tUVYC1fs+ZGXY6O+s6GBLytr6E20eFYvId36wf++pz8Uue5aKgbabZOD
-         0o0o5qoDvAdn42p2lLefOHsLkyN6WSGdRT4V3o04QKdrwy9VXLgyzqzR5P9Wnq3wosZC
-         BIiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=AkNAAAtF4o2icxeAY7gUNPpfbhQGP8DAKlQu3i/mLV4=;
-        fh=3OYetiHFUncF9g5KFTYV2EyG6Vsw0EI1GWSvKVkJQ/I=;
-        b=VkeTCbhTkTQnPoNSEHJx4MCuPWov563+6Xdo8rbW4iXzioaPctRYy++N2qEfUqQaRG
-         ORWD1QBA5HW2tFjSDZTePqOcQdcQqDq3SBqzHe/ogjkqKnT7x38Eq62MQ2/fnpeZWf7x
-         NlBDdHn1WPQcrK+qSbyd5CKVWKOut64qWp2zEmvQRCpI+1iXhMjMvLzH97QE0fjtVjrQ
-         N4v8HdZsIY0tlTyNDeRxLYkD1EihFy21hOE2hzDdgpVRUlJEUHVxkh1ZQgUeF4nh6x4f
-         39DXO0KA0bq5dEcOEXai9vKrKk3AwSiRxIOegwhCvqDt+aFji5Xwe1VBxLRsPT81JOje
-         D9Qg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=e2qVYdC/
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a2d6d01ecbso24650425e9.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 05:24:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795525701; x=1796130501; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=AkNAAAtF4o2icxeAY7gUNPpfbhQGP8DAKlQu3i/mLV4=;
-        b=SlpgVcv5gR/UyiZZogcnbsDTFUQAIQrCDAY7YiGvkitjvIjVAnWIz0UUxJuMo2tf4N
-         WB385B/+2VrE9MW3isq9qNWUjB4aS3p/hPVI58rZlqXdRWFOHGElnFD84m5r36FHp34V
-         adiqehJVLWSp1oaCRXR1YpOCxm8z6/23MK9LvpHUtKiCx5sUMaTuevSnN1ZNJ8NttHQ4
-         BYsPx28LyL3o//fK6ckzKE+DKBzvxgoKObS8E/b5UjopZKndW4lUeaf3ZdModShnwlF0
-         3fOopA5oxWIjssOWmS0+ptRm0epVU/DCPaQvKOsx5OLRw3n+UJoG8VSK+bHni0dSyAlr
-         vYYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795525701; x=1796130501;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1795526664; x=1796131464; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=AkNAAAtF4o2icxeAY7gUNPpfbhQGP8DAKlQu3i/mLV4=;
-        b=WC31YIFrdvOmawNbZMtIYif9Nz81LZ/r7SiNf0JJqkpVUbdduga7Df6pkqRZdaYVXV
-         s+fr3MWFQWzTY6ppt2tS8GxotJgdQltai2TA89vFsAbhNCXpCBj1yRweoZkPAyts6ijX
-         XaU8bURDCAsu9Oity19qui1jobKSKvoegNKEibP+qsiJMY/Wcx5Zy5czX41RLfNS9gG4
-         YxCSS0bSveSm6GMEgqEt6Pn4NDkPN/lgjhcIzAyPPXqovwjs9L8ZwiR6v+UNw5Z620x/
-         Diu5Cs80HQRlze04qvFgCoFH4OVKzxVvn7Qc+rhjfXhdi3Cu5/UPU4M4Pa0yKHe21uUD
-         gamQ==
-X-Forwarded-Encrypted: i=1; AL+hErHDsR3/RDn5cZ72AWn4MvIQkUwFVpP5Oxtt9uuXkAqDLPBCZxezVzXhIvncnIXp34KEkkN6p9vvyEZAPcvM@vger.kernel.org
-X-Gm-Message-State: APuU4Z++i+a8ynAeqqVg4UC2YX/BepC8USINZFKLWXtY5h1fFsCGfZBN
-	4L9NlU14B3EHqBQfMdBaXZAViPTY46oB01ycULJDAa0DCiE30PxunCYsS9TGrJFUK8Zqw57McNc
-	WzWc1gcbAwtUZAHDuylRtuCqloEByNrw=
-X-Gm-Gg: AZFdTZcYs99S6cKFIbn2a/4LaMxtDQURR/BopDrtq1epvxzGD2VUVfQcqp4rISiGnbw
-	uotsGpR75OPEfleVp57Yh73NKPBavaDTRKiBIQY3yqIFAUWF1uTeI2BGgypRiS4JY2YgpBmQlpe
-	KrT0F/R1EKQbwWAzb6EwuV0lXXw9n+8DUEv2bz6OFkRtujdaErTrqoAdAFfWHu/Jt7tiBlpUmtS
-	mZLZD94CNB4x7lHCDV7qF/uEbuUf13adJ9dpK/0tM5c6eoHreAAHpvig/rS+AH7ySQIVS/a/x9S
-	yCnigpZWBzD/jytnUKUF7AGpICqn/8eywGx3dBwz3HDQtcKdBnA3wrE/hzbkHiqvpT177dbsqj5
-	/5EnTJk6uC11d7OSpb9i1p3rptQ5LA4nJmtGeZYlE6k0zxJDvLgdyeqBdVBVmGh6m/MvaLA==
-X-Received: by 2002:a17:907:2d13:b0:c41:21ef:26ef with SMTP id
- a640c23a62f3a-c513aac43a9mr1237205966b.20.1795525700904; Tue, 24 Nov 2026
- 05:08:20 -0800 (PST)
+        bh=j2lGOfpuqWA9c5CeS3NsQ/3TJJfRuyj6wTBADsS42iU=;
+        b=e2qVYdC/mXdjFACrZz+884sYdtZuVnERtWgcQhcsucfmOtRPjnYpcroO1cl9kYtRrz
+         Ipz+u4I+zinaMDaKG9o+E5noYTt992UI3Ana8d998e3XOlokRkou7fZ4YKzI+NvFFgvJ
+         ASYWizXvFH2Lu0l3xKj/mpyg9xKlN/tOvjqKNh/0CBlOpFU4EgIKn9guL186RrGdMWwn
+         HDkLXY1jUcMNWSZDxI+xwV1UQ022sX1aX3eigoLqFxqR67l/iUKRPgVZNsap7uuOrrVa
+         4vN8Gw8pKQMm+mEP/GB4J3/mlMyYNCZehrYM+9PNIwihO8Abe6FaR/dLZbGVXccuFaLd
+         yL3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795526664; x=1796131464;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=j2lGOfpuqWA9c5CeS3NsQ/3TJJfRuyj6wTBADsS42iU=;
+        b=u+smvClOb8bWFPMj4qhKsUdxbU26GTtYTJ9bWOxzWyrqadTOhkhuMWveIXm6k3pvic
+         K96lxUI3nZMeduHO5VcDAY9MefsSCgWEmdgvI/o1tvvh22JB+6Y3OW/lRFzOUtCFCnBv
+         K2OzI/ms8DkYKsAfVvskzekNqK4hbbgP7y0eLRvhW6Z7QlR5Q8GgCoQDecKOjBWhCB5V
+         WRRY8GuEudpZA0s3t/if7YVqRvrStNVjCDz5EeRrLJnOSQ+9XMiYtt0crdvItCHFod2f
+         RyZecsfjt/CQKy3J2pghEPk/GpD20sKKuXcKKL7q8hHv6+eRLMQ/B9Ud48S6Pv1827Rt
+         /L4g==
+X-Forwarded-Encrypted: i=1; AL+hErF7/lca/yWsG5GpEGPSJFsDXtWFHG64H2sdRSk9/3rB/bi+tPjhxAKH6jCXOOvyt7Xwjt2XiNvAtUyyJCf4@vger.kernel.org
+X-Gm-Message-State: APuU4Z/WaEVbqZr+QbC2LKIE0RX7ZINnj0poPk8dMlIXzrQ8vtSZRrS7
+	mmnKbMZKdH2PXSAqRZepH7IgJG7wQnHNf2OIch+hXomjwU84ocA/VPrc
+X-Gm-Gg: AZFdTZd6WWp/JcVK3eUOAfA7m1KaMtRve09iAS5LQryHpN1/RZ/i38Ob5/Nw0Y8Feui
+	gh25jZCQJWHcFLcbX2fVO27z/cRy+NcESz93pJYwH8PcYCS7TGlVGReSEx3FSIGo3v3wom/MYBM
+	9XpFWaqwXU8peUk+hSA3tRV+BEPZ26rzrQSAmoRu5BNIv+kRYOezjL8sfrM3LiHUOdyR1Z22RMU
+	rfgglBvrUAn+bP8dUAD5N9FT2GppgPLQSgDKAAvf6oisP1Wh0qw80b2lYFoFueLqRH8nce3Jrz4
+	x2OS1bm/pYbtuQ5loqJLuhSg0pNhMLfvtUfxBIMEsyIjKGYCnKwOYHlPKJIj5IcbNB8o1I0r3XN
+	Y6ZO9Apo8p4KAaocA4/JcOEzZyEJbKdINskqOw1hdx2McLbWDPvXVfvVrX4/SNpatlsoJV+8odg
+	3NlOlevT7+KD6P/yt2Z1Ntms/o8eXInK1PVRAuJZB+C04RTa6ppIkPk0iEtcVo13zuiX6P+C90r
+	bAjiDAWvXMM324D1VSmPtlP766n6qtSVjH/wnzTPKUFB6CV7FczhgnRcejDpJsMuokUtO1+8wku
+	qyMTXdEsyu4PzJViCQKxDB9BHDRN9zBu9pTsWNImIrjYDA==
+X-Received: by 2002:a05:600c:64c6:b0:4a3:598e:e7a8 with SMTP id 5b1f17b1804b1-4bb887c2c98mr274938815e9.4.1795526663725;
+        Tue, 24 Nov 2026 05:24:23 -0800 (PST)
+Received: from [192.168.1.22] ([83.231.69.9])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6a67f281sm26298695f8f.22.2026.11.24.05.24.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Nov 2026 05:24:23 -0800 (PST)
+Message-ID: <7465de57-8d97-4952-9daf-d95bdb4b7e78@gmail.com>
+Date: Tue, 24 Nov 2026 14:24:20 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,76 +92,83 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261123221410.3328780-1-neilb@ownmail.net> <179550252639.1728055.4014817916838632741@noble.neil.brown.name>
-In-Reply-To: <179550252639.1728055.4014817916838632741@noble.neil.brown.name>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 24 Nov 2026 14:08:07 +0100
-X-Gm-Features: Aa3M54oq4vsQoqGSpoehVE3NGO0KC8qZD269kouvxmZ9wJzsMqau8bWxyLk-dzU
-Message-ID: <CAOQ4uxgF6=QoD9RoAOPmxtvkq1jWf+gG1AsJzR=Kt3ROMA=X0g@mail.gmail.com>
-Subject: Re: [PATCH v6 0/5] Fix easy bits of the negative dentry problem
-To: NeilBrown <neil@brown.name>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Ian Kent <raven@themaw.net>, Jake Edge <jake@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] mm: fix deadlock on the folio lock when migrating
+ and splitting folios
+To: "David Hildenbrand (Arm)" <david@kernel.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Nico Pache <nico.pache@linux.dev>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ William Kucharski <william.kucharski@oracle.com>,
+ Heiko Carstens <hca@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, "Lorenzo Stoakes (ARM)"
+ <ljs@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
+ Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong <joannelkoong@gmail.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, stable@vger.kernel.org,
+ Chris Mason <mason@kernel.org>, Chris Down <chris@chrisdown.name>
+References: <20261124-migrate_reclaim_deadlock-v2-0-03cc147e1e36@kernel.org>
+ <66e5f9e3-17d4-4635-8919-c67ed562f9f0@kernel.org>
+Content-Language: en-US
+From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+In-Reply-To: <66e5f9e3-17d4-4635-8919-c67ed562f9f0@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 24, 2026 at 7:42=E2=80=AFAM NeilBrown <neilb@ownmail.net> wrote=
-:
->
-> On Tue, 24 Nov 2026, NeilBrown wrote:
-> > This v6:
-> >  - fixes the autofs changes in 1/5
->
-> Sashiko says this is racy.  I think it is but the original code was just
-> as racy.  Maybe the race isn't relevant.  I haven't properly understood
-> it yet.
->
-> >  - updates d_duplicate() in 1/5
->
-> The fix was seriously broken.  Sorry.
->
-> >  - uses a new version of 2/5 from Amir
->
-> Sashiko has something to say about this
->
->     Can clearing FSNOTIFY_CONN_FLAG_UPDATE_CHILDREN and dropping conn->lo=
-ck
->     before fsnotify_set_children_dentry_flags() finishes allow a concurre=
-nt
->     watch-adding syscall to return to userspace before the children's
->     DCACHE_FSNOTIFY_PARENT_WATCHED flags have been set?
->
-> Thoughts?
+On 11/24/26 10:47 AM, David Hildenbrand (Arm) wrote:
+> On 11/24/26 08:56, David Hildenbrand (Arm) wrote:
+>> Whenever we allocate memory with __GFP_FS while holding folio locks, we
+>> can deadlock on the folio lock when triggering direct reclaim or
+>> compaction.
+>>
+>> For example, evicting inodes with a populated page cache takes folio
+>> locks, and if we happen to need one of the folio locks we already hold,
+>> we'll deadlock.
+>>
+>> FUSE makes this example easier to trigger, because it evicts inodes on
+>> the last reference. A similar deadlock with FUSE was recently fixed in
+>> FUSE [1].
+>>
+>> Let's handle folio splitting by simply running in NOFS context. We only
+>> perform small allocations, so it doesn't really make a difference.
+>> Interestingly, this also fixes one of a handful of possible memcg v1
+>> deadlocks.
+>>
+>> For page migration, change the code to allocate destination folios
+>> without holding folio locks, which is in any case the right thing to do
+>> to reduce folio lock holding times.
+>>
+>> Some of this might also be fixable using Jan's work on deferred inode
+>> reclaim [2]. However, that is not stable material, and not allocating
+>> folios while holding other folio locks is an improvement on its own.
+>>
+>> Unprivileged users can trigger this deadlock with FUSE and
+>> mbind()/migrate_pages(); however, it requires multiple NUMA nodes and
+>> quite some luck.
+>>
+>> I reproduced the original deadlocks with FUSE and made sure they can no
+>> longer be triggered with these fixes. Further, I ran the usual migration
+>> and folio splitting selftests.
+> 
+> @Jose, could you find and fix other cases where we allocate under the folio lock
+> with __GFP_FS (and direct reclaim enabled?).
+> 
+> I think at least do_set_pmd() might have a problem when allocating a page table
+> through pte_alloc_one(). And I'm sure there's more.
+> 
 
-Sashiko is right, but this race is not new.
-The same window exists upstream: if another thread's recalc observes
-the 0->watching transition and does the walk, fanotify_mark() can return
-to userspace before all children have DCACHE_FSNOTIFY_PARENT_WATCHED set.
+sure, I'll look into it :)
 
-What changes with this series is that the walk is sleepable, so the
-window is longer, and in some workloads it could go from rare to
-plausible. OTOH, skipping negative dentries may shorten the walk.
-
-The more important question is whether a child can be left without
-PARENT_WATCHED permanently. Upstream it can: the transition can be
-observed by a recalc from the mark destroy path, which never walks.
-With FSNOTIFY_CONN_FLAG_UPDATE_CHILDREN that cannot happen.
-Every transition sets the flag, and every caller that can add a watch
-consumes it,
-so a walk that started after the transition always runs and fixes the flags=
-.
-What remains is the transient window above.
-
-I think a proper fix for the transient window needs a sequence counter
-of scans in the connector. Each caller would wait until a scan that
-started after its transition has completed, no matter which thread ran it.
-
-I think we can live with this v6 patch for your series and deal with
-the remaining race later if we want to, but I am not sure and would
-like to hear what Jan thinks.
-
-If you want, I can implement the sequence counter for v7.
-
-Thanks,
-Amir.
+-- 
+cheers,
+jose a. p-a
