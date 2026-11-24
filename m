@@ -1,145 +1,165 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795540835;
-	b=vKc4rtl9znFj6j+beCcEyAkCdIjOb0mJCWD4y2tP1JZ2p5x3zz4eu4u0h0rZSruMN6em
-	 kUgs1rp/x7BlciJx8b2Crq5k3PBSseYqCwjEyPKnLA2V6jTap1vULXA+foQ/JWDXo+8X3
-	 M+8BMvnMUgMN7paDVkI6UUrGhHxCeapXO6HIxfYSiO8EGtUiQT5kdUCdrbmiGRJ+5BaCd
-	 NOnA/66cmOgGaL4MBvdA16h71Y35j7i/3SPiZPTnuWJz6msxZ/emDlq0pZm/eKdXSr421
-	 FH/THvSUX1sW7ta3HaxcUxVnL4ievHC4cNC+PI0KbsKqis8vV51AyNU8AhQ4v++VXzQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795540835;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=tN3vYaMnV9NupJt9uj0DyVm98fT46NJCnU18bNrr4wY=;
-	b=TJk+dVTYzEizvF1oO7Yg9lc3n5tdchogR/UVfRa3atBsQyQP3HQ8BSB7YCRq/LOYG53X
-	 jlwF9tCbaGjVmg66izPCwFMJPHSbbYCc99ZCMK8Q3NbMmdkshpVa0fL8QQwMDGf0Ufhlk
-	 DBmsYx8+4zKjE6mxKCf0ylnJnrcYyzrHFIm5gJB9ElX/+XV8kybnX+fCR6Fqp3zBTCRXq
-	 i70vU2/ZBRNBBTofNFvtslIgx+2j5IvBnokIOD8dx52Bl+3P8Jrr93qnK/8Jxd5yXkmOB
-	 ozOsu479aw5rMsNbWenSyxjM7xoAjXwB57MLUfchnYomQjTgjmtnOFwwxgiQojoYI4w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=icpbhZHb;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lVvQ+wMH;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=icpbhZHb;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lVvQ+wMH;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.20.66
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795540859;
+	b=dv6Qi75oqolIIr4c7Tzf4q46BpIrucXLADYYasaJhP0794rud0kspYNDTGRF/ZQ0J3UV
+	 B0sApDW0kRXEdmjziVG4Lvzr4rUGGpq9euTduaYcGGhzTeGNYTm9tAq+cUwaBCzLIaWwU
+	 /wtuyc97a3fZ33HmWp9dUcOj8EspixFmvaYPprguGM7I+7Y98gBxztaZmVTXjLIxW0bWC
+	 pg1vynS9s+WCCy16JG/IP7sSdOjq/gPZ4mQbhtbv3LzcWJc/TOC0Fmme+iRng8OaQpG9c
+	 5W3mppDfIAxReVDnLhOvfGr6qkzyDHecKM7J92oXJqaa5eEP4cFmLJllFOZERy14bPg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795540859;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
+	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
+	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 msip_labels:x-ms-publictraffictype:x-ms-traffictypediagnostic:
+	 x-ms-office365-filtering-correlation-id:
+	 x-ms-exchange-slblob-mailprops:x-microsoft-antispam:
+	 x-microsoft-antispam-message-info:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:
+	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=6nvi9/4QZZEoVaSKSDeC+9ZEnh/wuzgk89De54SxmEw=;
+	b=Av4reQg0/HhjRPATioX8UTorFHlOhXitQfz5+VicY1dt+lfcjpmso6L9460viVDfTrv6
+	 JHHLskCZYAXG51xZ8G9tKHpdRtFOPpN1ta9Q+9GytNVvjdlGy7hidVuXwfsYhZ4Sxy3MB
+	 SsS6uzFyIlvXoCyvGpSGJU9BayjbGUZx8COXTZnBv+R5LKUDr+N2HqfBrZ4uoL3pAz6QM
+	 m63CUm1eDPI6ki+FSTgILTfRwNxvBXYuXdNdidVo8IZluLDjEhzzNCkTZJd3j0JD4BgmO
+	 IqmZhlvxmtXcYqDG1Y7hD5/eHa5SvnRSUq6NqUGdNrSl46uqLg/wiT0qWpnryYH2gjw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=outlook.com;
+	spf=pass smtp.mailfrom=outlook.com;
+	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=XJT99Pmm;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.20.66
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazolkn19013066.outbound.protection.outlook.com [52.103.20.66])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23338606A323;
-	Tue, 24 Nov 2026 17:20:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 23338606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFAF606A323;
+	Tue, 24 Nov 2026 17:20:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7EFAF606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=icpbhZHb;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lVvQ+wMH;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=icpbhZHb;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lVvQ+wMH
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3DD351FD06;
-	Tue, 24 Nov 2026 17:20:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795540832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tN3vYaMnV9NupJt9uj0DyVm98fT46NJCnU18bNrr4wY=;
-	b=icpbhZHbueFRAPYDZt+Q/evQ4tuuoi4w57XzhnK/NytlNQ2MHfpKxEDK7WpMjGpOp4BK37
-	nVqhdhblSE4ztaaMD6fIuZoFaoxqk1o/paUr2O+/AkiiSActBLumd2fOdMx5QMABuPFWUe
-	ZSU6FvWbS6M2opLwxF/2fpfxN+GYH7Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795540832;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tN3vYaMnV9NupJt9uj0DyVm98fT46NJCnU18bNrr4wY=;
-	b=lVvQ+wMHtVJ08B6+CsIe0qG2lVsd3epqQRwVhNWoxRlwPkzsE2YdosLdljWTIjE6B0MNs3
-	Ef00k5xo5Kn50tBA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795540832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tN3vYaMnV9NupJt9uj0DyVm98fT46NJCnU18bNrr4wY=;
-	b=icpbhZHbueFRAPYDZt+Q/evQ4tuuoi4w57XzhnK/NytlNQ2MHfpKxEDK7WpMjGpOp4BK37
-	nVqhdhblSE4ztaaMD6fIuZoFaoxqk1o/paUr2O+/AkiiSActBLumd2fOdMx5QMABuPFWUe
-	ZSU6FvWbS6M2opLwxF/2fpfxN+GYH7Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795540832;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tN3vYaMnV9NupJt9uj0DyVm98fT46NJCnU18bNrr4wY=;
-	b=lVvQ+wMHtVJ08B6+CsIe0qG2lVsd3epqQRwVhNWoxRlwPkzsE2YdosLdljWTIjE6B0MNs3
-	Ef00k5xo5Kn50tBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0C17A13505;
-	Tue, 24 Nov 2026 17:20:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +eKVNl/HBWspYAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 24 Nov 2026 17:20:32 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 7719D27A3D; Tue, 24 Nov 2026 18:20:31 +0100 (CET)
-Date: Tue, 24 Nov 2026 18:20:31 +0100
-From: Jan Kara <jack@suse.cz>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Rik van Riel <riel@surriel.com>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>, Lance Yang <lance.yang@linux.dev>, 
-	Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Xu Xin <xu.xin@linux.dev>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
-	Shrikanth Hegde <sshegde@linux.ibm.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Leon Romanovsky <leon@kernel.org>, SJ Park <sj@kernel.org>, 
-	Rakie Kim <rakie.kim@sk.com>, David Rientjes <rientjes@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	John Johansen <john.johansen@canonical.com>, Georgia Garcia <georgia.garcia@canonical.com>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
-	Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej =?utf-8?B?TW9zbsOhxI1law==?= <omosnacek@gmail.com>, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, damon@lists.linux.dev, 
-	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, apparmor@lists.ubuntu.com, 
-	linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, selinux@vger.kernel.org
-Subject: Re: [PATCH v2 01/11] mm/filemap: convert fault and readahead logic
- to use vma_flags_t
-Message-ID: <zgg3ktbk2spkmpa6u2nwqktnee26yvf3gglg33sgxq2ctkvh6o@7sj5tf2eutf4>
-References: <20261124-late-2026-vma-flags-v2-0-bf3fade93064@kernel.org>
- <20261124-late-2026-vma-flags-v2-1-bf3fade93064@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=XJT99Pmm
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=a0kGPsFyrslhDd/MNB7fgehUhOeQ50jSap01fZ3eILrewNwbtLDHniedx2sxQtsAhEQqrgRjs0SfTA0XoF9xTdvS1XaqxhG4H0KPhVYRT/Y7BLHvo+rO5bA+k49/fCrPGmUqO3njVaij1Oltd4m6bivsp8Arvoq3chrgNLCmB8AhmMA+7YlgjZ+UFg+i/O8TsgapxgReam3gEsgpdKgXlBKnowReAptCNg6LwhhOSQgpFXmT4uBHHyVNRWqfL7e+kdu3y/UAKXIsYOYfQwR8WIZVJIC1XrCjDx4NLonsMgr5jryuHSPJoopcbggwJ+Z1Vk5ZnxZsdc+OI8zsxEUGSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6nvi9/4QZZEoVaSKSDeC+9ZEnh/wuzgk89De54SxmEw=;
+ b=WvS+K1fwgWkIqUsBQRueBu9zfh/YKYHUlFjJWMMOqzG2tmv2mZsLFNWKYvm2wSuefhVNkX2oRwH917Z4zkWXyfn0q2mKG/Ycb4kC9dKHAnfFtH710BXPzelhLcccuEqObbxj/3ZNkN9BffFj+Tdiy8kwIBuGyAWNf6FA+bJw1lywwMNCvx91/UZTVXJ1FOZIZRpmCeNqjnX4SPgDnCz6WlrvpktY4Q1lHFoDNNCZ1cGimKed5CGQJgaeaQQxtOp5qd9RQEN/15uF+0yQ/4C9do3LfhwVQZV+wJDml3bhy9wIYs4KKkfMKYiPPMyZk6Eyli+QNdBATe3DdhQ+rWCPRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6nvi9/4QZZEoVaSKSDeC+9ZEnh/wuzgk89De54SxmEw=;
+ b=XJT99PmmXmpTk1vUIxNl/T+VkeTGi0LUp/fIT4d9ytNFutrX4Ahnx+92krBNxohbux7giICK89RAYnM6MikSk4hdlOXXX9+0yALozwHIrygyCuhSkQ6A2Dnm/xSq/RHUYjHBDWUNndPyEJKM3VDb0rQcVr9ANy392d7bYOYV1twnMUPgWhMwZRnmTU0xclZp+TFEPZrM8CiRNnfhFV+Ohzd63rD+7NeySkw+bis11UEe1BWmhiIkzktxHAzp7/BsBiIjqGBv/hUEWojSpKUwWW3iR0h5thshQXEz7iKlyn0LCdOiqhlJ9Z0sxnrDrg/rsSJgOJaj8x4r+rPlRkprUg==
+Received: from DM4PR15MB6276.namprd15.prod.outlook.com (2603:10b6:8:185::22)
+ by PH5PR15MB7011.namprd15.prod.outlook.com (2603:10b6:510:39e::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.14; Tue, 24 Nov
+ 2026 17:20:55 +0000
+Received: from DM4PR15MB6276.namprd15.prod.outlook.com
+ ([fe80::cfd2:b16d:7d13:943f]) by DM4PR15MB6276.namprd15.prod.outlook.com
+ ([fe80::cfd2:b16d:7d13:943f%5]) with mapi id 15.21.0662.001; Tue, 24 Nov 2026
+ 17:20:55 +0000
+From: theBIT5 x3zk <x3zk@outlook.com>
+To: liubaolin <liubaolin12138@163.com>, Namjae Jeon <linkinjeon@kernel.org>
+CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "open
+ list:NTFS FILESYSTEM" <ntfs@lists.linux.dev>, Hyunchul Lee
+	<hyc.lee@gmail.com>, Baolin Liu <liubaolin@kylinos.cn>
+Subject: RE: ntfs: deleting $Extend breaks subsequent mount
+Thread-Topic: ntfs: deleting $Extend breaks subsequent mount
+Thread-Index: AQHde4R8xv4yfu0CbUa8W2Kg8yjy6rc8zkBigACqwrU=
+Date: Tue, 24 Nov 2026 17:20:55 +0000
+Message-ID:
+ <DM4PR15MB6276AEA50787E7D27EF8590B86442@DM4PR15MB6276.namprd15.prod.outlook.com>
+References:
+ <DM4PR15MB6276A5C442568B4C7E604AA386452@DM4PR15MB6276.namprd15.prod.outlook.com>
+ <CAKYAXd-MHxzjvc20J-x4VYBnuk3sVpzmHo+zrHb8n3nx8Aav6g@mail.gmail.com>
+ <a2f75e81-b012-4bb1-8885-a2ed310fa988@163.com>
+In-Reply-To: <a2f75e81-b012-4bb1-8885-a2ed310fa988@163.com>
+Accept-Language: ru-RU, en-US
+Content-Language: ru-RU
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR15MB6276:EE_|PH5PR15MB7011:EE_
+x-ms-office365-filtering-correlation-id: 90f22960-0548-48c0-378a-08df4a4f4c3a
+x-ms-exchange-slblob-mailprops:
+ WaIXnCbdHrO+2YmbT5jW+WUSUt4IT5vRiwd6S1M4PEGmQhYn5Dp9EgmMyEeDxJ+jj7BHWTshM77SauXHbPK3PgpEyLvDONxtOec511N/7vmntISsDbdB4m7zmu3R4mzCOFcc7e4goTRzTyqmLAWvGEH9F2wco3y3JfUKOSh+wCr4Bn9CXm2CtwvbQTwZiAzJgOnxyGBUIO3VS6fuoMuzuc66Gg7xOvxVgu5T4onPplCdFgHYDslGLEXRkG7aM9NXa4AXdlDL1ViHegBIPBgV8TkR8wNAFs/uaknGO461lfBsOWevYUqR+60wOxqp+zNuh2tobkARWTXJMmriO2M8f3RSkH6NT1VJp5AnqBLk4m8PuKRih+dZUXOOXP4kRm5m0YEg/ZP1wvJLHXzTzlMwc11L7hJ+pMPzJYnqKpmP5dB1zSRe32Pnc8VAwW22Cr9teboJRy9vW0a5FLifW5glSmZ3e2a89OFJtmSUatflqon+oMB17L1LDXLe1AxjYaWLLgjL8h/wHxIutn1qRWCLWQtorsfQgPMN/gntwbaquQDd9PXyNx/dd76h6Jdftoc7Izs7wWuhLoag5ZxmVLlxlVTj1OxAaZuIarYgxe8R9BvjLEnMyjfNHYYXNzDXdus3xjLCw5bMqWSbCCvIfi3EJav4ulYdwSSkx8gTvCSpPOJB4DG3WO4iR5kXMzKLSwczARQ6hysJbsd/7IDBMCerv389SFws7/gU8C05JReW9u9uVAi1HNA1o3revfU6QjubsTJpCkJias4=
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|37102599003|8062599012|19110799012|8060799015|15080799012|15030799006|31061999003|12121999013|45011099003|4140399003|6050399003|26104999009|440099028|102099032|3412199025|3430499035|52005399003|40105399003;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?MGI3N2Q2a1VVS2ZmVHBsYXE2eVordHNaei8vMzJOMlVpV0N4ZlFRcHNmNm1s?=
+ =?utf-8?B?OVBzdGlOcWw2R0Y5OUxBMUh0YXRXTU4yTDVhaUdsM25HcEpkK2k5TDRrSmJJ?=
+ =?utf-8?B?TTFXeVFuNzF5RG9hWWMyQ0dMRUtwQmVENUtQWmNxV2RpMDc2R1Zla2dHaVEy?=
+ =?utf-8?B?Nit1cy90WXNkZzBubHNsREdWbHdmZThhMWJIU2ZJSGxMU1dodmpsc0x6N2tw?=
+ =?utf-8?B?K1dSc3FJZjMzMFVUZXRQbjlZbTAyd3FjN3hpa2R3NDZSZmZBV1JvUytoMmdE?=
+ =?utf-8?B?LzJqNEd3TGMvYlJWVDB5YjNBaWR1ZEVEeHpoVjM1aEt2QmlXSm50aEdMR05L?=
+ =?utf-8?B?MFZhS0ZnR1dJVyt5UTlZNzZ3Vy9GMm5zdnVuNFNDMU4zSHJEaE5UbDVYQ3RI?=
+ =?utf-8?B?NkZiWEhxeTBvRmVCTWhvUWJkNFB6cWNMaHcza0txZG9RRXpteUhiRFBRL1Uw?=
+ =?utf-8?B?U0tmcndySTJSRXkvNm1OOEZsVUtLVk1IeCtSS1ZnYkI4STdGdFB1SGl0VElC?=
+ =?utf-8?B?dlQ1cDBCTlRyQnNPUFRkRXNHeURiQk9HMHdmMWVLNHZxTzg0WGU4dzlLYXlK?=
+ =?utf-8?B?MFppWGo3eUt0SHJuL0c2SkFwN1lIZGdDZEFjUWJFMmc0SEpDUDU1cU1YMzhH?=
+ =?utf-8?B?bzNRaXZOZjEvMFBqZ1FKMEdEVllxcDh3SVFRZTYxRnBiN1NWNnFUZk9vN0NI?=
+ =?utf-8?B?Sk8xM0krTk9EV0FMWmJPUVVGR0VBMmd6aG5pWStZa1hQbFFhWHRxdmFDS3JT?=
+ =?utf-8?B?N1lmc0JwY2R2ZDRORkdBS1RQRWNzN2treW5iTTdaY3QzODlJc2JEandlOGtY?=
+ =?utf-8?B?ZmZNVjZkN0dsZjJ4SlU5TWVYUnozRFRVM3A5ZGFNVmtxYVBJcDRETGN2SEJw?=
+ =?utf-8?B?dEtXbVBYeTdiN2kzSFZJWWlOM3ZGU3RDNms0elBFSEsyMzI2eDY5Z21HMGZh?=
+ =?utf-8?B?aThFQllnZVBadm5Cby80V1ZTMkNQTWpTNTVGdGZ3RnFHelVZdGNETzNoNWh5?=
+ =?utf-8?B?clNmd0lnS0ZBU1VJVFFpZlFnZDRXQVRqem93UFFhdjBZRFNHREtBSXIvbEZF?=
+ =?utf-8?B?MjExN1FsYWRwajF6ZU9GVFd2MVdiM3BuV1FZR2hoNjNDWmt4SUdITXRQTC9J?=
+ =?utf-8?B?WlVvSklzbkYrUWd3OEh6MHphUnpwL0RwRTRwd01nUnJFZkpWbTFLcDN1SEIy?=
+ =?utf-8?B?alhCZWxlNVY2ODEzellwdzdkTmlYM0x2OUFyTmFVZ281VGc2bUk1TGFNbGRB?=
+ =?utf-8?B?NHZ4WGZSNU81V2dmN2kvOHpsSW1pU0t6azNQYituYzJ1Ym9RTXRPRTNqVTcz?=
+ =?utf-8?B?WnFzL1RzVXhCYTlQNW1iMU04MG94RWRjVkcxak9vOEwwbEVBOHM1dXhRSC9C?=
+ =?utf-8?B?anNHSFBpZzFnUnc9PQ==?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?ZEJIVVVyM0h2WmQ0cTN5UUNCT1Z5cjQrM0pEeXMwbGJxV2xDN3MxakNnUzJm?=
+ =?utf-8?B?RmlwRFE2VitKWkNHeGwxVk5obC80MjJ0MFJoYXBBMHNYRjA2c21ubHNXZVBR?=
+ =?utf-8?B?cVRIK3c1YkxsY3FzQ0FLUk9CYTBKZmZyUkdXMXpuTktpSmpmdTB3SXVHUEE1?=
+ =?utf-8?B?UHEydEt6ZERXd1VrVy8wc01KQnJVMFdRM1dHVUt3bVl4dXhFaEFhUi9vbkM2?=
+ =?utf-8?B?eER6RGdlMlpBZXVFQ1A5akdqenc2UzhLK284Y0FjN0d1U0FtbDNvekNJTnA1?=
+ =?utf-8?B?dmN4WnpONjhjWWR1TzVCYkhWTXYvcnVPSHZJUllGSVFuaEd1RHhiREp2WjVh?=
+ =?utf-8?B?VTZlOThjOVA4ZUNaRHIwRlNXNU5QWkV3VkZFdC9ZWFFiN3FGSzdBamJZbUhk?=
+ =?utf-8?B?KzBMVUxSdzBlZDJFRDI5VFVMQ1ZTUllBQ3l0UC9EUHFwWTFWeDFXNlRJbk8r?=
+ =?utf-8?B?blVFanlDQTd0ZU9kYmR4TnVKaWpqc3BuekRvNlRFTS9uelE2MGpkbUQzQ0lv?=
+ =?utf-8?B?SlhHeFpIR3BpK0RxMHNtMUc4V25BRE9qWHRhWEUxaW52WDRabjM0V0YzYklv?=
+ =?utf-8?B?RjBrZmlpTmFiOG56TzlNVUNQZmpPd2phUS9WY3N3SW1pZ21SV1I5cU1BcUg4?=
+ =?utf-8?B?dk1YNm1TQlZ3WXhqYkFsUnNOOGtRdzNPa2s1U093MlJ5bnhsMnRsejZIeU1T?=
+ =?utf-8?B?SG1DSkhhQ2drZkkxWDdwd1hqRGRLb2dieXVRSHZpZ2pMNFM5d3IrQXRSNFlh?=
+ =?utf-8?B?S01pUS96bWxuYnZRbW5wU1V3REEzbFpndklrdGZjSUlteVdoNGxxN0tRdGF6?=
+ =?utf-8?B?dDU4OUFVa05RSzYzQSs5SXNsSmdmV2hVSXNyb3Y3NklWa0QxNlQ3Z1Y4cXFE?=
+ =?utf-8?B?OE9IYStqVndFdGJDKzEwUWg5bFJaVUpvclJic0x6U09oODdQcFVMTncxZUdX?=
+ =?utf-8?B?M3lxZWk5QmpEY0plU1F1ekh5TnYvUS9TZFMzcU9MN0xzMnNldXVyNkM0UmV1?=
+ =?utf-8?B?ZzBwckwrTzJaNTl2bml1eVowUnZ5SWpLbHZtc2hHUXcrc0swSUE0MTRwWUlw?=
+ =?utf-8?B?eFV3cjk2T2kxZ08zcXkwMjFzaGRZM21INE5aL3RSalEzZjBzczM2VEgwazJN?=
+ =?utf-8?B?b3ZHRjYyUmdRclNTQ2E4cXdOQ1dOaWdoazYxbDRqSEFTeDMvWHgwUnFSTkF0?=
+ =?utf-8?B?TEg4VXJMVkFVbys2RXQ1TTh6aHZ6bFprQlZNYWhKWmpOM2RyMGxXbDFjajVo?=
+ =?utf-8?B?VUcydWxrUmhxWWxJVXpmcW9DNVFHZDB4cHd5T29PVFNIT1NBMy9BK3dHVWtL?=
+ =?utf-8?B?T2VtMFBTeThGTWNqWGVLR3RDQ1l0eWRLdkNId1pYMWQ3ZkNpa2tjaVpWL2Mr?=
+ =?utf-8?B?TkhVWkhWUEVWa1l0NkFRektQaTFZaGxMaEJxRVMrWUtqSGpGcVo0K05QajZJ?=
+ =?utf-8?B?amJ4Z09sTGcvbUQwdXpiYWRMNlNtb2poU1VlSVdoU3Q5a2lFUzNUVmZkdFN5?=
+ =?utf-8?B?eUh2UjVlQkFqc3lIeTd6alMxVXhwTCtYYW82Q3R2WDMwOWpGcTBYazlGVi8y?=
+ =?utf-8?B?RDE2OGFHaFVXdEpjZ3QyWFBkODJGNm5rRDJDclh1RjA2aTA0SEJpSG1LQW5k?=
+ =?utf-8?B?bWZpZ3BaZzBhRXI3YlgxNXdTYWNhamlmK0pRRll3RFdvWEVlY1kxSFloWURH?=
+ =?utf-8?B?bXRINm5QVkgyMmRNVExjVFhsZTZUUHA1c2s0YWxib1VMdWRrMGRRTlRYMTEv?=
+ =?utf-8?B?aXRyVDR1UUxGWXlwV3Y3ZkFvNVVoek4rMTRtcU51WElkK1BCeXlKVFVYMXND?=
+ =?utf-8?Q?07Dgvxh+ckliPOrdM806a+piMpW3C+GpTLqrE=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -149,176 +169,97 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261124-late-2026-vma-flags-v2-1-bf3fade93064@kernel.org>
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-11.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLyyn5iujqg1knb55iprn1jsbw)];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,kernel.org,ziepe.ca,nvidia.com,redhat.com,infradead.org,suse.cz,surriel.com,google.com,linux.dev,intel.com,gmail.com,sk.com,gourry.net,linux.alibaba.com,arm.com,linux.ibm.com,ellerman.id.au,suse.de,tencent.com,suse.com,zeniv.linux.org.uk,linux.intel.com,linaro.org,canonical.com,paul-moore.com,namei.org,hallyn.com,huawei.com,oracle.com,kvack.org,vger.kernel.org,lists.ozlabs.org,lists.linux.dev,lists.ubuntu.com];
-	RCPT_COUNT_GT_50(0.00)[89];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email]
-X-Spam-Score: -11.30
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR15MB6276.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 90f22960-0548-48c0-378a-08df4a4f4c3a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Nov 2026 17:20:55.1465
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH5PR15MB7011
 
-On Tue 24-11-26 17:07:53, Lorenzo Stoakes (ARM) wrote:
-> Replace use of the legacy vm_flags_t flags with vma_flags_t values in the
-> file fault and mmap readahead logic.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> Reviewed-by: Barry Song <baohua@kernel.org>
-
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  mm/filemap.c | 26 ++++++++++++++------------
->  1 file changed, 14 insertions(+), 12 deletions(-)
-> 
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index acf5e562b732..ce720c4c55f0 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -3359,13 +3359,14 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
->  	struct address_space *mapping = file->f_mapping;
->  	DEFINE_READAHEAD(ractl, file, ra, mapping, vmf->pgoff);
->  	struct file *fpin = NULL;
-> -	vm_flags_t vm_flags = vmf->vma->vm_flags;
-> +	struct vm_area_struct *vma = vmf->vma;
->  	bool force_thp_readahead = false;
->  	unsigned int thp_order = 0;
->  	unsigned short mmap_miss;
->  
->  	/* Use the readahead code, even if readahead is disabled */
-> -	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && (vm_flags & VM_HUGEPAGE)) {
-> +	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) &&
-> +	    vma_test(vma, VMA_HUGEPAGE_BIT)) {
->  		/*
->  		 * Cap max THP order at 2MB: this is the common PMD-sized
->  		 * hugepage size, and it avoids memory pressure from very
-> @@ -3385,20 +3386,21 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
->  		 * If we don't want any read-ahead, don't bother.
->  		 * VM_EXEC case below is already intended for random access.
->  		 */
-> -		if ((vm_flags & (VM_RAND_READ | VM_EXEC)) == VM_RAND_READ)
-> +		if (vma_test(vma, VMA_RAND_READ_BIT) &&
-> +		    !vma_test(vma, VMA_EXEC_BIT))
->  			return fpin;
->  
->  		if (!ra->ra_pages)
->  			return fpin;
->  
-> -		if (vm_flags & VM_SEQ_READ) {
-> +		if (vma_test(vma, VMA_SEQ_READ_BIT)) {
->  			fpin = maybe_unlock_mmap_for_io(vmf, fpin);
->  			page_cache_sync_ra(&ractl, ra->ra_pages);
->  			return fpin;
->  		}
->  	}
->  
-> -	if (!(vm_flags & (VM_SEQ_READ | VM_EXEC))) {
-> +	if (!vma_test_any(vma, VMA_SEQ_READ_BIT, VMA_EXEC_BIT)) {
->  		/* Avoid banging the cache line if not needed */
->  		mmap_miss = READ_ONCE(ra->mmap_miss);
->  		if (mmap_miss < MMAP_LOTSAMISS * 10)
-> @@ -3414,6 +3416,7 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
->  
->  	if (force_thp_readahead) {
->  		unsigned long folio_nr_pages = 1UL << thp_order;
-> +		const bool random_read = vma_test(vma, VMA_RAND_READ_BIT);
->  
->  		fpin = maybe_unlock_mmap_for_io(vmf, fpin);
->  		ractl._index &= ~(folio_nr_pages - 1);
-> @@ -3422,7 +3425,7 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
->  		 * Fetch two folios so we get the chance to actually
->  		 * readahead, unless we've been told not to.
->  		 */
-> -		if (!(vm_flags & VM_RAND_READ))
-> +		if (!random_read)
->  			ra->size *= 2;
->  		ra->async_size = folio_nr_pages;
->  		ra->order = thp_order;
-> @@ -3430,7 +3433,7 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
->  		return fpin;
->  	}
->  
-> -	if (vm_flags & VM_EXEC) {
-> +	if (vma_test(vma, VMA_EXEC_BIT)) {
->  		/*
->  		 * Allow arch to request a preferred minimum folio order for
->  		 * executable memory. This can often be beneficial to
-> @@ -3442,7 +3445,6 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
->  		 * pad that might exist between sections, which would be a waste
->  		 * of memory.
->  		 */
-> -		struct vm_area_struct *vma = vmf->vma;
->  		const unsigned long start = vma_start_pgoff(vma);
->  		const unsigned long end = vma_end_pgoff(vma);
->  		unsigned long ra_end;
-> @@ -3485,7 +3487,7 @@ static struct file *do_async_mmap_readahead(struct vm_fault *vmf,
->  	unsigned short mmap_miss;
->  
->  	/* If we don't want any read-ahead, don't bother */
-> -	if (vmf->vma->vm_flags & VM_RAND_READ || !ra->ra_pages)
-> +	if (vma_test(vmf->vma, VMA_RAND_READ_BIT) || !ra->ra_pages)
->  		return fpin;
->  
->  	/*
-> @@ -3499,7 +3501,7 @@ static struct file *do_async_mmap_readahead(struct vm_fault *vmf,
->  	 * keep the counter symmetric.
->  	 */
->  	if (likely(!folio_test_locked(folio)) &&
-> -	    !(vmf->vma->vm_flags & (VM_SEQ_READ | VM_EXEC))) {
-> +	    !vma_test_any(vmf->vma, VMA_SEQ_READ_BIT, VMA_EXEC_BIT)) {
->  		mmap_miss = READ_ONCE(ra->mmap_miss);
->  		if (mmap_miss)
->  			WRITE_ONCE(ra->mmap_miss, --mmap_miss);
-> @@ -3532,7 +3534,7 @@ static vm_fault_t filemap_fault_recheck_pte_none(struct vm_fault *vmf)
->  	 * scenarios. Recheck the PTE without PT lock firstly, thereby reducing
->  	 * the number of times we hold PT lock.
->  	 */
-> -	if (!(vma->vm_flags & VM_LOCKED))
-> +	if (!vma_test(vma, VMA_LOCKED_BIT))
->  		return 0;
->  
->  	if (!(vmf->flags & FAULT_FLAG_ORIG_PTE_VALID))
-> @@ -4018,7 +4020,7 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
->  		if ((map_ret & VM_FAULT_NOPAGE) &&
->  		    !(vmf->flags & FAULT_FLAG_TRIED) &&
->  		    !folio_test_workingset(folio) &&
-> -		    !(vma->vm_flags & (VM_SEQ_READ | VM_EXEC))) {
-> +		    !vma_test_any(vma, VMA_SEQ_READ_BIT, VMA_EXEC_BIT)) {
->  			unsigned short mmap_miss;
->  
->  			mmap_miss = READ_ONCE(file->f_ra.mmap_miss);
-> 
-> -- 
-> 2.56.1
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+SGksDQoNCkJ1aWx0IDcuNC4wLXJjNCB3aXRoIGJvdGggcGF0Y2hlcyBhcHBsaWVkIGFuZCByYW4g
+YmFzaWMgY2hlY2tzLg0KRGVsZXRpbmcgJyRFeHRlbmQnLCBjcmVhdGluZyBmaWxlcyBpbnNpZGUg
+aXQsIGFuZCB3cml0aW5nIHRvIGl0cyBzeXN0ZW0NCmZpbGVzIG5vdyBhbGwgZmFpbCB3aXRoIE9w
+ZXJhdGlvbiBub3QgcGVybWl0dGVkLCBhbmQgcmVtb3VudGluZyB3b3JrczoNCg0KIyBtb3VudCAt
+dCBudGZzIC9yb290L250ZnMuaW1nIC9tbnQgLW8gbG9vcA0KIyBjZCAvbW50DQojIHJtIC1mciAn
+JEV4dGVuZCcNCnJtOiBjYW5ub3QgcmVtb3ZlICckRXh0ZW5kLyRPYmpJZCc6IE9wZXJhdGlvbiBu
+b3QgcGVybWl0dGVkDQpybTogY2Fubm90IHJlbW92ZSAnJEV4dGVuZC8kUXVvdGEnOiBPcGVyYXRp
+b24gbm90IHBlcm1pdHRlZA0Kcm06IGNhbm5vdCByZW1vdmUgJyRFeHRlbmQvJFJlcGFyc2UnOiBP
+cGVyYXRpb24gbm90IHBlcm1pdHRlZA0KIyBjZCAnJEV4dGVuZCcNCiMgdG91Y2ggZmlsZQ0KdG91
+Y2g6IGNhbm5vdCB0b3VjaCAnZmlsZSc6IE9wZXJhdGlvbiBub3QgcGVybWl0dGVkDQojIGNhdCAv
+ZGV2L251bGwgPiAnJE9iaklkJw0Kd2FybmluZzogQW4gZXJyb3Igb2NjdXJyZWQgd2hpbGUgcmVk
+aXJlY3RpbmcgZmlsZSAnJE9iaklkJw0Kb3BlbjogT3BlcmF0aW9uIG5vdCBwZXJtaXR0ZWQNCiMg
+Y2F0IC9kZXYvbnVsbCA+ICckUXVvdGEnDQp3YXJuaW5nOiBBbiBlcnJvciBvY2N1cnJlZCB3aGls
+ZSByZWRpcmVjdGluZyBmaWxlICckUXVvdGEnDQpvcGVuOiBPcGVyYXRpb24gbm90IHBlcm1pdHRl
+ZA0KIyBjYXQgL2Rldi9udWxsID4gJyRSZXBhcnNlJw0Kd2FybmluZzogQW4gZXJyb3Igb2NjdXJy
+ZWQgd2hpbGUgcmVkaXJlY3RpbmcgZmlsZSAnJFJlcGFyc2UnDQpvcGVuOiBPcGVyYXRpb24gbm90
+IHBlcm1pdHRlZA0KDQpUZXN0ZWQtYnk6IHRoZUJJVDUgeDN6ayA8eDN6a0BvdXRsb29rLmNvbT4N
+Cg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0K0J7RgjogbGl1YmFv
+bGluIDxsaXViYW9saW4xMjEzOEAxNjMuY29tPg0K0J7RgtC/0YDQsNCy0LvQtdC90L46IDI0INC9
+0L7Rj9Cx0YDRjyAyMDI2INCzLiAxMDowOA0K0JrQvtC80YM6IE5hbWphZSBKZW9uOyB0aGVCSVQ1
+IHgzemsNCtCa0L7Qv9C40Y86IGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnOyBsaW51eC1r
+ZXJuZWxAdmdlci5rZXJuZWwub3JnOyBvcGVuIGxpc3Q6TlRGUyBGSUxFU1lTVEVNOyBIeXVuY2h1
+bCBMZWU7IEJhb2xpbiBMaXUNCtCi0LXQvNCwOiBSZTogbnRmczogZGVsZXRpbmcgJEV4dGVuZCBi
+cmVha3Mgc3Vic2VxdWVudCBtb3VudA0KDQoNCg0K5ZyoIDIwMjYvMTEvMjQgMDk6NDAsIE5hbWph
+ZSBKZW9uIOWGmemBkzoNCj4gT24gVHVlLCBOb3YgMjQsIDIwMjYgYXQgNTowMeKAr0FNIHRoZUJJ
+VDUgeDN6ayA8eDN6a0BvdXRsb29rLmNvbT4gd3JvdGU6DQo+Pg0KPj4gSGksDQo+IEhpLA0KPj4N
+Cj4+IFdhcyBtZXNzaW5nIGFyb3VuZCB3aXRoIHRoZSBuZXcgbnRmcyBkcml2ZXIgKGZzL250ZnMp
+IG9uIDcuNC4wLXJjMy0xLW1haW5saW5lDQo+PiBhbmQgbm90aWNlZCB5b3UgY2FuIGp1c3Qgcm0g
+LXJmICckRXh0ZW5kJyBldmVuIHdpdGhvdXQgc2hvd19zeXNfZmlsZXMuDQo+PiBBZnRlciB1bW91
+bnQsIHRoZSBmaWxlc3lzdGVtIGZhaWxzIHRvIG1vdW50IGFnYWluLg0KPj4NCj4+IFN0ZXBzOg0K
+Pj4NCj4+ICMgbW91bnQgLXQgbnRmcyAvcm9vdC9udGZzLmltZyAvbW50IC1vIGxvb3ANCj4+ICMg
+Y2QgL21udA0KPj4gIyBscyAnJEV4dGVuZCcNCj4+ICckT2JqSWQnICAnJFF1b3RhJyAgJyRSZXBh
+cnNlJw0KPj4gIyBybSAtcmYgJyRFeHRlbmQnDQo+PiAjIGNkIC8NCj4+ICMgdW1vdW50IC9tbnQN
+Cj4+ICMgbW91bnQgLXQgbnRmcyAvcm9vdC9udGZzLmltZyAvbW50IC1vIGxvb3ANCj4+IG1vdW50
+OiAvbW50OiB3cm9uZyBmcyB0eXBlLCBiYWQgb3B0aW9uLCBiYWQgc3VwZXJibG9jayBvbiAvZGV2
+L2xvb3AwLA0KPj4gICAgICAgICBtaXNzaW5nIGNvZGVwYWdlIG9yIGhlbHBlciBwcm9ncmFtLCBv
+ciBvdGhlciBlcnJvci4NCj4+DQo+PiBkbWVzZzoNCj4+IG50ZnM6IHZvbHVtZSB2ZXJzaW9uIDMu
+MSwgZGV2IGxvb3AwLCBjbHVzdGVyIHNpemUgNDA5Ng0KPj4gbnRmczogKGRldmljZSBsb29wMCk6
+IGxvYWRfc3lzdGVtX2ZpbGVzKCk6IEZhaWxlZCB0byBsb2FkICRFeHRlbmQuDQo+PiBudGZzOiAo
+ZGV2aWNlIGxvb3AwKTogbnRmc19maWxsX3N1cGVyKCk6IEZhaWxlZCB0byBsb2FkIHN5c3RlbSBm
+aWxlcyAoLTIyKS4NCj4gUGxlYXNlIGNoZWNrIHRoZSBhdHRhY2hlZCBwYXRjaC4NCj4gVGhhbmtz
+IGZvciB0aGUgcmVwb3J0Lg0KDQpIaSBOYW1qYWUsDQogICBJIG5vdGljZWQgdGhhdCBOSW5vU2V0
+RXh0ZW5kU3lzKCkgaXMgb25seSByZWFjaGVkIHdoZW4gbG9va2luZyB1cCB0aGUNCnVubmFtZWQg
+JERBVEEgYXR0cmlidXRlIHJldHVybnMgLUVOT0VOVC4gQSBmaWxlIGRpcmVjdGx5IHVuZGVyICRF
+eHRlbmQNCnRoYXQgaGFzIGFuIHVubmFtZWQgJERBVEEgYXR0cmlidXRlIHNraXBzIHRoaXMgcGF0
+aCBhbmQgbmV2ZXIgZ2V0cw0KTklfRXh0ZW5kU3lzIHNldCwgbGVhdmluZyBpdCBtdXRhYmxlIHdp
+dGhvdXQgc3lzX2ltbXV0YWJsZS4NCg0KICAgSSByZXByb2R1Y2VkIHRoaXMgd2l0aCB5b3VyIHBh
+dGNoIGFwcGxpZWQsIHVzaW5nIGRlZmF1bHQgbW91bnQgb3B0aW9ucw0KYW5kIGEgc3ludGhldGlj
+IE5URlMgaW1hZ2UgY29udGFpbmluZyBhIFNZU1RFTS1tYXJrZWQgZmlsZSB3aXRoIHVubmFtZWQN
+CiREQVRBIGRpcmVjdGx5IHVuZGVyICRFeHRlbmQuIEFmdGVyIHJlbW91bnRpbmcsIHRoaXMgd3Jp
+dGUgc3RpbGwgc3VjY2VlZHM6DQogICAgIGVjaG8gY2hhbmdlZCA+ICcvbW50LyRFeHRlbmQvcmV2
+aWV3LWRhdGEnDQoNCiAgIENvdWxkIHdlIG1vdmUgdGhlIGRpcmVjdC1jaGlsZCBjbGFzc2lmaWNh
+dGlvbiBpbnRvIHRoZSBjb21tb24NCmlub2RlLWxvYWRpbmcgcGF0aCwgc28gdGhhdCBzZXR0aW5n
+IE5JX0V4dGVuZFN5cyBkb2VzIG5vdCBkZXBlbmQgb24NCndoZXRoZXIgdGhlIHVubmFtZWQgJERB
+VEEgYXR0cmlidXRlIGV4aXN0cz8NCiAgIEkgdGVzdGVkIHRoZSBjaGFuZ2UgYmVsb3cgaW4gUUVN
+VS4gVGhlIHdyaXRlIGFib3ZlIGlzIG5vdyByZWplY3RlZA0Kd2l0aCBFUEVSTSwgYW5kIG5vcm1h
+bCBmaWxlLCBoYXJkLWxpbmssIHN5bWxpbmsgYW5kIHJlbW91bnQgY2hlY2tzIHBhc3MuDQoNClRo
+YW5rcywNCkJhb2xpbg0KDQpZb3UgbWF5IGNvbnNpZGVyIGFwcGx5aW5nIHRoZSBmb2xsb3dpbmcg
+Y2hhbmdlIG9uIHRvcCBvZiB5b3VyIGF0dGFjaGVkDQpwYXRjaDoNCioqKioqKioqKioqKioqKioq
+KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
+DQpkaWZmIC0tZ2l0IGEvZnMvbnRmcy9pbm9kZS5jIGIvZnMvbnRmcy9pbm9kZS5jDQppbmRleCBl
+MWM1YTc2N2U2MmIuLmMwZTI1MzU0MDFiYiAxMDA2NDQNCi0tLSBhL2ZzL250ZnMvaW5vZGUuYw0K
+KysrIGIvZnMvbnRmcy9pbm9kZS5jDQpAQCAtOTU5LDYgKzk1OSwxNSBAQCBzdGF0aWMgaW50IG50
+ZnNfcmVhZF9sb2NrZWRfaW5vZGUoc3RydWN0IGlub2RlICp2aSkNCiAgICAgICAgICAgICAgICAg
+Z290byB1bm1fZXJyX291dDsNCiAgICAgICAgIH0NCg0KKyAgICAgICAvKiBDbGFzc2lmeSAkRXh0
+ZW5kIGNoaWxkcmVuIHJlZ2FyZGxlc3Mgb2YgdGhlaXIgZGF0YS9pbmRleA0KbGF5b3V0LiAqLw0K
+KyAgICAgICBpZiAobmktPm1mdF9ubyA+PSBGSUxFX2ZpcnN0X3VzZXIpIHsNCisgICAgICAgICAg
+ICAgICBlcnIgPSBudGZzX2lzX2V4dGVuZGVkX3N5c3RlbV9maWxlKGN0eCk7DQorICAgICAgICAg
+ICAgICAgaWYgKGVyciA8IDApDQorICAgICAgICAgICAgICAgICAgICAgICBnb3RvIHVubV9lcnJf
+b3V0Ow0KKyAgICAgICAgICAgICAgIGlmIChlcnIgPiAwKQ0KKyAgICAgICAgICAgICAgICAgICAg
+ICAgTklub1NldEV4dGVuZFN5cyhuaSk7DQorICAgICAgIH0NCisNCiAgICAgICAgIGlmIChuaS0+
+ZmxhZ3MgJiBGSUxFX0FUVFJfUkVQQVJTRV9QT0lOVCkgew0KICAgICAgICAgICAgICAgICB1bnNp
+Z25lZCBpbnQgbW9kZTsNCg0KQEAgLTExNjMsNyArMTE3Miw2IEBAIHN0YXRpYyBpbnQgbnRmc19y
+ZWFkX2xvY2tlZF9pbm9kZShzdHJ1Y3QgaW5vZGUgKnZpKQ0KICAgICAgICAgICAgICAgICAgICAg
+ICAgICAqLw0KICAgICAgICAgICAgICAgICAgICAgICAgIGV4dGVuZF9zeXMgPSBudGZzX2lzX2V4
+dGVuZGVkX3N5c3RlbV9maWxlKGN0eCk7DQogICAgICAgICAgICAgICAgICAgICAgICAgaWYgKGV4
+dGVuZF9zeXMgPiAwKSB7DQotICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE5Jbm9TZXRF
+eHRlbmRTeXMobmkpOw0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaWYgKG0tPmZs
+YWdzICYgTUZUX1JFQ09SRF9JU19WSUVXX0lOREVYKSB7DQogICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIGlmIChleHRlbmRfc3lzID09IDIpIHsNCiAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBuYW1lID0gcmVwYXJzZV9pbmRleF9u
+YW1lOw0KDQo=
