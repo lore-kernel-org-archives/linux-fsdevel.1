@@ -1,96 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795532561;
-	b=w7By3dECDZ5xHvh7TgZJwdq11hqxj9YPJvCK1BhA8mHfhdRaBQKG32oe7fmxDzDVjuRY
-	 pRunelsv0uGyFfWZ9phNNpAumauXtK0AvGW9s8Q4kadgXU2f8LnZEgLzRaJv9UgR4PQje
-	 C4ApbK8mQQ6z0cpM6Sk+9t5XFf3GG/Gc7PzZMaOPVwoMdq7xDhFKtG0uUvoSy1PUWRxwO
-	 LRWacVdzhMYorGinOF+AMUGHZpxN6RUZBJ7SqPcGNeFNS3MiO+SjxVlVu2nXsdHT+6AIT
-	 Mf6sgNHBpnZkCcWrJqibJlzw6x0f/BaP+r3yqB1KsJTzzubtUpK0/HzMvPAhXgeOBjA==
+	t=1795533401;
+	b=wxkHT1Qi+5uCtHBUnxmtj9qxc/WV7bGpvqFnF9tM/1rwupevhKpiiQdBuiJJ7QSeRIVo
+	 hFZAsxF5a6I46Utn+kmN5gGsMkn0LZcSOkzlCPF/UStOmPkyXQ6vPSxI0JBuSGH0C4mjS
+	 +57DY5xdXzHJhCqigY1RDL3OK0li0xxd/Qy0vH6jdd9A3eqtH+l1CMvLK9fvoHIUvxpyS
+	 VJgIKumSuOZrimSmZQAt2bUPg1edtVwUwoW9cO4101itn9p8sSd6o3ZYi11NJeC4W7zX9
+	 4be9JCDFSPpye9Vnn1eqD4x1AYo7eAjK6/sYclJvo7axNzsAQj5Ov+zKZOcxR1vjcJA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795532561;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=NRGFHQowi9Z94fI9t282a6J9sXgMRTfXyGM/l5+fMlI=;
-	b=WgDZ51MjPbFCITtB663OOHfqtMRSPGHT4q1kIelPjtgPt71Q+8W7e8RT068Lwzt/8NGd
-	 nHS0l1nwrPWWLR2nt+kB2yGDhmpRd2mZxuRnpeogTpOSEdDpqiopAjboc87xdJWxCkGIa
-	 +cTecHxoRmwlVYgsh/H7UWvEVP2VTz3yGc+0wS5yCFcMFuzMYryN6xuLL3KuAHstnPJ7F
-	 quE9yVRggduxR1Xp9JjmRG/cFybrTqnXGT+Mk1uzCXmLYDz6Wg/wsCOp0WcV+FYZV4TWa
-	 20tNSHGvVPpHKjqySEsVbysAvo4bzRxNKAOLRgVNMD44TN6BQ8paUlaA4NZJsEojSTA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795533401;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:X-Developer-Signature:
+	 X-Developer-Key:Content-Transfer-Encoding:X-Rspamd-Queue-Id:
+	 X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
+	 X-Spamd-Result:X-Spam-Score;
+	bh=pqvAaGEjpt0IWpRB6w6aHQ4ddduicuAnAOViW9LYZuU=;
+	b=WGJN/5nw/5I3kZzRIDl1rEumAZakD7WWDCDx1mn7TlyieyhIytu/j6+ukw8bDy8gh7x9
+	 nIrrSPu25f+as1fSloaAmeaP9hl++NgHHiC/Nw9UlXXC/fNOk9sKhqNUV5boPM8DHTmdt
+	 9yzFN3dEeAvPzOrJdS6JQMUUgaD26sV07i041LhgZPDlfSjW8x+UxChrTr5H+iqKsCLa5
+	 64dgfKImfjTuxJw8Ux8/LKV+Ienzd6+MxOQEXT333fVlNckJI6b4pcV3ZXPGBObuJOvy3
+	 OcVcy6gyxxuhejKS+4ia6dM3mdbH2PgErPDvMOmJhHoqjXs0n/j/hwkArHfqR99UVsw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SCJg2kFb;
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=YHOI2wJa;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=y7SUBeFd;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=zxzGQ5z6;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HPnRjVdR;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55AE0606A31E
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 15:02:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 55AE0606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C540606A31E;
+	Tue, 24 Nov 2026 15:16:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0C540606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SCJg2kFb
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4bb6adaf0f1so40753405e9.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 07:02:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795532559; x=1796137359; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NRGFHQowi9Z94fI9t282a6J9sXgMRTfXyGM/l5+fMlI=;
-        b=SCJg2kFb0Pje9fpjWW2zB2GH6+L87OMXQvIoAkKygbUkpsWzs/cjGtGHyVwQn7GUbR
-         2qNgrBcNuXAXc3wSIH9TjxM67tc+ON5AP6F1axeHgPrWE1oHZyFgDyjRZ09rRx0deG4m
-         0qLlStLzfOtZ1a4EcWpHJSJhqTDCfF/z17vWkzrYjBbtxNVyw/Q4Gr5LtQGoNvHx/igT
-         m9SjUsRWVvMuCGOV43SnC8fqXNjiEhNOh34NF0yQU4jNMSQc4G8j4UtUvCyqJsbtoLk0
-         NAW247w3WY2YopY3s9Cv+sFsc0O/I/H30rKwX52rTSdyDz5fPXce0DkzSKynNRLu+u/d
-         a7gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795532559; x=1796137359;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NRGFHQowi9Z94fI9t282a6J9sXgMRTfXyGM/l5+fMlI=;
-        b=DfvHwhP3rWdGNnhIZkczJ91ZSi1PBnP4J/zZPbeiN4w2X7Bg25TrAUbH9U4V0hhDzc
-         FGYfJlGFvoqMGzdzv/vnpHPj50kAhlNe76pIEVsjw4fl35nlqreCsncVod9wXuy0oesW
-         ZecblOWBm1oMO8ZVYlMytc9Mj0nN5H7fmzDel/cf8a+LN5oN0MV3lLZWal/O0+oWMQCW
-         Kyso9gMx64at/fFW0OPjv8REcPocL5mi0n9Yibyhr1Az6nMTnyCfI95LKjsVL4t63hZd
-         XuJ2JChGuHB3IWK1P63306CQFi+Vn8roEj7+vj7cLwtyCDBXsMVh0QEPCMXNnkG6I0h3
-         Dq4g==
-X-Forwarded-Encrypted: i=1; AL+hErElAM/Jk8u9KoYB7Im1GxC8Z6zLMA6D8wD0jxMfHre2L6nG7nhBx1u5G7ANiZsXToVkWMzQCNSOorUqKmkz@vger.kernel.org
-X-Gm-Message-State: APuU4Z+W3RHqf0dIVK7b+9FdwVfrqELv7E1vo2RrqEdRG8HXERUgNX17
-	osFvLinlkB+25oX30kcRIvU24yqyMi/4ZJ5VlDZDeNhfmAYyYaqFCfPf
-X-Gm-Gg: AZFdTZfnrxoSPXntjOgXtHTi+ccyWZrnFHRpFlOKomVuhWuaXabOgeNOHXT78z557lk
-	CkpAgjs7x0CFKTDKLS8dEsK7cKnWY59DOutiynkEtiuWAj2vpgD1/1treF0fdd9omjfk57m1I2U
-	C77Y204VGbVrXrEwV6/uwi05Q4E3XReHsyOgNAu5AHHEULdEILAh0dtslcA+uQUxQoFrWj/+CRc
-	dqydhaBa4kIenmjDXBRZI3kHB3N6XxX6eTh67XtxImZQzDmHTjJ2bsd01W3B5NoEyikx3AYLPXA
-	vFmaP5A/aSQSxlOA5PpTAqYL4JTPA30TqJJsFR66jI9WsnoDbtdcx2pnT2zb1jFyJus9nln2YeV
-	IyWEUBMU6TXdiwGNm4LSbn1lIIBf+Bf6P7IEMqI7jDWtwyOBDhJjc/AfD+OTBPXe7+wo3rMnhMp
-	YzkFxmzlQlw3zQd6YjNJ1Gp0h+wtTrOkgJEumM9UXh7W3uGpjj0eC1okhyIzleVynSWw44hlPs2
-	itOpkEkciCzRaz4ERUMOy5/qeJKRaOvp0ffyHm+PpAl/uC5+gZx+jChmvr9peNh0o5i/Ko5NkPF
-	pMZ/UT9Dq3pxWIjqnfopOE6Q
-X-Received: by 2002:a05:600c:4f0f:b0:4bb:87f4:3674 with SMTP id 5b1f17b1804b1-4bb8880ef40mr381750235e9.15.1795532558297;
-        Tue, 24 Nov 2026 07:02:38 -0800 (PST)
-Received: from infinity ([2001:b07:5d26:7a6a:365a:60ff:fe0d:cfc6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906d6a13sm232166435e9.3.2026.11.24.07.02.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 07:02:37 -0800 (PST)
-From: koraynilay <koray.fra@gmail.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=YHOI2wJa;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=y7SUBeFd;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=zxzGQ5z6;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HPnRjVdR
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E6C5C1F808;
+	Tue, 24 Nov 2026 15:16:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795533399; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=pqvAaGEjpt0IWpRB6w6aHQ4ddduicuAnAOViW9LYZuU=;
+	b=YHOI2wJaR8bg0qDHCmTJaLQo/0jdmqx3HH33jgKd82XPPYp94eo3aaa4aHMmqVLKCfozbY
+	0OQVRBWfDiA6lUq8G2EMUzV2plRlSrMIB6apBSh7egNq1cwPjckLP0gRuVnGas8mJkqkDk
+	lsdIkrrFrzfYfBWGsZSMLzEpQY9eslI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795533399;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=pqvAaGEjpt0IWpRB6w6aHQ4ddduicuAnAOViW9LYZuU=;
+	b=y7SUBeFdtHfvymMjUqn2rPG8y2Wf/tx8JKfT3zkBBmWztHeXLyPn00C+K9yOaCmrxPnIZy
+	8ULOyHHsqvGOowAw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=zxzGQ5z6;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=HPnRjVdR
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795533397; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=pqvAaGEjpt0IWpRB6w6aHQ4ddduicuAnAOViW9LYZuU=;
+	b=zxzGQ5z6rUrhebFS2hTSdWoSlZzm7rhMNrp5TgvI9IT1PzZiu+sWfDhWImlTRkoTw4we7d
+	G9q/jQKR4BBAdOjbqOZgcQT9GUXmYWoQDuECtpTvl5JlGqovkuLNkMQJ49UMwGM5EAh+Z3
+	ciDeewyBELgSd00Hc55mvNUQH0GDK5o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795533397;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=pqvAaGEjpt0IWpRB6w6aHQ4ddduicuAnAOViW9LYZuU=;
+	b=HPnRjVdR9XJWZfZeVdIWSKlBLCKNZZk6bgYwH4fU22u5uC7mPVLU7BxOijMpWnjjjnmyZB
+	a8ZP9oOkO1teHwCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BCDA913505;
+	Tue, 24 Nov 2026 15:16:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 1PJAJVWqBWuIYQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 24 Nov 2026 15:16:37 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id 3ACB4279EF; Tue, 24 Nov 2026 16:16:37 +0100 (CET)
+From: Jan Kara <jack@suse.cz>
+To: <linux-fsdevel@vger.kernel.org>
 Cc: Jan Kara <jack@suse.cz>,
-	Edward Adam Davis <eadavis@qq.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	koraynilay <koray.fra@gmail.com>
-Subject: [PATCH] vfs: fix file_getattr hint to request xflags
-Date: Tue, 24 Nov 2026 16:01:08 +0100
-Message-ID: <20261124150108.189282-1-koray.fra@gmail.com>
-X-Mailer: git-send-email 2.56.0
+	stable@vger.kernel.org,
+	Roman Yepishev <rye@keypressure.com>
+Subject: [PATCH] udf: Fix validation of unalloc space bitmap
+Date: Tue, 24 Nov 2026 16:15:55 +0100
+Message-ID: <20261124151554.42698-2-jack@suse.cz>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,172 +109,125 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2757; i=jack@suse.cz; h=from:subject; bh=t14vdnDcmj2MZXJxzlGdzOlqqxNmOzXA8J1fOqqz6q8=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBrBaoq7/EBTyzrNsHVKk9FHNwVtVoxg9XPJZcj5 /7tkS+i+P2JATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCawWqKgAKCRCcnaoHP2RA 2X7dB/wKe38hJEbrZ8Qr+vrZQ5ExhGtIvrr86fw6vnqQ13ldtHF0zMxVSdhuIqKf8bN0IDby6Qy kaEj/cmHPL8dVvLn4NmUGwsiTKxvi3pxsfa3jRXunu7FRH87gxz4RpAjWi4tEIVCGroEtykzImS 4ERCaY84YQfDLQveoxeCpsSWCGS63WvMrz6NrTwozTdk5v2+pTv0sC1W4xjVFbQfNJZh8kYIAWP T8Gqg/gEedkOZYQR2paeX6+xak3GDMrLFsJrS+EpqW3t0DOPivm/lAkPaVZf68MuTntzS/J7K4r CdMry1tfqjgo2izA9YDcd1w7wj+qA9qO8CBSKecUTxV1C/z8
+X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: E6C5C1F808
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-12.01 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,keypressure.com:email];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Spam-Score: -12.01
 
-When using a FUSE mount over an underlying filesystem that supports
-xflags, querying them from userspace with file_getattr() strips them
-because file_getattr sets flags_valid = true so FUSE uses
-FS_IOC_GETFLAGS instead of FS_IOC_FSGETXATTR.
+The validation whether bitmap blocks are marked as used in the
+unallocated space bitmap was assuming that the bitmap is located at the
+beginning of the partition. That is not true e.g. for media generated by
+Win 11. Fix the validation to properly take location of the bitmap
+within partition into account.
 
-Fix it by setting fsx_valid = true instead.
-
-Output when using a simple FUSE mount that simply forwards the ioctls to
-the underlying fs:
-
-before the fix:
-
-  /xfs/file: FS_IOC_FSGETXATTR: ret=0, projid=69
-  /xfs/file: file_getattr:      ret=0, projid=0
-  /ext4/file: FS_IOC_FSGETXATTR: ret=0, projid=42
-  /ext4/file: file_getattr:      ret=0, projid=0
-
-after the fix:
-
-  /xfs/file: FS_IOC_FSGETXATTR: ret=0, projid=69
-  /xfs/file: file_getattr:      ret=0, projid=69
-  /ext4/file: FS_IOC_FSGETXATTR: ret=0, projid=42
-  /ext4/file: file_getattr:      ret=0, projid=42
-
-Fixes: cb184dd19154 ("fs: init flags_valid before calling vfs_fileattr_get")
-Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.11
-Signed-off-by: koraynilay <koray.fra@gmail.com>
+Fixes: 1e0d4adf17e7 ("udf: Check consistency of Space Bitmap Descriptor")
+CC: stable@vger.kernel.org
+Reported-by: Roman Yepishev <rye@keypressure.com>
+Signed-off-by: Jan Kara <jack@suse.cz>
 ---
-Hi, I found this issue while working on the v2 of [1], here is the
-reproducer, not in the commit message because of the size.
+ fs/udf/balloc.c | 44 ++++++++++++++++++++++++++------------------
+ 1 file changed, 26 insertions(+), 18 deletions(-)
 
-script:
+I plan to merge this fix through my tree.
 
-  #!/bin/bash
-  truncate -s 100M xfs.img
-  truncate -s 100M ext4.img
-  mkfs.xfs xfs.img
-  mkfs.ext4 -O project ext4.img
-  mkdir xfs ext4
-  
-  mount xfs.img xfs
-  mount ext4.img ext4
-  touch {xfs,ext4}/file
-  
-  chattr -p 69 xfs/file
-  chattr -p 42 ext4/file
-  
-  mkdir fuse
-  ./repro_fuse_getattr fuse "$PWD"/xfs/file
-  ./repro_fuse_getattr fuse "$PWD"/ext4/file
-  
-  umount xfs ext4
-
-where repro_fuse_getattr is a simple fuse mount, compiled with:
-
-  gcc repro_fuse_getattr.c -o repro_fuse_getattr $(pkg-config fuse3 --cflags --libs)
-
-and used like:
-
-  ./repro_fuse_getattr <fuse_mount_dir> <full_path_to_real_file>
-
-repro_fuse_getattr.c:
-
-  #define _GNU_SOURCE
-  #define FUSE_USE_VERSION 35
-  #include <fuse3/fuse.h>
-  #include <stdio.h>
-  #include <string.h>
-  #include <errno.h>
-  #include <fcntl.h>
-  #include <unistd.h>
-  #include <sys/syscall.h>
-  #include <sys/ioctl.h>
-  #include <sys/mount.h>
-  #include <linux/fs.h>
-  
-  /* needed to get the file's file descriptor for the ioctl */
-  static int my_getattr(const char *path, struct stat *st, struct fuse_file_info *fi)
-  {
-  	memset(st, 0, sizeof(*st));
-  	if (!strcmp(path, "/")) {
-  		st->st_mode = S_IFDIR | 0755;
-  		st->st_nlink = 2;
-  		return 0;
-  	}
-  	return stat(fuse_get_context()->private_data, st) < 0 ? -errno : 0;
-  }
-  
-  /* pass down the ioctl to the fs */
-  static int my_ioctl(const char *path, unsigned int cmd, void *arg,
-  		    struct fuse_file_info *fi, unsigned int flags, void *data)
-  {
-  	int fd = open(fuse_get_context()->private_data, O_RDONLY);
-  	int ret = ioctl(fd, cmd, data);
-  	close(fd);
-  	return ret < 0 ? -errno : 0;
-  }
-  
-  static const struct fuse_operations ops = {
-  	.getattr = my_getattr,
-  	.ioctl   = my_ioctl,
-  };
-  
-  int main(int argc, char *argv[])
-  {
-  	const char *mnt = argv[1]; /* FUSE mount point */
-  	const char *real_file = argv[2]; // full path of the file on the
-  					 // underlying fs
-  
-  	/* start FUSE */
-  	pid_t pid = fork();
-  	if (pid == 0) {
-  		char *fuse_argv[] = { "fuse", "-f", (char *)mnt, NULL };
-  		return fuse_main(3, fuse_argv, &ops, (void *)real_file);
-  	}
-  
-  	usleep(300000); /* wait for FUSE mount */
-  
-  	/* Query the file attributes through FUSE mount */
-  	char fuse_file[4096];
-  	snprintf(fuse_file, sizeof(fuse_file), "%s/file", mnt);
-  
-  	int fd = open(fuse_file, O_RDONLY);
-  
-  	struct fsxattr x = {};
-  	int ret_fsget = ioctl(fd, FS_IOC_FSGETXATTR, &x);
-  
-  	struct file_attr fa = {};
-  	long ret_sys = syscall(SYS_file_getattr, -100, fuse_file, &fa, sizeof(fa), 0);
-  
-  	close(fd);
-  
-  	printf("%s: FS_IOC_FSGETXATTR: ret=%d, projid=%u\n",
-  	       real_file, ret_fsget, x.fsx_projid);
-  	printf("%s: file_getattr:      ret=%ld, projid=%llu\n",
-  	       real_file, ret_sys, (unsigned long long)fa.fa_projid);
-  
-  	umount(mnt);
-  	return 0;
-  }
-
-Thanks,
-koraynilay
-
-[1]: https://lore.kernel.org/all/DN2YMTH77KWE.3IPE9OG8377X0@gmail.com/T/#t
-
- fs/file_attr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/file_attr.c b/fs/file_attr.c
-index 833e03810b24..3b249a0a6b36 100644
---- a/fs/file_attr.c
-+++ b/fs/file_attr.c
-@@ -383,7 +383,7 @@ SYSCALL_DEFINE5(file_getattr, int, dfd, const char __user *, filename,
- 	struct path filepath __free(path_put) = {};
- 	unsigned int lookup_flags = 0;
- 	struct file_attr fattr;
--	struct file_kattr fa = { .flags_valid = true }; /* hint only */
-+	struct file_kattr fa = { .fsx_valid = true }; /* hint only */
- 	int error;
+diff --git a/fs/udf/balloc.c b/fs/udf/balloc.c
+index b6551cc7c6cf..94baaa8fc74d 100644
+--- a/fs/udf/balloc.c
++++ b/fs/udf/balloc.c
+@@ -33,8 +33,9 @@ static int read_block_bitmap(struct super_block *sb,
+ 			     unsigned long bitmap_nr)
+ {
+ 	struct buffer_head *bh = NULL;
+-	int i;
+-	int max_bits, off, count;
++	char *bmp;
++	unsigned int i, start_blk, end_blk, bmp_start;
++	int max_bits;
+ 	struct kernel_lb_addr loc;
  
- 	BUILD_BUG_ON(sizeof(struct file_attr) < FILE_ATTR_SIZE_VER0);
-
-base-commit: 3857587d9d6fa44d40d1c73bde6a39f6f7a5216c
+ 	loc.logicalBlockNum = bitmap->s_extPosition;
+@@ -45,27 +46,34 @@ static int read_block_bitmap(struct super_block *sb,
+ 	if (!bh)
+ 		return -EIO;
+ 
+-	/* Check consistency of Space Bitmap buffer. */
++	/* Check bitmap blocks are marked as used in the bitmap */
+ 	max_bits = sb->s_blocksize * 8;
++	bmp = bh->b_data;
++	/* Skip header in the first bitmap block */
+ 	if (!bitmap_nr) {
+-		off = sizeof(struct spaceBitmapDesc) << 3;
+-		count = min(max_bits - off, bitmap->s_nr_groups);
++		bmp += sizeof(struct spaceBitmapDesc);
++		max_bits -= sizeof(struct spaceBitmapDesc) * 8;
++		bmp_start = 0;
+ 	} else {
+-		/*
+-		 * Rough check if bitmap number is too big to have any bitmap
+- 		 * blocks reserved.
+-		 */
+-		if (bitmap_nr >
+-		    (bitmap->s_nr_groups >> (sb->s_blocksize_bits + 3)) + 2)
+-			return 0;
+-		off = 0;
+-		count = bitmap->s_nr_groups - bitmap_nr * max_bits +
+-				(sizeof(struct spaceBitmapDesc) << 3);
+-		count = min(count, max_bits);
++		bmp_start = bitmap_nr * max_bits -
++				sizeof(struct spaceBitmapDesc) * 8;
+ 	}
++	start_blk = bitmap->s_extPosition;
++	end_blk = start_blk + bitmap->s_nr_groups;
++	/* No overlap? */
++	if (end_blk <= bmp_start)
++		return 0;
++	if (start_blk < bmp_start)
++		start_blk = 0;
++	else
++		start_blk -= bmp_start;
++	if (end_blk > bmp_start + max_bits)
++		end_blk = max_bits;
++	else
++		end_blk -= bmp_start;
+ 
+-	for (i = 0; i < count; i++)
+-		if (udf_test_bit(i + off, bh->b_data)) {
++	for (i = start_blk; i < end_blk; i++)
++		if (udf_test_bit(i, bmp)) {
+ 			bitmap->s_block_bitmap[bitmap_nr] =
+ 							ERR_PTR(-EFSCORRUPTED);
+ 			brelse(bh);
 -- 
-2.56.0
+2.53.0
 
