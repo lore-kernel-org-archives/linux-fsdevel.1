@@ -1,101 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.41
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795535948;
-	b=dAJ0zcbg1v7QtgKyqyKlSFw/djMQ0y9twdxCnvz4pmWohLvwf6pf9ZZL8QN3oI9ZXZjb
-	 7n/tM5zkpxLxcHiTpAxQIr0lAKQAFqbgwfq+CPtcb/AHRjTjnM11G157nd50eq3cD4CV7
-	 7bzLGXLLQ0bK0rogS6vqd2wNZKdspsDzoPifICDrRWRJ2ACiFWdz9v67XBueVc+qBVWol
-	 7ggi6G1028d5FWc0EgOR0Oumy4YPt30uyfnU+AYPSd2gI4MdqhjLhoZG+1JcSEUy5LE61
-	 dRS5vz5+KoDpFcWKDgqeWCWiTDP+lCMoaCOelv1/qpnKcC0M8Flv9zq0wUlfUtboI6A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795535948;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=/74Ri30W6oVFNU4eqK6RxVx2Up+VW7ByxGiC/VStVG4=;
-	b=F6sEez8jvbaA55nhaAHqFCSpuVkisnB71JVXmL2Yo/CdtYyHqpFqjf/5E8Q+DVXIrw+5
-	 jUZaE6TusCt0wVX6gg4JFG315SLExGeoZhYpc7I+QeSU8eOsqkT6J7cwYSqw/7TePTnxI
-	 hvAKIGo0LROJ5Nz339ulCPIgDlmK4DyNtXjl63HNhkCSOFjKEIjB4QaVxj/E6GILYNvZS
-	 cmzrPTD2aCVZMFf09UA6TIKqyw5s8VjuSLopRjpCTwqwJHHXYshiddlQm2TnwdOnYWKQX
-	 caqwur0UlTVPlzwNuHVcb8CF07aKXJ1cbXazR+yyoxpqnKBVQ74NJbTJ4n1EWVVIp7Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Xe6FmElH;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.41
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795536011;
+	b=HwTMq+7qN/2GhpKn1hgksVp/g8iCnbv0Kp7fKNsAtvsXXuph80fC/sgwleHadR+ddWxZ
+	 6E/F1OaBBbQvVIMPCW8ZusLgtz+2OpmD/O0x3w+n2O8xTNF3fS50c1yFU4NvgZ8OQeVnE
+	 RTOtWf11RUvmboiZ3ekw6X+Bx7UwDOPUn4Z1gR13FCLIlbYUb1fMS8VavRF2O5v9pNQzd
+	 WA2vXFJDGyX5lEtNXVX/ygn7deKD+g8hf7R/CVSY048S2AWJSEW2b/uUrPISY2DZaFuvJ
+	 pS0Cj6gKl+bP2r6mxrOlQ7fZEKNIsMsmosajp3OscfaXU4GKVQbi0T9Ma1u3L0GYQsw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795536011;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=WyDdvfjHNhbIjglf8XuLVeDKVR/gcGoOR6RkKSo72Xg=;
+	b=UC4eKI260X15caep67EZYsD18wUeOwcdD9+otW581rA4aiLqN1oEylNXdAC9Ai74L6Qu
+	 o+7teJjOdrv/y25AHMoSfrszRiKDSaIHZaVzIh2xFuLzr+R+xBkTVO9Fub7IHIKKcUVlJ
+	 bsNTHubxW+ZrbeFmer/7zd5e7rxBlNJx2XxaAQqODmLTafGFfh8GMM+/0u3PcQJQIlPjO
+	 j618bOEyzHV/q7YVLbi4YPZsVeNbdVQDlXF5RLoU7AAGJSGfAn8Cb1np7KZcKuCVywFQb
+	 O2JEMhRZwFGvut5QCqhXemf5E289HeCyI+no5yGXk0s2jHg9crmmAeQjAPqVoQk1fTQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=OJSXW4JT;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=sHN2TWmm;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=OJSXW4JT;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=sHN2TWmm;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C616606A31E
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 15:59:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2C616606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98638606A327;
+	Tue, 24 Nov 2026 16:00:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98638606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Xe6FmElH
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48e3b22e971so2465647f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 07:59:07 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795535946; cv=none;
-        d=google.com; s=arc-20260327;
-        b=NFFEnOF+6Jg8g8Lr2wySuurLdmv4ljbz2GleJuYwTWe/tzDAhvUCVqodY0A1yjXWJz
-         21sHRxib9ZR7eUbUEAAqjRqCiZv5FZNmIB9N4nZoECg51CumZ7xpPhj4SDySG0g85czb
-         IBBfn1FjM/s7LsfgpgTJgZ/yX7NQ+Ch3KcPC/05b9R0i8gPxnLptgjhepgnJOJWIz4ML
-         Xkn13iTNZea+ne3I0ZjUofXE96f0Jz6nA11hM8hJC4/yuCwUHMBeTO/A64VvnoiHwJtb
-         TugJHKWstSZKUxcUJDuQlxFBgkV/pCCz9mTv+14u1ZkKE3/OsLhoZ4YWPgA3VBj38G5m
-         D61w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=/74Ri30W6oVFNU4eqK6RxVx2Up+VW7ByxGiC/VStVG4=;
-        fh=NRdH7fNQWLIjNg5U37lK3RbJEj44uLdFYGNdGuZzeQM=;
-        b=NnPNZ6n9FmVlcRxHOchcxbLKC6eVH8Sq5Mi8EnZpIA3A1ojwGSJEeTVN0Bw/sWYBhZ
-         gnllzJKrD19qeGjzG0QvEx3SmQOawD++MCOTGWNd0y2xlj8KzGhZYknEcltsomVMXLRl
-         S4FXByRGUKsyq/NHocfCFyYpSQIJc+sY4NTUYAlI7SgOO3ykwqpCGNk1yInDylukBWrx
-         Lxk/mv0O891upTu9ClWUH3jWAidFtu6nJtjL0EappXQ1xLl/Nkgo2GQPT1XD343CTmOz
-         yvW5U6Wjp7q9VRAInrfk9DlTJxMfZy0+PfdGSad4B2TJU4zg1SEqj/pMyuwtbSuQtXsm
-         ZzrA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795535946; x=1796140746; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=/74Ri30W6oVFNU4eqK6RxVx2Up+VW7ByxGiC/VStVG4=;
-        b=Xe6FmElHRDHd8Mzt+qaORfLww3jW7bzp9w3MVasJYUJ2bJZdnE1Aw1mgy2NKI2sena
-         dDG8JEAhbJYTTlbinXSZDegIk7R+F17Ou0v5XWKXNH5HlC58k8XA+UB8E75ye6x1hAxJ
-         ga8Yx/qOWO+gSNY7Vkwg0B2Tu2ULmqkuiyfiTbxDBeLSnB8sybLjyPIk02kpUmWq/QQW
-         a+gkQYsudrPJpFuZ7BZ/19Nccy2+fGjptuK6LRS0+5Tu0+jYay3+7DhvzbdQE9Wo/1A8
-         xdns5t2s1hz6kYA3WVfIgT/6MY445hPydsnhJ/ULT4FlMJPvGlHi5HjWjed9/+gZZTCn
-         d0yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795535946; x=1796140746;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/74Ri30W6oVFNU4eqK6RxVx2Up+VW7ByxGiC/VStVG4=;
-        b=yuoEbsuGBg7TSMEUFWIMwTRyL5doCz78jDn6vOhNdz8d235WR4DsERyNCv50mi645L
-         mnO5aAbR3+rVzNfJWVheQyfnePQJiyZNQ5A6RmgRoVuO82t34bcmBSU9JwyoUWI3m8Eh
-         TXbW+NMJhiiKvBxfkxezY6dchcy5LMrcmKg1iwZ/0sUYFulIre6Rb8wKBL40PuoaEvq1
-         5ZhVGvhQgYGBsLfdfEB3kHdW4GtLscENRGYDCIfFXPVaqwhgx+uY13gmGNFNgRN0ObvS
-         2Af0JLwY+HFtm+Tkgtphm6Q6ou26E0PGSIZmN7Yti07QByc3NWsZ3hCCFeO4m3Ord+Vm
-         LJFw==
-X-Forwarded-Encrypted: i=1; AL+hErHpRis5mRrlO8q92WDEZ7AF/h2MudWSvTcYsPrF9doxMCxsBP+SdFUjxYp2E1CiD2U6oYNp6Q7D+cYeP2tj@vger.kernel.org
-X-Gm-Message-State: APuU4Z+R6Fdsu/SxTk/bdeNlBScKAlXXuP5mNLTiIoazmaeO0Q+Y1df7
-	Oqz3jq5jJ6Jclu+ZGGCw2UwZgCvlLYfLSA7sfginStlPqjVD0lVI34IogWn44E97AdyUGvflAg+
-	sHSxWZ+xFuavQWHkYhibZTtAh7A7NTgo4Bt2WgcA=
-X-Gm-Gg: AZFdTZdArhla+c5ZKs8DATu53Hjews3PecLid2ojwlgEUDuICZl4ZoJwSA68yCqVD1I
-	oQtaGVcWQwPfwfI2F3qBwxMaUjvoyZIQ6GNfjHKHD8/kvPiQ6pgmnX2YE6rxvajnTaQLwZu5hg2
-	1VqRdr6A2LRFVKZwJdOzCCBWr8ZUyFbqiOKNcCQfnivdoTuivwzudCFEaD6nyzSe1tBJg8DWPMD
-	BpiCM7R4B2kx5V7kNU3PVeP0FJsq5i1G4SuAk3tCYG/JZgSKnKScj1iun1KfRvdlZwwz+fL4QXW
-	Vgtz83KLFPVaYKxKaE39Eh6h9S78qOLBfP1tWsovshRwac74bWiki5jc66BtqmGFMsnYaFMckrH
-	hFx8kv/WFHW6hJyNSqApM2oSSOJtRaCpovm5Ne3mOaqQuhrkTA40FPm9IICxr0S7qejTOg6vcuk
-	jrnpM0CGTNDe445EiMrPerFm4yrDVA0AXyU2cLh467fYPIRJgsf1Ae
-X-Received: by 2002:a05:600c:83c3:b0:4a1:7e77:c382 with SMTP id
- 5b1f17b1804b1-4bb8880ad68mr297552635e9.5.1795535946309; Tue, 24 Nov 2026
- 07:59:06 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=OJSXW4JT;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=sHN2TWmm;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=OJSXW4JT;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=sHN2TWmm
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 46B6E222FC;
+	Tue, 24 Nov 2026 16:00:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795536008; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WyDdvfjHNhbIjglf8XuLVeDKVR/gcGoOR6RkKSo72Xg=;
+	b=OJSXW4JTlCx8xys7tyF6wx/SiwZqltuo49A48APilde8a20vmcTR4+N6WFauzBkUxca1jb
+	mkGjYfJT2h6Yk9JKlq9SH2CaNfNJenQl5XP+EQNwpTmVT73RCnyAzDhHrNRfkmXJ5LMhAN
+	LO3MwbBS0WGnH1jyEQsu0wCAzB+8Jn4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795536008;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WyDdvfjHNhbIjglf8XuLVeDKVR/gcGoOR6RkKSo72Xg=;
+	b=sHN2TWmm9SnvEtBxVEAhWLxgnorU/8t4HbU4Xfp5rhsecu+IuOkETQSETThWurkQ1hqkfL
+	yS4jWWCXmoFsUcCg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795536008; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WyDdvfjHNhbIjglf8XuLVeDKVR/gcGoOR6RkKSo72Xg=;
+	b=OJSXW4JTlCx8xys7tyF6wx/SiwZqltuo49A48APilde8a20vmcTR4+N6WFauzBkUxca1jb
+	mkGjYfJT2h6Yk9JKlq9SH2CaNfNJenQl5XP+EQNwpTmVT73RCnyAzDhHrNRfkmXJ5LMhAN
+	LO3MwbBS0WGnH1jyEQsu0wCAzB+8Jn4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795536008;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WyDdvfjHNhbIjglf8XuLVeDKVR/gcGoOR6RkKSo72Xg=;
+	b=sHN2TWmm9SnvEtBxVEAhWLxgnorU/8t4HbU4Xfp5rhsecu+IuOkETQSETThWurkQ1hqkfL
+	yS4jWWCXmoFsUcCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1836F1339F;
+	Tue, 24 Nov 2026 16:00:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id lHpUOYe0BWv4DgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 24 Nov 2026 16:00:08 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id 9D39427A0B; Tue, 24 Nov 2026 17:00:03 +0100 (CET)
+Date: Tue, 24 Nov 2026 17:00:03 +0100
+From: Jan Kara <jack@suse.cz>
+To: koraynilay <koray.fra@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Edward Adam Davis <eadavis@qq.com>, 
+	Amir Goldstein <amir73il@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] vfs: fix file_getattr hint to request xflags
+Message-ID: <254hewuzyamtl5ud7rgmirp3klfqzlqua5ky2z54c2im54bs5h@oycxxuv7zbgz>
+References: <20261124150108.189282-1-koray.fra@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -105,59 +111,213 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261123030014.3116755-1-bsdhenrymartin@gmail.com> <lh4cnpy2kw3tdtmhubwhhvim25kxpqxo6xttt7sihyx7x5hqdf@3tvivew2qh7m>
-In-Reply-To: <lh4cnpy2kw3tdtmhubwhhvim25kxpqxo6xttt7sihyx7x5hqdf@3tvivew2qh7m>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Tue, 24 Nov 2026 08:58:55 -0700
-X-Gm-Features: Aa3M54pAoXL7yvOyF5JJv7RxaB2ypj1vzahwa9xON4kuYDyLqPQLjNR71spFULE
-Message-ID: <CAKEwX=Py7W0vOwxKdWMCZu3d=BbF2OkgDt6Tu_AHhEJZ06w0ew@mail.gmail.com>
-Subject: Re: [PATCH] mm: fix cachestat NULL pgdat dereference on DAX mappings
-To: Jan Kara <jack@suse.cz>
-Cc: Henry Martin <bsdhenrymartin@gmail.com>, Matthew Wilcox <willy@infradead.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261124150108.189282-1-koray.fra@gmail.com>
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-11.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,qq.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,qq.com,gmail.com,szeredi.hu,vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.com:email]
+X-Spam-Score: -11.30
 
-On Tue, Nov 24, 2026 at 5:42=E2=80=AFAM Jan Kara <jack@suse.cz> wrote:
->
-> On Mon 23-11-26 11:00:14, Henry Martin wrote:
-> > filemap_cachestat() treats every xarray value entry as a workingset
-> > shadow.  On DAX mappings, value entries are DAX exceptional entries:
-> > same value bit, different bit layout (flags in the low bits, pfn
-> > above).  Decoded as a shadow, a DAX entry yields a bogus node id;
-> > NODE_DATA() for it can be NULL, and lru_gen_test_recent() then
-> > dereferences it:
-> >
-> >   Oops: general protection fault
-> >   RIP: 0010:lru_gen_test_recent+0xde/0x300
-> >   Call Trace:
-> >    workingset_test_recent
-> >    filemap_cachestat
-> >    __x64_sys_cachestat
-> >
-> > Any writable file on a DAX mount triggers this once an mmap write
-> > fault has populated entries.
-> >
-> > DAX entries track present pages, not evicted folios.  Count them as
-> > cached and skip the workingset decode, mirroring the dax_mapping()
-> > split in the invalidation paths in mm/truncate.c.  PMD-order entries
-> > are counted as one page, as value entries carry no order information.
-> >
-> > This issue was discovered by Tencent CodeBuddy Security.
-> > Cc: stable@vger.kernel.org
-> > Fixes: cf264e1329fb ("cachestat: implement cachestat syscall")
-> > Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
->
-> I think that for DAX mappings, cachestat should just return all zeros
-> because none of the fields really make sense there. There's simply no pag=
-e
-> cache for DAX mappings.
->
->                                                                 Honza
+On Tue 24-11-26 16:01:08, koraynilay wrote:
+> When using a FUSE mount over an underlying filesystem that supports
+> xflags, querying them from userspace with file_getattr() strips them
+> because file_getattr sets flags_valid = true so FUSE uses
+> FS_IOC_GETFLAGS instead of FS_IOC_FSGETXATTR.
+> 
+> Fix it by setting fsx_valid = true instead.
+> 
+> Output when using a simple FUSE mount that simply forwards the ioctls to
+> the underlying fs:
+> 
+> before the fix:
+> 
+>   /xfs/file: FS_IOC_FSGETXATTR: ret=0, projid=69
+>   /xfs/file: file_getattr:      ret=0, projid=0
+>   /ext4/file: FS_IOC_FSGETXATTR: ret=0, projid=42
+>   /ext4/file: file_getattr:      ret=0, projid=0
+> 
+> after the fix:
+> 
+>   /xfs/file: FS_IOC_FSGETXATTR: ret=0, projid=69
+>   /xfs/file: file_getattr:      ret=0, projid=69
+>   /ext4/file: FS_IOC_FSGETXATTR: ret=0, projid=42
+>   /ext4/file: file_getattr:      ret=0, projid=42
+> 
+> Fixes: cb184dd19154 ("fs: init flags_valid before calling vfs_fileattr_get")
+> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.11
+> Signed-off-by: koraynilay <koray.fra@gmail.com>
 
-+1. This sounds good to me.
+Good catch! Feel free to add:
 
-Henry, would you mind sending v2 along this line?
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-(and maybe add some documentation).
+								Honza
+
+> ---
+> Hi, I found this issue while working on the v2 of [1], here is the
+> reproducer, not in the commit message because of the size.
+> 
+> script:
+> 
+>   #!/bin/bash
+>   truncate -s 100M xfs.img
+>   truncate -s 100M ext4.img
+>   mkfs.xfs xfs.img
+>   mkfs.ext4 -O project ext4.img
+>   mkdir xfs ext4
+>   
+>   mount xfs.img xfs
+>   mount ext4.img ext4
+>   touch {xfs,ext4}/file
+>   
+>   chattr -p 69 xfs/file
+>   chattr -p 42 ext4/file
+>   
+>   mkdir fuse
+>   ./repro_fuse_getattr fuse "$PWD"/xfs/file
+>   ./repro_fuse_getattr fuse "$PWD"/ext4/file
+>   
+>   umount xfs ext4
+> 
+> where repro_fuse_getattr is a simple fuse mount, compiled with:
+> 
+>   gcc repro_fuse_getattr.c -o repro_fuse_getattr $(pkg-config fuse3 --cflags --libs)
+> 
+> and used like:
+> 
+>   ./repro_fuse_getattr <fuse_mount_dir> <full_path_to_real_file>
+> 
+> repro_fuse_getattr.c:
+> 
+>   #define _GNU_SOURCE
+>   #define FUSE_USE_VERSION 35
+>   #include <fuse3/fuse.h>
+>   #include <stdio.h>
+>   #include <string.h>
+>   #include <errno.h>
+>   #include <fcntl.h>
+>   #include <unistd.h>
+>   #include <sys/syscall.h>
+>   #include <sys/ioctl.h>
+>   #include <sys/mount.h>
+>   #include <linux/fs.h>
+>   
+>   /* needed to get the file's file descriptor for the ioctl */
+>   static int my_getattr(const char *path, struct stat *st, struct fuse_file_info *fi)
+>   {
+>   	memset(st, 0, sizeof(*st));
+>   	if (!strcmp(path, "/")) {
+>   		st->st_mode = S_IFDIR | 0755;
+>   		st->st_nlink = 2;
+>   		return 0;
+>   	}
+>   	return stat(fuse_get_context()->private_data, st) < 0 ? -errno : 0;
+>   }
+>   
+>   /* pass down the ioctl to the fs */
+>   static int my_ioctl(const char *path, unsigned int cmd, void *arg,
+>   		    struct fuse_file_info *fi, unsigned int flags, void *data)
+>   {
+>   	int fd = open(fuse_get_context()->private_data, O_RDONLY);
+>   	int ret = ioctl(fd, cmd, data);
+>   	close(fd);
+>   	return ret < 0 ? -errno : 0;
+>   }
+>   
+>   static const struct fuse_operations ops = {
+>   	.getattr = my_getattr,
+>   	.ioctl   = my_ioctl,
+>   };
+>   
+>   int main(int argc, char *argv[])
+>   {
+>   	const char *mnt = argv[1]; /* FUSE mount point */
+>   	const char *real_file = argv[2]; // full path of the file on the
+>   					 // underlying fs
+>   
+>   	/* start FUSE */
+>   	pid_t pid = fork();
+>   	if (pid == 0) {
+>   		char *fuse_argv[] = { "fuse", "-f", (char *)mnt, NULL };
+>   		return fuse_main(3, fuse_argv, &ops, (void *)real_file);
+>   	}
+>   
+>   	usleep(300000); /* wait for FUSE mount */
+>   
+>   	/* Query the file attributes through FUSE mount */
+>   	char fuse_file[4096];
+>   	snprintf(fuse_file, sizeof(fuse_file), "%s/file", mnt);
+>   
+>   	int fd = open(fuse_file, O_RDONLY);
+>   
+>   	struct fsxattr x = {};
+>   	int ret_fsget = ioctl(fd, FS_IOC_FSGETXATTR, &x);
+>   
+>   	struct file_attr fa = {};
+>   	long ret_sys = syscall(SYS_file_getattr, -100, fuse_file, &fa, sizeof(fa), 0);
+>   
+>   	close(fd);
+>   
+>   	printf("%s: FS_IOC_FSGETXATTR: ret=%d, projid=%u\n",
+>   	       real_file, ret_fsget, x.fsx_projid);
+>   	printf("%s: file_getattr:      ret=%ld, projid=%llu\n",
+>   	       real_file, ret_sys, (unsigned long long)fa.fa_projid);
+>   
+>   	umount(mnt);
+>   	return 0;
+>   }
+> 
+> Thanks,
+> koraynilay
+> 
+> [1]: https://lore.kernel.org/all/DN2YMTH77KWE.3IPE9OG8377X0@gmail.com/T/#t
+> 
+>  fs/file_attr.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/file_attr.c b/fs/file_attr.c
+> index 833e03810b24..3b249a0a6b36 100644
+> --- a/fs/file_attr.c
+> +++ b/fs/file_attr.c
+> @@ -383,7 +383,7 @@ SYSCALL_DEFINE5(file_getattr, int, dfd, const char __user *, filename,
+>  	struct path filepath __free(path_put) = {};
+>  	unsigned int lookup_flags = 0;
+>  	struct file_attr fattr;
+> -	struct file_kattr fa = { .flags_valid = true }; /* hint only */
+> +	struct file_kattr fa = { .fsx_valid = true }; /* hint only */
+>  	int error;
+>  
+>  	BUILD_BUG_ON(sizeof(struct file_attr) < FILE_ATTR_SIZE_VER0);
+> 
+> base-commit: 3857587d9d6fa44d40d1c73bde6a39f6f7a5216c
+> -- 
+> 2.56.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
