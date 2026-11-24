@@ -1,54 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795484435;
-	b=2t9aOSt12PZJoNY/Cuh5HwxwdgScpDlkGrEM8VSGUUrp5GsCPlPVf2XF65wBzO3CzWpa
-	 qITUtmZKKA9DUinSYmM3hYyKX65oNuvrR5O2VM9okKHQ7sMnR1ehOD0IYbGzzqJxHDWkw
-	 m/KjQXd6Om1JIxdYKDLVkSMubt5JQFffbRrTVajH6bbhR9ppqkhmsp23D4W8XSXf3Mqxr
-	 PU8EaBrV4CpnLhh3WEWpseZkyBiMJ3Oxe7haeJLiE2dPcjbvu8N9+oFcZJ6LkYwCiM7CP
-	 NFaLSeQ1jxXJ98328IFX8nTANbWWePgbqS5NsPj07jMcteZpWwkPA/GttVzinCCmBBQ==
+	t=1795486419;
+	b=FQPCCtZ7epLaHmKSHYz8paDlJPBqWAf5bQg3crg1lFyQM+U18XgdjakzaWesVhHAWTpu
+	 vU4QQYTWeXK6saGCCZLEc8Qrn/pHOuVUZXc6as2oHzkTgQvvmVylyFhpu4WModNxn29V0
+	 hNvtJVrAyFb08/4kQhkfEDg+9mGbHPHO1PA8ytQKuOs5xwpeiSqctaUGrs0fv9b3xoBHp
+	 1H6P8PcLGnRh4rIW5nOtGjtqJZC+CCTELjJkJ9uRnVEFKxgR785+HJ4CKWG1NjoZ+QDqm
+	 mHBBBQtri1siMvoLORwzrPFb8/I1+s9P17T+qKnhLoPzgjZtspo+xldfBg6lK4eWxiA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795484435;
-	h=Received:DKIM-Signature:Received:X-Gm-Message-State:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:
-	 X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type;
-	bh=aQyla5gznIxGOTl6iNdkOfmmKCQQwlqTP2RnxhnWTxE=;
-	b=WH7ix8Moyq5Wzs4QGBCpNy10nrRXqk0ScSDTF0ZfhpeSv9YhPmI88POvgSm2cfoi4A5I
-	 1knajSYHIhzNX4Q7Qvsq11i/l+IPkGMZv3DVo6Dt9v9zLdfYb9uVMfpwYWF8zeR0N9hLD
-	 v95pEqnsMQYZgNNSBFvK+mb0WFOp2pvlcyVjRb6E+ZgqADJeA8wecduJQFhx4lF93eCPR
-	 YDavEL20ondWI2HCSaixbDeSuwVs4byGsJM+v3wCnnLr+CKqRCgzZvmAYwg+lqBen5tQ1
-	 9ZkhNUjNwAntv/gK3lg18f7ZdTO1MkPOxynXXMT0ywyhVJuHG4IBt3gRS+HVa5Mcy4g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795486419;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=jl9dB7jJGIlY2PKhHfBeUr5m/KPu4eSitwR+RChvQeM=;
+	b=kAVJbGnzHUO3unCm41ACblr9NZI02pn1t4BayJ78o2StVjEsOrFAEK7kY19K8cGAOe4M
+	 mAqWAwVgysE3zL2Fdk8RkaT9ggvz3lZx0dU+qgikHU7lFxUru25xzhpZCZ4gCVu+UeyfP
+	 gc3RrI0AkOFWovMpwf8+yphIdevpKJKTyDjUlvXZirN141nXVVZHhTF8cw2k5oboiGi9+
+	 wqy5z7TzNtcQh1PEaQQd8KgqBYSXp8VrwLaKw71J5i7ykkW2XnPmVYHMBJHugF2jOw6gf
+	 pbIO2bhT34wv1NcKDCBpbr9I3ivYHfQbkbdCH9KwsmZsOGfenQ0tPxrMDNq7bKBDGdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="QGDSSw/I";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.210.72
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com [209.85.210.72])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE90606A326
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 01:40:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QGDSSw/I
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 894FC1F000D2
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 01:40:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795484434;
-	bh=aQyla5gznIxGOTl6iNdkOfmmKCQQwlqTP2RnxhnWTxE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=QGDSSw/IGUaz3ck2TU48ENmPb221q7rHFf95tvPVYpz32ngTGT18Uf2f4YL8jSIi0
-	 m1fXnoQqAXPULRLuC8e+qZqbRiuJEMa10kDYG3M2SkSKrCVAoYohokbdUZcfRygWkH
-	 wFmLoIzUG4Uy8bwGGq8uALSktotZpP9swaP55bLxEOuLfuNEBJVJoYWr39MbgU0ywR
-	 C1y/cAt58BxNLJw6F8A2u/6nqjrK3dcWYioZxBqs4YJrRyINvBrGn+s4C99iWKbbvA
-	 TweJQLzZPqB0dsikFLy3n1yMnslYG7F0NjuvQKjDji6TWZQOJjSR3vt5wW7Kn1BOiN
-	 U+lAG6+fCYA4Q==
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6b87408c797so5264998a12.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 17:40:34 -0800 (PST)
-X-Gm-Message-State: APuU4Z9qCJFATnxtVF5NUTjoRnfZzfKLn4CKrNWBHQxnQXYIh0YtBwt6
-	I1s4Sro/SwvV6G9v/2FLxG5eVbjQAj8Sb78Nhk/lwarmlhzIUZUYvJqKfGkYywRQVdF0QN8vS8/
-	maVEItX6wyc3baxq5sETE3/2wrioe/pA=
-X-Received: by 2002:a17:907:3d56:b0:c4c:e344:ecec with SMTP id
- a640c23a62f3a-c513a3a6578mr1079128366b.6.1795484433117; Mon, 23 Nov 2026
- 17:40:33 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6BB606A321
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 02:13:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7C6BB606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-862a5ad18d0so4696855a34.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 23 Nov 2026 18:13:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795486418; x=1796091218;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jl9dB7jJGIlY2PKhHfBeUr5m/KPu4eSitwR+RChvQeM=;
+        b=Q9AZQtEuJwas7zARRtwMmRM1bnJzt3G6n5wBw5m3tyFVcgAfD0eiCTY9yxo3+WbPzI
+         rWh+g4i5GqSlewA5w+eVAo9fE92I9DKe5VToG/jULkI5mZf9aFFFm4eo6NpQ8jmAnFCK
+         tDln6WRtEA5+v9og0VywBO6s3MEd35ihp8zykn6Ew0lcRsP0hu/1flzn3AH4qQTsS9T+
+         Vj4PYpoIBgDyhZu7Vu9Oakaoyv7qC0v86mkIQoT0oZJPOTJ7lHwa2LIpERlUPokaaDn+
+         rDcEbydY2hTHHA6PY+SpSuujmvFOKfr4/Jxhuq+7m0RRpPGew4/jjtcPMHiObJp5ht7L
+         3Yew==
+X-Forwarded-Encrypted: i=1; AL+hErFGaRLIvdgeIcD544Ih+wEXd8+5i4xbnanqp/4+ZzhylutcHpY9KOS/8ucgMCZbFEbqm0eRU8a/x/BYKPXh@vger.kernel.org
+X-Gm-Message-State: APuU4Z+M2oLaVal8rrfQzDq28p8xzp4Oackgb4c72XuQaD77r5jQw2tw
+	cFVP5l7D/5IeOQvccKO8QpJXvZF7cpZL3Y/l2lBXjFSu4yfPY/PpCUfajFrXUU/CElFnjz9p4Ed
+	z5OS7m/9hE956VYoJGhasR002Vs5/HCejM8KDFPvK/FrgWnWIfzJsmsCKocs=
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,127 +58,119 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <DM4PR15MB6276A5C442568B4C7E604AA386452@DM4PR15MB6276.namprd15.prod.outlook.com>
-In-Reply-To: <DM4PR15MB6276A5C442568B4C7E604AA386452@DM4PR15MB6276.namprd15.prod.outlook.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Tue, 24 Nov 2026 10:40:19 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-MHxzjvc20J-x4VYBnuk3sVpzmHo+zrHb8n3nx8Aav6g@mail.gmail.com>
-X-Gm-Features: Aa3M54r5fFmuAQFBHjN1hf8ocpDTAW4WfVfcUZbuvJ6LZUWELv29rjXrB4konQE
-Message-ID: <CAKYAXd-MHxzjvc20J-x4VYBnuk3sVpzmHo+zrHb8n3nx8Aav6g@mail.gmail.com>
-Subject: Re: ntfs: deleting $Extend breaks subsequent mount
-To: theBIT5 x3zk <x3zk@outlook.com>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"open list:NTFS FILESYSTEM" <ntfs@lists.linux.dev>, Hyunchul Lee <hyc.lee@gmail.com>, 
-	Baolin Liu <liubaolin12138@163.com>, Baolin Liu <liubaolin@kylinos.cn>
-Content-Type: multipart/mixed; boundary="000000000000d638f30660fbcb7d"
-
---000000000000d638f30660fbcb7d
+X-Received: by 2002:a05:6808:1484:b0:53a:65aa:152e with SMTP id
+ 5614622812f47-57a0a50658amr16332018b6e.35.1795486418522; Mon, 23 Nov 2026
+ 18:13:38 -0800 (PST)
+Date: Mon, 23 Nov 2026 18:13:38 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6b04f2d2.44b41460.34b83f.0037.GAE@google.com>
+Subject: [syzbot] [fs?] KCSAN: data-race in task_dump_owner / task_dump_owner (2)
+From: syzbot <syzbot+3b8f4ae71137f7af00ca@syzkaller.appspotmail.com>
+To: adobriyan@gmail.com, akpm@linux-foundation.org, brauner@kernel.org, 
+	jack@suse.cz, jannh@google.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, sforshee@kernel.org, 
+	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 24, 2026 at 5:01=E2=80=AFAM theBIT5 x3zk <x3zk@outlook.com> wro=
-te:
->
-> Hi,
-Hi,
->
-> Was messing around with the new ntfs driver (fs/ntfs) on 7.4.0-rc3-1-main=
-line
-> and noticed you can just rm -rf '$Extend' even without show_sys_files.
-> After umount, the filesystem fails to mount again.
->
-> Steps:
->
-> # mount -t ntfs /root/ntfs.img /mnt -o loop
-> # cd /mnt
-> # ls '$Extend'
-> '$ObjId'  '$Quota'  '$Reparse'
-> # rm -rf '$Extend'
-> # cd /
-> # umount /mnt
-> # mount -t ntfs /root/ntfs.img /mnt -o loop
-> mount: /mnt: wrong fs type, bad option, bad superblock on /dev/loop0,
->        missing codepage or helper program, or other error.
->
-> dmesg:
-> ntfs: volume version 3.1, dev loop0, cluster size 4096
-> ntfs: (device loop0): load_system_files(): Failed to load $Extend.
-> ntfs: (device loop0): ntfs_fill_super(): Failed to load system files (-22=
-).
-Please check the attached patch.
-Thanks for the report.
+Hello,
 
---000000000000d638f30660fbcb7d
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0001-ntfs-prevent-modification-of-Extend-system-metadata.patch"
-Content-Disposition: attachment; 
-	filename="0001-ntfs-prevent-modification-of-Extend-system-metadata.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mwu10soc0>
-X-Attachment-Id: f_mwu10soc0
+syzbot found the following issue on:
 
-RnJvbSAwMGQ1ZmNlYjNiODA3NmQ5MzdhNjQ3NjRlZTY2M2I0MDQ0NWI0MDJkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBOYW1qYWUgSmVvbiA8bGlua2luamVvbkBrZXJuZWwub3JnPgpE
-YXRlOiBUdWUsIDI0IE5vdiAyMDI2IDEwOjIzOjQyICswOTAwClN1YmplY3Q6IFtQQVRDSF0gbnRm
-czogcHJldmVudCBtb2RpZmljYXRpb24gb2YgJEV4dGVuZCBzeXN0ZW0gbWV0YWRhdGEKClRoZSAk
-RXh0ZW5kIGRpcmVjdG9yeSBjb250YWlucyBzeXN0ZW0gZmlsZXMgc3VjaCBhcyAkT2JqSWQsICRR
-dW90YSwgYW5kCiRSZXBhcnNlLiBzaG93X3N5c19maWxlcyBvbmx5IGNvbnRyb2xzIGRpcmVjdG9y
-eSBlbnVtZXJhdGlvbiwgc28gaGlkZGVuCnN5c3RlbSBtZXRhZGF0YSByZW1haW5zIHJlYWNoYWJs
-ZSBieSBleHBsaWNpdCBwYXRoLiBUaGUgZm9yY2VkCmltbXV0YWJpbGl0eSBwb2xpY3kgc2tpcHMg
-ZGlyZWN0b3JpZXMgYW5kIGRvZXMgbm90IHByb3RlY3QgJEV4dGVuZAplbnRyaWVzLCBhbGxvd2lu
-ZyBybSAtcmYgJyRFeHRlbmQnIHRvIHJlbW92ZSB0aGVtIGFuZCBtYWtlIGxhdGVyIG1vdW50cwpm
-YWlsIHdoZW4gbG9hZF9zeXN0ZW1fZmlsZXMoKSBvcGVucyBGSUxFX0V4dGVuZC4KCk1ha2UgRklM
-RV9FeHRlbmQgYW5kIHN5c3RlbSBmaWxlcyByZWNvZ25pemVkIGluICRFeHRlbmQgaW1tdXRhYmxl
-CmluZGVwZW5kZW50bHkgb2Ygc3lzX2ltbXV0YWJsZS4gVGhpcyBwcmV2ZW50cyBuYW1lc3BhY2Ug
-Y2hhbmdlcyBiZW5lYXRoCiRFeHRlbmQgYW5kIGRpcmVjdCBWRlMgd3JpdGVzIHRvIGl0cyBzeXN0
-ZW0tZmlsZSBpbm9kZXMuCgpGaXhlczogZjcyZGYzYTRjMzNiICgibnRmczogbWFrZSBzeXN0ZW0g
-ZmlsZXMgaW1tdXRhYmxlIHRvIHByZXZlbnQgY29ycnVwdGlvbiIpClJlcG9ydGVkLWJ5OiB0aGVC
-SVQ1IHgzemsgPHgzemtAb3V0bG9vay5jb20+ClNpZ25lZC1vZmYtYnk6IE5hbWphZSBKZW9uIDxs
-aW5raW5qZW9uQGtlcm5lbC5vcmc+Ci0tLQogZnMvbnRmcy9maWxlLmMgIHwgIDQgKysrLQogZnMv
-bnRmcy9pbm9kZS5jIHwgMTEgKysrKysrKy0tLS0KIGZzL250ZnMvaW5vZGUuaCB8ICAzICsrKwog
-MyBmaWxlcyBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQoKZGlmZiAt
-LWdpdCBhL2ZzL250ZnMvZmlsZS5jIGIvZnMvbnRmcy9maWxlLmMKaW5kZXggN2Q5M2E1MjA1NjZl
-Li40OGQxYjEzYjdlMTggMTAwNjQ0Ci0tLSBhL2ZzL250ZnMvZmlsZS5jCisrKyBiL2ZzL250ZnMv
-ZmlsZS5jCkBAIC0xODIsNyArMTgyLDkgQEAgc3RhdGljIGJvb2wgbnRmc19pc19mb3JjZWRfaW1t
-dXRhYmxlKHN0cnVjdCBpbm9kZSAqdmkpCiB7CiAJc3RydWN0IG50ZnNfaW5vZGUgKm5pID0gTlRG
-U19JKHZpKTsKIAotCWlmIChuaS0+bWZ0X25vIDwgRklMRV9maXJzdF91c2VyICYmIFNfSVNSRUco
-dmktPmlfbW9kZSkpCisJaWYgKE5Jbm9FeHRlbmRTeXMobmkpIHx8CisJICAgIG5pLT5tZnRfbm8g
-PT0gRklMRV9FeHRlbmQgfHwKKwkgICAgKG5pLT5tZnRfbm8gPCBGSUxFX2ZpcnN0X3VzZXIgJiYg
-U19JU1JFRyh2aS0+aV9tb2RlKSkpCiAJCXJldHVybiB0cnVlOwogCiAJcmV0dXJuIE5Wb2xTeXNJ
-bW11dGFibGUobmktPnZvbCkgJiYKZGlmZiAtLWdpdCBhL2ZzL250ZnMvaW5vZGUuYyBiL2ZzL250
-ZnMvaW5vZGUuYwppbmRleCA0ZmJkY2Q0NTk2NTIuLjlkZjZkY2ExMGUxNyAxMDA2NDQKLS0tIGEv
-ZnMvbnRmcy9pbm9kZS5jCisrKyBiL2ZzL250ZnMvaW5vZGUuYwpAQCAtMTE2NCw2ICsxMTY0LDcg
-QEAgc3RhdGljIGludCBudGZzX3JlYWRfbG9ja2VkX2lub2RlKHN0cnVjdCBpbm9kZSAqdmkpCiAJ
-CQkgKi8KIAkJCWV4dGVuZF9zeXMgPSBudGZzX2lzX2V4dGVuZGVkX3N5c3RlbV9maWxlKGN0eCk7
-CiAJCQlpZiAoZXh0ZW5kX3N5cyA+IDApIHsKKwkJCQlOSW5vU2V0RXh0ZW5kU3lzKG5pKTsKIAkJ
-CQlpZiAobS0+ZmxhZ3MgJiBNRlRfUkVDT1JEX0lTX1ZJRVdfSU5ERVgpIHsKIAkJCQkJaWYgKGV4
-dGVuZF9zeXMgPT0gMikgewogCQkJCQkJbmFtZSA9IHJlcGFyc2VfaW5kZXhfbmFtZTsKQEAgLTEz
-MDcsMTEgKzEzMDgsMTMgQEAgc3RhdGljIGludCBudGZzX3JlYWRfbG9ja2VkX2lub2RlKHN0cnVj
-dCBpbm9kZSAqdmkpCiAKIAkvKgogCSAqIFN5c3RlbSBmaWxlcyBzdWNoIGFzICRCaXRtYXAgYW5k
-ICRNRlQgYXJlIG1haW50YWluZWQgYnkgdGhlIGRyaXZlcgotCSAqIGl0c2VsZiwgYW5kIHdyaXRp
-bmcgdGhlbSBmcm9tIHVzZXJzcGFjZSBjb3JydXB0cyB0aGUgdm9sdW1lLgotCSAqIEFsd2F5cyBt
-YWtlIHRoZW0gaW1tdXRhYmxlIHJlZ2FyZGxlc3Mgb2YgdGhlIHN5c19pbW11dGFibGUgb3B0aW9u
-LgotCSAqIERpcmVjdG9yaWVzIGFyZSBza2lwcGVkIHNvIHRoZSByb290IGFuZCAkRXh0ZW5kIHN0
-YXkgdXNhYmxlLgorCSAqIGl0c2VsZi4gQWx3YXlzIG1ha2UgdGhlbSBpbW11dGFibGUgcmVnYXJk
-bGVzcyBvZiB0aGUgc3lzX2ltbXV0YWJsZQorCSAqIG9wdGlvbi4gUHJvdGVjdCAkRXh0ZW5kIGFu
-ZCBpdHMgc3lzdGVtIGZpbGVzIHRvbzsgbW9kaWZ5aW5nIHRoZW0KKwkgKiB0aHJvdWdoIHRoZSBW
-RlMgY2FuIGNvcnJ1cHQgTlRGUyBtZXRhZGF0YS4KIAkgKi8KLQlpZiAobmktPm1mdF9ubyA8IEZJ
-TEVfZmlyc3RfdXNlciAmJiBTX0lTUkVHKHZpLT5pX21vZGUpKQorCWlmIChOSW5vRXh0ZW5kU3lz
-KG5pKSB8fAorCSAgICBuaS0+bWZ0X25vID09IEZJTEVfRXh0ZW5kIHx8CisJICAgIChuaS0+bWZ0
-X25vIDwgRklMRV9maXJzdF91c2VyICYmIFNfSVNSRUcodmktPmlfbW9kZSkpKQogCQl2aS0+aV9m
-bGFncyB8PSBTX0lNTVVUQUJMRTsKIAogCS8qCmRpZmYgLS1naXQgYS9mcy9udGZzL2lub2RlLmgg
-Yi9mcy9udGZzL2lub2RlLmgKaW5kZXggN2VhNTJjNTljMDRiLi44YzE5MjliZWJlNDQgMTAwNjQ0
-Ci0tLSBhL2ZzL250ZnMvaW5vZGUuaAorKysgYi9mcy9udGZzL2lub2RlLmgKQEAgLTE4Miw2ICsx
-ODIsNyBAQCBzdHJ1Y3QgbnRmc19pbm9kZSB7CiAgKiBOSV9IYXNFQQkJCW50ZnMgaW5vZGUgaGFz
-IEVBIGF0dHJpYnV0ZS4KICAqIE5JX1J1bmxpc3REaXJ0eQkJcnVubGlzdCBuZWVkIHRvIGJlIHVw
-ZGF0ZWQuCiAgKiBOSV9TdHJlYW1VbmxpbmtlZAkJTmFtZWQgc3RyZWFtIGlzIHVubGlua2VkIGJ1
-dCBzdGlsbCBvcGVuLgorICogTklfRXh0ZW5kU3lzCQkJSW5vZGUgaXMgYSBzeXN0ZW0gZmlsZSBp
-biAkRXh0ZW5kLgogICovCiBlbnVtIHsKIAlOSV9EaXJ0eSwKQEAgLTIwNCw2ICsyMDUsNyBAQCBl
-bnVtIHsKIAlOSV9IYXNFQSwKIAlOSV9SdW5saXN0RGlydHksCiAJTklfU3RyZWFtVW5saW5rZWQs
-CisJTklfRXh0ZW5kU3lzLAogfTsKIAogLyoKQEAgLTI2NSw2ICsyNjcsNyBAQCBOSU5PX0ZOUyhC
-ZWluZ0RlbGV0ZWQpCiBOSU5PX0ZOUyhIYXNFQSkKIE5JTk9fRk5TKFJ1bmxpc3REaXJ0eSkKIE5J
-Tk9fRk5TKFN0cmVhbVVubGlua2VkKQorTklOT19GTlMoRXh0ZW5kU3lzKQogCiAvKgogICogVGhl
-IGZ1bGwgc3RydWN0dXJlIGNvbnRhaW5pbmcgYSBudGZzX2lub2RlIGFuZCBhIHZmcyBzdHJ1Y3Qg
-aW5vZGUuIFVzZWQgZm9yCi0tIAoyLjM0LjEKCg==
---000000000000d638f30660fbcb7d--
+HEAD commit:    4843f6873f7c Merge tag 'sysctl-7.04-fixes-rc4' of git://gi..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=149a7363580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=886d2ddd2d6b664e
+dashboard link: https://syzkaller.appspot.com/bug?extid=3b8f4ae71137f7af00ca
+compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/9b25bc73ef7f/disk-4843f687.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/acc9d8469c04/vmlinux-4843f687.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/83adc8d7ee5c/bzImage-4843f687.xz
+
+AI-generated root cause summary:
+During concurrent VFS lookups of the same `/proc/<pid>` dentry, `lookup_fast()`
+invokes `pid_revalidate()` without holding any inode lock (including in RCU-walk
+mode). `pid_revalidate()` calls `pid_update_inode()`, which calls
+`task_dump_owner(task, inode->i_mode, &inode->i_uid, &inode->i_gid)`.
+`task_dump_owner()` performs plain, unsynchronized 4-byte writes to
+`inode->i_uid` and `inode->i_gid`, causing concurrent writers across CPUs to
+race on the same `struct inode` fields.
+
+full analysis:  https://syzkaller.appspot.com/x/ai_root_cause?x=3b8f4ae71137f7af00ca
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+3b8f4ae71137f7af00ca@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KCSAN: data-race in task_dump_owner / task_dump_owner
+
+write to 0xffff88811b422a60 of 4 bytes by task 6557 on cpu 0:
+ task_dump_owner+0x146/0x170 fs/proc/base.c:-1
+ pid_update_inode fs/proc/base.c:2032 [inline]
+ pid_revalidate+0x65/0xb0 fs/proc/base.c:2057
+ d_revalidate fs/namei.c:1041 [inline]
+ lookup_fast+0x232/0x320 fs/namei.c:1874
+ walk_component fs/namei.c:2284 [inline]
+ link_path_walk+0x5d9/0xde0 fs/namei.c:2659
+ path_openat+0x142/0x11e0 fs/namei.c:5012
+ do_file_open+0x16c/0x290 fs/namei.c:5045
+ do_sys_openat2+0xa1/0x140 fs/open.c:1443
+ do_sys_open fs/open.c:1449 [inline]
+ __do_sys_openat fs/open.c:1465 [inline]
+ __se_sys_openat fs/open.c:1460 [inline]
+ __x64_sys_openat+0xf2/0x120 fs/open.c:1460
+ x64_sys_call+0x1f72/0x2550 arch/x86/include/generated/asm/syscalls_64.h:258
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x11e/0x3a0 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+write to 0xffff88811b422a60 of 4 bytes by task 6556 on cpu 1:
+ task_dump_owner+0x146/0x170 fs/proc/base.c:-1
+ pid_update_inode fs/proc/base.c:2032 [inline]
+ pid_revalidate+0x65/0xb0 fs/proc/base.c:2057
+ d_revalidate fs/namei.c:1041 [inline]
+ lookup_fast+0x232/0x320 fs/namei.c:1874
+ walk_component fs/namei.c:2284 [inline]
+ link_path_walk+0x5d9/0xde0 fs/namei.c:2659
+ path_openat+0x142/0x11e0 fs/namei.c:5012
+ do_file_open+0x16c/0x290 fs/namei.c:5045
+ do_sys_openat2+0xa1/0x140 fs/open.c:1443
+ do_sys_open fs/open.c:1449 [inline]
+ __do_sys_openat fs/open.c:1465 [inline]
+ __se_sys_openat fs/open.c:1460 [inline]
+ __x64_sys_openat+0xf2/0x120 fs/open.c:1460
+ x64_sys_call+0x1f72/0x2550 arch/x86/include/generated/asm/syscalls_64.h:258
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x11e/0x3a0 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Reported by Kernel Concurrency Sanitizer on:
+CPU: 1 UID: 0 PID: 6556 Comm: syz.5.482 Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/06/2026
+==================================================================
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
