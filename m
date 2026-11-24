@@ -1,49 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795507033;
-	b=foGyWC/FUscaqw0fl9kO9BORZ4pe+ZooqNOwhe0QoKwvqa1LNf+ITaeUR5aSUMSWni4a
-	 ccmqJI+d2XTY0mx23G26tjpI8dfl52LZSSorwAvyLSM+MV01E7kZpntoIoqroJkGHNGYt
-	 IQGm3s6VqPORw5Bv9qefpSh3Faab5mhRWLpLGqL7vEbfrmsuh+busW90tymgq4ZTYAqyS
-	 07ph8Sl9Q791okxSuvDL+cLl5sGJkQ5ubsLHnGZqnqzITZyHP1Iqx0AUqSeEAteKs5BG3
-	 icd7QbhjX7EscbU95Yz9528lLh3Lnr50Quaq4S/xiWDGrAcRrX9SnQg/Goqz71kWUyg==
+	t=1795507870;
+	b=OZc9KXV9N3zm77dvtAkzB6aKZMxTLu5fdDpIQqWWhD/P2oRXhBf1X29AuFwgaLpL9wbh
+	 cO1HuKlGKUTMHiAMqYKC7PYEH46PZUbYp1zQhETLHnTJV/uKbKM25W+gN9P9Jktu/3xhN
+	 OlQ83q24lVuDE7B7pPfyhemX9gFgd6MGOa+SemO5CpHCETzQZN9ffze7+anh38LPy40nF
+	 MnZlI7gK7cHhd8uoAXibA83XYhtI+Utq7prdMZBzgqK71G8gykQeGYiMo2xRfnau/sRm1
+	 YSSfzneZLGiT4Jomki8yWtMgG/Hi5KpCDZvaggB+Sn5vqIUnjlc1a2Ta92YaYpYwjBQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795507033;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=p67jc7GTHhhno+1ZLmTPXYLc0RaHrv3DS6K1thH9gv8=;
-	b=wwSMCBHQNkyXwI6ftnVHvZ/nS+tNTpPpBsJF8xh/A8zqzvmkKjAkeMuY2ceS6gsanC+5
-	 1At0ITSu+PjMzRji4jQu7R08HC1QCN98s/CvhNXFTi0TxlQ9ygaN8Ei7azySImu3yovzY
-	 oVEi6grgtG1fgTvRsVqJDMRhH3Xi5udKwGSpbK0nrp29Hc5KpxM2Al7NwG1zXWYUU+Jo1
-	 bpqprx2+Pdu++yAhgo5ivURPlJWOpuAFYRDxFZxO5NBHL3VeXAKe3dVaKZVz2NkA7nGpk
-	 LOfBeoPxqpkO2feCc8ATLQHsglau5/0ESSgEjJLDN3cfCNEftVlIrAUykBTRNKw6vWg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795507870;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=HT0r4HcDbQnSXCvlZ/RECDLVWuKCcbSUYpyd1IXB0iM=;
+	b=zIVTeXWz4RURN+ucg8dL/3+7ohZsK/0nTAsKGA2HPfNfiI8zuftXEpJXRFXs/lplMq1j
+	 2uh3/WYkeqcT7H8UCMUU7DAZM1jhVCOsuNdmURRd/jSvujjY8R5NDFj9udK8XeCFVdhT+
+	 pxFhhDr7Dh59S5sl3ThgcVcz8AiM9DbLtzkvRnM7EBIoBIPIoGOeX3IftZTMFUs3jfpOM
+	 br6VnbXKlxQ3WyGyB4VN5tpON+YQhNmYX9sTaFPbpOBNHClGyj+JctfMVHiZaGHgNg7BH
+	 bQ0CMXY4hwebM6LBmNZvNQritmCFF24ywd1uc1VAEzuP9f7ztlU+ioTcIiMt/Jc0aeg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PQ1HtCcz;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nTnIoYeC;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9D2606A31E;
-	Tue, 24 Nov 2026 07:57:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5633B606A31E;
+	Tue, 24 Nov 2026 08:11:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PQ1HtCcz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80AE01F000F0;
-	Tue, 24 Nov 2026 07:57:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nTnIoYeC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA4B61F000C0;
+	Tue, 24 Nov 2026 08:10:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795507033;
-	bh=p67jc7GTHhhno+1ZLmTPXYLc0RaHrv3DS6K1thH9gv8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=PQ1HtCczfso6zJlYQ4oZftApjx7LVdUnM40aAvBsDeIMlqEzmYDtqxBypUHNbRffw
-	 pCKvXxNOqPCkUvaCSFjV2icCOvAqVjMPyeihLNoUKXHcJqdkCED62xiSXgvTA0aE4m
-	 iOG0XaFqvFikegrjObm8Uk2E54ToaVGgMjEVtt0HzdtOJoDR6w6Isb5VuLy1LiyRch
-	 LxY7tNrTmw7Gu37K/OtVQYTp8G0UqUk5772az3apQkNya0JJx/rdtxxD3AYVMdyD0t
-	 uG9JI2ZQ2KUL+iV9M1YEuxS7et0Dc88m7gwHJofGUK9E+/pq/Yet7xzf/QQHKTcmCc
-	 HHb74cY1/Ohgg==
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Tue, 24 Nov 2026 08:56:44 +0100
-Subject: [PATCH v2 2/2] mm/migrate: allocate destination folios before
- locking a batch
+	s=k20260515; t=1795507869;
+	bh=HT0r4HcDbQnSXCvlZ/RECDLVWuKCcbSUYpyd1IXB0iM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=nTnIoYeC7NpBkbQZJv/CMbaZo4bkDmpeccQb9Gf4juySQf3zaSYGjjOQDpfz3LVoA
+	 7gwFR0TIw3+Qi4g6ZkX3nIy5l/JZi/nqwsTpj6sOz9qZnoMMmswBQnZ2wXtRq4ZBf/
+	 7gjIDylfQXm5mAOGeOq8RX1pOp8dELAb4tSY/t3s0QKPMTiZAPXi794iYxQBvdrNF6
+	 zcMf37Gev3dZOOKtngRQWB58H+LAYVTmGUJV5sgnPAZbj0/ULKYX7QPyJ6MExILy5r
+	 7VqhHRw649o6ZE2jl1sU1ZxMRnK9E6W6Cu3NhrwzXtedpDQZWP9XUv9nQFCi9qWjNi
+	 E5IfY33x8mH4g==
+Message-ID: <7ed1f755-5759-4b5b-ae00-a814f16b7903@kernel.org>
+Date: Tue, 24 Nov 2026 09:10:53 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -53,341 +51,134 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] mm: kasan: skip KASAN for GFP_HIGHUSER
+To: Jeff Xu <jeffxu@chromium.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
+ <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, Marco Elver
+ <elver@google.com>, Boris Brezillon <boris.brezillon@collabora.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Chia-I Wu <olvaffe@gmail.com>,
+ Dev Jain <dev.jain@arm.com>, Ian Rickards <ian.rickards@arm.com>,
+ Jann Horn <jannh@google.com>, Jeff Vander Stoep <jeffv@google.com>,
+ Jeff Xu <jeffxu@google.com>, Kees Cook <kees@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Peter Collingbourne <peter@pcc.me.uk>,
+ =?UTF-8?Q?Pierre-Cl=C3=A9ment_Tosi?= <ptosi@google.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Tomasz Figa <tfiga@chromium.org>,
+ Will Deacon <will@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Miklos Szeredi <miklos@szeredi.hu>, Baoquan He <baoquan.he@linux.dev>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Pratyush Yadav <pratyush@kernel.org>, Allison Henderson
+ <achender@kernel.org>, "David S . Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ linux-mm@kvack.org, kasan-dev@googlegroups.com,
+ linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ fuse-devel@lists.linux.dev, kexec@lists.infradead.org,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+ rds-devel@oss.oracle.com, linux-kernel@vger.kernel.org
+References: <20261123033111.2349160-1-jeffxu@chromium.org>
+ <20261123033111.2349160-2-jeffxu@chromium.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20261123033111.2349160-2-jeffxu@chromium.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261124-migrate_reclaim_deadlock-v2-2-03cc147e1e36@kernel.org>
-References: <20261124-migrate_reclaim_deadlock-v2-0-03cc147e1e36@kernel.org>
-In-Reply-To: <20261124-migrate_reclaim_deadlock-v2-0-03cc147e1e36@kernel.org>
-To: Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
- "Liam R. Howlett" <liam@infradead.org>, Nico Pache <nico.pache@linux.dev>, 
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
- Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- William Kucharski <william.kucharski@oracle.com>, 
- Heiko Carstens <hca@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Claudio Imbrenda <imbrenda@linux.ibm.com>, 
- Johannes Weiner <hannes@cmpxchg.org>, 
- "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
- Gregory Price <gourry@gourry.net>, 
- Ying Huang <ying.huang@linux.alibaba.com>, 
- Alistair Popple <apopple@nvidia.com>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong <joannelkoong@gmail.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, "David Hildenbrand (Arm)" <david@kernel.org>, 
- stable@vger.kernel.org, Chris Mason <mason@kernel.org>, 
- Chris Down <chris@chrisdown.name>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9909; i=david@kernel.org;
- h=from:subject:message-id; bh=ZvWFZecsWOAHo59h/ui+A5Vn6KCDS14KJjpg2/wc7e0=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLJZne2i2DxmS3Om8J7aceKmJMe8Ce+8/n6fVKLqezDnE
- 8O6faz/OkpZGMQ4GGTFFFmCgu8bvHy5rrbajY8ZZg4rE8gQBi5OAZjIm38MPxm7+xOPxjy95CsZ
- EZZU+lo7+nrDHraII2VzpFoWTJOawsLIcPzXzDN+t7WzgnQl3Bd1qy6ucJN59SxcUFZTQM1K+7A
- sBwA=
-X-Developer-Key: i=david@kernel.org; a=openpgp;
- fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-Allocating memory while holding folio locks is problematic, as we
-would require a NOFS scope to avoid deadlocks.
+On 11/23/26 04:31, Jeff Xu wrote:
+> Move __GFP_SKIP_KASAN from GFP_HIGHUSER_MOVABLE to GFP_HIGHUSER so
+> non-movable userspace page allocations also skip KASAN tagging on
+> allocation and poisoning on free under CONFIG_KASAN_HW_TAGS.
+> 
+> GFP_HIGHUSER_MOVABLE already skips KASAN because user pages do not hold
+> kernel data structures and tagging every 16-byte MTE granule on
+> allocation and free is expensive. GFP_HIGHUSER has the same contract and
+> differs only in being non-movable, used mainly by DMA-BUF, DRM/GPU
+> buffers, and non-movable HugeTLB.
+> 
+> On an Armv9.2-A device (6.12 kernel, kasan.mode=sync), this reduces
+> 32 MB /dev/dma_heap/system alloc+free latency by ~80% (~59% alloc, ~98%
+> close) and improves an app-loading OpenGL benchmark by 15-23%.
+> 
+> Callers that access GFP_HIGHUSER pages through kmap_local_page() or
+> page_address() (such as ramfs, pipe/FUSE buffers, kexec, and RDS) lose
+> HW_TAGS checking on those pages. None of them store kernel structs
+> there; this matches the trade-off already made for GFP_HIGHUSER_MOVABLE.
+> Generic and SW_TAGS KASAN are unaffected.
+> 
+> Signed-off-by: Jeff Xu <jeffxu@chromium.org>
+> ---
+>  include/linux/gfp_types.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/gfp_types.h b/include/linux/gfp_types.h
+> index c1331bf0b239..bb54c7abfb02 100644
+> --- a/include/linux/gfp_types.h
+> +++ b/include/linux/gfp_types.h
+> @@ -376,8 +376,8 @@ enum {
+>  #define GFP_USER	(__GFP_RECLAIM | __GFP_IO | __GFP_FS | __GFP_HARDWALL)
+>  #define GFP_DMA		__GFP_DMA
+>  #define GFP_DMA32	__GFP_DMA32
+> -#define GFP_HIGHUSER	(GFP_USER | __GFP_HIGHMEM)
+> -#define GFP_HIGHUSER_MOVABLE	(GFP_HIGHUSER | __GFP_MOVABLE | __GFP_SKIP_KASAN)
+> +#define GFP_HIGHUSER	(GFP_USER | __GFP_HIGHMEM | __GFP_SKIP_KASAN)
+> +#define GFP_HIGHUSER_MOVABLE	(GFP_HIGHUSER | __GFP_MOVABLE)
 
-Migration locks folios and can end up triggering direct reclaim or
-compaction with __GFP_FS. For example, reclaim can evict an inode
-through the dcache shrinker, and wait in truncate_inode_pages_final()
-for a folio that we hold locked:
-
-    migrate_pages_batch()
-      migrate_folio_unmap(A)
-        folio_trylock(A)
-      migrate_folio_unmap(B)
-        get_new_folio()
-          try_to_free_pages()
-            super_cache_scan()
-              prune_dcache_sb()
-                iput_final()
-                  evict()
-                    truncate_inode_pages_final()
-                      folio_lock(A)
-
-This example requires that nothing else holds a reference on the inode,
-and can be triggered most easily with FUSE, which evicts inodes on the
-last reference.
-
-Allocating in a NOFS scope would be one option, but it would have rather
-bad side effects, such as direct compaction not migrating file folios
-and the OOM killer not being invoked.
-
-So let's fix it by allocating all destination folios of a batch before
-locking any source folio. Now, we no longer allocate destination folios
-while holding folio locks, which also avoids holding these locks during
-direct reclaim or compaction for these allocations: an improvement on
-its own.
-
-We keep the destination folio of a folio that we have to retry, instead
-of freeing it and allocating a new one. If we would have to allocate
-while already holding folio locks, which can happen when retrying a
-failed split for longterm pinning, we leave the folio to the synchronous
-fallback in migrate_pages_sync() instead, which migrates folios one by
-one.
-
-Note that nfs_migrate_folio() still writes back the folio while holding
-its lock in MIGRATE_SYNC mode, which allocates memory. This must be
-sorted out in NFS code independently.
-
-This has medium urgency.
-
-Fixes: 5dfab109d519 ("migrate_pages: batch _unmap and _move")
-Cc: stable@vger.kernel.org
-Reported-by: Chris Mason <mason@kernel.org>
-Tested-by: Gregory Price (Meta) <gourry@gourry.net>
-Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
-Reviewed-by: Zi Yan <ziy@nvidia.com>
-Reviewed-by: Chris Down <chris@chrisdown.name>
-Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
----
- mm/migrate.c | 133 ++++++++++++++++++++++++++++++++++++++++++-----------------
- 1 file changed, 96 insertions(+), 37 deletions(-)
-
-diff --git a/mm/migrate.c b/mm/migrate.c
-index e6cd83cf32aa1..8015202158013 100644
---- a/mm/migrate.c
-+++ b/mm/migrate.c
-@@ -1220,25 +1220,15 @@ static void migrate_folio_done(struct folio *src,
- }
- 
- /* Obtain the lock on page, remove all ptes. */
--static int migrate_folio_unmap(new_folio_t get_new_folio,
--		free_folio_t put_new_folio, unsigned long private,
--		struct folio *src, struct folio **dstp, enum migrate_mode mode,
--		struct list_head *ret)
-+static int migrate_folio_unmap(struct folio *src, struct folio *dst,
-+		enum migrate_mode mode, struct list_head *ret)
- {
--	struct folio *dst;
- 	int rc = -EAGAIN;
- 	int old_folio_state = 0;
- 	struct anon_vma *anon_vma = NULL;
- 	bool locked = false;
- 	bool dst_locked = false;
- 
--	dst = get_new_folio(src, private);
--	if (!dst)
--		return -ENOMEM;
--	*dstp = dst;
--
--	dst->migrate_info = 0;
--
- 	if (!folio_trylock(src)) {
- 		if (mode == MIGRATE_ASYNC)
- 			goto out;
-@@ -1364,7 +1354,8 @@ static int migrate_folio_unmap(new_folio_t get_new_folio,
- 
- 	migrate_folio_undo_src(src, old_folio_state & FOLIO_WAS_MAPPED,
- 			       anon_vma, locked, ret);
--	migrate_folio_undo_dst(dst, dst_locked, put_new_folio, private);
-+	if (dst_locked)
-+		folio_unlock(dst);
- 
- 	return rc;
- }
-@@ -1809,6 +1800,25 @@ static void migrate_folios_undo(struct list_head *src_folios,
- 	}
- }
- 
-+static void migrate_folio_free_dst(struct folio *dst,
-+		free_folio_t put_new_folio, unsigned long private)
-+{
-+	list_del(&dst->lru);
-+	dst->private = NULL;
-+	migrate_folio_undo_dst(dst, false, put_new_folio, private);
-+}
-+
-+static void migrate_folios_undo_unused(struct list_head *pending_folios,
-+		struct list_head *new_folios, free_folio_t put_new_folio,
-+		unsigned long private, struct list_head *from)
-+{
-+	struct folio *dst, *tmp;
-+
-+	list_for_each_entry_safe(dst, tmp, new_folios, lru)
-+		migrate_folio_free_dst(dst, put_new_folio, private);
-+	list_splice(pending_folios, from);
-+}
-+
- /*
-  * migrate_pages_batch() first unmaps folios in the from list as many as
-  * possible, then move the unmapped folios.
-@@ -1831,8 +1841,10 @@ static int migrate_pages_batch(struct list_head *from,
- 	int pass = 0;
- 	bool is_thp = false;
- 	bool is_large = false;
--	struct folio *folio, *folio2, *dst = NULL;
-+	struct folio *folio, *dst, *tmp;
- 	int rc, rc_saved = 0, nr_pages;
-+	LIST_HEAD(pending_folios);
-+	LIST_HEAD(new_folios);
- 	LIST_HEAD(unmap_folios);
- 	LIST_HEAD(dst_folios);
- 	bool nosplit = (reason == MR_NUMA_MISPLACED);
-@@ -1845,7 +1857,13 @@ static int migrate_pages_batch(struct list_head *from,
- 		thp_retry = 0;
- 		nr_retry_pages = 0;
- 
--		list_for_each_entry_safe(folio, folio2, from, lru) {
-+		/*
-+		 * Prepare the source folios, and allocate the destination
-+		 * folios before locking any source folio. We must be careful
-+		 * when allocating memory while holding folio locks, so just
-+		 * avoid it.
-+		 */
-+		list_for_each_entry_safe(folio, tmp, from, lru) {
- 			is_large = folio_test_large(folio);
- 			is_thp = folio_test_pmd_mappable(folio);
- 			nr_pages = folio_nr_pages(folio);
-@@ -1925,21 +1943,24 @@ static int migrate_pages_batch(struct list_head *from,
- 				continue;
- 			}
- 
--			rc = migrate_folio_unmap(get_new_folio, put_new_folio,
--					private, folio, &dst, mode, ret_folios);
- 			/*
--			 * The rules are:
--			 *	0: folio will be put on unmap_folios list,
--			 *	   dst folio put on dst_folios list
--			 *	-EAGAIN: stay on the from list
--			 *	-ENOMEM: stay on the from list
--			 *	Other errno: put on ret_folios list
-+			 * Don't allocate while holding folio locks, but leave
-+			 * the folio to the one-by-one fallback in
-+			 * migrate_pages_sync().
- 			 */
--			switch(rc) {
--			case -ENOMEM:
-+			if (!list_empty(&unmap_folios)) {
-+				retry++;
-+				thp_retry += is_thp;
-+				nr_retry_pages += nr_pages;
-+				continue;
-+			}
-+
-+			dst = get_new_folio(folio, private);
-+			if (!dst) {
- 				/*
- 				 * When memory is low, don't bother to try to migrate
--				 * other folios, move unmapped folios, then exit.
-+				 * other folios, migrate the folios that we have
-+				 * destination folios for, then exit.
- 				 */
- 				nr_failed++;
- 				stats->nr_thp_failed += is_thp;
-@@ -1950,7 +1971,7 @@ static int migrate_pages_batch(struct list_head *from,
- 					if (!ret) {
- 						stats->nr_thp_split += is_thp;
- 						stats->nr_split++;
--						break;
-+						continue;
- 					} else if (reason == MR_LONGTERM_PIN &&
- 						   ret == -EAGAIN) {
- 						/*
-@@ -1963,18 +1984,42 @@ static int migrate_pages_batch(struct list_head *from,
- 						/* Undo duplicated failure counting. */
- 						nr_failed--;
- 						stats->nr_thp_failed -= is_thp;
--						break;
-+						continue;
- 					}
- 				}
- 
--				stats->nr_failed_pages += nr_pages + nr_retry_pages;
--				/* nr_failed isn't updated for not used */
--				stats->nr_thp_failed += thp_retry;
--				rc_saved = rc;
--				if (list_empty(&unmap_folios))
--					goto out;
--				else
--					goto move;
-+				stats->nr_failed_pages += nr_pages;
-+				rc_saved = -ENOMEM;
-+				break;
-+			}
-+			/* Remember the source folio until we unmap it. */
-+			dst->private = folio;
-+			list_move_tail(&folio->lru, &pending_folios);
-+			list_add_tail(&dst->lru, &new_folios);
-+		}
-+
-+		/*
-+		 * Lock and unmap the source folios. Each destination folio
-+		 * remembers its source folio in ->private, so walk the
-+		 * destination folios.
-+		 */
-+		list_for_each_entry_safe(dst, tmp, &new_folios, lru) {
-+			folio = dst->private;
-+			is_thp = folio_test_pmd_mappable(folio);
-+			nr_pages = folio_nr_pages(folio);
-+
-+			cond_resched_tasks_rcu_qs();
-+
-+			rc = migrate_folio_unmap(folio, dst, mode, ret_folios);
-+			/*
-+			 * The rules are:
-+			 *	0: folio will be put on unmap_folios list,
-+			 *	   dst folio put on dst_folios list
-+			 *	-EAGAIN: stay on the pending_folios list,
-+			 *		 keep dst
-+			 *	Other errno: put on ret_folios list, free dst
-+			 */
-+			switch (rc) {
- 			case -EAGAIN:
- 				retry++;
- 				thp_retry += is_thp;
-@@ -1982,7 +2027,7 @@ static int migrate_pages_batch(struct list_head *from,
- 				break;
- 			case 0:
- 				list_move_tail(&folio->lru, &unmap_folios);
--				list_add_tail(&dst->lru, &dst_folios);
-+				list_move_tail(&dst->lru, &dst_folios);
- 				break;
- 			default:
- 				/*
-@@ -1991,12 +2036,24 @@ static int migrate_pages_batch(struct list_head *from,
- 				 * removed from migration folio list and not
- 				 * retried in the next outer loop.
- 				 */
-+				migrate_folio_free_dst(dst, put_new_folio,
-+						       private);
- 				nr_failed++;
- 				stats->nr_thp_failed += is_thp;
- 				stats->nr_failed_pages += nr_pages;
- 				break;
- 			}
- 		}
-+
-+		if (rc_saved) {
-+			stats->nr_failed_pages += nr_retry_pages;
-+			/* We return rc_saved, so don't update nr_failed. */
-+			stats->nr_thp_failed += thp_retry;
-+			rc = rc_saved;
-+			if (list_empty(&unmap_folios))
-+				goto out;
-+			goto move;
-+		}
- 	}
- 	nr_failed += retry;
- 	stats->nr_thp_failed += thp_retry;
-@@ -2026,6 +2083,8 @@ static int migrate_pages_batch(struct list_head *from,
- 	/* Cleanup remaining folios */
- 	migrate_folios_undo(&unmap_folios, &dst_folios,
- 			put_new_folio, private, ret_folios);
-+	migrate_folios_undo_unused(&pending_folios, &new_folios, put_new_folio,
-+				   private, from);
- 
- 	return rc;
- }
+Can we please add a big fat comment above GFP_HIGHUSER, explaining why we use
+__GFP_SKIP_KASAN and which security impact this has?
 
 -- 
-2.56.1
+Cheers,
 
+David
