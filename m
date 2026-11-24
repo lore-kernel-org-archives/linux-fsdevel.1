@@ -1,50 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.36
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795504127;
-	b=VtmxTNaywNegEgwY8gXOqJmkpXotJ1z6Sx3/odOx7mGuMVHJndahxmmttHzdNjwOEOJN
-	 AqLMcDzLOZyRdSIgQ5f4MLK6igToGlvE6T3swBaGXzww3guurWAdLZXVYpsWnTbcPRE9F
-	 hjf48a0zApc+sp784jToqDmyxwh9wNQwmx+ae3QM4RGmV/gqJ2hlwo0FiMB2msQbt8RoV
-	 wwBfgdb2ClwOSjJSckgKJeBJEnfyF+OdTh4VBsbIoYhUV0wi9XC/yN/u2JL+ADuyZf3i6
-	 GjXLPhLMH6vYlqrQxwkuMoXlQ8qjTbyNNt/YSza7O3klMqZo/9GnfB1orPPwvEFdhmQ==
+	t=1795506346;
+	b=xpjUbX+/Oth7KPuMYqQD28tVS+o1oYMmXi/A5ameqLL8rk/ZSRvgjDiCgFwFGXIrolLz
+	 2obMgBZOOokmRontm1cy+gqPor+GDNeAO2xVksgY4w6BulbiXD8uwxxD52j6fPR+n1nzr
+	 lAxOUnE12KkMekMtx/ie2/RdpHP3HY3NcGragEHkZtOKnDKrrBLucfpVZ/ldcqLQX/GQe
+	 zEWRdnYM0wNmMHjGAyBPCfAYOoxe1xYYhMVlQBaxAbB+rLBqyfIOgxLu8uw6HG8GFIlrz
+	 ZkzrSMfsbDOlt3K03D9Gmmis6vVxRul25q59R99tzabp13CFtqBrY6T2tBbSxFIDv2A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795504127;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-CM-TRANSID:
-	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=KmWK89/yh+3U6N8ztRGk91ddCFgN9nj5EioDuKtujQA=;
-	b=n9ghsddx64Mgw3jjl8JN1f3HIy4r+SfH2vswkaqFCI9zsKGKps8ld/wUn7mQzAaNDHN/
-	 fHJPelXuOdI4ut3XuahAiFrRK00NOtN9O0r4dgN+jh7SfN7QBtIQz4WO31U/ITy1XkzQi
-	 in5NmpKJmuKmU2zNYX4zKWgMuSeFOPU4MDxhwygV+sbMsiTFCxyMnUgz070EaVIk8S/lL
-	 uu9zAuuac8zqZnnCs8Omz78L1FJ85ieRnqvsFBCV0/RyyfJ/FhIV1M0LN2xMkLp0KZChF
-	 v8oxrBFH+2MeIztLcHiF3VhgLqK5Hs7HeTvEmttnp9EzBbhII14fV1szlxKUqYYSSKA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795506346;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:CC:Subject:In-Reply-To:
+	 Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=Thn+VaFVC1REryUWa6XAf56aRbZr1l1qS8ugDKgj6oQ=;
+	b=BUMfa7TvWEa1Zzitv8Be1omMIcXY2IW/TVyjMIAWNyDUhew88R+XsBqM3zKCwz3SON0y
+	 1xl/LgLOGiMgTqoQlIXuJb1BuYQaV59L9oZWHrL6DW6Za9Sx8ylnPs3jos8bxwYZWxfeu
+	 zsazYPgD8pKUpjPTXJf4xxpjWlDm5YDghLyTJxuFUwJKYlZPCjkXhEhJSO4Rf+dZ+BbmA
+	 0EHPdGEooL0vx9T3PgnGeoHMD1txiMEu/Xpv5E7a4EcCsrBvJTE7Fc4vw6Pvz+VNwPGrT
+	 K8r9vEr+3806FrSUTmQjs+FKP4DP5p2T/suhWQoPUQmT2u+1rSBeCd/T6ToeA9+BqYw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=fuz4oIuf;
-	arc=none smtp.remote-ip=117.135.210.2
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=tEiwZMT2;
+	arc=none smtp.remote-ip=91.218.175.36
+Received: from mta0.migadu.com (out-36.mta0.migadu.com [91.218.175.36])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C0FA606A321;
-	Tue, 24 Nov 2026 07:08:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9C0FA606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07D8606A322
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 07:45:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C07D8606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=fuz4oIuf
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
-	Content-Type; bh=KmWK89/yh+3U6N8ztRGk91ddCFgN9nj5EioDuKtujQA=;
-	b=fuz4oIuf6/1yHcSA4hJ/814zy0uFTvH3wWDcT83QsYBEXW3szQjjgX2WWnVABa
-	LcCL3YtpYl3EO83fLtr5Cs7vTpvjt3Ms7RUT6sRPSmknhV6ytic38emSKkLhZqzF
-	zUjEdI69YBoOEQIODztWdiXef8dlBT0fvEmQDgY06s7pw=
-Received: from [IPV6:2409:8900:1fd6:2667:fa79:c486:b564:4e50] (unknown [])
-	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wD3X3rbNwVrvxODJw--.9843S2;
-	Tue, 24 Nov 2026 15:08:14 +0800 (CST)
-Message-ID: <a2f75e81-b012-4bb1-8885-a2ed310fa988@163.com>
-Date: Tue, 24 Nov 2026 15:08:11 +0800
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=tEiwZMT2
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=n4sjkNswfGhBdYtaSlqhTBoXLN/YX3BFxi2FIUhtl0c=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795506343; v=1; x=1796111143;
+ b=tEiwZMT2M5Qf+XnP4mL2Ld4GFXG3lqRlkDJYSN1LMgH4VIjsLiOi/IyFB0pTzZLmmAt/R8yW
+ fJVdSXa5zvkUSVG3CWfAqLzybCJrO7XrphJRVoo6a7ujJQse9ER3Fi4Q1FLTEuQUeZBr1Kqn4cr
+ 1+FO4Bs8/JIbI0yCyUVR00wE=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 84eae793db55e172;
+	Tue, 24 Nov 2026 07:45:43 +0000
+X-Mizu-Trace-ID: 84eae793db55e172
+X-Migadu-Flow: FLOW_OUT
+Date: Tue, 24 Nov 2026 07:45:40 +0000
+From: Bradley Morgan <bradley.morgan@linux.dev>
+To: nilayvaish@google.com
+CC: brauner@kernel.org, dhowells@redhat.com, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] watch_queue: use page_private() accessors
+In-Reply-To: <20261124033740.833270-1-nilayvaish@google.com>
+Message-ID: <74B03DB4-CE55-410E-8E18-E6B8A02FFC26@linux.dev>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,109 +63,72 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: ntfs: deleting $Extend breaks subsequent mount
-To: Namjae Jeon <linkinjeon@kernel.org>, theBIT5 x3zk <x3zk@outlook.com>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "open list:NTFS FILESYSTEM" <ntfs@lists.linux.dev>,
- Hyunchul Lee <hyc.lee@gmail.com>, Baolin Liu <liubaolin@kylinos.cn>
-References: <DM4PR15MB6276A5C442568B4C7E604AA386452@DM4PR15MB6276.namprd15.prod.outlook.com>
- <CAKYAXd-MHxzjvc20J-x4VYBnuk3sVpzmHo+zrHb8n3nx8Aav6g@mail.gmail.com>
-Content-Language: en-US
-From: liubaolin <liubaolin12138@163.com>
-In-Reply-To: <CAKYAXd-MHxzjvc20J-x4VYBnuk3sVpzmHo+zrHb8n3nx8Aav6g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3X3rbNwVrvxODJw--.9843S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxuF45Wr4xXr43uF1fAw13urg_yoW5WFyUpr
-	9FgF9FgrykG3srK3s2vFs8ZF1Fqw1xtayUJF1rXF17AFyYgw1agr15KF1Fqry8Jrnak3y5
-	Za1jg3yrua15A3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UTKZAUUUUU=
-X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6R4h62sFN94eiAAA3s
+
+On 24 November 2026 03:37:40 GMT, Nilay Vaish <nilayvaish@google.com>
+wrote:
+>watch_queue records the number of the first note of each buffer page in
+>page->private, reading and writing the field directly.
+>
+>struct page is being shrunk as part of the memdesc work, and its private
+>field is one of those that will move. Direct users have to go through
+>the accessors before that can happen.
+>
+>Use page_private() and set_page_private() instead, like the rest of the
+>kernel, so that the code no longer depends on where struct page keeps
+>the field.
+>
+>No functional change.
+
+Cool!
+
+I like this, makes sense.
 
 
+Reviewed-by: Bradley Morgan <bradley.morgan@linux.dev>
 
-在 2026/11/24 09:40, Namjae Jeon 写道:
-> On Tue, Nov 24, 2026 at 5:01 AM theBIT5 x3zk <x3zk@outlook.com> wrote:
->>
->> Hi,
-> Hi,
->>
->> Was messing around with the new ntfs driver (fs/ntfs) on 7.4.0-rc3-1-mainline
->> and noticed you can just rm -rf '$Extend' even without show_sys_files.
->> After umount, the filesystem fails to mount again.
->>
->> Steps:
->>
->> # mount -t ntfs /root/ntfs.img /mnt -o loop
->> # cd /mnt
->> # ls '$Extend'
->> '$ObjId'  '$Quota'  '$Reparse'
->> # rm -rf '$Extend'
->> # cd /
->> # umount /mnt
->> # mount -t ntfs /root/ntfs.img /mnt -o loop
->> mount: /mnt: wrong fs type, bad option, bad superblock on /dev/loop0,
->>         missing codepage or helper program, or other error.
->>
->> dmesg:
->> ntfs: volume version 3.1, dev loop0, cluster size 4096
->> ntfs: (device loop0): load_system_files(): Failed to load $Extend.
->> ntfs: (device loop0): ntfs_fill_super(): Failed to load system files (-22).
-> Please check the attached patch.
-> Thanks for the report.
 
-Hi Namjae,
-   I noticed that NInoSetExtendSys() is only reached when looking up the
-unnamed $DATA attribute returns -ENOENT. A file directly under $Extend
-that has an unnamed $DATA attribute skips this path and never gets
-NI_ExtendSys set, leaving it mutable without sys_immutable.
+>
+>Signed-off-by: Nilay Vaish <nilayvaish@google.com>
+>---
+>
+>Notes:
+>    This patch was written with the help of an AI coding assistant (Gemini).
+>    
+>    Based on next-20261123.
+>
+> kernel/watch_queue.c | 4 ++--
+> 1 file changed, 2 insertions(+), 2 deletions(-)
+>
+>diff --git a/kernel/watch_queue.c b/kernel/watch_queue.c
+>index e2bdd5fb0db1..eeb7fb9bc0fd 100644
+>--- a/kernel/watch_queue.c
+>+++ b/kernel/watch_queue.c
+>@@ -71,7 +71,7 @@ static void watch_queue_pipe_buf_release(struct pipe_inode_info *pipe,
+> 	bit /= WATCH_QUEUE_NOTE_SIZE;
+> 
+> 	page = buf->page;
+>-	bit += page->private;
+>+	bit += page_private(page);
+> 
+> 	set_bit(bit, wqueue->notes_bitmap);
+> 	generic_pipe_buf_release(pipe, buf);
+>@@ -284,7 +284,7 @@ long watch_queue_set_size(struct pipe_inode_info *pipe, unsigned int nr_notes)
+> 		pages[i] = alloc_page(GFP_KERNEL);
+> 		if (!pages[i])
+> 			goto error_p;
+>-		pages[i]->private = i * WATCH_QUEUE_NOTES_PER_PAGE;
+>+		set_page_private(pages[i], i * WATCH_QUEUE_NOTES_PER_PAGE);
+> 	}
+> 
+> 	bitmap = bitmap_alloc(nr_notes, GFP_KERNEL);
+>
+>base-commit: 3191063649dbf7c0d0b768e1f3655e4c5fc6edb5
+>prerequisite-patch-id: d52d42a2ec9ddc2b12b3412ec0d07254b417e60f
+>prerequisite-patch-id: d8338f943ba7ae297eefbb26dabc3bcfe7994461
+>prerequisite-patch-id: 3d99b53c242296b89d7f7b41f1995188f5a02369
+>
 
-   I reproduced this with your patch applied, using default mount options
-and a synthetic NTFS image containing a SYSTEM-marked file with unnamed
-$DATA directly under $Extend. After remounting, this write still succeeds:
-     echo changed > '/mnt/$Extend/review-data'
-
-   Could we move the direct-child classification into the common
-inode-loading path, so that setting NI_ExtendSys does not depend on
-whether the unnamed $DATA attribute exists?
-   I tested the change below in QEMU. The write above is now rejected
-with EPERM, and normal file, hard-link, symlink and remount checks pass.
-
-Thanks,
-Baolin
-
-You may consider applying the following change on top of your attached 
-patch:
-**************************************************************************
-diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
-index e1c5a767e62b..c0e2535401bb 100644
---- a/fs/ntfs/inode.c
-+++ b/fs/ntfs/inode.c
-@@ -959,6 +959,15 @@ static int ntfs_read_locked_inode(struct inode *vi)
-                 goto unm_err_out;
-         }
-
-+       /* Classify $Extend children regardless of their data/index 
-layout. */
-+       if (ni->mft_no >= FILE_first_user) {
-+               err = ntfs_is_extended_system_file(ctx);
-+               if (err < 0)
-+                       goto unm_err_out;
-+               if (err > 0)
-+                       NInoSetExtendSys(ni);
-+       }
-+
-         if (ni->flags & FILE_ATTR_REPARSE_POINT) {
-                 unsigned int mode;
-
-@@ -1163,7 +1172,6 @@ static int ntfs_read_locked_inode(struct inode *vi)
-                          */
-                         extend_sys = ntfs_is_extended_system_file(ctx);
-                         if (extend_sys > 0) {
--                               NInoSetExtendSys(ni);
-                                 if (m->flags & MFT_RECORD_IS_VIEW_INDEX) {
-                                         if (extend_sys == 2) {
-                                                 name = reparse_index_name;
-
+--- Thanks!
