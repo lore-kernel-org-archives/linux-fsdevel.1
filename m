@@ -1,75 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.71
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.3
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795543907;
-	b=4ykwJwbbvzGQKatHD85zdMuyZ0Qp4m1vCYh6z3TytpYaJeKwwFayTtGpejt0inRMcDLy
-	 BDPKB2gSAeYDQvUwuo5RktB99N0mbztqePMNIYbmqxMWGLjiABZc5Sh0lhDvxFNC5nXGx
-	 yVg24iiHusy5zjbsabK3cxq7Lbt0lWBXp80hla4h0ni4F0ZLFqst+utNk6Rl6MTJUM8Jt
-	 Z1pNPUNZRfg7L8kaeO1/+LbuVkRxZ7d897OHeXgBpTLWdyrPRYzzCWjNGYix/qD6rGz89
-	 QnN12VCnKOCh9Vu2i9SqJhQ5eGhBVHrkFIb1d3oWAKbmvADxRtPTZZgOmKIxQqLOjTw==
+	t=1795544435;
+	b=ICChWgRM26X8ozbhn2soMrpp6LEF/eETFlC+EakHmeC8ATauzYIXZZIR2iJCwNMUNBiR
+	 Kqyp2JxNI6bdmjvnAnswHTVaDMz3eBN3DDOF964h+iJwSB+jwttYqm4Cl8iWR9JTUs7pa
+	 OCrDPwRzsbwA+6mHM+l1kEyb0ksraW2+b1Ru2oGSGej7LrnutmdiosRpOneaQt3rlEezf
+	 djnJ7fy9xte0PmN/de08ovyRT4svtSRZjOx1QZ6r4TpIhy57r09jVvctYTEjUzn/b2h1l
+	 HUtk0lvbyC4GEtohmOm7TddmzfegoHRg6PbPirveW4WCouCp2ULbFwKYr+685w029Nw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795543907;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
-	 Content-Type;
-	bh=aiZpNl+uwE4TnFcTqpYk+3BvyMy/85ssubMrmipa0eo=;
-	b=YBcSUyEzHHcFozrftpC/jFhaVaDUmb0po4iXV+H0tdHga6MNFjuuwR0CIH3NK3MWmcXm
-	 T6sx2/eeCucs5EEGrPJvuQUyr19jh9Yl0iQGJmDyk93VrBrEiNNua8eSz7qkj1NjA2HNU
-	 oq3RlCihOQ45JrheN7bcTzxVMhnuUO24oTKRpDjYvLmRW6ph/Yuxtvj+siZu4BIRyY18r
-	 0CicXz1XumR1W08gsyUeNS8+d7KatSxl3ptOGE1XDsKzye0FkK0cEfJ8hMvUvIdSzJ80M
-	 gcz0c7CwTgAe4hyRdqh3YwRuterK1vugNiy1bnfRWfrcU8AwWZskhYGq4GyTpsHkbew==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795544435;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=rn2JMXIObYI9wUt1ea1lSjudrwErALnnzN0nbwRNkfY=;
+	b=hCtGBSh8uUtuq/RZ1l/JV536RAOAYCbeTzeHI833+54S6XycX8/3yrKbDfU/OU4x5cYI
+	 LgjcPJSPVF5NVQViiw0tFtFhRUQh0TMQwpGVlHTjW8J43Z9kr/j5FKqVbf3eh5f4Bx3pO
+	 taewL22OJ09As5Z3y42BwF+MlxQF8ekBl/Pb4Mxp1XljrhQrF5S8dXm0on7TSbdGFWOVY
+	 ItCy3hqFFv6wn+se1J14PTlYPZBL4jG6lWRY8XS6W7TwXFIjYEx6dxCEqDC11/FdCJvDz
+	 idDVcgo+lz/mEVlT452Bd9SkYwomU54ulEgwSgvYdMq3TldYtE8piBP6sBxPRlpOX0w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--dmnk.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=OcZHRr4j;
-	arc=none smtp.remote-ip=209.85.128.71
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com [209.85.128.71])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=A349BdiF;
+	arc=none smtp.remote-ip=117.135.210.3
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED57606A323
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 18:11:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0ED57606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmnk.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE6A606A687;
+	Tue, 24 Nov 2026 18:20:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6FE6A606A687
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=OcZHRr4j
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4b0a307487aso25325675e9.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 10:11:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795543905; x=1796148705; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=aiZpNl+uwE4TnFcTqpYk+3BvyMy/85ssubMrmipa0eo=;
-        b=OcZHRr4jdmY8U1ocHDa9fLLOko5ZZG0AkgUFFlk1yatOxrpwA1tgw+c7XH0C20+FL1
-         JbUymkY0L5CI11NlQYNdhPmNNCJN83L3bvNAUiskDP8ejYQoTqHGNyNXRVVs9liiSDsp
-         Pu419xLFrjN0EyIJUxwCOkn+G760jmx66EdIlMM6p6F4NuPyn30bKdCC3awy1+21BtBt
-         GaVbYYYbXcvuhbFgdvi8oI3tU88qx/C+ZdI7QlMiDmEU+EfkTRz2OvDgdtpbTSmsotoD
-         XTSHO0emKCfBfhqqqVXoxaWiH15/OvtT/PBc61U4vmAoNX4iJYJWU537vYx4HJRThemN
-         XuNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795543905; x=1796148705;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=aiZpNl+uwE4TnFcTqpYk+3BvyMy/85ssubMrmipa0eo=;
-        b=j62byRjbnjHzWcDsRzrKHXYeTuP62OJCkSXUR7qC214xGlZ6iZurLV6lI3VbOHG3BF
-         mt1pJcxh5BJGLWSHipTTBuPR0QWONnMut3LajUws6R3DAli4hKrAPeSkh1Avzo4XRBqZ
-         PGlnsbgOL0LxXsIhvmUDla077Nen5Y4Dmlvcgo4EMCn6gIh4j2AKjgcl5QuiKF41anne
-         R++k9oSEisxu2LZErMD1UwC6Q5mDUBwjN2KYPdDGj/POL8CysCX7rXsBXu8pmoPO4mKO
-         s42nsgCNcU15tX9lgPohLJKGhTuDLNW31CVFjMlb3Ght5owzXiZDvQlbBQhbN15WJfVk
-         Db3g==
-X-Forwarded-Encrypted: i=1; AL+hErF3Rlhw8EDjZ8y3CaJfsB+yy7ttkqv4gnZf9fwLmgzkQtE5EjX4bZcrg3KsXmANKUITZhbX03OlLfWUhZRo@vger.kernel.org
-X-Gm-Message-State: APuU4Z+i2Kghu3do7VRFpJ/b8t9ewBebcjdFezKBjPDN83/Qz2p4oRX/
-	RlDJTZduGow5kbQCsAuGYKVHLB4g3aL4l6zZGVwLelkORVlNAABVukBOW0pqlZOKs3RdEQisqA=
-	=
-X-Received: from wmlv25.prod.google.com ([2002:a05:600c:2159:b0:4a2:6ed:d59b])
- (user=dmnk job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600d:600b:b0:4a2:167a:c939
- with SMTP id 5b1f17b1804b1-4bb88815f1fmr319343915e9.21.1795543904970; Tue, 24
- Nov 2026 10:11:44 -0800 (PST)
-Date: Tue, 24 Nov 2026 18:11:44 +0000
-In-Reply-To: <c029dfb0-0745-4b63-9577-1a373f7ff184@slotpi15m67>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=A349BdiF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=rn
+	2JMXIObYI9wUt1ea1lSjudrwErALnnzN0nbwRNkfY=; b=A349BdiFhOFLw5eB4o
+	2gs6Xa+Z4epe2azGQRjXucIG6mi0DH9tr1ZwgnqIsQ1nlUDvaYtv1J4vCZCshXSS
+	HHzNZn8d8anK6dTGhqBjGdcLWSuKKdDFWp6It2/jnNJTPQyKJT0N4ccY25ZkbmOb
+	0Orcs6kAvM3MLC7DG+OtseQ1U=
+Received: from ubuntu (unknown [])
+	by gzsmtp4 (Coremail) with SMTP id PygvCgAH7o8k1QVrJbHLHw--.27478S2;
+	Wed, 25 Nov 2026 02:19:29 +0800 (CST)
+From: Shaopei Zhu <shaopei_1012@163.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Yuezhang Mo <yuezhang.mo@sony.com>,
+	exfat@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] exfat: add EXFAT_IOC_COMBINE to append a file's clusters to another
+Date: Wed, 25 Nov 2026 02:19:11 +0800
+Message-ID: <20261124181911.773506-1-shaopei_1012@163.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <awXMJaZ58iS3K2N0@casper.infradead.org>
+References: <20261124142807.773299-1-shaopei_1012@163.com> <awXMJaZ58iS3K2N0@casper.infradead.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -78,25 +67,45 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <c029dfb0-0745-4b63-9577-1a373f7ff184@slotpi15m67>
-X-Mailer: git-send-email 2.56.1.663.g77904e546d
-Message-ID: <20261124181144.143605-1-dmnk@google.com>
-Subject: Re: [PATCH 2/2] nfsd: enforce cross-export and may_linkat() checks in nfsd_link()
-From: Dominik Maier <dmnk@google.com>
-To: Chuck Lever <cel@kernel.org>
-Cc: Jeff Layton <jlayton@kernel.org>, Christian Brauner <brauner@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, 
-	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
-	linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	dmnk+artist@google.com
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PygvCgAH7o8k1QVrJbHLHw--.27478S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7tF4UAFyftF15Ww18tr48Xrb_yoW8XF17pa
+	y3twsrta1DJw13GFn3Cw4xt3yru3WxKw4fJas8tw1UZrs8XF129r9xtFW2ka48G39Fqwn0
+	qF4Yvas8C398uaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UqeHgUUUUU=
+X-CM-SenderInfo: pvkd01phlbiiirs6il2tof0z/xtbC6hGdLGsF1TGqyAAA3i
 
-Hi Chuck,
+On Tue, Nov 24, 2026 at 05:40:53PM +0000, Matthew Wilcox wrote:
+> On Tue, Nov 24, 2026 at 10:28:07PM +0800, Shaopei Zhu wrote:
+> > As with EXT4_IOC_MOVE_EXT and F2FS_IOC_MOVE_RANGE, the source must be
+> > open for reading and writing, the destination for writing, and both must
+> > be regular files on the same mount.  Files whose allocation, chain
+> > layout or valid_size are inconsistent, as after a failed truncate or on
+> > a corrupt volume, are refused with -EIO before anything is changed.
+>
+> Why are you designing your own ioctl instead of implementing
+> EXT4_IOC_MOVE_EXT in exfat?  That's the normal way of doing things as
+> it lets us later hoist the ioctl from all the filesystems implementing
+> it to the VFS.
 
-Sounds good, I'll wait for v7.5-rc so Daejun's fix lands first and
-resend rebased for Christian's tree then. Thanks for checking (and
-thanks Jan for reviewing patch 1/2)!
+Hi Matthew,
 
-Best
-Dominik
+Thanks for looking at this.  That paragraph was badly worded: I only
+meant that the permission rules are the same as for those ioctls, not
+that the operation is similar.
+
+EXT4_IOC_MOVE_EXT is a defragmentation primitive: it copies the data of
+the original file into the donor's blocks and exchanges the block
+mappings, so the contents and sizes of both files stay the same, and
+the range has to lie within both files.  It cannot append one file to
+another, which is what is needed here: the clusters of the source are
+linked onto the end of the destination, the destination grows and the
+source is unlinked, without copying any data.
+
+I will reword that paragraph in the next version so that it states the
+rules without suggesting that the operations are related.
+
+Thanks,
+Shaopei
+
