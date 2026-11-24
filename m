@@ -1,184 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795560351;
-	b=bLuuliCOoElgYkO5yWhMh+p/Dmt7hAuOOot84RYbhmBq5XEmX0NtXxJv8p8d0G3PYc/x
-	 cK/uvsUwS7Y/mQpt3T5cTr4JIY6AJ3fhSOlRDBSNVVh62H5u53D8c9ldYYiuf7vOolVK3
-	 uLiKHckPlDZACt4/V9fzpHritlQnn5zKholKHncuHNVGpdkiTgVVoZF4Q+sNhzuuo5tov
-	 +1ZNANJBLRnqvm/K2DdQvYT5dzTdfarkJKQ1T9Inb99OuQleBIraqlwHVDGkgXNz89WFl
-	 nuROW6dEKnpSlGYXZ1dEdAMlEHztLVBGpTcxpUjS1vWLRKG5Nlvc3ZFa7hekOCOhc+Q==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795560351;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:Received:Received:Received:Message-ID:Subject:From:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:
-	 MIME-Version:User-Agent:X-TM-AS-GCONF:X-Proofpoint-Reinject:
-	 X-Authority-Analysis:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=ZGiGop5d+F8Rtl4gJM+e51darej3tvaxLWXElW4mntw=;
-	b=WTmCkFA9uBWlOnaJqJGM8YlwMiV9gg6kHMAsZkktwzouEhWW4ETMUFfQivtzUBden8Sl
-	 oQ7bzd9qd29qFaidO2ExDO6wM1gtOYjXDeg5QGtl08UVANyYjoUFuqZ2B8e8FXcJnOf4d
-	 AkkOcpkcOhTiBkT4s407SQ0f5sv2oc8gXNIiK7gDKAzecREINtGVOiumGeBab6aq6vr93
-	 3c1BZSrhhV4vr4JuWKNCO/ECfuAmrF2Au/iOcgJ+l3rpHI0cto540g0QbXAZDvPqYn3oq
-	 EGAkm2svUjGn6IxR9VsMhMg8xyZQ2chDW9KJhU4ugp86zlegVryNmbSpDmccNKJmnbQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.ibm.com;
-	spf=pass smtp.mailfrom=linux.ibm.com;
-	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=nTvh+C8v;
-	arc=none smtp.remote-ip=148.163.158.5
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795560588;
+	b=XC8ZJKF1DPw3nB7BCXo6EjrZyczuOJjoiMLi/pwaaVU7vEF7dNJhFuzAOPPnNuhS+lyf
+	 ++IdTTVMNCCQNMr9Rh4hVIwPT6knTURLTDVaPsy52ulgZUUku9yunTbRI6isWg2fK80JI
+	 kzXn/2U4tV/pkNAnWxX4bTruRBYKMNR2zJnF8PG0wgzaEOtS0zAERMNLR+xnZmIRpAjKb
+	 cNAWkTwJDKgKNmy7N0vwPvVm1PimmtIdX44oe06VC8QUbl72PeMslHvNTMaZV2auMGgXn
+	 cMddQJJx/o8my6qZDstQJFAzpj3x/kN0BX+itnu9VLXTsA2N3Bn3cJo9kUXvyztnAzQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795560588;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=RDm2bmuZC4O8E/WV+EWS6T+5kzzfwTBddlqcUwyyh64=;
+	b=Db70GdysIBmcBpmshqoVWyaOAsUIXLlabVpKAfQY8TUlkyQcR6sLQUsPfy4/jx7ZHIu3
+	 H03FXNnLAEG6jXVJ1R787EBClkP2NClegqKKuRhC3d1smH0wccF2Ddw1I7hKpQ4yAREa2
+	 iEBkICOZ7xMQS9V72x/yPwNbzylVOroJXk0WXUlC7xNbXGzijAg8C3jOjDaA3fziD50qz
+	 G5L8sq8qmjxLQF4YeIyLwBPpY8+fHnSZu4s75oEa3AIX73dKilkVC4GaruaZTKhcnuUi1
+	 vuxFC8P9LqTqAXcbH0XGPW6476MMSR344QE6oqSDuJPOlYVp2dgnl9nzc5u93ASH87Q==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GkNCSJ2v;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FBC1606A31E;
+	Tue, 24 Nov 2026 22:49:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GkNCSJ2v
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795560588;
+	b=FATm/Lu0dhrvcFjLhXw4I/6xRCDM4DMqlIspZcmJsA1NBdFTZbjXGULufyg+oIThMbDr
+	 sd15amto9Evu3rbdyClkwtkiYLgbekKAdr+c25mi6cif/IL1H+INgTP1LJibzTSBst53L
+	 EWj+wrcC4BEjE8yYYDGBfX1XSsy6bCn9Eq8b9sfgYKW/eOj32GCCzwmIWC5Z/kRbz4fcZ
+	 lWrCNyOLQiEzx5NrUbpFUe9NOxyHzWQ67WyfVsHbf6JIzCdQsz3aHl5dKqW4Z0HF4jOcD
+	 mH96TCCL/w1YL0KdnCyiXT7U+Yia3aDIz6wTwSJ83hYtDIIi6lEkhIdFMqZYbumubfA==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795560588;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=RDm2bmuZC4O8E/WV+EWS6T+5kzzfwTBddlqcUwyyh64=;
+	b=uXH/f1TtvdlbV7cvWnBsfIaWyoL4kuIg+3aGtgH+yEIaXb6mMWq6/EGzSa+ZONT4Y71B
+	 o3TQILT/1XfGOsx8qlfb00eO3OFtDI3ROJ7ZrxhrXybCc2gZuCELUE72UrMM9bcAIHN8G
+	 BiTXvv3yOhu/XEzJHSvfqTFW9yk2QQdtNaaK701/lTQTZl2rSMSH2ME9zfu93oecX0kh6
+	 w951pJFQUbyn4jv/2z9FrQVscsyFSA/WnybQmGrVG6aYPBeiXUcvk5DoEm9xAuc2CfPGn
+	 +gqOUqxRouRoKPEQ+Cmog8WHtfvDUv4IC7yD8us/M+qw38QDtuxmnOcPt9/FlTrba4g==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BEE5606A32D;
-	Tue, 24 Nov 2026 22:45:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7BEE5606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=nTvh+C8v
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AOMZaJD3653444;
-	Tue, 24 Nov 2026 22:43:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=ZGiGop
-	5d+F8Rtl4gJM+e51darej3tvaxLWXElW4mntw=; b=nTvh+C8vIj7OYYIXDe5d2R
-	kjD5qV3PLuWeVi06lfK7L2UJEji/0Y0NTNorE2sOm+OZV0abykWH0eDGNBghYJ0X
-	rq2iLVPK+mHk5L80j6FsTx3l+8sZ//o+V5DQlP8WI3upQAwt3HFFUd/psna68+YU
-	1f0SS6s2B0uwnUx5Fbet+kOp1fhhomrUiRev86n5oFeFHEaCz89bG2qaXYanxHkt
-	72GhPgk0UkvUIrOg6jofFdrKRCxRn1TnFQHCx3alMAUuJk8ditj+psJO5dju10fP
-	ZVp+oTdmh2KXNvrOZYqQt4KSurp9qFLtHQQTRoz7RDiHEaL6YTVCV5sjlgTsfu+A
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j34gv9hk6-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 24 Nov 2026 22:43:47 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AOMZNrm2939889;
-	Tue, 24 Nov 2026 22:43:46 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4j5kfa00u5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 24 Nov 2026 22:43:46 +0000 (GMT)
-Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
-	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AOMhiTQ17891842
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 24 Nov 2026 22:43:44 GMT
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2BF575805C;
-	Tue, 24 Nov 2026 22:43:44 +0000 (GMT)
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5736D58051;
-	Tue, 24 Nov 2026 22:43:39 +0000 (GMT)
-Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.169.243])
-	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 24 Nov 2026 22:43:39 +0000 (GMT)
-Message-ID: <dfc8eada26ec70fdb802d71d4ade50e52917af26.camel@linux.ibm.com>
-Subject: Re: [PATCH v2 10/11] ima: convert VMA flag tests to use vma_flags_t
-From: Mimi Zohar <zohar@linux.ibm.com>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
-        Andrew Morton	
- <akpm@linux-foundation.org>,
-        David Hildenbrand <david@kernel.org>, Jason
- Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>, Peter Xu
- <peterx@redhat.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Jan
- Kara <jack@suse.cz>, Rik van Riel <riel@surriel.com>,
-        "Liam R. Howlett"	
- <liam@infradead.org>,
-        Vlastimil Babka <vbabka@kernel.org>, Harry Yoo	
- <harry@kernel.org>,
-        Jann Horn <jannh@google.com>, Lance Yang	
- <lance.yang@linux.dev>,
-        Zi Yan <ziy@nvidia.com>, Matthew Brost	
- <matthew.brost@intel.com>,
-        Joshua Hahn <joshua.hahnjy@gmail.com>,
-        Byungchul
- Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
-        Ying Huang	
- <ying.huang@linux.alibaba.com>,
-        Alistair Popple <apopple@nvidia.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Nico Pache
- <nico.pache@linux.dev>,
-        Ryan Roberts	 <ryan.roberts@arm.com>, Dev Jain
- <dev.jain@arm.com>,
-        Barry Song	 <baohua@kernel.org>, Usama Arif
- <usama.arif@linux.dev>,
-        Kiryl Shutsemau	 <kas@kernel.org>, Xu Xin
- <xu.xin@linux.dev>,
-        Chengming Zhou	 <chengming.zhou@linux.dev>,
-        Madhavan
- Srinivasan <maddy@linux.ibm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Christophe Leroy (CS GROUP)"	
- <chleroy@kernel.org>,
-        "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
-        Shrikanth Hegde <sshegde@linux.ibm.com>,
-        Pedro Falcato <pfalcato@suse.de>, Kairui Song <kasong@tencent.com>,
-        Qi Zheng <qi.zheng@linux.dev>, Shakeel
- Butt <shakeel.butt@linux.dev>,
-        Axel Rasmussen	 <axelrasmussen@google.com>,
-        Yuanchu Xie <yuanchu@google.com>, Wei Xu	 <weixugc@google.com>,
-        Baoquan He
- <baoquan.he@linux.dev>, Mike Rapoport	 <rppt@kernel.org>,
-        Suren
- Baghdasaryan <surenb@google.com>,
-        Michal Hocko	 <mhocko@suse.com>, Leon
- Romanovsky <leon@kernel.org>,
-        SJ Park <sj@kernel.org>, Rakie Kim
- <rakie.kim@sk.com>,
-        David Rientjes <rientjes@google.com>,
-        Alexander Viro	
- <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        Peter
- Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-        Arnaldo
- Carvalho de Melo	 <acme@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Mark Rutland	 <mark.rutland@arm.com>,
-        Alexander Shishkin
- <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>, Ian
- Rogers <irogers@google.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        James Clark <james.clark@linaro.org>,
-        Masami Hiramatsu
- <mhiramat@kernel.org>,
-        Oleg Nesterov	 <oleg@redhat.com>,
-        John Johansen
- <john.johansen@canonical.com>,
-        Georgia Garcia	
- <georgia.garcia@canonical.com>,
-        Paul Moore <paul@paul-moore.com>, James
- Morris	 <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Roberto
- Sassu	 <roberto.sassu@huawei.com>,
-        Dmitry Kasatkin
- <dmitry.kasatkin@gmail.com>,
-        Eric Snowberg <eric.snowberg@oracle.com>, Fan
- Wu <wufan@kernel.org>,
-        Stephen Smalley	 <stephen.smalley.work@gmail.com>,
-        Ondrej =?UTF-8?Q?Mosn=C3=A1=C4=8Dek?=	 <omosnacek@gmail.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        kvm@vger.kernel.org, damon@lists.linux.dev,
-        linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-        apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
-        linux-integrity@vger.kernel.org, selinux@vger.kernel.org
-In-Reply-To: <20261124-late-2026-vma-flags-v2-10-bf3fade93064@kernel.org>
-References: <20261124-late-2026-vma-flags-v2-0-bf3fade93064@kernel.org>
-	 <20261124-late-2026-vma-flags-v2-10-bf3fade93064@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 24 Nov 2026 17:43:38 -0500
+	by smtp.kernel.org (Postfix) with ESMTPS id 52A241F000D4;
+	Tue, 24 Nov 2026 22:49:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795560588;
+	bh=RDm2bmuZC4O8E/WV+EWS6T+5kzzfwTBddlqcUwyyh64=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=GkNCSJ2vH4AcKzgu8yd0oXlaJkkGPuR7pEY9PlVGO2R22SMb/Ufr22DNI86arAazl
+	 J2heyRkJ0f27bBfj1oztXGU/A+DKvlyJJNSxmlut9+n4MpWLBL6UPAPJTR+S+tjP6Y
+	 Qjip/PsXMV1srmnWunNy15mTZJOjQhLER4d17xsDQrqyBKozfCdF4sfn00gCxYRp+1
+	 Z9q6vv5bWmABoEM1mgZAeQXDY/qSW6pc8YOy1jk19oXfuSEaXHcSW67tQFU3BfqgpE
+	 rtKf3j1E6vn2XvRo9jz3h7AXTQHuPNvzbncTS7YMlLWb2T2UgZHQbILopZEM5N5TQh
+	 3IzYPWqpfxkqA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id C3EEE4CBF9;
+	Tue, 24 Nov 2026 22:49:37 +0000 (UTC)
+From: Ernest Borowski via B4 Relay <devnull+ernest.borowski.git.proton.me@kernel.org>
+Subject: [PATCH v2 00/11] ntfs: delayed allocation accounting and stale
+ data fixes, part 1
+Date: Tue, 24 Nov 2026 23:49:34 +0100
+Message-Id: <20261124-b4-ntfs-delalloc-fixes-v2-0-f394c800ec03@proton.me>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -188,44 +84,165 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Evolution 3.58.3 (3.58.3-2.fc43) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=CYCdd7rl c=1 sm=1 tr=0 ts=6b061323 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VwQbUJbxAAAA:8
- a=VnNF1IyMAAAA:8 a=TGgUVIJ8l62jgltsAYIA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI0MDA4OSBTYWx0ZWRfXwDA9Nt+nzQXw
- 9KrWXP5B8HLKCLWjlN02XC/5HPXZXxZsTDWoRUxxxW6lQ3FZ8mC11QweKx47A+E9TdWAwk1cOug
- sFMAIkU09NA25vt8l/0xpra1E7Xg8fo=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI0MDA4OSBTYWx0ZWRfX4lLDXZnSTgup
- AU6qwfIygRxvBGLVJ3VZuQ2vQEBroYM2OKsmMQ6snD+HV9RnWCzLaKuCqDXutrOsby4RCqqg8UJ
- SsfKlMMH8F6LVUCaD8RR7BbuIv+XPhpBSBnxZCeknTuXXJDVTvAR7Bw2DoNd6JzHNA2XjuKWSrp
- iL316AsRfmGY6o+l/cAaLYZIXE7x6iJkdIeU9Xa9YYSKxK4wx5aTChW46MaOuudWvgAZYAVQihK
- hcYBFyGorat/+d6x133HD2fjjxCW3NKbBTBFkPlIA6ogQ5ppIKZJ8DQQSBJSbHsjOktIZZ+Cj7X
- mzfjG7/063RQmfm4E4SrHYYm3CQqMMeMfyQ5SdtF17YNLbsI9YFOWCzWTVlt2R0isDZVBVmjkpQ
- UMBNWVaSYOQFsWxeiCTAouBAmMoQAuODDconbgEa0DcV6dCu4ZFfBblcKeOY2QAAEdZQXJKIinC
- 3AkZuP9U1m6cGZIvVNw==
-X-Proofpoint-ORIG-GUID: TZok2wQxCK2m2X0K2LNljqKg3jP9hqoK
-X-Proofpoint-GUID: JKZjqjFSjC84u0cIzqrZZyhq1-jp0JkF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-24_06,2026-11-23_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
- clxscore=1011 spamscore=0 bulkscore=0 impostorscore=0 adultscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611240089
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WOyw6CMBBFf4V07WhbXsGV/2FY9DFIDbakrQRD+
+ Hdb/ACXZ+bek7uRgN5gINdiIx4XE4yzCfipIGoU9oFgdGLCKW8Y4xxkBTYOATROYpqcgsGsGKC
+ WotMVdm1ZlySVZ4/HI3Xv/Y/DWz5RxWzLCSkCgvTCqjGfsvRymC2uMQdGE6Lzn2PawrLo74qFA
+ QXa8magWmFFy9vsXXT2/ELS7/v+BRV9EgfvAAAA
+X-Change-ID: 20261122-b4-ntfs-delalloc-fixes-5ba9d4e97353
+To: Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>, 
+ Baolin Liu <liubaolin12138@163.com>
+Cc: Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+ "Darrick J. Wong" <djwong@kernel.org>, ntfs@lists.linux.dev, 
+ linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Zhan Xusheng <zhanxusheng1024@gmail.com>, 
+ stable@vger.kernel.org, Ernest Borowski <ernest.borowski.git@proton.me>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6581;
+ i=ernest.borowski.git@proton.me; s=default; h=from:subject:message-id;
+ bh=2QCJ1Lv8pJcwRXH4oO49eHdWn2O+fC7Yd8/UYJK0wuE=;
+ b=owGbwMvMwCVWzJ65uCpJ5D/jabUkhmw2kXrFqeeSr7lzOB58c8Mt955/8Z1L+3c4Ose/XfV/a
+ uD9uR9+d5SyMIhxMciKKbJ0/L8R4hPy7dOyOK0+mDmsTCBDGLg4BWAiyXcYGRpzV0g/V/k/+5h1
+ fGSvLc90N20XwdVTi214407WfJR+YMzwV/jRc7OUkPiyNZuffTqeu2G+8ZtjE79qLtv84d6Vrev
+ FtNgB
+X-Developer-Key: i=ernest.borowski.git@proton.me; a=openpgp;
+ fpr=88FFD8544C54F6F2A65E2A8E730769A37A6214FF
+X-Endpoint-Received: by B4 Relay for ernest.borowski.git@proton.me/default
+ with auth_id=1589
+X-Original-From: Ernest Borowski <ernest.borowski.git@proton.me>
+Reply-To: ernest.borowski.git@proton.me
 
-On Tue, 2026-11-24 at 17:08 +0000, Lorenzo Stoakes (ARM) wrote:
-> Replace use of the legacy vm_flags_t flags with vma_flags_t values in the
-> IMA mprotect LSM hook.
->=20
-> No functional change intended.
->=20
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> Reviewed-by: Lance Yang <lance.yang@linux.dev>
+A write/truncate/punch-hole stress test on a 128 MiB volume showed the
+free space reported by statfs() falling from 79 MB to zero within 80
+seconds, after which writes failed with ENOSPC or came back short, while
+$Bitmap stayed correct.  The delalloc reservations in
+vol->dirty_clusters were not given back on several paths.  The same
+paths also had buffered writes into holes that exposed old disk
+contents.
 
-Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
+The series has four groups:
+
+Patches 1-2 (iomap) are small prerequisites for patches 8 and 10.  ntfs
+reserves delalloc space in whole clusters, and a cluster can be smaller
+than a folio (1 KiB or 2 KiB clusters with 512-byte blocks).  Patch 1
+passes each run of clean blocks to ->punch() in one call, so that ntfs
+sees a whole clean cluster and can release it.  Patch 2 adds
+iomap_dirty_folio_range(), which patch 10 uses to dirty part of a folio.
+For XFS and ext4 the only effect of patch 1 is fewer ->punch() calls,
+and patch 2 changes nothing for them.
+
+Patches 3-6 fix reservations that were lost or dropped: on truncate
+(3), when fallocate(), direct I/O or page_mkwrite() fill a hole (4),
+when a cluster allocation fails (5), and when a named stream is removed
+or an inode is evicted (6).
+
+Patches 7-8 handle a buffered write that fails after ->iomap_begin()
+reserved its clusters, which left delalloc runs that no data covers.
+Patch 7 fixes the runlist split helpers, which turned such a run into
+real clusters when it was punched or collapsed, and so corrupted
+$Bitmap.  Patch 8 turns the clusters the write did not use back into
+holes, so that no such run is left.
+
+Patches 9-11 fix buffered writes into holes that showed old disk
+contents or lost data written through a shared mapping:
+- patch 9: the zeroing of a new cluster's edges gave up as soon as
+  writeback allocated the cluster;
+- patch 10: a copy that stopped inside a new cluster left the rest of
+  the cluster unzeroed;
+- patch 11: when a write fault or writeback allocated the clusters
+  during the copy, the write zeroed blocks instead of reading them,
+  which overwrote data written through a shared mapping.
+
+All patches are Cc stable.  Dependencies:
+- patches 1, 2, 3, 4 and 7 apply on their own;
+- 5 needs 4, 6 needs 3, and 8 needs 6;
+- 9 needs 8, 10 needs 9 and 2, and 11 needs 9;
+- 8 also needs 1 to release clusters smaller than a folio.
+
+  3 --> 6 --> 8 --> 9 --> 10 <-- 2
+              ^     |
+              1     +--> 11
+  4 --> 5
+  7
+
+Zhan Xusheng's "ntfs: trim the sizes after a short write" [1] fixes the
+file size after a short write.  Both series add the same helper,
+which zeroes from a worker when the writer has a fatal signal pending
+(iomap_zero_range() refuses to run then); whichever lands second can
+share one copy.  Part 2 follows with five more patches: st_blocks of
+delalloc data, and the remaining stale data windows of write faults,
+writeback and direct I/O into holes.
+
+Each bug fixed here has a reproducer that fails before and passes after
+its fix.  The reproducers run in QEMU on a kernel with KASAN, lockdep
+and UBSAN, at 512 B, 1 KiB, 2 KiB, 4 KiB, 16 KiB and 64 KiB clusters,
+with ntfsck -n after every case, on Ubuntu 26.04 and Arch Linux.  On
+ntfs-next f674e4b6c315 the eight reproducers of these bugs
+(short_copy_stale, delalloc_accounting, delalloc_alloc_failure,
+delalloc_failed_write, delalloc_zero_race, stale_wb_race,
+delalloc_partial_fail, stale_write_mapping) pass with this series,
+except for the st_blocks check of delalloc_alloc_failure, which part 2
+fixes.  Every test that passed before still passes, also with [1] v9 and
+the forced wait suggested for it applied.
+
+  tests:                    https://github.com/xerrni/linux-ntfs
+  ntfs-next:                https://github.com/xerrni/linux-ntfs/actions/runs/45387973158
+  ntfs-next + this series:  https://github.com/xerrni/linux-ntfs/actions/runs/45416562964
+  ntfs-next + this series + [1] v9 + the forced wait:
+                            https://github.com/xerrni/linux-ntfs/actions/runs/45416568573
+
+[1] https://lore.kernel.org/all/20261124025932.2360848-1-zhanxusheng1024@gmail.com/
+
+---
+Changes in v2:
+- New patch 1 (iomap): one ->punch() call per run of clean blocks, so
+  that 1 KiB and 2 KiB clusters of a dirty folio are released after a
+  failed or short write (Hyunchul).
+- New patch 2 (iomap) and patch 10 (was 7): after a short copy, dirty
+  only the rest of the cluster, so the clusters the write did not reach
+  in the same folio are still released.
+- New patch 5, moved here from part 2: keep the reservations when a
+  cluster allocation fails, instead of resetting every file's
+  reservation or leaving a delalloc run with none (Hyunchul's question
+  on v1 patch 1).
+- New patch 11: revalidate the delalloc mapping when a write fault or
+  writeback allocated its clusters during the copy, instead of zeroing
+  data written through a shared mapping (Hyunchul).
+- Patches 3-4 and 6-9 are v1 patches 1-6, unchanged.
+- Cc the iomap maintainers and lists for patches 1 and 2.
+- Link to v1: https://patch.msgid.link/20261122-b4-ntfs-delalloc-fixes-v1-0-0726f0dce403@proton.me
+
+---
+Ernest Borowski (11):
+      iomap: punch out a run of clean blocks in one call
+      iomap: add a helper to mark a range of a folio dirty
+      ntfs: release delalloc reservations cut off by truncate
+      ntfs: do not consume delalloc reservations when filling holes
+      ntfs: keep delalloc reservations when a cluster allocation fails
+      ntfs: release the delalloc reservations of an evicted inode
+      ntfs: do not shift the cluster number of a delalloc run on split
+      ntfs: punch out the delalloc reservation of a failed buffered write
+      ntfs: zero new delalloc clusters even when writeback allocates them
+      ntfs: zero the rest of a new cluster after a short buffered write
+      ntfs: revalidate a buffered write's mapping after its clusters were allocated
+
+ fs/iomap/buffered-io.c |  29 +++-
+ fs/ntfs/attrib.c       | 130 +++++++++++++++++-
+ fs/ntfs/attrib.h       |   2 +
+ fs/ntfs/inode.c        |  13 +-
+ fs/ntfs/inode.h        |   3 +
+ fs/ntfs/iomap.c        | 367 ++++++++++++++++++++++++++++++++++++++++---------
+ fs/ntfs/lcnalloc.c     |   1 -
+ fs/ntfs/runlist.c      |  13 +-
+ include/linux/iomap.h  |   1 +
+ 9 files changed, 485 insertions(+), 74 deletions(-)
+---
+base-commit: f674e4b6c315ebe742d08af80659386992d58ce9
+change-id: 20261122-b4-ntfs-delalloc-fixes-5ba9d4e97353
+
+Best regards,
+--  
+Ernest Borowski <ernest.borowski.git@proton.me>
+
+
