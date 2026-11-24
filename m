@@ -1,77 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795510239;
-	b=sJ0Q/kpV1v0P3MJaOmDNlkQ9GgijaLJU+SKPrW+LK5pCpIZwcfUFBf/02lxTCVTzUyGI
-	 gmNrQ249OqUUB5PcUcMOEyDKfDufkugH7MLtO8G+lSYt7/7yKfVCT7/wscoOdQQeBj7n4
-	 7h/FPMWKjStr2W9+/TRX64gRVgCbSNcwuX5iy7qpwuxO56XFfS7AJbCxmrbtYf/vi/GNi
-	 FmiF6ENyc8eSgva506tv1NDLaQgPOiPiMqitwBuB1Wcrk6DIabz1r+isyI0mmlRbwCfKm
-	 XSb7hDwGqLT5e/Lw8W04GDMtSB7k49zq9EpGI+qjRUBOrIaES8ef0zGUw1rmPdYvt0g==
+	t=1795510740;
+	b=qJGxKjyWtCW6JH+DJixj+A295gxB/Wm0dRT0u4mtlYtg9/ZLUsLUUJT61KPjRllow5Ds
+	 Jq0tcMdffW+hGTR8hUrm8mEtb2v1P5FvuGdRebTxRf12Sr4jTUQ1gu0A3JFcITGtfxBBb
+	 O7nH5Aiwz9Ewcoi62rDscqhft6fUCfpVwPrZjPPzGt/O8OasbYOzTxq0RrFZmrMPfnyjr
+	 xwKX6+SrO9y+knS6OsqfWM2ZCiupBO3xj4740yQUtEi7aj9+TJm/iNpVi9Hvnlpfy3se/
+	 d98pGzk3BRclXulv+v44Dp5AipGbTl7+7uCabnfKMtSbfMEC+YVGT0Ia9544J0LcALg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795510239;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=pZxSNV99eQQD7nI0RHK3EiKTCxoH4Q/YUIR/xnmC9yM=;
-	b=kXAF+ZinQoz2Aq5FJ7O7sgDz7cOBv81/CO12cSmfH7Rb9oTw+ZTe6PMl7Y3drjLsua1W
-	 IMR+Ba+pVBXV5ikBGeebRh9MWH3+0e1hQBmeCYmTB5srnjvfSS3SwJIfyTccOYYCVOtfH
-	 OVOr5veMcmbHEsiCoR1stHes15+1u62qR4tZG1LZmy+c8hxpv8s9yvVqQqiot2advRxzn
-	 l2XPKAOYBk1BESGvvCoazstYlbKT93ao/uEe/hJ5fcJjSuVhU5+pD27+OBCMQZONzOXYk
-	 O4MoVoT+Yk6VaoYmRfoneQ2eCqcRDksY15zZ9LCvYn05Cqc3H8HeJZOTz+E4x3oBXZw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795510740;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=iYjv7RbotbqaHt7QdXT/8Tg8XeFQ6Uk7hTPrb5SAdJ8=;
+	b=Tlxh8rRjVuxs8h1o9ESm1TMqkaTXVzPO0oQUQylH2I/nGETRd3uVcPtSyHRuYaIYb8Mh
+	 3P7i+6ukfimm6OYQjCpLuqnqfMeaslVV7UJypzvIn0FBlOa+L8YXvZ5FTynaDCHEm9pnv
+	 q3WNcAGze9l5qKiCwTkqEueBNmq2rw0cmpSKvPFaaotVV14ZrCvisqgtd0Lxsbn11dgg9
+	 46umjVbsypduIWS8BKdvK8zlU9kp+9hl8ESuX51xvRRHIluJdEGG/qvE+jeVSoqlUFiko
+	 jl85F3oKbWCi4yMYuT0YCTxNKU1/e/6rGYNzSlgUad4/jrZAmOCmVGLg58/Osopzh5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="Biz/pg0z";
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k1QFahsn;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F997606A321;
-	Tue, 24 Nov 2026 08:50:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F997606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 733BB606A31E;
+	Tue, 24 Nov 2026 08:59:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Biz/pg0z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795510239; x=1827046239;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=1fRo1a0dLF78exZbhSV0DUhDGiKNw/pnDJfveyQyjwE=;
-  b=Biz/pg0zXhr0rqvxPk70aC09U5BQGC2qXZp1SO14lVnJ6JWwgjUHj3dt
-   VndP/txLFUfDHYCOU0VcTDW+Ks/wWluW26YilDtMxET6J+W690zTzOdL9
-   PcxQCAAIACDt8SXAG9gs9FcpDPxBiRXPNA8/3tvKRKsHX1Swv4UGV1F7V
-   IbDvhjNyuEyimt/8BfYEsMLZABALyVrSM+cu+U2/kcLMtkopx1YamNKXa
-   qp6ntOyCisUwHgZTXxkgDTLLg8HxVdA42eMGntDlPPPF6HdgpEoEXLAKh
-   JtYhApbiG9MhS5yswfR95Vl90BjUCifo1IfYiABG8ff9SqatJU4IouNG0
-   Q==;
-X-CSE-ConnectionGUID: 1dLKM7FvQZqnpCEEHmq5Wg==
-X-CSE-MsgGUID: wILnpVV2R+W0K7eKMnngIw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11975"; a="4377196"
-X-IronPort-AV: E=Sophos;i="6.27,230,1787036400"; 
-   d="scan'208";a="4377196"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 00:46:36 -0800
-X-CSE-ConnectionGUID: Leh/wT4iSS2fbKldD79aCQ==
-X-CSE-MsgGUID: qYBeCo/5QjSHPyzSn0XYww==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,230,1787036400"; 
-   d="scan'208";a="11892453"
-Received: from ubu2204-pxg.bj.intel.com ([10.238.152.105])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 00:46:34 -0800
-From: Xiange Pi <xiange.pi@intel.com>
-To: Kees Cook <kees@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k1QFahsn
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id DE6741F000C0;
+	Tue, 24 Nov 2026 08:58:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795510739;
+	bh=iYjv7RbotbqaHt7QdXT/8Tg8XeFQ6Uk7hTPrb5SAdJ8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=k1QFahsnF0x+zCcltI5RHNJkWBpdEzrqZsbILpvtucLNDMLYBfD6HWPxRRuOpcHVm
+	 B66SoPYuvfdPFugWs2E1SoH2Vokq28QQ9oQQ7MtJ8nyM0BJfp6WotjqfE56EijnxfU
+	 NP8mgmGthJgV7XbUfHSEev5bMps1Q0zcY5GY2p1n0R7ZrwysvhdXu5vXlcCgDkx+Uo
+	 MYOmOIgF8uCyWYV0/QGGjTFZkVnF4jMMv7qpzw3G1Etf56xsKLlv1wUVPQD1P6epM9
+	 CHd6CiLmUEwl567ey9CMCYt2Fjs9101x/9q2KbVqhb2F3stKSmENWpqGOf4572Dj4R
+	 LIUH5hhlX0zOw==
+Date: Tue, 24 Nov 2026 10:58:55 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: bpf@vger.kernel.org, containers@lists.linux.dev,
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+	linux-security-module@vger.kernel.org,
+	Aleksa Sarai <aleksa@amutable.com>,
+	Alexander Mikhalitsyn <alex@amutable.com>,
 	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>,
-	linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] exec: annotate lockless tsk->comm update with data_race()
-Date: Tue, 24 Nov 2026 16:38:48 +0800
-Message-Id: <20261124083848.1430527-1-xiange.pi@intel.com>
-X-Mailer: git-send-email 2.34.1
+	Andy Lutomirski <luto@amacapital.net>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Giuseppe Scrivano <giuseppe@scrivano.org>,
+	Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
+	Jeff Layton <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Josef Bacik <josef@toxicpanda.com>, Kees Cook <kees@kernel.org>,
+	KP Singh <kpsingh@kernel.org>,
+	Lennart Poettering <lennart@poettering.net>,
+	Neal Gompa <neal@gompa.dev>, Oleg Nesterov <oleg@redhat.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+	Serge Hallyn <sergeh@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+Subject: Re: [RFC PATCH v7 00/26] userland: Userland containers
+Message-ID: <awVRz8XC54nfevtW@kernel.org>
+References: <20261122193539.3334213-1-jarkko@kernel.org>
+ <awTmJIErjasO4lqq@kernel.org>
+ <awToL2PFNKVgIfqs@kernel.org>
+ <awUGkYoyDXp4P5LJ@kernel.org>
+ <awULfmZR-pESj2EC@kernel.org>
+ <awVInf04kGC0uZZo@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -81,73 +84,100 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <awVInf04kGC0uZZo@kernel.org>
 
-KCSAN reports a data race between prctl(PR_SET_NAME) and a lockless
-reader of tsk->comm such as the sched_stat_runtime tracepoint:
+On Tue, Nov 24, 2026 at 10:19:46AM +0200, Jarkko Sakkinen wrote:
+> On Tue, Nov 24, 2026 at 05:58:58AM +0200, Jarkko Sakkinen wrote:
+> > On Tue, Nov 24, 2026 at 05:37:58AM +0200, Jarkko Sakkinen wrote:
+> > > On Tue, Nov 24, 2026 at 03:28:19AM +0200, Jarkko Sakkinen wrote:
+> > > > On Tue, Nov 24, 2026 at 03:19:36AM +0200, Jarkko Sakkinen wrote:
+> > > > > On Sun, Nov 22, 2026 at 09:35:13PM +0200, Jarkko Sakkinen wrote:
+> > > > > > SYSCALLS
+> > > > > > ========
+> > > > > > 
+> > > > > > Two new system calls are proposed:
+> > > > > > 
+> > > > > > 1. userland_open(): open an opaque staircase-initialized container
+> > > > > >    object (modeled on Intel SGX enclave initialization with separate
+> > > > > >    build and live states) with no embryonic state, opting selected
+> > > > > >    shared namespaces in via an allow-list instead of unshare semantics.
+> > > > > > 2. userns_set_idmap(): configure all UID, GID, and project ID map
+> > > > > >    extents for a container user namespace in a single atomic system
+> > > > > >    call.
+> > > > > 
+> > > > > I played on patching systemd and userns_set_idmap() alone does already
+> > > > > a lot of good. I'm figuring out userland_open() integration next.
+> > > > > 
+> > > > > For the test implementation I probe the opcode's and dependening on that
+> > >                                             ~~~~~~~~
+> > > 					    syscalls
+> > > 
+> > > > > use either "userland path" or "fallback path".
+> > > > > 
+> > > > > This auto-probing is done so that I can commit the patches to my kernel
+> > > > > test harness, which already has systemd, and try them out when built
+> > > > > against userland-enabled kernel (via LINUX_OVERRIDE_SRCDIR):
+> > > > > 
+> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd-test.git/tree/?h=main
+> > > > > 
+> > > > > The project builds a hybrid ISO, which is a bootable bootc/composefs
+> > > > > based operating system, and has toolbx bundled i.e., a reasonable test
+> > > > > environment for all of this. It is also device-installable via "npx
+> > > > > @puu/install"
+> > > > > 
+> > > > > I had to level the harness up a lot so that I could realistically test
+> > > > > lockdown-hibernate but it is is also pretty good emulation environment
+> > > > > for any possible container features.
+> > > > 
+> > > > Kernel is ukified and systemd-boot is used as the boot loader i.e., for
+> > > > kernel testing purposes corresponds to something like Silverblue except
+> > > > not using GRUB.
+> > > 
+> > > Experimental systemd patches:
+> > > 
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd-test.git/commit/?h=main&id=e4d6b15da3376ad09c0c575cedf467f69db32a52
+> > > 
+> > > The patches are layered per syscall feature:
+> > > 
+> > > - 1-5: userns_set_idmap
+> > > - 6-10: userland_open()
+> > > 
+> > > Virtual device would add path/mount complexity and generally dependency
+> > > to mounts i.e., I think it was an awful idea. At least initially this
+> > > feels fairly lean way of doing container things now that I've trialed
+> > > systemd-nspawn a bit.
+> > > 
+> > > I'll update the patches over time.
+> > 
+> > "userland_open" is just a name as I don't have anything better for the
+> > time being (perhaps <something>fd() e.g., containerfd(), would work
+> > better).
+> 
+> What I did at late 2025 was simply going through the old ML discussions
+> for David's patches and addressed the remarks one by one. Then I
+> improved the patch set bit further until other stuff came along, and I
+> forgot the whole thing for some time.  Last week's burst was really
+> unwritten todo list starting to remind about itself in flashbacks.
+> 
+> There's not much more in API sense to do except maybe syscall rename and
+> associated prefixes in constants etc. My Git branch has additional fixes
+> (e.g., more LSM plumbing) on top of this but they don't change the gist
+> of this by any possible way so no new RFCs for the time being.
+> 
+> The most up to date version:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git/log/?h=vault
 
- BUG: KCSAN: data-race in __set_task_comm / strlen
+The key function to look up from here is spawn_userland_container():
 
- read to 0xffff88800d1787d8 of 1 bytes by task 3929 on cpu 1:
-  strlen+0x19/0x40
-  trace_event_raw_event_sched_stat_runtime+0x5a/0x150
-  update_se+0x14f/0x3b0
-  ...
- write to 0xffff88800d1787d8 of 10 bytes by task 3417 on cpu 0:
-  __set_task_comm+0x78/0x180
-  __se_sys_prctl+0xcb3/0x13b0
+	https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd-test.git/tree/br2-external/patches/systemd/0010-nspawn-Start-containers-in-an-experimental-userland.patch?h=main
 
-The race is benign by design: since commit 3a3f61ce5e0b ("exec: Make
-sure task->comm is always NUL-terminated") the last byte of comm is
-never overwritten with a non-NUL value, so lockless readers see at worst
-a mix of old and new name. Annotate the writes in __set_task_comm()
-with data_race() to tell KCSAN that the lockless access is intentional.
-As nearly all updates of comm go through this function, this covers the
-lockless readers without having to annotate each of them.
+It demonstrates an initialization flow that ends up cleanly with
+clone(). userland_share_host_ns() demonstrates the ioctl I added
+previous week i.e., USERLAND_SHARE_NSFD, which is used to punch those
+host namespaces that the guest actually needs. This is the allow-list
+part, which is usually the favorable principle over deny-list.
 
-Reported-by: syzbot+98baf51f5cc36dcbe2f7@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=98baf51f5cc36dcbe2f7
-Signed-off-by: Xiange Pi <xiange.pi@intel.com>
----
-Test environment:
-  - Baseline: torvalds/linux.git (git://git.kernel.org/pub/scm/linux/
-    kernel/git/torvalds/linux.git) commit fc1c25014ff8, with and
-    without this patch
-  - Kernel config: the .config provided on the syzbot bug page
-    (CONFIG_KCSAN=y)
-  - Method: QEMU guest, running syz-execprog and syz-executor with the
-    reproducer in the background, plus a script that enables the
-    sched_stat_runtime tracepoint
-  - Without the patch: "KCSAN: data-race in __set_task_comm / strlen"
-    reproduced in every run
-  - With the patch: not reproduced in 10 out of 10 runs
-
- fs/exec.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
-
-diff --git a/fs/exec.c b/fs/exec.c
-index a5269b5e00df..4b03bb2fcb95 100644
---- a/fs/exec.c
-+++ b/fs/exec.c
-@@ -1100,8 +1100,16 @@ void __set_task_comm(struct task_struct *tsk, const char *buf, bool exec)
- 	size_t len = strnlen(buf, sizeof(tsk->comm) - 1);
- 
- 	trace_task_rename(tsk, buf);
--	memcpy(tsk->comm, buf, len);
--	memset(&tsk->comm[len], 0, sizeof(tsk->comm) - len);
-+	/*
-+	 * tsk->comm is read locklessly by many users (e.g. tracepoints,
-+	 * printk). comm[TASK_COMM_LEN - 1] is never written with a non-NUL
-+	 * byte, so concurrent readers see a bounded, NUL-terminated string;
-+	 * at worst a mix of the old and new name. Mark the update as
-+	 * intentionally racy.
-+	 */
-+	data_race(memcpy(tsk->comm, buf, len));
-+	/* Same as above: lockless readers tolerate a partially updated comm. */
-+	data_race(memset(&tsk->comm[len], 0, sizeof(tsk->comm) - len));
- 	perf_event_comm(tsk, exec);
- }
- 
--- 
-2.43.0
-
+Br, Jarkko
