@@ -1,112 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795539968;
-	b=EvdsyOZIz98ohkRW3LB76L8eNVL0UZjIvTe5CFqih0Vc9PZrp+Ka7A7lGSXQU+CCh+bj
-	 oM0o0zxw31MLfUm8MGGd/gUr9ECW3vWpqoOwdkOJHs9XO+NnkbOnCJ5figdeir2n7tG6g
-	 lmoStfzmee3gaKvmmrVaqPMK7h999HUKtYqCkJetGrZUPxFilQThhXT3tmKaCcepZgCfK
-	 4wmMnVOi4PHQKwlmD25QpksfaMLGNggH9BtXHKDuof+EC0TDUuYmEpxZRTpwkR+m3/n70
-	 eXpZJ2aRafIs3KxSGKo70pyzR4vRfSE/yRKhHSzkJ6uf+xZvD9kDXB+IoxqGCGEn57Q==
+	t=1795540100;
+	b=FsocQdSgYBIhkNgfhQSFsLAJlmvM4CmIz7YytcUorNTV7bmmTGemOnUmqe3tvSei0NHb
+	 IGiZXofQ8lkEELFxWAYkCWC1M9pCfK0HpdPM+7t2uDjOsgYaabUzt39Q7vL59netablsq
+	 Smu5j/MB9aEuyZtdpCXZRArY2WMqvsC2mYguILF1STYdLrs25n3HCfquAX1o4CO6+5TMx
+	 H/5oL55pDq5NFJd1e/xPia0Wo6rm5AmJmbSWNFaG1WswyGvAqj4wnMRom/1eF6wjzBgEx
+	 MJtsSrpuNErFiXbbouf9uLzzQDUlZiTCWjxxDcAYtNb9eHTAkhPF0Fd/H+HJZqyfTlg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795539968;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=3H/OahWV+3RChA14ZDJSZnina6/d+GytEJVi+69LbEU=;
-	b=eIqNJkxpLCxoxAX71GVFXTE4+UExMRNJRzmDRaGD4HvpXBCh1LFVSsoWUC22fIhGcqFF
-	 xxAmpVLEOzhjXEzXkldRPeTHUTrCvlzaETPXQYKYpN3aEBm2eyIuegrmSeoFAFek7MCMF
-	 g0pMdm9WoCgxIXFV4nPgDsgBTYEnL1Du7vx7FpixMCrg1b/9TZ4N9FpkpP5wRGQA8w5gx
-	 zCifb2HvvGxBwxKO96uRpEa2ggsu8DVp6F5mQS1NIj9VkjHUBxiCjVh4MkCbn5OBuxELm
-	 VrUBmmlzK32qSwJ0oUwn0z3jzwa7NQFv47nMiejFyqyVGdlLVECJZgkf/i4CP95a98g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795540100;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=aqZtH0oPe0w0iyR81y6Fx2M9m70KmY8puMtxeRbq+2o=;
+	b=eN3mvG51YrPXYxCwEsUdFDQhRvKF5RUCAPwz3xUajZT9AlaSP7ytZR7LeVe03XrAHqNB
+	 JCL3TXPq2NuQEz2/iuVdVq3q83+202AnXLpZI10E5BRjaaO1iGFUQhE2irB65D1DDP0rD
+	 PMD8Cplg2lc6yLeWg9GIvV+8GcDA6oqio3v3sTt37iYIYiaGFSxuFxa9ebHS07kKwU1Ph
+	 yHoknUI3+8CCbMqdUjain/Z9LcMP2GZ1LrEG1kRhLLnfL6TMmtSWr4m44SZ4HuJe8qmbe
+	 yk/zX0Q6OFjcgyXx0ze7yUD/11+lIh0WmCeokTuJWWajOxQWMtPs6G6SykJWG8jLD+A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=GUHb7dR8;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=jl13DaVU;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=FyD4ctRM;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=5hH8EiLM;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VCuJxO6J;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3836D606A31E;
-	Tue, 24 Nov 2026 17:06:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3836D606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B7F606A69D;
+	Tue, 24 Nov 2026 17:08:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=GUHb7dR8;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=jl13DaVU;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=FyD4ctRM;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=5hH8EiLM
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 17CAC21EA6;
-	Tue, 24 Nov 2026 17:06:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795539966; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3H/OahWV+3RChA14ZDJSZnina6/d+GytEJVi+69LbEU=;
-	b=GUHb7dR8DJcZCqltWabaoCMras6AdDniYmZhte7Kv3mosa4KVlVWDPqtEmx8cG2tjgpNi3
-	+nwFoigcsIzkC33vA/WNyrwkyv6KwVopZqq8CMB1yV6p0kPwe+Gj6ICS3WWDTiN8yLvhBi
-	BG/zx73fiaVH4cThpt5CkeqGjXBTrbM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795539966;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3H/OahWV+3RChA14ZDJSZnina6/d+GytEJVi+69LbEU=;
-	b=jl13DaVUtIuXwE8gkzhwqa+lmoyR8acxkuwi++RjMoBOZqSmaf20AgDdIwkNkXlcfCfkus
-	2C5aS1H0ceKbxbDQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=FyD4ctRM;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=5hH8EiLM
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795539964; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3H/OahWV+3RChA14ZDJSZnina6/d+GytEJVi+69LbEU=;
-	b=FyD4ctRMa6vURRKaq+lEiQnTTsufczdXTOD+TgEpAd4Ugmc8TISjBPDkWxxZ22VzwGwWDq
-	3OCxg/v0esF87RkH+wNknxFIroaJeOdBR7Vj7kuEAyh2kmFdB31hts7+jFCcfkuCdPvj/9
-	b8qCwFiimMRe+FT8q3nCtENsWLgmAEA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795539964;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3H/OahWV+3RChA14ZDJSZnina6/d+GytEJVi+69LbEU=;
-	b=5hH8EiLMLcRIlXipgzw7UImf8yYu80scHY0CPwrmyI4gmq48c/V1RAsb2+qt4WKZ4uo4Y6
-	AdtQZNL4sjXkH0Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DE6B11339F;
-	Tue, 24 Nov 2026 17:06:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id cAOALfvDBWulUQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 24 Nov 2026 17:06:03 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 6BA2127A34; Tue, 24 Nov 2026 18:06:03 +0100 (CET)
-Date: Tue, 24 Nov 2026 18:06:03 +0100
-From: Jan Kara <jack@suse.cz>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Chris Mason <mason@kernel.org>, Christoph Hellwig <hch@lst.de>, Theodore Ts'o <tytso@mit.edu>, 
-	Carlos Maiolino <cem@kernel.org>, Alexander Mikhalitsyn <alex@amutable.com>, 
-	linux-fsdevel@vger.kernel.org, linux-unionfs@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2] xattr: enforce the name and size limits for in-kernel
- callers
-Message-ID: <p3k36hsnj5ucuzbu7e2x6mtlr6rku3j4ec2ighu4td6tbllbzd@5zfm6yvgttsi>
-References: <20261123113513.1910906-1-amir73il@gmail.com>
- <20261123165807.1939942-1-amir73il@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VCuJxO6J
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B29B1F000D1;
+	Tue, 24 Nov 2026 17:07:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795540099;
+	bh=aqZtH0oPe0w0iyR81y6Fx2M9m70KmY8puMtxeRbq+2o=;
+	h=From:Subject:Date:To:Cc;
+	b=VCuJxO6Jjypj5DbUmhoytQziZJ5vLJGTNMNo3cqRxIUYh8Jzq3skhseCD0u5fRyjP
+	 C/2WEanKtLteavWso/oU3UJ6UtR3j3y9fK26/Wq6ytkGMpgt3chyo6ZXZEhXOKNaw5
+	 OJMyuJjnDYiBEsWgq3CJ337r7u+4G0BQSS+X4PEGurGZ29cGJXvYGBp2B0mKK810FW
+	 ftHg7joprB1aheUbxHOLTyL6VRQThAY1CflxS92AdC+zCo1MDGX49CRqEYciw8D45w
+	 OC/jVpT6VeMvEyweIbi7je9qiB2n4OB0NEcoB8q+V0O4UJwKh+CmIRZljhTIuC+2Js
+	 dix6TOTy+6I+w==
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Subject: [PATCH v2 00/11] mm: continue vma_flags_t conversion
+Date: Tue, 24 Nov 2026 17:07:52 +0000
+Message-Id: <20261124-late-2026-vma-flags-v2-0-bf3fade93064@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -116,162 +53,164 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261123165807.1939942-1-amir73il@gmail.com>
-X-Spamd-Result: default: False [-13.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -13.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 17CAC21EA6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAA/23NQQqDMBCF4auEWTslY2oEV71HcZHqGEPTRBIJL
+ eLdi0J3Xb5/8b0NMifHGTqxQeLisosBOlFXAobZBMvoRugE1LLWRJLQm5XxWFheBidvbMarpla
+ R0UoPCioBS+LJvU/13lcCZpfXmD7nSaGj/rzmr1cIJcpRDSM15tE20+3JKbC/xGSh3/f9CwLCI
+ fm3AAAA
+X-Change-ID: 20261101-late-2026-vma-flags-461731a636c3
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Rik van Riel <riel@surriel.com>, "Liam R. Howlett" <liam@infradead.org>, 
+ Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>, 
+ Jann Horn <jannh@google.com>, Lance Yang <lance.yang@linux.dev>, 
+ Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+ Gregory Price <gourry@gourry.net>, 
+ Ying Huang <ying.huang@linux.alibaba.com>, 
+ Alistair Popple <apopple@nvidia.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+ Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
+ Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+ "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
+ Shrikanth Hegde <sshegde@linux.ibm.com>, Pedro Falcato <pfalcato@suse.de>, 
+ Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, 
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Leon Romanovsky <leon@kernel.org>, 
+ SJ Park <sj@kernel.org>, Rakie Kim <rakie.kim@sk.com>, 
+ David Rientjes <rientjes@google.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, 
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+ Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+ Adrian Hunter <adrian.hunter@intel.com>, 
+ James Clark <james.clark@linaro.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+ John Johansen <john.johansen@canonical.com>, 
+ Georgia Garcia <georgia.garcia@canonical.com>, 
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+ "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+ Roberto Sassu <roberto.sassu@huawei.com>, 
+ Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+ Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
+ Stephen Smalley <stephen.smalley.work@gmail.com>, 
+ =?utf-8?q?Ondrej_Mosn=C3=A1=C4=8Dek?= <omosnacek@gmail.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ kvm@vger.kernel.org, damon@lists.linux.dev, 
+ linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+ apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org, 
+ linux-integrity@vger.kernel.org, selinux@vger.kernel.org, 
+ "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3964; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=AxeX6Zqxak7Ff0FGtjI8UQufUYyumqYNiaGRAt4jiII=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLJZj+RGMUybXCrDUp937eOZY1FXjoUfd2jjdDu7MHppi
+ 7fD9B0hHaUsDGJcDLJiiizPv4jvDxIJm9d5wd8NZg4rE8gQBi5OAZiI6VSGf6by2nvdT2svNv3G
+ a5Ie3p2yXP+50sy7123nv02taTp4R4yRoVPqlDxHDnfXbUEO7UKVGzOvXZxuWuvsdc7h0sMltT1
+ /uAE=
+X-Developer-Key: i=ljs@kernel.org; a=openpgp;
+ fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
-On Mon 23-11-26 17:58:07, Amir Goldstein wrote:
-> The xattr system calls refuse a name longer than XATTR_NAME_MAX and a
-> value larger than XATTR_SIZE_MAX, but the VFS helpers do not. An
-> in-kernel caller may pass a name or a size that it got from another
-> filesystem, such as overlayfs copy up from a lower layer.
-> 
-> Check both limits before calling the xattr handler of the filesystem,
-> and fail with the errors that the system calls return for them.
-> 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+Continue the conversion of legacy vm_flags_t flags to the new vma_flags_t
+bitmap type.
 
-Looks sensible. Feel free to add:
+Do some more core mm conversion (we really should be the first to
+completely move to the new scheme :), but also update some mm-adjacent and
+otherwise straightforward cases - /proc/$pid/maps and friends, the coredump
+VMA dump size logic, uprobes, perf and LSM mmap/mprotect hooks.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+This series only makes strictly mechanical changes to keep things gentle
+during this very busy cycle.
 
-								Honza
+No functional change intended.
 
-> ---
-> 
-> Changes since v1:
-> - Check the name in vfs_getxattr_alloc() too (Alex)
-> 
-> v1: https://lore.kernel.org/r/20261123113513.1910906-1-amir73il@gmail.com/
-> 
->  fs/xattr.c | 35 ++++++++++++++++++++++++++++++++++-
->  1 file changed, 34 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/xattr.c b/fs/xattr.c
-> index 0705801a62cc5..fb5e43d4ff356 100644
-> --- a/fs/xattr.c
-> +++ b/fs/xattr.c
-> @@ -178,6 +178,18 @@ xattr_permission(const struct mnt_idmap *idmap, struct inode *inode,
->  	return inode_permission(idmap, inode, mask);
->  }
->  
-> +/*
-> + * The xattr system calls refuse a name above XATTR_NAME_MAX and a value above
-> + * XATTR_SIZE_MAX, but an in-kernel caller may pass a name or a size that it
-> + * got from another filesystem, such as the lower layer of overlayfs.
-> + */
-> +static int xattr_check_name(const char *name)
-> +{
-> +	if (strnlen(name, XATTR_NAME_MAX + 1) > XATTR_NAME_MAX)
-> +		return -ERANGE;
-> +	return 0;
-> +}
-> +
->  /*
->   * Look for any handler that deals with the specified namespace.
->   */
-> @@ -209,10 +221,17 @@ __vfs_setxattr(const struct mnt_idmap *idmap, struct dentry *dentry,
->  	       size_t size, int flags)
->  {
->  	const struct xattr_handler *handler;
-> +	int error;
->  
->  	if (is_posix_acl_xattr(name))
->  		return -EOPNOTSUPP;
->  
-> +	error = xattr_check_name(name);
-> +	if (error)
-> +		return error;
-> +	if (size > XATTR_SIZE_MAX)
-> +		return -E2BIG;
-> +
->  	handler = xattr_resolve_name(inode, &name);
->  	if (IS_ERR(handler))
->  		return PTR_ERR(handler);
-> @@ -408,6 +427,10 @@ vfs_getxattr_alloc(const struct mnt_idmap *idmap, struct dentry *dentry,
->  	if (error)
->  		return error;
->  
-> +	error = xattr_check_name(name);
-> +	if (error)
-> +		return error;
-> +
->  	handler = xattr_resolve_name(inode, &name);
->  	if (IS_ERR(handler))
->  		return PTR_ERR(handler);
-> @@ -416,6 +439,8 @@ vfs_getxattr_alloc(const struct mnt_idmap *idmap, struct dentry *dentry,
->  	error = handler->get(handler, dentry, inode, name, NULL, 0);
->  	if (error < 0)
->  		return error;
-> +	if (error > XATTR_SIZE_MAX)
-> +		return -E2BIG;
->  
->  	if (!value || (error > xattr_size)) {
->  		value = krealloc(*xattr_value, error + 1, flags);
-> @@ -434,16 +459,24 @@ __vfs_getxattr(struct dentry *dentry, struct inode *inode, const char *name,
->  	       void *value, size_t size)
->  {
->  	const struct xattr_handler *handler;
-> +	ssize_t ret;
->  
->  	if (is_posix_acl_xattr(name))
->  		return -EOPNOTSUPP;
->  
-> +	ret = xattr_check_name(name);
-> +	if (ret)
-> +		return ret;
-> +
->  	handler = xattr_resolve_name(inode, &name);
->  	if (IS_ERR(handler))
->  		return PTR_ERR(handler);
->  	if (!handler->get)
->  		return -EOPNOTSUPP;
-> -	return handler->get(handler, dentry, inode, name, value, size);
-> +	ret = handler->get(handler, dentry, inode, name, value, size);
-> +	if (ret > XATTR_SIZE_MAX)
-> +		return -E2BIG;
-> +	return ret;
->  }
->  EXPORT_SYMBOL(__vfs_getxattr);
->  
-> -- 
-> 2.56.1
-> 
+Build tested on x86-64 (allmodconfig, each patch individually), i386,
+arm64, riscv nommu and ppc64le.
+
+Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+---
+v2:
+* Dropped what were 1/13, 3/13, 4/13, 5/13 and 6/13, as David has taken
+  these through mm/core.git.
+* Rebased on mm-new.
+* Updated 1/11 (was 2/13) to read VMA_RAND_READ_BIT before
+  maybe_unlock_mmap_for_io() can release the fault lock, avoiding a
+  use-after-free of the VMA, and to remove the now-shadowing inner VMA
+  declaration, as per Sashiko and Andrew.
+* Updated 2/11 (was 7/13) to drop an unrelated whitespace change in
+  mm/ksm.c and to fix up the indentation of touched lines, as per David.
+* Updated 3/11 (was 8/13) to retain the shadow stack check since added to
+  hmm_vma_walk_test().
+* Updated 4/11 (was 9/13) commit message to note that the soft-dirty
+  assert in vm_flags_clear() is intentionally dropped, as per Lance.
+* Split what was 13/13 into per-LSM patches 8/11 to 11/11, as per Paul.
+* Propagated tags, thanks everyone!
+
+v1:
+https://lore.kernel.org/r/20261105-late-2026-vma-flags-v1-0-0d3cd15ab75f@kernel.org
+
+---
+Lorenzo Stoakes (ARM) (11):
+      mm/filemap: convert fault and readahead logic to use vma_flags_t
+      mm/madvise: convert madvise_vma_behavior() to use vma_flags_t
+      mm: convert miscellaneous VMA flag tests to use vma_flags_t
+      fs/proc/task_mmu: convert VMA flag tests to use vma_flags_t
+      fs/coredump: convert vma_dump_size() to use vma_flags_t
+      uprobes: convert VMA flag tests to use vma_flags_t
+      perf: convert VMA flag tests to use vma_flags_t
+      selinux: convert VMA flag tests to use vma_flags_t
+      apparmor: convert VMA flag tests to use vma_flags_t
+      ima: convert VMA flag tests to use vma_flags_t
+      ipe: convert VMA flag tests to use vma_flags_t
+
+ arch/powerpc/kvm/book3s_hv_uvmem.c | 10 ++++----
+ fs/coredump.c                      | 16 ++++++-------
+ fs/proc/task_mmu.c                 | 43 +++++++++++++++++----------------
+ include/linux/huge_mm.h            |  4 ++--
+ include/linux/ksm.h                |  4 ++--
+ include/linux/mm_inline.h          |  2 +-
+ kernel/events/core.c               | 26 ++++++++++----------
+ kernel/events/uprobes.c            | 12 ++++++----
+ lib/test_hmm.c                     |  4 ++--
+ mm/damon/vaddr.c                   |  2 +-
+ mm/filemap.c                       | 26 ++++++++++----------
+ mm/hmm.c                           |  6 ++---
+ mm/internal.h                      |  2 +-
+ mm/khugepaged.c                    | 10 ++++----
+ mm/ksm.c                           |  8 +++----
+ mm/madvise.c                       | 49 ++++++++++++++++++++------------------
+ mm/mempolicy.c                     |  4 ++--
+ mm/mmap_lock.c                     |  4 ++--
+ mm/mremap.c                        |  2 +-
+ mm/msync.c                         |  4 ++--
+ mm/oom_kill.c                      |  4 ++--
+ mm/pagewalk.c                      |  2 +-
+ mm/vma.h                           |  4 ++--
+ security/apparmor/lsm.c            |  2 +-
+ security/integrity/ima/ima_main.c  |  2 +-
+ security/ipe/hooks.c               |  2 +-
+ security/selinux/hooks.c           | 14 +++++------
+ 27 files changed, 139 insertions(+), 129 deletions(-)
+---
+base-commit: 5bd93e4b0b357e9d0a13199887aacbf04d1ce216
+change-id: 20261101-late-2026-vma-flags-461731a636c3
+
+Cheers,
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Lorenzo Stoakes (ARM) <ljs@kernel.org>
+
