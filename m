@@ -1,104 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795521549;
-	b=LKCuuGbPj8ukI1zWyh18J7pLgcNGxAiWFMuwiE/wOzGUgqFtej9c5mivQAIx5ro3khyt
-	 Bv7EezMLC9c5N+6Hso0pSXm8WV/vFAxXtZCGCQ8se3whGZVngkXL3XJ/HYFvB8jA2sPUD
-	 3LtPTp/9lZgHtDllA0jUvOWcyNaLBKG6PDS/ZTa2E3O+v+fScbO2YI7QBZg0hksLXEL3u
-	 A5UcoFnDlGdZ/b1px3W4dBgYG0iibnQL+R/dtmoAWi2VH3zedMDnivmB2+Ejk6nnpX+d+
-	 jvNLe1cY3RAtW7jIf47Uw2wHLYOMsjck+G0JMwh2Ivap12HzKUGHgDrdPla7QZ/D8mg==
+	t=1795521550;
+	b=mCwHX/vlyjLov7dioyVZUjAzjAtDA4wKWbY/OSNoFX2Cpp3i0OXJ4mf7ceWGW6Vpopci
+	 EeThRIGFrigFL3yG13jkgeX/JRJnNIyKQ1F0Qx5SuG34z3bHrOwjyBM7bdW8Xku+ZrZSc
+	 k/r7lsK104DnjGTm27Zy1vmEJCuNZEIYMDKlUm30yCOd9cZRlxRqxnXrXHQNTnZZ92iYb
+	 TTsB65WxYTnLJv8k6xP6jPkGbsrzQ35erJADrzTzGq7eyF/20P2G14IvXzH0IK53EXA2E
+	 Kjscvo2dHAuddfibBIjOlN+BppN52QrQKMci5Pk7IMVU1QX6GkYXTJlHpYD9Mqzl/mg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795521549;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795521550;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Received:From:To:Cc:Subject:Date:
 	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding:
-	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=lOrzKYoXAZDsQinXLLtvPKctVW1W6s+qcE9bVHQLxXg=;
-	b=2k2UyvK+E3kmSbmOmpXo5+xDEENmcO+ai7wfuxBznScyPIU5jFP7jLpQrQhybSW8HmV1
-	 /0MIX9vlsDuHnLrzm1Gxnx8eh1UWm6BpYFm9frhEPgQ+kLcNc3hEGq7VpwE/LoTelUS1I
-	 kcXrJv6MjDfVTV8pJ3jrOzgVbPmfGF3e4pvX+xFUMUp+ZfRZnAPOCalZ2yUuiiXj9PFsq
-	 v8NDqoa5cRcV9UITBTFQI5QSm73bO8DO9fePSKY7cNE9Tu9sivaSgafnQTUaBi5QOygQf
-	 yWMNIP3QWE+McGjuqUCi5JDXPNwXgw/MXI9GaVGelPc+TUf3QRxIaC3KoZJfbGs/Ghw==
+	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
+	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=VqHNRpMmBb6Bj8xpyW6r4He0IHjzmwjAY09SSNXVEvQ=;
+	b=wsGiSl2PhfiW0k821aD2WhSJHtkjg3KI6+zuMaTJiTToedImK4cH9s66XkBt5KugMltd
+	 aMOqFkU1EPsR0NnieLsVOuLuCCizaZlgLyjX4VfWlc6LR//QlGvPzjz+v0jkgtFUQh+zd
+	 63lLSK0awUcmCebMZJ1kBQs5U3DmXEpLwdvXooHeUcj+sCN7tvbvFAmHEd341GGAIDmHU
+	 rNqsCnC2xxt/zHn4JRphTgmIP1wpPaADsWD3JbuJtBTY5LqqEyNLYJObiZ5gA1KMt0FGL
+	 HxZHEFBciUerJbiW2A2l6RQh2JC1d1VSgr3GijAJgLnQAieehIH1cSWqfMAQ7qZCZPg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=suse.cz;
 	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ctl9NT1p;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ag30EA4y;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ctl9NT1p;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ag30EA4y;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=UrAvxO0T;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=OwvUBuBk;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=UrAvxO0T;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=OwvUBuBk;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBA4606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE8E606A32E
 	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 11:59:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4FBA4606A32C
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6AE8E606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ctl9NT1p;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ag30EA4y;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ctl9NT1p;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ag30EA4y
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=UrAvxO0T;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=OwvUBuBk;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=UrAvxO0T;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=OwvUBuBk
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7E6122224C;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D0F141F452;
 	Tue, 24 Nov 2026 11:59:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
 	t=1795521547; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=lOrzKYoXAZDsQinXLLtvPKctVW1W6s+qcE9bVHQLxXg=;
-	b=ctl9NT1pjBurcDjdlw+QTY4xCR59C1IIQtqcufQDK3nJxk8G3/H+2litKKUXVWiWTSPNmV
-	FieV2XXTyihQExoLfMnGAAJEw4789KQc5IUW3LHex7FotPhIQg4Q4pkTZfm1z8A0UHGWLD
-	WBKBUX5Vuw+TajZWMAyLxlRV+vbrDz4=
+	bh=VqHNRpMmBb6Bj8xpyW6r4He0IHjzmwjAY09SSNXVEvQ=;
+	b=UrAvxO0TSU9Ubl5Z0wZOtRGxFWIYb90mtsx3vRFmk8nHG7qPU9+Z2mQ6hpcDaj8KLmOKX5
+	FQcPUWJICWO5YKbqpwJi1N1ReyLfUA/MDc3WK1T/PwuVggxsNqpOKx/pz9+cw0lJ2Ws51M
+	IQDBgMczIbL0Rl0rEQgubfKmN3cqq+A=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
 	s=susede2_ed25519; t=1795521547;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=lOrzKYoXAZDsQinXLLtvPKctVW1W6s+qcE9bVHQLxXg=;
-	b=ag30EA4y20Rkr9s/7LKjtdF8/4QPBxJeLV/3ILvQkwPOwA9140T1+Xer3Es2IUMVAz5XmX
-	n/NBxhgj0t6MojBQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=ctl9NT1p;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=ag30EA4y
+	bh=VqHNRpMmBb6Bj8xpyW6r4He0IHjzmwjAY09SSNXVEvQ=;
+	b=OwvUBuBkSY4H6zCoqrs100LydVmVtJONwgB0mZXXwK+Lh5lw+VTRd0a4AB2vMlgGOg/mo0
+	0ffDgmC4A+/6tXDA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=UrAvxO0T;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=OwvUBuBk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
 	t=1795521547; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=lOrzKYoXAZDsQinXLLtvPKctVW1W6s+qcE9bVHQLxXg=;
-	b=ctl9NT1pjBurcDjdlw+QTY4xCR59C1IIQtqcufQDK3nJxk8G3/H+2litKKUXVWiWTSPNmV
-	FieV2XXTyihQExoLfMnGAAJEw4789KQc5IUW3LHex7FotPhIQg4Q4pkTZfm1z8A0UHGWLD
-	WBKBUX5Vuw+TajZWMAyLxlRV+vbrDz4=
+	bh=VqHNRpMmBb6Bj8xpyW6r4He0IHjzmwjAY09SSNXVEvQ=;
+	b=UrAvxO0TSU9Ubl5Z0wZOtRGxFWIYb90mtsx3vRFmk8nHG7qPU9+Z2mQ6hpcDaj8KLmOKX5
+	FQcPUWJICWO5YKbqpwJi1N1ReyLfUA/MDc3WK1T/PwuVggxsNqpOKx/pz9+cw0lJ2Ws51M
+	IQDBgMczIbL0Rl0rEQgubfKmN3cqq+A=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
 	s=susede2_ed25519; t=1795521547;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=lOrzKYoXAZDsQinXLLtvPKctVW1W6s+qcE9bVHQLxXg=;
-	b=ag30EA4y20Rkr9s/7LKjtdF8/4QPBxJeLV/3ILvQkwPOwA9140T1+Xer3Es2IUMVAz5XmX
-	n/NBxhgj0t6MojBQ==
+	bh=VqHNRpMmBb6Bj8xpyW6r4He0IHjzmwjAY09SSNXVEvQ=;
+	b=OwvUBuBkSY4H6zCoqrs100LydVmVtJONwgB0mZXXwK+Lh5lw+VTRd0a4AB2vMlgGOg/mo0
+	0ffDgmC4A+/6tXDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2FE291339F;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 545D91376B;
 	Tue, 24 Nov 2026 11:59:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id l7KAAAt8BWtOZAAAD6G6ig
+	id v4Q9Dgt8BWtWZAAAD6G6ig
 	(envelope-from <jack@suse.cz>); Tue, 24 Nov 2026 11:59:07 +0000
 Received: by quack.suse.cz (Postfix, from userid 1000)
-	id E5B622784F; Tue, 24 Nov 2026 12:59:01 +0100 (CET)
+	id 025D227855; Tue, 24 Nov 2026 12:59:02 +0100 (CET)
 From: Jan Kara <jack@suse.cz>
 To: Christian Brauner <brauner@kernel.org>
 Cc: <linux-fsdevel@vger.kernel.org>,
@@ -107,9 +107,9 @@ Cc: <linux-fsdevel@vger.kernel.org>,
 	Mikhail Rudenko <xyzzy@yandex-team.ru>,
 	Andreas Gruenbacher <agruenba@redhat.com>,
 	Jan Kara <jack@suse.cz>
-Subject: [PATCH v2 5/8] fs: Defer reclaim of inodes requiring metadata writeback
-Date: Tue, 24 Nov 2026 12:58:49 +0100
-Message-ID: <20261124115850.3512-13-jack@suse.cz>
+Subject: [PATCH v2 8/8] ext4: Defer inode reclaim if it has preallocations
+Date: Tue, 24 Nov 2026 12:58:52 +0100
+Message-ID: <20261124115850.3512-16-jack@suse.cz>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261124113450.3451-1-jack@suse.cz>
 References: <20261124113450.3451-1-jack@suse.cz>
@@ -122,14 +122,9 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1029; i=jack@suse.cz; h=from:subject; bh=NcANvdLSL9uTS5c3IhPYy4gJEYBnvTX5TIsYlIvC2eQ=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBrBXv9NiH28xvLtQaw6a4N1+JoA2cI8CjwCjIjr FKjea+2GaKJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCawV7/QAKCRCcnaoHP2RA 2W/SB/9W9eMDjKT3yZZH1RdHbjoa5Ownf/H8POAlcfH0v9fD4RPNdlFLC0p8Zto6Btk3jWn+iz2 lw3byuu1P1GCdFX4v9hXtFYbQ+dUcXqv9YiY8DF5qEY7XGqatokNBon6HG78Au9/x3sf9n2c1Tn hSm9oU2lP+TAUYdO2teBr2jiLv2ad+zG2hHkhFW2L0O6U6+1uYJig0qeIwva20xYpvwzj+jS24s pbLm6OMSJQMjHf5BgVMhcRSfj50YwHVStGBPtQLL3ue2boVJ7vIfvXo/16KdJ5dbG+saDFiF1h3 smMGuV67yFnLe1yO7r7OD6J9ea2LSlt6EV2SlVCcDlikSevI
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2241; i=jack@suse.cz; h=from:subject; bh=5d0bhwSlVwQ2moUUqSxh3fmdkgNHJa3u6plV1bhKRNk=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBrBXwAxLIOrynhOetNAORZ//kv7Z/0JZmP5nrti l805u8MRcKJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCawV8AAAKCRCcnaoHP2RA 2fkwCADuli0r0081nrS/BJ9HGHO6S2HEn0jB8ZM55mc3KOaZ0IoUsUsJzq+Lru5sjQO/rOLSTCI W1cZ9aULpPoSsGelPZ7WXvMmwfj9Kz5mjgCu0AAfZscds6F5ORqvhj2chvOTU3k+hbqG9Rje1eF +4J2m0UoNSEnZk6nR2MswuUlOabi/Iyx/UBaIkQMc1oJB58NeN49oJ12MvpiCMq7zPxbNikrj4k NasownurWyT9KweKiUhshImSHVF5pddOuCmKy/lSBJsbni6R7imN5lVsVhOf0KOy3v+/3s2NBPl oKMHoxZMJTxj0+7O9ZKTmZO4yug7JcetrZXPYuUx2IkDKTLy
 X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 7E6122224C
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
 X-Spamd-Result: default: False [-12.01 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
@@ -142,47 +137,82 @@ X-Spamd-Result: default: False [-12.01 / 50.00];
 	MX_GOOD(-0.01)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
 	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.cz:email];
-	RCVD_COUNT_THREE(0.00)[3];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim];
 	RCPT_COUNT_SEVEN(0.00)[7];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
 	TO_DN_SOME(0.00)[];
 	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
 X-Spam-Score: -12.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: D0F141F452
 
-When we are reclaiming inodes which have I_METADATA_WRITEBACK set, we
-have to callback into the filesystem to write out any dirty metadata
-associated with the inode since we are going to loose track of it. This
-will require IO and is problematic from memory reclaim paths. Defer
-reclaim of inodes with I_METADATA_WRITEBACK set.
+When we have to free preallocations during inode eviction, we need to
+load block bitmaps and run transaction to modify them. This takes time
+and also requires GFP_NOFAIL allocations. Mark inodes with preallocated
+blocks as needing offloading of inode reclaim to a workqueue so that we
+don't block reclaim for long and potentially deadlock MM subsystem.
 
-Reported-by: Christian Brauner (Amutable) <brauner@kernel.org>
+We do the marking in ext4_mb_regular_allocator() to reliably catch all
+the cases adding preallocated blocks to the inode and additionally when
+adding delay allocated blocks (which will very likely result in
+preallocated blocks in the future) so that deferred reclaim throttling
+has a chance of throttling tasks generating the work.
+
 Signed-off-by: Jan Kara <jack@suse.cz>
 ---
- fs/inode.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ fs/ext4/inode.c   | 9 ++++++++-
+ fs/ext4/mballoc.c | 7 +++++++
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/fs/inode.c b/fs/inode.c
-index 4ffafb101718..760c730f4a9f 100644
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -1083,7 +1083,8 @@ long prune_icache_sb(struct super_block *sb, struct shrink_control *sc)
- 				     inode_lru_isolate, &freeable);
+diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+index e3129353d4ed..efc2f8ebe7ba 100644
+--- a/fs/ext4/inode.c
++++ b/fs/ext4/inode.c
+@@ -2113,8 +2113,15 @@ static int ext4_da_map_blocks(struct inode *inode, struct ext4_map_blocks *map)
  
- 	list_for_each_entry_safe(inode, tmp, &freeable, i_lru) {
--		if (inode_state_read_once(inode) & I_DEFER_RECLAIM) {
-+		if (inode_state_read_once(inode) &
-+				(I_DEFER_RECLAIM | I_METADATA_WRITEBACK)) {
- 			deferred++;
- 			continue;
- 		}
+ 	map->m_flags |= EXT4_MAP_DELAYED | EXT4_MAP_NEW;
+ 	retval = ext4_insert_delayed_blocks(inode, map->m_lblk, map->m_len);
+-	if (!retval)
++	if (!retval) {
+ 		map->m_seq = READ_ONCE(EXT4_I(inode)->i_es_seq);
++		/*
++		 * Inode will likely have preallocations which are hard to
++		 * reclaim. Mark is for deferred reclaim early so that deferred
++		 * reclaim throttling hits the task causing the work.
++		 */
++		mark_inode_reclaim_deferred(inode);
++	}
+ 	up_write(&EXT4_I(inode)->i_data_sem);
+ 
+ 	return retval;
+diff --git a/fs/ext4/mballoc.c b/fs/ext4/mballoc.c
+index a15285224cdf..d138c4b697b3 100644
+--- a/fs/ext4/mballoc.c
++++ b/fs/ext4/mballoc.c
+@@ -3113,6 +3113,13 @@ ext4_mb_regular_allocator(struct ext4_allocation_context *ac)
+ 	if (ac->ac_prefetch_nr)
+ 		ext4_mb_prefetch_fini(sb, ac->ac_prefetch_grp, ac->ac_prefetch_nr);
+ 
++	/*
++	 * Freeing preallocations requires loading bitmaps and running
++	 * transactions. Defer inode reclaim to a workqueue.
++	 */
++	if (!RB_EMPTY_ROOT(&EXT4_I(ac->ac_inode)->i_prealloc_node))
++		mark_inode_reclaim_deferred(ac->ac_inode);
++
+ 	return err;
+ }
+ 
 -- 
 2.53.0
 
