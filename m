@@ -1,103 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795557955;
-	b=OWpIUeZoltjgKX4FxRplkKKGVjUtwy3F/v2gZKXHTByyPcjIpBluHHng8b3UqdBKQ7gB
-	 NEH/DHq42yaGtku/h/Z0y3iLTArLh7bG9R+CzZtETWoWEk2R8x3vXWJImyRStZz76FFGr
-	 CQFJPXSZ+sBL0EGrLPKKWq0JCARsX/igj1oFb2SMF1RS4TNvrG0ATcoTQp8gWxmTEfGBi
-	 yUYs8i62O6NB09jb2qGxD9IKuynwq3gnUaxiRBPeEvjkG93OC7AATN5cYBlFoiEBpQR/N
-	 n4IywPvmPtsEvrfoEbWBkol/F2c3IbehUNr/9M1NtqCHoCPxdZw2vI4CYyrmQZ9HSBA==
+	t=1795559226;
+	b=k2b6lPpU0T+1lzZPA/AeA9QluWccogsalE0lEP8yXJZxemgaVG7sLL0LLBaG9Jx0cZom
+	 UvyFsS6fAe5VraGedU0QFM5x8wAhSAmrlDrmk3hE1DNGDcq15fbsInKkVXRWnZN2xc59B
+	 Ag0w3pd5kQe7Yi1KPuDbqsObXxeRHmYe9RQodl3G0ejOg8Mw8AqJgSeLF3azZ/29dptuX
+	 uegh07pNivbFwBDXvtJC+u6/5+33bvS3mSjgHVHXA5eMNocCTKgMwoOFib7tU2jHydo81
+	 AWA13JsLYH8Gmo7bIfJNP8/QHOBqGfA1Y72/6UN7R+9UMx+OaQFickVxhc5Ptu0Zo8Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795557955;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:Received:Received:Received:Message-ID:Subject:From:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:
-	 MIME-Version:User-Agent:X-TM-AS-GCONF:X-Proofpoint-Reinject:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
-	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=Oim1PA6orX7kga6L+cEpR6I9TPT0HWQ3HYyAoE/h284=;
-	b=yfnDLmjm9WIKNR10dwWb6fE/CwkcUu/eiGhCAJOzyCWhh9ujow8+xX0aKznpyDLglg7K
-	 XK5oSpwlrxLt0J0ky4I+qM6pHaKiFOfCCPEN5WoxBERnTgtYtBiPzdj9s/bw6hcCDwOby
-	 42Nj5ee+uPtl2nI66gBbbWmp8vJi+0L3sTpBcA8TUs6DSuPLsjniTNj/zhjL96sZCrM9x
-	 Doino/q1rmOV4JJLE3WvdvfBj+xONwHQMzddG7qXbWtVXE0qOBYNEmh8Wltc/M/txBs/G
-	 xoRTFNq4qUUBKUKnCLL2zRznJAkU/nEKru9vcLyhEbfaFV+FKVMDr29ylxaLAvurwFQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795559226;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
+	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=dtMZbHm3lkM6o/yW+HmQOChZENqEt7jGlIYiYyXmUrc=;
+	b=MkSYg/ltagjX51R3H8BXXDm6+ET6TWRFH7MbBO9dzcK/Q7LkTQWslBm66W3B7Yozcdum
+	 J6NABQVR7fLcVQERsFaqTkv+5HuAcjI1TX/8G4dy+jdy/W4oWSqd8pCM7YkKR2FqyMnLy
+	 nIGJvJbVw9ZgWKcaZQD+m8Ijrlj+08yBToo4yr2gMtsJVI6MsNZ2EcQFZ6kYp/goKbUYx
+	 KEHLJXxzCC8UupiEDX8iTWsK7HAib1hsq2JaMTj3dGi3hEB9KqoiXh1vu2kZkXwYI2O75
+	 ZftysgPdE3Ub5NDoLF7VhXS1Ri/M+xYQU3f8bC4+sel3mBqG9euwywY4v9Mg/HQyxTg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.ibm.com;
-	spf=pass smtp.mailfrom=linux.ibm.com;
-	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=awtyVIET;
-	arc=none smtp.remote-ip=148.163.156.1
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b="ugOr/v4c";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A48606A31E;
-	Tue, 24 Nov 2026 22:05:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64A48606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7774606A327;
+	Tue, 24 Nov 2026 22:27:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=awtyVIET
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AOIYoad3378482;
-	Tue, 24 Nov 2026 22:05:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=Oim1PA
-	6orX7kga6L+cEpR6I9TPT0HWQ3HYyAoE/h284=; b=awtyVIETeOs+D1vqb6F2eT
-	0KbZuhnUmYbjZ83KJ42qa82eCLzTashYCxUA0Yn/enKR9bT3vksgYJIEDS4DgBwC
-	Nvf/BQ1McofJJVPOWWiIyoOdjzV5+4oezqaOznoiO1pue4OKlwfdv7+5AL1J3tfQ
-	QqK594h9ik2/hFYhx6Zs6OjWnb3+IBO5X50tw4PIRC9qwXZpnRBWfZhewA0nByPp
-	W5W6BvAFgJjAhh7aEtLr8XKbzJSsWF3+KOKvex/ncMIjkhy1DCjl/8MmAYFVFQkL
-	2IoraeD6kUL4Gpd7UXTuJsOJrDgZrreCI62sXTfexuerFob1VH6txRRRd+PpmrtQ
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j34fa9vw4-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 24 Nov 2026 22:05:18 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AOIZXOn3101415;
-	Tue, 24 Nov 2026 22:05:17 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4j3p0vme2c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 24 Nov 2026 22:05:17 +0000 (GMT)
-Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
-	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AOM5GWG13042386
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 24 Nov 2026 22:05:16 GMT
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 43C995805F;
-	Tue, 24 Nov 2026 22:05:16 +0000 (GMT)
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4B03F58051;
-	Tue, 24 Nov 2026 22:05:15 +0000 (GMT)
-Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.169.243])
-	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 24 Nov 2026 22:05:15 +0000 (GMT)
-Message-ID: <0313398fef7c1bd62ce4c3b849d581bdf90274ae.camel@linux.ibm.com>
-Subject: Re: [PATCH] ima: key iint mutex lockdep class per filesystem type
-From: Mimi Zohar <zohar@linux.ibm.com>
-To: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>,
-        Roberto Sassu
-	 <roberto.sassu@huawei.com>
-Cc: Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        Eric Snowberg	
- <eric.snowberg@oracle.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Alexander
- Viro	 <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>, Jan Kara	 <jack@suse.cz>,
-        David Howells <dhowells@redhat.com>,
-        Paulo
- Alcantara	 <pc@manguebit.org>, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        netfs@lists.linux.dev, linux-kernel@vger.kernel.org,
-        syzbot+deb8af81d91415fabac1@syzkaller.appspotmail.com
-In-Reply-To: <20261123111452.237422-1-ngocthang2710.1999@gmail.com>
-References: <20261123111452.237422-1-ngocthang2710.1999@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 24 Nov 2026 17:05:14 -0500
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=ugOr/v4c
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B5741F000ED;
+	Tue, 24 Nov 2026 22:27:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1795559226;
+	bh=dtMZbHm3lkM6o/yW+HmQOChZENqEt7jGlIYiYyXmUrc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=ugOr/v4ceQqckoPQJ/g4UCaTyO+koHIT2A4RUIfXBsU1JVNTjLPiYJiVbIG3PBhXs
+	 cQ9UXFCWsh7ke9FpqJnH2bUu4Jume8Vz7EZPuKtb9E8g8EMBIGl7EyVWY/I16PMPbn
+	 B5BPEJXFGwvq3OGEHbKmuOIcSyHevi31Sq/46n4I=
+Date: Tue, 24 Nov 2026 14:27:03 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Tal Zussman <tz2294@columbia.edu>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, Mike Rapoport
+ <rppt@kernel.org>, Peter Xu <peterx@redhat.com>, James Houghton
+ <jthoughton@google.com>, Andrea Arcangeli <aarcange@redhat.com>, Suren
+ Baghdasaryan <surenb@google.com>, Balbir Singh <balbirs@nvidia.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro
+ Falcato <pfalcato@suse.de>, Michal Hocko <mhocko@suse.com>,
+ =?UTF-8?Q?Micha=C5=82_Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>, Andrei
+ Vagin <avagin@gmail.com>, Muhammad Usama Anjum <usama.anjum@arm.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>, Zi
+ Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, Joshua Hahn
+ <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, Gregory Price
+ <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, Alistair
+ Popple <apopple@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev
+ Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, Lance Yang
+ <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau
+ <kas@kernel.org>, Muchun Song <muchun.song@linux.dev>, Oscar Salvador
+ <osalvador@suse.de>, =?UTF-8?Q?Miko=C5=82aj?= Lenczewski
+ <miko.lenczewski@arm.com>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ stable@vger.kernel.org, Breno Leitao <leitao@debian.org>, Thomas
+ =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, Lyude Paul
+ <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, Felix Kuehling
+ <Felix.Kuehling@amd.com>, Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky
+ <leon@kernel.org>, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v3 0/9] userfaultfd: assorted fixes (part 1)
+Message-Id: <20261124142703.8b6e07eabcd510e9b99b03a4@linux-foundation.org>
+In-Reply-To: <3ebb01ea-fe77-4467-a1de-7f30a91593f3@columbia.edu>
+References: <20261117-uffd-state-fixes-v3-0-b617009d1a4a@columbia.edu>
+	<4f23b0bc-b89a-46c1-b8cd-853e7815b7ac@kernel.org>
+	<3ebb01ea-fe77-4467-a1de-7f30a91593f3@columbia.edu>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -106,158 +83,54 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Evolution 3.58.3 (3.58.3-2.fc43) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI0MDA4NyBTYWx0ZWRfX4OFWzDGSQ2WD
- J+UQ8qCNws2CivQHNJJgVgg/r09Z/hzyT7CdevePuOLjm9KdYfYAVO2LwyR1i6h7MS/7NCM5DlO
- 4XBBmJBjcJQs5rxN1Lw3x2fxtjMOsyfijPsFOqqCuS2pMoaEyaJxvUNuMxjQOlz0M+Rm2MhrAwD
- f7KeE/0LclmT5Ro8qeId1Iirp889BjQrFBYZ4BMPlTO+p+qmG71yZrB0kVk8WucPXvJhFJuSE9y
- 9NHdU5TrYZmo4JuCfIKXiZsq+cicDLNRWyqADevpx6rrPhkirx0RfQEBXqPzYwVrqxY5jYTZROp
- 69txb5qSU709HQ0o6uOrKySOhExMghFnjDQUGl6eEWenf9TkXCYGURYKG2OQ6KjuF+iWIw20WEs
- qzLNqiMwjz2vL0IsrkW8JbZbLSCuRcbsgM0JDJF/JiX+IFlC7RKFU+KhkM1sSlfrlS3OcbRdxx3
- 9E7sAU9vxbtC0RLYPsA==
-X-Proofpoint-ORIG-GUID: fp3D-BU5jMV_dZEIsh5uGRUlwktJXnDG
-X-Authority-Analysis: v=2.4 cv=U6QHnuru c=1 sm=1 tr=0 ts=6b060a1e cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=edf1wS77AAAA:8
- a=hSkVLCK3AAAA:8 a=pGLkceISAAAA:8 a=ec94T8KVA_HdOAEPGNsA:9 a=QEXdDO2ut3YA:10
- a=DcSpbTIhAlouE1Uv7lRv:22 a=cQPPKAXgyycSBL8etih5:22
-X-Proofpoint-GUID: RqfVn1-kZKWAXunhW2Y4UihtvoIdcOzw
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI0MDA4NyBTYWx0ZWRfX4OQMGnKahgJN
- +zwcAXlx6RZPLaBe+KsSlX3xShQDQrmvbWAgYukXK3ftLYui8YDmbXUSoRISeHkxipbf0SWXhGf
- ALgrZd6kbWtckQsfKq5sLFkN1XkbFx4=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-24_05,2026-11-23_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 spamscore=0 impostorscore=0
- clxscore=1011 bulkscore=0 suspectscore=0 adultscore=0 phishscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611240087
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2026-11-23 at 18:14 +0700, Nguyen Ngoc Thang wrote:
-> syzbot reports a circular locking dependency between the iint mutex,
-> a 9p inode's i_rwsem and the sb_writers of the cachefiles backing fs:
->=20
->   sb_writers#12 --> &ima_iint_mutex_key[depth] --> &sb->s_type->i_mutex_k=
-ey#25
->=20
-> The three edges are:
->=20
->   backing fs O_TRUNC open:  sb_writers(backing) -> iint(backing inode)
->   9p open + IMA hash:       iint(9p inode)      -> i_rwsem(9p inode)
->   9p truncate/writeback:    i_rwsem(9p inode)   -> sb_writers(backing)
->=20
-> The last one is inherent to netfs: it writes to its cachefiles backing
-> file under its own inode lock. The cycle only closes because the iint
-> mutex is keyed by s_stack_depth alone, so the 9p and backing fs iints,
-> both at depth 0, share one lockdep class. They are different inodes
-> and nothing waits on a netfs iint while holding the backing fs's
-> sb_writers, so this is a false positive.
->=20
-> Key the iint mutex per filesystem type as well as depth, as is done for
-> i_rwsem with s_type->i_mutex_key. The overlayfs case covered by the
-> depth annotation is unchanged.
->=20
-> Fixes: e044374a8a0a ("ima: annotate iint mutex to avoid lockdep false pos=
-itive warnings")
-> Reported-by: syzbot+deb8af81d91415fabac1@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3Ddeb8af81d91415fabac1
-> Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
-> ---
-> Tested in QEMU on v7.4-rc4 (syzbot config, ima_policy=3Dtcb): cachefiles
-> bound on an ext4 disk, 9p over virtio with cache=3Dfscache, then 50 round=
-s
-> of write + O_RDONLY|O_TRUNC open on 9p and on the backing fs, followed by
-> 20 IMA-measured O_TRUNC opens through an overlayfs on the backing fs.
->=20
->   unpatched: "possible circular locking dependency detected", same chain
->   patched:   no lockdep report, debug_locks still 1; the syzbot C repro
->              also ran 90s with no report
->=20
->  include/linux/fs.h                |  3 +++
->  security/integrity/ima/ima_iint.c | 11 +++++++----
->  2 files changed, 10 insertions(+), 4 deletions(-)
+On Tue, 24 Nov 2026 14:37:11 -0500 Tal Zussman <tz2294@columbia.edu> wrote:
 
-Hi Nguyen,
+> 
+> 
+> On 11/18/26 4:41 AM, David Hildenbrand (Arm) wrote:
+> ...
+> > 
+> > So, I would be picking up ...
+> > 
+> >> Tal Zussman (9):
+> >>       userfaultfd: use anonymous memory for UFFDIO_ZEROPAGE on private file mappings
+> >>       userfaultfd: refuse UFFDIO_MOVE into a non-present huge destination PMD
+> >>       fs/proc/task_mmu: downgrade writable migration entries in PAGEMAP_SCAN write-protect
+> >>       mm/migrate: warn on a writable migration entry with the uffd bit set
+> > 
+> > This
 
-Thanks for the patch. Keying the iint mutex per filesystem type, as is done=
- for
-i_rwsem, makes sense to break the 9p/cachefiles cycle.
+1
 
-One suggestion: instead of an array of lock_class_keys in struct
-file_system_type, consider using lockdep_set_class_and_subclass() with a si=
-ngle
-key and pass the stack depth as the subclass:
+> >>       fs/proc/task_mmu: write-protect device-private THPs in PAGEMAP_SCAN
+> >>       mm/huge_memory: build the moved huge zero PMD from the destination VMA
+> > 
+> > This
 
-        lockdep_set_class_and_subclass(&iint->mutex,
-                                       &sb->s_type->ima_iint_key, depth);
+2
 
-A lock_class_key already provides MAX_LOCKDEP_SUBCLASSES subkeys, so this g=
-ives
-the same distinct classes (overlayfs is unaffected) without allocating
-FILESYSTEM_MAX_STACK_DEPTH + 1 full keys per filesystem type, and it avoids
-having the array size in fs.h and IMA_MAX_NESTING in ima_iint.c defined
-independently. A BUILD_BUG_ON(IMA_MAX_NESTING > MAX_LOCKDEP_SUBCLASSES) wou=
-ld
-keep the bound honest.
+> >>       mm/mremap: resolve uffd state when the context is dropped, not during the move
+> >>       mm/migrate_device: do not migrate a uffd-protected zero page
+> > 
+> > This
 
-thanks,
+3
 
-Mimi
+> >>       mm/userfaultfd: check the hugetlb alignment of every VMA in the pre-scan
+> > 
+> > 
+> > After waiting a bit longer for more review. Andrew can take the rest.
+> > 
+> > 
+> 
+> @Andrew, could you pick up the rest of these (everything but 4 and 8)?
 
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index 5b3a100aba77b..dab32eea21fc7 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -2325,6 +2325,9 @@ struct file_system_type {
->  	struct lock_class_key i_mutex_dir_key;
-> =20
->  	struct lock_class_key d_lookup_key;
-> +#ifdef CONFIG_IMA
-> +	struct lock_class_key ima_iint_key[FILESYSTEM_MAX_STACK_DEPTH + 1];
-> +#endif
->  };
-> =20
->  #define MODULE_ALIAS_FS(NAME) MODULE_ALIAS("fs-" NAME)
-> diff --git a/security/integrity/ima/ima_iint.c b/security/integrity/ima/i=
-ma_iint.c
-> index 00b249101f98d..bb964847af149 100644
-> --- a/security/integrity/ima/ima_iint.c
-> +++ b/security/integrity/ima/ima_iint.c
-> @@ -39,19 +39,22 @@ struct ima_iint_cache *ima_iint_find(struct inode *in=
-ode)
->   * files both on overlayfs and on underlying fs, we need to annotate the=
- iint
->   * mutex to avoid lockdep false positives related to IMA + overlayfs.
->   * See ovl_lockdep_annotate_inode_mutex_key() for more details.
-> + *
-> + * Depth alone is not enough: a netfs inode writes to its cachefiles bac=
-king
-> + * fs under its own i_rwsem, and both are at depth 0. So, like i_rwsem, =
-key
-> + * the mutex per filesystem type too.
->   */
->  static inline void ima_iint_lockdep_annotate(struct ima_iint_cache *iint=
-,
->  					     struct inode *inode)
->  {
->  #ifdef CONFIG_LOCKDEP
-> -	static struct lock_class_key ima_iint_mutex_key[IMA_MAX_NESTING];
-> -
-> -	int depth =3D inode->i_sb->s_stack_depth;
-> +	struct super_block *sb =3D inode->i_sb;
-> +	int depth =3D sb->s_stack_depth;
-> =20
->  	if (WARN_ON_ONCE(depth < 0 || depth >=3D IMA_MAX_NESTING))
->  		depth =3D 0;
-> =20
-> -	lockdep_set_class(&iint->mutex, &ima_iint_mutex_key[depth]);
-> +	lockdep_set_class(&iint->mutex, &sb->s_type->ima_iint_key[depth]);
->  #endif
->  }
-> =20
+9-3 != 9-2
+
+np, I grabbed 1,2,3,5,6,7,9 (whatever isn't in other-peoples-trees) and
+massaged the cover letter a bit.
+
