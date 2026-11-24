@@ -1,112 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.139.74
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795549004;
-	b=lQs/nm1Yc36cD7u/186axoAl6Etz3qrnVKNpZGlNVgmY9Hv8KlteWiknkVcsQsutUg2m
-	 7S9AIXVMsqSjqYD7hig25guYnJBqEICILINpirvQFZpViPqKoum/U3H4jNAJBYvP5PJS8
-	 uS1ERkPCajJAqfURVCfiHbF5M7m6Yas7uQKEO45TJrKrAQ0PWLIzhk3Bqjyy4Yiy4gXxO
-	 QWr+0xR++hGkZxreCWJzLHbmYVS2XJlrRR7lSBJ5o1RtW0AJdZS98Vb/1WD4WRFtmclM+
-	 tGZ1OHCjx3HCfEzVl25c2eqTHIewoT+qolDAxXuFwJVCFbhkVa8KbmbJQKiduenMqMg==
+	t=1795549041;
+	b=XGC9OwJ4LWNgpSmkpdJoV1cSaF+7h3WjTXVksklO8KNlCR2cMkotCY8RETDDy4l6g+1h
+	 HhBhC4IzqSKnSDeysiiUSaTWq+pRVJt+SQfjs2a/DJ5iZmk68CaMSfGpCRF12lkidCzfo
+	 pclc6Jy4L6yvKMuvWX9SHCUxGPkY4D5t2DVO65TAkwTY9vTiHOVc2z395IrWj6EmBbpqP
+	 EqU3kAah9GC7qskkyxcBPEfBC8JN758uvuekxhGW7sSK/2cosReJDJg5Jp3vLIFlXYgGx
+	 fVXokAiNg7ClCZez+WJpMgc58i5iFIVPLA135fgwmVvTazku4cLAEevzy32Qcu24Uwg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795549004;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:From:To:Cc:Subject:In-Reply-To:
-	 Organization:References:Date:Message-ID:MIME-Version:Content-Type:
-	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=rbfQPnb/bGQ2Gkjp6lt26EZDU8eKMGkAA4M/WWEU8/c=;
-	b=P5agDRGtnIhmISK6QgNlS4lkgC6Vjok+l92dlCg6TWDXDE56N/gLfJ3uJywbwC1F72e7
-	 kJzqSZwzbSKdvQSZFlmmhSSLb81uGIzsw4DwCBjqJow1+yVAJlt7yJAZZzDuGJImgclXq
-	 7u1uxPWph2wldTFHaCiZqQKChnMz6Ut4W6zYcxp1c45Hz73xDRnoC9XrzgOwONCHBhIlH
-	 U6CLqW+VIXH27YSblaf+4IQSiGJUN1r37kyZosO2TQ63l0StiZpN2wGiIcY+sX8rhuVju
-	 lbtv8ryXXM1LU+Pa/A+Nwufkithioz2vJ1XH30JhPQMIoHnDg9YO8KeearF8DMtx4kA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795549041;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
+	 X-Authority-Analysis:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=OMjgnMOdm5LC9Ve7tJbATj56ZsHM2zVs1s6tMJ9jz2Y=;
+	b=uyxNXh3y0duRSMDjXEdYeOrCV0OFH+UB0p60E0xa5CTvuu6vI8MOKIuLr/tzpI751mT3
+	 Abn+U8jZCjM7i9Ek4C66FFTcGuGu4n2weY78cxDlT1WTtrgw9ueYbDiEgECYuZbghtHgI
+	 b3hfhyZflpJszLInQWJmd2iLcnRv16HjgUgmUlJqayspcwEB748b5VdUo49i2VBOGD4z4
+	 cpNv7L4Bb1jgExfNYNRjxxIrldNhj/i0AzHqGfhmTqtPu80PGT/alQxY3etlCGbTDjv08
+	 VctInvSX2yOnL2oDglruI121EMl7yVGKvfaiVb+lI40H81+K/hHfRfzEQ/ZXEmc7HMQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="wiT8Ya5/";
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=dk5YjynB;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="h2LQ/IDI";
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Sa6ZruAS;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dmarc=pass header.from=columbia.edu;
+	spf=pass smtp.mailfrom=columbia.edu;
+	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=ArQqb01A;
+	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b="b7CR/Rfv";
+	arc=none smtp.remote-ip=148.163.139.74
+Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405D6606A31E;
-	Tue, 24 Nov 2026 19:36:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 405D6606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD9F606A339
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 19:37:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EBD9F606A339
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=wiT8Ya5/;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=dk5YjynB;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=h2LQ/IDI;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Sa6ZruAS
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 478C6223AC;
-	Tue, 24 Nov 2026 19:36:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795549001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rbfQPnb/bGQ2Gkjp6lt26EZDU8eKMGkAA4M/WWEU8/c=;
-	b=wiT8Ya5/HG/DD7Q5wA50FeGnqRAYEFpM2ufxuc+W83Q6gRGxfoIYZsDrPVVbICmn2yN0jR
-	zFQD1oULjCblWWQrr4MdUF9IJU0wupvY9z9oPW49UQ8qXuHoODMBmcEwPuLzHxTUJJWuic
-	k7io5RDNUB4iTiKm0l2npXMZ9qLa0po=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795549001;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rbfQPnb/bGQ2Gkjp6lt26EZDU8eKMGkAA4M/WWEU8/c=;
-	b=dk5YjynBJCrj49GitF84RZJ2dgPePHqam+YuV+QitmjE0rZOV8sppZVHzD3Btg3owvQ2To
-	8SM1E9W+dG+2yLDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795549000; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rbfQPnb/bGQ2Gkjp6lt26EZDU8eKMGkAA4M/WWEU8/c=;
-	b=h2LQ/IDI9VLQ3E7Tws5WfCPIkt0HGGmYoA6Xu62TnhdKBtRQ2fD/djQW0dwzL5JR2J9j1j
-	pdDK/TBHwSkSZJ3/qN7t5zHtiihHkeJx8/b2AbVB0RzV7/090vvuDXmQMqGEA8QXYJQyqD
-	9NdTAtzQceGIwZ8JCBlpSqI3QJlb49Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795549000;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rbfQPnb/bGQ2Gkjp6lt26EZDU8eKMGkAA4M/WWEU8/c=;
-	b=Sa6ZruAStbYSh68HiIXKLUc20jCF9BCiQzCoDpqGZbSNX4Y9yzhFNZQxtV9YnS6mNixIuB
-	86j1GlyndVGeVaCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CE3181339F;
-	Tue, 24 Nov 2026 19:36:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id VZNQJUfnBWs1aQAAD6G6ig
-	(envelope-from <krisman@suse.de>); Tue, 24 Nov 2026 19:36:39 +0000
-From: Gabriel Krisman Bertazi <krisman@suse.de>
-To: Sarthak Kukreti via Linux-f2fs-devel
- <linux-f2fs-devel@lists.sourceforge.net>, Theodore Ts'o <tytso@mit.edu>,
- Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, Al Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>
-Cc: Sarthak Kukreti <sarthakkukreti@google.com>,
- linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, Eric
- Biggers <ebiggers@kernel.org>, linux-fsdevel@vger.kernel.org,
- linux-ext4@vger.kernel.org, Dmitry Torokhov <dtor@google.com>
-Subject: Re: [f2fs-dev] [PATCH v2 1/3] libfs: reject casefolded names that
- fold to ".", "..", or empty
-In-Reply-To: <20261119214944.1480596-2-sarthakkukreti@google.com>
-Organization: SUSE
-References: <20261119214944.1480596-1-sarthakkukreti@google.com>
- <20261119214944.1480596-2-sarthakkukreti@google.com>
-Date: Tue, 24 Nov 2026 14:36:38 -0500
-Message-ID: <87pkvuc989.fsf@cartola>
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=ArQqb01A;
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=b7CR/Rfv
+Received: from pps.filterd (m0167077.ppops.net [127.0.0.1])
+	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AOJYBZI2439409
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 14:37:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pps01; bh=OMjg
+	nMOdm5LC9Ve7tJbATj56ZsHM2zVs1s6tMJ9jz2Y=; b=ArQqb01Alvqy+ezQ3O+b
+	wFGaLKLkRPslDfTTnR/1n3YHEnzFvpSAXsSLtAema3OMBGvQTr8MjsfnQdizF1DR
+	Y35c9K1YbdbrokVp6lJBFIYVrUHqLLS3WYYBtEDDKg/6m1bODWncA+LZwiNP1MH8
+	Z3bx2LUxG6sfpmxDdUI+/kyZI7guQlRgIUWOBYQ6reZ57nqjYw3JFREOmJXGhsy0
+	5UyyJqrfI8VjX2MlX1xqtk46jQix4pqRNZv16i1aL2PIz3aAJytU8fQlN33iF7Uo
+	xruvXaD2EFNKvtzNiOaeLj7AUiUNlwagsbKMIv+l5TRcoparlTssaELubPi31AEG
+	DQ==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4j5g7bge5g-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 14:37:14 -0500 (EST)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-536778a8137so87210731cf.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 11:37:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=columbia.edu; s=lionmail; t=1795549034; x=1796153834; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OMjgnMOdm5LC9Ve7tJbATj56ZsHM2zVs1s6tMJ9jz2Y=;
+        b=b7CR/RfvfQFhd7RLSUV7lty/ZLnME/O3SIVBqogZpBKc5kWbTS6XOXLLtHAdx6qPnr
+         GLx9wIF4Ww4QBBzLi1rfOBnuxr0JAv1yTnG4pUXExvThtMqTc97cKp+Z1h+pCVB4nXRo
+         tgx8ds6qPdyVt2BG0hZu7Js1CUMYgRQoXbcHZ2L8eyOM8lgOjUJPCl7yqCAjRMmEMl8w
+         7yEG3GKOnP3k9k9ABIteGqF13sEWTiupKHLO7WWmzv6jE6HmUFHqQtTtep4guibr4fvN
+         fCeMtXZBo8LG9rK/kdXoR7e8/Boax5ngkEHQ2+xMkquXqR4MIvpygOuBEgr7JOmObhVL
+         QKSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795549034; x=1796153834;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OMjgnMOdm5LC9Ve7tJbATj56ZsHM2zVs1s6tMJ9jz2Y=;
+        b=AFouOLAqz3vNBrrqeS+9x1wi57QStXFBLaVAVz51lKAbKasAtQktAQ/37R01d7mCWu
+         KUDQL7ArBZuoy8HzQBwMPr571JaaoaFceTqMmQy35ZLBLBontEIHyNwAy/YAGn7AAsX6
+         QDQnpoiXe8dKPqs+KFJHMAzG1O3I0VS5Ccz4Z1If//lpPsd4M3GURCS4P59krUjcGww7
+         o0fwNnx4radcm33sH6QvhdeRrEHR101133x3YE7Q8hd8EBsgXmf3N68vPUPIkBw3s/Wl
+         qulOQ/Iik002iZm7Bd2TQ/Hylg+QmaOYRb66iAwH0gRTPz4etvQaVdmLyREjhYpgxlwx
+         riJg==
+X-Forwarded-Encrypted: i=1; AL+hErEElGYUeeG/wDN3mR75SAAT6R9f37id9L4RcV9oprHFv3GE4X8pARWXZlQq3lx7ZVI5gMyWqiA1SWabnLEf@vger.kernel.org
+X-Gm-Message-State: APuU4Z9rRtFZeLSYLl7w1iVQS5dE59X8bwDlF776VGP7Tt9CmVB4gEq1
+	AsTx1am6cHxqQJzwfDfzrw/JU9XALFSX1c5COX0UQzcGdTv7xW2moXFIkK1rhHVjLNtcs4hWcJJ
+	sfjFWXQP96Rutd2pOEgas1QABxK+zCwPKpK5BD5ve6yc6tuYSVgqDQE/n2G2AQbk=
+X-Gm-Gg: AZFdTZf1CnCdSoE+V3Pxmag0qES1DdftIRBsvL2g1TNCqxVa+Pn9U9Yy2pI5AHkcD38
+	nJ+XJP6sjSVaZsJnoWSxLCAV+lTjVf8p4uSphFEJu/yEkqf2MwNJOfC8TyTgf34z6iDpQK28VvI
+	Na9CcV0UcHA2FcUpWM6XZDsrEET0z8vFSUEZ0PrPTNfqnncCY3q7NGOpmToqYKpV5zL/vxPZ7J8
+	u3qrMvDFL5UDnWtnWxBCLrv34xi7frgsB95V52/LD/2W259X39Qv+u4T0QSskwe1JCDmb7pwkyb
+	oczELXVjeaFP1MsXaiOfDYG0qPMwqMkJ+yQ2NEol4keU1q7zW0L10ggSG5T4tiTUs0/FA04h3mt
+	Orbk3Ay0oDpueLkquhCmHmYImehb+Iuao+soiKpguwWno/n127ZZ4petj+/R+YsKhjw==
+X-Received: by 2002:a05:622a:313:b0:55d:1944:a2ab with SMTP id d75a77b69052e-55d76a5af8dmr288718121cf.49.1795549033799;
+        Tue, 24 Nov 2026 11:37:13 -0800 (PST)
+X-Received: by 2002:a05:622a:313:b0:55d:1944:a2ab with SMTP id d75a77b69052e-55d76a5af8dmr288717631cf.49.1795549033344;
+        Tue, 24 Nov 2026 11:37:13 -0800 (PST)
+Received: from [10.206.101.158] ([129.236.231.128])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9213515f467sm140631006d6.41.2026.11.24.11.37.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Nov 2026 11:37:12 -0800 (PST)
+Message-ID: <3ebb01ea-fe77-4467-a1de-7f30a91593f3@columbia.edu>
+Date: Tue, 24 Nov 2026 14:37:11 -0500
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -116,190 +115,114 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-12.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,dirent.name:url,decrypted_name.name:url]
-X-Spam-Score: -12.80
-
-Sarthak Kukreti via Linux-f2fs-devel
-<linux-f2fs-devel@lists.sourceforge.net> writes:
-
-> diff --git a/fs/libfs.c b/fs/libfs.c
-> index 46e0205154e7..77997f88e475 100644
-> --- a/fs/libfs.c
-> +++ b/fs/libfs.c
-> @@ -1828,13 +1828,21 @@ int generic_ci_d_hash(const struct dentry *dentry, struct qstr *str)
->  	const struct inode *dir = READ_ONCE(dentry->d_inode);
->  	struct super_block *sb = dentry->d_sb;
->  	const struct unicode_map *um = sb->s_encoding;
-> +	unsigned char buf[3];
->  	int ret;
->  
->  	if (!dir || !IS_CASEFOLDED(dir))
->  		return 0;
->  
->  	ret = utf8_casefold_hash(um, dentry, str);
-> -	if (ret < 0 && sb_has_strict_encoding(sb))
-> +	if (ret < 0) {
-> +		if (sb_has_strict_encoding(sb))
-> +			return -EINVAL;
-> +		return 0;
-> +	}
-> +
-> +	ret = utf8_casefold(um, str, buf, sizeof(buf));
-> +	if (ret == 0 || (ret > 0 && name_is_dot_dotdot(buf, ret)))
->  		return -EINVAL;
-
-I really dislike the idea of doing utf8_casefold here. even on a
-small substring.  We are walking down the trie a second time just to do it
-again in ->d_compare.
-
-Consider we don't have negative dentries for casefolded directories.  Is
-there a case where variants of '.' or '..' are ever cached if ->lookup
-rejects them?  I don't think so.  By rejecting the creation of
-'.<empty>' ..<empty> we can guarantee there aren't any variants either.
-
-Assuming these don't exist in the dcache, why not let utf8_casefold_hash
-hash to a non-existing dentry?  d_compare will not find it, go to
-->lookup and only the filesystem needs special handling to reject
-invalid names.  The vast majority of real lookups will hit the dcache
-and never pay the cost of this check.
-
-If we *must* check the dcache for some reason I miss, can we do it
-*only* in d_compare?  There, we are doing some kind of utf8_casefold
-anyway.  We can modify utf8_strncasecmp to return the casefolded string,
-which we can byte compare for dotdot, avoiding multiple walks over the
-trie.
-
->  	return 0;
->  }
-> @@ -1907,10 +1915,28 @@ int generic_ci_match(const struct inode *parent,
->  	    !memcmp(name->name, dirent.name, dirent.len))
->  		goto out;
->  
-> -	if (folded_name->name)
-> +	if (name_is_dot_dotdot(dirent.name, dirent.len) ||
-> +	    name_is_dot_dotdot(name->name, name->len) ||
-> +	    (folded_name->name &&
-> +	     (!folded_name->len ||
-> +	      name_is_dot_dotdot(folded_name->name, folded_name->len))))
-> {
-
-Most of these checks seems unnecessary.
-
-First, if name_is_dot_dotdot(dirent.name) is true, which I'm not sure
-can really happen, it only matters if name_is_dot_dotdot(name->name) or
-name_is_dot_dotdot(folded_name->name) is also true, because then we have
-a match.  Otherwise, there's no match.  Checking both seems redundant.
-
-But also, if name_is_dot_dotdot(name->name) is true, that means we are
-doing an exact search for '.' or '..', which, IIUC, the VFS will handle
-specially and not call this code?
-
-I think the only thing you need to check here is:
-
-name_is_dot_dotdot(folded_name->name, folded_name->len)
-
-if folded_name exists.  If it doesn't, that's because the cached name
-initialization failed and you might need to do the utf8_casefold +
-name_is_dot_dotdot() dance you do in the hunk below:
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/9] userfaultfd: assorted fixes (part 1)
+To: "David Hildenbrand (Arm)" <david@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>, Peter Xu <peterx@redhat.com>,
+        James Houghton <jthoughton@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Balbir Singh <balbirs@nvidia.com>,
+        "Liam R. Howlett" <liam@infradead.org>,
+        Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
+        Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+        Michal Hocko <mhocko@suse.com>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        Andrei Vagin <avagin@gmail.com>,
+        Muhammad Usama Anjum <usama.anjum@arm.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>,
+        Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
+        Joshua Hahn <joshua.hahnjy@gmail.com>,
+        Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+        Ying Huang
+ <ying.huang@linux.alibaba.com>,
+        Alistair Popple <apopple@nvidia.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+        Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+        Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+        Kiryl Shutsemau <kas@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+        Oscar Salvador <osalvador@suse.de>,
+        =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, stable@vger.kernel.org,
+        Breno Leitao <leitao@debian.org>,
+        =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+        Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+        dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20261117-uffd-state-fixes-v3-0-b617009d1a4a@columbia.edu>
+ <4f23b0bc-b89a-46c1-b8cd-853e7815b7ac@kernel.org>
+Content-Language: en-US
+From: Tal Zussman <tz2294@columbia.edu>
+In-Reply-To: <4f23b0bc-b89a-46c1-b8cd-853e7815b7ac@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI0MDA3NiBTYWx0ZWRfX161IAw7KQ6OQ
+ OfjHSp5pO77tQr+HQUL0gdQZNSxhLaFQPgj+hFaGs7zyVugQZifK/UnFyfBhrCXFkmKXWUxWG3M
+ 3X0rYBQYBBBe4aJJzd76CFK2SPenbqXxr0Wy68380NROZeaSaRr/ge/FQSkEV8OHIe8SW+Xp9QA
+ +5+0ybT5es3scPYeZEt3bd9bdKCsdZWhmgMcCw/4dNjjgeTgK8kHM3hfn74Wmz1TWYRp3jk5sP6
+ eCskFi3fQAriIq77cTVam3k/3GNkYa5LFsucZXMwq1jUeHqOfLwEZ0w6XVIhuD9BW1ts/pItGRI
+ cnT6lNqVfHTRh++NVjymhb7TH1zIlT04fIxKjtK44/ps7tbxJDJVfglw8Ycd6/BA1WmE+17UZ4W
+ fZ4eXfM9yFRKuIoff9gf4PLF+UA9rUfgpA48HZNiHhEqxxJBbckwG2ZEXl8LJp5IWe35HcV9ikS
+ C3bpTbGA7yNkLRXhV8A==
+X-Proofpoint-ORIG-GUID: wPZdyCAnQRoAFL6JU9zGT8W_HHQr0L3W
+X-Proofpoint-GUID: wPZdyCAnQRoAFL6JU9zGT8W_HHQr0L3W
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI0MDA3NiBTYWx0ZWRfXxRixMNREFLTa
+ tElBlVq01eJnLBDhvrhteqC77BDxON2MDFv6lwkYX4EUcBSEFsV+vYS666SQDUWmLiXJS3TeOet
+ aVmFzuXpWolidY04/bAkfs647CTcpyxSYL74dgolmCGJfFuMAISm
+X-Authority-Analysis: v=2.4 cv=RIcmjIi+ c=1 sm=1 tr=0 ts=6b05e76a cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=LNQXEAmb7IHcZyFqmLK0PA==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=QOCMdifcju39GKoXhKua:22
+ a=Z7cX3StJxvrjZLnT-lEA:9 a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11976
+ signatures=596817
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0 clxscore=1015 malwarescore=0 suspectscore=0
+ impostorscore=10 lowpriorityscore=10 priorityscore=1501 bulkscore=10
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611240076
 
 
-> +
-> +	if (folded_name->name) {
->  		res = utf8_strncasecmp_folded(um, folded_name, &dirent);
-> -	else
-> +	} else {
-> +		unsigned char buf[3];
-> +		int cf_len = utf8_casefold(um, name, buf, sizeof(buf));
-> +
-> +		if (cf_len == 0 ||
-> +		    (cf_len > 0 && name_is_dot_dotdot(buf, cf_len))) {
-> +			res = 1;
-> +			goto out;
-> +		}
->  		res = utf8_strncasecmp(um, name, &dirent);
-> +	}
->  
->  out:
->  	kfree(decrypted_name.name);
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index 5b3a100aba77..22c411e046ce 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -3368,28 +3368,26 @@ int generic_ci_d_compare(const struct dentry *dentry, unsigned int len,
->   * generic_ci_validate_strict_name - Check if a given name is suitable
->   * for a directory
->   *
-> - * This functions checks if the proposed filename is valid for the
-> - * parent directory. That means that only valid UTF-8 filenames will be
-> - * accepted for casefold directories from filesystems created with the
-> - * strict encoding flag.  That also means that any name will be
-> - * accepted for directories that doesn't have casefold enabled, or
-> - * aren't being strict with the encoding.
-> + * This function checks if the proposed filename is valid for the
-> + * parent directory. Names that casefold to "", ".", or ".." are
-> + * rejected for all casefolded directories. When the filesystem is
-> + * created with the strict encoding flag, only valid UTF-8 filenames
-> + * are accepted for casefolded directories.
->   *
->   * @dir: inode of the directory where the new file will be created
->   * @name: name of the new file
->   *
->   * Return:
-> - * * True: if the filename is suitable for this directory. It can be
-> - *   true if a given name is not suitable for a strict encoding
-> - *   directory, but the directory being used isn't strict
-> - * * False if the filename isn't suitable for this directory. This only
-> - *   happens when a directory is casefolded and the filesystem is strict
-> - *   about its encoding.
-> + * * True: if the filename is suitable for this directory.
-> + * * False: if the filename isn't suitable for this directory.
->   */
->  static inline bool generic_ci_validate_strict_name(struct inode *dir,
->  						   const struct qstr *name)
->  {
-> -	if (!IS_CASEFOLDED(dir) || !sb_has_strict_encoding(dir->i_sb))
-> +	unsigned char buf[3];
-> +	int len;
-> +
-> +	if (!IS_CASEFOLDED(dir))
->  		return true;
->  
->  	/*
-> @@ -3399,6 +3397,13 @@ static inline bool generic_ci_validate_strict_name(struct inode *dir,
->  	if (WARN_ON_ONCE(!dir->i_sb->s_encoding))
->  		return true;
->  
-> +	len = utf8_casefold(dir->i_sb->s_encoding, name, buf, sizeof(buf));
-> +	if (len == 0 || (len > 0 && name_is_dot_dotdot(buf, len)))
-> +		return false;
-> +
 
-With this in place we should not be creating new files that turn into '.'
-and '..'.  If we also reject to create them during a lookup, I think it
-is enough to drop the dcache callback changes.
+On 11/18/26 4:41 AM, David Hildenbrand (Arm) wrote:
+...
+> 
+> So, I would be picking up ...
+> 
+>> Tal Zussman (9):
+>>       userfaultfd: use anonymous memory for UFFDIO_ZEROPAGE on private file mappings
+>>       userfaultfd: refuse UFFDIO_MOVE into a non-present huge destination PMD
+>>       fs/proc/task_mmu: downgrade writable migration entries in PAGEMAP_SCAN write-protect
+>>       mm/migrate: warn on a writable migration entry with the uffd bit set
+> 
+> This
+> 
+>>       fs/proc/task_mmu: write-protect device-private THPs in PAGEMAP_SCAN
+>>       mm/huge_memory: build the moved huge zero PMD from the destination VMA
+> 
+> This
+> 
+>>       mm/mremap: resolve uffd state when the context is dropped, not during the move
+>>       mm/migrate_device: do not migrate a uffd-protected zero page
+> 
+> This
+> 
+>>       mm/userfaultfd: check the hugetlb alignment of every VMA in the pre-scan
+> 
+> 
+> After waiting a bit longer for more review. Andrew can take the rest.
+> 
+> 
 
--- 
-Gabriel Krisman Bertazi
+@Andrew, could you pick up the rest of these (everything but 4 and 8)?
+I'd like to send the next batch of uffd fixes I have on top of these.
+
+Thanks,
+Tal
+
