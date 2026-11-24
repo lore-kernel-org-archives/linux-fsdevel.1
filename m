@@ -1,101 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.49
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795554687;
-	b=jlOQjgXKmFsCj9Pj5CeI46vmj9dYNqqu04ce3kMOvXbbGEbfGm2iXQ/TC5k66gDdguYy
-	 jWcCEOCbt1ZWKnIX4oKhIPVnkXzoVgHWG2ar41Gp4SisIVBqLnPi6lxcajQbfGQyT68Xs
-	 jdOkLWbo0bB9KG7FAavMbwzUDxBdZESieWU2pfqD3CFJu/dV++Vgl/JeF56iKV1qT7f3j
-	 S+pr9FP0z2Vd9++75cj2/0wGEpZPLTo8cZj3SbgWVVtEa+F1u1DFnrOTwnN6gZLNfeiEH
-	 Zx8vxpXgn1zHsZjf6XAh9BZnv+3dn+ikMb1Y2H+N4eRRSDTxKmjM/G0nyiOYsXTe5rg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795554687;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=R4pw9DcpdnMYeIxEUYnbnv91ThzTvTrm2VVYBrvrMnw=;
-	b=Zvbwj9WXcDxso2ZyGLE/OjVkxB/I9D4VWfQLV+0YFTirHh5/L+Mz4RJ47K4AVYoYRUXM
-	 r2PIYeflebDitt9lp5/ccUVjDgyLqwTFjM4LbjZiMJxBTtHxRebZWTD0j+OTJpXMXddlR
-	 2rU0KqgIPK+2HugVa8wvwbO7qDLkGw8Q4nzv36XCJR30pJWxgjy+4tfstGoLwOWlEi+Ls
-	 Z0ZhL7EPIP1rF3EtnYcP0xwpD22maxtVclYP7QgzwcxB5cW9krphL7uAOC4B5eC/45zjv
-	 FZySm83sJ6JtUypA1TsyIdr7Z8X6ThKP3JelVUnz6qnQ1z64VFFRaYP2A9zSeiJ0dDA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=HKOoVTgW;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.49
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.2
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795555413;
+	b=hK/BMaKuvDlSE0FM3QY6NviExRXKSgeQdMxSpZ85kzKRB79DeFj1UDDvtQYCnCULpcvR
+	 GtmelG6Pp3pMRuAvZ3/EJuyk2fI42qPUFcUJSnjV8Hld7OAXxkn2v+aW8mN4gdqnGWDJm
+	 cJLUUYFXTjPNBTeBTULd3njp6BxSGt6eh+u7GE24fXFr0PVWRWz7WEyhBSRgarVwrqOQB
+	 Zdlsou7JRx6NOl15vHnIzGNOnKUEEVMqlhf9s/7qtiLcWMPK1u4B8rY2n/d9ktC3Ue7KB
+	 fzA9FL/jqhEULwYuN15kGHoPFMNCnrVWqWMSceljFm5HC7dKrSeBvzr0VLfTSpAAEJA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795555413;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=3NN7Uwrgfn9AgWRsUFpzDQrvnjAeOvsAT+xPoD7zc2w=;
+	b=Qk37agoaI34nFgbevQ0Y7Cmkaygi/6Ssp68mu3WlmD3F9/KZNvHj06tRJ8j9S/aDDAXy
+	 rwZEMtYOBp424jlh7mJ+oD3LEOijlVOqUfVFDJeGCDL5ClBKlKYdyGtAV+TQBVahKFCs+
+	 miYbKE149NTisLA10jwF8uFvqB74xJd7s1Bzu9FlTISMTyRZgtZg+o7mKeD7kJ1f/mAQm
+	 hbAKpYVkCN664deTEAEM1po6kh49UHCzTk/onV33O0tJzLWjVqD31VbfG+Zbggn5Kuu7L
+	 2ahhjMPbLmkRL9se2HSPjXwS3NWUhv1HarQui7ykGMmq3WU1xuuzNLrSdwoF27Evb8A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=E5VtfIs6;
+	arc=none smtp.remote-ip=117.135.210.2
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C34606A338
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 21:11:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8C34606A338
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2DA606A31E;
+	Tue, 24 Nov 2026 21:23:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA2DA606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=HKOoVTgW
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c4d2b741ed9so820852366b.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 13:11:26 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795554685; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Z44YaXFnFBaKU82KkRpZy3Hkmt4s/pMlqmYU3QgdHuZXLB67C44FoFKdsNs4IQJdYD
-         P2ranNxgBGQl6HVN6r3uL3GhwcZj9X04IV4oCPbVCeAv2hyZVBMSz6gzlPZiQ3F6bK1N
-         fpDJJYCVmUPFy087bPUYCauXmX+s8YNhbgza6+jATE+WUQellaUEo0BlDugFVccvfg01
-         7sigH/uNCkqV0puQPvEJlRwO72fPznTYbN/qoyW0R9SX/AQnBYJNUy9+NpotY3Lb/3r4
-         Pez5Xs9hpkHexGIQezJ3HSnPDfCpJMMEpPJ79vdz+dG3E4HzfV74ekDuo6etl8fL8elx
-         QmZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=R4pw9DcpdnMYeIxEUYnbnv91ThzTvTrm2VVYBrvrMnw=;
-        fh=ObugnI4Vl6AGwIm/RYGRiM1xgZNTVUGqj4GNFH/3qqc=;
-        b=dgT34D5PaQ+3JySDhvwz6LESaYh4kxzT7KU+wtDQxLDeBkp7uAErCYZvQS63S0DV/A
-         WcMveBZX/9cQrB/kKn0de9vXVq/gBbyl1JfHFAEmGIcvMLCx6uYLXW2kTFZsn3ZzYDMh
-         SnKqTvEXfsp+toalnwMxXbg194BTx1coYevt+4bA+e5Zo7ClRhLX9S0oD6qc2wY99ld6
-         vkc8HiCMDq1GzfaZLBSHLRej/9eg/hsCt1r52lHaiQFsjhH+HAK4ehCnqPqRYY1NwZjL
-         /eVTy1gIFiMQmXryuzh5FsUcXR6nbCZTT5MXTR1l3KJ5GPcTZh1e5mzXjow5m0F5quK7
-         cJhg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795554685; x=1796159485; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=R4pw9DcpdnMYeIxEUYnbnv91ThzTvTrm2VVYBrvrMnw=;
-        b=HKOoVTgWD/jri2ICKWYuabv2C9ujuA+HmAdR17PYnmvFnkT100ju59IEN9nDAg7lhQ
-         3izGbBqkf1fX3HoYq56E8uvZBM8ZfAXmNAMUUomMtkB8DHkorVYcnwfKwOZBzRAsgJO2
-         wbssVX4FXCgljByNAMwJEcMSidhJrLwVFKJ1EfKU+8JqRAFj8NpfeL3/N4xH71b2T0ZD
-         PXQrVq2c0wZQYeDZp0n+YHWMjfbJA3/aBiAASKWtScWWXk2KhE5bNgUwG12UKI/EVE3c
-         WsQsHA0ImsWl4+O15635i2+p+jMvtEzWWzvoBA93u4Nd2V3dnI4ABVn9slfjzPalO5cK
-         HwaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795554685; x=1796159485;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=R4pw9DcpdnMYeIxEUYnbnv91ThzTvTrm2VVYBrvrMnw=;
-        b=zrqHSberMTiGmJGR4cvKDa8BV1DZ1xTs7u6ABbNgF+kgDhE47Q8GcUsNKVU3aEBWj1
-         esxGz86yu36GZpUqSBv29GC27+oEv3ucluL/PlNoYBqWGQGX8RuLMrO5yost6aD+WkBK
-         zVefm2L4RHwPcO1RM1qcmlXHpdoZLjXEIgLZWOmU2RZoos2h4RKixb0QIdDQ8Ir0j2ya
-         AS2bUL1DvRIH8pzyhMo5QNvPquZGulBvQVmW1ncEcAkV6G3sgKyVYguPOPK9AD7LIX5B
-         KqCXjEDtPXHyNOCy4dgchrvLVmnmGCGWE7GV6tJyP7a/YewJZuJPynwT2TSOWWe3Jncd
-         +76Q==
-X-Forwarded-Encrypted: i=1; AL+hErG6KYJLNQPA3RkMRV2gRkJe9x8APs8/Ahyjb7fi6mJJVUrp74QxkLZ7LT0jmrmZdjUbctrFst4UYYVR9fu7@vger.kernel.org
-X-Gm-Message-State: APuU4Z9LB7FyhGhoVmw46M47mGy0GIAj+OnVuXGPcCX8c0BO+5vL5IdW
-	LWk4X4Bgr02R2aX/PhVhq1O2zab+AGKEKyD3R9uXEwHQaPWG1EQihgm2zbyq2L5MXMBE8MJ+Cgd
-	I95tyAY+XN7hA2/+R07JFdgTWMYQ4CUm2tK+dBz3E
-X-Gm-Gg: AZFdTZf9XdzVogzUij94D5DUbXm7y4BB5U3hJthkmY5xwldF2Fv10PcSjq1lYZ3UU6b
-	KxLydexoGeUu5eH7U4YTzYdGjnaEOjj1ZZdcFYKqizKuFnNPNptJcRmeEFJ7LXOMJie6l3mOcUZ
-	5hWqwRxUzoa8evzrZHyTHG2BagHqjmzf69InLlO6AlN1wKQ/fsgDyTxLCT/cYad8Je1Y3+n3k1E
-	I0yWivWc5s0PcNZG6SJO/WEfi8/V8v5Yg9AUqId4TYOZ9LZDIRrDajQWnUNLaBd76oqzcl7CX5D
-	ijLhGylNuZLoBXazE0yYAWoLAzp9I7lYi6zLQ0t1+K/ssbYjqfPYV3H+kJWxMig8c0JUk2JW6Tu
-	kuXk11yeL8ZU4jTMaOFaw0zXRO7R6PChJXxZIAquJxsn0OI0xzlNKveS3FqGDTwwyMTfyCj9Liu
-	zAw8V5O690mCtOBvceodxy3mWpfEXQf46p4A1j1ZnGObo3PYRudAc=
-X-Received: by 2002:a17:907:8e90:b0:c50:5186:a428 with SMTP id
- a640c23a62f3a-c513a87d9edmr1227142466b.27.1795554684471; Tue, 24 Nov 2026
- 13:11:24 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=E5VtfIs6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=3N
+	N7Uwrgfn9AgWRsUFpzDQrvnjAeOvsAT+xPoD7zc2w=; b=E5VtfIs6A2g3r1lNX9
+	q+WMpozw5Xxnxqg+pdA703Y6IbYyyjcjainS9eLbRE1DAqEVTbJSeVvHq7awGUlw
+	si5EQUQ4q3rDz1/7z4MpcK+dfP0U6inbaIR4YK+x5ZkGlFwpm8WT7JSo3gf0qaUh
+	1wf3PAFkABoNs9Ozs3+VjzQME=
+Received: from ubuntu (unknown [])
+	by gzsmtp5 (Coremail) with SMTP id QCgvCgBH1JceAAZr3k2uHw--.61405S2;
+	Wed, 25 Nov 2026 05:22:49 +0800 (CST)
+From: Shaopei Zhu <shaopei_1012@163.com>
+To: Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>
+Cc: Yuezhang Mo <yuezhang.mo@sony.com>,
+	exfat@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Matthew Wilcox <willy@infradead.org>
+Subject: [PATCH v6] exfat: add EXFAT_IOC_COMBINE to append a file's clusters to another
+Date: Wed, 25 Nov 2026 05:22:36 +0800
+Message-ID: <20261124212236.830224-1-shaopei_1012@163.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -105,258 +65,978 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <ac22215d-3e58-4aab-851e-47c30836e058@app.fastmail.com>
- <20261027231728.1466446-1-jthoughton@google.com> <32fad21b-5bad-4640-97df-ef0f638cd9e9@app.fastmail.com>
-In-Reply-To: <32fad21b-5bad-4640-97df-ef0f638cd9e9@app.fastmail.com>
-From: James Houghton <jthoughton@google.com>
-Date: Tue, 24 Nov 2026 16:10:47 -0500
-X-Gm-Features: Aa3M54qLiZYW-OI4p5Ie96tNauNpwSe6qBub2eVFZl5dz1FgCFOseL6mdcwJEy8
-Message-ID: <CADrL8HX5vb1PGDpWzp-eR0rNfsMCVUhFa9vp_WZZx2eJZ+dfXQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/10] uaccess: Refuse and warn on user accesses when
- current->mm is NULL
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Pavel Begunkov <asml.silence@gmail.com>, Alexei Starovoitov <ast@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	bpf@vger.kernel.org, Daniel Borkmann <daniel@iogearbox.net>, 
-	"David Hildenbrand (Red Hat)" <david@kernel.org>, David Sterba <dsterba@suse.com>, io-uring@vger.kernel.org, 
-	Jim Mattson <jmattson@google.com>, John Fastabend <john.fastabend@gmail.com>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Kees Cook <kees@kernel.org>, kvm@vger.kernel.org, 
-	"Liam R. Howlett" <liam@infradead.org>, linux-btrfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-perf-users@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	Lorenzo Stoakes <ljs@kernel.org>, Chris Mason <mason@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Michal Hocko <mhocko@suse.com>, Ingo Molnar <mingo@redhat.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Mike Rapoport <rppt@kernel.org>, 
-	Sean Christopherson <seanjc@google.com>, Suren Baghdasaryan <surenb@google.com>, Thomas Gleixner <tglx@kernel.org>, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:QCgvCgBH1JceAAZr3k2uHw--.61405S2
+X-Coremail-Antispam: 1Uf129KBjvAXoWfZr1Dtr15tF1ftw1DXF4DCFg_yoW5KF1UZo
+	WfZws7Ww1rtrn3trW8CF17GFy5WaykC3WfJr1Y9FWqvF18t34UGa1jy345Za1Sqw1v9rZ3
+	X3yxtw43JFWSvrn3n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUcM5lUUUUU
+X-CM-SenderInfo: pvkd01phlbiiirs6il2tof0z/xtbC6gpm9GsGACqg9wAA3i
 
-Hi Arnd,
+Cameras and dashcams recording to exFAT SD cards often write the video
+stream and auxiliary data (e.g. IMU samples) to separate files and merge
+them when recording stops.  Doing that with read()/write() or
+copy_file_range() copies all the data of the source, which takes time
+proportional to its size on such media, wears the flash and needs free
+space for a second copy.
 
-Sorry for the long delay; I am finally able to get back to this
-series. Thanks for all your feedback so far!
+Filesystems supporting reflink can already avoid the copy by cloning
+the source to the end of the destination with FICLONERANGE and then
+unlinking it.  exFAT cannot share clusters between files, so it needs
+an operation that moves them instead.  Its semantics follow from the
+exFAT on-disk format (cluster granularity, a single valid_size per
+file), so it is added as an exfat ioctl rather than a VFS interface;
+fallocate() does not fit either, as it only takes a single file.
 
-On Wed, Oct 28, 2026 at 7:14=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
-:
->
-> On Wed, Oct 28, 2026, at 00:17, James Houghton wrote:
-> >>
-> >>  - does there need to be any compile-time configuration to skip
-> >>    the extra checks and/or the warnings?
-> >
-> > Since patch 10 moves the warning out of line, it costs nothing on the
-> > fast path, so making the WARN configurable wouldn't save anything. The
-> > question is really whether the mm check itself should be configurable,
-> > and that check is also what makes the access safe.
->
-> Right, makes sense.
->
-> > The text size increase seems manageable[1], but it would be great to
-> > hear other people's thoughts. For the runtime cost, I'll do some
-> > performance testing. My guess is that a load of current->mm and a
-> > well-predicted branch per user access will be negligible, but I'll get
-> > numbers.
->
-> Sounds good. I agree this should not have much of a performance
-> impact, and for the size it is probably as good as it gets without
-> a major rework of the lazy mm switch.
->
-> >>  - are there any cheaper ways to make it safe than to add a
-> >>    condition on each user access?
-> >>    E.g. the original lazy mm switch was intended to avoid
-> >>    expensive TLB flushes when switching to a kernel thread and
-> >>    back to the original task on 32-bit x86. On modern CPUs,
-> >>    the MMU can deal with multiple ASIDs cheaply, so turning
-> >>    off user access in a kernel thread may be cheaper than
-> >>    adding code to uaccess depending on the architecture.
-> >
-> > That's a fair point. If user memory were inaccessible in kernel threads
-> > and after exit_mm(), every such access would fault, and the fault
-> > handler could WARN about it (x86's do_user_addr_fault() already has a
-> > !mm branch), so it could still be loud without a check on every access.
-> >
-> > I'll look into disabling lazy mm switching on x86 and doing some
-> > performance testing with that (like comparing the per-uaccess check
-> > with the added cost of non-lazy mm switching).
-> >
-> > Other than the performance difference, I see these issues with making
-> > uaccess safe entirely with the mm switch mechanics:
-> >
-> >  - It only helps on architectures (and configs) that implement it,
-> >    while the common check works everywhere today.
->
-> Yes, this would probably be opt-in by architecture, unless we decide
-> to give up on lazy mm switch altogether and pay the performance
-> penalty for that on CPUs without ASID support. Either way it is not
-> be something we can do right away but that we can still consider
-> in the future.
+Add an ioctl that moves the cluster chain of a source file to the end
+of a destination file and then unlinks the source, so that only
+metadata changes: the FAT, the stream extension entry of the
+destination and the entry set of the source:
 
-Agreed. I haven't collected performance numbers yet; I'll try to do
-that before sending v2.
+	struct exfat_combine_args args = { .src_fd = src_fd };
+	ioctl(dst_fd, EXFAT_IOC_COMBINE, &args);
 
-> >  - The fault handler would need to tell legitimate faults apart from
-> >    bugs, e.g. copy_from_user_nofault() from BPF or perf in a kernel
-> >    thread is fine and must stay quiet.
->
-> Would it be possible to move those checks into the individual
-> callers that want to avoid the WARN_ON(), with a comment on
-> each one explaining why they do that? It feels more consistent
-> to always warn here, and I would expect that for most of the
-> _nofault() users we do want the warning, and I'm still unsure
-> what is special about these.
+The source is unlinked as unlink(2) does it: start_removing_dentry()
+revalidates the dentry of the open file and locks its parent, and
+security_path_unlink() and vfs_unlink() check permissions and security
+modules, break leases and delegations, and handle mount points;
+vfs_unlink() calls exfat_unlink(), which deletes the entry set.  Since
+the in-memory inode no longer owns the clusters, evicting it frees
+nothing.  The checks that can be made without unlinking are made before
+anything is changed, and an already unlinked source is accepted.  An
+unlinked destination is refused with -ENOENT, as its entry is no longer
+written and the data of the source would be lost with it.
 
-Yes, I think that is better, and I've done this for v2.
+The source must be open for reading and writing, as it is emptied and
+its data becomes readable through the destination, and the destination
+for writing; both must be regular files on the same mount.  Files whose
+allocation, chain layout or valid_size are inconsistent, as after a
+failed truncate or on a corrupt volume, or that are found to share
+clusters, are refused with -EIO before anything is changed.
 
-The _nofault() users really did need more scrutiny, thanks Arnd. They
-are special for different reasons, and they differ in how we should
-handle them.
+exFAT has a single size and valid_size per file, so clusters can only
+be appended at a cluster boundary of a fully initialized file.  The
+destination is therefore first zero-filled up to the end of its last
+cluster with exfat_extend_valid_size(), leaving a zero-filled gap
+between the original and the appended data when its size is not
+cluster aligned.  This is documented in the uapi header, and keeps
+stale on-disk data out of the file.
 
-1. They can run in any context. Many of the BPF functions like
-probe_read_user*, probe_write_user, user dynptr and bprintf helpers,
-etc. are like this; a user can just attach a BPF program to places
-where there is no mm. So we should fail the uaccess but not WARN on
-it.
+exFAT has no journal, so the data and the FAT, then the destination
+entry, then the deletion of the source entry set are written and flushed
+to the device in that order, as recommended by section 8.1 of the exFAT
+specification; the allocation bitmap is not touched.  A crash at any
+point leaves all data reachable from at least one entry.  In the worst
+case both entries share the appended clusters; fsck.exfat keeps them in
+the file it checks first and truncates the other one, so either the
+combine has completed or the source still holds its data.  On a volume
+that was not cleanly unmounted, the call fails with -EUCLEAN until
+fsck.exfat has run, so that it never works on clusters that two files
+may already share or that may already be linked.  Once the volume is in
+an emergency state, nothing more is written, which leaves what a crash
+at that point would.  If the call fails
+before the clusters are moved, the padding is removed again; what was
+already written back is kept initialized, as exfat_extend_valid_size()
+does on failure.  s_lock is only held while updating the FAT and the
+entries, not while waiting for the device, so that writers to other
+files on the volume are not stalled.
 
-2. They run in process context, but use nofault because they can't
-take page faults. btrfs's tree search ioctl is an example. In these
-cases, a missing mm is a bug, so we should WARN. So v2 will fix these.
+No file data is copied, so the cost depends on the number of clusters
+(when a FAT chain has to be built for a contiguous file) rather than on
+the amount of data.
 
-3. There are three cases where it tries to read the PC while handling
-an exception that was taken from user mode. In these cases, it should
-always be the case that `current->mm` is non-NULL, because we just
-came from user mode (i.e., when user_mode(regs) returns true,
-`current->mm` should always be non-NULL and pointing to the correct
-mm). So we should WARN if current->mm is NULL, which v2 will do.
+The ioctl number is taken from the 'r' range next to the FAT ioctls.
+A user space tool for exfatprogs (exfatcombine) and a test for fstests
+(exfat/002) are posted separately.
 
-4. powerpc's BHRB decoding is a special case; I'll just put this in v2
-and we can discuss it there.
+This patch was written with the help of an AI coding assistant
+(Claude Code, Opus 5.5); I have reviewed and tested the result.
 
-So now in v2, the _nofault() helpers themselves do not check current->mm.
+Signed-off-by: Shaopei Zhu <shaopei_1012@163.com>
+---
 
-I've uploaded a draft version of v2 here, in case you want to take a look:
-  https://github.com/48ca/linux uaccess-v2-wip
+Notes:
+    Changes in v6, following the Sashiko review of v5 [1]:
+    
+    - When the destination cannot be written back after a failed call,
+      lower its zeroed_size to the restored valid_size, not only to its
+      value before the call.  The failed writeback also cleans a folio that
+      was dirty before the call without writing it, so its block tail past
+      valid_size is not initialized on disk.  With zeroed_size left above
+      it, extending valid_size later did not prepare that folio again: the
+      tail showed stale data and the data written before the call was lost.
+      exfat has the same issue whenever the writeback of such a folio fails
+      (a failed sync instead of the call gives the same result); this only
+      avoids it on this path.
+    
+    This applies to linux-next (tested on next-20261118).  It uses
+    exfat_emergency_state(), which comes with "exfat: don't set SB_RDONLY
+    after filesystem errors" in the vfs tree (vfs-7.5.super.ro), so it does
+    not build on the exfat dev branch until that is merged there.  I can
+    rebase it onto exfat dev then.
+    
+    Testing (linux-next 20261118 + this patch, arm64):
+    
+    - Reproduced on v5 and checked on v6 with real I/O errors injected with
+      fail_make_request: an unaligned buffered write ending in the last
+      block of a folio, then a call whose writeback of the destination
+      fails, then a write that extends valid_size.  v5 left the written
+      data and the block tail stale on disk, v6 writes both.
+    - All tests reported for v5 were rerun and pass, including the cases
+      that use test-only knobs, and fstests exfat/001 and exfat/002.
+    - Builds without warnings with W=1 for arm64 (gcc, clang), arm and
+      i386, built-in and as a module; no new sparse warnings.
+    - Not rerun for v6: the long-running tests reported for v2.
+    - Known limits, as for v5: a source chain running through the
+      destination is not found if the volume has enough other clusters in
+      use; after a forced shutdown, unmounting still clears the dirty flag
+      (an existing exfat behaviour), so a volume left with only the FAT
+      updated is not refused afterwards.
+    
+    [1] https://sashiko.dev/#/patchset/20261124202455.817408-1-shaopei_1012%40163.com
+    
+    v5: https://lore.kernel.org/all/20261124202455.817408-1-shaopei_1012@163.com/
+    v4: https://lore.kernel.org/all/20261124142807.773299-1-shaopei_1012@163.com/
+    v3: https://lore.kernel.org/all/20261123132742.743416-1-shaopei_1012@163.com/
+    v2: https://lore.kernel.org/all/20261122124029.609636-1-shaopei_1012@163.com/
+    v1: https://lore.kernel.org/all/20261121174315.500249-1-shaopei_1012@163.com/
 
-> > The series handles that today by
-> >    checking current->mm in the nofault helpers (patch 6).
-> >
-> > The two approaches are mostly complementary: if non-lazy switching
-> > turns out to be cheap enough, an architecture that does this will have
-> > better defense against uaccess bugs. But I'd still like the common
-> > check so that these bugs are reported on every architecture.
->
-> Agreed. My main remaining concern is about the number of functions
-> that need the additional check, if we want to avoid missing
-> any of them. If we can have the check in access_ok(), that would
-> cover the majority of the functions you are changing right now,
-> and it looks like we can deal with the corner cases individually.
->
-> Since in principle every user access should go through both
-> access_ok/mask_user_address and current->mm check at some point,
-> so combining the two as much as possible should help long-term
-> maintainability.
+ .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+ fs/exfat/file.c                               | 728 ++++++++++++++++++
+ include/uapi/linux/exfat.h                    |  48 ++
+ 3 files changed, 777 insertions(+)
 
-You're right, and v2 has been restructured like this.
+diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+index dbe4620..e9b4c13 100644
+--- a/Documentation/userspace-api/ioctl/ioctl-number.rst
++++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+@@ -292,6 +292,7 @@ Code  Seq#    Include File                                             Comments
+ 'q'   80-FF  linux/telephony.h                                         Internet PhoneJACK, Internet LineJACK
+              linux/ixjuser.h                                           <http://web.archive.org/web/%2A/http://www.quicknet.net>
+ 'r'   00-1F  linux/msdos_fs.h and fs/fat/dir.c
++'r'   20-2F  linux/exfat.h
+ 's'   all    linux/cdk.h
+ 't'   00-7F  linux/ppp-ioctl.h
+ 't'   80-8F  linux/isdn_ppp.h
+diff --git a/fs/exfat/file.c b/fs/exfat/file.c
+index c7991e9..f89c059 100644
+--- a/fs/exfat/file.c
++++ b/fs/exfat/file.c
+@@ -13,8 +13,10 @@
+ #include <linux/writeback.h>
+ #include <linux/filelock.h>
+ #include <linux/falloc.h>
++#include <linux/file.h>
+ #include <linux/fileattr.h>
+ #include <linux/iomap.h>
++#include <linux/namei.h>
+ #include <linux/pagemap.h>
+ #include <linux/rmap.h>
+ #include <linux/uio.h>
+@@ -690,6 +692,730 @@ static int exfat_ioctl_set_volume_label(struct super_block *sb,
+ 	return exfat_write_volume_label(sb, &uniname);
+ }
+ 
++static int exfat_extend_valid_size(struct inode *inode, loff_t new_valid_size);
++
++/* Write back all dirty metadata buffers and flush the device cache. */
++static int exfat_combine_flush(struct super_block *sb)
++{
++	int err = sync_blockdev(sb->s_bdev);
++
++	return err ? err : blkdev_issue_flush(sb->s_bdev);
++}
++
++static void exfat_combine_reset_hints(struct inode *inode)
++{
++	struct exfat_inode_info *ei = EXFAT_I(inode);
++
++	exfat_cache_inval_inode(inode);
++	ei->hint_bmap.off = EXFAT_EOF_CLUSTER;
++	ei->hint_bmap.clu = EXFAT_EOF_CLUSTER;
++}
++
++/*
++ * Find the last cluster of @dst, walking only the clusters it owns.  A
++ * crash during an earlier call can have left the last one linked to @src,
++ * which is rewritten anyway, or, once the entry of @dst was written too,
++ * @src among them until fsck.exfat has run.  Refuse the latter, and any
++ * other overlap with the clusters of @src known without walking its
++ * chain (all of them if it is contiguous), as linking @src would create
++ * a loop in the FAT.
++ */
++static int exfat_combine_find_last(struct super_block *sb,
++				   struct exfat_chain *chain,
++				   struct exfat_chain *src, unsigned int *last)
++{
++	struct buffer_head *bh = NULL;
++	unsigned int clu = chain->dir, next, n;
++	unsigned int src_end = src->dir +
++		(src->flags == ALLOC_NO_FAT_CHAIN ? src->size : 1);
++	int err = 0;
++
++	if (chain->flags == ALLOC_NO_FAT_CHAIN) {
++		if (clu < src_end && src->dir < clu + chain->size)
++			return -EIO;
++		*last = clu + chain->size - 1;
++		return 0;
++	}
++
++	for (n = 1; ; n++) {
++		if (clu >= src->dir && clu < src_end) {
++			err = -EIO;
++			break;
++		}
++		err = exfat_ent_get(sb, clu, &next, &bh);
++		if (err)
++			break;
++		if (n == chain->size) {
++			if (next != EXFAT_EOF_CLUSTER && next != src->dir)
++				goto bogus;
++			*last = clu;
++			break;
++		}
++		if (next == EXFAT_EOF_CLUSTER)
++			goto bogus;
++		clu = next;
++	}
++	brelse(bh);
++	return err;
++
++bogus:
++	brelse(bh);
++	exfat_fs_error(sb, "bogus cluster chain (start 0x%08x, %u clusters)",
++		       chain->dir, chain->size);
++	return -EIO;
++}
++
++/*
++ * Move the cluster chain of @src to the end of @dst, leaving @src empty.
++ *
++ * Only the FAT and the two stream extension entries are updated, no file
++ * data is copied.  The caller must have found the last cluster @last of
++ * @dst with exfat_combine_check_chains() and zero-filled @dst up to its
++ * end, so that no stale data ends up in the middle of the file, and must
++ * hold the inode and invalidate locks of both files.
++ *
++ * exFAT has no journal, so the updates are ordered on disk such that a
++ * crash at any point leaves all data reachable:
++ *
++ * 1. the data of both files and the FAT, so that the new chain of @dst
++ *    is complete before any entry refers to it;
++ * 2. the entry of @dst, after which both entries reference the clusters
++ *    of @src; fsck.exfat keeps them in whichever file it checks first and
++ *    truncates the other one;
++ * 3. the deletion of the entry set of @src, done by the caller with
++ *    vfs_unlink() once the in-memory state of @src no longer owns the
++ *    clusters.
++ *
++ * This follows the write ordering recommended by section 8.1 of the
++ * exFAT specification: the FAT before the entry that refers to it, and
++ * the deletion of an entry set last.  No cluster is allocated or freed,
++ * so the allocation bitmap is not touched.
++ *
++ * s_lock is only held while updating the FAT and the entries, not while
++ * waiting for the device, so that other files on the volume are not
++ * stalled.  Until step 2, the in-memory state of @dst is left alone, so
++ * that writeback cannot publish its new chain flags early, and the
++ * in-memory state of @src is only changed once @dst is on disk.
++ */
++static int __exfat_combine(struct inode *dst, struct inode *src,
++			   unsigned int last_clu)
++{
++	struct super_block *sb = dst->i_sb;
++	struct exfat_sb_info *sbi = EXFAT_SB(sb);
++	struct exfat_inode_info *dst_ei = EXFAT_I(dst);
++	struct exfat_inode_info *src_ei = EXFAT_I(src);
++	loff_t dst_size = i_size_read(dst);
++	loff_t src_size = i_size_read(src);
++	loff_t new_valid_size;
++	unsigned int dst_clus, src_clus, dst_start, dst_start_old;
++	unsigned char dst_flags, dst_flags_old;
++	bool linked = false;
++	int err = 0;
++
++	if (!src_size)
++		return 0;
++
++	dst_clus = exfat_bytes_to_cluster(sbi, exfat_ondisk_size(dst));
++	src_clus = exfat_bytes_to_cluster(sbi, exfat_ondisk_size(src));
++
++	/* Ensured by exfat_ioctl_combine() and stable under its locks. */
++	if (exfat_cluster_to_bytes(sbi, dst_clus) != dst_size ||
++	    (!dst_clus && dst_ei->start_clu != EXFAT_EOF_CLUSTER) ||
++	    (dst_clus && dst_ei->start_clu == EXFAT_EOF_CLUSTER) ||
++	    exfat_get_valid_size(dst_ei) != dst_size ||
++	    src_ei->start_clu == EXFAT_EOF_CLUSTER ||
++	    exfat_bytes_to_cluster_round_up(sbi, src_size) != src_clus)
++		return -EIO;
++
++	/* Step 1: build the new chain of @dst in the FAT. */
++	mutex_lock(&sbi->s_lock);
++	err = exfat_emergency_state(sb);
++	if (err)
++		goto unlock;
++	exfat_set_volume_dirty(sb);
++	dst_start_old = dst_ei->start_clu;
++	dst_flags_old = dst_ei->flags;
++	dst_start = dst_start_old;
++	dst_flags = dst_flags_old;
++
++	if (!dst_clus) {
++		dst_start = src_ei->start_clu;
++		dst_flags = src_ei->flags;
++		goto unlock;
++	}
++
++	/*
++	 * A contiguous @dst can stay contiguous only if @src is contiguous
++	 * and starts right after it.  Otherwise build its FAT chain first.
++	 */
++	if (dst_flags == ALLOC_NO_FAT_CHAIN &&
++	    (src_ei->flags != ALLOC_NO_FAT_CHAIN ||
++	     src_ei->start_clu != last_clu + 1)) {
++		err = exfat_chain_cont_cluster(sb, dst_start, dst_clus);
++		if (err)
++			goto unlock;
++		dst_flags = ALLOC_FAT_CHAIN;
++	}
++
++	if (dst_flags == ALLOC_FAT_CHAIN) {
++		if (src_ei->flags == ALLOC_NO_FAT_CHAIN) {
++			err = exfat_chain_cont_cluster(sb, src_ei->start_clu,
++						       src_clus);
++			if (err)
++				goto unlock;
++		}
++		err = exfat_ent_set(sb, last_clu, src_ei->start_clu);
++		linked = !err;
++	}
++unlock:
++	mutex_unlock(&sbi->s_lock);
++	if (err)
++		return err;
++
++	err = exfat_combine_flush(sb);
++	if (err)
++		goto undo;
++
++	/*
++	 * Step 2: publish the new size and chain of @dst.  As the rest of
++	 * exfat, write nothing more once the volume is in an emergency
++	 * state, which leaves what a crash after step 1 leaves.  If it
++	 * enters that state after the entry of @dst is written, @src keeps
++	 * its entry, as after a crash after step 2.
++	 */
++	mutex_lock(&sbi->s_lock);
++	err = exfat_emergency_state(sb);
++	if (err) {
++		mutex_unlock(&sbi->s_lock);
++		goto undo;
++	}
++	dst_ei->start_clu = dst_start;
++	dst_ei->flags = dst_flags;
++	new_valid_size = dst_size + exfat_get_valid_size(src_ei);
++	dst->i_blocks = exfat_cluster_to_sectors(sbi, dst_clus + src_clus);
++	i_size_write(dst, dst_size + src_size);
++	exfat_set_valid_size(dst_ei, new_valid_size);
++	exfat_set_zeroed_size(dst_ei, new_valid_size);
++	dst_ei->attr |= EXFAT_ATTR_ARCHIVE;
++	inode_set_mtime_to_ts(dst, inode_set_ctime_current(dst));
++	exfat_combine_reset_hints(dst);
++	err = __exfat_write_inode(dst, 1);
++	if (err) {
++		/*
++		 * Keep @src the only owner of its clusters: give @dst back its
++		 * old state, which writeback retries to put on disk.
++		 */
++		dst_ei->start_clu = dst_start_old;
++		dst_ei->flags = dst_flags_old;
++		dst->i_blocks = exfat_cluster_to_sectors(sbi, dst_clus);
++		i_size_write(dst, dst_size);
++		exfat_set_valid_size(dst_ei, dst_size);
++		exfat_set_zeroed_size(dst_ei, dst_size);
++		exfat_combine_reset_hints(dst);
++		mark_inode_dirty(dst);
++	}
++	mutex_unlock(&sbi->s_lock);
++	if (err)
++		goto undo;
++
++	err = blkdev_issue_flush(sb->s_bdev);
++
++	/*
++	 * Step 3: the clusters now belong to @dst.  Only forget them in
++	 * memory, so that evicting @src does not free them; its entry on
++	 * disk is deleted by the caller.  If the flush failed, the entry of
++	 * @dst was still written, so do it anyway, and let writeback write
++	 * @src as an empty file since the caller will not unlink it.
++	 */
++	mutex_lock(&sbi->s_lock);
++	src_ei->start_clu = EXFAT_EOF_CLUSTER;
++	src_ei->flags = ALLOC_NO_FAT_CHAIN;
++	src->i_blocks = 0;
++	i_size_write(src, 0);
++	exfat_set_valid_size(src_ei, 0);
++	exfat_set_zeroed_size(src_ei, 0);
++	exfat_combine_reset_hints(src);
++	src_ei->attr |= EXFAT_ATTR_ARCHIVE;
++	inode_set_mtime_to_ts(src, inode_set_ctime_current(src));
++	if (err)
++		mark_inode_dirty(src);
++	mutex_unlock(&sbi->s_lock);
++	return err;
++
++undo:
++	/*
++	 * @dst does not own the clusters of @src, cut its chain again,
++	 * unless the volume is in an emergency state.
++	 */
++	if (linked) {
++		mutex_lock(&sbi->s_lock);
++		if (!exfat_emergency_state(sb))
++			exfat_ent_set(sb, last_clu, EXFAT_EOF_CLUSTER);
++		mutex_unlock(&sbi->s_lock);
++	}
++	return err;
++}
++
++/*
++ * Lock the parent directory of @src_file for removing it.  Returns the
++ * dentry to remove with @parent set, NULL if @src_file is already
++ * unlinked, or an error, -EXDEV if it was moved out of the bind mount it
++ * was opened through.  A rename to another directory is retried.
++ */
++static struct dentry *exfat_combine_start_removing(struct file *src_file,
++						   struct path *parent)
++{
++	struct vfsmount *mnt = src_file->f_path.mnt;
++	struct dentry *dentry = src_file->f_path.dentry;
++	struct dentry *victim;
++	bool dead;
++
++	for (;;) {
++		if (d_unhashed(dentry))
++			return NULL;
++
++		parent->mnt = mnt;
++		parent->dentry = dget_parent(dentry);
++		victim = start_removing_dentry(parent->dentry, dentry);
++		if (!IS_ERR(victim)) {
++			/* As path_connected() does for "..". */
++			if (mnt->mnt_root == mnt->mnt_sb->s_root ||
++			    is_subdir(parent->dentry, mnt->mnt_root))
++				return victim;
++			end_removing(victim);
++			dput(parent->dentry);
++			return ERR_PTR(-EXDEV);
++		}
++
++		/*
++		 * -EINVAL: @src_file was renamed or unlinked meanwhile, which
++		 * is retried, or its parent was removed while it is still in
++		 * there, which only happens when the directory on disk and the
++		 * dcache disagree, e.g. after a media error.
++		 */
++		dead = IS_DEADDIR(d_inode(parent->dentry)) &&
++		       READ_ONCE(dentry->d_parent) == parent->dentry &&
++		       !d_unhashed(dentry);
++		dput(parent->dentry);
++		if (dead)
++			return ERR_PTR(-ENOENT);
++		if (PTR_ERR(victim) == -ENOENT)
++			return NULL;
++		if (PTR_ERR(victim) != -EINVAL)
++			return victim;
++		cond_resched();
++	}
++}
++
++/*
++ * Check before anything is changed whether @src_file may be unlinked, so
++ * that the unlink after a successful combine does not fail on
++ * permissions.  This makes the checks of unlink(2) that do not need the
++ * inode lock; security_inode_unlink() only runs in vfs_unlink().  The
++ * parent directory is only locked for the check, not across the combine,
++ * so that other operations in that directory are not stalled.
++ */
++static int exfat_combine_may_unlink(struct file *src_file)
++{
++	struct dentry *victim;
++	struct path parent;
++	int err;
++
++	victim = exfat_combine_start_removing(src_file, &parent);
++	if (IS_ERR_OR_NULL(victim))
++		return PTR_ERR(victim);
++
++	err = may_delete_dentry(file_mnt_idmap(src_file),
++				d_inode(parent.dentry), victim, false);
++	/*
++	 * Refuse a source that is a mount point in any namespace, which is
++	 * stricter than vfs_unlink() checking the current one; the check
++	 * under the inode lock is done by vfs_unlink().
++	 */
++	if (!err && d_mountpoint(victim))
++		err = -EBUSY;
++	if (!err)
++		err = security_path_unlink(&parent, victim);
++
++	end_removing(victim);
++	dput(parent.dentry);
++	return err;
++}
++
++/*
++ * Unlink @src_file after its clusters were moved, the way unlink(2) does:
++ * vfs_unlink() checks the permission, security modules, mount points and
++ * swap files, breaks leases and delegations, and calls exfat_unlink(),
++ * which only deletes the entry set.  The clusters stay with the
++ * destination, as the in-memory inode no longer owns them.
++ */
++static int exfat_combine_unlink(struct file *src_file)
++{
++	struct delegated_inode delegated_inode = { };
++	struct dentry *victim;
++	struct path parent;
++	int err;
++
++retry:
++	victim = exfat_combine_start_removing(src_file, &parent);
++	if (IS_ERR_OR_NULL(victim))
++		return PTR_ERR(victim);
++
++	err = security_path_unlink(&parent, victim);
++	if (!err)
++		err = vfs_unlink(file_mnt_idmap(src_file),
++				 d_inode(parent.dentry), victim,
++				 &delegated_inode);
++
++	end_removing(victim);
++	dput(parent.dentry);
++	if (is_delegated(&delegated_inode)) {
++		err = break_deleg_wait(&delegated_inode);
++		if (!err)
++			goto retry;
++	}
++	return err;
++}
++
++/*
++ * Write back @inode and check that everything dirtied since @since has
++ * reached the disk.  The error flags of a mapping go to whoever checks
++ * them first, a concurrent fsync() included, so a clean return of the
++ * writeback alone does not tell; its errseq does.
++ */
++static int exfat_combine_write_back(struct inode *inode, errseq_t since)
++{
++	int err = filemap_write_and_wait(inode->i_mapping);
++
++	return err ? err : filemap_check_wb_err(inode->i_mapping, since);
++}
++
++/*
++ * Undo the zero padding of @dst after a failed combine: drop its size
++ * back to @old_size.  Once @dst was written back, the zeroes and any
++ * stores through mmap below @old_size are on disk, so keep them, as
++ * exfat_extend_valid_size() does, after flushing them to the medium
++ * ahead of the entry that covers them.  Only if @dst cannot be written
++ * back, drop its valid size back to @old_valid and its zeroed size to
++ * no more than that, and unmap that range so that further stores through
++ * mmap fault again and extend valid_size.  The entry is written right
++ * away.
++ * Called with the inode and invalidate locks of @dst held.
++ */
++static void exfat_combine_unpad(struct inode *dst, loff_t old_size,
++				loff_t old_valid, loff_t old_zeroed,
++				bool written, errseq_t since)
++{
++	struct exfat_sb_info *sbi = EXFAT_SB(dst->i_sb);
++	struct exfat_inode_info *ei = EXFAT_I(dst);
++	bool shrink = i_size_read(dst) > old_size;
++	loff_t zeroed;
++
++	if (shrink)
++		truncate_setsize(dst, old_size);
++	/* Do not rely on exfat_truncate(), which stops early after an error. */
++	if (exfat_get_valid_size(ei) > old_size)
++		exfat_set_valid_size(ei, old_size);
++	if (exfat_get_zeroed_size(ei) > old_size)
++		exfat_set_zeroed_size(ei, old_size);
++
++	/*
++	 * Padding or writing back @src may have failed before @dst was
++	 * written back: try that first, as stores through mmap that have
++	 * already completed cannot be made to fault again.
++	 */
++	if (!written)
++		written = !exfat_combine_write_back(dst, since);
++
++	if (written) {
++		if (exfat_get_valid_size(ei) > old_valid)
++			blkdev_issue_flush(dst->i_sb->s_bdev);
++	} else {
++		if (exfat_get_valid_size(ei) > old_valid) {
++			if (old_valid < old_size)
++				unmap_mapping_range(dst->i_mapping, old_valid,
++						    old_size - old_valid, 0);
++			exfat_set_valid_size(ei, old_valid);
++		}
++		/*
++		 * The failed writeback also cleaned a folio that was dirty
++		 * before the call, without its blocks reaching the disk: do
++		 * not count its tail past @old_valid as initialized, so that
++		 * extending valid_size prepares and dirties it again.
++		 */
++		zeroed = min(old_zeroed, old_valid);
++		if (exfat_get_zeroed_size(ei) > zeroed)
++			exfat_set_zeroed_size(ei, zeroed);
++	}
++
++	if (shrink) {
++		exfat_truncate(dst);	/* writes the entry */
++	} else if (!exfat_emergency_state(dst->i_sb)) {
++		mutex_lock(&sbi->s_lock);
++		if (__exfat_write_inode(dst, inode_needs_sync(dst)))
++			mark_inode_dirty(dst);
++		mutex_unlock(&sbi->s_lock);
++	}
++}
++
++/*
++ * A failed truncate can leave the allocation of a file larger than its
++ * size, or its valid_size above its size, and a corrupt entry can carry
++ * neither chain layout, or a contiguous chain running past the volume.
++ * Refuse such a file before anything is changed, as padding @dst
++ * allocates based on its allocation, the valid_size of @src is carried
++ * over to @dst, and Step 1 writes the FAT entries of contiguous chains.
++ */
++static bool exfat_combine_inode_ok(struct inode *inode)
++{
++	struct exfat_sb_info *sbi = EXFAT_SB(inode->i_sb);
++	struct exfat_inode_info *ei = EXFAT_I(inode);
++	loff_t size = i_size_read(inode);
++
++	if (exfat_ondisk_size(inode) != round_up(size, sbi->cluster_size) ||
++	    (!size && ei->start_clu != EXFAT_EOF_CLUSTER) ||
++	    (size && ei->start_clu == EXFAT_EOF_CLUSTER) ||
++	    exfat_get_valid_size(ei) > size)
++		return false;
++	if (!size || ei->flags == ALLOC_FAT_CHAIN)
++		return true;
++	/* As exfat_validate_vendor_alloc() checks a contiguous range. */
++	return ei->flags == ALLOC_NO_FAT_CHAIN &&
++	       DIV_ROUND_UP_ULL(size, sbi->cluster_size) <=
++	       sbi->num_clusters - ei->start_clu;
++}
++
++/*
++ * Only a corrupt volume has files sharing clusters.  Refuse them before
++ * anything is changed: zero-filling @dst would overwrite data of @src in
++ * a shared cluster, and linking @src would create a loop in the FAT.
++ * Two files owning more clusters than are in use share some of them, and
++ * the result would fail the check of exfat_find() too.  The chain of
++ * @dst cannot change until the combine, as it is fully allocated and the
++ * caller holds its inode lock.
++ */
++static int exfat_combine_check_chains(struct inode *dst, struct inode *src,
++				      unsigned int *last)
++{
++	struct super_block *sb = dst->i_sb;
++	struct exfat_sb_info *sbi = EXFAT_SB(sb);
++	struct exfat_inode_info *dst_ei = EXFAT_I(dst);
++	struct exfat_inode_info *src_ei = EXFAT_I(src);
++	unsigned int dst_clus, src_clus;
++	struct exfat_chain chain, src_chain;
++	int err = 0;
++
++	dst_clus = exfat_bytes_to_cluster_round_up(sbi, i_size_read(dst));
++	src_clus = exfat_bytes_to_cluster_round_up(sbi, i_size_read(src));
++	*last = EXFAT_EOF_CLUSTER;
++
++	mutex_lock(&sbi->s_lock);
++	if ((u64)dst_clus + src_clus > sbi->used_clusters) {
++		err = -EIO;
++	} else if (dst_clus) {
++		exfat_chain_set(&chain, dst_ei->start_clu, dst_clus,
++				dst_ei->flags);
++		exfat_chain_set(&src_chain, src_ei->start_clu, src_clus,
++				src_ei->flags);
++		err = exfat_combine_find_last(sb, &chain, &src_chain, last);
++	}
++	mutex_unlock(&sbi->s_lock);
++	return err;
++}
++
++static int exfat_ioctl_combine(struct file *dst_file, unsigned long arg)
++{
++	struct inode *dst = file_inode(dst_file);
++	struct exfat_sb_info *sbi = EXFAT_SB(dst->i_sb);
++	struct exfat_combine_args args;
++	struct file *src_file;
++	struct inode *src;
++	loff_t old_size, old_valid, old_zeroed, dst_size, src_size;
++	errseq_t dst_since, src_since;
++	unsigned int last_clu;
++	bool written = false, moved = false;
++	int err = 0;
++
++	if (copy_from_user(&args, (void __user *)arg, sizeof(args)))
++		return -EFAULT;
++
++	if (args.flags)
++		return -EINVAL;
++
++	CLASS(fd, f)(args.src_fd);
++	if (fd_empty(f))
++		return -EBADF;
++	src_file = fd_file(f);
++	src = file_inode(src_file);
++
++	/* The data of @src becomes readable through @dst. */
++	if (!(dst_file->f_mode & FMODE_WRITE) ||
++	    !(src_file->f_mode & FMODE_READ) ||
++	    !(src_file->f_mode & FMODE_WRITE))
++		return -EBADF;
++
++	if (dst_file->f_path.mnt != src_file->f_path.mnt)
++		return -EXDEV;
++
++	if (!S_ISREG(dst->i_mode) || !S_ISREG(src->i_mode) || dst == src)
++		return -EINVAL;
++
++	if (unlikely(exfat_forced_shutdown(dst->i_sb)))
++		return -EIO;
++
++	/*
++	 * After an unclean shutdown, the clusters of a source may already
++	 * belong to its destination as well, or be linked to it, and any file
++	 * may be inconsistent until fsck.exfat has run.
++	 */
++	if (sbi->vol_flags_persistent & VOLUME_DIRTY)
++		return -EUCLEAN;
++
++	/* LSM and fanotify permission checks, done before taking any lock. */
++	src_size = i_size_read(src);
++	err = remap_verify_area(src_file, 0, src_size, true);
++	if (err)
++		return err;
++	err = remap_verify_area(dst_file, i_size_read(dst), src_size, true);
++	if (err)
++		return err;
++
++	err = mnt_want_write_file(dst_file);
++	if (err)
++		return err;
++
++	/* @src is unlinked on success, refuse early if that is not allowed. */
++	err = exfat_combine_may_unlink(src_file);
++	if (err)
++		goto out_drop_write;
++
++	lock_two_nondirectories(dst, src);
++	/* swapon() sets S_SWAPFILE under the inode lock. */
++	if (IS_SWAPFILE(dst) || IS_SWAPFILE(src)) {
++		err = -ETXTBSY;
++		goto out_unlock_inodes;
++	}
++	/* An unlinked @dst is not written back: @src would lose its data. */
++	if (!dst->i_nlink) {
++		err = -ENOENT;
++		goto out_unlock_inodes;
++	}
++	if (!exfat_combine_inode_ok(dst) || !exfat_combine_inode_ok(src)) {
++		err = -EIO;
++		goto out_unlock_inodes;
++	}
++	inode_dio_wait(dst);
++	inode_dio_wait(src);
++
++	src_size = i_size_read(src);
++	if (!src_size)
++		goto out_unlock_inodes;
++
++	err = exfat_combine_check_chains(dst, src, &last_clu);
++	if (err)
++		goto out_unlock_inodes;
++
++	err = exfat_emergency_state(dst->i_sb);
++	if (err)
++		goto out_unlock_inodes;
++
++	/*
++	 * exFAT cannot describe a gap in the middle of a file, and the rest
++	 * of the last cluster of @dst may hold stale data.  Zero-fill @dst
++	 * up to the end of its last cluster, including any uninitialized
++	 * range before i_size, so that @src starts at a cluster boundary.
++	 */
++	dst_size = round_up(i_size_read(dst), sbi->cluster_size);
++	err = inode_newsize_ok(dst, dst_size + src_size);
++	if (err)
++		goto out_unlock_inodes;
++
++	old_size = i_size_read(dst);
++	old_valid = exfat_get_valid_size(EXFAT_I(dst));
++	old_zeroed = exfat_get_zeroed_size(EXFAT_I(dst));
++	dst_since = filemap_sample_wb_err(dst->i_mapping);
++	src_since = filemap_sample_wb_err(src->i_mapping);
++	err = exfat_extend_valid_size(dst, dst_size);
++
++	filemap_invalidate_lock_two(dst->i_mapping, src->i_mapping);
++	if (err)
++		goto out_unlock;
++
++	/*
++	 * Dirty data of @src must reach its clusters before they change
++	 * owner.  All dirty data of @dst, including the zeroes just written,
++	 * must be on disk before its new valid_size is, and cached folios of
++	 * @dst past its EOF must not shadow the data appended from @src.
++	 */
++	err = exfat_combine_write_back(src, src_since);
++	if (err)
++		goto out_unlock;
++
++	err = exfat_combine_write_back(dst, dst_since);
++	if (err)
++		goto out_unlock;
++	written = true;
++
++	err = invalidate_inode_pages2_range(dst->i_mapping,
++					    dst_size >> PAGE_SHIFT, -1);
++	if (err)
++		goto out_unlock;
++
++	err = __exfat_combine(dst, src, last_clu);
++	moved = i_size_read(dst) > dst_size;
++
++	/* @src may have been emptied even if writing @dst failed. */
++	truncate_pagecache(src, i_size_read(src));
++	if (moved) {
++		fsnotify_modify(dst_file);
++		fsnotify_modify(src_file);
++	}
++
++out_unlock:
++	/*
++	 * If the clusters were not moved, undo the zero padding so that a
++	 * failed call leaves @dst as it was.
++	 */
++	if (err && i_size_read(dst) <= dst_size)
++		exfat_combine_unpad(dst, old_size, old_valid, old_zeroed,
++				    written, dst_since);
++	filemap_invalidate_unlock_two(dst->i_mapping, src->i_mapping);
++out_unlock_inodes:
++	unlock_two_nondirectories(dst, src);
++
++	/*
++	 * Unlink @src last, with the inode locks dropped, as the parent has
++	 * to be locked first.  Should that still fail, e.g. because a
++	 * security module denies it or @src was meanwhile moved to a
++	 * directory it may not be removed from, write @src as an empty file
++	 * so that its entry no longer references the moved clusters, unless
++	 * it was written to meanwhile, which writeback then takes care of.
++	 */
++	if (!err) {
++		err = exfat_combine_unlink(src_file);
++		if (!err) {
++			err = exfat_combine_flush(dst->i_sb);
++		} else if (moved) {
++			int ret;
++
++			inode_lock(src);
++			if (!i_size_read(src) && !exfat_emergency_state(src->i_sb)) {
++				mutex_lock(&sbi->s_lock);
++				ret = __exfat_write_inode(src, 1);
++				mutex_unlock(&sbi->s_lock);
++				if (!ret)
++					ret = blkdev_issue_flush(dst->i_sb->s_bdev);
++				if (ret)
++					mark_inode_dirty(src);
++			}
++			inode_unlock(src);
++		}
++	}
++out_drop_write:
++	mnt_drop_write_file(dst_file);
++	return err;
++}
++
+ long exfat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ {
+ 	struct inode *inode = file_inode(filp);
+@@ -702,6 +1428,8 @@ long exfat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ 		return exfat_ioctl_set_attributes(filp, user_attr);
+ 	case EXFAT_IOC_SHUTDOWN:
+ 		return exfat_ioctl_shutdown(inode->i_sb, arg);
++	case EXFAT_IOC_COMBINE:
++		return exfat_ioctl_combine(filp, arg);
+ 	case FITRIM:
+ 		return exfat_ioctl_fitrim(inode, arg);
+ 	case FS_IOC_GETFSLABEL:
+diff --git a/include/uapi/linux/exfat.h b/include/uapi/linux/exfat.h
+index 46d95b1..d32c706 100644
+--- a/include/uapi/linux/exfat.h
++++ b/include/uapi/linux/exfat.h
+@@ -13,6 +13,7 @@
+  */
+ 
+ #define EXFAT_IOC_SHUTDOWN _IOR('X', 125, __u32)
++#define EXFAT_IOC_COMBINE  _IOW('r', 0x20, struct exfat_combine_args)
+ 
+ /*
+  * Flags used by EXFAT_IOC_SHUTDOWN
+@@ -22,4 +23,51 @@
+ #define EXFAT_GOING_DOWN_FULLSYNC	0x1     /* going down with full sync*/
+ #define EXFAT_GOING_DOWN_NOSYNC         0x2     /* going down */
+ 
++/*
++ * Argument for EXFAT_IOC_COMBINE.
++ *
++ * The ioctl is issued on the destination file.  The clusters of @src_fd
++ * are appended to the destination without copying any data, and the
++ * source is then unlinked from its directory, so that only metadata is
++ * changed.  Open file descriptors of the source refer to an empty file
++ * afterwards.
++ *
++ * Clusters can only be appended at a cluster boundary.  If the size of
++ * the destination is not a multiple of the cluster size, it is first
++ * extended with zeroes up to the end of its last cluster, so the combined
++ * file has a zero-filled gap between the original and the appended data,
++ * and the appended data starts at offset round_up(old size, cluster size).
++ * User space has to account for that gap, e.g. by making the file format
++ * skip it.  To fill it with something else, user space can pad the
++ * destination itself before the call, in which case nothing is zeroed.
++ * The cluster size is reported in st_blksize by stat(2).  Any range of
++ * the destination that was never written, e.g. after fallocate(2), is
++ * zeroed as well, which can take a while if it is large.
++ *
++ * The source is unlinked with the same checks as unlink(2), including
++ * security modules.  The permission to unlink it is checked before
++ * anything is changed, as far as possible without unlinking it.  A source
++ * that is already unlinked is accepted, an unlinked destination is not
++ * (ENOENT).  If unlinking still fails after the clusters were moved, e.g.
++ * because a security module denies it or the source was moved meanwhile
++ * to a directory it may not be removed from, the source is left as an
++ * empty file and the error is returned.
++ *
++ * Errors are reported even when the device fails only after the
++ * destination was updated.  The clusters may then already belong to the
++ * destination, with the source left as an empty file or already
++ * unlinked; callers can tell from the size of the destination.
++ * Otherwise a failed call leaves both files unchanged.
++ *
++ * A crash during the call may leave both files referencing the appended
++ * clusters.  fsck.exfat resolves this without losing data, but the source
++ * must not be truncated or removed before fsck has run.  On a volume that
++ * was not cleanly unmounted, the call fails with EUCLEAN until fsck.exfat
++ * has run.
++ */
++struct exfat_combine_args {
++	__s32 src_fd;	/* file whose clusters are moved */
++	__u32 flags;	/* must be zero */
++};
++
+ #endif /* _UAPI_LINUX_EXFAT_H */
+-- 
+2.50.1 (Apple Git-155)
 
-- The check is in access_ok() itself: the generic version, plus the
-arm64 and riscv versions. __access_ok() remains a plain range check.
-- The callers of mask_user_address()/masked_user_*_access_begin()
-check current->mm explicitly. There are about a dozen such callers.
-- The unchecked accessors, __copy_{from,to}_user()
-and__copy_{from,to}_user_inatomic() (and arm64's
-copy_from_user_flushcache(), which also relies on an earlier
-access_ok()), keep an explicit check for now. Once their users are
-converted to the checked versions, those checks can be dropped.
-
-Compared to v1, this also covers get_user()/put_user()/clear_user() on
-arm64, powerpc, riscv and the asm-generic architectures, and arch code
-like signal frame setup that uses access_ok() followed by __put_user()
-or unsafe_*(). user_access_begin() no longer needs its own check.
-
-What's still not covered: x86's get_user()/put_user(), which do their
-own range check in asm, a few architecture-specific paths that call
-__access_ok() directly (e.g. on alpha and sparc32), and arch code that
-calls __get_user()/__put_user() without access_ok(), mostly trap
-handlers for user-mode faults. Probably best tackled later.
-
->
-> >> There are of course few enough of these left that I think
-> >> we can consider doing the same thing here and turn them all
-> >> into the checking version:
-> >>
-> >> $ git grep -wl __copy_'\(from\|to\)'_user  drivers mm virt
-> >> drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> >> drivers/gpu/drm/i915/i915_gem.c
-> >> drivers/gpu/drm/i915/i915_query.c
-> >> drivers/usb/gadget/udc/atmel_usba_udc.c
-> >> drivers/vhost/scsi.c
-> >> drivers/vhost/vhost.c
-> >> mm/kasan/kasan_test_c.c
-> >> virt/kvm/kvm_main.c
-> >
-> > Agreed, I think we should clean those up, but that can be done
-> > separately. This series already adds the check to the common
-> > __copy_{from,to}_user() and __copy_{from,to}_user_inatomic() wrappers
-> > in include/linux/uaccess.h (patches 7 and 8), so the KVM path is
-> > covered without converting the callers first.
->
-> Right, if dropping __copy_{from,to}_user() as global interfaces does
-> not help add the check in a consistent way, that can wait as well.
-> It looks like we are very slowly converting away from them already,
-> as we have about half the call sites left compared to v5.0.
->
-> There are probably few enough of these that we could address them
-> by either adding current->mm checks or converting them to use
-> the full versions instead where that is an obvious change like
-> that usb gadget driver.
-
-Sounds good. I'll send a separate series converting the obvious ones,
-starting with the usb gadget driver. I think that will be useful.
-Let's see how far I can get; hopefully I can drop
-__copy_{from,to}_user() completely.
-
-> >> As a quick fix I would probably start with just the 'if (!mm) return f=
-alse'
-> >> bit here to get something merged while we still discuss the other
-> >> details.
-> >
-> > Making the same point as Sean[2] but with a little more detail, I had
-> > thought about making the change in access_ok(), but:
-> >
-> >  - On x86-64 and powerpc, the masked user access paths don't call
-> >    access_ok() at all. That includes copy_from_user(),
-> >    strncpy_from_user(), strnlen_user() and every scoped_user_*_access()
-> >    block, which is where many of the converted __get_user() users ended
-> >    up.
->
-> Ok. Apparently there is some of this on arm64 as well, using
-> __uaccess_mask_ptr() instead of mask_user_address().
->
-> >  - __copy_{from,to}_user() and __copy_from_user_inatomic() skip it too,
-> >    and the KVM bug followed exactly that pattern: the range was checked
-> >    once up front, and the access came much later from a different
-> >    context.
->
-> Arguably this is itself a TOCTOU issue and replacing
-> all __copy_{from,to}_user() with copy_{from,to}_user() would be a better
-> solution long-term, if we can do that.
-
-Yeah, I agree, that's another reason to get rid of them.
-
-> >  - access_ok() is also used as a plain range check where having no mm
-> >    is fine. For example, copy_{from,to}_user_nofault() call
-> >    __access_ok()/access_ok(), and BPF and perf legitimately call those
-> >    from kernel threads, so a WARN there would fire on valid tracing.
->
-> These at least could be easily worked around by just skipping the
-> calls to copy_{from,to}_user_nofault() as mentioned above.
-
-Yep, and v2 now does this.
-
-Thanks, Arnd! I'll send a v2 early next week. I've kicked off
-syzkaller against the new version too.
