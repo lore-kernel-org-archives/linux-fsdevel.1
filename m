@@ -1,64 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795536810;
-	b=aq+6otKwSuabhawNwkrfqVHOBp8P6OnCGEx09blR+CTgjzHert+8Az/bpUapPfqsst8C
-	 uwYozOGpw0CNOzN7Fz9h33Hp6SeJ/dpyCR4vK6O9YoZFniMQkGGvGQJCG+RtTv8BV2wrg
-	 eFPU18GOtFuz0l3gdFLVk0/aavw/n21gA25B8eve2eEW1SmD8sCoQZgEBXiheb9lPEa/Z
-	 W2sp+AVSYGqQHJ9CpacCBv0NoFZD2TI1z8EoOGoA9UPk8dyOuhNyVNIGRnzRX1s31+4l3
-	 TH3zR7ogTOHPOfFll3fhTGemD0JDq5s4QxJ/HIVqWAR1ln0UeleoYTIXGXss7787NiA==
+	t=1795537607;
+	b=3FNnUSvFvTWUp6HOs9fEny+xfm9frjhVvvmkQJ9BLMCtVOA/xJaiOV5Gs/Y37OlzmSVr
+	 GpJwjmcWadsJjB+b/Dj5NX6hFPchECeq4CKdP/zaFA5Eb+FFk/HF4v60iE4MV8lGR1VXe
+	 qJx37lK7PiLBYx7hd6ZoTJWWQ5ad4YrviLj0QteI3gA+ribJVaI/ZcUL4G/pZnXCbunPb
+	 4GVTTej3C8m0JepB2S0qaI7yvtJckuKafkkUb7tPu1xrdrHXllOLsFCQKvcSjSnndBhxr
+	 oWWIZVKyNAi+bKdmU1cmxwV2dqNj2TNZHuYFPDZgiX70xci5VjWD8v4CNd+3pZ31ekQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795536810;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:In-Reply-To:
-	 References:Date:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=9Yy6grSCr+u8lAghLloqJJERK2XEpnnBGJ2Uw0VUpVM=;
-	b=QPZ0QEFTD+YcYqQ82mMccj8YSN3rTGrOqIZOZhUWC52OpFdqMmwVPvydCyD1A1GflUt5
-	 RZmVAfotNPHBOGM1xqK2TQpmdxojH26zLw5HO77ArYZ8PnmupoBDW2lWKxnVsV6vj3JRG
-	 9Tdc7f2mUqy9itCP9YaUr/yhrzWeNzn6sI+JNW1Ic+LPAX20KdUhYsQEkg8XvrkVKICy2
-	 egUarDZG8IEO/QTyXhXyP/TiS64xG2tV8nLYnfWBOqyp+SLBR3+2EqN2I72tZFOcS6K15
-	 1Izav4HGO7bwRsdWgrE1jZsyy77Z8F9MerQBtNi34NugnboKjb7XmuN748zCrCyN2KQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795537607;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To:X-Spam-Flag:X-Spam-Level:
+	 X-Spamd-Result:X-Spam-Score;
+	bh=Tau/QfvGh+vZNEbbYD2fA9tQVdy3zBtPCuE6/6Yzmh8=;
+	b=3grluORgJuaE9a/zRVXSSl6W0vSk7SlRLFlhfHjA2Z7+ItG546/ywMOwN8h22WYEBshn
+	 Av545jvFxshhN9r0lsr8XZIv13rAYR6VcR+H9U6boUPQOaTNfjXWhdCMP5SGNDa9je932
+	 SNeb0dftEaTzJxgX0gDQCcbUfIpR1vEul5jSF5ksvLJ0mewi5ZbPGU+isYU5DmP9DzWEo
+	 NyLlD0iQmfRGQdgugWXkwZSWyWL1TycdtnG5KxNhnpGM6ZplDS+IkWyaSgIUc7svKuo+H
+	 jOFUr9OC8HQ02pDO/O+yNRBudNhcLru/rKmILDyl1+XsXM4Ai2gIUT98/fDCziUxxAA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=igalia.com;
-	spf=pass smtp.mailfrom=igalia.com;
-	dkim=pass header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=oj5sRO0x;
-	arc=none smtp.remote-ip=213.97.179.56
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="e9b/edhz";
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vpbpMcZK;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="e9b/edhz";
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vpbpMcZK;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159D0606A68D;
-	Tue, 24 Nov 2026 16:13:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 159D0606A68D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6453606A338;
+	Tue, 24 Nov 2026 16:26:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6453606A338
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=oj5sRO0x
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Date:Subject:Cc:To:From:From:Reply-To;
-	bh=9Yy6grSCr+u8lAghLloqJJERK2XEpnnBGJ2Uw0VUpVM=; t=1795536809; x=2110896809; 
-	b=oj5sRO0xxkA6BisA81n2Z/+2j9cOdVjjLzi0FWZK+6ecdrSuyLXnMee0KAf0ytdU6FoE6a7oD/7
-	A7qZ2ZgTrEfMjrXy7WsgaHN31e8iaZAkgVarn1DvND/fCGNdV/IEVAsAhhQVPZS6oq6y2ajZyoMc4
-	PgHIJL4QxGKEWom+kmj1aWVF5rM2RTYQ0qQjmmBWQNwt40fRFGb3Niu4g/q+fq2ClcBWG6Wk/dUp9
-	kFEWxK47MuaEASUNQFTbwhWhQFlfk5DMQyzjfpS18BwFkqSME/Qq/TogUdfiSVo/4mdo5jwG9rzy1
-	F964EsjOKeeHSBII37pCs6SF3uD0DiEmAK5w==;
-Received: from bl17-56-70.dsl.telepac.pt ([188.82.56.70] helo=localhost)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1xVt8z-00000003Y4b-3vgI;
-	Tue, 24 Nov 2026 17:13:22 +0100
-From: Luis Henriques <luis@igalia.com>
-To: koraynilay <koray.fra@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,  Christian Brauner
- <brauner@kernel.org>,  Jan Kara <jack@suse.cz>,  Edward Adam Davis
- <eadavis@qq.com>,  Amir Goldstein <amir73il@gmail.com>,  Miklos Szeredi
- <miklos@szeredi.hu>,  linux-kernel@vger.kernel.org,
-  linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] vfs: fix file_getattr hint to request xflags
-In-Reply-To: <20261124150108.189282-1-koray.fra@gmail.com>
-References: <20261124150108.189282-1-koray.fra@gmail.com>
-Date: Tue, 24 Nov 2026 16:13:18 +0000
-Message-ID: <87se0qb42p.fsf@igalia.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=e9b/edhz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vpbpMcZK;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=e9b/edhz;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vpbpMcZK
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C87031FB62;
+	Tue, 24 Nov 2026 16:26:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795537604; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tau/QfvGh+vZNEbbYD2fA9tQVdy3zBtPCuE6/6Yzmh8=;
+	b=e9b/edhzEQ+/NTZLcyNh/hLEfnNj7dBc2n4GBsbWmjUBzcbsPaEXB3aTDZGPFluHCvxdsb
+	jVrMXoJG8lTxsb0L9/TLQL9GY4riObqPRUKH7nQpOOgdhZUJkbO3zgZlVJ1D2boXV99a5s
+	EOM0tx9FdIgPD2Qa66rXrxVswpvUZIA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795537604;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tau/QfvGh+vZNEbbYD2fA9tQVdy3zBtPCuE6/6Yzmh8=;
+	b=vpbpMcZKYCNKaIWWfeoxmCuySeYmlGMouv9BvXL6ZbUR02uzmwJ9F3MT8MQibkXbIRpcKm
+	FBfiADgW2zKsrBCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795537604; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tau/QfvGh+vZNEbbYD2fA9tQVdy3zBtPCuE6/6Yzmh8=;
+	b=e9b/edhzEQ+/NTZLcyNh/hLEfnNj7dBc2n4GBsbWmjUBzcbsPaEXB3aTDZGPFluHCvxdsb
+	jVrMXoJG8lTxsb0L9/TLQL9GY4riObqPRUKH7nQpOOgdhZUJkbO3zgZlVJ1D2boXV99a5s
+	EOM0tx9FdIgPD2Qa66rXrxVswpvUZIA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795537604;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tau/QfvGh+vZNEbbYD2fA9tQVdy3zBtPCuE6/6Yzmh8=;
+	b=vpbpMcZKYCNKaIWWfeoxmCuySeYmlGMouv9BvXL6ZbUR02uzmwJ9F3MT8MQibkXbIRpcKm
+	FBfiADgW2zKsrBCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A07281339F;
+	Tue, 24 Nov 2026 16:26:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id hP5KHsS6BWsjKgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 24 Nov 2026 16:26:44 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id 2EED827A1C; Tue, 24 Nov 2026 17:26:44 +0100 (CET)
+Date: Tue, 24 Nov 2026 17:26:44 +0100
+From: Jan Kara <jack@suse.cz>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: NeilBrown <neil@brown.name>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Ian Kent <raven@themaw.net>, Jake Edge <jake@lwn.net>
+Subject: Re: [PATCH v6 0/5] Fix easy bits of the negative dentry problem
+Message-ID: <aau5z6kck6a2efcjvzrt6gno6ljs4eioncgizeh7vfbc6ipkr3@hjxzdk5pvgmt>
+References: <20261123221410.3328780-1-neilb@ownmail.net>
+ <179550252639.1728055.4014817916838632741@noble.neil.brown.name>
+ <CAOQ4uxgF6=QoD9RoAOPmxtvkq1jWf+gG1AsJzR=Kt3ROMA=X0g@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -69,194 +118,96 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOQ4uxgF6=QoD9RoAOPmxtvkq1jWf+gG1AsJzR=Kt3ROMA=X0g@mail.gmail.com>
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Score: -12.80
 
-On Tue, Nov 24 2026, koraynilay wrote:
+On Tue 24-11-26 14:08:07, Amir Goldstein wrote:
+> On Tue, Nov 24, 2026 at 7:42 AM NeilBrown <neilb@ownmail.net> wrote:
+> >
+> > On Tue, 24 Nov 2026, NeilBrown wrote:
+> > > This v6:
+> > >  - fixes the autofs changes in 1/5
+> >
+> > Sashiko says this is racy.  I think it is but the original code was just
+> > as racy.  Maybe the race isn't relevant.  I haven't properly understood
+> > it yet.
+> >
+> > >  - updates d_duplicate() in 1/5
+> >
+> > The fix was seriously broken.  Sorry.
+> >
+> > >  - uses a new version of 2/5 from Amir
+> >
+> > Sashiko has something to say about this
+> >
+> >     Can clearing FSNOTIFY_CONN_FLAG_UPDATE_CHILDREN and dropping conn->lock
+> >     before fsnotify_set_children_dentry_flags() finishes allow a concurrent
+> >     watch-adding syscall to return to userspace before the children's
+> >     DCACHE_FSNOTIFY_PARENT_WATCHED flags have been set?
+> >
+> > Thoughts?
+> 
+> Sashiko is right, but this race is not new.
+> The same window exists upstream: if another thread's recalc observes
+> the 0->watching transition and does the walk, fanotify_mark() can return
+> to userspace before all children have DCACHE_FSNOTIFY_PARENT_WATCHED set.
+> 
+> What changes with this series is that the walk is sleepable, so the
+> window is longer, and in some workloads it could go from rare to
+> plausible. OTOH, skipping negative dentries may shorten the walk.
+> 
+> The more important question is whether a child can be left without
+> PARENT_WATCHED permanently. Upstream it can: the transition can be
+> observed by a recalc from the mark destroy path, which never walks.
+> With FSNOTIFY_CONN_FLAG_UPDATE_CHILDREN that cannot happen.
+> Every transition sets the flag, and every caller that can add a watch
+> consumes it,
+> so a walk that started after the transition always runs and fixes the flags.
+> What remains is the transient window above.
 
-> When using a FUSE mount over an underlying filesystem that supports
-> xflags, querying them from userspace with file_getattr() strips them
-> because file_getattr sets flags_valid =3D true so FUSE uses
-> FS_IOC_GETFLAGS instead of FS_IOC_FSGETXATTR.
->
-> Fix it by setting fsx_valid =3D true instead.
->
-> Output when using a simple FUSE mount that simply forwards the ioctls to
-> the underlying fs:
->
-> before the fix:
->
->   /xfs/file: FS_IOC_FSGETXATTR: ret=3D0, projid=3D69
->   /xfs/file: file_getattr:      ret=3D0, projid=3D0
->   /ext4/file: FS_IOC_FSGETXATTR: ret=3D0, projid=3D42
->   /ext4/file: file_getattr:      ret=3D0, projid=3D0
->
-> after the fix:
->
->   /xfs/file: FS_IOC_FSGETXATTR: ret=3D0, projid=3D69
->   /xfs/file: file_getattr:      ret=3D0, projid=3D69
->   /ext4/file: FS_IOC_FSGETXATTR: ret=3D0, projid=3D42
->   /ext4/file: file_getattr:      ret=3D0, projid=3D42
->
-> Fixes: cb184dd19154 ("fs: init flags_valid before calling vfs_fileattr_ge=
-t")
-> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.11
-> Signed-off-by: koraynilay <koray.fra@gmail.com>
-> ---
-> Hi, I found this issue while working on the v2 of [1], here is the
-> reproducer, not in the commit message because of the size.
->
-> script:
->
->   #!/bin/bash
->   truncate -s 100M xfs.img
->   truncate -s 100M ext4.img
->   mkfs.xfs xfs.img
->   mkfs.ext4 -O project ext4.img
->   mkdir xfs ext4
->=20=20=20
->   mount xfs.img xfs
->   mount ext4.img ext4
->   touch {xfs,ext4}/file
->=20=20=20
->   chattr -p 69 xfs/file
->   chattr -p 42 ext4/file
->=20=20=20
->   mkdir fuse
->   ./repro_fuse_getattr fuse "$PWD"/xfs/file
->   ./repro_fuse_getattr fuse "$PWD"/ext4/file
->=20=20=20
->   umount xfs ext4
->
-> where repro_fuse_getattr is a simple fuse mount, compiled with:
->
->   gcc repro_fuse_getattr.c -o repro_fuse_getattr $(pkg-config fuse3 --cfl=
-ags --libs)
->
-> and used like:
->
->   ./repro_fuse_getattr <fuse_mount_dir> <full_path_to_real_file>
->
-> repro_fuse_getattr.c:
->
->   #define _GNU_SOURCE
->   #define FUSE_USE_VERSION 35
->   #include <fuse3/fuse.h>
->   #include <stdio.h>
->   #include <string.h>
->   #include <errno.h>
->   #include <fcntl.h>
->   #include <unistd.h>
->   #include <sys/syscall.h>
->   #include <sys/ioctl.h>
->   #include <sys/mount.h>
->   #include <linux/fs.h>
->=20=20=20
->   /* needed to get the file's file descriptor for the ioctl */
->   static int my_getattr(const char *path, struct stat *st, struct fuse_fi=
-le_info *fi)
->   {
->   	memset(st, 0, sizeof(*st));
->   	if (!strcmp(path, "/")) {
->   		st->st_mode =3D S_IFDIR | 0755;
->   		st->st_nlink =3D 2;
->   		return 0;
->   	}
->   	return stat(fuse_get_context()->private_data, st) < 0 ? -errno : 0;
->   }
->=20=20=20
->   /* pass down the ioctl to the fs */
->   static int my_ioctl(const char *path, unsigned int cmd, void *arg,
->   		    struct fuse_file_info *fi, unsigned int flags, void *data)
->   {
->   	int fd =3D open(fuse_get_context()->private_data, O_RDONLY);
->   	int ret =3D ioctl(fd, cmd, data);
->   	close(fd);
->   	return ret < 0 ? -errno : 0;
->   }
->=20=20=20
->   static const struct fuse_operations ops =3D {
->   	.getattr =3D my_getattr,
->   	.ioctl   =3D my_ioctl,
->   };
->=20=20=20
->   int main(int argc, char *argv[])
->   {
->   	const char *mnt =3D argv[1]; /* FUSE mount point */
->   	const char *real_file =3D argv[2]; // full path of the file on the
->   					 // underlying fs
->=20=20=20
->   	/* start FUSE */
->   	pid_t pid =3D fork();
->   	if (pid =3D=3D 0) {
->   		char *fuse_argv[] =3D { "fuse", "-f", (char *)mnt, NULL };
->   		return fuse_main(3, fuse_argv, &ops, (void *)real_file);
->   	}
->=20=20=20
->   	usleep(300000); /* wait for FUSE mount */
->=20=20=20
->   	/* Query the file attributes through FUSE mount */
->   	char fuse_file[4096];
->   	snprintf(fuse_file, sizeof(fuse_file), "%s/file", mnt);
->=20=20=20
->   	int fd =3D open(fuse_file, O_RDONLY);
->=20=20=20
->   	struct fsxattr x =3D {};
->   	int ret_fsget =3D ioctl(fd, FS_IOC_FSGETXATTR, &x);
->=20=20=20
->   	struct file_attr fa =3D {};
->   	long ret_sys =3D syscall(SYS_file_getattr, -100, fuse_file, &fa, sizeo=
-f(fa), 0);
->=20=20=20
->   	close(fd);
->=20=20=20
->   	printf("%s: FS_IOC_FSGETXATTR: ret=3D%d, projid=3D%u\n",
->   	       real_file, ret_fsget, x.fsx_projid);
->   	printf("%s: file_getattr:      ret=3D%ld, projid=3D%llu\n",
->   	       real_file, ret_sys, (unsigned long long)fa.fa_projid);
->=20=20=20
->   	umount(mnt);
->   	return 0;
->   }
->
-> Thanks,
-> koraynilay
->
-> [1]: https://lore.kernel.org/all/DN2YMTH77KWE.3IPE9OG8377X0@gmail.com/T/#t
->
->  fs/file_attr.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/fs/file_attr.c b/fs/file_attr.c
-> index 833e03810b24..3b249a0a6b36 100644
-> --- a/fs/file_attr.c
-> +++ b/fs/file_attr.c
-> @@ -383,7 +383,7 @@ SYSCALL_DEFINE5(file_getattr, int, dfd, const char __=
-user *, filename,
->  	struct path filepath __free(path_put) =3D {};
->  	unsigned int lookup_flags =3D 0;
->  	struct file_attr fattr;
-> -	struct file_kattr fa =3D { .flags_valid =3D true }; /* hint only */
-> +	struct file_kattr fa =3D { .fsx_valid =3D true }; /* hint only */
+I agree this is preexisting issue. Let's not block this series with it.
 
-Isn't this reintroducing the bug that was fixed by commit
+> I think a proper fix for the transient window needs a sequence counter
+> of scans in the connector. Each caller would wait until a scan that
+> started after its transition has completed, no matter which thread ran it.
+> 
+> I think we can live with this v6 patch for your series and deal with
+> the remaining race later if we want to, but I am not sure and would
+> like to hear what Jan thinks.
+> 
+> If you want, I can implement the sequence counter for v7.
 
-cb184dd19154 ("fs: init flags_valid before calling vfs_fileattr_get") ?
+No sure what exactly you have in mind but a sequence counter per inode
+looks like an overkill for this. A global one can get contended and
+a bit hairy to manage but let's see...
 
-Maybe fuse_fileattr_get() shouldn't be handling FS_IOC_FSGETXATTR at all,
-and FS_IOC_FSGETXATTR handling should be moved into fuse_do_ioctl()
-instead?  (Or, more likely, I'm missing something!)
-
-Cheers,
---=20
-Lu=C3=ADs
-
->  	int error;
->=20=20
->  	BUILD_BUG_ON(sizeof(struct file_attr) < FILE_ATTR_SIZE_VER0);
->
-> base-commit: 3857587d9d6fa44d40d1c73bde6a39f6f7a5216c
-> --=20
-> 2.56.0
->
->
-
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
