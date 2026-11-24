@@ -1,93 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795556068;
-	b=c0xOth+leR+M3BiBrpljKQoWYstpElPMpocqKOqsmyboTI0MWBmlzjb72E4eW8lMg7EN
-	 dB/kcUXtLjvfsKG6CPUT5Lint3PkVFDApiGYrCiaXbttTmBnCfpU34sWfSIFaeT5CLfEX
-	 mHy+PJHIBMeN7izsNMsBgGAHRWZFYDJyy4t8d7Iqd7RVbVs0HwKYf8zy5of/2wQur88tv
-	 cM/vT12SlhIh0MukgF9mLqvJjfRVjfqYIDVOA49i9vytnC+C+2cn4O04Qjep+aqZ4FA6i
-	 ebfOk7liGL3Jg5TCN5jcgsJ8tn9kqYKhdqOX8x3yncrGoZ6J/+CXAiHETNwtPryFKww==
+	t=1795557761;
+	b=ogJQUWCy08DTNbFk7A4ar/ow5d9YW9V4xEJZZHO+jH6K78QcfC4UXYqNYUI3MSZAyNfh
+	 DHKUE6r9l9/VlpH64NeGLGborVhWE1YzVYZK77u/zYLk9tRbhNzpayZWw5n7TUn47Hbnd
+	 7MWuxkUiZfDu23xRC9HYsp7+RhF+ImENTN0NwQMeqGVxZdB5fzCqNn3IFgIIvQbS3btbh
+	 W3n6AXdIAamJxfDQHUCp4AaBCqt5HZxx+4n9SMc6RyM5rUR479FnQQWyEb39Fn40SP6CA
+	 73Enje0e6RavhvGmjggb/YWrjLzTXpHuCWjmym97tIrtpzJw7qAceUrV4l/fUTzb/aQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795556068;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=O9lMyeWaR2AVa49Y0bfc4zD6I2/RGDgVBYEZU7qaCoU=;
-	b=gx1X1yDcQIkCoHdgXVh+iyx43cyGTGgDYGm6bDzxpG3nHdH/cUUesv89IPx0mRC+KGDX
-	 xaG++B+N52h9oTeAn/LiRqiP8aM69UTQUx04igQHrSYtnJOli0KcXJqngW/yl5HXRvSif
-	 nmBpPrnanb8L5Xvto0JB9XdFaPYRmCzWWYVHDHYK2VuqCLEafNK6iTZeFtlDKNPv0vDg1
-	 aSBK2oG3ZYetgcgRvO675MkCe7kfI5P7DYh3/xyuqPmbxbKYqd4c0YDCBRyMbtfAL63t4
-	 gc5320/5ghSYnlVri2Fxj6MD8qHo4wgAIy/kXDGz1arT4gze88+Yxmh4QZlWbmmp8Pw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795557761;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=xqSGxC68OuGq0f3lY+sfYUCqjXoRvtvCw0BSPI+8ZKw=;
+	b=osIL9qbF9I8YedOf3htsaCa2C8X960e56RuVsPjN+RV0PJTv+4OptHiR21x7XtlluHoR
+	 7Z3mmGDnsLmwcFf/gMYA0NIibCl7Q4Wk2D0oUQVZk6KXcMSuPwJ3d8O8b8tCE4nZjT4sI
+	 RK/5BhIHP4dLx7CQ0DOuMTpUYtba0sfb0UTCV8AibetbaseAwr6QQXD6ADaJhWl1aEiBJ
+	 APQzOCURTcn6h0OTtkZTEB69jDtwQfZtZ+YdA9secL3Pys884LxKH1ZGwUXFgLveNQY62
+	 KC1EVGQ+OCiQol6ExWjteAYEkPYVlczX3HGmiFpy/7+VsYzhcQ3fQ2hKdUByOQGWhEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YnA8H5mb;
-	arc=none smtp.remote-ip=74.125.82.171
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=arndb.de;
+	spf=pass smtp.mailfrom=arndb.de;
+	dkim=pass header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=mfnJGR8Z;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=wbnBnHyI;
+	arc=none smtp.remote-ip=103.168.172.137
+Received: from flow-a2-smtp.messagingengine.com (flow-a2-smtp.messagingengine.com [103.168.172.137])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC9B606A321
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 21:34:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CAC9B606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B7A606A321
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 22:02:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 58B7A606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YnA8H5mb
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-38431138772so6467198eec.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 13:34:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795556067; x=1796160867; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=O9lMyeWaR2AVa49Y0bfc4zD6I2/RGDgVBYEZU7qaCoU=;
-        b=YnA8H5mbAb87huLraVdskBGdPTT/W3Qs8PqUBuSJEO5p9jqoLnCBe6TimVXsJE/luI
-         CqmX+ZsW1ejQGYGkGq1rCauhmPrXsMcoQ92yJgCgGrhBeo2ewA9VcdH1lXPxeOAKZi+N
-         Fwi/1uVNs5TrL5KTb7fBYO9i9RGbHPSNFoTmDhJzLS5W3Qxp4G1oZ5/Pgr4j+f7HUghl
-         MjN1iF34nSV8JE9MO6X41gR+N9pdCjQMGKXcYk7qxLSDXhWGOtBtZ5FqIr+LAozV37HH
-         t1oOx4phLeQMotl3A0RqAdrEvWEfsfmrAlNmeVd5ZIPi5ZRnwWU5bSa05Vc7cg91L00U
-         qXUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795556067; x=1796160867;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=O9lMyeWaR2AVa49Y0bfc4zD6I2/RGDgVBYEZU7qaCoU=;
-        b=R/RHB8+T0e5eo77cr7p2zPTJITZb0zUE/TUVI16Zf1jrhLohGQhbGEJJhYuUSVCCrJ
-         oMndcX8n1xmYdTdPMQd595VULdKScBI9RK0d+0x+/E6ljjAuywgfRxwO0WUtX0nG6Opd
-         OvWuQs7vDZwzY4Am3XwpO9cVJTx8yYYeVAT1X72z1TDLwyGTZe/8D0SkqjFYn488d1UT
-         yXFd6yW0k/dakuUOgx8MajgMwOYhlk8AKmmYjQEZQOMROCJHUG4+lJxzWS0aBb0jhmLp
-         Zvp5Yz+sK6iT9bMrSCHDe9FCtJWJ1EM92d0SPMxamDqJn7jrfYVmqI2ro0fUxwnUP2S8
-         cL3g==
-X-Gm-Message-State: APuU4Z9Z6Zpek1fDQ5xAlXTWmUKBH15rvVZfu1uQJ3uivg4Gn0kkIx/h
-	IpSu2KWAuNCYj6uGg6dAZdQushUnurKyZyDyWcRugXcnXXm6AduabcgQoA8K61St
-X-Gm-Gg: AZFdTZcKCFjwq3Rlqv/R9h8pz3pi2HG5BGw3Wx+C6H8fvYuGSwSSdVCJjiklp+8Nbc+
-	uRlKJGK4ktKXVZ6h3b+doo6dsOs8FSAU7k5n9eSQhFw/XjMUn+Q+B8qOmpSJwCX8UN3bl2ICSdv
-	K2Bhne+fdDBBhYHsxSqtonCxS5s2YuXiPirKNKLRoo8gzUOxtlmbITAA2NqKQjbEY3cCuEykIeO
-	0azx2jXlGmR8c9NtsORPTG+qcwGkik1SvWHJ0MbbbnH5vR36JIymbSNWvIpVoASMJZk7ptP2Xax
-	6jyQ6xczRVNv9mNSHNdBNZQODJV386OQSu0poExSpZqw3Qz81xPcX7OpwJCsGvv9kZ4OpEe84Bm
-	Y9QbfMsGQcbs5LwNEg+ObTQPTSfEvvj9XqSSdxmVCLwSN9wjVc60zjScegrPk+k0/P9Q+ZBpql2
-	huRBGdn0QH1e0tUXzrF1bepyGeNH8Z0BOZpES4picgGsg7EnO2tTdW6fw+SIY+hBXyvu+Oz5Zom
-	vusx8Bp3xY5u3llFSoq+NUBpat0QnKzIx1rMSWVzYHQZXVY1gYlT6g9jt3gRacpSQTzG3rwd3Zk
-	70xAaGwsIknx61ONef4CqssZMfgupM11lwR9Jlx+FUpuChX3B6cvdRGLDpGLe8T7F+2BfAfRW+K
-	bnDvGpqxL1/WV
-X-Received: by 2002:a05:7300:e91e:b0:384:2780:8757 with SMTP id 5a478bee46e88-38570a3e793mr18231095eec.22.1795556066685;
-        Tue, 24 Nov 2026 13:34:26 -0800 (PST)
-Received: from dev-oss-0.tail8d7c7c.ts.net (c-73-70-201-200.hsd1.ca.comcast.net. [73.70.201.200])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385666e7f59sm49448857eec.6.2026.11.24.13.34.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 13:34:26 -0800 (PST)
-From: Qian Xiao <heyheyco@gmail.com>
-To: Matthew Wilcox <willy@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Krystian Kaniewski <krystianmkaniewski@gmail.com>,
-	Qian Xiao <heyheyco@gmail.com>
-Subject: [PATCH] xarray: fix index jumping backwards in xas_find_marked()
-Date: Tue, 24 Nov 2026 13:34:24 -0800
-Message-ID: <20261124213424.2224554-1-heyheyco@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=mfnJGR8Z;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=wbnBnHyI
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailflow.phl.internal (Postfix) with ESMTP id 57A331380428
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 17:02:40 -0500 (EST)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Tue, 24 Nov 2026 17:02:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1795557742;
+	 x=1795564942; bh=xqSGxC68OuGq0f3lY+sfYUCqjXoRvtvCw0BSPI+8ZKw=; b=
+	mfnJGR8ZvkU0LMsvLhbkB2aWWyYvVftk34Igv9f+VSyWFZL75F98YRJInsubsg5N
+	ErWkbpwwYR8PYwwytDXrBO4Zv5tmqL7Kcd99KBzFrH3plirHNa3BF91ghYHg1G2X
+	OmIzUeu9alCUMqYdLPe3t6xGqQDeBJFNzjBkCZdXLIRdfSfdGAENAvBoCa2Hd/va
+	6GViewBlkNAzICD3R2R+FvuW+BnNIr3jT+Fl9ot6DTCUyPwgXgiOAE7gr65RUlWF
+	zTV1eaMMqoKhfcdTawq7FOwHVOJ7hDxNDHC9/0HIOAI9uDObbhkabN2JM4I0uCwd
+	iklYqFK06JlPTifavsWnwQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795557742; x=
+	1795564942; bh=xqSGxC68OuGq0f3lY+sfYUCqjXoRvtvCw0BSPI+8ZKw=; b=w
+	bnBnHyIX27rhdSGfAc5H4g5+m7drm11Zac2njlCmzN4mbo2YQ6EhH6D3pD/8PeWY
+	8GHoNQCNetXraVudoAhL0qYFTYu9qtXjJhzOx0LKjAdkofjkzwVdOhVC1J2hwfwt
+	VGDOiyN7FwH93as5zO5o+8QJnGBEUiUslUd724GRZXy/EKfZPjLZu/8oWwovMRB0
+	gqyKbJtAxmz5Ye7KI5rrGabmlFjzzdpLjwI7iCre5OXCavuM7GUe/YusH3YuhrsM
+	tEnsRe06oXURbQM9aMsO08wVojk5ODAx8uWqDju1VwkBgXeAY+UL/ydC1j0YZtCu
+	KfHp2BvZEv/a3sOge7mDw==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=arndb.de a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1795557742; d=arndb.de;
+	mf=PGFybmRAYXJuZGIuZGU+;
+	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
+	s=fm2:rsa-sha256:ftQiMqWuXZwOYT59VCtCLv8ubWJpnXDZNBqHKwKRMgQHqeU
+	6EJl9ZAD7ahBnlxjLZ9p8BXTrZzFstS+vAEJ0nmjFxZE5Eo+TR+D8/jjirabkXre
+	7HPHidLQ0M/sTBUZ4lWzKl6FnF2TvsF3uYEvMQwPhqJBPXd3P3Sups0ixhmazgho
+	4LJDxYW9zcPrZV4wGg9NJTd/3FDplA69eeTTxzSnJ0Z2IT7mCmqrIkNOzIPS4Ggr
+	2lfSASjM6VEzd+LqMuMaEgafk7aLPzZzJLI2ehWYrzSW4KMu0lUYlSKEt6SYKpGn
+	Z+9YQwVFsRTJ0PZKtzMf4gwvZJtF6plWQ1IUQNw==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:Y1L9ZRjDVf0ae1O5OLJmIEMJoJINj3g0qWcfqpumaM8=:uV7HNzlAfzr4LTvQgcdWBWGhD8P70PVpTMD/LBLagBw=;
+X-ME-Sender: <xms:ZAkGa2S1qU5q8Tt4P59rLUZLMDcdcz9MhGSLBcV29aA_t5jwHSVpFQ>
+    <xme:ZAkGa2nn-MLHHH5bsIrtUn53Bm6dbM7HMZKuIRmjk9pvX9DAb9jnrJeBrNTX2ODRl
+    wAAtRHYTqQ6S0lkRVQTlORopD_RQ-qt5BuiOtcQDZFWBrRtGC248laJ>
+X-ME-Proxy-Cause: dmFkZTFRHh3IY7AQpE2sOB2PLJi3AuimKZDL9H1tXPiO9loafbcw/DGlO/Xoejw+8P82CU
+    LZtGPx5Dw2fehVmppW39nh7aiKQqHD4K4dz4hhwMbfJ/rvud1uNRBqKqwpOM3ItmC7aGg2
+    A+GKbJZ0q/HAUhCKq8KTriq2kSTLiR4BY395K6QXzmGZqOgGBQCeI+/qZ5DjTPzrKb+KCk
+    fWxNoXXTvO6/Q9umpMuH+R2tl9qmfexdyWMyjNVwhUtZI0siPxAVzMuaiN62cXkT1LxPsl
+    ivdDM2jUMgnHoUAdJkJTv2Cd0wNryoNWCgNqfkM9sF+PCCJ+n2SVasPPSYcFY35/BtjUi/
+    TlJok52x6K/qFFOH5y2f4B3BhSmPbdoGhxzStq5W26pndjLaCuALLGrZUSxDowPZL8Uxm9
+    tq8OcCqqLGoNK4Gz1S9oU6o18yltNNQA8ylIOP1GM8y9zFzH4ACeaKMpbIKk59CrU6mG5p
+    r7Vqugsc+zPL78L05eqJ+Dv566UPYEBjuKKkv+Kuz7Ek+Vcjrk5P3BBEWeI5xh7lI87c+k
+    EGduRPaTIxc7VwNPWY7uJsLAvKDYRTBcjLlbz5kr2cdl14XqqH/o219lKVdPi2m4ANFlMt
+    HKT2MGXWfnbkl4Zcq1AAqLM5PN7cFVRnArfJggG7bcTT8iycB6wsrFxURFsA
+X-ME-Proxy: <xmx:aQkGa5ADK0kQBKydW-jsYQL2owm6ypApuRcgesYyb9gfGqwkudPKNw>
+    <xmx:aQkGawu6ACeRQkfy1MUQnkSHymWoFOBsVAuxGxAvsiDY-MRkdjhslw>
+    <xmx:aQkGa41LhutcH3hl071xdqmfJ1-SyaJRtJWCEsdFZTLgpNQKlsyu9g>
+    <xmx:aQkGa5jbcusQENaD1VV6mJUEOIOUF73AiAns-Bfib3Jpb0Xg437OxQ>
+    <xmx:bgkGa4awIhQYBbKzBAjp50sAI32cG5KibTRETI3OZH4oHKFRGLB2KqwC>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id EEB3B32A009C; Tue, 24 Nov 2026 17:02:11 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -97,188 +115,109 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: AUJ1OXWu3nCJ
+Date: Tue, 24 Nov 2026 23:01:51 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "James Houghton" <jthoughton@google.com>
+Cc: "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Arnaldo Carvalho de Melo" <acme@kernel.org>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Pavel Begunkov" <asml.silence@gmail.com>,
+ "Alexei Starovoitov" <ast@kernel.org>, "Jens Axboe" <axboe@kernel.dk>,
+ bpf@vger.kernel.org, "Daniel Borkmann" <daniel@iogearbox.net>,
+ "David Hildenbrand (Red Hat)" <david@kernel.org>,
+ "David Sterba" <dsterba@suse.com>, io-uring@vger.kernel.org,
+ "Jim Mattson" <jmattson@google.com>,
+ "John Fastabend" <john.fastabend@gmail.com>,
+ "Josh Poimboeuf" <jpoimboe@kernel.org>, "Kees Cook" <kees@kernel.org>,
+ kvm@vger.kernel.org, "Liam R. Howlett" <liam@infradead.org>,
+ linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-perf-users@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, "Lorenzo Stoakes" <ljs@kernel.org>,
+ "Chris Mason" <mason@kernel.org>,
+ "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
+ "Masami Hiramatsu" <mhiramat@kernel.org>, "Michal Hocko" <mhocko@suse.com>,
+ "Ingo Molnar" <mingo@redhat.com>, "Martin K. Petersen" <mkp@kernel.org>,
+ "Namhyung Kim" <namhyung@kernel.org>, "Paolo Bonzini" <pbonzini@redhat.com>,
+ "Peter Zijlstra" <peterz@infradead.org>,
+ "Steven Rostedt" <rostedt@goodmis.org>, "Mike Rapoport" <rppt@kernel.org>,
+ "Sean Christopherson" <seanjc@google.com>,
+ "Suren Baghdasaryan" <surenb@google.com>,
+ "Thomas Gleixner" <tglx@kernel.org>,
+ "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>
+Message-Id: <1a99e5fc-129e-41e3-8420-101bcf04b366@app.fastmail.com>
+In-Reply-To: 
+ <CADrL8HX5vb1PGDpWzp-eR0rNfsMCVUhFa9vp_WZZx2eJZ+dfXQ@mail.gmail.com>
+References: <ac22215d-3e58-4aab-851e-47c30836e058@app.fastmail.com>
+ <20261027231728.1466446-1-jthoughton@google.com>
+ <32fad21b-5bad-4640-97df-ef0f638cd9e9@app.fastmail.com>
+ <CADrL8HX5vb1PGDpWzp-eR0rNfsMCVUhFa9vp_WZZx2eJZ+dfXQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/10] uaccess: Refuse and warn on user accesses when
+ current->mm is NULL
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-xas_find() keeps xa_index when a lookup starts inside a multi-index
-entry stored in a non-leaf node, and aligns xa_offset with that index
-before advancing. xas_find_marked() still does neither.
+On Tue, Nov 24, 2026, at 22:10, James Houghton wrote:
+> On Wed, Oct 28, 2026 at 7:14=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> =
+wrote:
+>> On Wed, Oct 28, 2026, at 00:17, James Houghton wrote:
 
-Walking from a sibling slot to the canonical slot calls
-xas_move_index(), so a start index such as 127 becomes 0. After the
-cursor has been walked, xa_offset can also stay on the canonical slot
-while xa_index is inside a later slot of the same entry. The next
-xas_find_marked() then recomputes xa_index from the stale offset. If
-the entry is split, the call returns a marked entry below the index
-already reached. xas_find() returns the following entry in the same
-situation.
+> So now in v2, the _nofault() helpers themselves do not check current->=
+mm.
+>
+> I've uploaded a draft version of v2 here, in case you want to take a l=
+ook:
+>   https://github.com/48ca/linux uaccess-v2-wip
 
-Resolve the sibling without moving xa_index. Before advancing a cursor
-that has already been walked, set xa_offset from xa_index the same way
-xas_find() does. Keep skipping sibling entries at the return site.
+I read through this now and it all looks good to me so far.
 
-The userspace XArray test suite passed. The kernel was not built.
+>> Since in principle every user access should go through both
+>> access_ok/mask_user_address and current->mm check at some point,
+>> so combining the two as much as possible should help long-term
+>> maintainability.
+>
+> You're right, and v2 has been restructured like this.
+>
+> - The check is in access_ok() itself: the generic version, plus the
+> arm64 and riscv versions. __access_ok() remains a plain range check.
+> - The callers of mask_user_address()/masked_user_*_access_begin()
+> check current->mm explicitly. There are about a dozen such callers.
+> - The unchecked accessors, __copy_{from,to}_user()
+> and__copy_{from,to}_user_inatomic() (and arm64's
+> copy_from_user_flushcache(), which also relies on an earlier
+> access_ok()), keep an explicit check for now. Once their users are
+> converted to the checked versions, those checks can be dropped.
 
-Fixes: b803b42823d0 ("xarray: Add XArray iterators")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Qian Xiao <heyheyco@gmail.com>
----
- lib/test_xarray.c | 104 ++++++++++++++++++++++++++++++++++++++++++++++
- lib/xarray.c      |  12 ++++--
- 2 files changed, 113 insertions(+), 3 deletions(-)
+Ok, sounds all good. If we get more than handful of mask_user_address()
+and masked_user_*_access_begin(), we can always revisit that interface
+to make sure the check can't be skipped, but for now this seems
+like a good tradeoff.
 
-diff --git a/lib/test_xarray.c b/lib/test_xarray.c
-index 615f7730a5bd..ddc392d42d29 100644
---- a/lib/test_xarray.c
-+++ b/lib/test_xarray.c
-@@ -1316,6 +1316,109 @@ static noinline void check_multi_find_4(struct xarray *xa)
- #endif
- }
- 
-+static noinline void check_multi_find_marked_nonleaf(struct xarray *xa)
-+{
-+#ifdef CONFIG_XARRAY_MULTI
-+	unsigned int order = XA_CHUNK_SHIFT + 1;
-+	unsigned long next = 1UL << order;
-+	unsigned long start = next - 1;
-+	XA_STATE(xas, xa, start);
-+	XA_STATE_ORDER(split, xa, 0, 0);
-+	void *entry;
-+	unsigned long i;
-+
-+	/* Multi-index entry in two slots of a non-leaf node, both marked. */
-+	xa_store_order(xa, 0, order, xa_mk_index(0), GFP_KERNEL);
-+	xa_set_mark(xa, 0, XA_MARK_0);
-+	XA_BUG_ON(xa, xa_store_index(xa, next, GFP_KERNEL) != NULL);
-+	xa_set_mark(xa, next, XA_MARK_0);
-+
-+	rcu_read_lock();
-+	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
-+	XA_BUG_ON(xa, entry != xa_mk_index(0));
-+	XA_BUG_ON(xa, xas.xa_index != start);
-+
-+	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
-+	XA_BUG_ON(xa, entry != xa_mk_index(next));
-+	XA_BUG_ON(xa, xas.xa_index != next);
-+
-+	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
-+	XA_BUG_ON(xa, entry != NULL);
-+	rcu_read_unlock();
-+
-+	xa_destroy(xa);
-+	XA_BUG_ON(xa, !xa_empty(xa));
-+
-+	/* Split the multi-index entry after a lookup begins inside it. */
-+	xa_store_order(xa, 0, order, xa_mk_index(0), GFP_KERNEL);
-+	xa_set_mark(xa, 0, XA_MARK_0);
-+	XA_BUG_ON(xa, xa_store_index(xa, next, GFP_KERNEL) != NULL);
-+	xa_set_mark(xa, next, XA_MARK_0);
-+
-+	xas_set(&xas, start);
-+	rcu_read_lock();
-+	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
-+	XA_BUG_ON(xa, entry != xa_mk_index(0));
-+	XA_BUG_ON(xa, xas.xa_index != start);
-+	rcu_read_unlock();
-+
-+	xas_split_alloc(&split, xa_mk_index(0), order, GFP_KERNEL);
-+	if (xas_error(&split)) {
-+		XA_BUG_ON(xa, true);
-+		goto out;
-+	}
-+	xas_lock(&split);
-+	xas_split(&split, xa_mk_index(0), order);
-+	for (i = 0; i < next; i++)
-+		__xa_store(xa, i, xa_mk_index(i), 0);
-+	xas_unlock(&split);
-+
-+	rcu_read_lock();
-+	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
-+	XA_BUG_ON(xa, entry != xa_mk_index(next));
-+	XA_BUG_ON(xa, xas.xa_index != next);
-+
-+	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
-+	XA_BUG_ON(xa, entry != NULL);
-+	rcu_read_unlock();
-+
-+	xa_destroy(xa);
-+
-+	/* Nothing marked past the index already walked. */
-+	xa_store_order(xa, 0, order, xa_mk_index(0), GFP_KERNEL);
-+	xa_set_mark(xa, 0, XA_MARK_0);
-+	XA_BUG_ON(xa, xa_store_index(xa, next, GFP_KERNEL) != NULL);
-+
-+	xas_set(&xas, start);
-+	rcu_read_lock();
-+	entry = xas_load(&xas);
-+	XA_BUG_ON(xa, entry != xa_mk_index(0));
-+	XA_BUG_ON(xa, xas.xa_index != start);
-+	rcu_read_unlock();
-+
-+	xas_set(&split, 0);
-+	xas_split_alloc(&split, xa_mk_index(0), order, GFP_KERNEL);
-+	if (xas_error(&split)) {
-+		XA_BUG_ON(xa, true);
-+		goto out;
-+	}
-+	xas_lock(&split);
-+	xas_split(&split, xa_mk_index(0), order);
-+	for (i = 0; i < next; i++)
-+		__xa_store(xa, i, xa_mk_index(i), 0);
-+	xas_unlock(&split);
-+
-+	rcu_read_lock();
-+	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
-+	XA_BUG_ON(xa, entry != NULL);
-+	rcu_read_unlock();
-+
-+out:
-+	xa_destroy(xa);
-+	XA_BUG_ON(xa, !xa_empty(xa));
-+#endif
-+}
-+
- static noinline void check_find_1(struct xarray *xa)
- {
- 	unsigned long i, j, k;
-@@ -1440,6 +1543,7 @@ static noinline void check_find(struct xarray *xa)
- 	check_multi_find_2(xa);
- 	check_multi_find_3(xa);
- 	check_multi_find_4(xa);
-+	check_multi_find_marked_nonleaf(xa);
- }
- 
- /* See find_swap_entry() in mm/shmem.c */
-diff --git a/lib/xarray.c b/lib/xarray.c
-index 48f440d114e1..4d943791a7b4 100644
---- a/lib/xarray.c
-+++ b/lib/xarray.c
-@@ -1495,6 +1495,14 @@ void *xas_find_marked(struct xa_state *xas, unsigned long max, xa_mark_t mark)
- 		xas->xa_offset = xas->xa_index >> xas->xa_node->shift;
- 	}
- 
-+	if (advance &&
-+	    xas->xa_offset != get_offset(xas->xa_index, xas->xa_node)) {
-+		if (!xas->xa_node->shift)
-+			xas->xa_offset = ((xas->xa_index - 1) & XA_CHUNK_MASK) + 1;
-+		else
-+			xas->xa_offset = get_offset(xas->xa_index, xas->xa_node);
-+	}
-+
- 	while (xas->xa_index <= max) {
- 		if (unlikely(xas->xa_offset == XA_CHUNK_SIZE)) {
- 			xas->xa_offset = xas->xa_node->offset + 1;
-@@ -1507,10 +1515,8 @@ void *xas_find_marked(struct xa_state *xas, unsigned long max, xa_mark_t mark)
- 
- 		if (!advance) {
- 			entry = xa_entry(xas->xa, xas->xa_node, xas->xa_offset);
--			if (xa_is_sibling(entry)) {
-+			if (xa_is_sibling(entry))
- 				xas->xa_offset = xa_to_sibling(entry);
--				xas_move_index(xas, xas->xa_offset);
--			}
- 		}
- 
- 		offset = xas_find_chunk(xas, advance, mark);
--- 
-2.53.0
+> Compared to v1, this also covers get_user()/put_user()/clear_user() on
+> arm64, powerpc, riscv and the asm-generic architectures, and arch code
+> like signal frame setup that uses access_ok() followed by __put_user()
+> or unsafe_*(). user_access_begin() no longer needs its own check.
+>
+> What's still not covered: x86's get_user()/put_user(), which do their
+> own range check in asm, a few architecture-specific paths that call
+> __access_ok() directly (e.g. on alpha and sparc32), and arch code that
+> calls __get_user()/__put_user() without access_ok(), mostly trap
+> handlers for user-mode faults. Probably best tackled later.
 
+ok
+
+>> There are probably few enough of these that we could address them
+>> by either adding current->mm checks or converting them to use
+>> the full versions instead where that is an obvious change like
+>> that usb gadget driver.
+>
+> Sounds good. I'll send a separate series converting the obvious ones,
+> starting with the usb gadget driver. I think that will be useful.
+> Let's see how far I can get; hopefully I can drop
+> __copy_{from,to}_user() completely.
+
+Ok, perfect!
+
+      Arnd
