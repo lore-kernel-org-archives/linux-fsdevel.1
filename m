@@ -1,100 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.54
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795520571;
-	b=MzbVH0Zxa2GYxJ76qd1RWpqPagMoo2k7QC1Z9EVhEe84sPBEGaAPCzdQKZpuVUTmsidF
-	 FTGZLUYbBKzmhSqISUsepxPpqU6MlwilcIFvvzOBA8V/IC0rlru0r1DfVd9w/pz1Lrame
-	 mKroENybpl4ha4ysLWAoOp7UaTT+o0g/KkiB9OkU+do9nscyEhfrgM2ohaIqNx44S+z95
-	 pc9vgNpJ+tqUBpKk9bzWFNEMyBV1U2AY7UGallTzyESVFQPLKTqVQwFNOkRmLMeXDEQ7e
-	 1Vv5mYZTAqGfefTXqVBLRXUQHKJtdZP6nNbswO/fWqAm5zO9mWn/NJIlEQ4Rxt4EqMQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795520571;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=/z5ch5pLpPdbk1BmHD/hwwHu03qByQafwYZQeBV/lWk=;
-	b=utPJp2SyZmhl86Ku5jBZenoYYgB8KzK/3higbvLOOGZ95BULymt/a15IlR/m26+q1iVP
-	 fq0GomJSjCgbSpK2vDTgWao7Fx4357D/0noZJoUM3z07pLEb3I87pmYG7nrO8QEGCc8Qb
-	 VjY9snT/Ls64RmrynSuzl+6YGxy1lzEah4WDqdIkbBLbMFsorOm/OiaLKNVoEpFLFIuvh
-	 3sURFxBxi++JK50sSF7udgM24fmjZ3Z2A6bcNehvMuD/Fkg1u/EIkxl8ut7qCgPuYw/b0
-	 o+FwFz0yRSG7m6vILFXPUi9e0vEduy6E89a7zt90uBQ96Z0aczz/0qzp/bnefAI1Reg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xq2R+zD1;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.54
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795521272;
+	b=aAATQLGvhCc4Gzjz5Jcn+JROdN24mbLV22lJ0cqfV1rHKc6TYM4xag+fUKCV4q+1jRo0
+	 wevihMpFdaXQGsLo/xqQcvXzJaTkSwr5XNfag5LQXKk7693HLCCmQn5ETcaJ0sqawssmy
+	 rXTpRA64h9FCKBTtL+Ld2GONkQ+iaujQJAK2KSKoGonOk30A1/wdsJ5LJC3u8V2e17cpd
+	 8/MTrVo4EWXdpjI+fpB1q+L/qunqSDqMmbXfHFQuSXmle5iUxV1DgH8dm4nBZdTPu2V5E
+	 eh+8CrqevFBJp85tlYmT0mejGQsO4fDeWmMlGLR72axJ+zA2311ygSSfIEsBQqU93EA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795521272;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Scanned-By;
+	bh=SazTzdn4IEa6QiZ2+dOeuOq88TDrasWUOqoW06iFXvo=;
+	b=KJMU1lOEUs7Z2+EAceFHEcCpZgx36D8LQds9h2TbyHoJyvI1gbXdMEPuvRXNFLepsWV/
+	 mwGtR69xcoigSDblzjdj6+BigOmNgXHmgnQMCqKO3YgNTh6qYMTwZ05sZ2jJDq/pmbFBo
+	 1kpHjp34PWdyHQRY5FESNCiy+vGbxzFT5rMJy4eQY7xqPUNBM0P0pc6yUc5wJ3fbrXVba
+	 C/9vp3EzDfN4lXMCacyTKeZepmjX6bNbKSZ1c4QDlQ3gKVCLqKfyk5W5ZTltFRP4lOm/c
+	 MR1FGy0TCGBuvbqts2SCo9B6rz6csE2jJmuQcShnx4mQp3+PqzlMjpyDH8sLV/hiLZg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=hoIquxTx;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B1A606A31E
-	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 11:42:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70B1A606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1772606A326
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 11:54:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1772606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xq2R+zD1
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c5118deebcfso644804166b.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 03:42:51 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795520570; cv=none;
-        d=google.com; s=arc-20260327;
-        b=XgIFt2bENz44r/C50ZWFCqBH2Xb7PcWXMPqWTkMR1DwewiKOG1uAIzewZPWgptpBA1
-         RxV1JyQFvmqLEyKrFCf7LMdoLXWRkkK7MajiqoOTlYvY6qFnsJH6UznxPZz8ersXPo0E
-         uavRdT6OG7C5H6xKYhuB89Wqhh+E7kEkbvzhALRVNTV0v0Stp2m6MXdUHiI029uNngl2
-         h8sOCxn/I/Pe7bQLFL+YbHnDQ+0mn1h3IORJhyTFXn1VbBOw1VvH2m/z9ZrjKxwT9NoN
-         GuWD8gIv+GbUDX7drZUGZ5Qdy9T6S0QOhKkjlsLCDdGc0uxUcDd0XoAxvBzAywTTaEBc
-         /Q9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=/z5ch5pLpPdbk1BmHD/hwwHu03qByQafwYZQeBV/lWk=;
-        fh=SxyRNp1eUEOJN7n81rUQCFMEzM/+t9lSwuiwYJjHREI=;
-        b=I73u/iUs75Vj5hHqrb8TFC9dEs/khP6thUVTXgQ1Jqc08p4h6m55i0wKkpbFAiRa2Z
-         kWsNda9grT3qvtspya9Znjea+8T8+GuYiwnww3Y4ubPXRnbVaifIv4VLcirQkvVk9TvS
-         LGBhN9xcRzx7uCg+jeUeJVksuKVnKZbF/laSn2z0zVnGnAo29jdEDKmgQh8Cc6oMSApG
-         3vRH0wMRvtcas5eFhid7J+AE/UF4pphO2YoFs122a4+AdbpmleeUv7AwJIZJbrcemgeI
-         ChSlNpG7eCo3taftrCB3kAhyWNxKrduexH27lAjHOiesguxj0oALV1qgK8NYCeROnQkp
-         ozzA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795520570; x=1796125370; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=/z5ch5pLpPdbk1BmHD/hwwHu03qByQafwYZQeBV/lWk=;
-        b=xq2R+zD1p5RXUgEpNuhoK8xg7y7NVsHGKr0JxP3zhBiQsU4buKR1kPpzJ/h+RQqvIc
-         K55ISJpK52O/lqUCD5pfVaavDjp36RTFXuUvgSOG1ZLmbK/9pg9kLToRaik2nhslMcSw
-         f8N0rFjHECKAxVeGwTTUI4YuQcWm+aY7w0dKOqzF8x1QwWuKu5HsvTINBxEXBxWwc95U
-         UT6yrwDt4LNX1XlVFwwn0ahcfAe+N8X0MLHch7P4VkP+5Omm+nrwg3OwKrRdP9DBDa80
-         fnCWgJRXNa0BguDlQChN0Qc1ponkNx6AtmdYdcRuTKZCxjhv3NFRe8n00Nvq4C4MwGs6
-         e/yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795520570; x=1796125370;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/z5ch5pLpPdbk1BmHD/hwwHu03qByQafwYZQeBV/lWk=;
-        b=z+Myzk7XWO6d6ix8l9T0ADtEH5lsmxrhlxPG92puBKCKBN+Vq59VVzOYCTNpuAUrt9
-         r1KCc8/LYxBym1DxlcLvs30SBD4cxcCFGn6ZvWWfgrY6mui3uwSWdGz+mWSZOwb3Kh5N
-         MsQj/E55cosVV+vz1DW0IVbQbhSzCuruImgDlMTeFX0MHg3gSzuOGVRt/DmSuyOfyzBv
-         D+WshqzJ+/Gj6bHYNlMpZJJi0U7m/XMRKYg/82CXQl8XQDJZohath2wORJpH2rNene/q
-         y7oaCwh0TRWs82QwsAK5Jf6G/ZNX6Fa086pzD9Z0IGjcElFBV1xGFiowp5E6LgczD+oX
-         4uYg==
-X-Forwarded-Encrypted: i=1; AL+hErHDbTM2+9SFvuyn+M/FblwlAHTuMlksj1VeSq6I9qReXqbEU3ObWeP7bFemVhMufsXlGTU9KSztkX/Omuqt@vger.kernel.org
-X-Gm-Message-State: APuU4Z/tpUy9JEvt1TaG+XUTPVpHlwzmINo8SLQm6DyhvwGEydt932qL
-	zMiAnE2eX6V+R/r7C/PVMHNFvPPqcZk6M3vnyuiX/mFJ40mr1UlAfvw1QFgvWQEhq1p7AQQT6c/
-	Qd5wf9LYWLhMi4omC9Rkcr7w1/NRWUoQ=
-X-Gm-Gg: AZFdTZfaKDgWhMe2ebOMrA2k/ESeHqZEQSfU0q+CHcvYGqVR03A8KZnKiRpI2OvwTor
-	V8TDMxFMNfHD2zCPaeOMnVGq6HD2E/n5ednzcL6l0XLYSAXE8M0sk7FtkbTHEJdVESdwCkBmRgA
-	kSJM9QE3UJCkdZMs3OOqMKZ7tsr2O3p9UHgnU0ENPpcWJbBiiBlOEzWfuqrab9yssALUqp/Khgc
-	m0xWh4TnmoInLWx5npl5w61tUUrVelAsiCQSPkM/p+yjCPJuDWOw6HFwIkTA1A8MivmrZ5vvokK
-	r20J/JJ6rY5n8vzFLEyOgIeMmc/tudVgBlOqTfmObuogP4rbbtfZYDiVcjLiywoPau7AIYQgmJm
-	2Uvugnkfw3xbpl1zVx8/Jzka/fOdsNGFMkZ+V
-X-Received: by 2002:a17:906:1255:b0:c2e:378c:8ceb with SMTP id
- a640c23a62f3a-c513ab2f292mr893283466b.36.1795520569665; Tue, 24 Nov 2026
- 03:42:49 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=hoIquxTx
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1795521270;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SazTzdn4IEa6QiZ2+dOeuOq88TDrasWUOqoW06iFXvo=;
+	b=hoIquxTx8Y0WI335yWkZtpJ5EvwaWE3QfKnrlo/bzdCPQhbfu4vWmQPuPJmI6Ubz3zrEyT
+	QZKnQw286v3aRqBnn1zl1TGEUT5q8EEvGzQFgDgnm8XsEv5lhL7XlF3uj0CYOQSHbvjkVG
+	pjK2XAUegV58y+Fa2nZYVTiuMWzCdu4=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-563-wSrG8mvnNHeWAvs1NWoD-g-1; Tue,
+ 24 Nov 2026 11:54:23 +0000
+X-MC-Unique: wSrG8mvnNHeWAvs1NWoD-g-1
+X-Mimecast-MFC-AGG-ID: wSrG8mvnNHeWAvs1NWoD-g_1795521262
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A20151802171;
+	Tue, 24 Nov 2026 11:54:21 +0000 (UTC)
+Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id D9FE31956087;
+	Tue, 24 Nov 2026 11:54:17 +0000 (UTC)
+Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
+	oleg@redhat.com; Tue, 24 Nov 2026 12:54:21 +0100 (CET)
+Date: Tue, 24 Nov 2026 12:54:16 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: mt4022@columbia.edu, Jens Axboe <axboe@kernel.dk>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Michal Nazarewicz <mina86@mina86.com>,
+	Wen Yang <wen.yang@linux.dev>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, tz2294@columbia.edu,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] sched/wait: Queue non-exclusive waiters at the
+ head in do_wait_intr*()
+Message-ID: <awV66PQWrBOKcZCE@redhat.com>
+References: <20261122-b4-sched-wait-intr-head-v2-0-4a764b64e8ce@columbia.edu>
+ <20261122-b4-sched-wait-intr-head-v2-1-4a764b64e8ce@columbia.edu>
+ <CAHk-=wj_eqNh+gNhCQh3exrL5Pmo5hbZBcL0W-4Ah_Nw0Kegzw@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,75 +87,131 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261120095559.429515-1-xavier.qyxia@gmail.com> <awBN9VvV6yM6Cjut@casper.infradead.org>
-In-Reply-To: <awBN9VvV6yM6Cjut@casper.infradead.org>
-From: Xavier Xia <xavier.qyxia@gmail.com>
-Date: Tue, 24 Nov 2026 19:42:38 +0800
-X-Gm-Features: Aa3M54qQ26PffOi-ROWCmcVbedXfEWG_6O8l67P-4AZYWdcQV7atuYSopUWOUaU
-Message-ID: <CAEmg6AVjtaiq9Q8rC_V5TcgAxQ386CsDtiXO7A6UzC+FzNdGTw@mail.gmail.com>
-Subject: Re: [PATCH] mm: batch per-task lruvec stat updates on the writeback path
-To: Matthew Wilcox <willy@infradead.org>
-Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, shakeel.butt@linux.dev, 
-	mhocko@kernel.org, roman.gushchin@linux.dev, muchun.song@linux.dev, 
-	jack@suse.cz, david@kernel.org, brauner@kernel.org, linux-mm@kvack.org, 
-	cgroups@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/mixed; boundary="BuV4xHRsX/o8lmUR"
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wj_eqNh+gNhCQh3exrL5Pmo5hbZBcL0W-4Ah_Nw0Kegzw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Hi Willy,
+--BuV4xHRsX/o8lmUR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks for the feedback. That's a fair concern.
-
-The original fio benchmark uses 4K buffered writes with fsync at
-the end of each job, rather than after every write. The improvement
-is reproducible in that setup, but it is a synthetic workload.
-
-I also tested extracting a tar archive and copying a tree of small
-files on ext4 backed by a ramdisk. Initial runs showed 4.3% and 3.5%
-reductions in wall time, respectively. However, these improvements
-were not consistent across independent boots, so I don't have
-convincing evidence of a real-world benefit that justifies the
-added complexity.
-
-Further testing also uncovered correctness issues in the patch.
-Deferred NR_WRITEBACK increments can temporarily be missing from
-the counters while completion decrements are applied immediately,
-potentially affecting dirty throttling. I also reproduced 8-12 KiB
-of stale file_dirty accounting after fsync in a non-root memcg with
-periodic writeback disabled.
-
-I explored a writeback-local alternative without modifying
-task_struct. Although it passed the correctness tests I ran, it
-did not demonstrate a reproducible end-to-end performance
-improvement.
-
-Given these findings, I don't think the current patch is suitable
-for merging. Please consider it withdrawn.
-
-Thanks,
-Xavier
-
-
-
-On Fri, Nov 20, 2026 at 9:41=E2=80=AFPM Matthew Wilcox <willy@infradead.org=
-> wrote:
+On 11/23, Linus Torvalds wrote:
 >
-> On Fri, Nov 20, 2026 at 05:55:58PM +0800, Xavier Xia wrote:
-> > The writeback path updates two lruvec stats per folio through the memcg
-> > rstat machinery: NR_FILE_DIRTY when a folio is dirtied and again when
-> > writeback clears it, and NR_WRITEBACK when writeback starts on it.
-> > Consecutive folios almost always share a lruvec, so the same counters
-> > are updated over and over.  On a 4k buffered write + fsync workload
-> > __mod_memcg_lruvec_state() is about 8% of the profile.
+> On Sun, 22 Nov 2026 at 16:35, Mani Tofigh via B4 Relay
+> <devnull+mt4022.columbia.edu@kernel.org> wrote:
+> >
+> > A task blocked in read() on an eventfd or timerfd can sleep forever
+> > while the file is readable, if an epoll(EPOLLEXCLUSIVE) watcher of the
+> > same file was added before it.
 >
-> Is this a realistic benchmark?  Does it represent some real life workload=
-,
-> or did you just choose it because it shows the best benefit of this patch=
-?
-> This is a fairly significant chunk of extra code, and it'd be nice to
-> know that it benefits a real-world use-case before applying it.
+> Honestly, I don't think this is the right approach.
 >
-> If the real world usecase is more "there's some pretty high overhead
-> when flushing accumulated megabytes of dirtied page cache", then there
-> are simpler solutions that don't involve messing with task_struct.
+> We need to fix the disaster area that is epoll, rather than work around
+> more epoll bugs elsewhere and make other places more fragile and
+> complex.
+
+I agree. But to me it would be better to apply this patch from Mani,
+then do something else. Not because it "fixes" the scenario described
+in the changelog. As for eventfd_read(), it probably makes sense to
+change it to use wait_event_interruptible_exclusive_locked_irq() at
+least if !EFD_SEMAPHORE, and then we will have the same problem with
+EPOLLEXCLUSIVE again.
+
+But simply because do_wait_intr*() are wrong regardless, and the
+change is trivial. And perhaps the changelog should not mention
+EPOLLEXCLUSIVE at all.
+
+> And I think we should always add new waiters to the end of the queue,
+> and stop any other games. Just walk the whole queue at wakeup time.
+>
+> Finally, I think we should make the return value from the wakeup
+> function be a bitmask, and count "exclusive" as only "we haven't seen
+> this bit returned yet". And then *real* exclusive users that actually
+> guarantee that they react to the wakeup return all bits set, but the
+> sh*t-for-brains garbage that is "epoll" only returns its own bit set -
+> so we only wake up *one* epoll user, but we wake up other users anyway,
+> because epoll clearl yis lying about its "exclusivity".
+
+Perhaps... But it is not clear how to do this gradually...
+
+And lets forget about epoll for the moment. Lets suppose we change
+__wake_up_common() to do
+
+	list_for_each_entry_safe(curr, next, &wq_head->head, entry) {
+		bool excl = curr->flags & WQ_FLAG_EXCLUSIVE;
+		int ret;
+
+		if (excl && !nr_exclusive)
+			continue;
+		ret = curr->func(curr, mode, wake_flags, key);
+		if (ret < 0)
+			break;
+		if (ret && excl)
+			--nr_exclusive;
+	}
+
+This will change the current behaviour if ret < 0. Say wake_page_function() does
+
+	if (flags & WQ_FLAG_EXCLUSIVE) {
+		if (test_bit(key->bit_nr, &key->folio->flags.f))
+			return -1;
+		...
+
+so this logic depends on wait-queue ordering too. "ret < 0" can be encoded
+in the bitmask, but it is not clear what exactly __wake_up_common() needs
+to do in this case.
+
+Can't we at least cleanup __wake_up_common() ? See the patch below, I already
+sent it but it was ignored.
+
+Oleg.
+
+
+--BuV4xHRsX/o8lmUR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment;
+	filename=0001-sched-wait-kill-leftover-bookmark-logic-in-__wake_up.patch
+
+From 887e7597e23b1beb5c6ed536cb342a2daa740ce5 Mon Sep 17 00:00:00 2001
+From: Oleg Nesterov <oleg@redhat.com>
+Date: Thu, 12 Nov 2026 15:53:53 +0100
+Subject: [PATCH] sched/wait: kill leftover bookmark logic in
+ __wake_up_common()
+
+The manual list head check and list_for_each_entry_safe_from() in
+__wake_up_common() are leftovers from commit 2554db916586 ("sched/wait:
+Break up long wake list walk").
+
+This logic was later removed by commit 37acade0ce89 ("sched: remove
+wait bookmarks") but the now-unnecessary list hacks were left behind.
+
+Signed-off-by: Oleg Nesterov <oleg@redhat.com>
+---
+ kernel/sched/wait.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
+
+diff --git a/kernel/sched/wait.c b/kernel/sched/wait.c
+index f8d6d8b9d03e..d0521b54eeb3 100644
+--- a/kernel/sched/wait.c
++++ b/kernel/sched/wait.c
+@@ -96,12 +96,7 @@ static int __wake_up_common(struct wait_queue_head *wq_head, unsigned int mode,
+ 
+ 	lockdep_assert_held(&wq_head->lock);
+ 
+-	curr = list_first_entry(&wq_head->head, wait_queue_entry_t, entry);
+-
+-	if (&curr->entry == &wq_head->head)
+-		return nr_exclusive;
+-
+-	list_for_each_entry_safe_from(curr, next, &wq_head->head, entry) {
++	list_for_each_entry_safe(curr, next, &wq_head->head, entry) {
+ 		unsigned flags = curr->flags;
+ 		int ret;
+ 
+-- 
+2.55.0
+
+
+--BuV4xHRsX/o8lmUR--
+
