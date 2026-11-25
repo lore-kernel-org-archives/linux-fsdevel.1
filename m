@@ -1,88 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795606478;
-	b=iP6hwwnAriZEf7oXRJyWJCD+80uOumd6HFJ1TqNDPpVcJjCtIHAmB8lcXpaXtT2mC8Ul
-	 di5KKBidhgNDQPw7xZY/+yaW6fqCDPFcfJGL6vk62Xian5dOJP62bW2AcXPMv7eAxivnz
-	 b1u5A0zBnmELcttcdLFlI6sH9pyGwaSlZ80P67A/L6FkwaMbL5KpDbxiNKxmou8W9fDok
-	 3oIyGNL3xYl1slmxodEqQe4cT636oaIRJ2alAyDQoMp/WEuGC9k1cZD73EEwkp1ei1pmF
-	 gqk4msGC3hEO6BEOkef+ww7xliuXXqpw5PKKnFwAis5aykPI4dz0naKcBUNB6ncSIFA==
+	t=1795607023;
+	b=JWhXolYHmSw3Dx++SeLckStY7OtkE+ehHD2yjqDcO0cpldal+ejf2evZicPWOFb5tC9E
+	 OqmMlUE6qKHiRcJ0Xj3Vre1mWZAKsnv63POrbQTzdyJTgJ4C4spiVuoG99O+q2WGpL3tF
+	 DMuxcDoI3dr30ZEaMuWAvUTfCcxd7p1KWUCHIHG55iHan2T4Mn3oEx815eeIMNnzOrr4a
+	 6M/gV6lL5QCUqgWiAPO9xcW8ak1x9I+WRM07mq6rQHtQTBtBkOaYVqKVFtAVzsVaSaYwq
+	 3xuv4bb965+BT7xffslccCMDUFibQ3uTdA8YDPFdNyVH9yVRcXG2p+jbqrG0XVT4myQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795606478;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=au+aUwkr58kHsbNGWzHntkHpOI9D5jL8SiuAtxwKygc=;
-	b=dg0IIzJQ6ceR/4qSMso/T4pnsquZ8BQvRLApRRWkKzxlFU0VTC5Ev/67LPoolhvveu7C
-	 Y0fZwYonIDesDo3eLL3/+tEyRRio/TNe5StwoKQmmyQAnsLXCsvOeJnxXEVbiWcUhdXgD
-	 wfyrxHuKYSUZaxkQky/95YAuJR3BmdqDddGmb5iVqrvXkkCBLSUSMVqn3UHb4IZjfCYs2
-	 AzJlFsJm7oSF5Mc4NmkWbVUrbfIu0Ysu90dIynzb+bFzzh10D6XLU0zsSMwdoYoId/5eF
-	 MdKy1IaHjloqFhHucoAIJUvS/kwwrQ6AvS+OayfeM9GDE6QVziWDSQ7W2iIoXhCxdcA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795607023;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Scanned-By;
+	bh=Ro/q02DiURiwSOcN9QA2cgFPXuLdyWbUrkDRq5unrbc=;
+	b=2SDEbGpPfbb1Hx7hv4ppy69xtKOOTM2TzfVcNZfEFNV9Z5kB6CqwqXjxbX4SoBBxVq6t
+	 2WwXc7WM7YNOohJ+qGXgsEQjn0ByuR9e5xwDMDqhGC8+JgIyB01hxinW8q35VxzkJGwmY
+	 z1S5WtPcOxvBdrrBZeuYxUe0lMhr4C1kcehdsOqINi5cNYoArjPobVokAN4T/9fOJlf4V
+	 01B7dkfHqgKW9+h8R75zTHLjBImSaQjvQsFINdyAQA/poKIgo++bY8GS7Znu4njvm3Z58
+	 fCaU3p/p9u6VOiTi966YD+g27pS0yOe6XsLtpRFhukFPr8tBpdHN3C+dI5n4Wj7Kn1A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XfO46EC5;
-	arc=none smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=JkQGb2ZH;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2B1606A332
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 11:34:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9B2B1606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8AB4606A32D
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 11:43:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8AB4606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XfO46EC5
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4bb69f5b161so36683855e9.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 03:34:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795606476; x=1796211276; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=au+aUwkr58kHsbNGWzHntkHpOI9D5jL8SiuAtxwKygc=;
-        b=XfO46EC52jl5ccgR5gMDRt0sSyg+TN4LWK+5BUM1aLXNe/3R9K5OjTR7oderP9CGNK
-         nX4LZygMlG/b0GfF5ETtxDr3F1DwW+o5u6L/kuigKs+mCZVzWR/WK9CZRXewErtLeHMn
-         sJYVueJeinnNyPg2RMove84xtmhwCCABe5hU1NvdXWYwuJcQ6n3wklagD5H+FOdZXw+k
-         wjKAC713OiPzoWFDWN+zEXTZRKWyh6nuw1pthC+uyVpw7A6EWUy+YGtEfBwq8vvqbH1+
-         YTCMzZaoqjmWjjAE6v0ylF8BfUMfahcocm3FxUMNU68ztHkrC7ZZCtBN2ReUrv9+YwOu
-         cFQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795606476; x=1796211276;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=au+aUwkr58kHsbNGWzHntkHpOI9D5jL8SiuAtxwKygc=;
-        b=2RjO/bOgte08cPjtCnzzVKspyn7lM/8ZUrYfeU95zZQBNc3apLXg4pTO+zZLGrC828
-         71Qrtl2EHkBeAGNlueDyuMYJ6TkHMRmPA1Kg/1Pqsdl01GtGBof234wCF2ZXrONrnyQ4
-         ICiB4sWg1xVA1+ecPr2MD1jl1zgEl6BLiI3s/0CZiK10DLflLxwFhItnCgSA6is4VSQ0
-         5huvHVh5vguMmCIMFFt4svrGBAhHJ51msrlXSvu+lSImyUJfRuIdcgJsAHBV9DuhOzXy
-         ea3HwFjazgn4d+V4UZ8LcbGUtDHQCkAgml6BVM4xxxXGQ61uXt+DcbPxmIAMgiXs4mw8
-         F/Vw==
-X-Forwarded-Encrypted: i=1; AL+hErGxzKWNj0NXgLi6/GgvR0PeKakOMuycCX/KjE61VX8iY1xWCqR1ZPotzKIe8Us8QFP75zd0SUunhqV5WTkO@vger.kernel.org
-X-Gm-Message-State: APuU4Z/jMjrpFJRvNNLgX0dPDGm86eYJZjwJdVy+e0zXZgzI5ncswLiC
-	RFhW8ZsoJVw6YWNgnY6KNwsx/ygGVRIfmFtHsDBVWJNogxbdFB+i3EE6
-X-Gm-Gg: AZFdTZe/6/vfYLvpYfmfcdMA5ERVPr2o8OGgNMdNvegwZpzfCS9voAiPisCqXKErEeH
-	OwnthHmj2XALJ8iQmmzH62DDfRkqOTPKseonXP95QY7R9OebBPW2nkitbmOnnNe/XUZlIE2mrOA
-	78POB9X9ecWeTHj4SvfRq0/fmDgoFpB80y4CSD/EqwQkBI0SuvX/ZU79V7117PcRXDj3sbAfEUu
-	wtOK33gNw2fCyQP++75NvHfLDwOUHWqCPxPyQLWLNIZVYyAstJnDtK/dZhFpq8LOGv7f3fH2LoJ
-	pwvUJ+uh9seVB1XRvGdPr7co7gJvyvt5fvk9C7xPo3668BbrJUHMWyB3CsUhyWp3kISfTVtDtbu
-	Fqmwkb2+P7mwXOgeZUMpf3nL7ehb4lQVXu4u3qdzFfuadaOsZOl3ExBanRP8a4NIFJQ7ne9xsiz
-	FWYk527nM+8cWVsEsQQUsUozrqSJ5ojQouexCBgM6K/nsEJfY7PJFLf1vZ4thSj8RfRJBBxseib
-	NsubF0JIqd/zkwc1Hkld2sB2eiK5BeJCmJ3BKYkPs7lGaYk5qifdUo7zYFkEPhN9jIziPi5voyZ
-	Fpkoibz3SEb82eIFKmj9oiIp
-X-Received: by 2002:a05:600c:64c7:b0:4bb:68b9:f610 with SMTP id 5b1f17b1804b1-4bb887ffee2mr340117785e9.9.1795606475753;
-        Wed, 25 Nov 2026 03:34:35 -0800 (PST)
-Received: from [192.168.1.22] ([83.231.69.9])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853a9687sm572512745e9.10.2026.11.25.03.34.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Nov 2026 03:34:35 -0800 (PST)
-Message-ID: <286006b1-9f9e-4661-bd38-e5f5fce9646b@gmail.com>
-Date: Wed, 25 Nov 2026 12:34:33 +0100
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=JkQGb2ZH
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1795607021;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ro/q02DiURiwSOcN9QA2cgFPXuLdyWbUrkDRq5unrbc=;
+	b=JkQGb2ZHje/sH0hqRzbNanewBqDbsINrpZtpgC5jLmCnxJJrIz2hzu/O2BPFnywRtH4eJC
+	nco2CL4ZKMKLuAXBasHEl88Ykb9l+zu/8/eBPM6vNuyUUQ0RtMa6MXftpZCVCZEynWYwU2
+	yUZ65OvltSqVBODBUa/i5HrAyv/jjBw=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-312-piUuYfOLNh6PqB1vS4-AYA-1; Wed,
+ 25 Nov 2026 11:43:35 +0000
+X-MC-Unique: piUuYfOLNh6PqB1vS4-AYA-1
+X-Mimecast-MFC-AGG-ID: piUuYfOLNh6PqB1vS4-AYA_1795607014
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D92371977502;
+	Wed, 25 Nov 2026 11:43:16 +0000 (UTC)
+Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 2E2C33001DA7;
+	Wed, 25 Nov 2026 11:43:12 +0000 (UTC)
+Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
+	oleg@redhat.com; Wed, 25 Nov 2026 12:43:16 +0100 (CET)
+Date: Wed, 25 Nov 2026 12:43:11 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: mt4022@columbia.edu, Jens Axboe <axboe@kernel.dk>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Michal Nazarewicz <mina86@mina86.com>,
+	Wen Yang <wen.yang@linux.dev>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, tz2294@columbia.edu,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 2/7] sched/wait: add WQ_FLAG_POLL_EXCLUSIVE for user
+ space waiters
+Message-ID: <awbJz9stwx_JzZFX@redhat.com>
+References: <20261122-b4-sched-wait-intr-head-v2-0-4a764b64e8ce@columbia.edu>
+ <20261122-b4-sched-wait-intr-head-v2-1-4a764b64e8ce@columbia.edu>
+ <CAHk-=wj_eqNh+gNhCQh3exrL5Pmo5hbZBcL0W-4Ah_Nw0Kegzw@mail.gmail.com>
+ <awWSwmvaTwBxfU-r@redhat.com>
+ <CAHk-=wj3GCXZohdFWWPAOkC_LHno4X0oQW+0sQFJzRMvjpODUg@mail.gmail.com>
+ <CAHk-=wgYc9vFEmyV0Ch_e49j6GOhUCMQMnMV4f1FLLvumZOmRw@mail.gmail.com>
+ <CAHk-=wjbK0xyhwvWP1uNiYR6i-X9MpCn8bnm_akxq0MsrYOL+w@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -92,53 +91,38 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] mm/khugepaged: use NOFS while collapse_file() holds
- folio locks
-To: "David Hildenbrand (Arm)" <david@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
- Zach O'Keefe <zokeefe@google.com>, Lorenzo Stoakes <ljs@kernel.org>,
- Dev Jain <dev.jain@arm.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Hugh Dickins <hughd@google.com>, Kiryl Shutsemau <kas@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Rik van Riel <riel@surriel.com>,
- Song Liu <songliubraving@fb.com>
-Cc: "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Michal Hocko <mhocko@suse.com>, Nico Pache <nico.pache@linux.dev>,
- Ryan Roberts <ryan.roberts@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-References: <20261125100058.15200-1-azpijr@gmail.com>
- <20261125100058.15200-5-azpijr@gmail.com>
- <8c60bed8-6857-4361-91b5-c8fed8a083c3@kernel.org>
- <66fd4450-6e17-4a1c-be76-38758a62073a@gmail.com>
- <413a7751-a368-42fd-8983-c3b44a86fd0c@kernel.org>
-Content-Language: en-US
-From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-In-Reply-To: <413a7751-a368-42fd-8983-c3b44a86fd0c@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wjbK0xyhwvWP1uNiYR6i-X9MpCn8bnm_akxq0MsrYOL+w@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On 11/25/26 12:15 PM, David Hildenbrand (Arm) wrote:
-> On 11/25/26 12:12, Jose A. Perez de Azpillaga wrote:
->> On 11/25/26 11:55 AM, David Hildenbrand (Arm) wrote:
->>> On 11/25/26 10:59, Jose A. Perez de Azpillaga wrote:
->>>> collapse_file() keeps the folios it collapses locked until it is done.
->>>> With those locks held, it calls filemap_release_folio() with GFP_KERNEL,
->>>> and for shmem it swaps folios in with the mapping gfp, which includes
->>>> __GFP_FS.
->>>>
->>>> As when splitting folios, allocating with __GFP_FS while holding folio
->>>> locks can deadlock in direct reclaim or compaction, and __GFP_FS also
->>>> lets filemap_release_folio() wait on the filesystem.
->>> How is that possible with my fixes?
->>>
->> it isn't, sorry. I'll drop 4/4.
-> So there are no other allocations in there besides the one done by splitting?
+On 11/24, Linus Torvalds wrote:
+>
+> @@ -105,10 +111,16 @@ static int __wake_up_common(struct
+> wait_queue_head *wq_head, unsigned int mode,
+>  		unsigned flags = curr->flags;
+>  		int ret;
+> 
+> +		if ((flags & WQ_FLAG_POLL_EXCLUSIVE) && poll_woken)
+> +			continue;
+>  		ret = curr->func(curr, mode, wake_flags, key);
+>  		if (ret < 0)
+>  			break;
+> -		if (ret && (flags & WQ_FLAG_EXCLUSIVE) && !--nr_exclusive)
+> +		if (!ret)
+> +			continue;
+> +		if (flags & WQ_FLAG_POLL_EXCLUSIVE)
+> +			poll_woken = nr_exclusive > 0;
+> +		else if ((flags & WQ_FLAG_EXCLUSIVE) && !--nr_exclusive)
+>  			break;
 
-there are, the shmem swapin, but they can't deadlock.
+I obviously like this change, but note that wake_up_all*() helpers
+use nr_exclusive == 0, so
 
--- 
-cheers,
-jose a. p-a
+		poll_woken = nr_exclusive > 0;
+
+doesn't look correct. I think this patch should also change them to
+use nr_exclusive = -1.
+
+Oleg.
+
