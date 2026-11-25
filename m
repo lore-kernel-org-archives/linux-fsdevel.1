@@ -1,57 +1,41 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795595759;
-	b=Zs8YzytYkSDj6HmEAda++10gb3R8njmZWpgHQHPm34Olz2V3Mu1MHL1JlidjJr/P3okY
-	 e8KZL6590iNfxuAeAxDT8ahvpy4MvpWIe5QB+3SiydqEQb2ZfLkzZdfm4i9ZMLunNjKJN
-	 pVYxv6cmqeUC3jV0Jn02MclZD+CFCKL5iEx3hwmWwmJkzeZZqYMwSZRPqJ/jJ3EeUdMwh
-	 WwlX3ovUTjC+ULZy3AtMD+hhah5gQthoXd6SWDVc1669CVgmyPx4ASGBscsSselC+Bbrg
-	 LQHjZJDysXd4y3dUJLWCiWTNv19yCy3XHI9YTp/X9qhyjFLsrAQPPcyPHRuST18aqIQ==
+	t=1795596185;
+	b=1BX6o0xbpZnaQV0jJXu1nhFCZwYQZfpaDRmRcG1wObt5Lw1TYwh8+vzXEIiZR7lJj0Gi
+	 skpVcmFcqOK9//01QWCYc/RbrYSwNtfSgbbUXnJBIuBSapojkWnR+bMAiiH74FD+Fpu2s
+	 jE0lj67w25Z0SkELE2pvKQjlBLNGtjzHsfnjFvQOIrJhncZxATCXZs+GNSjm93IfrdKRX
+	 vZ70OmBSknkHzGhdudYjxjtAjkdNEo61N08LG0ngryxTFU0QN4xUpOQyjGLeAGpIMih4j
+	 9iQZKy27F0NKLf1oU2/QZ0MXuXuSicnFK9ALiFr0Co0yUpLQ0d7sBWIwVwFh/Ws1w4A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795595759;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=jCyhs45SJTzLGSMPt6qgJEkMz+MkYwCx2mRj4ThweHY=;
-	b=AlsqDyf3+1AG2PzvYnj5lBfyWrAzI/D4aDTZf7nlBBGcoXNT8XwT2J+2o6+cR2K3p8FS
-	 RwIU8+Fc30zXt7N2rNnoSMYtnpbUa8srT6KFP+c+4ib3+aka8w9r1aJlkd873+1omHz7/
-	 oZHVsen9UP3wvjmBDzMvR1MUBd42UMmvshMht4h64FYFIHvhBMn5tpPOCbm5nKrpK3NW3
-	 cJkwAIS8jEsZc7IRxE6c7JRw1rhEg57jCzhYuOQZJyQNLsazNKqJtTvsd1iKdfybbwJsf
-	 3nSLZslKhJ4j7yxowDp8IoQGr4gHgKz12ewT0s2hNqoSSEm81JUdnzj7/ozwvqJ6QOQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795596185;
+	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:Content-Disposition:User-Agent;
+	bh=1mOvzWhP6BsC2DveCsIqITs/FmHLNBNTXAMNKDO4qhw=;
+	b=4oj9Wg1CpwlK5OJVUEtesLJnqFp0eJeA7eBEJfZO3dDLxpgPTonWmS9YyD53Mmvp9mvf
+	 +KVZRBgmNiw5yHFAVUfe3zopFdLBfhDHF395AGJ+y8EKy8kz4B8Zb2AP1gjQsGIcueOZO
+	 n3KfMG8HwYMhkWvICQzT8f6/m/+RbpiPkkxzNdvXLmb0A+dSXm5dx3i715FsbNtUtvcDE
+	 Hg3X26ilbzoWlBzHMPvn207ruSFK/Z7y6LZL7mBf7lRx5dGZxmA20iUYKQlFn9I2JWUmT
+	 FXwagBVgtCbQ1uFHgxDXoRIlmrX7NEzTwy4JFCGsXVPbm4Z7/nDScbIdcIx8v+J9iIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VD1Yurz3;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=lst.de;
+	spf=pass smtp.mailfrom=lst.de;
+	arc=none smtp.remote-ip=213.95.11.211
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD8F606A31E;
-	Wed, 25 Nov 2026 08:35:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VD1Yurz3
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70D851F000EE;
-	Wed, 25 Nov 2026 08:35:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795595759;
-	bh=jCyhs45SJTzLGSMPt6qgJEkMz+MkYwCx2mRj4ThweHY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VD1Yurz3PMrUdIN/ptkcNVg7OGsnip2kcDajb62Ri4Xxl+/zXR89+A4u6g2Ceaj34
-	 Dsgmn8b1039SKdXK+rmQkZwbajbchZwA35eM9cwjVaHJFSrG0MDdBctzr0yrlAsrNA
-	 XVidR+AuOtK5icjSDgJICXbjjZqmOJUzGei/pS926dpLG8VgbWVp/t8Tpw8b3AECQv
-	 yIu7vZOMn0TRxRDnI3b+WdoMuWOnuhIIGyA3pb1Zv0TT6fHzGzPApHeAAUi5W8Uv9a
-	 ++ccTBkeK2lKERsQZPbFo79rwQOTylBWGG9v8/TgoZ2egNKEA7JY4ABFyrFualdJoZ
-	 +JjnjE298cdMA==
-Date: Wed, 25 Nov 2026 09:35:53 +0100
-From: Carlos Maiolino <cem@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Chris Mason <mason@kernel.org>, Christoph Hellwig <hch@lst.de>, Theodore Ts'o <tytso@mit.edu>, 
-	linux-fsdevel@vger.kernel.org, linux-unionfs@vger.kernel.org, stable@vger.kernel.org, 
-	Alexander Mikhalitsyn <alex@amutable.com>
-Subject: Re: [PATCH v3] xattr: enforce the name and size limits for in-kernel
- callers
-Message-ID: <awad0QRdTtG6sLUP@cronus.toxiclabs.cc>
-References: <20261123165807.1939942-1-amir73il@gmail.com>
- <20261125055900.2077059-1-amir73il@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74926606A321
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 08:43:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 74926606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 7C2816732A; Wed, 25 Nov 2026 09:43:00 +0100 (CET)
+Date: Wed, 25 Nov 2026 09:43:00 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: willy@infradead.org, jack@suse.cz
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: what is the correct hugepage dependency for large pagecache folios
+Message-ID: <20261125084300.GA23551@lst.de>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,134 +47,37 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261125055900.2077059-1-amir73il@gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Wed, Nov 25, 2026 at 06:59:00AM +0100, Amir Goldstein wrote:
-> The xattr system calls refuse an empty name, a name longer than
-> XATTR_NAME_MAX and a value larger than XATTR_SIZE_MAX, but the VFS
-> helpers do not. An in-kernel caller may pass a name or a size that it
-> got from another filesystem, such as overlayfs copy up from a lower
-> layer.
-> 
-> Check these limits before calling the xattr handler of the filesystem,
-> and fail with the errors that the system calls return for them.
-> 
-> Cc: stable@vger.kernel.org
-> Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
-> Reviewed-by: Jan Kara <jack@suse.cz>
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> ---
+Hi all,
 
-Looks good to me:
+we ran into an interesting cluster of issues with an LLM review for
+the (not upstream submitted yet but public) xraid code.
 
-Reviewed-by: Carlos Maiolino <cmaiolino@redhat.com>
+The LLM complained that largest_zero_folio might only return a
+PAGE_SIZE zero folio, and this can happen because either:
 
-> 
-> Changes since v2:
-> - Rename the helper to xattr_check_name_len() (Carlos)
-> - Also refuse an empty name (Carlos)
-> - Add Reviewed-by tags
-> 
-> Changes since v1:
-> - Check the name in vfs_getxattr_alloc() too (Alex)
-> 
-> v2: https://lore.kernel.org/r/20261123165807.1939942-1-amir73il@gmail.com/
-> v1: https://lore.kernel.org/r/20261123113513.1910906-1-amir73il@gmail.com/
-> 
->  fs/xattr.c | 38 +++++++++++++++++++++++++++++++++++++-
->  1 file changed, 37 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/xattr.c b/fs/xattr.c
-> index 0705801a62cc5..64df10ed498c3 100644
-> --- a/fs/xattr.c
-> +++ b/fs/xattr.c
-> @@ -178,6 +178,21 @@ xattr_permission(const struct mnt_idmap *idmap, struct inode *inode,
->  	return inode_permission(idmap, inode, mask);
->  }
->  
-> +/*
-> + * The xattr system calls refuse an empty name, a name above XATTR_NAME_MAX
-> + * and a value above XATTR_SIZE_MAX, but an in-kernel caller may pass a name or
-> + * a size that it got from another filesystem, such as the lower layer of
-> + * overlayfs.
-> + */
-> +static int xattr_check_name_len(const char *name)
-> +{
-> +	size_t len = strnlen(name, XATTR_NAME_MAX + 1);
-> +
-> +	if (!len || len > XATTR_NAME_MAX)
-> +		return -ERANGE;
-> +	return 0;
-> +}
-> +
->  /*
->   * Look for any handler that deals with the specified namespace.
->   */
-> @@ -209,10 +224,17 @@ __vfs_setxattr(const struct mnt_idmap *idmap, struct dentry *dentry,
->  	       size_t size, int flags)
->  {
->  	const struct xattr_handler *handler;
-> +	int error;
->  
->  	if (is_posix_acl_xattr(name))
->  		return -EOPNOTSUPP;
->  
-> +	error = xattr_check_name_len(name);
-> +	if (error)
-> +		return error;
-> +	if (size > XATTR_SIZE_MAX)
-> +		return -E2BIG;
-> +
->  	handler = xattr_resolve_name(inode, &name);
->  	if (IS_ERR(handler))
->  		return PTR_ERR(handler);
-> @@ -408,6 +430,10 @@ vfs_getxattr_alloc(const struct mnt_idmap *idmap, struct dentry *dentry,
->  	if (error)
->  		return error;
->  
-> +	error = xattr_check_name_len(name);
-> +	if (error)
-> +		return error;
-> +
->  	handler = xattr_resolve_name(inode, &name);
->  	if (IS_ERR(handler))
->  		return PTR_ERR(handler);
-> @@ -416,6 +442,8 @@ vfs_getxattr_alloc(const struct mnt_idmap *idmap, struct dentry *dentry,
->  	error = handler->get(handler, dentry, inode, name, NULL, 0);
->  	if (error < 0)
->  		return error;
-> +	if (error > XATTR_SIZE_MAX)
-> +		return -E2BIG;
->  
->  	if (!value || (error > xattr_size)) {
->  		value = krealloc(*xattr_value, error + 1, flags);
-> @@ -434,16 +462,24 @@ __vfs_getxattr(struct dentry *dentry, struct inode *inode, const char *name,
->  	       void *value, size_t size)
->  {
->  	const struct xattr_handler *handler;
-> +	ssize_t ret;
->  
->  	if (is_posix_acl_xattr(name))
->  		return -EOPNOTSUPP;
->  
-> +	ret = xattr_check_name_len(name);
-> +	if (ret)
-> +		return ret;
-> +
->  	handler = xattr_resolve_name(inode, &name);
->  	if (IS_ERR(handler))
->  		return PTR_ERR(handler);
->  	if (!handler->get)
->  		return -EOPNOTSUPP;
-> -	return handler->get(handler, dentry, inode, name, value, size);
-> +	ret = handler->get(handler, dentry, inode, name, value, size);
-> +	if (ret > XATTR_SIZE_MAX)
-> +		return -E2BIG;
-> +	return ret;
->  }
->  EXPORT_SYMBOL(__vfs_getxattr);
->  
-> -- 
-> 2.56.1
-> 
-> 
+ - CONFIG_TRANSPARENT_HUGEPAGE is enabled by has_transparent_hugepage
+   returns false
+ - huge_zero_init can fail to allocate a PMD-sized huge folio even
+   when transparent huge pages are supported and
+   CONFIG_PERSISTENT_HUGE_ZERO_FOLIO is selected
+
+This boils down to three interesting questions:
+
+ 1) should mapping_max_folio_size_supported check has_transparent_hugepage
+    instead of CONFIG_TRANSPARENT_HUGEPAGE, or do all the required bits
+    for large folios in the page work fine even if there is no hardware
+    support for PMD-level or other mappings?
+ 2) should huge_zero_init aim to allocate a large zero folio even
+    when has_transparent_hugepage returns true so that file systems
+    can assume to have a file system-block sized zero folio?
+ 3) should we fail to boot if the allocation in huge_zero_init
+    fails?
+
+Note that only 1) really applies to the current upstream kernel as both
+current users of largest_zero_folio can fall back to building bios
+with multiple segments of zero_page, but for some of my pending code
+that won't be as easy, so if we can't actually reliably get a common
+zero folio of mapping_max_folio_size_supported we might have to allocate
+a duplicate one in fs code.
