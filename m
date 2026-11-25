@@ -1,83 +1,83 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795600876;
-	b=dcULWcHuJCOUBdU8T+SEz8wrZcjKdz28knGMxzo813p7ijzkD3uVVSuVIpndzj02v0ok
-	 vnQKvRcUDA4Sechrza1eOxiT+mNsfkG4qj9eH5CoLEPCQatSTq3Uqf1/OYUIDzpf2zZw9
-	 7UmH1ZTieSCaHBr9oBuarkmLKIcYviezH61kCSFlcbSy8xgX0bcZcaWBAJOOloWPAqScL
-	 FqBsDhKYknuPMRAyNalTOoNZ7oyrzQbsjDXRCA5G+7ano0FyCg11ie6bFfuxYoj1MTi/x
-	 ccdh8pnHUbbd1A3MsIyyaXwVotE2ZtuMYgADIaf6QpXMQYsdgZ5HE5McpTP3ZXvYx2w==
+	t=1795600881;
+	b=J1oKD84xX+lvaJLoQ+pti28oFwCY7tb1clPNuaY2FuWlo3W6TI13wkFvXo85HCV2i1CV
+	 x0fNSvKNkSw1UJPzbBzlqTHZzKgXEMbNoEsIY3wIdjSi+SfMSg2WloG6QfuVGBIKC8sa5
+	 bcLu2lskxjwH80wEhaAVfOwpx6j09/Y1V6xbDs30LAOVOpMSXJzv6Z6Ou9DO9iHQj1jTG
+	 aykEyYSe3sgkO0bXgUHOHKTXBtze06g2S2mIwCNWfFPvDI1QAEmehZLFA+rX9qSUhvpzK
+	 ZFj3ukFYgh9Nwin6mCgYolRHY7Pfa1eGsWgWXwf/HjyXL1yOG98+uhHeLypXm0n5JXQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795600876;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795600881;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=7UvC3kLQVk7Jos86IsiNdep9C/zypw0aYvzz+vz5suo=;
-	b=QBjqlMGkRMVbULDamMihBhZe1QkqgRe9Mky6NqAJAakEsaGt0+567HjSREd6vNESxWj+
-	 ud2bozHu/mmA+WCCHBMBmfIthn9ewaVIUXLaQS99gaoad1Ys5IO4IUg4EGGLzQPcR2JJ3
-	 bas+GeqcqkeNJ52R1BZEqYwbdRwrHz9oljXJd8IHrNI9gKGBZYzXhUBk7XNlXQtgFec7v
-	 5M9yPpVobDeoZVae46d7BlsifOjxqIMTVNxePd3L7Z4Ck1+VGJHcukq6Kbpr0pmqcbz67
-	 dAm4SL97/JUw0SFr4e0+6v7DF+CNbpCIU7xsJXIMRKLxrOdF9p98gxFnWSJ28EYjUYw==
+	bh=N9xyug7w8UPX5id/mH4z9jTfhNm5yOqqDRPZIS2Gdo4=;
+	b=WXZ4wlbhruhg0jSnwNlVbbF8XhnnTwgr17ieMnegBka2owBQK57JmTLXtxaREUAZrX2c
+	 zVUrClWdsDUqzZeKs13kkGrLwJf1wrxsGclOULb70yUbB28d4mzx6oJPV0NthRqQ/LEx8
+	 iokjei4Jgn+59J6rFTs+BMBVat8b+mrFqt6ahJuylSZBNIFgbbjQGhKVfJajqpvqHX5Vo
+	 6vMkFHiQh9mdCLsoNE9yGBm4C/EziDYrKZ4FL3nJcJoDPFxMJ6ilXM+9SJFkOq6p/+QGR
+	 xb0a7tpQOh/8+252x3GrleFK9kqMgjFOJZp0+r9FoIg0Tvv8dz6eO705LpBKQEUp4Ag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=C8wqHJ25;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SQeLCtTz;
 	arc=none smtp.remote-ip=209.85.128.53
 Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C432606A31E
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 10:01:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C432606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49508606A31E
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 10:01:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49508606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=C8wqHJ25
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4bb666304fdso57753175e9.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 02:01:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SQeLCtTz
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4bb72b44a97so47760405e9.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 02:01:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795600874; x=1796205674; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795600880; x=1796205680; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=7UvC3kLQVk7Jos86IsiNdep9C/zypw0aYvzz+vz5suo=;
-        b=C8wqHJ25wMh8wwwXLtSv5ieNLD16YdiicexhOY5fw6LuQFKG38akfXyHTiY/7/dERe
-         sbr3Tpzbnb19t95zQS4fSN8wHbq1AkbPQhXIOI85m0VRFa+cM8qBUK6AnrB4eDd+MMxH
-         gKNngffL3cL+IcbZU7Q0ZS1gRNlX4NF0hDC4TLfhQPg8F6Ul8A/sLeW0URAsdJUQFuSX
-         rG1Ks562usRI1H1K2/yDvbMq9SB09L6pvdqzuPKJkoD19qJpyJ+eo+V2GU+dCIehm8CJ
-         cUhy8ubHw1gIgxh8aXZRvG65x7oLCdIjX0JCJGAGbKtvSanMf6CgApfhD/Q+yZWynFey
-         bUyw==
+        bh=N9xyug7w8UPX5id/mH4z9jTfhNm5yOqqDRPZIS2Gdo4=;
+        b=SQeLCtTz6SalKrynn6EgdpDNlZHZHfM5UmRiLMAZIF/Z4AP0hDEeM+8C8n4Rp9G572
+         51KiqErXkHwKjAFZHb7OG7o4RtV0TKuYxhuwncXH3mt0Fz34NdKfU7kls0UjF3fpENZA
+         6pFtK4zeBaDiE0I4I4/qEuAV0olgOvhrZVIjQHq83g7yOzTP0DDqIDgrg9xHW/JhnJMt
+         pBBNJUoAoWyj7VwQYvq3KZ+wNQeGgCjmZXkJux4PN1a6mX7Lv0XSZFB3p84tWbUb4Qsn
+         d130wwpowEi27e0FOhPZlIL2nP+FMZgna8ZtNJRJ0UDrEc5Pyu9XmQqkR9J2DjoWzyA7
+         WCBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795600874; x=1796205674;
+        d=1e100.net; s=20260707; t=1795600880; x=1796205680;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7UvC3kLQVk7Jos86IsiNdep9C/zypw0aYvzz+vz5suo=;
-        b=JW6iIoPD+unNaH8upVYqezhqHYSgx+39MqDBB5TuzXnhQxRqXAXSo7DuzdwtX5F0UU
-         xJHUrXWPwOMzvDk1OaaE0kaj/OhzoBNqfSZdX/uCEvh+mTKJvgculHNNy9bBDQrDBIWI
-         IoHPJ2qyfySmuz6f+UU96AWCS3p39x/0Ihh4ADj8AZPIG2isS3vFaOGx+HI0llRxxCVt
-         ke9++NNm+y7uaiFXhETlmln3VAXo5/V8xPPHCM0c/Wri7jOpkzACo/YWA7ChG8KFjcuY
-         KThWDmQRllmZ4V1VaCLLcnffd2TghDxhd88RiHNnrgTqFtAGcjz5Ki3pnB4VAZXoagZa
-         blSw==
-X-Forwarded-Encrypted: i=1; AL+hErEOvqC38Kp8SE87WYjAtyhTfXMW+Kq4OUNJ8p9e497jBf8/ehZ4uwmMyn/ReT/kwJTYomu0NAUYNe9gCrJA@vger.kernel.org
-X-Gm-Message-State: APuU4Z9thU1D2pQd+WUFGcTzodBVXSBz1UIag4Qo/Hr9IjdkwCs9Vk+k
-	cQlRbiG98xq67t2l4RSQKNrIUQXvVn0PJBvoe+9b1AQy7/31SxcjEU0M
-X-Gm-Gg: AZFdTZdJaa+uI/kL8elGElWAHzjFW+FTDgaTeUgjz5f2mpdAqsCAb7V6Riq28WHokql
-	aamFssDWpY6FgRpMmHWIrzmNBTJLMjOQhr4iuGdcIvRHN6/GfZ5ObWMoshNWLC9qHHF+NeEMhHb
-	B2LcaoXz+HU6Y7ptuExesAf0PDUUAoQnRAFxBWpOe9Uz3KPXt/cb+c29vaU6kPFp/YC2cFGwlV/
-	eUr4KAHSwcMKf8N4gpNavFvInQspxNGBuQ9mHUY9yR/BaS+8kLYfcfSZygVzOHjIzwYkJqAYmd/
-	IMrerf1N8qcPnvoWkh+EqG8du1PaqthQ/NPnwCkxb54QKVL+Ge7b7fEUUniyEqsMmDxO+ddekuC
-	C37mxepxRizXyizCUfaqDKUa1MQrvTvuck76yUml0SeNj8AKu/1EvOf/kmzDs7ARlGSviG7fZfd
-	2Fn9f4GxxroG7fhM2u1L3DHJidZfSSU2VZZ4ZsG94FBM/9FVQNoTngsRJzI9jO7uzrltbbXEuoj
-	yHPDsL3rPLE0gxQK59fpdddzhLvV5O1MvKI0NYmXa+S+ug21zX1leW4jryKTt403BryNstwFcw3
-	tzJS2lW3CfdINw==
-X-Received: by 2002:a05:600c:5901:b0:4bb:5e8a:7c9c with SMTP id 5b1f17b1804b1-4bb861467c8mr304008495e9.7.1795600874476;
-        Wed, 25 Nov 2026 02:01:14 -0800 (PST)
+        bh=N9xyug7w8UPX5id/mH4z9jTfhNm5yOqqDRPZIS2Gdo4=;
+        b=zL4T70MkzXaryl171O6VYqxBvTl/EnpHa2DPr6SYXCpsZMp5BCgHJxWhrwqPgPe0Rm
+         gbwIBW00eSSIONVy9+910bJYKVOkhTdkooTeGIAbwWP/1QlpoHpiDqF1F6RR17JrPhRi
+         9IH9bD0Jgq6+VZuD3LldDonT3ACHXH6jUHUOvcDdjvajX+RXgmFOTWZdy7taafFKn/h1
+         l/gN/x6Hmp5VbhWFSXbRKJP+/T5/NXjtaYAQ1/f/PiD+jDDPSM005uijJOJNY9HFY+ve
+         vcGenwW5gaTDyP4HjeSAiIK+6f5NI/VrcrQi+EU30bwvzybmGzzSyjGw1n0LPkXE9/dQ
+         3HTw==
+X-Forwarded-Encrypted: i=1; AL+hErHtTpL1qG0/Za+bnt8AdSqtUoV9tWArQYCHBa86KJOX4d41vwP/ziZqaz9e5A2C+A3rTxMd1DEK9TRLR7WE@vger.kernel.org
+X-Gm-Message-State: APuU4Z8NAM7JcZ9/gbMxV8LTYLCfy39orNw+Z6JeZXLdvtRRYcXtGRKX
+	UlhX9NG76x5+fd5FfHBcCkDP8GZodwHljxetL/Yp9JjB9Y5+EW68myAW
+X-Gm-Gg: AZFdTZcKh49ZZI8RGVm9oxDDoFwDsAXvgXKtY6Rq5ciqvcBO+3rVSmfSOtDdfPtX7Td
+	PiEGVIYgWAEgGE5CTi6drh/j5kyK8OkHMnSclyW5pI7Suet9gsQ8ZMBmUVTQRmO+Fiu5tCDgVmf
+	4A/wy1MNqMq6+3xCGobQYLG0/lNZ4IlAk25zrqumh6Bmums5pTxTCpqw33zIaVVL8AV6855RU91
+	uIykYQ+ZoKcHwJ0n5+HiQWiDQomf3yHVUDY5u5KkInCYq4ipkDXLs86EiJNLxPHT6YW/rXxguqh
+	26mGTZc/ouaE0c2wmMQj+du70+cQkY0cNXvFh5RvZE66kQtoqauLOmesi9F8d3pHwUsjKoDfsQq
+	xV7bKu06aSloeBTPmp9wWfTre7BDSewHXrxmmcWQzxo+W9rQdsQT8EmcdPYxR65y+vVX12L0A4M
+	ptoKzXKPnxdJZtiEaOkZND8jjUJrMfGTsa2YPgMqck/0sMbf1+7L5B++DM0vkvz/74OI15XY9Ux
+	WW9A2dHdttd1zwIPSQfwnhHwzTKb3lDUzgmBFYOLOe+npYQ2X7fylMXF5rqq92N7VMshzIZ2XpA
+	2/2gojdZc3jCLQ==
+X-Received: by 2002:a05:600c:848d:b0:4a4:3a2d:15da with SMTP id 5b1f17b1804b1-4bb88812026mr328104725e9.15.1795600879563;
+        Wed, 25 Nov 2026 02:01:19 -0800 (PST)
 Received: from nobara ([83.231.69.9])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853a1e8bsm423898125e9.9.2026.11.25.02.01.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853a1e8bsm423898125e9.9.2026.11.25.02.01.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 02:01:14 -0800 (PST)
+        Wed, 25 Nov 2026 02:01:17 -0800 (PST)
 From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
 To: David Hildenbrand <david@kernel.org>,
 	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
@@ -105,9 +105,9 @@ Cc: "Liam R. Howlett" <liam@infradead.org>,
 	linux-mm@kvack.org,
 	linux-fsdevel@vger.kernel.org,
 	"Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-Subject: [PATCH 3/4] mm/memory: never allocate a page table in do_set_pmd()
-Date: Wed, 25 Nov 2026 10:59:46 +0100
-Message-ID: <20261125100058.15200-4-azpijr@gmail.com>
+Subject: [PATCH 4/4] mm/khugepaged: use NOFS while collapse_file() holds folio locks
+Date: Wed, 25 Nov 2026 10:59:47 +0100
+Message-ID: <20261125100058.15200-5-azpijr@gmail.com>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261125100058.15200-1-azpijr@gmail.com>
 References: <20261125100058.15200-1-azpijr@gmail.com>
@@ -122,128 +122,69 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-do_set_pmd() is always called with the folio locked, so it should not
-allocate the page table to deposit. finish_fault() and khugepaged now
-always pass one, and filemap_map_pmd() already passes may_alloc=false.
+collapse_file() keeps the folios it collapses locked until it is done.
+With those locks held, it calls filemap_release_folio() with GFP_KERNEL,
+and for shmem it swaps folios in with the mapping gfp, which includes
+__GFP_FS.
 
-Drop may_alloc and fall back when no page table was preallocated.
+As when splitting folios, allocating with __GFP_FS while holding folio
+locks can deadlock in direct reclaim or compaction, and __GFP_FS also
+lets filemap_release_folio() wait on the filesystem.
 
-No functional change intended.
+Run the part that holds folio locks in a NOFS scope, as __folio_split()
+does. The huge folio is still allocated before that.
 
+Fixes: f3f0e1d2150b ("khugepaged: add support of collapse for tmpfs/shmem pages")
+Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
 Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
 ---
- include/linux/mm.h |  3 +--
- mm/filemap.c       |  2 +-
- mm/khugepaged.c    |  2 +-
- mm/memory.c        | 26 +++++++-------------------
- 4 files changed, 10 insertions(+), 23 deletions(-)
+ mm/khugepaged.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index d09173a94e9c..5e7044b6ff87 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2160,8 +2160,7 @@ static inline pte_t maybe_mkwrite(pte_t pte, struct vm_area_struct *vma)
- 	return pte;
- }
- 
--vm_fault_t do_set_pmd(struct vm_fault *vmf, struct folio *folio, struct page *page,
--		bool may_alloc);
-+vm_fault_t do_set_pmd(struct vm_fault *vmf, struct folio *folio, struct page *page);
- void set_pte_range(struct vm_fault *vmf, struct folio *folio,
- 		struct page *page, unsigned int nr, unsigned long addr);
- 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index d730b0ea4667..b47c25808814 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -3751,7 +3751,7 @@ static bool filemap_map_pmd(struct vm_fault *vmf, struct folio *folio,
- 
- 	if (pmd_none(*vmf->pmd) && folio_test_pmd_mappable(folio)) {
- 		struct page *page = folio_file_page(folio, start);
--		vm_fault_t ret = do_set_pmd(vmf, folio, page, /* may_alloc= */ false);
-+		vm_fault_t ret = do_set_pmd(vmf, folio, page);
- 		if (!ret) {
- 			/* The page is mapped successfully, reference consumed. */
- 			folio_unlock(folio);
 diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-index e5adf6960a7b..6d2431a20bc9 100644
+index 6d2431a20bc9..c3c733d3a32b 100644
 --- a/mm/khugepaged.c
 +++ b/mm/khugepaged.c
-@@ -1870,7 +1870,7 @@ static enum scan_result set_huge_pmd(struct vm_area_struct *vma, unsigned long a
+@@ -2302,6 +2302,7 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
+ 	LIST_HEAD(pagelist);
+ 	XA_STATE_ORDER(xas, &mapping->i_pages, start, HPAGE_PMD_ORDER);
+ 	enum scan_result result = SCAN_SUCCEED;
++	unsigned int nofs_flags;
+ 	int nr_none = 0;
+ 	bool do_readahead = false;
+ 	bool readahead_done = false;
+@@ -2320,6 +2321,13 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
+ 		goto out;
+ 	new_pfn = folio_pfn(new_folio);
  
- 	mmap_assert_locked(vma->vm_mm);
++	/*
++	 * We allocate while holding folio locks below, when swapping in shmem
++	 * folios and in filemap_release_folio(). Allocating with __GFP_FS
++	 * there can deadlock in reclaim or compaction.
++	 */
++	nofs_flags = memalloc_nofs_save();
++
+ 	mapping_set_update(&xas, mapping);
  
--	ret = do_set_pmd(&vmf, folio, page, /* may_alloc= */ false);
-+	ret = do_set_pmd(&vmf, folio, page);
- 	*prealloc_pte = vmf.prealloc_pte;
- 	if (ret)
- 		return SCAN_FAIL;
-diff --git a/mm/memory.c b/mm/memory.c
-index b7e53d7cf6e5..8c7c6be5495a 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -5758,13 +5758,11 @@ static void deposit_prealloc_pte(struct vm_fault *vmf)
- 	vmf->prealloc_pte = NULL;
- }
+ retry:
+@@ -2698,7 +2706,7 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
+ 		folio_put_refs(folio, 2 + folio_nr_pages(folio));
+ 	}
  
--vm_fault_t do_set_pmd(struct vm_fault *vmf, struct folio *folio, struct page *page,
--		bool may_alloc)
-+vm_fault_t do_set_pmd(struct vm_fault *vmf, struct folio *folio, struct page *page)
- {
- 	struct vm_area_struct *vma = vmf->vma;
- 	bool write = vmf->flags & FAULT_FLAG_WRITE;
- 	unsigned long haddr = vmf->address & HPAGE_PMD_MASK;
--	bool pgtable_allocated = false;
- 	pmd_t entry;
- 	vm_fault_t ret = VM_FAULT_FALLBACK;
+-	goto out;
++	goto out_nofs;
  
-@@ -5803,16 +5801,11 @@ vm_fault_t do_set_pmd(struct vm_fault *vmf, struct folio *folio, struct page *pa
- 
- 	/*
- 	 * Archs like ppc64 need additional space to store information
--	 * related to pte entry. Use the preallocated table for that.
-+	 * related to pte entry. Use the table the caller preallocated
-+	 * before locking the folio for that.
- 	 */
--	if (arch_needs_pgtable_deposit() && !vmf->prealloc_pte) {
--		if (!may_alloc)
--			return VM_FAULT_FALLBACK;
--		vmf->prealloc_pte = pte_alloc_one(vma->vm_mm);
--		if (!vmf->prealloc_pte)
--			return VM_FAULT_OOM;
--		pgtable_allocated = true;
--	}
-+	if (arch_needs_pgtable_deposit() && !vmf->prealloc_pte)
-+		return ret;
- 
- 	vmf->ptl = pmd_lock(vma->vm_mm, vmf->pmd);
- 	if (unlikely(!pmd_none(*vmf->pmd)))
-@@ -5842,15 +5835,10 @@ vm_fault_t do_set_pmd(struct vm_fault *vmf, struct folio *folio, struct page *pa
- 	count_vm_event(THP_FILE_MAPPED);
+ rollback:
+ 	/* Something went wrong: roll back page cache changes */
+@@ -2744,6 +2752,8 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
+ 	}
+ out_put:
+ 	folio_put(new_folio);
++out_nofs:
++	memalloc_nofs_restore(nofs_flags);
  out:
- 	spin_unlock(vmf->ptl);
--	if (pgtable_allocated && vmf->prealloc_pte) {
--		pte_free(vma->vm_mm, vmf->prealloc_pte);
--		vmf->prealloc_pte = NULL;
--	}
- 	return ret;
- }
- #else
--vm_fault_t do_set_pmd(struct vm_fault *vmf, struct folio *folio, struct page *page,
--		bool may_alloc)
-+vm_fault_t do_set_pmd(struct vm_fault *vmf, struct folio *folio, struct page *page)
- {
- 	return VM_FAULT_FALLBACK;
- }
-@@ -5995,7 +5983,7 @@ vm_fault_t finish_fault(struct vm_fault *vmf)
- 			return VM_FAULT_NOPAGE;
- 
- 		if (!needs_fallback && folio_test_pmd_mappable(folio)) {
--			ret = do_set_pmd(vmf, folio, page, /* may_alloc= */ true);
-+			ret = do_set_pmd(vmf, folio, page);
- 			if (ret != VM_FAULT_FALLBACK)
- 				return ret;
- 		}
+ 	VM_BUG_ON(!list_empty(&pagelist));
+ 	trace_mm_khugepaged_collapse_file(mm, new_pfn, index, addr, is_shmem, file, HPAGE_PMD_NR, result);
 -- 
 2.56.1
 
