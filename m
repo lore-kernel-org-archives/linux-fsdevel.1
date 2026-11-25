@@ -1,82 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.121.94.184
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795602570;
-	b=zerb4Ms0NzPTSBfd+3KXLeLIQn+FAK7Ca5bLnTAWjaKgw8mMsHrljbTbM6bGaoupRBPw
-	 C0tdCUJUXmFgi7sJNxZQtx9Q7hlovzo9FCKjxsdIKP/BMR7lOm2EhFECQIQFmdauihQFi
-	 LYY5kbRO9cYPE6PDxIdKigd5r108X/tSalTGZkvl+5j0w2rjSHG+SG5/8Hm6nBSa6uA2c
-	 7XAADhbbn1POUzC5vAmiQ88ulr9xrbteQ3EzM/IY3ZeQqeh8WnvhpbjMjgTmnkxMWDeh5
-	 Fql9GW5dOxZyzx+tAwqF9NEfUeU8gYsEjjgMOnV4eCEXQ7laQ9RYkyxGTmAUGGFVScQ==
+	t=1795602594;
+	b=5g9xolKD4dDAAwI0KG8t4o8IW2B/EH8L25hxsiI0eMyhVmLSoy+uvf8y0QEhg5KmIu0C
+	 NSSKyRHEVuJr/pIuWRq4ohF7BDmI9/EQGEikv5SozW50ej70IWJAbfDi9lWqWXatE3aR0
+	 8UfYje7mrYsOmzWVkFmwkCfLBWvpHKk1UDTW6qanc/Wv1+z4ygRY5F73V4Fc4HqL1qWOc
+	 wWrNBQ9j9ZT8j6JwaVjUyX7CbNAidLb7mi2I2WaLaFoyrlSvr8tCL6YMIk3DJrw+netFq
+	 DOtKhC8Ip217uezHacTmno0ZznrECniqUBBLy1BDv6DRxv+3pRXD3dilVKLBXR8Se7A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795602570;
-	h=DMARC-Filter:X-KPN-MessageId:Received:Received:DKIM-Signature:
-	 X-KPN-MID:X-CMASSUN:X-KPN-VerifiedSender:Received:Date:From:To:Cc:
-	 Message-ID:In-Reply-To:References:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Priority:Importance:X-Originating-IP;
-	bh=5lWskPpxSpVBM0554F5pOSMgYG3IHJbd4zdoMwkKnx8=;
-	b=5FEoSrdeK+rFpl/k8B+ncThXD6Phi094tVSq55VbQyrRFLItuyXwmd0A7ThvPH3oKcq5
-	 5ZyIpfPl2EcdzYZ41mUiaidpa4d/NFUk8GV1Z1JEh9SSbpJhgTXIByodtR8XBFjI6h68y
-	 hRNumPDPDwqYDCHw741SkFKK4VZDQeXsSkDVxZLN8Hf46MnqV7Jj6bwbvesNtSsKFizjY
-	 hfetkZwUwnHtidJFJ6B+iyWOz2krB8w/WqLoHrzc00OTAxMg7/g2RoIVC9sUbtuBOnAiB
-	 fluCaQzt8PCv7aln+jWJoIzgSbxZv/nawCc7H5bPrXaOjUbd0aZLzI1EL7ZJalEZNIA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795602594;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=cV15oLjwMNgk/g1Q+nr1ktVJ0SDw2D1b5XtLlmxbxaM=;
+	b=2UtJBj3aA/IBsWHsCz/8DrOony2JKr/iL1kFw0UW4blTYAP0l9MCeb0Uwjtz5Jt8y+Vx
+	 MSb2jHyU0VmVuKDNg1BPfduvj09ocKRC65V4nfJ+/Nx5ojCDXfCO11RrLVod4G7Jxu9sj
+	 H7bB2XRzBQjrqNf73BHQD+xfpZQIEhsRCMW4rFn5Y7y8TnUfzKYsJYvsg7aeiqXTRThBU
+	 aFv42B9OaHLYTjf4LczR0o75Rwjo1A9C+SPtHiRvZid3TCC8hzq0R5pHlx0TEjFRfoW9V
+	 EdB/q3h3gzMTRTaj6OvzGPOzE8VGOmrzH3zq7g9dTdrFFuScqCDzGOq8T7VqWnUF/NQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=xs4all.nl;
-	spf=pass smtp.mailfrom=xs4all.nl;
-	dkim=pass header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b="SV0tuq3/";
-	arc=none smtp.remote-ip=195.121.94.184
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kv3sEfb3;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A42FC606A33A
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 10:29:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A42FC606A33A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E45606A31E;
+	Wed, 25 Nov 2026 10:29:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=SV0tuq3/
-X-KPN-MessageId: 16c790c5-e8bb-11f1-98a9-005056994fde
-Received: from mta.kpnmail.nl (unknown [10.31.161.189])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 16c790c5-e8bb-11f1-98a9-005056994fde;
-	Wed, 25 Nov 2026 11:29:26 +0100 (CET)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 16c649de-e8bb-11f1-b790-0050569981f5;
-	Wed, 25 Nov 2026 11:29:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=5lWskPpxSpVBM0554F5pOSMgYG3IHJbd4zdoMwkKnx8=;
-	b=SV0tuq3/iY9XRnC+vVoYya735NtiSTNQN/wVmfBKVY4splmjcRMXDR8MoO4nI9qp6q+Qt1zSWnClY
-	 wxH8ljoJKSIXOoNE2Teo6KblKlKHtyQrdD1MiJ88VA3/WYA7q9rjSzQFSNrjQPkT/7YuwgDLrbhR49
-	 sV4ra55XjXQ+8bUodSOmKPvxG7JJ5PZ5koky2bZkZJl08/PkUOV0tg0B2WAy7BBhc76W9PmNRyhfr9
-	 P6PXOS5kmoXHXITPEzD4Xafla+0i/niB1hQTo7fwIQApSHJgd83UiuLd1athY6grnnKSpEzdpT5Bub
-	 oZvMviyij7e4UIL0PXV7ZOJDX58FzYA==
-X-KPN-MID: 33|abuoIPfUh3YDIVibj50uBK0NhQsvAnjouC1eafIocI2xFVzX4ozsyhxPVRFEoWz
- LZMHTp2LUufuqtX8zeucRpqeOfejvk49SLjIuHwBBrUA=
-X-CMASSUN: 33|hhJwsfS/sAWL6fRjrpSZIKKBBUJkfKcer9nfdw4faiI6b9jYTRd83LZ+aHzHFsx
- 2auc/avy5F2ZnlDhj+kDAXw==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh01 (cpxoxapps-mh01.personalcloud.so.kpn.org [10.128.135.207])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 16bc5e5e-e8bb-11f1-94bb-005056995d6c;
-	Wed, 25 Nov 2026 11:29:26 +0100 (CET)
-Date: Wed, 25 Nov 2026 11:29:26 +0100 (CET)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: NeilBrown <neil@brown.name>, NeilBrown <neilb@ownmail.net>
-Cc: Askar Safin <safinaskar@gmail.com>, amir73il@gmail.com,
-	brauner@kernel.org, cyphar@cyphar.com, gregkh@linuxfoundation.org,
-	jack@suse.cz, jlayton@kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, shakeel.butt@linux.dev, tj@kernel.org,
-	viro@zeniv.linux.org.uk
-Message-ID: <1119017860.2578021.1795602566314@kpc.webmail.kpnmail.nl>
-In-Reply-To: <179559977412.1728055.14071803405199089608@noble.neil.brown.name>
-References: <20261024213539.1307600-8-jkoolstra@xs4all.nl>
- <20261125062146.940336-1-safinaskar@gmail.com>
- <1709003566.2632299.1795599064030@kpc.webmail.kpnmail.nl>
- <179559977412.1728055.14071803405199089608@noble.neil.brown.name>
-Subject: Re: [PATCH v8 07/12] vfs: short-circuit MAY_WRITE access for
- O_DIRECTORY opens
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kv3sEfb3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DC961F000C0;
+	Wed, 25 Nov 2026 10:29:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795602593;
+	bh=cV15oLjwMNgk/g1Q+nr1ktVJ0SDw2D1b5XtLlmxbxaM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=kv3sEfb3VmLNDgnW8QxTAmJX8KNK1JjIIvs6JjhV9xR3Idtt+E/Acy4sgcGCIppE4
+	 fnJkMqDZbs0YxjZI0omhdwO3pmG/m9f2/9M8y5Js9tcxthcTUP5V6USECeO4SB+aGw
+	 MNSMXUKRiLYUbWzfDy3760p/XFwm07QheI/qTMYLKOBevoQP2wctWbyOORugl2n6IE
+	 /2KRvK78WomCoAN9r3JZWj9Ek7TJlv5tIy6tBjzQ0i9U8yc4aj9H+FLBxpPrUxHzJc
+	 FAXgnTDwMkU+YF3HjkZ+frzy5AN+WW2sI2x/TTrk+C3BQhLZ+SpHYGbXKeCKqQjq90
+	 yApJVfo9MBUlQ==
+Message-ID: <d2d127d3-6791-4c66-8900-36b717fcdf9f@kernel.org>
+Date: Wed, 25 Nov 2026 11:29:35 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -86,82 +51,123 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] mm: kasan: skip KASAN for GFP_HIGHUSER
+To: Jeff Xu <jeffxu@chromium.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R . Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, Marco Elver
+ <elver@google.com>, Boris Brezillon <boris.brezillon@collabora.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Chia-I Wu <olvaffe@gmail.com>,
+ Dev Jain <dev.jain@arm.com>, Ian Rickards <ian.rickards@arm.com>,
+ Jann Horn <jannh@google.com>, Jeff Vander Stoep <jeffv@google.com>,
+ Jeff Xu <jeffxu@google.com>, Kees Cook <kees@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Peter Collingbourne <peter@pcc.me.uk>,
+ =?UTF-8?Q?Pierre-Cl=C3=A9ment_Tosi?= <ptosi@google.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Tomasz Figa <tfiga@chromium.org>,
+ Will Deacon <will@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Miklos Szeredi <miklos@szeredi.hu>, Baoquan He <baoquan.he@linux.dev>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Pratyush Yadav <pratyush@kernel.org>, Allison Henderson
+ <achender@kernel.org>, "David S . Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ linux-mm@kvack.org, kasan-dev@googlegroups.com,
+ linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ fuse-devel@lists.linux.dev, kexec@lists.infradead.org,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+ rds-devel@oss.oracle.com, linux-kernel@vger.kernel.org
+References: <20261123033111.2349160-1-jeffxu@chromium.org>
+ <20261123033111.2349160-2-jeffxu@chromium.org>
+ <7ed1f755-5759-4b5b-ae00-a814f16b7903@kernel.org>
+ <20261124195455.164425-1-jeffxu@chromium.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20261124195455.164425-1-jeffxu@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
 
-
-> Op 25-11-2026 04:42 EST schreef NeilBrown <neilb@ownmail.net>:
+On 11/24/26 20:54, Jeff Xu wrote:
+> On Tue, Nov 24, 2026 at 09:10:53AM +0100, David Hildenbrand (Arm) wrote:
+>> On 11/23/26 04:31, Jeff Xu wrote:
+>>> -#define GFP_HIGHUSER	(GFP_USER | __GFP_HIGHMEM)
+>>> -#define GFP_HIGHUSER_MOVABLE	(GFP_HIGHUSER | __GFP_MOVABLE | __GFP_SKIP_KASAN)
+>>> +#define GFP_HIGHUSER	(GFP_USER | __GFP_HIGHMEM | __GFP_SKIP_KASAN)
+>>> +#define GFP_HIGHUSER_MOVABLE	(GFP_HIGHUSER | __GFP_MOVABLE)
+>>
+>> Can we please add a big fat comment above GFP_HIGHUSER, explaining why we use
+>> __GFP_SKIP_KASAN and which security impact this has?
 > 
->  
-> On Wed, 25 Nov 2026, Jori Koolstra wrote:
-> > > Op 25-11-2026 01:21 EST schreef Askar Safin <safinaskar@gmail.com>:
-> > > 
-> > >  
-> > > Jori Koolstra <jkoolstra@xs4all.nl>:
-> > > > Requesting write access on a directory can never succeed. Rather
-> > > > than performing a path-walk to determine whether the target is
-> > > > actually a directory (-EISDIR) or not (-ENOTDIR), or does not exist
-> > > > (-ENOENT), etc., we short-circuit to -ENOTDIR.
-> > > > 
-> > > > Currently O_WRONLY for directories is only blocked in may_open(),
-> > > > which happens after we have the inode for the target, so after any
-> > > > create via O_CREAT|O_DIRECTORY.
-> > > > 
-> > > > The advantage of short-circuiting is that we don't have to add even more
-> > > > logic to lookup_open() to differentiate -EISDIR/-ENOTDIR. Also, for
-> > > > filesystems that define ->atomic_open, handling this cannot even be done
-> > > > at the VFS level, as we can't know ahead what the result of the lookup
-> > > > will be.
-> > > > 
-> > > > Suggested-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> > > > Reviewed-by: NeilBrown <neil@brown.name>
-> > > > Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
-> > > > ---
-> > > >  fs/open.c | 9 +++++++++
-> > > >  1 file changed, 9 insertions(+)
-> > > > 
-> > > > diff --git a/fs/open.c b/fs/open.c
-> > > > index e43f02ff64ac..4334f30bb7ff 100644
-> > > > --- a/fs/open.c
-> > > > +++ b/fs/open.c
-> > > > @@ -1343,6 +1343,15 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
-> > > >  
-> > > >  	op->intent = flags & O_PATH ? 0 : LOOKUP_OPEN;
-> > > >  
-> > > > +	/*
-> > > > +	 * Requesting write access on a directory can never succeed. Rather
-> > > > +	 * than performing a path-walk to determine whether the target is
-> > > > +	 * actually a directory (-EISDIR) or not (-ENOTDIR), we short-circuit
-> > > > +	 * to -ENOTDIR.
-> > > > +	 */
-> > > > +	if ((flags & O_DIRECTORY) && !(flags & __O_TMPFILE) && (acc_mode & MAY_WRITE))
-> > > > +		return -ENOTDIR;
-> > > > +
-> > > 
-> > > Please, do -EISDIR here, not -ENOTDIR. You returning error here, **because** user attempts to write to **directory**. EISDIR is natural here, ENOTDIR is not.
-> > > 
-> > 
-> > That's a fair point, and I have thought about this. The downside is that
-> > if we return -EISDIR there, that will also be returned if you open(O_DIRECTORY)
-> > what turns out to be a regular file. So you may then get -EISDIR for something not
-> > a directory.
-> > 
-> > The semantics of -ENOTDIR here that I had in my mind is something like "the thing
-> > you are trying to do can NOT be done _with_ a DIRectory." It made a bit more sense
-> > to me (but only a bit.) Really it should be -ENOTWITHDIR or something...
+> Sure, I'll add a comment above GFP_HIGHUSER in v3:
 > 
-> The problem is that "flags" contains an invalid value.  The correct
-> error for that (according to open.2 man page) is EINVAL.
-> 
+> /*
+>  * GFP_HIGHUSER (and GFP_HIGHUSER_MOVABLE derived from it) sets
+>  * __GFP_SKIP_KASAN to skip HW_TAGS tagging on allocation and poisoning on
+>  * free. These pages are meant for userspace data (e.g. anonymous and page
+>  * cache pages, DMA-BUF, GPU/DRM buffers) rather than kernel data structures,
+>  * and tagging every granule on allocation and free is expensive.
+>  *
+>  * Security impact: under CONFIG_KASAN_HW_TAGS, these pages carry the
+>  * match-all tag (0xff), so kernel accesses via page_address() or
+>  * kmap_local_page() lose HW_TAGS out-of-bounds and use-after-free
+>  * detection. Callers that store kernel data structures in these pages
+>  * should not use GFP_HIGHUSER. Generic and SW_TAGS KASAN are unaffected.
+>  */
 
-This is best probably. The counter is that I wanted to change errnos as little
-as possible. Now you get at least something that could already happen when
-you did a normal open(O_DIRECTORY). Were this designed from the start -EINVAL
-is obviously what is needed here.
+Yeah, that sounds good to me. But let's wait for some more review.
 
-I dunno, not sure what other people think.
+-- 
+Cheers,
 
-Best,
-Jori.
+David
