@@ -1,80 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.121.94.184
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795599073;
-	b=x3r9hSOKsOtxJZBLjg99ow2AYLSLDGskbRuXKgXOeXQKKXMrAHeQ3DqiukvDxGQIm5nS
-	 ibD4pOl7DmgpEhXCn3US0mjdq1tJ9ayZ06ehy2qzk1zGbVDnCYpmG03CZ4v2WrT9tDFE4
-	 S79ZbVJ2HiFcxKZIgQwv+fbXHk1tcDUl3JHX0ZoDPDQS69G3/BtfLRxKaN3yb2LvaxWSy
-	 J0FaSglQn5NYnXr/mnVF7pqlj9/UWSa6WnATnKggIA6dzgLRULzzqQ2/klPbCOUU0SRMi
-	 CfQ3L+Nvkon/lc9Z5Mx36LYh3z0m1EzYXy1S7j6UL12DbcFSM8dJuWmKLjmlN4RK5DA==
+	t=1795599585;
+	b=LcBtuXJI2g/j2iCVq9lCX+qpzw4QdBxpS2FzMfR0MW0TWM6GH8P2SjuzReWGQdX4DZK5
+	 93cDLQwe1NUPyojWmUjNj2xqXmf7urEGf3NC4OCATXsH8dXcdTXglEzKeaeYo+wE5GPet
+	 Gxq2XZxa29644own2aYLMua0HO2YuqoKcwJscrmHDdxKvV9TmApGxY1XGEkrk/NVCj158
+	 tOgv/R6/BL1sGvahVUQZvcEPzzjMr+tDnt7O4fFOp3WSMKPA50/XzAxQ1Zhh67RVrD/af
+	 SD3DOB0VfAQ9D39aPj3S/a7VtHhlKylJGUokSUKZwrxFn6MZXPj2o8aZkUAWzWQbW/g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795599073;
-	h=DMARC-Filter:X-KPN-MessageId:Received:Received:DKIM-Signature:
-	 X-KPN-MID:X-CMASSUN:X-KPN-VerifiedSender:Received:Date:From:To:Cc:
-	 Message-ID:In-Reply-To:References:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Priority:Importance:X-Originating-IP;
-	bh=vYW0lwNtZZp4xMT2btYq2BWBULtTKydr9Jf0sny4QFw=;
-	b=nMzcNC8n0PvqIE6+zwEb/WBBgpqXg3uGdBpnovgBl4b+vN7YyK1y9dhSSJ+e+8bRAbCK
-	 bGeOQdOniqf9OH7XktXdwNw20ZiXafva02syHk903Gxy9xbEMvpI8n2aWRZFCg7hik2Nd
-	 xZgu8TuCuBoju+K7debkaW9qzMbCK25x/FKfSyNBSzZaXoahzIFXm/Ch4UxyQXFPYS2k+
-	 X8vrClCaQqldkeTd/eLilSk+IV3t2CSi486QJOvvlila7Qvrf6QIW1Uc3aQHjuXUXbjPG
-	 8FO6hFc6+bvn/Pnld99x9Wt+88cuPTldVJyNDaBrM09+gveU9MdBQD+EKjFBJhF4NMA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795599585;
+	h=DMARC-Filter:X-UUID:X-CTIC-Tags:X-CID-P-RULE:X-CID-O-INFO:X-CID-INFO:
+	 X-CID-META:X-CID-BVR:X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:
+	 Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=06CDHqP7t8VW2Q7Qnt1JYGz3UVTxeAwOx5LZVWzf/jo=;
+	b=qI+oTZuQQVFPWwUpW6buMHWNrbRdAI85Mj9Cf0d4hS8aPfuCPXUuflqWCU5Mqqg1m929
+	 7gD5fYuivCuB2QxJcwQ7R79zyGhOcEbhDY0jZx35sT55dNd+eyTwUOybYOOWkuzHKVPpI
+	 0oS2Bz9oj1x/4lO9IFKvXH6wEwfCimtxU5PkqtiDHjdrb5S48spTklXoqOTGeCMp/G/fI
+	 f4obr/MeMCJ2ltIBekMBPXgnCHnyWwT0Vp3PswI3rgPqWrO5Kijq2VAzcHzr75UqPUYCb
+	 +elZPfW3JoP4MYHJQKzF5M7kBQbinSGoDh4OlpgzYImlgD2lMpQFaIpjS7xaT4afmMg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=xs4all.nl;
-	spf=pass smtp.mailfrom=xs4all.nl;
-	dkim=pass header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=B9IYqj7t;
-	arc=none smtp.remote-ip=195.121.94.184
-Received: from ewsoutbound.kpnmail.nl (unknown [195.121.94.184])
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FABE606A32A
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 09:31:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FABE606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=B9IYqj7t
-X-KPN-MessageId: ef456eb1-e8b2-11f1-98a9-005056994fde
-Received: from mta.kpnmail.nl (unknown [10.31.161.190])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id ef456eb1-e8b2-11f1-98a9-005056994fde;
-	Wed, 25 Nov 2026 10:31:04 +0100 (CET)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id ef41f494-e8b2-11f1-92a9-0050569977a2;
-	Wed, 25 Nov 2026 10:31:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=vYW0lwNtZZp4xMT2btYq2BWBULtTKydr9Jf0sny4QFw=;
-	b=B9IYqj7tcmscv9KSkAsiO9t2Q5Z4gC6oTu2tMa92BR7tJDPkJpiygv4d+cymrEaZWCu7XjBj3nbHH
-	 +3Re+xbFr2GjqgAVLb25aP5GPnTggSiwMmkU7+LaMDVgJL+puCNVXXE3ii/crNsCCq+C9mCYIAmCuZ
-	 DuVc5m9E8miIzRO9ffJad8VApbPGvRVpIwnRZURQAXxxgCiKvlYWFaKEvhwOZjWArQ1AVVJnmCTttQ
-	 MkM+K21YXpdhycvedKrM9qbhhSbQrkJq1qYrEfpKgnI8T4AzpAbnEp7326KTfN/CObwRgyHjYKD5TF
-	 9GEypZOLG6HPOl78PnBsYxxvS0QUitQ==
-X-KPN-MID: 33|MZfs89VgIfoUJX5X2lu9dngP4j3RU3Wytuy/Lq5JXjuWesmN2j2bIIbiN5/nPZ8
- jHrsvxnk9cVg6LP55kyafNw==
-X-CMASSUN: 33|UKWRjPuv7sOoLQoEalkZh/lhDxaoITAfJMz4dawX254Bhx/9sWugtQscX8vqyD8
- dzeSSc5ojlTE1npcaQcmQAw==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh06 (cpxoxapps-mh06.personalcloud.so.kpn.org [10.128.135.212])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id ef366f9d-e8b2-11f1-94bb-005056995d6c;
-	Wed, 25 Nov 2026 10:31:04 +0100 (CET)
-Date: Wed, 25 Nov 2026 10:31:04 +0100 (CET)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Askar Safin <safinaskar@gmail.com>
-Cc: amir73il@gmail.com, brauner@kernel.org, cyphar@cyphar.com,
-	gregkh@linuxfoundation.org, jack@suse.cz, jlayton@kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	neil@brown.name, shakeel.butt@linux.dev, tj@kernel.org,
-	viro@zeniv.linux.org.uk
-Message-ID: <1709003566.2632299.1795599064030@kpc.webmail.kpnmail.nl>
-In-Reply-To: <20261125062146.940336-1-safinaskar@gmail.com>
-References: <20261024213539.1307600-8-jkoolstra@xs4all.nl>
- <20261125062146.940336-1-safinaskar@gmail.com>
-Subject: Re: [PATCH v8 07/12] vfs: short-circuit MAY_WRITE access for
- O_DIRECTORY opens
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC37E606A335;
+	Wed, 25 Nov 2026 09:39:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC37E606A335
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 1fb90370e8b411f19a56ed5b684f684d-20261125
+X-CTIC-Tags:
+	HR_CC_CHARSET, HR_CC_CHARSET_NUM, HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME
+	HR_CC_NO_NAME, HR_CHARSET, HR_CHARSET_NUM, HR_CTE_8B, HR_CTT_MISS
+	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME, HR_SJ_LANG
+	HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE, HR_SJ_PHRASE_LEN
+	HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NAME, IP_TRUSTED
+	SRC_TRUSTED, SA_TRUSTED, SA_EXISTED, SN_EXISTED, SPF_NOPASS
+	DKIM_NOPASS, DMARC_NOPASS, UD_TRUSTED, CIE_BAD, CIE_GOOD_SPF
+	GTI_FG_BS, GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:ba469694-0e2d-466e-8fc7-55d24415b2a8,IP:10,
+	URL:25,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACT
+	ION:release,TS:10
+X-CID-INFO: VERSION:1.3.19,REQID:ba469694-0e2d-466e-8fc7-55d24415b2a8,IP:10,UR
+	L:25,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:10
+X-CID-META: VersionHash:7db8b62,CLOUDID:c5b09dbcdd18cb4833e49ca365a6b0bb,BulkI
+	D:261125173937JK7RFES4,BulkQuantity:0,SF:17|19|38|66|78|102|127|153|865|89
+	8,TC:nil,Content:0|15|50|99,EDM:-3,IP:-2|1,URL:11|94|82|1,File:nil,RT:nil,
+	Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BR
+	R:1,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULN,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,
+	TF_CID_SPAM_IBB
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 1fb90370e8b411f19a56ed5b684f684d-20261125
+X-User: liwang@kylinos.cn
+Received: from computer.. [(116.128.244.169)] by mailgw.kylinos.cn
+	(envelope-from <liwang@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 901844680; Wed, 25 Nov 2026 17:39:34 +0800
+From: Li Wang <liwang@kylinos.cn>
+To: Miklos Szeredi <miklos@szeredi.hu>,
+	German Maglione <gmaglione@redhat.com>,
+	Vivek Goyal <vgoyal@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>
+Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	fuse-devel@lists.linux.dev,
+	virtualization@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	virtio-fs@lists.linux.dev,
+	Li Wang <liwang@kylinos.cn>,
+	stable@vger.kernel.org,
+	Sashiko <sashiko-bot@kernel.org>
+Subject: [PATCH] virtiofs: fix lost reply due to unaligned cache line sharing
+Date: Wed, 25 Nov 2026 17:39:08 +0800
+Message-Id: <20261125093908.48619-1-liwang@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,75 +91,100 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Transfer-Encoding: 8bit
 
+virtio_fs_enqueue_req() maps fuse_req::out.h for DMA_FROM_DEVICE in
+place. fuse_req comes from the "fuse_request" slab with no DMA-granule
+alignment, so out.h shares a CPU cache line with the waitq field.
+request_wait_answer() updates waitq while the DMA is active.
 
-> Op 25-11-2026 01:21 EST schreef Askar Safin <safinaskar@gmail.com>:
-> 
->  
-> Jori Koolstra <jkoolstra@xs4all.nl>:
-> > Requesting write access on a directory can never succeed. Rather
-> > than performing a path-walk to determine whether the target is
-> > actually a directory (-EISDIR) or not (-ENOTDIR), or does not exist
-> > (-ENOENT), etc., we short-circuit to -ENOTDIR.
-> > 
-> > Currently O_WRONLY for directories is only blocked in may_open(),
-> > which happens after we have the inode for the target, so after any
-> > create via O_CREAT|O_DIRECTORY.
-> > 
-> > The advantage of short-circuiting is that we don't have to add even more
-> > logic to lookup_open() to differentiate -EISDIR/-ENOTDIR. Also, for
-> > filesystems that define ->atomic_open, handling this cannot even be done
-> > at the VFS level, as we can't know ahead what the result of the lookup
-> > will be.
-> > 
-> > Suggested-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> > Reviewed-by: NeilBrown <neil@brown.name>
-> > Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
-> > ---
-> >  fs/open.c | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> > 
-> > diff --git a/fs/open.c b/fs/open.c
-> > index e43f02ff64ac..4334f30bb7ff 100644
-> > --- a/fs/open.c
-> > +++ b/fs/open.c
-> > @@ -1343,6 +1343,15 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
-> >  
-> >  	op->intent = flags & O_PATH ? 0 : LOOKUP_OPEN;
-> >  
-> > +	/*
-> > +	 * Requesting write access on a directory can never succeed. Rather
-> > +	 * than performing a path-walk to determine whether the target is
-> > +	 * actually a directory (-EISDIR) or not (-ENOTDIR), we short-circuit
-> > +	 * to -ENOTDIR.
-> > +	 */
-> > +	if ((flags & O_DIRECTORY) && !(flags & __O_TMPFILE) && (acc_mode & MAY_WRITE))
-> > +		return -ENOTDIR;
-> > +
-> 
-> Please, do -EISDIR here, not -ENOTDIR. You returning error here, **because** user attempts to write to **directory**. EISDIR is natural here, ENOTDIR is not.
-> 
+Note: Sashiko correctly identified the bug, but the resulting behavior
+is not as described. Sashiko reported that unmap invalidates this shared
+cache line and drops the waitq updates made by request_wait_answer(),
+so wake_up() walks a damaged list, the waiter never runs, and a later
+wait-queue operation can panic. That is not what current arm64 does for
+this buffer. fuse_out_header is 16 bytes and does not cover a whole cache
+line. dcache_inval_poc() uses dc civac on that partial line: a dirty line
+is written back and then invalidated. The waitq update is kept, but the
+out.h written by the device is lost and reverts to its initial all-zero
+values. virtio_fs_verify_response() rejects that header, because
+its unique and length do not match, and the request finishes with -EIO.
 
-That's a fair point, and I have thought about this. The downside is that
-if we return -EISDIR there, that will also be returned if you open(O_DIRECTORY)
-what turns out to be a regular file. So you may then get -EISDIR for something not
-a directory.
+Place out.h on its own DMA granule and start waitq on the following
+one. Allocate the slab at __alignof__(struct fuse_req) so those
+offsets are granule-aligned in memory. Coherent architectures keep
+ARCH_DMA_MINALIGN at the natural alignment, so fuse_req does not grow
+there. The padding is compiled in only when virtiofs is enabled.
 
-The semantics of -ENOTDIR here that I had in my mind is something like "the thing
-you are trying to do can NOT be done _with_ a DIRectory." It made a bit more sense
-to me (but only a bit.) Really it should be -ENOTWITHDIR or something...
+Fixes: a62a8ef9d97d ("virtio-fs: add virtiofs filesystem")
+Cc: stable@vger.kernel.org
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://sashiko.dev/#/bug/linux-41eaaf0f-0eb9-4809-99cf-5f83439eb848
+Signed-off-by: Li Wang <liwang@kylinos.cn>
+---
+ fs/fuse/dev.c        |  3 ++-
+ fs/fuse/fuse_dev_i.h | 18 ++++++++++++++++--
+ 2 files changed, 18 insertions(+), 3 deletions(-)
 
-> (I'm human, not LLM.)
-> 
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index b198cc729cba..00e637d5e552 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -2342,7 +2342,8 @@ int __init fuse_dev_init(void)
+ 	int err = -ENOMEM;
+ 	fuse_req_cachep = kmem_cache_create("fuse_request",
+ 					    sizeof(struct fuse_req),
+-					    0, 0, NULL);
++					    __alignof__(struct fuse_req),
++					    0, NULL);
+ 	if (!fuse_req_cachep)
+ 		goto out;
+ 
+diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
+index a8eba46a3e51..e42f3dc30d3b 100644
+--- a/fs/fuse/fuse_dev_i.h
++++ b/fs/fuse/fuse_dev_i.h
+@@ -12,6 +12,18 @@
+ #include <linux/wait.h>
+ #include <linux/workqueue.h>
+ #include <linux/fs.h>
++#include <linux/cache.h>
++
++/*
++ * virtiofs DMA-maps fuse_req::out.h for DMA_FROM_DEVICE in place.
++ * Put @out on its own granule and start @waitq on the next one.
++ * fuse_dev_init() allocates the slab at this alignment.
++ */
++#if IS_ENABLED(CONFIG_VIRTIO_FS)
++#define FUSE_REQ_DMA_ALIGN __aligned(ARCH_DMA_MINALIGN)
++#else
++#define FUSE_REQ_DMA_ALIGN
++#endif
+ 
+ /* Ordinary requests have even IDs, while interrupts IDs are odd */
+ #define FUSE_INT_REQ_BIT (1ULL << 0)
+@@ -94,10 +106,10 @@ struct fuse_req {
+ 	struct {
+ 		/** @out.h: The request output header */
+ 		struct fuse_out_header h;
+-	} out;
++	} out FUSE_REQ_DMA_ALIGN;
+ 
+ 	/** @waitq: Used to wake up the task waiting for completion of request */
+-	wait_queue_head_t waitq;
++	wait_queue_head_t waitq FUSE_REQ_DMA_ALIGN;
+ 
+ #if IS_ENABLED(CONFIG_VIRTIO_FS)
+ 	/**
+@@ -118,6 +130,8 @@ struct fuse_req {
+ 	unsigned long create_time;
+ };
+ 
++#undef FUSE_REQ_DMA_ALIGN
++
+ /* One forget request */
+ struct fuse_forget_link {
+ 	struct fuse_forget_one forget_one;
+-- 
+2.34.1
 
-Glad :)
-
-Best,
-Jori.
-
-> -- 
-> Askar Safin
