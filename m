@@ -1,48 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795646135;
-	b=SYnDKhUcxuTypmHdGlOeRE2HF05GCE+r61mHfbQtkpfblRYuEPbTXB5fzIG/3x5Mp7/5
-	 Rd5XkW87J7Jr4s9AOujXcUnapd6WIhTDIJIyetfnTaKdAn3zX8Nu6uYihd+PknBHlolmr
-	 mzcOsBD4XRJ8fNluMUPJdTsHiu7RYe2atz8wplzAwHscJeRT+SscVVluJkplDZyfHk6DO
-	 4ntbLepR0362S+DTNGjCVXtif35Hw01J6S0rnOaguhdU1bP5yKpeSX3o3NvlS4bV1ezkF
-	 IU5+iHKQRaXw+SXOsVPT+oh+v7/phxPyZj6GGctM0y3P/VoZ2zr3276F8tp9dMIiOLA==
+	t=1795646150;
+	b=FLKFYuQuwgrczCJjtIXHHkE95mYRn6ypxMx8TeyZ5bCOVoRhfNTFmASF6uFGPz8B6mZj
+	 B52u5nUdJWbc3MMUnpNvWBAnJptQIGHdOwsi3f5mOBR5ZHO8X1qxLdD6/eAPpkwTxNEa3
+	 /+H0Sfgr9yDL4M6ZNhfRCkJcuirMFZxQpp1Ga+L18sl46MD35jaIgoeR66wu27R65HsgQ
+	 rJukHa/tc8UhHD0HCcOzlHER8UH5fUE7WgUpdLWeUGOez1e9B/dDMvwHvaDdbaHmmsJqS
+	 IL9dJ+Emf7OyaF4kBa8pBRlRnxRxSrophFCzgbTMilj+mkBvthowLwr8iQqCrJxuqBw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795646135;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795646150;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=/X9EnMBb1EpL9DRptGLIFWJ8P5QIzwUUyryHlQqYQoE=;
-	b=US+2CcTCrrsIMCS3Za8AUxxbGHHNpE7Rc/sJPLEOZL00uDanYkIoca5ix0eHCydLy2j2
-	 ZhS7xHBTngNXg4cVBlf2ddnoJu7VIvuX9LFXzeruJWyFBymqx1OyYFzTV4V/6M0u5up9P
-	 b7NV56sFLB13yq4vU4gj+jw1lyoXNZHi6BUWGNvRKdpyfIgSnNeJpjcOxQm4euy/tUJ6r
-	 cc3DJK/oSwKhqXliMKJJcUAdUht2rUgKmt1n7XYbWws+lEhAyZRfdqNtFQqCChTsNmeZ4
-	 idex3sgl/zoqe+sfhFv52oPKJBNisYWVulQwMJENW5L1st94M50zzpAK7w1PYehFsrQ==
+	bh=YMCbRgDJx8My7FQr8Am7ZyN1elVge2GAU4cJitwdV1I=;
+	b=THexBIrQChwBWdxp11y7cke7ug2M1VDZxWTAnPG5/xDdGiXk5InDtHX9UpAAlNGfhptU
+	 irMXUgqsVe4Jwh1psk96G+Fh9UgfzMJG89DAS2Aq2ByC3KiMY9dAU9G/n8qxaFs27lJs1
+	 IT6RRrHuqJg7rBm71/axE6kFk/bvLqLWIJ1idP0lmZTg7yJGrUpPLbYUMuuBjqowS+E1X
+	 fAjqVLUNa2VeXsmh1J2zeWgD6yPVCvgFInK7yfFy3RfQyRHufLq7zLQB+XLeM70LWOa69
+	 t3i6aSGEt86s/awVdfQgzYw70Txpcg8yKhLpeAhcvfmTuZSS0KSfF4DV2gNnWQAZLww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LaSW6y+e;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SJXjn1c+;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF62E606A321;
-	Wed, 25 Nov 2026 22:35:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A6E606A321;
+	Wed, 25 Nov 2026 22:35:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LaSW6y+e
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1F9E1F000EB;
-	Wed, 25 Nov 2026 22:35:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SJXjn1c+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 366811F000C4;
+	Wed, 25 Nov 2026 22:35:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795646134;
-	bh=/X9EnMBb1EpL9DRptGLIFWJ8P5QIzwUUyryHlQqYQoE=;
+	s=k20260515; t=1795646150;
+	bh=YMCbRgDJx8My7FQr8Am7ZyN1elVge2GAU4cJitwdV1I=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=LaSW6y+e/DzXfPl86UGKdoQPv9ftcRE1mSP6BQi2mTPKSfOzGzG5UKB0kjB1xLF3K
-	 X5Z9gc+1vRMEyWO3ipTaFE/9r7jRJTQT+zdYCM7yGMmMHs/0/tGpDc8WHY144pLAeW
-	 cf+e9mPaJdVobJqlLRXe/xexriXSyw9YprFEWKznN9vGLwDqqLvT2BWje5FMauRun0
-	 CsymNizBrf9nYxFare6A9yymIDcTa+Cw1DrGLon+DPGQioOKDFmH7YhgLm/8ZlhPpD
-	 Z9RkXImdGSDRgcRIq4qT0RB3IU1cDMGK1mPyLcI8NMCQnfxZR7Co9kI1hkS0qG7mlo
-	 wjqJJ5BVwvEvw==
+	b=SJXjn1c+7pIabnj8kPX5lZxyarzkpDWWLusXBCpqjsExrs/MaVwmfO95QUNnTd5Re
+	 r27Q2AYBE8B+MyS0tm7Ft1TS/WmNAPOPHKFXH2SPyoz2nIETvKNkU4qz3+gFP6Cozx
+	 OTQezEc4bbc17FFzXQfvHMXsarQelHiOVkRJ81ZvGq0QVaBkeuPLeYZAvryL/OlLe8
+	 PjAjI1j8B7T2SBg1nFfpd7ZTrXfeKZdsAFbZI1n/JUIX4eIpemDzoAwsx02LClA3bo
+	 wSO/OapyRca3JYN2LWkXF5Ep0pv1mQT4bbua2hclzhdeX5VcKC2zaoSbFbw/DPOUJE
+	 HLcMD7dRyvNfg==
 From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Wed, 25 Nov 2026 23:33:06 +0100
-Subject: [PATCH 08/21] hugetlbfs: recheck the vma range after the lock wait
+Date: Wed, 25 Nov 2026 23:33:07 +0100
+Subject: [PATCH 09/21] mm/hugetlb: don't zap non-present entries when
+ unmapping a folio
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261125-hugetlb_fixes_2-v1-8-db27fd2f71a8@kernel.org>
+Message-Id: <20261125-hugetlb_fixes_2-v1-9-db27fd2f71a8@kernel.org>
 References: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
 In-Reply-To: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
 To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
@@ -95,99 +96,65 @@ Cc: linux-mm@kvack.org, Jason Gunthorpe <jgg@ziepe.ca>,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  Andrew Morton <akpm@osdl.org>, linux-doc@vger.kernel.org, 
  "David Hildenbrand (Arm)" <david@kernel.org>, 
- Chris Mason <mason@kernel.org>, stable@vger.kernel.org
+ Chris Mason <mason@kernel.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3507; i=david@kernel.org;
- h=from:subject:message-id; bh=rw8ESenx8D20BApyF+9LorlGrtKZwWBIIKOWjIuUihM=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLZk1TW1krnXZg7+9hUgZ8sKi19nDUTWMu21RzfPoN3W
- 9L64hiPjlIWBjEOBlkxRZag4PsGL1+uq61242OGmcPKBDKEgYtTACZi8I2R4XmsbGub1+WExQVB
- S4Jyt8a+fGclrCG9z8E68covtWNCfxkZpnye+OjPuw1cixY87LavL+6TKRVl/u93avbRTRxnppx
- UYgEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1858; i=david@kernel.org;
+ h=from:subject:message-id; bh=mlk8Hq0S+1YqGOS8OKXZSom4G0hgd8p+sLBTmZ3zL2Y=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLZk1TkFCb7vtXncJnSciWWZdZr3xr2DvaQ8snSp86Ir
+ nPsTJDrKGVhEONgkBVTZAkKvm/w8uW62mo3PmaYOaxMIEMYuDgFYCKp3Ay/mJ/q7Gvau3DWknWS
+ G/XWZ/bUmfPJxTaa2vW5Hzgf7jhDjJHhoe8mazm9wuUZAVom2lkOO7bPVWw/dEbFRsN+97Mjc7b
+ xAwA=
 X-Developer-Key: i=david@kernel.org; a=openpgp;
  fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
 From: Chris Mason <mason@kernel.org>
 
-A hole punch or a truncation of a hugetlb file that races with a split
-of a shared vma can lead to a use-after-free read of a page table, and
-to an MMU notifier range with end <= start, which trips a WARN_ON_ONCE()
-in KVM.
+When the owner of a private hugetlb mapping fails to allocate a folio
+for COW, unmap_ref_private() unmaps the old folio from the forked
+children, and marks them with HPAGE_RESV_UNMAPPED, so they get a SIGBUS
+on their next access.
 
-hugetlb_unmap_file_folio() computes the address of the folio in a vma
-and walks the page tables to unmap the folio. As free_pgtables() unlinks
-a vma from the rmap tree before it frees its page tables, i_mmap_rwsem
-does not protect page tables outside of the vma, so walking them can
-result in a use-after-free read.
+hugetlb_unmap_range() is supposed to only unmap that folio, but it
+clears non-present page table entries unconditionally.
 
-The rmap tree walk guarantees that a found vma spans our folio. However,
-when we have to fall back to locking the vma lock first and drop the
-i_mmap_rwsem, we don't check whether that is still the case after we
-acquired the vma lock and the i_mmap_rwsem. The following is then
-possible:
+A child can silently lose its COWed folio while it is getting migrated,
+or a hwpoison entry or uffd poison marker, without HPAGE_RESV_UNMAPPED
+getting set. Consequently, it would not SIGBUS on the next access.
 
-    hugetlb_unmap_file_folio()          __split_vma(), new_below == 0
-    ==========================          =============================
-    hugetlb_vma_trylock_write() fails
-    i_mmap_unlock_write()
-    down_write(&vma_lock->rw_sema)
-                                        vma_prepare()
-                                          i_mmap_lock_write()
-                                        vma->vm_end = addr
-                                        vma_complete()
-                                          i_mmap_unlock_write()
-    i_mmap_lock_write()
-    vma_lock->vma is not NULL
-    vma_offset_start() >= vma->vm_end
-    vma_offset_end() == vma->vm_end
-    hugetlb_vma_maps_pfn(vma, v_start)
-    unmap_hugepage_range(vma, v_start, v_end)
+Let's fix it by ignoring non-present entries when unmapping a folio. As
+the folio is locked, migration entries of that folio do not apply.
 
-Similarly, a split with new_below == 1, where the vma keeps the upper
-part and vm_start and vm_pgoff move up, or shrinking the vma with
-mremap() can leave the vma not covering our folio.
+This has low urgency, as it requires a failing COW allocation in the
+owner racing with migration or memory failure in the child. Let's not CC
+stable.
 
-Let's fix it by checking whether the possibly split vma still spans our
-folio. Add a VM_WARN_ON_ONCE() to highlight the problem that was
-previously missed.
-
-This has medium urgency, as this is triggerable by unprivileged users.
-
-Fixes: 40549ba8f8e0 ("hugetlb: use new vma_lock for pmd sharing synchronization")
-Cc: <stable@vger.kernel.org>
+Fixes: 8c4894c6bc79 ("hwpoison, hugetlbfs: fix "bad pmd" warning in unmapping hwpoisoned hugepage")
 Signed-off-by: Chris Mason <mason@kernel.org>
 [ david: adjust comment and description ]
 Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 ---
- fs/hugetlbfs/inode.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ mm/hugetlb.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
-index 5437a55d14f1c..0b96fdc3ad9d8 100644
---- a/fs/hugetlbfs/inode.c
-+++ b/fs/hugetlbfs/inode.c
-@@ -442,10 +442,11 @@ static void hugetlb_unmap_file_folio(struct hstate *h,
- 		i_mmap_lock_write(mapping);
- 
- 		vma = vma_lock->vma;
--		if (!vma) {
-+		if (!vma || vma_start_pgoff(vma) >= end || vma_end_pgoff(vma) <= start) {
- 			/*
--			 * If lock is no longer attached to vma, then just
--			 * unlock, drop our reference and retry looking for
-+			 * If the lock is no longer attached to this vma, or if
-+			 * the vma changed and no longer covers the folio, then
-+			 * just unlock, drop our reference and retry looking for
- 			 * other vmas.
- 			 */
- 			up_write(&vma_lock->rw_sema);
-@@ -459,6 +460,7 @@ static void hugetlb_unmap_file_folio(struct hstate *h,
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index befa2670cb03f..2c13349863bd8 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -5457,6 +5457,14 @@ static void hugetlb_unmap_range(struct mmu_gather *tlb,
+ 		 * unmapped and its refcount is dropped, so just clear pte here.
  		 */
- 		v_start = vma_offset_start(vma, start);
- 		v_end = vma_offset_end(vma, end);
-+		VM_WARN_ON_ONCE(v_start >= v_end);
- 		if (hugetlb_vma_maps_pfn(vma, v_start, pfn))
- 			unmap_hugepage_range(vma, v_start, v_end, NULL,
- 					     ZAP_FLAG_DROP_MARKER);
+ 		if (unlikely(!pte_present(pte))) {
++			/*
++			 * If we have a folio provided, we only care about
++			 * present page table entries (folio is locked).
++			 */
++			if (folio_provided) {
++				spin_unlock(ptl);
++				continue;
++			}
+ 			/*
+ 			 * If the pte was wr-protected by uffd-wp in any of the
+ 			 * swap forms, meanwhile the caller does not want to
 
 -- 
 2.56.1
