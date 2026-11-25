@@ -1,100 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.217.50
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795597731;
-	b=JjAxygMCBhBaFSyzuSmp4HwisLQr7GPoXdaX6TIJqK03shS1qvGvPIc4xOCXgDUZzznI
-	 R5sRsxNxoCU8BdTHiA7/++ltKiFVbMWA03gd4CJpJ162m+hxnn0Yy0cihSFKvg5qHkZib
-	 PouG6Y48jyWW4HNZ+OszKrtRXGmbkQto8NqeHiWEnLTsgNrPPSnP+PZ8bOYdbPlI/pQW6
-	 srL5jgSgVrZbfJ9iCRrp2S3MUOM27iTjV4ydfnYZfRDS9Io3qS8+zpjMb9kloDYACYfzx
-	 ORPC82hP+WOuucaxO8lch93C/jAaopv1OmkXoKP7wxQgQWa4QGOJAaCd1H1zDoo6g2w==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795597731;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=KuvoUDCaIBt8E6V4M3XTLtfXIPJakzIdb85mkQY3hms=;
-	b=AdMJRVD7Oa0Mhto4TFE2hFF/HFiBcq1lMsBt/R4tmQWFmWu+DP06wtej1piM7YZy7QXU
-	 qCDCz8+l9s68UJMej2dmQwac1BNMcHLYzMC7iPPE1w1JW9yk48B4n4Rc11U/Djv+8ystx
-	 kLisdkZoYKnIfzLKM0xSnFxIYzuVsy5dNB03QEqwKjpE/QtcFtfdpa+p0/I8O662uxvuz
-	 JmXONorSgNrtE8kVscCaJVugn3a0VfCkPkdxbJbAe1lIAfPWXd74xPFMarg1KS8RMiOgf
-	 FlmFoLfsOfLoVWXzaQ97k/FoPsgYZniHvgHcm0KO6f6ChB3Wg+0N3KXT8cE/eJKyCSQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amutable.com;
-	spf=pass smtp.mailfrom=amutable.com;
-	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=A64RA4rh;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.217.50
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C753606A331
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 09:08:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9C753606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=A64RA4rh
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-7cc53938a8fso3705773137.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 01:08:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795597729; cv=none;
-        d=google.com; s=arc-20260327;
-        b=dtNlCZpmeJKyB2MvhEG/o6RUh8JlJzdxNErdXTpkfd39JI2b+tB7tkcquUOwDzpka1
-         /PScMEFXQiqZbvk5fC7iXp26/R03/212IowsL3aitpfuecKVoFe20kGi02afd28zR4/V
-         M1Ni7MXIR/ILfqd+vejvhO/rV/VKHiNmBVqd7lhWCJJrLEew5vJRlINgLFCLTnVycrZz
-         tHYNIc1iEcdVQqB3gE1tBucjehBOPYd8yiaS5kcTQPL+YWDViO1PzvlWGg4suqFmxjG0
-         Mqr4HURRqd4lL/j3kelnQLACBROAfP2rfp3Ds+Rt1/Sjx6tFzZP96QdbMNBWkJWVUfm1
-         sU0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KuvoUDCaIBt8E6V4M3XTLtfXIPJakzIdb85mkQY3hms=;
-        fh=3frn9U9klQIKhP0Q139wXf/iz+3Ki8fv54OCp7oKezM=;
-        b=YKxgSgjRMbew0YZTw10GNJbDDgKKs/XHX2qlWrZ/0S7t7D0Uod0pMIT/cUxunY+1Xz
-         2++HwR+mA4OCBstmwXQVVWHUulftumssynaKWBybq/F6jjiuPSkTbVkHwksvaPYtti5z
-         egmy2FxmUxhjINjBwLZxHGPpQauwBCCOAbpYLIOYpb6Vv6AWmf0jPNAyf2F3HJifeIkU
-         W8/i+4P9wD+0o7pgoXZTqww5RDu7h+SK4ykRr90BH9QSs2zHesm75fZIJBDcTcqGc+Nl
-         k8nbVde5iEqGyzesPNo4bzae59Kaf9N9klXRLSZIPH6wIHoqixazALVCt8wzX6wjqIqj
-         IvGA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1795597729; x=1796202529; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=KuvoUDCaIBt8E6V4M3XTLtfXIPJakzIdb85mkQY3hms=;
-        b=A64RA4rhLVkaxeL3AK+w6kVNF/j9XejWTJMtEpSG2w8mpUSVnjYKhSIfopUYUPTfUN
-         E8up/uiczsdf6+6hVtsWA95M+TfZ1apFye3OZzf+QXC0lM+kCfIA2m1zrgSAsBHzi9nd
-         jFo9Tt6X1+8l8yNih+SUNKm6tpJEmA0IqXoM/Vt1PLWUBGNNZ9boleBccA2Akij4eifb
-         aStof6OoIoL7Sq5ZRulZ2ibzQ0YSJxEDq79gSDwPuq/uuopDpkGTpWJJvDxOVDe6Comt
-         kCc+UOGOHdCrTLpG3kgGZHEM5NZvdEiglSpAwfW3OdwxNyrNUrX2NODB6vkewGK6C2wB
-         faFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795597729; x=1796202529;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KuvoUDCaIBt8E6V4M3XTLtfXIPJakzIdb85mkQY3hms=;
-        b=0vBLjF5yznCMMuC14IlslCOO6E6+1YpGmiop5M2tFibjz2x1pss8EXzcBfEoiIUypA
-         w92yxNNHHaYzqmNaiDH82WXWkezjK4/zdWjYbhfnm5eQd+leyOzJMLH1MEYhQRB+xAbW
-         hE1VcfkwTwh39X9+Rb6iY5LxCx79MbUjQraovYOWjtM9x4QraMXDBJXLik0i60JF/VE6
-         e81GV9WR+gpyvb8HRtEQU5CufEkZOHponM5dc2wvbajtZjTTUTs8rGoSnyybzkLfxQ4/
-         MLBky9VSXB8iZHBVXN3LaC8LvtgGuu/zKFcKtTiAY2cQ4PKuzgo0tYCJB0vcb5Nv5nA3
-         qeXw==
-X-Forwarded-Encrypted: i=1; AL+hErG0j24Y34I1FLv3lsZBVtKJwbbSLsQ9H3WbohQfdC0wCRbYNYEJ7tZA92tYI6/Y67jZ+ZOdMwSuB3W7UP6Z@vger.kernel.org
-X-Gm-Message-State: APuU4Z9Lb2sgwl2mSxjkS21AblcdyREgl6i61pUY8Rvtm1o6PFy2cPOL
-	BB+a01MDnpRDuw0NkX0X2KWyIl2NHDGL+Ce4HsXzBkvWK+MgzTSigYQwf4K3BoA2pXkTMfsT5nm
-	rKol5+BTs2wQveDgx8cfKu9aXkk/ghNPe0n9hsbg/HOQ=
-X-Gm-Gg: AZFdTZf1TprUNk2uFmLcGHJGW8PJF8XPw7SA617icRopVX1ZV8AyMfdCrAMdztc87tm
-	Yd95pEm0ezF1+AOKUROBO9tgLusQSMl5FmYbX6NyvanjKbFTEe00M/XHv8MeNYutVTZIgXgOERN
-	zllhrX6JQIUZYReZmc6ozwbojOPZxDJ5S0PZGFAn1a0b/ocKEG2HtQ+kz0K6oLa64RMMJmrMLno
-	lpwTF5lqMY9GfYFjUZdLL7ZMQjkqA8MiB4TIwFcv0R/n0sCzr70sTHeNBWfIAdSp1m+1sX/5GHO
-	FIpB1ykqxPDcmkupLRvlFN4lwL2WGIcMdUjPLs5wfnBQ3XXgf+P+RKLXBaR2WAdDOdgh29V2ssB
-	bxD8um480PF8vqEmagmzaAsIAw3+a/enNGUtYHeomCRiQP/EYEzFGS6CpT2Bcsi8Fzes=
-X-Received: by 2002:a67:e115:0:b0:7cc:115:ddf4 with SMTP id
- ada2fe7eead31-7d73961ffdfmr7565233137.25.1795597729498; Wed, 25 Nov 2026
- 01:08:49 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=101.204.27.37
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795597941;
+	b=CLeYnD12wzFmqs4tARxlbFLegrz1yfI1QBdof5GtXZCq4Dih93ct8SJcgCYZ1ZOJxCeH
+	 TC9XaJnzBq6vsnRe/D1aUh50JB/Sehb/sC0QeQjbJ4dII1E2hNqYe0Hoz/I7fHi2cUirJ
+	 dXJ+gaL6TeoJ8zS0wclZctspU6kdJtKIuFJ36bR4mEs0MjBn7lOdapqeLrpqbR13SR6Oi
+	 wygD3hafSRL0TcxzQK5dpy80VPT8IFC6R3i5lc/xPC1b5beSRiGcAvkZoNjU6kLiYDIEQ
+	 qZo9cj1hPBc9Cu/hKgowzMY0FMU3OJTbfnvhYkx/G9aZwzxbYRXGcAlLVLQk06/cJUg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795597941;
+	h=DMARC-Filter:Received:Received:Received:Received:From:To:CC:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=y3AlrLrmzijoOmmLMUS871ALaIug8w67kopjsTk4pe4=;
+	b=OFx5lB1V/yTIKn0sczN3RxFeMm4qm5N0raTVy47BudO3TDzwfeqyzpm/LOON+HQqg6vi
+	 k7bqDsxgm+dPB7egtWd7D1rAhu13jqGV+Q0c+V8+H6FK+GODnpVCw6YrKUX40b0c9hkTk
+	 exsCX4Mci/pBwCvyX5BjJeMr5AROf5uC7Kqye3BRwTA8O7aay6XEnaSHsTL5OzAL5gD3X
+	 cZQ/LpqEgxyNW+07T/3iX75FKqSYU3eFWPTOyrvAObwUU+lXtMGCZqM3SCjJ3iI1GqrFb
+	 BIlLv4bonMb1eXAjc1MhkBGbEdLObCZWvhGLC5SHzkfXzAS3i7AjPa/zpxICJ3ORHSA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=hygon.cn;
+	spf=pass smtp.mailfrom=hygon.cn;
+	arc=none smtp.remote-ip=101.204.27.37
+Received: from spam01.hygon.cn (unknown [101.204.27.37])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D249606A329;
+	Wed, 25 Nov 2026 09:12:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D249606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
+Received: from maildlp2.hygon.cn (unknown [127.0.0.1])
+	by spam01.hygon.cn (Postfix) with ESMTP id 4jZDTP28vrzVcB8;
+	Wed, 25 Nov 2026 17:12:09 +0800 (CST)
+Received: from maildlp2.hygon.cn (unknown [172.23.18.61])
+	by spam01.hygon.cn (Postfix) with ESMTP id 4jZDTP1HGTzVhfS;
+	Wed, 25 Nov 2026 17:12:09 +0800 (CST)
+Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
+	by maildlp2.hygon.cn (Postfix) with ESMTPS id 84690300B6F1;
+	Wed, 25 Nov 2026 17:10:56 +0800 (CST)
+Received: from hsj-2U-Workstation.hygon.cn (172.19.24.226) by
+ cncheex04.Hygon.cn (172.23.18.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Wed, 25 Nov 2026 17:12:06 +0800
+From: Huang Shijie <huangsj@hygon.cn>
+To: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <jack@suse.cz>,
+	<hch@infradead.org>, <agruenba@redhat.com>, <mic@digikod.net>,
+	<axboe@kernel.dk>
+CC: <gnoack@google.com>, <paul@paul-moore.com>, <jmorris@namei.org>,
+	<serge@hallyn.com>, <legion@kernel.org>, <aleksa@amutable.com>,
+	<libaokun@linux.alibaba.com>, <ebiggers@kernel.org>, <djwong@kernel.org>,
+	<sandeen@redhat.com>, <zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>,
+	<yingzhiwei@hygon.cn>, <wujianyong@hygon.cn>, <shijie8@gmail.com>,
+	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-block@vger.kernel.org>, <gfs2@lists.linux.dev>,
+	<linux-security-module@vger.kernel.org>, Huang Shijie <huangsj@hygon.cn>
+Subject: [PATCH v4 01/11] vfs: add sb_inode_iter_next()
+Date: Wed, 25 Nov 2026 17:11:47 +0800
+Message-ID: <20261125091157.1822521-2-huangsj@hygon.cn>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261125091157.1822521-1-huangsj@hygon.cn>
+References: <20261125091157.1822521-1-huangsj@hygon.cn>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,136 +68,199 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261124195430.105522-1-alex@amutable.com> <ykuz2hhjgnfhwnh7srst3ev4yqetv5jrs3vn5idwr5jfynszax@zrbrypi5phon>
-In-Reply-To: <ykuz2hhjgnfhwnh7srst3ev4yqetv5jrs3vn5idwr5jfynszax@zrbrypi5phon>
-From: Alexander Mikhalitsyn <alex@amutable.com>
-Date: Wed, 25 Nov 2026 10:08:36 +0100
-X-Gm-Features: Aa3M54qn6h9ODGjV2IafKC2EXuw5MUKOakyqBrbUxm2h5WabcIWL6MsV22rl6GI
-Message-ID: <CAL65ydQaiFfQtEcFhDUA2HbrUnAUe86m9uGVoWneh7wpLZUZ0w@mail.gmail.com>
-Subject: Re: [PATCH] ecryptfs: release inode on error path in ecryptfs_lookup_interpose
-To: Jan Kara <jack@suse.cz>
-Cc: code@tyhicks.com, brauner@kernel.org, ecryptfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Seth Forshee <sforshee@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: cncheex05.Hygon.cn (172.23.18.115) To cncheex04.Hygon.cn
+ (172.23.18.114)
 
-On Wed, Nov 25, 2026 at 10:02=E2=80=AFAM Jan Kara <jack@suse.cz> wrote:
->
-> On Tue 24-11-26 20:54:29, Alexander Mikhalitsyn wrote:
-> > Currently, when ecryptfs_i_size_read() fails we only do make_bad_inode(=
-)
-> > which only removes the inode from a hash. So it's not getting released
-> > and on umount we get "VFS: Busy inodes after unmount of ecryptfs" (see =
-below).
-> >
-> > Let's fix it by using iget_failed() when inode is I_NEW and iput() when=
- it's not.
-> >
-> > This was accidentally found while working on SB_I_PSEUDO fix.
-> >
-> > ------------[ cut here ]------------
-> > VFS: Busy inodes after unmount of ecryptfs (ecryptfs)
-> > WARNING: fs/super.c:731 at generic_shutdown_super+0x117/0x1a0, CPU#11: =
-umount/402
-> > Modules linked in:
-> > CPU: 11 UID: 0 PID: 402 Comm: umount Not tainted 7.4.0-rc1-virtme #9 PR=
-EEMPT(lazy)
-> > Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-debi=
-an-1.16.3-2 04/01/2014
-> > RIP: 0010:generic_shutdown_super+0x125/0x1a0
-> > Code: 5d 5d c3 cc cc cc cc e8 19 d0 f3 ff 48 8b bb 18 01 00 00 eb d7 48=
- 8d 3d a9 93 d1 01 48 8b 43 50 48 8d b3 d8 03 00 00 48 8b 10 <67> 48 0f b9 =
-3a 4c 8d ab 40 05 00 00 4c 89 ef e8 17 6c b0 00 48 8b
-> > RSP: 0018:ffffccc0406bbcf8 EFLAGS: 00010283
-> > RAX: ffffffff87d54a20 RBX: ffff8a7bc2358800 RCX: 00000000000000b5
-> > RDX: ffffffff873e7853 RSI: ffff8a7bc2358bd8 RDI: ffffffff87e52550
-> > RBP: ffffccc0406bbd10 R08: ffff8a7bc235d408 R09: fffff12a00000000
-> > R10: ffffccc0406bbcf0 R11: ffffffff87d209d8 R12: ffff8a7bc2358d48
-> > R13: ffff8a7bc2388824 R14: 0000000000000000 R15: 0000000000000000
-> > FS:  00007fd846e02840(0000) GS:ffff8a7c76af9000(0000) knlGS:00000000000=
-00000
-> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > CR2: 00007fd84716e8e0 CR3: 00000000037d8000 CR4: 0000000000350eb0
-> > Call Trace:
-> >  <TASK>
-> >  kill_anon_super+0x1c/0x80
-> >  ecryptfs_kill_block_super+0x1a/0x50
-> >  deactivate_locked_super+0x39/0xc0
-> >  deactivate_super+0x47/0x60
-> >  cleanup_mnt+0x3b/0x80
-> >  __cleanup_mnt+0x16/0x20
-> >  task_work_run+0x64/0x90
-> >  exit_to_user_mode_loop+0x177/0x570
-> >  do_syscall_64+0x352/0x410
-> >  ? up_read+0x1f/0xe0
-> >  ? schedule+0x27/0xb0
-> >  ? schedule+0x27/0xb0
-> >  ? schedule+0x27/0xb0
-> >  ? trace_preempt_on+0x28/0x80
-> >  ? schedule+0x38/0xb0
-> >  ? preempt_count_sub+0x4d/0x70
-> >  ? irqentry_exit+0x2e1/0x700
-> >  ? exc_page_fault+0x8d/0x170
-> >  ? do_syscall_64+0x33/0x410
-> >  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> > RIP: 0033:0x7fd84705c1d7
-> > Code: 0d 00 f7 d8 64 89 02 b8 ff ff ff ff c3 66 0f 1f 44 00 00 31 f6 e9=
- 09 00 00 00 66 0f 1f 84 00 00 00 00 00 b8 a6 00 00 00 0f 05 <48> 3d 00 f0 =
-ff ff 77 01 c3 48 8b 15 09 3c 0d 00 f7 d8 64 89 02 b8
-> > RSP: 002b:00007ffd3839fae8 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
-> > RAX: 0000000000000000 RBX: 000055b7f819dbf8 RCX: 00007fd84705c1d7
-> > RDX: 0000000000000000 RSI: 0000000000000000 RDI: 000055b7f819df30
-> > RBP: 0000000000000000 R08: 00007ffd3839e8d0 R09: 00000000ffffffff
-> > R10: 0000000000000103 R11: 0000000000000246 R12: 00007fd8471ba26c
-> > R13: 000055b7f819df30 R14: 0000000000000000 R15: 000055b7f819daf0
-> >  </TASK>
-> > ---[ end trace 0000000000000000 ]---
-> >
-> > Fixes: 3b06b3ebf441 ("eCryptfs: Fix new inode race condition")
-> > Signed-off-by: Alexander Mikhalitsyn <alex@amutable.com>
+Walking sb->s_inodes requires taking sb->s_inode_list_lock, grabbing a
+reference on the next inode, dropping the lock and then working on the
+inode.  That sequence is open coded in several places, each with its own
+subtleties around rescheduling and iput().
 
-Dear Jan,
+Add struct sb_inode_iter, which the caller declares and owns, plus
+sb_inode_iter_next() to step through the list and sb_inode_iter_end() to
+release the last reference.
 
->
-> I can see this fix already in vfs.git as b793b0bfa631 ("ecryptfs: don't
-> leak the inode when a lookup can't open the lower file").
+As the cursor inode is referenced or pinned by other method, it cannot be
+unlinked from sb->s_inodes, so the walk resumes from it after the caller
+has dropped the lock.
 
-Ugh, my bad. I've checked a next branch for ecryptfs and quickly
-looked on the mailing list and didn't find it.
+Callers that need to filter inodes can provide iter->eligible,
+which is called with inode->i_lock held, and callers that need to
+stop early can set iter->status.
 
-Sorry for the noise.
+Signed-off-by: Huang Shijie <huangsj@hygon.cn>
+---
+ fs/super.c                     | 102 +++++++++++++++++++++++++++++++++
+ include/linux/fs/super_types.h |  40 +++++++++++++
+ 2 files changed, 142 insertions(+)
 
-Kind regards,
-Alex
+diff --git a/fs/super.c b/fs/super.c
+index c5a0658f7aaf..077e772fa19b 100644
+--- a/fs/super.c
++++ b/fs/super.c
+@@ -171,6 +171,108 @@ static void super_wake(struct super_block *sb, unsigned int flag)
+ 	wake_up_var(&sb->s_flags);
+ }
+ 
++static bool sb_inode_iter_check(struct sb_inode_iter *iter, struct inode *inode)
++{
++	bool ret = false;
++
++	if ((iter->flags & INO_ITER_F_REFERENCED) && !icount_read_once(inode))
++		return false;
++
++	if ((iter->flags & INO_ITER_F_NOREF) && icount_read_once(inode))
++		return false;
++
++	spin_lock(&inode->i_lock);
++
++	if ((iter->flags & INO_ITER_F_NOREF) && icount_read(inode))
++		goto out_unlock;
++
++	if (inode_state_read(inode) & (I_NEW | I_FREEING | I_WILL_FREE))
++		goto out_unlock;
++
++	if (iter->eligible && !iter->eligible(inode, iter->priv))
++		goto out_unlock;
++
++	if (!(iter->flags & INO_ITER_F_NOIGET))
++		__iget(inode);
++
++	ret = true;
++out_unlock:
++	spin_unlock(&inode->i_lock);
++	return ret;
++}
++
++static inline bool sb_inode_iter_flags_valid(int flags)
++{
++	switch (flags) {
++	case 0:
++	case INO_ITER_F_REFERENCED:
++	case INO_ITER_F_NOREF | INO_ITER_F_NOIGET:
++		/* only used by evict_inodes() */
++		return true;
++	default:
++		return false;
++	}
++}
++
++/**
++ * sb_inode_iter_next - return the next inode of @iter->sb
++ * @iter: iterator state
++ *
++ * The returned inode stays on sb->s_inodes for the next round
++ * without holding sb->s_inode_list_lock:
++ *  -- By default, this inode has an increased reference count.
++ *  -- If INO_ITER_F_NOIGET is set, this inode will not change
++ *	its reference count.
++ *
++ * Return the next inode, or NULL once the walk is over or @iter->status is
++ * negative.
++ */
++struct inode *sb_inode_iter_next(struct sb_inode_iter *iter)
++{
++	struct super_block *sb = iter->sb;
++	struct inode *prev = iter->inode, *inode;
++
++	if (!sb_inode_iter_flags_valid(iter->flags)) {
++		VFS_WARN_ON_ONCE(1);
++		iter->status = -EINVAL;
++		return NULL;
++	}
++
++	if (iter->status || iter->done)
++		return NULL;
++
++	spin_lock(&sb->s_inode_list_lock);
++	VFS_WARN_ON_ONCE(prev && list_empty(&prev->i_sb_list));
++	inode = list_prepare_entry(prev, &sb->s_inodes, i_sb_list);
++	list_for_each_entry_continue(inode, &sb->s_inodes, i_sb_list) {
++		if (!sb_inode_iter_check(iter, inode))
++			continue;
++
++		spin_unlock(&sb->s_inode_list_lock);
++		iter->inode = inode;
++		if (!(iter->flags & INO_ITER_F_NOIGET))
++			iput(prev);
++		return inode;
++	}
++	spin_unlock(&sb->s_inode_list_lock);
++
++	iter->inode = NULL;
++	iter->done = true;
++	if (!(iter->flags & INO_ITER_F_NOIGET))
++		iput(prev);
++	return NULL;
++}
++EXPORT_SYMBOL_GPL(sb_inode_iter_next);
++
++void sb_inode_iter_end(struct sb_inode_iter *iter)
++{
++	if (!(iter->flags & INO_ITER_F_NOIGET))
++		iput(iter->inode);
++	iter->inode = NULL;
++	iter->done = true;
++}
++EXPORT_SYMBOL_GPL(sb_inode_iter_end);
++
+ /*
+  * One thing we have to be careful of with a per-sb shrinker is that we don't
+  * drop the last active reference to the superblock from within the shrinker.
+diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.h
+index 72f4288e16c5..b844e5259360 100644
+--- a/include/linux/fs/super_types.h
++++ b/include/linux/fs/super_types.h
+@@ -80,6 +80,46 @@ enum freeze_holder {
+ 	FREEZE_EXCL		= (1U << 3),
+ };
+ 
++/* Caller-owned state for walking sb->s_inodes. */
++struct sb_inode_iter {
++	struct super_block	*sb;
++	struct inode		*inode;
++	bool			(*eligible)(struct inode *inode, void *priv);
++	void			*priv;
++	bool			done;
++	int			status;
++	int			flags;
++};
++
++/* Only hand out inodes that still have a reference. */
++#define INO_ITER_F_REFERENCED	BIT(0)
++/* Only hand out inodes whose reference count has reached zero. */
++#define INO_ITER_F_NOREF	BIT(1)
++/* Do not take a reference on the inodes handed out. */
++#define INO_ITER_F_NOIGET	BIT(2)
++
++struct inode *sb_inode_iter_next(struct sb_inode_iter *iter);
++void sb_inode_iter_end(struct sb_inode_iter *iter);
++
++static inline struct sb_inode_iter
++sb_inode_iter_init(struct super_block *sb,
++		   bool (*eligible)(struct inode *inode, void *priv),
++		   void *priv, int flags)
++{
++	return (struct sb_inode_iter){
++		.sb		= sb,
++		.eligible	= eligible,
++		.priv		= priv,
++		.flags		= flags,
++	};
++}
++
++DEFINE_CLASS(sb_inode_iter, struct sb_inode_iter,
++	     sb_inode_iter_end(&_T),
++	     sb_inode_iter_init(sb, eligible, priv, flags),
++	     struct super_block *sb, bool (*eligible)(struct inode *, void *),
++	     void *priv, int flags)
++
+ struct super_operations {
+ 	struct inode *(*alloc_inode)(struct super_block *sb);
+ 	void (*destroy_inode)(struct inode *inode);
+-- 
+2.53.0
 
->
->                                                                 Honza
->
-> > ---
-> >  fs/ecryptfs/inode.c | 5 ++++-
-> >  1 file changed, 4 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
-> > index 48e520960d66..3a966348a578 100644
-> > --- a/fs/ecryptfs/inode.c
-> > +++ b/fs/ecryptfs/inode.c
-> > @@ -362,7 +362,10 @@ static struct dentry *ecryptfs_lookup_interpose(st=
-ruct dentry *dentry,
-> >       if (S_ISREG(inode->i_mode)) {
-> >               rc =3D ecryptfs_i_size_read(dentry, inode);
-> >               if (rc) {
-> > -                     make_bad_inode(inode);
-> > +                     if (inode_state_read_once(inode) & I_NEW)
-> > +                             iget_failed(inode);
-> > +                     else
-> > +                             iput(inode);
-> >                       return ERR_PTR(rc);
-> >               }
-> >       }
-> > --
-> > 2.47.3
-> >
-> --
-> Jan Kara <jack@suse.com>
-> SUSE Labs, CR
+
