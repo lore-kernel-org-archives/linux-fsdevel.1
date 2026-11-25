@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=182.48.54.220
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795616325;
-	b=clVChf3iXdpm9RjS78lZX01qf/obsP3qfPYPEXoctYkfK3gYpdwI9/zDih0+SCbNgh8/
-	 iafyZJuHA3O7AWQZ2SH+4M19DlIEH0KVTSSbP6Oks5LnjOJMgtBuPcf9yqkhkYNPe/Jtp
-	 EFx7nJVO4zYikNl72htiCJ6Tk+CXIe8RGsW6ER/rIJcrXzIHDw1wr8bjmn8GhtVv2n4B/
-	 whwFTZI5cxmBywn6mxofz+HM0Qm80dMuWtEr2hhYOVvZTinBWdkmhMmV9DCThbsdmJblG
-	 GkZVTB419DmjcFLMUAGxuMZq/D+aQCpTDAFOi7T0uuSCWuxLkqfRxs7OZTeQE/UOINw==
+	t=1795616321;
+	b=jpEPxvlbWuH7l9U6lzdgusz2aypeSUsUu/UZfCRChbjAoZnOVudfjG8tsHd8xKKWBHAh
+	 MFlEMSis8yPE9cExklNlNZMJMaSbIhUTAPGN6rUNIqx4VAZAV+l3y85CTegRaxzAOWBgh
+	 ApopjLyM7xD+72XPB3Ca5iVaOfAV0iWphBJ8BnVUuPtFhz/Kz8Bn1qzJuNkpNH9FX2DlR
+	 BXHeiSm7n6KuKCDB7BPvxuOXW5EZ0zuOS5yYIou58KaAk6GE36udZ+zObEjBvDMHs6DoI
+	 GW5pL/5xnYnKtIM6SkyqhBYrkfQcBqKUWUN5j/D/07MQ1YFrNLUZPbH+jxBHJ9Z7Ffw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795616325;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795616321;
 	h=DMARC-Filter:Received:From:Date:To:Cc:Subject:Message-ID;
-	bh=/u0VjsxyPMAOJR7Q0uAek0+O26RmbI4zuyFPBC98RLU=;
-	b=2TYYhA4hO/eCuXPsEp2BQBObNl9KlD7ykgOLjcT1qeab9QSrSWq2if2qPPk/23lAFPhH
-	 AqX7jqM3Fs6w8soVTAxtpb5uyY7nNZP6D+ZBBuIHaEoCYzzTpBbem6NZN/RT2LD/aUiNE
-	 NTySaDl8O2d1GLuFtwaRvvDWyT2VJneywfP/NSnqlohjZfnxlE7GP9SC5s49BMln9q2yA
-	 Rf+0AHiZWLA765WIuqVaGX74t/SosUTp1dkaf8ujC4g3LrQae4xw1D4T5eE3yTfqPbchl
-	 wJtWnUXrlf5D+5ozyrvjOepZDFAmuIuh8Yyyit/MegnzNd63BoaKxI+mfeKNozK4Plw==
+	bh=d+Fe56rO9Y8xjvaMg3TO/RXpFnmt/k5+69VkIh7gtzg=;
+	b=ZXJc+fxMplIXVfGGRHKWnSgiYsZg/qNKmXnfPPPsa8sJxypqfiASRoXHY/Q1x1NDOg0z
+	 2jL1Nvv/3vX/i+8doCfVaFFwTNTLcpaWZwjHLnJY3f2BUgN+dPFQ9I1bpGG+V1seeryLQ
+	 jry2teyGYirbjvCLqpl3mOljEu9DZRLBk7lw4yVjQkOxeBmwRb/a8BEYUz54OLds1qxSw
+	 b7yGYxDYG6MMPHKVSZS9cnBMOsxaOebbODiwEAOOsfBUH4iqsGJVC/FYJv93hxYFNh2R0
+	 X0ShiSZbzWipr9rah4iT9Iy3dUDaFaJC06NkHhbMGfGWvGhR6+/c3yDddB7FFeXO/cw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=snowrabbit.org;
 	spf=pass smtp.mailfrom=snowrabbit.org;
 	arc=none smtp.remote-ip=182.48.54.220
 Received: from bambi.snowrabbit.org (bambi.snowrabbit.org [182.48.54.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89C9D606A31E;
-	Wed, 25 Nov 2026 14:18:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89C9D606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C465606A321;
+	Wed, 25 Nov 2026 14:18:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2C465606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=snowrabbit.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snowrabbit.org
 Received: by bambi.snowrabbit.org (Postfix, from userid 3001)
-	id DD70CC9300; Wed, 25 Nov 2026 23:18:43 +0900 (JST)
+	id B0E5DC9300; Wed, 25 Nov 2026 23:18:38 +0900 (JST)
 From: Showta Ishizaki <zakinko@snowrabbit.org>
 Date: Wed, 25 Nov 2026 23:18:20 +0900
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
@@ -34,8 +34,8 @@ Cc: ntfs3@lists.linux.dev,
     linux-fsdevel@vger.kernel.org,
     linux-kernel@vger.kernel.org,
     Showta Ishizaki <zakinko@snowrabbit.org>
-Subject: [PATCH] fs/ntfs3: keep the reparse tag of a long symlink in the parent
-Message-ID: <20261125-ntfs3-02-v1@snowrabbit.org>
+Subject: [PATCH] fs/ntfs3: drop the mapping pairs when a file loses all its clusters
+Message-ID: <20261125-ntfs3-03-v1@snowrabbit.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -45,91 +45,55 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 
-readdir() returns DT_REG for a symlink with a long target once the
-symlink itself has been changed:
+When a non-resident attribute is truncated to nothing,
+attr_set_size_ex() sets evcn to -1 and leaves the old mapping pairs in
+the record.  chkdsk on Windows reports such a record as corrupt:
 
-  # ln -s $(printf 'a%.0s' $(seq 200)) l
-  # touch -h l
+  Attribute record (80, "") from file record segment AD is corrupt.
 
-After a remount l is a symlink for lstat() and a regular file for
-readdir().  ntfs3 keeps the reparse data of such a symlink non-resident,
-and ni_update_parent() takes the tag only from resident data, so it
-writes 0 over the tag in the parent.
+Leave only the zero byte that ends the mapping pairs, and shrink the
+attribute to it.  mi_pack_runs() cannot be used for this, it returns
+-ENOSPC when there is nothing to pack.
 
-Read the tag from disk when the data is non-resident.
+I tried it on two volumes, one where files were written and some of them
+truncated to nothing, and one after fsstress (-n 4000 -p 4).  Without
+the patch all 16 empty files of the first and 3 of the 90 of the second
+still had mapping pairs, and chkdsk exited 3 on both.  With it there
+were none, and chkdsk exited 0 on both.  File contents were the same
+after a remount.
 
-I tried targets of 10, 100, 200, 500 and 1000 bytes.  Without the patch
-touch -h made the last three DT_REG, and with it all five stay DT_LNK,
-also after chown -h and a rename.
-
+Fixes: be71b5cba2e6 ("fs/ntfs3: Add attrib operations")
 Signed-off-by: Showta Ishizaki <zakinko@snowrabbit.org>
 ---
- fs/ntfs3/frecord.c | 45 ++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 36 insertions(+), 9 deletions(-)
+ fs/ntfs3/attrib.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
-index 16ac847..14b9006 100644
---- a/fs/ntfs3/frecord.c
-+++ b/fs/ntfs3/frecord.c
-@@ -3039,6 +3039,36 @@ int ni_write_parents(struct ntfs_inode *ni, int sync)
- 	return err;
- }
+diff --git a/fs/ntfs3/attrib.c b/fs/ntfs3/attrib.c
+index d0f8c48..fbda12b 100644
+--- a/fs/ntfs3/attrib.c
++++ b/fs/ntfs3/attrib.c
+@@ -818,6 +818,21 @@ pack_runs:
  
-+/*
-+ * ni_reparse_tag - Return the tag of the reparse point in @attr.
-+ *
-+ * The tag is the first field of the reparse data (MS-FSCC 2.1.2.2).
-+ * ntfs_create_inode() keeps the reparse data of a long symlink
-+ * non-resident, so it may have to be read from disk.  Returns 0 if it
-+ * cannot be read.
-+ */
-+static __le32 ni_reparse_tag(struct ntfs_inode *ni, struct ATTRIB *attr)
-+{
-+	const struct REPARSE_POINT *rp;
-+	struct runs_tree run;
-+	__le32 tag;
+ 			le = (struct ATTR_LIST_ENTRY *)((u8 *)le - le_sz);
+ 		} else {
++			u32 asize = le32_to_cpu(attr->size);
++			u32 roff = le16_to_cpu(attr->nres.run_off);
++			u32 nsize = ALIGN(roff + 1, 8);
 +
-+	if (!attr->non_res) {
-+		rp = resident_data_ex(attr, sizeof(struct REPARSE_POINT));
-+		return rp ? rp->ReparseTag : 0;
-+	}
-+
-+	if (le64_to_cpu(attr->nres.data_size) < sizeof(tag))
-+		return 0;
-+
-+	run_init(&run);
-+	if (attr_load_runs_vcn(ni, ATTR_REPARSE, NULL, 0, &run, 0) ||
-+	    ntfs_read_run_nb(ni->mi.sbi, &run, 0, &tag, sizeof(tag), NULL))
-+		tag = 0;
-+	run_close(&run);
-+	return tag;
-+}
-+
- /*
-  * ni_update_parent
-  *
-@@ -3098,15 +3128,12 @@ static bool ni_update_parent(struct ntfs_inode *ni, struct NTFS_DUP_INFO *dup,
- 		attr = ni_find_attr(ni, NULL, NULL, ATTR_REPARSE, NULL, 0, NULL,
- 				    NULL);
- 
--		if (attr) {
--			const struct REPARSE_POINT *rp;
--
--			rp = resident_data_ex(attr,
--					      sizeof(struct REPARSE_POINT));
--			/* If ATTR_REPARSE exists 'rp' can't be NULL. */
--			if (rp)
--				dup->extend_data = rp->ReparseTag;
--		}
-+		/*
-+		 * Reading only resident data here used to leave extend_data 0
-+		 * for a long symlink, and readdir then reported it as DT_REG.
-+		 */
-+		if (attr)
-+			dup->extend_data = ni_reparse_tag(ni, attr);
- 	} else if (ni->ni_flags & NI_FLAG_EA) {
- 		attr = ni_find_attr(ni, attr, &le, ATTR_EA_INFO, NULL, 0, NULL,
- 				    NULL);
++			/*
++			 * Every cluster goes.  Setting evcn alone left the old
++			 * mapping pairs behind it, and chkdsk on Windows
++			 * reports such an attribute record as corrupt.  Leave
++			 * only the zero byte which ends the mapping pairs.
++			 * mi_pack_runs() does not take an empty range.
++			 */
++			if (nsize <= asize) {
++				memset(Add2Ptr(attr, roff), 0, nsize - roff);
++				mi_resize_attr(mi, attr, (int)nsize - (int)asize);
++			}
+ 			attr->nres.evcn = cpu_to_le64((u64)vcn - 1);
+ 			mi->dirty = true;
+ 		}
 -- 
 2.54.0 (Apple Git-157)
 
