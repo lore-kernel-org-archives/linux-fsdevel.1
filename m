@@ -1,101 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795629141;
-	b=4aoFs5skwqHw3RBpncPjEYebHptaVM2YNaT89r+jnJ9FxYDNEH4HOncC+meJP3Tiha+A
-	 AvQ9TDd+LLcmtVROP/LOXJs1SU9Qn2AoxW8Q/h9CUO2FLmqzFNb1frKWLfgQwFJq9xPR1
-	 Nf/4ATaj6c+LChm5aRjIHtVqpGKGt06Ic7JtCcVpx/RBnruP3jZPxHhlRW9LPnFkoEOPO
-	 uJvEz9pfvsBpJol8D04NzphIwH3KeT1w4XerDEKklbbI0DT4laWM4oNBnHa6iMz4IVJnb
-	 Nbsu42Hqf9bY1xjqCjak6xCNPsNq5GIVot4zMZJU/h0K2kBY0S3ialtTiZw5YI1L5tQ==
+	t=1795629560;
+	b=pvxSQJqQbesUCq4MVRKzCaisO8BLA8nSM8ArpknDphrbqghLno+kqkocEllBzag02Uhp
+	 b0PoSA5iLrggvu0PVonC0fbQW1BgI1ktrQnPa4fvsX+ht+fs6xvcKXWSiPjhb5p01gNd4
+	 D4z61NUxgisTp8oMBnBBKhuaYvwm6brAQn3vaDcLgf7RXrtXrPF9W3+KL8slPwF7LSy+K
+	 5Lcfe0tPF8GOQfBCk/Ko3bu1oXkgZQKI2+LPEjLt/xlwbV+nOSCxl5pF/cAcXdvajY6aT
+	 /2VGvfphV0MJoheg5wDnNM7eztJhcWeellBnYlOkWm3Ohml6nLzNIwV9SQfjL5TIryg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795629141;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:X-Forwarded-Encrypted:X-Received:Received:From:In-Reply-To:
-	 References:MIME-Version:Date:X-Gmail-Original-Message-ID:
-	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
-	bh=0+MG6+0gHbyYQq/Q0s/NefIO/PQ2Tu2wSVhno+8Yx2A=;
-	b=uSzf2dVN4TAJpwZ4CYfoUHcuUCMvM7OrlyU9wvff33z0+sHOU1vEFxsUMXaJub85+9oy
-	 ChIkwofZAxCr2cr3nX1ptUeDzikKqjuR+50veCeIFy65uoJV4UapxtUjGGsynFyxLyRm0
-	 WmbGYwUPiqkGsENKE5rwp7X1i2U2gO/R8iHM43ognPH3ux8n8xbMCv/As3LzaZcqQvMD7
-	 o5uuRsuhh94osoqxgoNDZvlcwF/mAoS+8w0KhyoaOrNKfgIryQHaa2x6ZWWSClwyfcFpe
-	 6MjBULvs8KyWrgAGH1K5FEmCJNe16GlBqNnYixKsV+5ff4HvxMcEdtBPR+wsReDxXdA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795629560;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=iy5aL1ocio+77t/dXWLXVKeq77RL7RF6fKMbaIN8tko=;
+	b=vVtgOh7MntAt249CTs+eghJVV50zM0ArFS22PhK6M1uFVxPORS8x2TTaPLALmDNCtpxX
+	 jDt6S7YqrkRe0qdx8ulg1zyg3DarAfh0hDK52ccXeDd3IxyfX2YDg9S8LUFGdn120l4iM
+	 jQSr7nMLyL6v3F5CBODUq5crYT6UDLqcT+JSabvzf9FLnXDUWZg3YT+EZnvPmJe7zLubz
+	 852lS07AsGzD5suGIfAdhohzm2L3EySJ5DOgy/UQnG6Vcu7PQCWlwctWTqZ8bpy3buUn4
+	 nfK3wVi+m09fsQ7Hx6Hpm88HwPZfCPhq5jOPJRuNV/g3ojHJoCxcNczxZglghC+gl7Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=linux-foundation.org;
-	spf=pass smtp.mailfrom=linuxfoundation.org;
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=OAzvLrB0;
-	arc=none smtp.remote-ip=209.85.218.52
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jnYqXGhh;
+	arc=none smtp.remote-ip=192.198.163.14
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FCBC606A33F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 17:52:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FCBC606A33F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87893606A327;
+	Wed, 25 Nov 2026 17:59:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87893606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=OAzvLrB0
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c40e30c26a4so1331048266b.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 09:52:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1795629139; x=1796233939; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0+MG6+0gHbyYQq/Q0s/NefIO/PQ2Tu2wSVhno+8Yx2A=;
-        b=OAzvLrB0OWE1iPxpRBcIihGMtwga8R+qGTKBq1iA2RWqJ8zKuwxIhpIYKjdy6ZPtSP
-         68iY63H9S81lQlwiKLsoa1c/h44fPrn+5sXkegNZPNMRiX+023Kr9qpT/Xp4eXh/BMaZ
-         4NZzPjJ1WvWH6xJWQPIjWj3p625norH8g4e8Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795629139; x=1796233939;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0+MG6+0gHbyYQq/Q0s/NefIO/PQ2Tu2wSVhno+8Yx2A=;
-        b=cfwiZgjj0KCPCeTUmCvyYceoh8xEn53SLEAhiYhqs6Zi3ijsR8vX6XQMndTTKoBJt2
-         b1ygOB7ZPDNeajX+mLpBF9xIPgbfXNeNjjDV6yWuFdvwH1620lOlWgeQXCq57wcXNHn6
-         QtVvJKCD3u1RS9CW8c4Vgh7oIPRKf+8yEBy/97ePLXodSqaM1nZJEtlDBX2SOSFq+v+5
-         bziqu0mrMKPGa+r4f8QjzIsqNKoCzL80azPGNCUWImsZ34jW+gFAiguPXlcrXtiWagvK
-         GfveFPm5mJz+aseJgoggA8DyqkZ8U6obYstg9o9dFZ/TAURsSskwKpzS+KQmiwTmGzEM
-         /1YQ==
-X-Forwarded-Encrypted: i=1; AL+hErFdbLN66EM9+/R7BAd3/TZcjIJAP0npErTjFjTr9u/bYyPcXENcafgRgq4bPwhpr0vF2l19xS2igOy8N4/p@vger.kernel.org
-X-Gm-Message-State: APuU4Z/c3G8ox4per51rcAFs4V7ocA6wHSsjwHai+MkPpYtt1rd9UZhX
-	JLI7Qj7A7YLBYfktRduSQr+kPQ4FFDyr/foHBmC7ssFcl0jKM5SzKdnLRvZry9SBsFOtvJAZifw
-	i7zrfHzRDQQ==
-X-Gm-Gg: AZFdTZe1+ByLfemVaMrH46yGhtDPZakAAZXHKWk9Sob5sVEM41SL4GwbdsfOSM6T5Pj
-	xUtze1vCVhZh7kIjJLI5PXmbFjyScDSRBSri7WkR02crpJRD7VWjWey7Z76yAohsnI8HfA8Ax1g
-	Iv1pr8oWLnkeqNCo1ekoSLdScZ1x1zfUoTz2a8aZLJ7CKuWcfywZew3hGU8du/7rj7KHXjaUk6t
-	LWbfYYKh0LDXupNRezwTrQi+6HaAgEL8koAUkeHEML8dgKlSdT1UvLSYDi3FqxL5AgiSRUxrO3j
-	ZpIZA9mGMOuYvLJmQa+l0hwpea0ifPBJcin3mAZgrxDwUMhBl6IjptrlQybjfHnV2jMQECth4js
-	F9orrDTo2BhIt6YBKif72lu9xxgkMAvKR3OBRi/KJ8RJqzk+t1fu5Brd8Wl5peZck9E7zdyOyKU
-	5Y8Q3Mr09X6ABgJL2M7vaJRjw8f4c/Is+qo4j64wSbhhBzi0hpozpgfLxMhB51AnkwkAScnYKr9
-	NyMw0cjGTGltZPzAQKyNuGmaHCgYgWw2LQX7fX6iVLrOt9URxC5sm1a/rKSpVe1EEhiMcIKEOl+
-	N1/1PSeoS1rouC/U0IjWzPdng9E1l14kJ2n5Q03S3uIc6iJAD3XKsHeIVYFnGTBtUe2ezJas9qg
-	7OhA=
-X-Received: by 2002:a17:907:3e86:b0:c36:777f:824c with SMTP id a640c23a62f3a-c51315851d7mr1748161666b.4.1795629138888;
-        Wed, 25 Nov 2026 09:52:18 -0800 (PST)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com. [209.85.208.48])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c51beef9395sm32467866b.17.2026.11.25.09.52.17
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Nov 2026 09:52:17 -0800 (PST)
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6b86fcbd647so9503200a12.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 09:52:17 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErFQ8QQAWiCaE1ExolRVU37J6sNaoHjNEwOS43l5wTtlMikNrczHbt8fmuQfFQn9dT7tkrKcsRfDfRQlylPE@vger.kernel.org
-X-Received: by 2002:aa7:c0d8:0:b0:6b5:6b89:e3b0 with SMTP id
- 4fb4d7f45d1cf-6ba1fc3dcfamr11863663a12.19.1795629137592; Wed, 25 Nov 2026
- 09:52:17 -0800 (PST)
-Received: from 425495914135 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 25 Nov 2026 09:52:16 -0800
-From: Linus Torvalds <torvalds@linux-foundation.org>
-In-Reply-To: <CAHk-=wiTUE9vfMvHeGz+dgex_+sMicSHnf6Nt2_w1-SkOmu8ng@mail.gmail.com>
-References: <20261122-b4-sched-wait-intr-head-v2-0-4a764b64e8ce@columbia.edu>
- <20261122-b4-sched-wait-intr-head-v2-1-4a764b64e8ce@columbia.edu>
- <CAHk-=wj_eqNh+gNhCQh3exrL5Pmo5hbZBcL0W-4Ah_Nw0Kegzw@mail.gmail.com>
- <awWSwmvaTwBxfU-r@redhat.com> <CAHk-=wj3GCXZohdFWWPAOkC_LHno4X0oQW+0sQFJzRMvjpODUg@mail.gmail.com>
- <CAHk-=wgYc9vFEmyV0Ch_e49j6GOhUCMQMnMV4f1FLLvumZOmRw@mail.gmail.com>
- <CAHk-=wgFnKO_O0fR_-O+i5yUGaDcz8_HwpM5QiLM4jPFYZb41Q@mail.gmail.com>
- <awbMwBDP9TsJBmzV@redhat.com> <CAHk-=wiTUE9vfMvHeGz+dgex_+sMicSHnf6Nt2_w1-SkOmu8ng@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jnYqXGhh
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795629560; x=1827165560;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3Q0eWoH0hqjK/+AffASRnzPWdWve09RRdkIHSFgQxy4=;
+  b=jnYqXGhhmXJ8BHq7/KPNjlc36O9TkkitxPtdTpnrAFLzh4trl5fVKmCK
+   WRw5dgTFCQIofLwCmsmBGqZNwCaYh5roRfOPxrG9h/9aByF2hsRiOmqvm
+   Vmk/qFoq9Ku0QQ5F1Il+m5h+6cZ49NMXz7mvmIFYMjyh1s0hu1eZA2S10
+   xwZIssLH5xsqYL7wQVaUtUSlxC/En/aziyVTJHw0V9VyyxMbmuXb1IiJ7
+   xaCd4u0iMTfMQn2ArtOAmH30T6x4DnYNG63LWX1i3UAVEY4gFiUfPYyNr
+   KpPdpdbdnkP2M8ZJvbNXMP2hAEIzQjRzNHCg9Dlm7DqBSpIh7S9d1pUzw
+   A==;
+X-CSE-ConnectionGUID: nEhsRt7JREyKqzEhmKP5sw==
+X-CSE-MsgGUID: ZZp5nC0IQzaBJAxe1/Y7+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4462391"
+X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
+   d="scan'208";a="4462391"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 09:59:19 -0800
+X-CSE-ConnectionGUID: 6a6LIVAHRomgpZJMlg93nw==
+X-CSE-MsgGUID: A0u+DZzIQwOjdpZxlfyO0w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
+   d="scan'208";a="13597397"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa012.fm.intel.com with ESMTP; 25 Nov 2026 09:59:14 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xWHGw-00000001SGM-3o5J;
+	Wed, 25 Nov 2026 17:59:10 +0000
+Date: Thu, 26 Nov 2026 01:58:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tan Chi <tanchi25@mails.ucas.ac.cn>, anup@brainfault.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	atish.patra@linux.dev, pjw@kernel.org, palmer@dabbelt.com,
+	aou@eecs.berkeley.edu, alex@ghiti.fr, tj@kernel.org,
+	hannes@cmpxchg.org, mkoutny@suse.com, corbet@lwn.net,
+	skhan@linuxfoundation.org, rdunlap@infradead.org, yosry@kernel.org,
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
+	linux-riscv@lists.infradead.org, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Tan Chi <tanchi25@mails.ucas.ac.cn>
+Subject: Re: [PATCH] RISC-V: KVM: Account G-stage page table memory
+Message-ID: <20261126015340.s7bzBtEB-lkp@intel.com>
+References: <20261125125024.1983082-1-tanchi25@mails.ucas.ac.cn>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -105,88 +89,75 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Date: Wed, 25 Nov 2026 09:52:16 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wiRbii1c78G2gwpKspaH1hj_VwLrur7NEBKn0GNduBvJA@mail.gmail.com>
-X-Gm-Features: Aa3M54pD_6kkJ5tspvLPVjU5eOwlU_YotXkRlOxaA6oY6c-rpN2ggFe7Zir-l2E
-Message-ID: <CAHk-=wiRbii1c78G2gwpKspaH1hj_VwLrur7NEBKn0GNduBvJA@mail.gmail.com>
-Subject: Re: [PATCH 3/7] eventpoll: don't claim real exclusivity for EPOLLEXCLUSIVE
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: mt4022@columbia.edu, Jens Axboe <axboe@kernel.dk>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Christian Brauner <brauner@kernel.org>, Michal Nazarewicz <mina86@mina86.com>, Wen Yang <wen.yang@linux.dev>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	tz2294@columbia.edu, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261125125024.1983082-1-tanchi25@mails.ucas.ac.cn>
 
-On Wed, 25 Nov 2026 at 08:39, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Wed, 25 Nov 2026 at 03:55, Oleg Nesterov <oleg@redhat.com> wrote:
-> >
-> > FYI, none of these patches can be applied, both patch and git-am complain
-> > "patch: **** malformed patch at line 34: *file, wait_queue_head_t *whead,"
->
-> Grr. I was so proud of having finally figured out how to make gmail
-> send uncorrupted patches so that I could do it in my normal workflow.
+Hi Tan,
 
-Ok, my thing no longer mangled whitespace, but it looks like
-"Encoding: 8bit" will still then cause line-wrapping even when sent as
-a raw message.
+kernel test robot noticed the following build warnings:
 
-Fair enough, I think it's actually smtp rules that technically limit
-things to 80 character lines even though no modern mail transfer
-likely cares.
+[auto build test WARNING on kvm-riscv/riscv_kvm_next]
+[also build test WARNING on linus/master next-20261124]
+[cannot apply to tj-cgroup/for-next kvm/queue kvm/next mst-vhost/linux-next kvm/linux-next v7.4-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-So I just have to make my little thing send as quoted-printable. So
-hopefully *this* actually comes through properly.
+url:    https://github.com/intel-lab-lkp/linux/commits/Tan-Chi/RISC-V-KVM-Account-G-stage-page-table-memory/20261125-205023
+base:   https://github.com/kvm-riscv/linux.git riscv_kvm_next
+patch link:    https://lore.kernel.org/r/20261125125024.1983082-1-tanchi25%40mails.ucas.ac.cn
+patch subject: [PATCH] RISC-V: KVM: Account G-stage page table memory
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20261126/20261126015340.s7bzBtEB-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 2012344e5da8e03ea4b8283ecd6fad6e13f09d64)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261126/20261126015340.s7bzBtEB-lkp@intel.com/reproduce)
 
-          Linus
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/20261126015340.s7bzBtEB-lkp@intel.com/
 
----
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 23 Nov 2026 16:47:42 -0800
-Subject: [PATCH 3/7] eventpoll: don't claim real exclusivity for
- EPOLLEXCLUSIVE
+All warnings (new ones prefixed by >>):
 
-An EPOLLEXCLUSIVE entry that wakes an epoll_wait()er returns 1, and
-because it was queued as an exclusive waiter that stops the wakeup walk.
+>> arch/riscv/kvm/mmu.c:850:5: warning: implicit conversion from 'unsigned long' to 'int' changes value from 18446744073709551612 to -4 [-Wconstant-conversion]
+     849 |                 kvm_account_pgtable_pages(pgd,
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~
+     850 |                                 -(kvm_riscv_gstage_pgd_size >> PAGE_SHIFT));
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
-But nothing makes the epoll user consume the event: it may be killed,
-time out, pick another ready fd, or just not read.  Anything queued
-behind the entry - a blocked pipe reader, an accept()er, a recv()er -
-then sleeps with the event pending.
 
-Queue it with WQ_FLAG_POLL_EXCLUSIVE instead: still only one epoll
-instance is woken per wakeup, but real waiters are not skipped.
+vim +850 arch/riscv/kvm/mmu.c
 
-Reported-by: Mani Tofigh <mt4022@columbia.edu>
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: Oleg Nesterov <oleg@redhat.com>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Juri Lelli <juri.lelli@redhat.com>
-Cc: Vincent Guittot <vincent.guittot@linaro.org>
-Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
----
- fs/eventpoll.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+   827	
+   828	void kvm_riscv_mmu_free_pgd(struct kvm *kvm)
+   829	{
+   830		struct kvm_gstage gstage;
+   831		void *pgd = NULL;
+   832		bool flush = false;
+   833	
+   834		write_lock(&kvm->mmu_lock);
+   835		if (kvm->arch.pgd) {
+   836			kvm_riscv_gstage_init(&gstage, kvm);
+   837			flush = kvm_riscv_gstage_unmap_all(&gstage);
+   838			pgd = READ_ONCE(kvm->arch.pgd);
+   839			kvm->arch.pgd = NULL;
+   840			kvm->arch.pgd_phys = 0;
+   841			kvm->arch.pgd_levels = 0;
+   842		}
+   843		write_unlock(&kvm->mmu_lock);
+   844	
+   845		if (flush)
+   846			kvm_flush_remote_tlbs(kvm);
+   847	
+   848		if (pgd) {
+   849			kvm_account_pgtable_pages(pgd,
+ > 850					-(kvm_riscv_gstage_pgd_size >> PAGE_SHIFT));
+   851			free_pages((unsigned long)pgd, get_order(kvm_riscv_gstage_pgd_size));
+   852		}
+   853	}
+   854	
 
-diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-index b959af04772c..58c0cb845dc7 100644
---- a/fs/eventpoll.c
-+++ b/fs/eventpoll.c
-@@ -1626,9 +1626,8 @@ static void ep_ptable_queue_proc(struct file
-*file, wait_queue_head_t *whead,
- 	pwq->whead = whead;
- 	pwq->base = epi;
- 	if (epi->event.events & EPOLLEXCLUSIVE)
--		add_wait_queue_exclusive(whead, &pwq->wait);
--	else
--		add_wait_queue(whead, &pwq->wait);
-+		pwq->wait.flags |= WQ_FLAG_POLL_EXCLUSIVE;
-+	add_wait_queue(whead, &pwq->wait);
- 	pwq->next = epi->pwqlist;
- 	epi->pwqlist = pwq;
- }
 -- 
-2.56.0.313.g975a75ca90
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
