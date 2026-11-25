@@ -1,87 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795607023;
-	b=JWhXolYHmSw3Dx++SeLckStY7OtkE+ehHD2yjqDcO0cpldal+ejf2evZicPWOFb5tC9E
-	 OqmMlUE6qKHiRcJ0Xj3Vre1mWZAKsnv63POrbQTzdyJTgJ4C4spiVuoG99O+q2WGpL3tF
-	 DMuxcDoI3dr30ZEaMuWAvUTfCcxd7p1KWUCHIHG55iHan2T4Mn3oEx815eeIMNnzOrr4a
-	 6M/gV6lL5QCUqgWiAPO9xcW8ak1x9I+WRM07mq6rQHtQTBtBkOaYVqKVFtAVzsVaSaYwq
-	 3xuv4bb965+BT7xffslccCMDUFibQ3uTdA8YDPFdNyVH9yVRcXG2p+jbqrG0XVT4myQ==
+	t=1795607528;
+	b=yNCuNHikpQ8e0ysyPBrjAP0urlK3y7z+RdMZ7wYW4Hi6/QzBQpDulzBeeMjpWRgVOUdB
+	 1qluf45KloQRQ2noebkNJm/T06uXIDKX0zh5IJ4Q8JwVD4eP2TIy6eVX7g7/ekxStSVCx
+	 hsT0AIOAxdKPvhrzemsGatJhHeQzGpcQetz7LFaNCTjp08D49Rs77fj79QI0MpcW5nmAe
+	 UnYwvzfrIaXt/NVAy3ej9K/zzysYcnSwS2Glp8NJ/m0LQ+1b+JrM29fjdVYkDdG2XImGZ
+	 TotVXn9nuR2WR471NMh8z/wYB9cUj0qPyKvlicyW70UBWK97o3rrLF34hT/Re9rgAkw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795607023;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Scanned-By;
-	bh=Ro/q02DiURiwSOcN9QA2cgFPXuLdyWbUrkDRq5unrbc=;
-	b=2SDEbGpPfbb1Hx7hv4ppy69xtKOOTM2TzfVcNZfEFNV9Z5kB6CqwqXjxbX4SoBBxVq6t
-	 2WwXc7WM7YNOohJ+qGXgsEQjn0ByuR9e5xwDMDqhGC8+JgIyB01hxinW8q35VxzkJGwmY
-	 z1S5WtPcOxvBdrrBZeuYxUe0lMhr4C1kcehdsOqINi5cNYoArjPobVokAN4T/9fOJlf4V
-	 01B7dkfHqgKW9+h8R75zTHLjBImSaQjvQsFINdyAQA/poKIgo++bY8GS7Znu4njvm3Z58
-	 fCaU3p/p9u6VOiTi966YD+g27pS0yOe6XsLtpRFhukFPr8tBpdHN3C+dI5n4Wj7Kn1A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795607528;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=swZ2OrHGAAmdjGMDFDLdMlqudI2Ll9Z2QVb1W7XWNWo=;
+	b=Z8xYp5DCxXIU4COpIHAxsjbPUK1XE9yr8/vbreLNf3LGKS0B/SyMe21QA2wRsvdqY60d
+	 KSS4xEDsZDsbwoGy5WbJSMp5cW0CLpGnGiB66UuK7eLL81YhoBaeq9I9CqM+d1pdBYAhc
+	 4yFwyExAZxkpjf8d09CX/GZCRkLxFEkeIn859s4Xh2fCAQwzpA7Icfe5NaFwZNWgWmloM
+	 wMXWs7F8V6b5rFrXsTZJf+bnsoDzZN/Ob3VwBQZqdzaISNPN6yUsBAmrRFQeP4Smdqtx3
+	 5qJ9GOmkDvdQPxDSVHltny0B6RAZJEc71tYX2UirVU4ybzsQwQ12/TyL5/MEi5ym+Ng==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=JkQGb2ZH;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ot9hk0RB;
+	arc=none smtp.remote-ip=95.215.58.48
+Received: from mta1.migadu.com (out-48.mta1.migadu.com [95.215.58.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8AB4606A32D
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 11:43:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8AB4606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C81A606A31E
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 11:52:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5C81A606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=JkQGb2ZH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795607021;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ro/q02DiURiwSOcN9QA2cgFPXuLdyWbUrkDRq5unrbc=;
-	b=JkQGb2ZHje/sH0hqRzbNanewBqDbsINrpZtpgC5jLmCnxJJrIz2hzu/O2BPFnywRtH4eJC
-	nco2CL4ZKMKLuAXBasHEl88Ykb9l+zu/8/eBPM6vNuyUUQ0RtMa6MXftpZCVCZEynWYwU2
-	yUZ65OvltSqVBODBUa/i5HrAyv/jjBw=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-312-piUuYfOLNh6PqB1vS4-AYA-1; Wed,
- 25 Nov 2026 11:43:35 +0000
-X-MC-Unique: piUuYfOLNh6PqB1vS4-AYA-1
-X-Mimecast-MFC-AGG-ID: piUuYfOLNh6PqB1vS4-AYA_1795607014
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D92371977502;
-	Wed, 25 Nov 2026 11:43:16 +0000 (UTC)
-Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 2E2C33001DA7;
-	Wed, 25 Nov 2026 11:43:12 +0000 (UTC)
-Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
-	oleg@redhat.com; Wed, 25 Nov 2026 12:43:16 +0100 (CET)
-Date: Wed, 25 Nov 2026 12:43:11 +0100
-From: Oleg Nesterov <oleg@redhat.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: mt4022@columbia.edu, Jens Axboe <axboe@kernel.dk>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Michal Nazarewicz <mina86@mina86.com>,
-	Wen Yang <wen.yang@linux.dev>, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, tz2294@columbia.edu,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 2/7] sched/wait: add WQ_FLAG_POLL_EXCLUSIVE for user
- space waiters
-Message-ID: <awbJz9stwx_JzZFX@redhat.com>
-References: <20261122-b4-sched-wait-intr-head-v2-0-4a764b64e8ce@columbia.edu>
- <20261122-b4-sched-wait-intr-head-v2-1-4a764b64e8ce@columbia.edu>
- <CAHk-=wj_eqNh+gNhCQh3exrL5Pmo5hbZBcL0W-4Ah_Nw0Kegzw@mail.gmail.com>
- <awWSwmvaTwBxfU-r@redhat.com>
- <CAHk-=wj3GCXZohdFWWPAOkC_LHno4X0oQW+0sQFJzRMvjpODUg@mail.gmail.com>
- <CAHk-=wgYc9vFEmyV0Ch_e49j6GOhUCMQMnMV4f1FLLvumZOmRw@mail.gmail.com>
- <CAHk-=wjbK0xyhwvWP1uNiYR6i-X9MpCn8bnm_akxq0MsrYOL+w@mail.gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ot9hk0RB
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=eh4UV9rsh+mFYHPXJEN1V//9HTkB9IJyjcQyoK8DCDk=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795607525; v=1; x=1796212325;
+ b=ot9hk0RBBCKyVkXHa56fM6RHLe+3tIU8056ssw7/o9Fjnsw95Fa6BJVjSlSVuDOOefjq1YAs
+ xVJiOXknWLRlhmO5FGQ9KgKTn6zZWZHpSbWzilByNUBUqTTChB4jfmTu+lTcdN0TEnLLGgfDnMs
+ n7jA54GSnc/UneC0C5ZZZ5bo=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by mta10.migadu.com with ESMTPS id 2c3d09998e88645b;
+	Wed, 25 Nov 2026 11:52:04 +0000
+X-Mizu-Trace-ID: 2c3d09998e88645b
+X-Migadu-Flow: FLOW_OUT
+From: Usama Arif <usama.arif@linux.dev>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Usama Arif <usama.arif@linux.dev>,
+	"Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	apopple@nvidia.com,
+	byungchul@sk.com,
+	gourry@gourry.net,
+	jannh@google.com,
+	joshua.hahnjy@gmail.com,
+	liam@infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	matthew.brost@intel.com,
+	mhocko@suse.com,
+	pfalcato@suse.de,
+	rppt@kernel.org,
+	surenb@google.com,
+	vbabka@kernel.org,
+	ying.huang@linux.alibaba.com,
+	ziy@nvidia.com,
+	kas@kernel.org,
+	hannes@cmpxchg.org,
+	riel@surriel.com,
+	shakeel.butt@linux.dev,
+	kernel-team@meta.com,
+	baolin.wang@linux.alibaba.com,
+	Nico Pache <nico.pache@linux.dev>,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev
+Subject: Re: [PATCH v3 3/5] fs/proc/task_mmu: read the PMD once in smaps_pmd_entry()
+Date: Wed, 25 Nov 2026 03:52:00 -0800
+Message-ID: <20261125115202.4085587-1-usama.arif@linux.dev>
+X-Mailer: git-send-email 2.53.1
+In-Reply-To: <031b595a-376f-4848-bfd1-ea85d273db13@kernel.org>
+References: 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -91,38 +95,61 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wjbK0xyhwvWP1uNiYR6i-X9MpCn8bnm_akxq0MsrYOL+w@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Content-Transfer-Encoding: 8bit
 
-On 11/24, Linus Torvalds wrote:
->
-> @@ -105,10 +111,16 @@ static int __wake_up_common(struct
-> wait_queue_head *wq_head, unsigned int mode,
->  		unsigned flags = curr->flags;
->  		int ret;
+On Tue, 24 Nov 2026 09:25:14 +0100 "David Hildenbrand (Arm)" <david@kernel.org> wrote:
+
+> On 11/23/26 18:55, Usama Arif wrote:
+> > 
+> > 
+> > On 23/11/2026 09:24, Lorenzo Stoakes (ARM) wrote:
+> >> On Mon, Nov 23, 2026 at 08:32:09AM -0800, Usama Arif wrote:
+> >>> smaps_pmd_entry() dereferences the pmd pointer six times. Read it once
+> >>> into a local with pmdp_get(), the way smaps_pte_entry() already does
+> >>> with ptep_get(), so that every test sees the same value.
+> >>>
+> >>> No functional change intended.
+> >>>
+> >>> Suggested-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> >>> Signed-off-by: Usama Arif <usama.arif@linux.dev>
+> >>
+> >> LGTM so:
+> >>
+> >> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> > 
+> > 
+> > Thanks for the reviews!!
+> > 
+> >>
+> >>> ---
+> >>>  fs/proc/task_mmu.c | 11 ++++++-----
+> >>>  1 file changed, 6 insertions(+), 5 deletions(-)
+> >>>
+> >>> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> >>> index 540c936aad4714..105c4998eef48f 100644
+> >>> --- a/fs/proc/task_mmu.c
+> >>> +++ b/fs/proc/task_mmu.c
+> >>> @@ -1022,14 +1022,15 @@ static void smaps_pmd_entry(pmd_t *pmd, unsigned long addr,
+> >>>  	struct page *page = NULL;
+> >>>  	bool present = false;
+> >>>  	struct folio *folio;
+> >>> +	pmd_t pmdval = pmdp_get(pmd);
+> >>
+> >> NIT: Can this be const or are the helpers not safe for it?
+> > 
+> > Ah yes, good point. Its good to have const here.
+> > 
+> > I think the rest of the series is good to merge. Should I wait
+> > a few days and send a new revision with the const change here?
 > 
-> +		if ((flags & WQ_FLAG_POLL_EXCLUSIVE) && poll_woken)
-> +			continue;
->  		ret = curr->func(curr, mode, wake_flags, key);
->  		if (ret < 0)
->  			break;
-> -		if (ret && (flags & WQ_FLAG_EXCLUSIVE) && !--nr_exclusive)
-> +		if (!ret)
-> +			continue;
-> +		if (flags & WQ_FLAG_POLL_EXCLUSIVE)
-> +			poll_woken = nr_exclusive > 0;
-> +		else if ((flags & WQ_FLAG_EXCLUSIVE) && !--nr_exclusive)
->  			break;
+> I'd pick the fist two directly. Can you resend the other 3 such that Andrew can
+> pick them?
 
-I obviously like this change, but note that wake_up_all*() helpers
-use nr_exclusive == 0, so
+Will do! Thanks for picking them up!
 
-		poll_woken = nr_exclusive > 0;
-
-doesn't look correct. I think this patch should also change them to
-use nr_exclusive = -1.
-
-Oleg.
-
+> 
+> -- 
+> Cheers,
+> 
+> David
+> 
