@@ -1,101 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.48
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795628375;
-	b=UHjU1b2+bDRG89b8NqSh6Q42pTdB6tQAEdyVAM+BCzMPMjjKGLt1T8BNja3Z/iq3Fag+
-	 lrN3IuratFJZ8BPbcpfMbI9dlHzqlzuI7G5ddalTAfTcDe42aIaASunL7RO4TRK95Lejq
-	 D8BfiIWtDXoMhzUsbp/q/8mQNMyqmuQWyu/pJsFXWkgROuawkxL9SsDXDcc01S7D5SM0t
-	 vFOcf0DRwKz0ErwEu7k0ynVBL1Wr+7RxJIgcg1cB1Du5tE9jBgkKHG/dfbMrsstG7S91G
-	 4K0EhpyMS1KFzrc8YfqHhF8Ivs3cNV3PSeETVZ01HbbZKwClFlTNwdRvMV5s0yWsycA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795628375;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.52
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795629141;
+	b=4aoFs5skwqHw3RBpncPjEYebHptaVM2YNaT89r+jnJ9FxYDNEH4HOncC+meJP3Tiha+A
+	 AvQ9TDd+LLcmtVROP/LOXJs1SU9Qn2AoxW8Q/h9CUO2FLmqzFNb1frKWLfgQwFJq9xPR1
+	 Nf/4ATaj6c+LChm5aRjIHtVqpGKGt06Ic7JtCcVpx/RBnruP3jZPxHhlRW9LPnFkoEOPO
+	 uJvEz9pfvsBpJol8D04NzphIwH3KeT1w4XerDEKklbbI0DT4laWM4oNBnHa6iMz4IVJnb
+	 Nbsu42Hqf9bY1xjqCjak6xCNPsNq5GIVot4zMZJU/h0K2kBY0S3ialtTiZw5YI1L5tQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795629141;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=EOXTnO5Bxuk6rnfTBGwAa59VOdHMQdutSkTfsVAhh8E=;
-	b=U8vh7PVO3gQw76JPPFMKFh9mC4N/0z708qkHAwbdul2UZGPeCexbMs6AD3TxAWpX7I5f
-	 qqbr6+Uy82g314uoRe8yjWJ/OvCQNxZ/2RbRme093gCvB6/dddyWyOQR1dS7jovZ9Own4
-	 nzpkb904W8kA3+y8yR737/fxfr3LhV3VJti8YA4YDNUqNZGdpPTYZO+Vzt22LcyQFfsqk
-	 J1BUPyF35QgbV+yTriRCG7R0f3avqH1izSwIev3iPkDUx6gHBNZZZYKOPJvCe7dYYb+yp
-	 SA3Q1pXY2C9mSXoqTZFzt+SvWj/xA4ZpprnD9uZleprgSHiuzliHdR9RcdPKrOmdlBw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=txZbvkhN;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.48
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:X-Forwarded-Encrypted:X-Received:Received:From:In-Reply-To:
+	 References:MIME-Version:Date:X-Gmail-Original-Message-ID:
+	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
+	bh=0+MG6+0gHbyYQq/Q0s/NefIO/PQ2Tu2wSVhno+8Yx2A=;
+	b=uSzf2dVN4TAJpwZ4CYfoUHcuUCMvM7OrlyU9wvff33z0+sHOU1vEFxsUMXaJub85+9oy
+	 ChIkwofZAxCr2cr3nX1ptUeDzikKqjuR+50veCeIFy65uoJV4UapxtUjGGsynFyxLyRm0
+	 WmbGYwUPiqkGsENKE5rwp7X1i2U2gO/R8iHM43ognPH3ux8n8xbMCv/As3LzaZcqQvMD7
+	 o5uuRsuhh94osoqxgoNDZvlcwF/mAoS+8w0KhyoaOrNKfgIryQHaa2x6ZWWSClwyfcFpe
+	 6MjBULvs8KyWrgAGH1K5FEmCJNe16GlBqNnYixKsV+5ff4HvxMcEdtBPR+wsReDxXdA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=linux-foundation.org;
+	spf=pass smtp.mailfrom=linuxfoundation.org;
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=OAzvLrB0;
+	arc=none smtp.remote-ip=209.85.218.52
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3426606A321
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 17:39:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D3426606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FCBC606A33F
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 17:52:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FCBC606A33F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=txZbvkhN
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6b8a1f59d5eso7971969a12.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 09:39:34 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795628373; cv=none;
-        d=google.com; s=arc-20260327;
-        b=YPCO397je1sAkT6/Yvf4/ZIYSl5tmQbPy785xEcCFkqBcu0JKQTaQFvBoHHUYCNwIp
-         +z55mgbjepMYeFQTmcpO1NWC1HgnXOZ2q1vu3qX5Bp7u+4sbsUWyZlrcwJgl0yNCISBE
-         NAKarnvBPhKGgVGecd50mfE0ouKIoAATxJCLUdCk0kCFjmotbcjz0mY9AHUoUlfJh1Zh
-         +1sywvagu35excyFwENNhnrG9IpD87I2d3t0nkazNLHmMYp3AaAdkjpLIRFre9fFeC0J
-         lD6XBAlujLCbrrxkful2cEx30wItTBoKFWqqEaVZRqZWTTJZOq3V5ZLPC8TrYJCh2YFg
-         fLOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=EOXTnO5Bxuk6rnfTBGwAa59VOdHMQdutSkTfsVAhh8E=;
-        fh=Pp01Vtlr9LwTo6Ldt9EioUgalINqKY3yNWOHZBteFoc=;
-        b=Uh/bd8xvoA3ot/lMCPzp8mcFHBrg1HRBDnRE5kIWGnBmQHUUZOgy/MCP08ENeSEifT
-         wRmrzxvHSp85jr0svYSHTpSQls5klY8Wcf4swZVWPi4anoJ9JuozVfnI/jAPaKgHLThA
-         fNeZ9Xaup5M2ByPDMBiGmQvMUnvGKqyUF+7XVKdxBRkkMRZ6I96oGLT7qvaWY97wJZcz
-         JZaO3OyhqmK3M5zB/0P/cQteo5mMeVAYC29Xc+crZv3dD+/HT61yqxZ6jBH+/zh3BPk2
-         eV4vmA//ti3xBYsYb+Yhh9+na80dhhC9Fkhl5kkpL3pxTXcN/QIuS+PoWwIwj05Vjg0M
-         pvtQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=OAzvLrB0
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c40e30c26a4so1331048266b.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 09:52:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795628373; x=1796233173; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=EOXTnO5Bxuk6rnfTBGwAa59VOdHMQdutSkTfsVAhh8E=;
-        b=txZbvkhN3j2tiIdhSd2v4u+ugf0j142saCBfHlWXU7WJHkjuKzOm/tSLulPI47OuZr
-         k+yiScOKxj27Vq8FkmtuwfktQInjof81S31Sg0WVq6+uWhdLHbkybzSa+e0bI21mDDG0
-         jQ2XEd3YBH+maTftST1mjTzpg02sWmo4mzYcXGfnoem+hL6tdAXgnOk/jYdbKGfpcZn+
-         UuuerISCFc7ioJhtwWIsq7HI1BgpihgFUZsguwVU+llbKxjl/G+XuQDlOEpVlw3R6dg1
-         zcX+sonGlBwz35gXlQzLdOUYwNph87cW20+qiG1VKbUWAitRayprTj4brawGC0lrKBpv
-         lmAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795628373; x=1796233173;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=linux-foundation.org; s=google; t=1795629139; x=1796233939; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=EOXTnO5Bxuk6rnfTBGwAa59VOdHMQdutSkTfsVAhh8E=;
-        b=VAi9T0eY7Cp1S62aIHgVlZ2yh3sIEskyrGwF6z+wN0yOA24PjhZX5BMQhtqZl+mRXa
-         w0mh4gALgtKcy6gWCYB3/XtUGSQlrD6DWkxwxqWFWe0ijCOc9/osjeUyiTv4hT1I+iJG
-         Z+F+jrdX9Utv7X5ofgIUxbmdsIK0xmkeCH25nW7xE0JyetDo0E/6xx/+7l+5+hhuAM7Z
-         T1CnJKkuPuKwgvSVEW99ulacOR80TnYbePqQ1qdY0/O/4mRMcTipfXsyCn+e3Cp/l5E4
-         YaDb0ELEdW4JSxnrGnx65DvrO1t+7JXP2qlTEZHBDGos1st/7gssvzQBIx32ZoFZ7S4B
-         +/Pw==
-X-Forwarded-Encrypted: i=1; AL+hErGM+fyO43Xs0G1kDALnXpBbHmn8VE1A9VCS13hj424YBhcvs7qk3KmoBb6Sm0RCssqH9nXNRNOEzixKdPno@vger.kernel.org
-X-Gm-Message-State: APuU4Z/vqHM0R4JnROEnorRqSpw02Jj4rXnho3WpXCdGTKilAqgw/Wj0
-	LKOyzqKz4yKMsWOUy9wUnMX0sZ0UX174aoghsbHtKL5F+8PGuevRVdiwI+pdnwfJdFhMgeq/Uq7
-	JUfF+veiBdDIBDN6D7U3xvVmusD285XU=
-X-Gm-Gg: AZFdTZev0n1Aw2SJxynpBoRpFJmMy+jEeLVC9NDcQlW2sVVZH2nusNyCKElRqLBA0jk
-	sfTAYrDvxeblfowhxbhlvnfjgg8ZHzSCoFvNiMuSGakg1JvASHvwPkx0FRtojGyxl3wzKGjIl/r
-	788pYlDXs6XlaVcHOtgbqg+JM+iElR4ABCsUjBzIUXvsP66QqhYCauLDrNYpxfxCzAW+KBKJZBl
-	fWVqDTsq+6ka7rImZNK92ZALpJf38lb0+tFBmI0FVo+/Q0FpmCalqy99Hmb/W3ks0x7D37KozPz
-	m9Q8XgnrPtKePug9HpjDkUHAN5e9AJRlMi3r9nMwuSZ0dvDmLQm68pyDPL+SlBPzE/B7Je/f08R
-	5sOP/BlB1qyhSVfg1ijCVNluicg3s+g+bd0eHG/QUBylljkNgsP57eNMDhA1UR+7WYwQ78CW9xF
-	Rm4bKbfLljwmPZwH0=
-X-Received: by 2002:a05:6402:15d4:b0:6b7:709f:85f with SMTP id
- 4fb4d7f45d1cf-6ba37ec031amr10700652a12.36.1795628372883; Wed, 25 Nov 2026
- 09:39:32 -0800 (PST)
+        bh=0+MG6+0gHbyYQq/Q0s/NefIO/PQ2Tu2wSVhno+8Yx2A=;
+        b=OAzvLrB0OWE1iPxpRBcIihGMtwga8R+qGTKBq1iA2RWqJ8zKuwxIhpIYKjdy6ZPtSP
+         68iY63H9S81lQlwiKLsoa1c/h44fPrn+5sXkegNZPNMRiX+023Kr9qpT/Xp4eXh/BMaZ
+         4NZzPjJ1WvWH6xJWQPIjWj3p625norH8g4e8Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795629139; x=1796233939;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=0+MG6+0gHbyYQq/Q0s/NefIO/PQ2Tu2wSVhno+8Yx2A=;
+        b=cfwiZgjj0KCPCeTUmCvyYceoh8xEn53SLEAhiYhqs6Zi3ijsR8vX6XQMndTTKoBJt2
+         b1ygOB7ZPDNeajX+mLpBF9xIPgbfXNeNjjDV6yWuFdvwH1620lOlWgeQXCq57wcXNHn6
+         QtVvJKCD3u1RS9CW8c4Vgh7oIPRKf+8yEBy/97ePLXodSqaM1nZJEtlDBX2SOSFq+v+5
+         bziqu0mrMKPGa+r4f8QjzIsqNKoCzL80azPGNCUWImsZ34jW+gFAiguPXlcrXtiWagvK
+         GfveFPm5mJz+aseJgoggA8DyqkZ8U6obYstg9o9dFZ/TAURsSskwKpzS+KQmiwTmGzEM
+         /1YQ==
+X-Forwarded-Encrypted: i=1; AL+hErFdbLN66EM9+/R7BAd3/TZcjIJAP0npErTjFjTr9u/bYyPcXENcafgRgq4bPwhpr0vF2l19xS2igOy8N4/p@vger.kernel.org
+X-Gm-Message-State: APuU4Z/c3G8ox4per51rcAFs4V7ocA6wHSsjwHai+MkPpYtt1rd9UZhX
+	JLI7Qj7A7YLBYfktRduSQr+kPQ4FFDyr/foHBmC7ssFcl0jKM5SzKdnLRvZry9SBsFOtvJAZifw
+	i7zrfHzRDQQ==
+X-Gm-Gg: AZFdTZe1+ByLfemVaMrH46yGhtDPZakAAZXHKWk9Sob5sVEM41SL4GwbdsfOSM6T5Pj
+	xUtze1vCVhZh7kIjJLI5PXmbFjyScDSRBSri7WkR02crpJRD7VWjWey7Z76yAohsnI8HfA8Ax1g
+	Iv1pr8oWLnkeqNCo1ekoSLdScZ1x1zfUoTz2a8aZLJ7CKuWcfywZew3hGU8du/7rj7KHXjaUk6t
+	LWbfYYKh0LDXupNRezwTrQi+6HaAgEL8koAUkeHEML8dgKlSdT1UvLSYDi3FqxL5AgiSRUxrO3j
+	ZpIZA9mGMOuYvLJmQa+l0hwpea0ifPBJcin3mAZgrxDwUMhBl6IjptrlQybjfHnV2jMQECth4js
+	F9orrDTo2BhIt6YBKif72lu9xxgkMAvKR3OBRi/KJ8RJqzk+t1fu5Brd8Wl5peZck9E7zdyOyKU
+	5Y8Q3Mr09X6ABgJL2M7vaJRjw8f4c/Is+qo4j64wSbhhBzi0hpozpgfLxMhB51AnkwkAScnYKr9
+	NyMw0cjGTGltZPzAQKyNuGmaHCgYgWw2LQX7fX6iVLrOt9URxC5sm1a/rKSpVe1EEhiMcIKEOl+
+	N1/1PSeoS1rouC/U0IjWzPdng9E1l14kJ2n5Q03S3uIc6iJAD3XKsHeIVYFnGTBtUe2ezJas9qg
+	7OhA=
+X-Received: by 2002:a17:907:3e86:b0:c36:777f:824c with SMTP id a640c23a62f3a-c51315851d7mr1748161666b.4.1795629138888;
+        Wed, 25 Nov 2026 09:52:18 -0800 (PST)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com. [209.85.208.48])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c51beef9395sm32467866b.17.2026.11.25.09.52.17
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Nov 2026 09:52:17 -0800 (PST)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6b86fcbd647so9503200a12.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 09:52:17 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErFQ8QQAWiCaE1ExolRVU37J6sNaoHjNEwOS43l5wTtlMikNrczHbt8fmuQfFQn9dT7tkrKcsRfDfRQlylPE@vger.kernel.org
+X-Received: by 2002:aa7:c0d8:0:b0:6b5:6b89:e3b0 with SMTP id
+ 4fb4d7f45d1cf-6ba1fc3dcfamr11863663a12.19.1795629137592; Wed, 25 Nov 2026
+ 09:52:17 -0800 (PST)
+Received: from 425495914135 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 25 Nov 2026 09:52:16 -0800
+From: Linus Torvalds <torvalds@linux-foundation.org>
+In-Reply-To: <CAHk-=wiTUE9vfMvHeGz+dgex_+sMicSHnf6Nt2_w1-SkOmu8ng@mail.gmail.com>
+References: <20261122-b4-sched-wait-intr-head-v2-0-4a764b64e8ce@columbia.edu>
+ <20261122-b4-sched-wait-intr-head-v2-1-4a764b64e8ce@columbia.edu>
+ <CAHk-=wj_eqNh+gNhCQh3exrL5Pmo5hbZBcL0W-4Ah_Nw0Kegzw@mail.gmail.com>
+ <awWSwmvaTwBxfU-r@redhat.com> <CAHk-=wj3GCXZohdFWWPAOkC_LHno4X0oQW+0sQFJzRMvjpODUg@mail.gmail.com>
+ <CAHk-=wgYc9vFEmyV0Ch_e49j6GOhUCMQMnMV4f1FLLvumZOmRw@mail.gmail.com>
+ <CAHk-=wgFnKO_O0fR_-O+i5yUGaDcz8_HwpM5QiLM4jPFYZb41Q@mail.gmail.com>
+ <awbMwBDP9TsJBmzV@redhat.com> <CAHk-=wiTUE9vfMvHeGz+dgex_+sMicSHnf6Nt2_w1-SkOmu8ng@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -105,192 +105,88 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261123221410.3328780-1-neilb@ownmail.net> <179550252639.1728055.4014817916838632741@noble.neil.brown.name>
- <CAOQ4uxgF6=QoD9RoAOPmxtvkq1jWf+gG1AsJzR=Kt3ROMA=X0g@mail.gmail.com>
- <aau5z6kck6a2efcjvzrt6gno6ljs4eioncgizeh7vfbc6ipkr3@hjxzdk5pvgmt>
- <CAOQ4uxjXP4Zegb2Vgsv-yBeFmhvc8FT2bDKDcaM_t0=oJ5KpXQ@mail.gmail.com> <sc6xnwguimy23dexr3eosbe64xmmewn5ml5gso4m5xozw6fqlt@2hji64vi7eaw>
-In-Reply-To: <sc6xnwguimy23dexr3eosbe64xmmewn5ml5gso4m5xozw6fqlt@2hji64vi7eaw>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 25 Nov 2026 18:39:20 +0100
-X-Gm-Features: Aa3M54p0yQAs_ZPRugioiFUuwGcSeWEd2MMo5NujtG6aZBdyocbVJc3EK7LYRCs
-Message-ID: <CAOQ4uxisP8YTUaexsXw4-Fxg0vand236cg5eDKirLm=kuDwSQQ@mail.gmail.com>
-Subject: Re: [PATCH v6 0/5] Fix easy bits of the negative dentry problem
-To: Jan Kara <jack@suse.cz>
-Cc: NeilBrown <neil@brown.name>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Ian Kent <raven@themaw.net>, Jake Edge <jake@lwn.net>
+Date: Wed, 25 Nov 2026 09:52:16 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wiRbii1c78G2gwpKspaH1hj_VwLrur7NEBKn0GNduBvJA@mail.gmail.com>
+X-Gm-Features: Aa3M54pD_6kkJ5tspvLPVjU5eOwlU_YotXkRlOxaA6oY6c-rpN2ggFe7Zir-l2E
+Message-ID: <CAHk-=wiRbii1c78G2gwpKspaH1hj_VwLrur7NEBKn0GNduBvJA@mail.gmail.com>
+Subject: Re: [PATCH 3/7] eventpoll: don't claim real exclusivity for EPOLLEXCLUSIVE
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: mt4022@columbia.edu, Jens Axboe <axboe@kernel.dk>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Christian Brauner <brauner@kernel.org>, Michal Nazarewicz <mina86@mina86.com>, Wen Yang <wen.yang@linux.dev>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	tz2294@columbia.edu, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 25, 2026 at 12:34=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
+On Wed, 25 Nov 2026 at 08:39, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> On Wed 25-11-26 08:46:45, Amir Goldstein wrote:
-> > On Tue, Nov 24, 2026 at 5:26=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
-> > >
-> > > On Tue 24-11-26 14:08:07, Amir Goldstein wrote:
-> > > > On Tue, Nov 24, 2026 at 7:42=E2=80=AFAM NeilBrown <neilb@ownmail.ne=
-t> wrote:
-> > > > >
-> > > > > On Tue, 24 Nov 2026, NeilBrown wrote:
-> > > > > > This v6:
-> > > > > >  - fixes the autofs changes in 1/5
-> > > > >
-> > > > > Sashiko says this is racy.  I think it is but the original code w=
-as just
-> > > > > as racy.  Maybe the race isn't relevant.  I haven't properly unde=
-rstood
-> > > > > it yet.
-> > > > >
-> > > > > >  - updates d_duplicate() in 1/5
-> > > > >
-> > > > > The fix was seriously broken.  Sorry.
-> > > > >
-> > > > > >  - uses a new version of 2/5 from Amir
-> > > > >
-> > > > > Sashiko has something to say about this
-> > > > >
-> > > > >     Can clearing FSNOTIFY_CONN_FLAG_UPDATE_CHILDREN and dropping =
-conn->lock
-> > > > >     before fsnotify_set_children_dentry_flags() finishes allow a =
-concurrent
-> > > > >     watch-adding syscall to return to userspace before the childr=
-en's
-> > > > >     DCACHE_FSNOTIFY_PARENT_WATCHED flags have been set?
-> > > > >
-> > > > > Thoughts?
-> > > >
-> > > > Sashiko is right, but this race is not new.
-> > > > The same window exists upstream: if another thread's recalc observe=
-s
-> > > > the 0->watching transition and does the walk, fanotify_mark() can r=
-eturn
-> > > > to userspace before all children have DCACHE_FSNOTIFY_PARENT_WATCHE=
-D set.
-> > > >
-> > > > What changes with this series is that the walk is sleepable, so the
-> > > > window is longer, and in some workloads it could go from rare to
-> > > > plausible. OTOH, skipping negative dentries may shorten the walk.
-> > > >
-> > > > The more important question is whether a child can be left without
-> > > > PARENT_WATCHED permanently. Upstream it can: the transition can be
-> > > > observed by a recalc from the mark destroy path, which never walks.
-> > > > With FSNOTIFY_CONN_FLAG_UPDATE_CHILDREN that cannot happen.
-> > > > Every transition sets the flag, and every caller that can add a wat=
-ch
-> > > > consumes it,
-> > > > so a walk that started after the transition always runs and fixes t=
-he flags.
-> > > > What remains is the transient window above.
-> > >
-> > > I agree this is preexisting issue. Let's not block this series with i=
-t.
+> On Wed, 25 Nov 2026 at 03:55, Oleg Nesterov <oleg@redhat.com> wrote:
 > >
-> > preexisting, but sleepable children walks could make an
-> > improbable race actually observable, because the scans are not
-> > serialized and could take longer (I don't know how the scheduler
-> > treats a dying process which has its marks removed).
-> > Just wanted to make sure that the point is clear.
+> > FYI, none of these patches can be applied, both patch and git-am complain
+> > "patch: **** malformed patch at line 34: *file, wait_queue_head_t *whead,"
 >
-> Yes, the window can be larger now but it still shouldn't be a practical
-> problem unless there are several watchers placing marks on insanely large
-> dir in parallel. So I think we can live with the race for a while longer =
-:)
->
-> > > > I think a proper fix for the transient window needs a sequence coun=
-ter
-> > > > of scans in the connector. Each caller would wait until a scan that
-> > > > started after its transition has completed, no matter which thread =
-ran it.
-> > > >
-> > > > I think we can live with this v6 patch for your series and deal wit=
-h
-> > > > the remaining race later if we want to, but I am not sure and would
-> > > > like to hear what Jan thinks.
-> > > >
-> > > > If you want, I can implement the sequence counter for v7.
-> > >
-> > > No sure what exactly you have in mind but a sequence counter per inod=
-e
-> > > looks like an overkill for this. A global one can get contended and
-> > > a bit hairy to manage but let's see...
-> >
-> > I had a patch with another conn flag _CHILDREN_WATCHED
-> > set at the end of the walk, which covers the Sashiko race, but
-> > leaves some other corner cases (see below).
->
-> Yes, I was also concerned about those races when thinking about that
-> yesterday. Let's discuss below.
->
-> > Are you concerned over the size of the mark connector?
-> > I think that connectors should be rare and scarce.
->
-> Yes, I was concerned about the size of the connector. On a second thought
-> I tend to agree it wouldn't be a huge deal if we need it.
->
-> > With workloads that frequently add/remove watch,
-> > Sleepable children walks could cause a situation where
-> > scan that started a few add/remove cycles ago complete out
-> > or order with the most recent walk.
->
-> Well, let's discuss the behavior of the walks and the flags. I imagine we
-> could have two bits like _UPDATE_CHILDREN and _UPDATE_CHIDREN_RUNNING.
-> When children flags need update we set _UPDATE_CHILDREN. When we see
-> _UPDATE_CHILDREN set, we call fsnotify_conn_set_children_dentry_flags().
-> That function checks _UPDATE_CHIDREN_RUNNING. If already set, it waits fo=
-r
-> it to get cleared and returns. If not set, it sets _UPDATE_CHIDREN_RUNNIN=
-G,
-> does the walk and clears both _UPDATE_CHILDREN and _UPDATE_CHIDREN_RUNNIN=
-G.
->
+> Grr. I was so proud of having finally figured out how to make gmail
+> send uncorrupted patches so that I could do it in my normal workflow.
 
-Yeh, I think that mostly works, with a minor variation.
+Ok, my thing no longer mangled whitespace, but it looks like
+"Encoding: 8bit" will still then cause line-wrapping even when sent as
+a raw message.
 
-If the RUNNING flag is already set, the function waits for it to get
-cleared and then checks the UPDATE flag again.
-If the UPDATE flag is set, it clears the UPDATE flag, sets RUNNING
-and starts the walk. At the end of the walk it clears only RUNNING,
-so every time UPDATE is set, a walk starts after it.
+Fair enough, I think it's actually smtp rules that technically limit
+things to 80 character lines even though no modern mail transfer
+likely cares.
 
-Anyway, serializing the walks per inode is a positive outcome
-and better for our mental model.
+So I just have to make my little thing send as quoted-printable. So
+hopefully *this* actually comes through properly.
 
-> > Only the completion of the most recent walk can guarantee
-> > that all the children dentries are watched.
->
-> So I don't think that's an issue. Look, if someone places a mark which
-> watches children of an inode, we either end up updating the children flag=
-s
-> or we wait for _UPDATE_CHIDREN_RUNNING to clear. So any mark update from
-> userspace blocks, until the children walk is done and then they all retur=
-n.
-> We hold the group lock during the wait so the mark that makes the parent
-> watch children is guaranteed to stay attached to the inode and subsequent
-> mask updates on the inode all result in the conclusion that children are
-> watched (so fsnotify_parent() doesn't clear the children flags while we a=
-re
-> still walking).
->
-> One catch in the above argument are oneshot marks for inotify & dnotify.
-> Inotify is actually fine since it grabs group lock when removing mark aft=
-er
-> the event was sent (so the above argument holds). Dnotify doesn't grab gr=
-oup
-> lock when removing oneshot mark and so breaks the argument. I think we
-> should just make dnotify grab that lock to make our life simpler.
->
-> Thoughts? Counter examples?
->
+          Linus
 
-My thought is that this makes my head explode..
-I rather have a simpler mental model if possible, which is less
-dependent on all the callers and other locks.
+---
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 23 Nov 2026 16:47:42 -0800
+Subject: [PATCH 3/7] eventpoll: don't claim real exclusivity for
+ EPOLLEXCLUSIVE
 
-I think there are some corner cases, where a false
-"parent is watching" state is caused by combination of
-FAN_OPEN on one fanotify group (not watching children) and IN_CREATE
-on another inotify group (watching children but not with events possible on
-children) but I can't reason about the exact consequences.
+An EPOLLEXCLUSIVE entry that wakes an epoll_wait()er returns 1, and
+because it was queued as an exclusive waiter that stops the wakeup walk.
 
-Thanks,
-Amir.
+But nothing makes the epoll user consume the event: it may be killed,
+time out, pick another ready fd, or just not read.  Anything queued
+behind the entry - a blocked pipe reader, an accept()er, a recv()er -
+then sleeps with the event pending.
+
+Queue it with WQ_FLAG_POLL_EXCLUSIVE instead: still only one epoll
+instance is woken per wakeup, but real waiters are not skipped.
+
+Reported-by: Mani Tofigh <mt4022@columbia.edu>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Oleg Nesterov <oleg@redhat.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Juri Lelli <juri.lelli@redhat.com>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+---
+ fs/eventpoll.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+index b959af04772c..58c0cb845dc7 100644
+--- a/fs/eventpoll.c
++++ b/fs/eventpoll.c
+@@ -1626,9 +1626,8 @@ static void ep_ptable_queue_proc(struct file
+*file, wait_queue_head_t *whead,
+ 	pwq->whead = whead;
+ 	pwq->base = epi;
+ 	if (epi->event.events & EPOLLEXCLUSIVE)
+-		add_wait_queue_exclusive(whead, &pwq->wait);
+-	else
+-		add_wait_queue(whead, &pwq->wait);
++		pwq->wait.flags |= WQ_FLAG_POLL_EXCLUSIVE;
++	add_wait_queue(whead, &pwq->wait);
+ 	pwq->next = epi->pwqlist;
+ 	epi->pwqlist = pwq;
+ }
+-- 
+2.56.0.313.g975a75ca90
