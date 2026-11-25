@@ -1,113 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.121.94.183
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795641932;
-	b=tKqbLLnojVm7djN94QGnNpnKVMPu1TgT1EVxjhxtZ2rLgluFrLreUgQhptBAv/Tn0E8r
-	 dsXxo8huze+UxHEBG7WLt6CyOfOeSP/C4GW23ot8zlr4NbnMr1AJ4eJ6D0F8hOswc++E2
-	 GexjvhRUjZ5dB7Dv6pdo8DXQ2pzIRjZUU7A1qbj91T8WDJHBohXL+6FjThuYMzAWvmubS
-	 MA+M6H6aEOT2YR0D+pPXkGV3T4rlmf8YRXsr4A6M5NN8dSPYwIJ/jGFApt/FFcSlk3goa
-	 ItRbp3vkqbNoCfrhz/XTckrVZRHLblSyRPGnM2N0Y7J1CZUJYtbDYmqiasgn2KqgNKQ==
+	t=1795642048;
+	b=nNWVYCHxkq3K6h1y5szK2hz6jO8OU4vzuzyJY1Cf0C+NtxZXGfirxy54RqFKcfPIwDIy
+	 91XMaNPqPLfn5tN1qqq0oBhCa8F/aqXNFXkDQR4dgLVu3LMNfRX2LQcJUjgAiAOlTV7Fr
+	 nC3O3iU9XAMsENt1qJzYPOucnFOA4AvbodSw+YfUNWY2VMubBv9URnyr8/JBHsMj4/rGp
+	 QkbO0H7m3X1Nne8fTO/BgdXYprXHiMVoiBVnEnfgThcVQZcz67vW7/lCMDqW1NkhGZ2O1
+	 jaS2MbrN6x6e5ufMYd2du4AMbvD3+ejgl+g8YHlcXwrI8pZpnxYY6IfXk+zdQwYsR1A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795641932;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=24/tAy177JKP0owGUloJsJ9O1cxGKyGsp+3cRmkz8Hw=;
-	b=LxdEDn//HvV9NCjCcjUL11YaH2triIakiOOpKTN+oU/M+8n3xcsmUoToWsYcif5UpsrV
-	 w4EGEfDeanJYEtIOIQCMDpK6RyMJRGT3aObelxJdhcLttUZWxo0g6He6um0ItJ0OZMv0G
-	 9UKJ2BP5jEYqAMwzbDrwjeYyf9nBfk+uCmq7/7Wj9lymH700A77O2dRnNPkrm0KxuQsAw
-	 /F+/lEqyNh/d9JbwiNVM9JC2EpcTdJYHS7DgFPIdNc8821iGPmUEQMS/Q1I1s1Odcp+ud
-	 t01ys5HUbXsx3zAkIfS5egpM2bZX8sgrEuiU8PPa3JHdGEznn7DI0VEmQhODLwd1DvA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795642048;
+	h=DMARC-Filter:X-KPN-MessageId:Received:Received:DKIM-Signature:
+	 X-KPN-MID:X-CMASSUN:X-KPN-VerifiedSender:Received:Date:From:To:Cc:
+	 Message-ID:In-Reply-To:References:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Priority:Importance:X-Originating-IP;
+	bh=Wkz/I9/uycoNpfb2ILPsq2+UwaDmVC8MrE9vadsgTkk=;
+	b=YhyquRBZmdb4V6WoSB18gqeTaMGAdOtV/ccwiv464s/7bZqsRx/5zPj9Kz0I8qe8iRQC
+	 OvIZ+G5K/uEcPR/ap0a0YjS6gkZOLT2Mmn2Z/gIEmVnFvJpPcOE+D7fF3EbG112xLJJQR
+	 2/0WhPcX7NmrRY2RCCJUOPcWsVInEgYI8nNueF04+nDqN9avxFY5oHA1RoSiaFg9d9J2P
+	 QCr4/GqLqZ7j062ZoX64halelBQkkeFNRrxVE0J1ZmQPl2cN7jVgeukR5UE+icyDWQtVA
+	 mlOdhLQ8+ZGIde0kv7GKJ9KtLzFh5LY9jq4seFwofX6BRKApox/OaK2nhFjWMN4CP4Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RI0PEVo8;
-	arc=none smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=xs4all.nl;
+	spf=pass smtp.mailfrom=xs4all.nl;
+	dkim=pass header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=mNy0v0Zu;
+	arc=none smtp.remote-ip=195.121.94.183
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 940DC606A329
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 21:25:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 940DC606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDFF6606A338
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 21:27:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BDFF6606A338
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RI0PEVo8
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4bb9d8e8e90so34408765e9.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 13:25:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=mNy0v0Zu
+X-KPN-MessageId: fcca9c92-e916-11f1-8e5e-005056992ed3
+Received: from mta.kpnmail.nl (unknown [10.31.161.188])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id fcca9c92-e916-11f1-8e5e-005056992ed3;
+	Wed, 25 Nov 2026 22:27:16 +0100 (CET)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id fcc98153-e916-11f1-be6a-00505699693e;
+	Wed, 25 Nov 2026 22:27:16 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795641930; x=1796246730; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=24/tAy177JKP0owGUloJsJ9O1cxGKyGsp+3cRmkz8Hw=;
-        b=RI0PEVo8e/bM5LpLPZ+ED0hsyThViRRY4VFXcvOC3yq8ssab9D3GWTn/NExxaMUXZ/
-         SCEfAUzxIznLHW4X8Ux3FmsnGjVl8+Tu2I50vFro4UF290hC+aOGoCx3seQbB/Kkai92
-         i2zbpMXrHM1e+hdoZw3s9g8KJwVNLFn1XzFiXMwhZLLCZapmock/E0+9J3LFHctwNKM2
-         1wJUObs/t1OyGzg2ZnBNFqAphLTJMLH8yCwqrFBvoaxKN25zrCKYmaShH0vjh09I3jpG
-         Uz4nqzrg6/yfBT6SdKciD9tyk2az1dmjbdzWK08Rn0x/RK7kdBz6as33XNA2CJWx8x3B
-         BHwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795641930; x=1796246730;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=24/tAy177JKP0owGUloJsJ9O1cxGKyGsp+3cRmkz8Hw=;
-        b=WwqiQ9H4IWvrc8hxg7iJqDha8HEgg5k2h0HT00x/BsuURzfy5YdOFFzpOW8pm84QOB
-         R5uNxqKuOUsNUksvHlvUiS1k7mLAMY2seDJmTCEE8se84IwCnYVRHBEvyeOIXXHZQ4SL
-         xDl2WUmy//W2EHJxLbfoL0PHY82M/Ex7Tx1lPyqapv2y0B+1sLR6AUnpyx/FidaamXdC
-         kGZ/8sK3MfHN3Qfbw26C1Q/cB5XrQvdDdQi2GXKjgCajeZq7UV9T8IlpiBkLwKlgCSzD
-         zT6p6YS8Kt3VgDOFAXCcE4qWdAHNrY1LF878onSiQUA3TN2RS0xbEd6Mb0KjYFMUVyi9
-         B1IA==
-X-Forwarded-Encrypted: i=1; AL+hErFLdquD2vYpntnplHWvSJo7YfFYBiVEN5/PtRb82w+CPy9BafmWAk32Ch57iVXVVCHfLyjEYo+0rBZQv/Nk@vger.kernel.org
-X-Gm-Message-State: APuU4Z8EaVS5o63sDntMj6hMDaoZkdRZKBx9L5fW1c5CsNoOxR4GeJox
-	M28aSb6z/uIdD/9dHcnd6EaatSEbbBMB/VzyV7A9aihYFQ9JjqCAY++f
-X-Gm-Gg: AZFdTZdCB2jjJtYybO9dcg9FgPDQygEavJP25RscpCNo9GWQ1uB2TGVBsOTXpGA7ttw
-	vfkEf7bMn9fmHAMyoWkBACWBqetzDSMDogvULl+p6eItnSsU5mnwbp5UN9ZBcgieYXvrZwCrxVw
-	IjgRfjowHOBVqtNX8CeTZN1yV8mqrUgLsO27Zg+7FWZeZTXiOJdpUovnbhX064JpKC48fNYmpcF
-	KNtaPcTKdSYvcmAMxigQfmy8C7UlICy+GUgFBUQKIdQ+9hMaDU19Kogd6T5rCPARAeX9/s2s9NU
-	lKiQLol17OBANO8SjxJMC8ds680RhE/ytBl+XqvHuqA4wVP3YOm2D8oYNv3o4QCoxtdYMGGL6LZ
-	P8B3QjOLttsz2MbuW1RcpO5rQ3uOECEeXAyHJcgmkvXyoBLJrAzRi2xKJQSWvdVev98ExDtXqg9
-	wrzaBLMN4R4GrtIj74CHw1Sro4659G2e31llakR/OYt8p7DjbfvySHyEv9DTZMSwSzwf+xnOitA
-	/+GdinQLrWaEJwX3DUNvfCwnKX4s5mHzfW6mA6q9A6DlcO6XrqymXYz7/0O4BS6MJ6LppHPOQBA
-	0IYtXXUN1oUBTbKzvTIR0VP1sbHCkm+4Dyj+SKt4jLPn9WEpg8cbgEfbgcSxlZn4rQ==
-X-Received: by 2002:a05:600c:4584:b0:4bb:5de1:e90f with SMTP id 5b1f17b1804b1-4bb88819bcdmr380720815e9.31.1795641929874;
-        Wed, 25 Nov 2026 13:25:29 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853c9170sm615777065e9.14.2026.11.25.13.25.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 13:25:29 -0800 (PST)
-Date: Wed, 25 Nov 2026 21:25:28 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Samuel Wu <wusamuel@google.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
- Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin
- <atomlin@atomlin.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
- Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Alexei Starovoitov
- <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko
- <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya
- Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song
- Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa
- <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai
- <ihor.solodrai@linux.dev>, Nathan Chancellor <nathan@kernel.org>, Nick
- Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, Andrew Morton
- <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>,
- kernel-team@android.com, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-modules@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH bpf-next v3 2/9] module: Add module_kallsyms_find_name()
-Message-ID: <20261125212528.239ab6bf@pumpkin>
-In-Reply-To: <0c2e606e-e0b8-4466-b9dd-4db14cc35d1d@suse.com>
-References: <20261113221248.3535369-11-wusamuel@google.com>
-	<20261113221248.3535369-13-wusamuel@google.com>
-	<0c2e606e-e0b8-4466-b9dd-4db14cc35d1d@suse.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=Wkz/I9/uycoNpfb2ILPsq2+UwaDmVC8MrE9vadsgTkk=;
+	b=mNy0v0ZuaAX/i5Gh6Wud0W/kVa5l1yBLQM+mdeiUH0J/r8rzv7RgKkXq8BHWglsJUq1nYjr5Pfgot
+	 aUkLZyo7FMLanK6hISDNmwoh9eGwhvU8xJCLjsuhz/msGi5r+UzOgbS2zDQs82h6uPIAHbwsm6CjQL
+	 9dwKf6Z9hTDqWtCghwAZqsoRPrkF9Do/dFJ2F1KoZJF5jZmK0INlvWMiaz1knQw8Ym2AYVgg5fUY5Y
+	 KtUckGLwF5O7XKqje5ymw5xn4RnOgDuHjLXqBToZQBsF2UAUHVSBkArvfNUXG6fzubd45oYfYYZY/i
+	 Ux8y21JiZHDgGS9XghsZITgp3O5HmtA==
+X-KPN-MID: 33|YyG/3koVDQrbm+KMSsajlXfp57Gs1QqJxUYCnezE0qtAa+YT66UPutjebbpOqB4
+ mQJ/GD++ObdnysO6QWvEhnOHosK/0lXjYUK7Cg4fRAGM=
+X-CMASSUN: 33|GapsSioku5fVb9d+9lY8Dg9MIm4SfPm+R+aKKWQG1/5oRn/ta4T5HFx4qek3+ip
+ s5p7WWHFTX8kwRIxjByA1MQ==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh05 (cpxoxapps-mh05.personalcloud.so.kpn.org [10.128.135.211])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id fcbf625d-e916-11f1-acfd-00505699eff2;
+	Wed, 25 Nov 2026 22:27:16 +0100 (CET)
+Date: Wed, 25 Nov 2026 22:27:16 +0100 (CET)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Hengyu Liang <hengyul@cs.unc.edu>, Jens Axboe <axboe@kernel.dk>
+Cc: Christian Brauner <brauner@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>,
+	io-uring@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Message-ID: <170898867.2781789.1795642036410@kpc.webmail.kpnmail.nl>
+In-Reply-To: <20261125180817.3682397-1-hengyul@cs.unc.edu>
+References: <20261125180817.3682397-1-hengyul@cs.unc.edu>
+Subject: Re: [PATCH] io_uring/openclose: allow an empty path with
+ O_EMPTYPATH
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -117,72 +81,120 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-On Wed, 25 Nov 2026 17:45:36 +0100
-Petr Pavlu <petr.pavlu@suse.com> wrote:
 
-> On 11/13/26 11:12 PM, Samuel Wu wrote:
-> > KALLSYMS_QUERY_BY_NAME, added later in this series, needs to find a
-> > symbol name or prefix across module symbols in one pass.
-> > module_get_kallsym() walks the module list from the head and runs an
-> > export bsearch() for every symbol index.
-> > 
-> > Add module_kallsyms_find_name(), and put the shared query struct in
-> > linux/kallsyms.h, so we have a more efficient linear walk.
-> > 
-> > Signed-off-by: Samuel Wu <wusamuel@google.com>
-> > ---
-> > [...]
-> > diff --git a/kernel/module/kallsyms.c b/kernel/module/kallsyms.c
-> > index 1ff8ce857d92..72006c9bad42 100644
-> > --- a/kernel/module/kallsyms.c
-> > +++ b/kernel/module/kallsyms.c
-> > @@ -406,6 +406,63 @@ int module_get_kallsym(unsigned int symnum, unsigned long *value, char *type,
-> >  	return -ERANGE;
-> >  }
-> >  
-> > +/**
-> > + * module_kallsyms_find_name - Find a module symbol by name or prefix
-> > + * @symnum: in: index to start at; out: index of the match. The index
-> > + *          counts the symbols of the searched modules in list order.
-> > + * @q: name query; if @q->modname is set, only that module is searched
-> > + * @value: set to the symbol address
-> > + * @name: set to the symbol name (KSYM_NAME_LEN bytes)
-> > + * @module_name: set to the module name (MODULE_NAME_LEN bytes)
-> > + *
-> > + * Undefined (SHN_UNDEF) symbols are skipped.
-> > + *
-> > + * Return: 0 on a match, or -ENOENT.
-> > + */
-> > +int module_kallsyms_find_name(unsigned int *symnum,
-> > +			      const struct kallsyms_name_query *q,
-> > +			      unsigned long *value, char *name,
-> > +			      char *module_name)  
+> Op 25-11-2026 19:08 CET schreef Hengyu Liang <hengyul@cs.unc.edu>:
 > 
-> Nit: kernel/module/kallsyms.c already contains a zoo of lookup functions
-> with similar names. Adding module_kallsyms_find_name() adds more to the
-> confusion, being similar to module_kallsyms_lookup_name() and
-> find_kallsyms_symbol_value().
-
-I've thought of splitting the file in two.
-Separating the core symbol table functions from the /proc/kallsyms code.
-Might help here as well.
-The cut goes just above the extra structure the /proc code uses.
-Three functions have to be made non-static, none are that internal.
-
-David
-
+>  
+> Commit 31cf44efa6df ("vfs: add O_EMPTYPATH to openat(2)/openat2(2)")
+> made build_open_flags() accept O_EMPTYPATH and turn it into
+> LOOKUP_EMPTY, so that openat(fd, "", O_EMPTYPATH) reopens the file
+> behind fd.
 > 
-> I suggest calling it module_kallsyms_query_name() to match the
-> kallsyms_name_query parameter and to express that this is a structured
-> query, as opposed to a simple by-name lookup. It might be a good idea to
-> similarly stick to "query" instead of "find" in kernel/kallsyms.c.
-> 
-> Otherwise, this looks ok to me from the modules perspective. Feel free
-> to add:
-> 
-> Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+> However, io_uring also uses build_open_flags(), but __io_openat_prep()
+> still copies the name with delayed_getname(), which rejects an empty
+> name with -ENOENT. As of now, IORING_OP_OPENAT and IORING_OP_OPENAT2
+> accept O_EMPTYPATH, but fail on the empty path this flag is meant for.
 > 
 
+I think you should leave the reproducer from the commit message.
+
+> The issue can be reproduced with this program:
+> 
+>     #define _GNU_SOURCE
+>     #include <fcntl.h>
+>     #include <liburing.h>
+>     #include <stdio.h>
+> 
+>     #ifndef O_EMPTYPATH
+>     #define O_EMPTYPATH (1 << 26)
+>     #endif
+> 
+>     int main(void)
+>     {
+>             struct io_uring ring;
+>             struct io_uring_sqe *sqe;
+>             struct io_uring_cqe *cqe;
+>             int fd = open("/etc/passwd", O_PATH);
+> 
+>             printf("openat: %d\n", openat(fd, "", O_RDONLY | O_EMPTYPATH));
+> 
+>             io_uring_queue_init(1, &ring, 0);
+>             sqe = io_uring_get_sqe(&ring);
+>             io_uring_prep_openat(sqe, fd, "", O_RDONLY | O_EMPTYPATH, 0);
+>             io_uring_submit_and_wait(&ring, 1);
+>             io_uring_peek_cqe(&ring, &cqe);
+>             printf("IORING_OP_OPENAT: %d\n", cqe->res);
+>             return 0;
+>     }
+> 
+> Before that commit (v7.1), both calls fail: it prints "openat: -1" and
+> "IORING_OP_OPENAT: -2". After that commit (v7.2), the result is:
+> 
+>     openat: 4
+>     IORING_OP_OPENAT: -2
+> 
+> This patch will copy the name with delayed_getname_uflags() and
+> AT_EMPTY_PATH when O_EMPTYPATH is set, as io_uring's statx already does
+> for AT_EMPTY_PATH.
+
+It ain't a sin, but try to avoid "this patch" references.
+
+> 
+> Fixes: 31cf44efa6df ("vfs: add O_EMPTYPATH to openat(2)/openat2(2)")
+> Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
+> ---
+> I found this while comparing the behavior of different kernel versions.
+> I used an LLM to analyze the problem and to draft the patch and this
+> message, and I analyzed the result myself.
+> 
+> Tested on io_uring-7.4 (0659e44ce739) with KASAN and lockdep. A test
+> that runs 24 cases through IORING_OP_OPENAT/OPENAT2 and through
+> openat(2)/openat2(2) now gets the same result from both (32 of 42
+> results differed before). The cases include O_PATH and regular fds,
+> AT_FDCWD, forced async opens, RESOLVE_CACHED, a direct descriptor slot,
+> a bad pointer and an unprivileged reopen of a 0600 file (EACCES). The
+> liburing open tests and the openat2 selftests pass on both kernels.
+> 
+>  io_uring/openclose.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/io_uring/openclose.c b/io_uring/openclose.c
+> index 24cf3ce2e2bc..29fe31f16a2b 100644
+> --- a/io_uring/openclose.c
+> +++ b/io_uring/openclose.c
+> @@ -54,6 +54,7 @@ static int __io_openat_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe
+>  {
+>  	struct io_open *open = io_kiocb_to_cmd(req, struct io_open);
+>  	const char __user *fname;
+> +	int uflags = 0;
+>  	int ret;
+>  
+>  	if (unlikely(sqe->buf_index))
+> @@ -67,7 +68,9 @@ static int __io_openat_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe
+>  
+>  	open->dfd = READ_ONCE(sqe->fd);
+>  	fname = u64_to_user_ptr(READ_ONCE(sqe->addr));
+> -	ret = delayed_getname(&open->filename, fname);
+> +	if (open->how.flags & O_EMPTYPATH)
+> +		uflags = AT_EMPTY_PATH;
+> +	ret = delayed_getname_uflags(&open->filename, fname, uflags);
+>  	if (unlikely(ret))
+>  		return ret;
+>  	req->flags |= REQ_F_NEED_CLEANUP;
+> 
+> base-commit: 0659e44ce739ecd856164c75a5325b7959a2921d
+> -- 
+> 2.53.0
+
+Reviewed-by: Jori Koolstra (CIQ) <jkoolstra@xs4all.nl>
+
+@Jens - You've pulled this already, I don't know if io_uring appreciates reviews
+after pull. Let me know if not.
+
+Thanks,
+Jori.
