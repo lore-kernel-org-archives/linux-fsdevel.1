@@ -1,87 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795599585;
-	b=LcBtuXJI2g/j2iCVq9lCX+qpzw4QdBxpS2FzMfR0MW0TWM6GH8P2SjuzReWGQdX4DZK5
-	 93cDLQwe1NUPyojWmUjNj2xqXmf7urEGf3NC4OCATXsH8dXcdTXglEzKeaeYo+wE5GPet
-	 Gxq2XZxa29644own2aYLMua0HO2YuqoKcwJscrmHDdxKvV9TmApGxY1XGEkrk/NVCj158
-	 tOgv/R6/BL1sGvahVUQZvcEPzzjMr+tDnt7O4fFOp3WSMKPA50/XzAxQ1Zhh67RVrD/af
-	 SD3DOB0VfAQ9D39aPj3S/a7VtHhlKylJGUokSUKZwrxFn6MZXPj2o8aZkUAWzWQbW/g==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795599585;
-	h=DMARC-Filter:X-UUID:X-CTIC-Tags:X-CID-P-RULE:X-CID-O-INFO:X-CID-INFO:
-	 X-CID-META:X-CID-BVR:X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:
-	 Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=06CDHqP7t8VW2Q7Qnt1JYGz3UVTxeAwOx5LZVWzf/jo=;
-	b=qI+oTZuQQVFPWwUpW6buMHWNrbRdAI85Mj9Cf0d4hS8aPfuCPXUuflqWCU5Mqqg1m929
-	 7gD5fYuivCuB2QxJcwQ7R79zyGhOcEbhDY0jZx35sT55dNd+eyTwUOybYOOWkuzHKVPpI
-	 0oS2Bz9oj1x/4lO9IFKvXH6wEwfCimtxU5PkqtiDHjdrb5S48spTklXoqOTGeCMp/G/fI
-	 f4obr/MeMCJ2ltIBekMBPXgnCHnyWwT0Vp3PswI3rgPqWrO5Kijq2VAzcHzr75UqPUYCb
-	 +elZPfW3JoP4MYHJQKzF5M7kBQbinSGoDh4OlpgzYImlgD2lMpQFaIpjS7xaT4afmMg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795599662;
+	b=0meIrmEBc7O6sbRs40ix7FYH5oXNHO0ynbJfwxHesDd3hzcbJQB3YOmqALiunWFduLG+
+	 jLQxoDCPxNDheNNh5t+g3iGuhJ2Xc5SwEl9t2gCy/1IKVkGx/OmPOSszOP3X8F/F+M7xz
+	 3tT54CDp0wskq01Vt/COS8+U7D+lX7UzwjrsMI8jFiMmbn1IDBA/0KdLB9lTYKciP+2nL
+	 BesrC3JO/pOw3Lrg0UsVj2bhZMqX4cka2cofUPPYr6BFeMmFhAL7g6wzOZ4PWmSeHfgB2
+	 oxbyngdhrFbiE3jLfyzrJTmQ17/8pcOopSLK7ghgj2OzE2tYj6USefTyAqSPdrP0eVg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795599662;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received;
+	bh=Go5NsoyuppAMWbSfZV52X8FSvYZuBcD031bthogNrOg=;
+	b=GRKiT0/qKcstNL/nh6oPTSGWW7vy+a73NLrzAkYxlV2w5kvC6yU/KBBJwoMEr6kpl9Tk
+	 cSG2lVsscnFXOfcDglLL1ldoVfQ2oXZFbfM/Xbslo7S4EiZcE5VpkI6vQXl/NSnAxo43u
+	 4EbCpVaRqb4OYxLXNO/gkh2ioUymQ2mkZoMt+Rth+sL61XakmBFn0biYaPe25jPkjS+oQ
+	 NfY1CE+Pkk0GCYaCQik/wXvR5HXlBQfk5fU0sZ2ZFUxm9sm3sIuyrYmbF/DD6lriSb7EL
+	 nb2Y85CwMI+Ec5P3/bw1PJlc0fqpyS7fUn5yK4Y79zMnTIvkV2zG771yaNPs3QcXNEg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U5bwkYk2;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8A98606A321;
+	Wed, 25 Nov 2026 09:41:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U5bwkYk2
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795599661;
+	b=JPfLE9NDzOVjTdBjsc6tG7EdQjHYskFmWSnugC7CNHjjWQNHQRpssAHozxjpzrBQw2/b
+	 ugmdCvnQSu9OpOkI74NKirUFYLxALo8g0ZJwoJ+edAEL2UDWsRS+jlcqEbYwCknnN2E3g
+	 5k9hVRBOdQ49gjRqWlgJRZuEs3pikt4EfW8v3TD+xvwA0QJdNXcyLXP7qN9gk9kgs0WLS
+	 EWVN+RAlP4+MZJvQSo/OnQK1osnjFq+qlykugDcflIGPAUa95KR2Wi9CEzuvUhNz0kW71
+	 FGhREuJmGV6v8YT8o3ryaL9wImyLe3abDVo5/SQm92zjJE3Sdt6hum0RUqpSHT1UcWw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795599661;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received;
+	bh=Go5NsoyuppAMWbSfZV52X8FSvYZuBcD031bthogNrOg=;
+	b=Z97bCUH424gxUusAStbgqfyNjO+EPXHMCNYNRxU/HTjAq09VZOXOQ5+GQj/RrAHtyAnv
+	 8imbo6s2+x2vCfG5hbDEWj30e4VFeMALBCC108QID2GKeCSmKSZyWBu0Lon+x8+eQmw6H
+	 WLV7wN5HJXYhr+0xxzzFIOkHkThy+uvPP892o1kKmEaI4sEp04+UUnNDEdCeiBXOEhayx
+	 /O3Eg0iuArcy7+FmZFC9q64bruM3Efc4vFQ9ZvCCt6vyxSC/g78oD5wf1Lcl1mLInCsp5
+	 W8jdirKGJMAJI/H1/HAal4KXAJpVbaHt2QcGPD46XTU7yMdIPJ0YxgGil3I2kF6X96Q==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC37E606A335;
-	Wed, 25 Nov 2026 09:39:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC37E606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 1fb90370e8b411f19a56ed5b684f684d-20261125
-X-CTIC-Tags:
-	HR_CC_CHARSET, HR_CC_CHARSET_NUM, HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME
-	HR_CC_NO_NAME, HR_CHARSET, HR_CHARSET_NUM, HR_CTE_8B, HR_CTT_MISS
-	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME, HR_SJ_LANG
-	HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE, HR_SJ_PHRASE_LEN
-	HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NAME, IP_TRUSTED
-	SRC_TRUSTED, SA_TRUSTED, SA_EXISTED, SN_EXISTED, SPF_NOPASS
-	DKIM_NOPASS, DMARC_NOPASS, UD_TRUSTED, CIE_BAD, CIE_GOOD_SPF
-	GTI_FG_BS, GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:ba469694-0e2d-466e-8fc7-55d24415b2a8,IP:10,
-	URL:25,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACT
-	ION:release,TS:10
-X-CID-INFO: VERSION:1.3.19,REQID:ba469694-0e2d-466e-8fc7-55d24415b2a8,IP:10,UR
-	L:25,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:10
-X-CID-META: VersionHash:7db8b62,CLOUDID:c5b09dbcdd18cb4833e49ca365a6b0bb,BulkI
-	D:261125173937JK7RFES4,BulkQuantity:0,SF:17|19|38|66|78|102|127|153|865|89
-	8,TC:nil,Content:0|15|50|99,EDM:-3,IP:-2|1,URL:11|94|82|1,File:nil,RT:nil,
-	Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BR
-	R:1,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULN,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,
-	TF_CID_SPAM_IBB
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 1fb90370e8b411f19a56ed5b684f684d-20261125
-X-User: liwang@kylinos.cn
-Received: from computer.. [(116.128.244.169)] by mailgw.kylinos.cn
-	(envelope-from <liwang@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 901844680; Wed, 25 Nov 2026 17:39:34 +0800
-From: Li Wang <liwang@kylinos.cn>
-To: Miklos Szeredi <miklos@szeredi.hu>,
-	German Maglione <gmaglione@redhat.com>,
-	Vivek Goyal <vgoyal@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>
-Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
-	"Michael S . Tsirkin" <mst@redhat.com>,
-	fuse-devel@lists.linux.dev,
-	virtualization@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	virtio-fs@lists.linux.dev,
-	Li Wang <liwang@kylinos.cn>,
-	stable@vger.kernel.org,
-	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH] virtiofs: fix lost reply due to unaligned cache line sharing
-Date: Wed, 25 Nov 2026 17:39:08 +0800
-Message-Id: <20261125093908.48619-1-liwang@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
+	by smtp.kernel.org (Postfix) with ESMTPS id 33F321F000C4;
+	Wed, 25 Nov 2026 09:40:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795599661;
+	bh=Go5NsoyuppAMWbSfZV52X8FSvYZuBcD031bthogNrOg=;
+	h=From:Date:Subject:To:Cc;
+	b=U5bwkYk29EPa66nNb/UD3FT0LSil5i2cyls9NfllzFytyL3TZosV1gJIsdfxZ26q5
+	 bZJ5qeSwj5FtQkINKFFuEhQ24oMiu2muu7K3eCfKmxbuIeLep9wztwXmRxuIaaMlRx
+	 71CoeAOi/nOs0g0NKci0qWe/kOq48Adt4B1hhNYR+ulxvIU2bXDtWHLW/FQHM3cmWg
+	 GXyIQ/5hFGqboI3VfuppKNfTUNwf4lbERVjTyWICvLLs59kBn+C/dIwZ+yMs5velJR
+	 ay3FKhZleNQ85E+gQKeL43km2b/TfDYdJY9XRfoIG+nL6/XAYheT1aoH4av5XwFXz6
+	 Wlc6Yq1O1OCIA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 8CBC74CDF2;
+	Wed, 25 Nov 2026 09:40:53 +0000 (UTC)
+From: Joel Granados <joel.granados@kernel.org>
+Date: Wed, 25 Nov 2026 10:40:51 +0100
+Subject: [PATCH] sysctl: Test rounding behaviour in jiffy-ms transformation
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -91,100 +81,170 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261125-lklm-jiffy_rounding-v1-1-ccf2ddf7bd3a@kernel.org>
+X-B4-Tracking: v=1; b=H4sIACKtBmsC/x3MTQ5AMBBA4avIrDXRoSSuIiLolPFT0oYQcXeN5
+ bd47wFPjslDGT3g6GTPmw2QcQT92NqBBOtgwARzKVGJZV5WMbExd+O2w2q2g+iyHAulO0WYQih
+ 3R4av/1rV7/sBEgGHdmUAAAA=
+X-Change-ID: 20261125-lklm-jiffy_rounding-b46275db5e23
+To: Kees Cook <kees@kernel.org>, Avi Weiss <thnkslprpt@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, Joel Granados <joel.granados@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4128;
+ i=joel.granados@kernel.org; h=from:subject:message-id;
+ bh=RpJAkbVCo3PiYqOJBu0qHd458RHdZ3KqXhVVUhOgvQ4=;
+ b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGsGrSQ6ZjTQW/We47+1WsXkCJbRiidHpMEGS
+ lr2z3gOOCCzTIkBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJrBq0kAAoJELqXzVK3
+ lkFP+jYL/is73B+3x3Osc7NEipbbmNU9I5mXOvA209ipSqD1KBtjF7DGJMiIGvZ6d+KMOFqKXe5
+ 3mbamOYNw0Pud0yvxoMRYzV6hH0fw1q7a2Ld9ZSwd5Dc63kfTpfZCfcWlsb7nFi8TB2F8ktCatX
+ 70m5sHYTAU80Vg+AruwwQMG10TPQZSDUDdbZxTotXlot4V4Sd6bwcgEy15wG9HGD3UzLB9tOh4Z
+ 4EdrSVAMTlzajZootfipaLg3dhy93Y9QLQTebbZqddtkyyLUqwuUg1wmcCsl9SrZKILnFe5VN1D
+ 7OsaVtC+4GmrJCRF4zqch9jUl1HRdJA8McAWUWwxxSyCRQ03kqwy1+9QJ7U7+f40uNIHv75mqa0
+ JUwVzht7FhMsQhbOhweq7aeQZ4VmwQQUGxFRLli4GdWhkV8d2VfX9b0/M0Ar2S4KSfwI/1KFLye
+ HLjn+AfsKqWTo10e9we7E0+lH8SEh4V6HqKShfB4jPGIQI4TA07MdLX4OTbFtrcflrjGOd49bT7
+ JA=
+X-Developer-Key: i=joel.granados@kernel.org; a=openpgp;
+ fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
+X-Endpoint-Received: by B4 Relay for joel.granados@kernel.org/default with
+ auth_id=239
 
-virtio_fs_enqueue_req() maps fuse_req::out.h for DMA_FROM_DEVICE in
-place. fuse_req comes from the "fuse_request" slab with no DMA-granule
-alignment, so out.h shares a CPU cache line with the waitq field.
-request_wait_answer() updates waitq while the DMA is active.
+Add two tests over int_ms_jiffies and ulong_ms_jiffies:
 
-Note: Sashiko correctly identified the bug, but the resulting behavior
-is not as described. Sashiko reported that unmap invalidates this shared
-cache line and drops the waitq updates made by request_wait_answer(),
-so wake_up() walks a damaged list, the waiter never runs, and a later
-wait-queue operation can panic. That is not what current arm64 does for
-this buffer. fuse_out_header is 16 bytes and does not cover a whole cache
-line. dcache_inval_poc() uses dc civac on that partial line: a dirty line
-is written back and then invalidated. The waitq update is kept, but the
-out.h written by the device is lost and reverts to its initial all-zero
-values. virtio_fs_verify_response() rejects that header, because
-its unique and length do not match, and the request finishes with -EIO.
+1. roundup_on_write writes 1 ms and requires the read to be at least 1.
+   One millisecond is exact at HZ=1000 and rounds up to one jiffy below
+   that, reading back as 10, 4 and 3 ms at HZ=100, 250 and 300.
+2. stable_rewrite writes a random ms value, writes back what it reads,
+   and requires the second read to match the first.
 
-Place out.h on its own DMA granule and start waitq on the following
-one. Allocate the slab at __alignof__(struct fuse_req) so those
-offsets are granule-aligned in memory. Coherent architectures keep
-ARCH_DMA_MINALIGN at the natural alignment, so fuse_req does not grow
-there. The padding is compiled in only when virtiofs is enabled.
-
-Fixes: a62a8ef9d97d ("virtio-fs: add virtiofs filesystem")
-Cc: stable@vger.kernel.org
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://sashiko.dev/#/bug/linux-41eaaf0f-0eb9-4809-99cf-5f83439eb848
-Signed-off-by: Li Wang <liwang@kylinos.cn>
+Signed-off-by: Joel Granados <joel.granados@kernel.org>
 ---
- fs/fuse/dev.c        |  3 ++-
- fs/fuse/fuse_dev_i.h | 18 ++++++++++++++++--
- 2 files changed, 18 insertions(+), 3 deletions(-)
+These tests make sure that the fix that was recently merged [1], stays
+fixed.
 
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index b198cc729cba..00e637d5e552 100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -2342,7 +2342,8 @@ int __init fuse_dev_init(void)
- 	int err = -ENOMEM;
- 	fuse_req_cachep = kmem_cache_create("fuse_request",
- 					    sizeof(struct fuse_req),
--					    0, 0, NULL);
-+					    __alignof__(struct fuse_req),
-+					    0, NULL);
- 	if (!fuse_req_cachep)
- 		goto out;
+[1] https://lore.kernel.org/all/awH4Fh-XofdwwRqZ@hobbes
+---
+ lib/test_sysctl.c                        | 13 ++++++++-
+ tools/testing/selftests/sysctl/sysctl.sh | 50 ++++++++++++++++++++++++++++++++
+ 2 files changed, 62 insertions(+), 1 deletion(-)
+
+diff --git a/lib/test_sysctl.c b/lib/test_sysctl.c
+index 65ce423461707170367a5df14999b571705251d0..40da8748c2ad283a8ac9fa9b859e8556e2dc3564 100644
+--- a/lib/test_sysctl.c
++++ b/lib/test_sysctl.c
+@@ -29,6 +29,7 @@
  
-diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
-index a8eba46a3e51..e42f3dc30d3b 100644
---- a/fs/fuse/fuse_dev_i.h
-+++ b/fs/fuse/fuse_dev_i.h
-@@ -12,6 +12,18 @@
- #include <linux/wait.h>
- #include <linux/workqueue.h>
- #include <linux/fs.h>
-+#include <linux/cache.h>
+ static int i_zero;
+ static int i_one_hundred = 100;
++static unsigned long ul_one = 1;
+ static int match_int_ok = 1;
+ 
+ enum {
+@@ -52,6 +53,7 @@ struct test_sysctl_data {
+ 	int int_jiffies;
+ 	int int_ms_jiffies;
+ 	int int_userhz_jiffies;
++	ulong ulong_ms_jiffies;
+ 
+ 	unsigned int uint_0001;
+ 
+@@ -72,10 +74,11 @@ static struct test_sysctl_data test_data = {
+ 
+ 	.boot_int = 0,
+ 
+-	/* One second in each converter's unit; all three store HZ jiffies. */
++	/* One second in each converter's unit; all four store HZ jiffies. */
+ 	.int_jiffies = HZ,
+ 	.int_ms_jiffies = HZ,
+ 	.int_userhz_jiffies = HZ,
++	.ulong_ms_jiffies = HZ,
+ 
+ 	.uint_0001 = 314,
+ 
+@@ -144,6 +147,14 @@ static const struct ctl_table test_table[] = {
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec_userhz_jiffies,
+ 	},
++	{
++		.procname	= "ulong_ms_jiffies",
++		.data		= &test_data.ulong_ms_jiffies,
++		.maxlen		= sizeof(ulong),
++		.mode		= 0644,
++		.proc_handler	= proc_doulongvec_ms_jiffies_minmax,
++		.extra1		= &ul_one,
++	},
+ 	{
+ 		.procname	= "uint_0001",
+ 		.data		= &test_data.uint_0001,
+diff --git a/tools/testing/selftests/sysctl/sysctl.sh b/tools/testing/selftests/sysctl/sysctl.sh
+index ad1ee0fccd7cefb066caf23d8aad42abfa046ba0..d24ac6c5a027248afbad4ee0331800fb00aa8978 100755
+--- a/tools/testing/selftests/sysctl/sysctl.sh
++++ b/tools/testing/selftests/sysctl/sysctl.sh
+@@ -351,6 +351,56 @@ test_int_jiffies_negative()
+ 	assert_content "$t" "1" || RET=$KSFT_FAIL
+ }
+ 
++# Writing 1 ms reads back 10, 4, 3 and 1 ms at HZ=100, 250, 300 and 1000
++# respectively. Here we make sure that it is >= to 1.
++test_jiffies_conv_roundup_on_write()
++{
++	local m="${SYSCTL}/int_ms_jiffies"
++	local l="${SYSCTL}/ulong_ms_jiffies"
++	local f got
 +
-+/*
-+ * virtiofs DMA-maps fuse_req::out.h for DMA_FROM_DEVICE in place.
-+ * Put @out on its own granule and start @waitq on the next one.
-+ * fuse_dev_init() allocates the slab at this alignment.
-+ */
-+#if IS_ENABLED(CONFIG_VIRTIO_FS)
-+#define FUSE_REQ_DMA_ALIGN __aligned(ARCH_DMA_MINALIGN)
-+#else
-+#define FUSE_REQ_DMA_ALIGN
-+#endif
- 
- /* Ordinary requests have even IDs, while interrupts IDs are odd */
- #define FUSE_INT_REQ_BIT (1ULL << 0)
-@@ -94,10 +106,10 @@ struct fuse_req {
- 	struct {
- 		/** @out.h: The request output header */
- 		struct fuse_out_header h;
--	} out;
-+	} out FUSE_REQ_DMA_ALIGN;
- 
- 	/** @waitq: Used to wake up the task waiting for completion of request */
--	wait_queue_head_t waitq;
-+	wait_queue_head_t waitq FUSE_REQ_DMA_ALIGN;
- 
- #if IS_ENABLED(CONFIG_VIRTIO_FS)
- 	/**
-@@ -118,6 +130,8 @@ struct fuse_req {
- 	unsigned long create_time;
- };
- 
-+#undef FUSE_REQ_DMA_ALIGN
++	[[ -f "$m" && -f "$l" ]] || { RET=$KSFT_SKIP; return; }
 +
- /* One forget request */
- struct fuse_forget_link {
- 	struct fuse_forget_one forget_one;
++	for f in "$m" "$l"; do
++		if ! printf '%s' "1" > "$f" 2>/dev/null; then
++			ktap_print_msg "$f: write of 1 rejected"
++			RET=$KSFT_FAIL
++			continue
++		fi
++		got=$(cat "$f")
++		if [[ ! "$got" =~ ^[0-9]+$ ]] || (( got < 1 )); then
++			ktap_print_msg "$f: wrote 1, got '$got', want >= 1"
++			RET=$KSFT_FAIL
++		fi
++	done
++}
++
++# Check that writing back what was just read does not change it again.
++test_jiffies_conv_stable_rewrite()
++{
++	local m="${SYSCTL}/int_ms_jiffies"
++	local l="${SYSCTL}/ulong_ms_jiffies"
++	local orig=$RANDOM
++	local f first
++
++	[[ -f "$m" && -f "$l" ]] || { RET=$KSFT_SKIP; return; }
++
++	for f in "$m" "$l"; do
++		if ! printf '%s' "$orig" > "$f" 2>/dev/null; then
++			ktap_print_msg "$f: write of $orig rejected"
++			RET=$KSFT_FAIL
++			continue
++		fi
++		first=$(cat "$f")
++		if ! printf '%s' "$first" > "$f" 2>/dev/null; then
++			ktap_print_msg "$f: rewrite of '$first' rejected"
++			RET=$KSFT_FAIL
++			continue
++		fi
++		assert_content "$f" "$first" || RET=$KSFT_FAIL
++	done
++}
++
+ test_uint_plain()
+ {
+ 	local t="${SYSCTL}/uint_0001"
+
+---
+base-commit: b6a9fa34ce4187cb69d3c588a4bbffc31ce5db8f
+change-id: 20261125-lklm-jiffy_rounding-b46275db5e23
+
+Best regards,
 -- 
-2.34.1
+Joel Granados <joel.granados@kernel.org>
+
 
