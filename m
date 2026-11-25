@@ -1,50 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795632543;
-	b=GsEwczkW7YVsm/1lbvZI7VTEDMi9ZCLi8wkhN3pF+vfRxiDT+7KC71QEgi61iZGc/DBt
-	 SdI/P1MUtPOFOFySQqBgD9PmcX2MwqYPQlQ1T7rf9nmcYBDLBAvm//RKrVcwso5gCYN3+
-	 cZ7og+XXGi3DVO2cvHHbQ3K6EjxEXhjXeUGQkQLrAjeGDS5JK5zSPK3976mxXx/vumjEj
-	 Zc37VMpo/ttKXXZO7gdWgp4B/leKxT6bHoPAudDlzXvrkbpWgIPq7wXM+OJaJgUdkX+uj
-	 0Dm9q8ciTAdOiTKU53D1jZcObXrbmYLEdRL3+ckbJQXpQkosGzRhdOpKDHYsPRguN9A==
+	t=1795632586;
+	b=IBv9b1Sq/8Pdol9hVTKulXte4RQUohBX3GyWwttXePSxAdc+QGjhUUG914O7roZJJUWx
+	 iniAkBVDOzBgn0j2+eaz7wUsQFDpGQxGNaVGpQKPvSuqpv622ThXfOluX939luaSHaTIN
+	 6UI+DfielChpZQpVcQ4/FE+a0TflBlSzgfbipeCLRzghKBY97go3g8hxCOyC5qtH0QokO
+	 i/V3cjTjvEoQIMrIWTExEe6nZjOyVQVQP6Gx+E0UmHFPMoZ6qCrxmYWBqTiCSABUh6j9W
+	 Yamyv7DaEHGEbm7Mu2v6UGG2teT44FguD9NCVOIcFJNGi6miWW2gIObWyMTG/WkTM/Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795632543;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795632586;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=dpOXkIdGlv07F5o7sQeY1F2q4rzTLPpuuPmBM8fkrhM=;
-	b=IjpemEqN8NIGP8C1I84g0sxapVwDCqy3t4TTOI+1mX/XbTHLvmrMZQYhz8xAmWxf3P9S
-	 nTWOacI0HdIaX3kLr5T0Z+M/Odre+m8TfMCxfgxn6idYPPPqeYTwBHpQ9Olo5MK21JHhx
-	 3lnjEcCCRonVUuqS3rHK1b5ZtE1uhPNiu8Ff46ulT74WPTeg9HDT2J6DLbRGZusIynUD/
-	 BK/Owvfm1vnk0pZjxDWU6f/nca0bnmPV29USgRSt/T0/Qg0754D43vGXo07/qEjapjUOk
-	 tbHDO1hBhLuhT6pg+zdFmnpRgGLuqXI+1hgunb3GAJs+iwBnbF96Dd/DjbRkJVrYB7w==
+	bh=8HqzaUnQtBkrjDFYyrYXy2MWbKn9cp7Q7enk7/mWCOw=;
+	b=d7bZrAQbSQ2fqt2eovlIf51Zk5d4EQ3OG50BehvasWihBM0kUhsjGGnX883IeFbgb5oS
+	 6aVupCQaI4ZyJEaR/s9r+6Ru7LXETKPOjH9P8bpM7Ik7obArPgktBZ8JKykEz/sfbonKb
+	 4peH82q8Evk03loyYGQ+qo69lKVhNccRACCsL7V0Uib0j7uQhMVmNB+036Tn/tCDwNCcM
+	 0UK+Bs9WqYJUqvglXYfVVGsMul7MpzdmH4q9f4JE7FKe/28GvUW5lXBWyboSWN8u1NA6B
+	 fQGGUZAqGR5To0AKXRsXqosxVUZgxfd9m5WnHP2WweC9Rk7k1ydhstWW5UnheSME6dw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VwWZb59D;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NqS1km0A;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD11606A321
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 18:49:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D575606A31E
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 18:49:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VwWZb59D
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09CD11F000C4;
-	Wed, 25 Nov 2026 18:49:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NqS1km0A
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B5C11F000C0;
+	Wed, 25 Nov 2026 18:49:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795632542;
-	bh=dpOXkIdGlv07F5o7sQeY1F2q4rzTLPpuuPmBM8fkrhM=;
+	s=k20260515; t=1795632586;
+	bh=8HqzaUnQtBkrjDFYyrYXy2MWbKn9cp7Q7enk7/mWCOw=;
 	h=From:To:Cc:Subject:Date;
-	b=VwWZb59DVj6jRlepZTTtPDQ+IjwTM2L9dumzhXNnAgwUAD5/R0OZcm8VE9/TEHh4t
-	 Qx1h6pMmZZosUMyGjX5l9vZaAD6pFTOg5EbH/ywRPsVs1w1KmcQFbpELnzSO8NYX4H
-	 RlZhfVAnoInYaEF+/kT5xQzz9MsFYNugimeIQ4e/NuT3QGYGHaVplcjmnO4V2idv77
-	 dXAvr9I3x9O/RiC+dXuZv9/fysp6Bi2ecIxu7jq7YQWBwFGYtzMivM74k4eNpDTs/w
-	 YCZHOh4+zMMVT/CvW134RnS+9Mt3vHIpMJZbsufDopHRkYEQqW3X0EUJLorUm6gDF4
-	 nZ6tZ4OsSH8Bg==
+	b=NqS1km0AjEjAi8VkT7J3HwxSwPjXJN8TUvS0oVECDnKsCs+c/Q5b5tGeYGTXKXpeV
+	 7yWvYudUCHdkzgN680VkVoybkuwgNG1PR5Fhytx5OKOYc/isOptCoMmKiBgRnYozRO
+	 71tkbRjq+D0hdPdQIOUvI+qWl4e05oxazOXGNw59DkKswPfEwNf86FAgRqmeEMLmgD
+	 l3EnIyF6JCiFL4rRUF1V2a6c753I3wsO/vp/c82up0ZxA0LEqOdMI6/+R0edB6Ah6C
+	 B9FYikTiTgb6Cu8YQpZfw00w634IFmLH5qLJzZUUWukCEJDlbBGrY4SOWspH+F/Tsn
+	 spMP6wIIs9ovw==
 From: hubcap@kernel.org
 To: linux-fsdevel@vger.kernel.org
 Cc: Mike Marshall <hubcap@omnibond.com>
-Subject: [PATCH] orangefs: do not post writeback that starts at or past i_size
-Date: Wed, 25 Nov 2026 13:48:44 -0500
-Message-ID: <20261125184854.430614-1-hubcap@kernel.org>
+Subject: [PATCH] orangefs: drop the write range when page_mkwrite loses the folio
+Date: Wed, 25 Nov 2026 13:49:37 -0500
+Message-ID: <20261125184941.431036-1-hubcap@kernel.org>
 X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -59,89 +59,46 @@ Content-Transfer-Encoding: 8bit
 
 From: Mike Marshall <hubcap@omnibond.com>
 
-orangefs_write_range can still start at or past i_size when writeback runs,
-because of truncation for example. ow->len is a size_t, so a start past
-EOF wraps, and a start equal to i_size becomes a 0-byte write. In either
-case, don't do the write. The private range still gets detached, writeback
-is ended, and the folios are unlocked. A range that starts below i_size
-and runs past it is written, but not past EOF.
+orangefs_page_mkwrite attaches a private range for the whole folio,
+then returns VM_FAULT_NOPAGE if folio->mapping is no longer this
+inode's mapping. Truncate can clear that mapping before the fault
+locks the folio. The new range stayed attached. The folio stayed on
+the LRU with mapping NULL, so reclaim called try_to_free_buffers.
+drop_buffers walked the range as a buffer_head and faulted. The word
+at offset 8 was the range length, 0x1000 or 0x2000.
 
-orangefs_writepage_locked used to put the original length back when
-wlen resolved to 0. That writes past EOF and keeps WARN_ON(wlen == 0) from
-firing. Leave the length at 0. The missing-private path does the same
-when the folio itself starts at or past i_size.
+Detach and free the range before unlocking. The folio lock is held,
+so this is the range just attached or updated.
 
-xfstest generic/464 often produces the warning.
+The detatch and free has been missing since orangefs_page_mkwrite was
+added. attach_page_private replaced the open-coded attach in 2020 and
+this failure path was left unchanged.
+
+A full xfstests run hit this from kswapd in generic/751, generic/694,
+and generic/551. The private object was an orangefs_write_range for
+the folio being freed, and mapping was already NULL.
 
 Signed-off-by: Mike Marshall <hubcap@omnibond.com>
 ---
- fs/orangefs/inode.c | 33 +++++++++++++++++++++++++--------
- 1 file changed, 25 insertions(+), 8 deletions(-)
+ fs/orangefs/inode.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/fs/orangefs/inode.c b/fs/orangefs/inode.c
-index 4ae081330243..04a2c928452e 100644
+index 04a2c928452e..7b17af735a9e 100644
 --- a/fs/orangefs/inode.c
 +++ b/fs/orangefs/inode.c
-@@ -33,18 +33,24 @@ static int orangefs_writepage_locked(struct folio *folio,
- 	if (folio->private) {
- 		wr = folio->private;
- 		off = wr->pos;
--		if ((off + wr->len > len) && (off <= len))
+@@ -732,6 +732,11 @@ vm_fault_t orangefs_page_mkwrite(struct vm_fault *vmf)
+ 
+ 	file_update_time(vmf->vma->vm_file);
+ 	if (folio->mapping != inode->i_mapping) {
 +		/*
-+		 * The private range can start at or past i_size after a
-+		 * truncate. Nothing there is written. Restoring wr->len
-+		 * would write past EOF.
++		 * Truncate already dropped this folio. Drop the write
++		 * range too, or reclaim will read it as a buffer_head.
 +		 */
-+		if (off >= len)
-+			wlen = 0;
-+		else if (off + wr->len > len)
- 			wlen = len - off;
- 		else
- 			wlen = wr->len;
--		if (wlen == 0)
--			wlen = wr->len;
- 	} else {
- 		WARN_ON(1);
- 		off = folio_pos(folio);
- 		wlen = folio_size(folio);
--
--		if (wlen > len - off)
-+		if (off >= len)
-+			wlen = 0;
-+		else if (wlen > len - off)
- 			wlen = len - off;
- 	}
- 
-@@ -97,15 +103,26 @@ static int orangefs_writepages_work(struct orangefs_writepages *ow,
- 	}
- 	iov_iter_bvec(&iter, ITER_SOURCE, ow->bv, ow->nfolios, ow->len);
- 
-+	/*
-+	 * The packed range can start at or past i_size after a truncate.
-+	 * Keep the warning. Do not post: ow->len is a size_t, so a start
-+	 * past EOF wraps, and a 0-byte post does not complete on an old
-+	 * client. The folios are still cleaned below.
-+	 */
- 	WARN_ON(ow->off >= len);
--	if (ow->off + ow->len > len)
-+	if (ow->off >= len)
-+		ow->len = 0;
-+	else if (ow->off + ow->len > len)
- 		ow->len = len - ow->off;
- 
- 	off = ow->off;
- 	wr.uid = ow->uid;
- 	wr.gid = ow->gid;
--	ret = wait_for_direct_io(ORANGEFS_IO_WRITE, inode, &off, &iter, ow->len,
--	    0, &wr, NULL, NULL);
-+	if (ow->len)
-+		ret = wait_for_direct_io(ORANGEFS_IO_WRITE, inode, &off, &iter,
-+		    ow->len, 0, &wr, NULL, NULL);
-+	else
-+		ret = 0;
- 	if (ret < 0)
- 		mapping_set_error(ow->mapping, ret);
- 	else
++		kfree(folio_detach_private(folio));
+ 		folio_unlock(folio);
+ 		ret = VM_FAULT_LOCKED|VM_FAULT_NOPAGE;
+ 		goto out;
 -- 
 2.56.1
 
