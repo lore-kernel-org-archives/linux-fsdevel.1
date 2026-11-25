@@ -1,47 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.24
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795605312;
-	b=MJxqhL5FKT7iFJ3iayOjbn6xQZ3I8W6Vl+g2JBHJtB1dnjin/xp4Sv97lOxAYqcM1zpi
-	 2KQT+zBj+9ztFMHX5/ULSVYwOuWq3vXhG9OekY5vKSuMB10s8cxW6KtPs6eST8kSmHGao
-	 VHI31ZPKxJUnhSwaROJO7oFdnFzDoxpyCImEMeTQcKuK6XqUr4p7qphXJlw1OwjXqKq3a
-	 llij4ObPmDzzJ3PtS2N7zUDKgGpaGl2bl06L1sW4WL492faYWKSNp/13U1cU4kO2F7m/L
-	 zkzjHt7irGwHJ2ytlOFce4AL7wVXD1epCB3LHJdmLzy+Bcw1qOg8gZNUbi2dfiOsHfA==
+	t=1795605556;
+	b=aH0BJGx1QbLvw9auH6467CdcC6KdGAl48td5VVhkfwEHdbWGXpv7O5yTtcshSbklDYje
+	 IDSocPHpNQjvt0P7iuVRjqWMrdXjz5K4U9gg6K8KRWrZZQ+kc9CAPYzB9HVQanrvLk6ce
+	 BmSSaQvwBQHupzQO9dEstaIKok5BEpYD5nS6OmdqlzYoGpRV48E1s7OBQoBNlpP28qzpy
+	 RbaaFseiB/YieeweU9bFjLNkq0fiU0LYbFqZeAmUNqROnYSqGZ8cm/mwvBkjkimNvOIOi
+	 T0LHjgXuxzE4SA9ezftOWgvC1kuYR8IHmC2AScRM/BYMDQcjWoN4+ynxC+Yn3tKu8Qg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795605312;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=auwkFguZjnJpCB7sXs9BgjbEzuKBmhkz5UG1UPVs/U0=;
-	b=RjfJg7jH4NpoLxPCMURJi1S54mDAo1/Cz8VI5ZBh1nFRM4fa8b/uejdlE+ut1ZqSxTiM
-	 xvmg/7IBykW/EFeIgMSap4OtfxbOXRMaMg10bc/N4t1y9wHhpjIjK4uQWYqqHU8C8BP5E
-	 0Cc4ArkjFnWr4Xni8fIviih5A1+cbY6Kq+nNgDVke7JJ31eAJdqFC8ZHhhemxgAvE43++
-	 2WFSL/DahaXsX9zM1JYwqlCx4ZTDssP2YKzQ3AYrWH7nrzJHaONlzYJKT6y0C4FDkm5j/
-	 Dkwk5Wjxh0P7eTgLz1vSXC6+++3iZ5AqNiXm9CKCIDAsv4y06/0E11z64n2oSLm68CQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795605556;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
+	 Received:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding:X-CMS-MailID:X-Msg-Generator:
+	 Content-Type:X-Sendblock-Type:CMS-TYPE:cpgsPolicy:X-CFilter-Loop:
+	 X-CMS-RootMailID:References;
+	bh=aol/YqFRk4VDFuOdOrJ3/H+/AAewZsmUni4kor0IGao=;
+	b=1jtymHJRE9nyxk7nUWiKxHB5FzmlHzkgy3DK+ezCrZJsdW95mGmk5bKr/sYqrc8fEIDi
+	 g/6c78jocLpQko3J5WSYwZWmxDRHXiZxi+jgvrspYGYtQWuKRB7x+dlV6/W+9PCQKxEsv
+	 p8hwk1oWt7JSVHktz14/pfymqSAfvTcF5RhSavCx7prx+DA1Q65wQnBhpfTpPUgdhcnDp
+	 xs9atOfxR36XN4hEOIy9oc8Tiozwd5iYnXLz5e3CF1LTAI1Z4LddZLy1N29BwOV7vc0j6
+	 39Lho7Ew/KpahNN58uhmttJzUWLGqvVBpNhTX5ejgXWs1aw8OpujFvUeuBEVoif3tbQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K04vPm7L;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=samsung.com;
+	spf=pass smtp.mailfrom=samsung.com;
+	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=mi7xmyv8;
+	arc=none smtp.remote-ip=203.254.224.24
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF679606A31E
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 11:15:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFBC9606A33E
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 11:19:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CFBC9606A33E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K04vPm7L
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3D931F000C6;
-	Wed, 25 Nov 2026 11:15:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795605312;
-	bh=auwkFguZjnJpCB7sXs9BgjbEzuKBmhkz5UG1UPVs/U0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=K04vPm7LaWVWHmWu6GpbwYZvyhrtZ/rWgvMLEPL2Ai5OEw4CHwelX/sJ81gHpwsPF
-	 Sxgw/ex3Ydj7xrvmMrcHv07i13nTxE5CvbWmQHsMe7RzULazyvHiwSU0BaKb5fMHWY
-	 rp/n47hB0buT7UAI6LR7a2g6ZnPjGduUe8fNY6pTkioSt3ZDow1PFiNrlmDicL3Qfb
-	 vr1kYs+oEl6hOT5lRwrA6EvIk0hUkQIwckFmHFa49GpvIVH+gzrB6UgKmPFnHhzizi
-	 OK48F6YaiMj/eC+6j8HNjutlyH0qb4Vl88Hd3B+cFT7GNYqpzaUM8oVL0fnl9ukbx4
-	 ef8+9zHZy6r0w==
-Message-ID: <413a7751-a368-42fd-8983-c3b44a86fd0c@kernel.org>
-Date: Wed, 25 Nov 2026 12:15:02 +0100
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=mi7xmyv8
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20261125111907epoutp017421b699504686b6f6ccb942a81a74f9~rRbtoLzG41255412554epoutp012
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 11:19:07 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20261125111907epoutp017421b699504686b6f6ccb942a81a74f9~rRbtoLzG41255412554epoutp012
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1795605547;
+	bh=aol/YqFRk4VDFuOdOrJ3/H+/AAewZsmUni4kor0IGao=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=mi7xmyv8qCtkuiWVFS1WmHypp1B+5LuE/Onl2ebD59v8iDInV6Id5ZoH609GzZGWI
+	 F+lqmxW/EE3mo6VYy1LjHcms5nMt9q6M66ehdngemO/F3tsVCwt3rRkDoK1u2ePUd5
+	 Ha+SV2YHemHMj+pNDH0NMrhl3JhgMspyl0E4rtR0=
+Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
+	20261125111906epcas5p3ad070fe44b9392c0c2bc262258b274bb~rRbsMuv6b2807028070epcas5p3Q;
+	Wed, 25 Nov 2026 11:19:06 +0000 (GMT)
+Received: from epcas5p1.samsung.com (unknown [182.195.38.95]) by
+	epsnrtp04.localdomain (Postfix) with ESMTP id 4jZHHs0qfmz6B9m7; Wed, 25 Nov
+	2026 11:19:05 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20261125105614epcas5p4386cb5bb9966904c9ac38382eb6c753c~rRHukvjxj2438724387epcas5p4f;
+	Wed, 25 Nov 2026 10:56:14 +0000 (GMT)
+Received: from localhost.localdomain (unknown [107.99.41.245]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20261125105612epsmtip1d13c7f175a618d2175756dfce5229682~rRHsoqeWQ1560715607epsmtip1c;
+	Wed, 25 Nov 2026 10:56:12 +0000 (GMT)
+From: Anuj Gupta <anuj20.g@samsung.com>
+To: lsf-pc@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-nvme@lists.infradead.org, io-uring@vger.kernel.org
+Cc: Anuj Gupta <anuj20.g@samsung.com>, Jens Axboe <axboe@kernel.dk>, Kanchan
+	Joshi <joshi.k@samsung.com>, "Martin K. Petersen" <mkp@kernel.org>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Alexander
+	Viro <viro@zeniv.linux.org.uk>, Christoph Hellwig <hch@infradead.org>,
+	Nitesh Shetty <nj.shetty@samsung.com>, Pavel Begunkov
+	<asml.silence@gmail.com>
+Subject: [LSF/MM/BPF TOPIC] io_uring dmabuf storage I/O: next steps
+Date: Wed, 25 Nov 2026 16:25:16 +0530
+Message-Id: <20261125105516.2160670-1-anuj20.g@samsung.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -51,96 +83,40 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] mm/khugepaged: use NOFS while collapse_file() holds
- folio locks
-To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
- Zach O'Keefe <zokeefe@google.com>, Lorenzo Stoakes <ljs@kernel.org>,
- Dev Jain <dev.jain@arm.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Hugh Dickins <hughd@google.com>, Kiryl Shutsemau <kas@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Rik van Riel <riel@surriel.com>,
- Song Liu <songliubraving@fb.com>
-Cc: "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Michal Hocko <mhocko@suse.com>, Nico Pache <nico.pache@linux.dev>,
- Ryan Roberts <ryan.roberts@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-References: <20261125100058.15200-1-azpijr@gmail.com>
- <20261125100058.15200-5-azpijr@gmail.com>
- <8c60bed8-6857-4361-91b5-c8fed8a083c3@kernel.org>
- <66fd4450-6e17-4a1c-be76-38758a62073a@gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <66fd4450-6e17-4a1c-be76-38758a62073a@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20261125105614epcas5p4386cb5bb9966904c9ac38382eb6c753c
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20261125105614epcas5p4386cb5bb9966904c9ac38382eb6c753c
+References: <CGME20261125105614epcas5p4386cb5bb9966904c9ac38382eb6c753c@epcas5p4.samsung.com>
 
-On 11/25/26 12:12, Jose A. Perez de Azpillaga wrote:
-> On 11/25/26 11:55 AM, David Hildenbrand (Arm) wrote:
->> On 11/25/26 10:59, Jose A. Perez de Azpillaga wrote:
->>> collapse_file() keeps the folios it collapses locked until it is done.
->>> With those locks held, it calls filemap_release_folio() with GFP_KERNEL,
->>> and for shmem it swaps folios in with the mapping gfp, which includes
->>> __GFP_FS.
->>>
->>> As when splitting folios, allocating with __GFP_FS while holding folio
->>> locks can deadlock in direct reclaim or compaction, and __GFP_FS also
->>> lets filemap_release_folio() wait on the filesystem.
->> How is that possible with my fixes?
->>
-> 
-> it isn't, sorry. I'll drop 4/4.
+Hi all,
 
-So there are no other allocations in there besides the one done by splitting?
+Nitesh and I would like to propose a joint Storage and Filesystem
+session to discuss the next steps for io_uring dmabuf storage I/O.
 
--- 
-Cheers,
+Pavel's raw block device support landed in 7.4[1]. We would like to
+use the session to discuss the following:
 
-David
+1. Filesystem I/O: RFCs have been posted for XFS[2] and ext4[3], and we
+   are working on a combined series[4]. Open topics include files
+   spanning multiple devices and support for additional filesystems.
+2. NVMe/RDMA: we posted an RFC[5] for direct I/O between accelerator
+   memory and storage over NVMe/RDMA.
+3. Vectored I/O: support readv/writev with dmabuf registered buffers.
+4. Polled I/O: enable polling for workloads that need the lowest
+   latency and overhead.
+5. NVMe multipath support.
+
+[1] https://lore.kernel.org/linux-block/cover.1791975048.git.asml.silence@gmail.com/
+[2] https://lore.kernel.org/linux-block/20261016091919.971295-1-anuj1072538@gmail.com/
+[3] https://lore.kernel.org/linux-block/20261113070621.273953-1-mengmeng.zhao@linux.dev/
+[4] https://lore.kernel.org/linux-xfs/20261124084025.2101804-1-anuj20.g@samsung.com/
+[5] https://lore.kernel.org/linux-nvme/20261118103327.1788667-1-anuj20.g@samsung.com/
+
+Thanks,
+Anuj
