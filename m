@@ -1,114 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795599785;
-	b=nK1ecqBbPk25oDmQlPhZ8pahiceAqxIfM81x5OoX+G01nMMbWpKlBUzAJ2FlOSMDTxxX
-	 VpTVZMcceZGV2aAzVK4TyajZKQqHPWnNtojdbYuPBCV4jCRCRTTOVftxY2uROShpcoA2U
-	 Kb7Wc5CiuwI794tlXcaGaD/bl3L8bxRDbd1n5fcuJwACO7M7Axh7uTSXkQikjsFYu7ont
-	 ehGn2eGQWPHkHChyPB8NUeV4RqiBWdI0R0/MeOFp3Bfod/v0mR2Kum3+qVNwQTgQ/T72d
-	 xGY/UXT8Ng2MxepDUlzHr6+6ywFFv/ZbpjXQCiZUiSQNS8ZEuJdQbW8ebMoN5awebRg==
+	t=1795600255;
+	b=D/dFLcK3IjY6rGfJAd0DJRTL2KEOS4IuwB82GK688VaXhKlbMdLndJKNP68jmpJBmY6/
+	 TfSPhS121MNAkDTZKt2wBX2SKnaRIi2eLw3gaebgDMgQatFw8TdIqEstwra8reFXEBcDr
+	 B26rDEng5hnsrcA/H1ToTmuwy6f8SCOZYkSK+K3kTF9VVeMQGjOissMX1kQprtudm3UQG
+	 ieUiUm9tffA9q3WQGMuIhF/VeFfJjANt7wgHcHgXXtv/F8HhpDE7siAfOCamahjpL6myo
+	 J4O5TuMXJGeBRvm0SFzm2nKAptbDvR+5a4Ih9dNv0CkyStIHEbF2QNnIGCvcyS4Xdlg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795599785;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Content-Type:Content-Transfer-Encoding:MIME-Version:From:To:
-	 Cc:Subject:In-reply-to:References:Date:Message-id:Reply-To;
-	bh=q481VDhZEcw4c6WIDWUz65RfwNEc4JNVc4TqgIZ6vPM=;
-	b=g+LoXuXesXBb7dUgXrxB1BYFDjhf4+2BlgzQi+nRVEUDGp6WCSzHytRaQrsHrMGqa03X
-	 Z0qh8bFepPsaFU/cH4vtuMgigoF/8LEyIMfNXwci9IbcLi9VnMqntjI3RTe/LKMMQij6z
-	 KeNNCWkFaloQl35PzUb3zBnOhGlVX7hcAVV9BTAo84lvog8ximt2vZ1zDEsgrYlURTJY+
-	 eY89eyN/WiPRnygGZ4c61ai33byCQS/etHfrj/ca0GNlAkXZJAYY9YlSeZJDSVDWkIR4j
-	 y81zWQ8ZKjHTdsPew4PMCrHL/2le4kZNA7g82A+hLN1K47Tv64F8b6TNmk4Mxx1D33g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795600255;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=tGnj930oYxvF/0cd6nEVQpcZo3ih9Np+B2tQs915UOA=;
+	b=Bha+NYr9Y8HFzD7EHmz29lyGJOQXB2ZDN5OxQMxzU5aGpluKInTKgUML/3ZLtIX0N5rq
+	 W7YraHliMlmBBf33PB2h5KaS9bAYQERMjrJF3Y20BTGDiW33SUsLjA73IelQdFGpVa4l9
+	 mgirVushsZ76EpYQd63PoYEh0T4yfUEmYvIcFsSfI7wU/uXRCE02zCcVb1LL3YLhVYbCx
+	 /xPpgIlbUEm3gpe72KzwqUpA/3eKqo2cOYeMoB8je9qdRTKJ4rPXQTVWlrv3/nsbRC7oe
+	 rr2u1UKP29LP8je7foA8Z7+desdvsYd8FAgOvyDvhby/70ZcKZpzVARccSoSWY0lheQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ownmail.net;
-	spf=pass smtp.mailfrom=ownmail.net;
-	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm3 header.b=enZ0Swn5;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=zrHnSnO6;
-	arc=none smtp.remote-ip=103.168.172.147
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B9tou37Y;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885F2606A31E
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 09:43:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 885F2606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A15606A31E;
+	Wed, 25 Nov 2026 09:50:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm3 header.b=enZ0Swn5;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=zrHnSnO6
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id 4FB4BEC0BD7
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 04:43:03 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Wed, 25 Nov 2026 04:43:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
-	1795599783; x=1795686183; bh=q481VDhZEcw4c6WIDWUz65RfwNEc4JNVc4T
-	qgIZ6vPM=; b=enZ0Swn5ojZvj/hk0iEuOtaZoIL3oyUIK2pdQ8RX+fqpHiMMeSp
-	CQ1QCjZvRIXY7pxjZdorEpJ11hNDQdFilDnGAmHWXbFDm6qUTyB7S968C8dBB9ND
-	93A+I75Ake7jdwPLwDoReWZ57ikjY/vy355h8Ox1zUKiojCdSz+ay4vRB1vKp/qJ
-	SSaCTybAYr4fiEfWoRt+vipY/WkfVu9E/Ju/ey1bSOHSMVXbp7V+b6c7W+ZXztga
-	n+dSDDpsSbvPlb5y2zMdlYflCjXaDozIGoP+xCGCK9ktMRwq5aBGOQhglW3575z1
-	hC3x71l0nc4LF7JXP+AR82w7sMpaMk42j5w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795599783; x=
-	1795686183; bh=q481VDhZEcw4c6WIDWUz65RfwNEc4JNVc4TqgIZ6vPM=; b=z
-	rHnSnO6eiA/wZ7BeZ/LBOkjgo+YhbfCpUJ305+ACCeFSAJqXwn5bpqEV1l8GwWCw
-	a9eKVHMjDYS1orZK+9cThCe6flTH7TPWOXaG2HxUjBnmShtSVcge0K0GvYGaA9bk
-	kD9HbmbOI9sNTh0gJd6Ok5DczSBWKLqRnXGzfzilvXnEUA3DJPWgh5OOIPiiutXk
-	cK0R2MkIwnn53GUppU4e8v5zP7PFGALoho2ioDljJ02FQ7Lr1q2KTlHhvodoGW6k
-	G7yvNnWQeiKzXtXcGAKrcmGDu6+Am7sSfISsenLFN76PKpVtXGzvshxMV+AREp0g
-	v+/jHyOQtB7LNTf9U5mdw==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=ownmail.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795599783; d=ownmail.net;
-	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
-	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
-	s=fm3:rsa-sha256:X5MVuKPdizRjfRXA20Q1dc0EYHIbUA9vDau76JIBxnRk82j
-	h7vFlZBF5aVaZPRiUZ/THFUdEgA+vx6GnVo+BMpAV53tBTQKKKzM5Rnbn3Kji6dI
-	QwUxX0HAncDMntZiAsdtV7ZcxiESoJL9kd8d9WXPQn+ip/dytS77YETJ+j3+nFcu
-	BAoYg8fpGMCICmAjSJi9aVNPFwfudVfal9ABdguvc/3wdzghhocXC0+8CUhhoCNj
-	P1ZjU2vki1NLlIUaMr7qwBne0Us8HLtKRdzJg28bGoflx+Epuo7BFCuuW3R3f/ig
-	18I9pACd+MUC51c3jaIOnNVLU+Pxoju9S9SAXhQ==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=13;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,reply-to,
-	subject,to;
-Message-Instance: m=1; h=sha256:1FZ2L6wcNHT10q1BDTmPA0+4/lCEdeaK4RrjjsqiU94=:P9Y0zxjMw3n++5NuGF9acER1t2vANIhfNr02E/IAfOA=;
-X-ME-Sender: <xms:pq0Ga0gvnMjsPNn7hFxM9tm5ZSh_uk6tKvOr1ZKk7TV4adAT9wR2-Q>
-    <xme:pq0GawvFIGGEr3kRpgl8S4ThN5_YGsTm3fmVLdRG3CyG9DDC9q6wprmUQElRN3sV6
-    KSQOfWE6m0E27aKpivNnXiosnBf6S4lavscjqrW3n8cWHBTWg>
-X-ME-Received: <xmr:pq0Ga0sVl8O5o7v4aPBLT8589BnZUPe-h-vDKzMr6gAIhEoG083UerUinHm_oumKH-odmv_xvw1ND0hfHip92beX_oE_Sy0>
-X-ME-Proxy-Cause: dmFkZTFyuWDnb16KytKZXuWsHKw3qfQNPsUWbn9XFgZbAZXVvLcXDxvEW/qdDl+iETJmtK
-    9FJLxVLCuQpO6dVhqnNzyV8JdgbNsEtdGMW7A8ec7gwh2leOOnOIAs9x2csr/W5VdqnchR
-    7Eac9XLEkhajGCQE4qLIAGLBjELBdEiKylaQfvxElFLAeatxAgtbPssOqODSrCcf5Qen4i
-    aPBHufUrP2HcIeque251pHcAkZJlMVwjJOXA4HZkULmtwhQnHop5Xql5SrbDk16M4iErl0
-    20l53cnEhdSpwfyZ3UcqAUZPiTKH+eoPl68cK8WgpIB4EQG2bXkhVeC692zDftk3kQU0Au
-    Dosq+Qw5polpcy+1uX1XIoDjJXP3iEVFq3yV1FQSYed8KwelLB+HSxSZ9RSHAHNubULuWe
-    ZGPLEunk1LYbsviMTDJFcphOylrVj5X/y2s9fpUCWF6jHuT7mkr/zZaJqSNyDNqiMKBaDl
-    +9I4zNcwTZb85mf4VlbrFsc6QediR4xjzQj+ivXeKH8YC7hMUjC9RxO7DkwuZRW4VRD/GP
-    AmCY5EGXl7RYqoZQm3Yo3+FGEqKVoRNaLZ6jkr3qazZQZDy2cEpNimrFCUhNk87ePTY+5O
-    VfLH5AYhZ47qkhVoJLDfi803oVQ5b3QR+zJSm8tRouwLhauCXwyl2QRsPLIw
-X-ME-Proxy: <xmx:pq0Ga2q6GeDNe-CkLwNhGOtslys55g1A9mJbMqdwWVQxh6LqJuzCOA>
-    <xmx:pq0GazIjkm3awJrDZaYHjOHlVBScZFMElKA1KYJv2XMDl-uI3rEeRg>
-    <xmx:pq0Ga2snDl9LNPBLG7P4nkcEz0XP1SACK_K-tuLpN03zGUkDjVpQpg>
-    <xmx:pq0GawB-kDNfxdV_cRgiJa7XNB9v-kxwa9ykhNdzYYi4BgA9Ck8Nlg>
-    <xmx:p60Ga2qvuDqYzCaTO-yvtMuSIbrDOeLZ0HNv1jxJycbihqLepmHX6C3g>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 25 Nov 2026 04:42:59 -0500 (EST)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B9tou37Y
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 894941F000CF;
+	Wed, 25 Nov 2026 09:50:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795600254;
+	bh=tGnj930oYxvF/0cd6nEVQpcZo3ih9Np+B2tQs915UOA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=B9tou37YVeV/G6AsGUDZ7SNc5OQVrGY/e9fE6e/1iMXgYZYdZ/PG/h0Aade1ilmLy
+	 qwQkMhJ4Oq6rdmJz2jIkmIQxqr6WN16CSV4Avy5fsNI4fbj/B0B0L9XIArwzx30wtb
+	 6EQOMXOy3aw0dq3Hg1UrmNPaLRtwrVonlnPgHUW6B7Mdyk/9Hrmps1xVD9L33zzMzY
+	 XA6n9Sn0k8dqCLzbGRZEEcXtPzcWZVBW7wshk2ZT94W0+N9f9LOib2f5MX/2pu06pc
+	 e7VKroqFAm6xbpg5hSelGOkkhoY3rPNpqNHQoIZih+ZomJOIp7NMgS0AuAngoGBqwc
+	 jXV0PFZA3A6tg==
+Message-ID: <55114986-0ba1-4a80-8498-bf674d64e01b@kernel.org>
+Date: Wed, 25 Nov 2026 10:50:42 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -118,104 +51,209 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Jori Koolstra" <jkoolstra@xs4all.nl>
-Cc: "Askar Safin" <safinaskar@gmail.com>, amir73il@gmail.com,
- brauner@kernel.org, cyphar@cyphar.com, gregkh@linuxfoundation.org,
- jack@suse.cz, jlayton@kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, shakeel.butt@linux.dev, tj@kernel.org,
- viro@zeniv.linux.org.uk
-Subject: Re: [PATCH v8 07/12] vfs: short-circuit MAY_WRITE access for
- O_DIRECTORY opens
-In-reply-to: <1709003566.2632299.1795599064030@kpc.webmail.kpnmail.nl>
-References: <20261024213539.1307600-8-jkoolstra@xs4all.nl>
-  <20261125062146.940336-1-safinaskar@gmail.com>
-  <1709003566.2632299.1795599064030@kpc.webmail.kpnmail.nl>
-Date: Wed, 25 Nov 2026 20:42:54 +1100
-Message-id: <179559977412.1728055.14071803405199089608@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 0/5] mm: GUP dirty + ->release_folio() fixes
+To: Pedro Falcato <pfalcato@suse.de>, John Hubbard <jhubbard@nvidia.com>,
+ Christoph Hellwig <hch@infradead.org>, Jan Kara <jack@suse.cz>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, Peter Xu <peterx@redhat.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, linux-ext4@vger.kernel.org,
+ linux-nfs@vger.kernel.org, "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, Kairui Song <kasong@tencent.com>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>,
+ Michal Hocko <mhocko@kernel.org>, linux-fsdevel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20261119-gup-dirty-what-v1-0-236d69f25c24@suse.de>
+ <4f096d70-6f94-4148-8f47-242b8551e5f9@nvidia.com>
+ <awWNyDZT2SVu2Zp9@pedro-suse.tail5790ac.ts.net>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <awWNyDZT2SVu2Zp9@pedro-suse.tail5790ac.ts.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 25 Nov 2026, Jori Koolstra wrote:
-> > Op 25-11-2026 01:21 EST schreef Askar Safin <safinaskar@gmail.com>:
-> >=20
-> > =20
-> > Jori Koolstra <jkoolstra@xs4all.nl>:
-> > > Requesting write access on a directory can never succeed. Rather
-> > > than performing a path-walk to determine whether the target is
-> > > actually a directory (-EISDIR) or not (-ENOTDIR), or does not exist
-> > > (-ENOENT), etc., we short-circuit to -ENOTDIR.
-> > >=20
-> > > Currently O_WRONLY for directories is only blocked in may_open(),
-> > > which happens after we have the inode for the target, so after any
-> > > create via O_CREAT|O_DIRECTORY.
-> > >=20
-> > > The advantage of short-circuiting is that we don't have to add even more
-> > > logic to lookup_open() to differentiate -EISDIR/-ENOTDIR. Also, for
-> > > filesystems that define ->atomic_open, handling this cannot even be done
-> > > at the VFS level, as we can't know ahead what the result of the lookup
-> > > will be.
-> > >=20
-> > > Suggested-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> > > Reviewed-by: NeilBrown <neil@brown.name>
-> > > Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
-> > > ---
-> > >  fs/open.c | 9 +++++++++
-> > >  1 file changed, 9 insertions(+)
-> > >=20
-> > > diff --git a/fs/open.c b/fs/open.c
-> > > index e43f02ff64ac..4334f30bb7ff 100644
-> > > --- a/fs/open.c
-> > > +++ b/fs/open.c
-> > > @@ -1343,6 +1343,15 @@ inline int build_open_flags(const struct open_ho=
-w *how, struct open_flags *op)
-> > > =20
-> > >  	op->intent =3D flags & O_PATH ? 0 : LOOKUP_OPEN;
-> > > =20
-> > > +	/*
-> > > +	 * Requesting write access on a directory can never succeed. Rather
-> > > +	 * than performing a path-walk to determine whether the target is
-> > > +	 * actually a directory (-EISDIR) or not (-ENOTDIR), we short-circuit
-> > > +	 * to -ENOTDIR.
-> > > +	 */
-> > > +	if ((flags & O_DIRECTORY) && !(flags & __O_TMPFILE) && (acc_mode & MA=
-Y_WRITE))
-> > > +		return -ENOTDIR;
-> > > +
-> >=20
-> > Please, do -EISDIR here, not -ENOTDIR. You returning error here, **becaus=
-e** user attempts to write to **directory**. EISDIR is natural here, ENOTDIR =
-is not.
-> >=20
->=20
-> That's a fair point, and I have thought about this. The downside is that
-> if we return -EISDIR there, that will also be returned if you open(O_DIRECT=
-ORY)
-> what turns out to be a regular file. So you may then get -EISDIR for someth=
-ing not
-> a directory.
->=20
-> The semantics of -ENOTDIR here that I had in my mind is something like "the=
- thing
-> you are trying to do can NOT be done _with_ a DIRectory." It made a bit mor=
-e sense
-> to me (but only a bit.) Really it should be -ENOTWITHDIR or something...
+On 11/24/26 14:37, Pedro Falcato wrote:
+> Hi John, Christoph, Jan,
+> 
+> Thank you for your replies. Since you largely share the same point, I'll
+> combine this into a single reply.
+> 
+> On Thu, Nov 19, 2026 at 04:55:30PM -0800, John Hubbard wrote:
+>> On 11/19/26 12:10 PM, Pedro Falcato wrote:
+>>> Sooo.... It turns out GUP dirty and ->release_folio() interact really
+>>> weirdly. This was initially reported by some AI agent, and David let me
+>>> know.
+>>>
+>>> The basic issue is:
+>>
+>> The basic issue is covered in a series of LWN articles that span 5 or
+>> 6 years:
+>>
+>>     https://lwn.net/Kernel/Index/#Memory_management-get_user_pages
+>>
+>> Probably good to read and absorb that. There's a lot.
+>>
+> 
+> Thanks. I was aware of some of this, but it's good to take a fresh look again :)
+>  
+>> The problem remains not fully solved. pin_user_pages() is a building
+>> block, but we need to fully coordinate with filesystems in order to
+>> finish. It's good that you are looking at this.
+>>
+>>>  - ->dirty_folio() relies on buffers/IFS/etc being attached to the
+>>>    folios. It _cannot_ attach them itself, as dirty_folio() cannot
+>>>    block.
+>>>  - certain MM paths (reclaim, khugepaged, folio split, etc) are very
+>>>    trigger-happy when it comes to asking filesystems to release them. In
+>>>    most cases, barring any dirty folios, buffers, it will just drop
+>>>    them.
+>>>  - there is no problem in usual IO submission, but issues start to pop
+>>>    up with GUP, where the code flow (roughly) becomes:
+>>>         [get_user_pages(), etc]
+>>>            ->page_mkwrite() called here, or before
+>>>              ->private correctly populated with whatever the filesystem
+>>>                expects.
+>>>              folio is marked as dirty, initially.
+>>>        *write finishes*
+>>>        folio_lock();
+>>>        folio_mark_dirty();
+>>>          ->dirty_folio()
+>>>               dirty_folio expects ->private to be populated by
+>>>               ->page_mkwrite(), ->write_begin().
+>>>        folio_unlock();
+>>>
+>>> What happens if any filemap_release_folio() runs (and succeeds) between
+>>> the initial dirtying (plus eventually writeback) and the write to the
+>>> folio completes? Welp, it's unpredictable. ext4 for example will
+>>> WARN_ONCE, and likely drop data (see ext4_dirty_folio()).
+>>>
+>>> So, what can we do about it? It's complicated, hence why this is an RFC.
+>>> For the possible solutions:
+>>>  - ->dirty_folio() attaching this FS information itself is not really
+>>>    possible in many cases. ->dirty_folio() can't block, nor is it even
+>>>    guaranteed to hold the folio lock while being called.
+>>>  - Can pincount help? Kind of. Things like folio_maybe_dma_pinned() are
+>>>    rough, and don't deal with the usage of get_user_pages(FOLL_WRITE).
+>>>    pincount itself isn't available in the common order-0 case, and not
+>>>    available on order-1 as well on 32-bit, but who cares about that^W^W^W^W^W
+>>>  - Could get_user_pages() ban FOLL_WRITE? Mayhaps. I would not be
+>>>    opposed to that, but that's probably a larger change than ideal for stable,
+>>>    and I'm not familiar enough with GUP requirements to decide to go that way.
+>>>    This would require migrating all FOLL_WRITE users to
+>>>    pin_user_pages().
+>>>  - Can the whole system be reworked? Probably, but not for stable.
+>>>
+>>> This patch series is really rough but kind-of works. Instead of using
+>>> folio_maybe_dma_pinned(), which only interacts with pin_user_pages(), I
+>>
+>> pin_user_pages() was specifically introduced for this exact class of
+>> problem. get_user_pages() is now meant for other, much more limited cases.
+>> I've attempted to document that, here:
+>>
+>>     https://docs.kernel.org/core-api/pin_user_pages.html
+> 
+> Ok, so I guess you want me to drop the hacks to make GUP FOLL_WRITE not
+> screw itself over? To be clear, the rest is still broken, even with pin_user_pages().
+> It just means we get nicer looking fixes, and I can drop patch 3.
 
-The problem is that "flags" contains an invalid value.  The correct
-error for that (according to open.2 man page) is EINVAL.
+I think focusing on pinned pages as the first approach+long-term solution is ok.
 
-NeilBrown
+BUT
+
+When I looked into this issue, there were some problematic things.
+
+We have some odd drivers that use FOLL_GET|FOLL_WRITE, but I am not too
+concerned about them.
+
+But are ways where unprivileged users can mess with  FOLL_GET|FOLL_WRITE
+references to trigger this.
+
+I think the two that stand out are:
+
+1) /proc/self/mem access using mem_rw() -> access_remote_vm()
+
+User can write to a writable-mapped page-cache PTE. Then we can race with
+removal of folio metadta, to then set the folio dirty afterwards.
+
+I remember a good reason to not convert these paths in the past (we are not
+performing DMA).
 
 
->=20
-> > (I'm human, not LLM.)
-> >=20
->=20
-> Glad :)
->=20
-> Best,
-> Jori.
->=20
-> > --=20
-> > Askar Safin
->=20
+2) /dev/fuse using fuse_copy_fill() -> iov_iter_get_pages2()
 
+Same problem, just through fuse.
+
+
+So either
+
+1) We fix all such cases now where unprivileged users can trigger this,
+   converting to FOLL_PIN.
+
+2) We handle it for now in reclaim code by checking for unexpected folio
+   references instead of GUP pins. The spirit of this series.
+
+3) We accept that unprivileged users can trigger unexpected behavior
+   (WARN_ON_ONCE()) etc. I don't think that's an option.
+
+4) We turn all these checks for unexpected behavior into soft warnings.
+
+I think only ext4 is problematic, but I didn't check.
+
+-- 
+Cheers,
+
+David
