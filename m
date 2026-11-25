@@ -1,92 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.86
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795607552;
-	b=JrbHiWoAv3G9yXv/zojGEwf8vXfv57CfxAMVgWeE9Qj054SZtbrRqGOvdG8H+fDIIYX0
-	 3wa8p7deJsdpS2GJq8hU+0KSd3TSs/WBVgqeU+xBmDwoq88/BuUiPFybM/JmG+m/EcAOE
-	 GYixQ5Pt21PN63CfAJWMGYJ2Od/xbWLbUnjZlScUw2wtZ5csd7HGSnSfCNVwbn8+wznqG
-	 hRX31A1zU+OhwDFfhW4mwCa5IZKNdFJbbMBlhTtF1FOe1OBXD8tGODeTx24KD1J3UuWf1
-	 b60tTUxYmu08kdcrDGmnEfHFcWe9A+OJgKyy5qqydsI8LgYaNjxyvOvRrhTErBqKPQw==
+	t=1795607759;
+	b=rld6z/1YmvFPswuFzvtLuXyhyBxZPMIkqjfVhOFU/lsPaEAbmbJPuWJW17T9o2rb8ewD
+	 TzJ9Y0lj0r5HgNy3dp3d8dvT0ca1TjOpZVuRYbBLH6Se35vuIDLGktyLvdxhh+fq8goVT
+	 agDew/TyjzBay17x5zOJ6VsDDZCL222D6s0Aq3I0SQTdrmh0qFYiRc2+eWTG8EyyLd6de
+	 T+j/qVqS++xFZoUAXqdRwYesu3FFg5Q+Ll7KnSuiPMwd/Ki7MiWDDCTx5tYv/f6DEqrPq
+	 /40vA/fpJiOiZU/azkhtIgXDwRcVbWJ7k1E2zdaCFybdFxVwmkZ2DFFdMlSi04p76bA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795607552;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=YrUqEMm9z5J4jaNe8INgEE9sMz1REWYf5p9yYZc/oOM=;
-	b=g7juXBmbbN0zPydbTNmF4Cw9nyduUcgsxo5eoowo3wyp7iFGA3jpTlXr9pj0HsBt6R2Z
-	 6lodtM2GY067odGeJNMA9NdTy9hXwuVYPJoBllWg1jkvnZewa47Fbp1c5PcXO419bQjnn
-	 Rf/priG2dGmPQaCCAVgAKRhIpcphE85IIYdRbY5iopj5hdsMKMPa/gsqvYVvGNZ3nM0ZK
-	 Ehr6SEnC6BgpU7A9KMAsymEwe9cUo5RA0Mwi5+fs7FwtNCHB8zE+AP0Vv+ylpzh5R4bgY
-	 b7+kavTzFF+RcXUVJWAmIwUnDIe54zKJP+7lpi378zEN8dN2kTHgjLZ35BpyYQ5M37w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795607759;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Scanned-By;
+	bh=f2AwCkNuNcNTtX9kmSc7WIvhZoX+0iuemqBB5uiZJV0=;
+	b=EVrEYV05fGwHoN6bAyJmSdj84EVr9KfZYkUoGIbEio0LMKffRSV/Mlu515CYuFxcEyT6
+	 6HLhU8dnr8HXNmlKT7YiCpjWVJElFgtMRq7omg3djYMMpEBVzxTiZrhTESWbm2VO8tm/G
+	 fYwUUweZuCMwg3RZMnmtc/Yd8HviFy7+8NSJ4Gq1MvX9l1xgdl/28FAHT2kS464qAWg/H
+	 P9riRkxHpBVOQnNJJRFWusZmpKJIp9TPVEXW5oKIaXxjuMVEl6TOoDiiyy32A1FbZN7ce
+	 0RwsMua5I0Ggyb9bhWSDCW0FjfZaRbm8aKEe4Td0Pr/woKtrG9DqccX8lC9bl/xqfKA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=NK6wMFG2;
-	arc=none smtp.remote-ip=95.215.58.86
-Received: from mta1.migadu.com (out-86.mta1.migadu.com [95.215.58.86])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=SEbfV18X;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1294606A32D
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 11:52:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1294606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A62606A321
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 11:55:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52A62606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=NK6wMFG2
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=5O5gPTvKN1uioPmvTeSAALfxSrjKERJLwEwvEZL/R/o=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795607549; v=1; x=1796212349;
- b=NK6wMFG2CnowpCQWyha/PYUOCGpTb9mBxbTOdErQJ5+gnbIwAW+gX7KgP+CudrRkxCH07DxJ
- j2AIyLjusTqpEK8L0TW8MtQ5FYCdBi7A+AAXZyatznj0Bkr2SYva30drueldBwo5opy5kEvPjfM
- Cc4RvsR83++wdnmvKsCx+ZBQ=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta11.migadu.com with ESMTPS id dab8a477befd0327;
-	Wed, 25 Nov 2026 11:52:29 +0000
-X-Mizu-Trace-ID: dab8a477befd0327
-X-Migadu-Flow: FLOW_OUT
-From: Usama Arif <usama.arif@linux.dev>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	apopple@nvidia.com,
-	byungchul@sk.com,
-	david@kernel.org,
-	gourry@gourry.net,
-	jannh@google.com,
-	joshua.hahnjy@gmail.com,
-	liam@infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	ljs@kernel.org,
-	matthew.brost@intel.com,
-	mhocko@suse.com,
-	pfalcato@suse.de,
-	rppt@kernel.org,
-	surenb@google.com,
-	vbabka@kernel.org,
-	ying.huang@linux.alibaba.com,
-	ziy@nvidia.com,
-	kas@kernel.org,
-	hannes@cmpxchg.org,
-	riel@surriel.com,
-	shakeel.butt@linux.dev,
-	kernel-team@meta.com,
-	baolin.wang@linux.alibaba.com,
-	Nico Pache <nico.pache@linux.dev>,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	baohua@kernel.org,
-	lance.yang@linux.dev
-Cc: Usama Arif <usama.arif@linux.dev>,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=SEbfV18X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1795607757;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f2AwCkNuNcNTtX9kmSc7WIvhZoX+0iuemqBB5uiZJV0=;
+	b=SEbfV18XEdjKZxVboyZjYjpqu4fThNmVf54ms+Ve8wGNejSOBqzObI/IwOjp4sMkWnNtIQ
+	QQ7+FqzYLAL5NsgdeEhsAfHF//18/hZR7ck11re06HlbPbY2ZnpKsq5D+6iyMODwV3xJXM
+	5TcCYpu8smaEMc1nCSz/TL7TF/jFT3E=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-474-ceSh3YlNPEW2q_Jh034pvQ-1; Wed,
+ 25 Nov 2026 11:55:51 +0000
+X-MC-Unique: ceSh3YlNPEW2q_Jh034pvQ-1
+X-Mimecast-MFC-AGG-ID: ceSh3YlNPEW2q_Jh034pvQ_1795607749
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 041B71956044;
+	Wed, 25 Nov 2026 11:55:49 +0000 (UTC)
+Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id AFA401801975;
+	Wed, 25 Nov 2026 11:55:45 +0000 (UTC)
+Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
+	oleg@redhat.com; Wed, 25 Nov 2026 12:55:48 +0100 (CET)
+Date: Wed, 25 Nov 2026 12:55:44 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: mt4022@columbia.edu, Jens Axboe <axboe@kernel.dk>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Michal Nazarewicz <mina86@mina86.com>,
+	Wen Yang <wen.yang@linux.dev>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, tz2294@columbia.edu,
 	stable@vger.kernel.org
-Subject: [PATCH v4 3/3] fs/proc/task_mmu: account device-private PMDs as present in smaps
-Date: Wed, 25 Nov 2026 03:49:59 -0800
-Message-ID: <20261125115014.4014507-4-usama.arif@linux.dev>
-X-Mailer: git-send-email 2.53.1
-In-Reply-To: <20261125115014.4014507-1-usama.arif@linux.dev>
-References: <20261125115014.4014507-1-usama.arif@linux.dev>
+Subject: Re: [PATCH 3/7] eventpoll: don't claim real exclusivity for
+ EPOLLEXCLUSIVE
+Message-ID: <awbMwBDP9TsJBmzV@redhat.com>
+References: <20261122-b4-sched-wait-intr-head-v2-0-4a764b64e8ce@columbia.edu>
+ <20261122-b4-sched-wait-intr-head-v2-1-4a764b64e8ce@columbia.edu>
+ <CAHk-=wj_eqNh+gNhCQh3exrL5Pmo5hbZBcL0W-4Ah_Nw0Kegzw@mail.gmail.com>
+ <awWSwmvaTwBxfU-r@redhat.com>
+ <CAHk-=wj3GCXZohdFWWPAOkC_LHno4X0oQW+0sQFJzRMvjpODUg@mail.gmail.com>
+ <CAHk-=wgYc9vFEmyV0Ch_e49j6GOhUCMQMnMV4f1FLLvumZOmRw@mail.gmail.com>
+ <CAHk-=wgFnKO_O0fR_-O+i5yUGaDcz8_HwpM5QiLM4jPFYZb41Q@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -96,44 +91,29 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wgFnKO_O0fR_-O+i5yUGaDcz8_HwpM5QiLM4jPFYZb41Q@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-Device-private PMDs represent mapped pages, but smaps_pmd_entry()
-passes present=false to smaps_account(). That treats them like migration
-entries: mapcounts are ignored, PSS is charged in full, and exclusive
-mappings are accounted as shared.
+On 11/24, Linus Torvalds wrote:
+>
+> --- a/fs/eventpoll.c
+> +++ b/fs/eventpoll.c
+> @@ -1626,9 +1626,8 @@ static void ep_ptable_queue_proc(struct file
+> *file, wait_queue_head_t *whead,
 
-Match smaps_pte_entry() and mark device-private PMDs as present so
-smaps_account() uses mapcounts for PSS and private/shared accounting.
+FYI, none of these patches can be applied, both patch and git-am complain
+"patch: **** malformed patch at line 34: *file, wait_queue_head_t *whead,"
 
-Fixes: a30b48bf1b24 ("mm/migrate_device: implement THP migration of zone device pages")
-Cc: stable@vger.kernel.org
-Signed-off-by: Usama Arif <usama.arif@linux.dev>
-Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-Reviewed-by: Zi Yan <ziy@nvidia.com>
-Reviewed-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
----
- fs/proc/task_mmu.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+>  	pwq->whead = whead;
+>  	pwq->base = epi;
+>  	if (epi->event.events & EPOLLEXCLUSIVE)
+> -		add_wait_queue_exclusive(whead, &pwq->wait);
+> -	else
+> -		add_wait_queue(whead, &pwq->wait);
+> +		pwq->wait.flags |= WQ_FLAG_POLL_EXCLUSIVE;
+> +	add_wait_queue(whead, &pwq->wait);
 
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index cf1732935c73df..9017b312f404ef 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -1034,8 +1034,11 @@ static void smaps_pmd_entry(pmd_t *pmd, unsigned long addr,
- 	} else if (unlikely(thp_migration_supported())) {
- 		const softleaf_t entry = softleaf_from_pmd(pmdval);
- 
--		if (softleaf_has_pfn(entry))
-+		if (softleaf_has_pfn(entry)) {
-+			if (softleaf_is_device_private(entry))
-+				present = true;
- 			page = softleaf_to_page(entry);
-+		}
- 	}
- 	if (IS_ERR_OR_NULL(page))
- 		return;
--- 
-2.53.1-Meta
+Reviewed-by: Oleg Nesterov <oleg@redhat.com>
 
