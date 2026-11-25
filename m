@@ -1,51 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795586765;
-	b=N2hH+waOpQbhgCmHxCD2hsAp0sUzxVkR15sWsR5xwRp4+sINuYqbt1HE2tgQfDy39e/i
-	 MONsroUy6fcKZaBXeElaf/+gG7eFFazQ44ke+Cjvxu9SH9kD9GCx8+++JqQMms8e+qzJI
-	 MAFBbKu7Hv8ey2gwd18lBPZqYCp+seLIlmnvyNVkHlqp3zaLp6uh5ohJfzv/2uu27k8Ci
-	 PlYSxX4vt8zv9WxsFOGSlPuHFkx26Z8hE4e+mDSygP4lN5dh8BrtQtIlwXETuiC9sKLqw
-	 4UwOEFnuu4DMnd0hI5Zg13d5lfsA3wz6C4VYRUCrfs+IlCeYjETOIhTjbcpdjhRussg==
+	t=1795586820;
+	b=1okdzeOl2saooMuZY6kCHkLihQc3fOajtEc6AQgLdGDJAVouhKMj7kNPfEfZKVJMUH2W
+	 sXOXwGYqUq/hWu7UaukjBrgnd+WWNthrthc+n8cEFIMklkeYuW2cnacJjBew9Pcw/f3H3
+	 9Xowd/KEqw061OE1IUqbZJCQLwNVgJ2sZY4Doswogjib+8kvG5Gy8e8xOxxHLEuDxphvl
+	 zsAdXoSSwHhwSGiSDZViLaepXLujsGRU5sAPFmqpy3LK/fWPyCQGNoQ0MY7To/dSVvrKA
+	 Pu2FPOre96AOjlJhmtM6ZrYjDlsydC/fpRzjeLymN34MrBCSLwafJj2/QDPQRGpO2Qg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795586765;
-	h=Received:DKIM-Signature:Date:To:Cc:From:Message-Id:Subject;
-	bh=g/ssngzRXqqQDbgCsWRnVVg1QMJmqj/2MMTLvet6xuU=;
-	b=5NOX54pdWNgKF3NLwGx3qCAE02pgVniiE0HMvwBWnOGiqBOPH1mjdgfOUElzb6xfKoGw
-	 NpAETAQ+EoQVEmJt7H7J86dIpwuO8hvRHq8JeQoF60jIe9cxLM71c8p7G4a27XqEvdh/j
-	 u/5wCztZlmf9Zb582kGOQMYurXe5k8qmUjlVLuF9GCfZvVMeD2oDdhLPp9BFqz/aPzNiU
-	 0sV2u9TSKnNuXO6FbMSK1RD/QMNEmb++c3O69Cwowjj2lrtOCb/38E5UGOw4uIZNWBT1M
-	 J61/hUoLDX8D+OUJXJmbRRaKIoVqwFIcdIk9bltJy4GEOoW5diOqaEW6GbMuT4sgVEw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795586820;
+	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=;
+	b=d+WnrQuDHOeju0fnIMKhXc00sufpW6/hDME/oLBZ9IKhAPqCzdAEqi6P30KAnfF6gHqe
+	 A4VwAhFZQVp+u5koFucIPRHC7rvX0V6AGvC8r3K9Its0hISFYYACJqEXoa/LcI2ozhZUJ
+	 tTaQhiHSXAMqsSsS9gaqXjYhoPCnqT8gwByfyz83iSEmJwREE/vFHlZ3avGNCWv+4ouvH
+	 49KXdyGrpBF/rey1klWNSyMS02VY0Yz1A2YRXOO/sxeb4M3YJq5SWkmY9FS96vCuqUnLJ
+	 JsdFfCgvb1B63h4mAH+lUBqHJAOJQvXmVZd5aIiElPU7ARDmAFBxpgl3TB8+yZFvpYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=KizzSOx7;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=lst.de;
+	spf=pass smtp.mailfrom=lst.de;
+	arc=none smtp.remote-ip=213.95.11.211
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEBC606A323;
-	Wed, 25 Nov 2026 06:06:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=KizzSOx7
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B557B1F000C0;
-	Wed, 25 Nov 2026 06:06:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1795586764;
-	bh=g/ssngzRXqqQDbgCsWRnVVg1QMJmqj/2MMTLvet6xuU=;
-	h=Date:To:Cc:From:Subject;
-	b=KizzSOx7RzBBn9Ol1D2dp1k0wuvsJPl89+5sYWb46AfGHdXUSv7il+syZ0DoJ3Ww9
-	 +7fYsfLAAcbolJFAe4xUollhHPVwokUL6rPhMadHBXNlnHW2r9nlIszlTxAuI3QvA9
-	 8JgmDcdmFarfihxgHJpysmqbEtQzjVIbZuPVfhmw=
-Date: Tue, 24 Nov 2026 22:06:04 -0800
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-kselftest@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Maximilian Heyne <mheyne@amazon.de>,
- Christian Brauner <christianvanbrauner@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Shuah Khan <shuah@kernel.org>,
- Wei Yang <richard.weiyang@gmail.com>, stable@vger.kernel.org
-From: Andrew Morton <akpm@linux-foundation.org>
-Message-Id: <3179ee5792a7421ba74dbfebe2838617.1@linux-foundation.org>
-Subject: [PATCH] selftests: uevent filtering: don't shrink the socket buffer
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C76D606A31E;
+	Wed, 25 Nov 2026 06:06:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0C76D606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id BEC6D68BEB; Wed, 25 Nov 2026 07:06:53 +0100 (CET)
+Date: Wed, 25 Nov 2026 07:06:53 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Miklos Szeredi <miklos@szeredi.hu>, Chris Mason <mason@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Theodore Ts'o <tytso@mit.edu>,
+	Carlos Maiolino <cem@kernel.org>, linux-fsdevel@vger.kernel.org,
+	linux-unionfs@vger.kernel.org, stable@vger.kernel.org,
+	Alexander Mikhalitsyn <alex@amutable.com>
+Subject: Re: [PATCH v3] xattr: enforce the name and size limits for
+ in-kernel callers
+Message-ID: <20261125060653.GA20848@lst.de>
+References: <20261123165807.1939942-1-amir73il@gmail.com> <20261125055900.2077059-1-amir73il@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,72 +52,13 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261125055900.2077059-1-amir73il@gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-From: Maximilian Heyne <mheyne@amazon.de>
-Subject: selftests: uevent filtering: don't shrink the socket buffer
-Date: Fri, 19 Jun 2026 11:24:29 +0000
+Looks good:
 
-The uevent_filtering test shrinks the uevent socket buffer to 4 KB
-although the default socket buffer size is much higher.  This leads to
-this test being flaky when too many unrelated uevents are fired on the
-machine.  They might fill up the netlink receive buffer leading to ENOBUFS
-errors when trying to receive the uevents.  For example, I could trigger
-test failures when running triggering a lot of udev events in the
-background:
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
-  $ # run multiple of that in the background:
-  $ while :; do sudo udevadm trigger --action=change; done &
-  $ sudo ./uevent_filtering
-    # Starting 1 tests from 1 test cases.
-    #  RUN           global.uevent_filtering ...
-    add@/devices/virtual/mem/fullACTION=addDEVPATH=/devices/virtual/mem/fullSUBSYSTEM=memSYNTH_UUID=0MAJOR=1MINOR=7DEVNAME=fullDEVMODE=0666SEQNUM=304458
-    add@/devices/virtual/mem/fullACTION=addDEVPATH=/devices/virtual/mem/fullSUBSYSTEM=memSYNTH_UUID=0MAJOR=1MINOR=7DEVNAME=fullDEVMODE=0666SEQNUM=304471
-    add@/devices/virtual/mem/fullACTION=addDEVPATH=/devices/virtual/mem/fullSUBSYSTEM=memSYNTH_UUID=0MAJOR=1MINOR=7DEVNAME=fullDEVMODE=0666SEQNUM=304481
-    add@/devices/virtual/mem/fullACTION=addDEVPATH=/devices/virtual/mem/fullSUBSYSTEM=memSYNTH_UUID=0MAJOR=1MINOR=7DEVNAME=fullDEVMODE=0666SEQNUM=349156
-    No buffer space available - Failed to receive uevent
-    # uevent_filtering.c:463:uevent_filtering:Expected 0 (0) == ret (-1)
-    # uevent_filtering: Test failed
-    #          FAIL  global.uevent_filtering
-    not ok 1 global.uevent_filtering
-
-The default receive buffer size (SK_RMEM_MAX) is far larger than the
-requested 4 KB, so keep this to make the test less flaky.
-
-Link: https://patch.msgid.link/20260619-get-swam-a1cd4cca@mheyne-amazon
-Fixes: 9d3df886d17b ("selftests: uevent filtering")
-Signed-off-by: Maximilian Heyne <mheyne@amazon.de>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Cc: Christian Brauner <christianvanbrauner@gmail.com>
-Cc: David S. Miller <davem@davemloft.net>
-Cc: Shuah Khan <shuah@kernel.org>
-Cc: Wei Yang <richard.weiyang@gmail.com>
-Cc: <stable@vger.kernel.org>
-
- tools/testing/selftests/uevent/uevent_filtering.c |    8 --------
- 1 file changed, 8 deletions(-)
-
---- a/tools/testing/selftests/uevent/uevent_filtering.c~selftests-uevent-filtering-dont-shrink-the-socket-buffer
-+++ a/tools/testing/selftests/uevent/uevent_filtering.c
-@@ -78,7 +78,6 @@ static int uevent_listener(unsigned long
- {
- 	int sk_fd, ret;
- 	socklen_t sk_addr_len;
--	int rcv_buf_sz = __UEVENT_BUFFER_SIZE;
- 	uint64_t sync_add = 1;
- 	struct sockaddr_nl sk_addr = { 0 }, rcv_addr = { 0 };
- 	char buf[__UEVENT_BUFFER_SIZE] = { 0 };
-@@ -96,13 +95,6 @@ static int uevent_listener(unsigned long
- 		return -1;
- 	}
- 
--	ret = setsockopt(sk_fd, SOL_SOCKET, SO_RCVBUF, &rcv_buf_sz,
--			 sizeof(rcv_buf_sz));
--	if (ret < 0) {
--		fprintf(stderr, "%s - Failed to set socket options\n", strerror(errno));
--		goto on_error;
--	}
--
- 	sk_addr.nl_family = AF_NETLINK;
- 	sk_addr.nl_groups = __UEVENT_LISTEN_ALL;
- 
-_
