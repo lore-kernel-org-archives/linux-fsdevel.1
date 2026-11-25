@@ -1,85 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795616754;
-	b=SoYCvC2nV8I1dUVpPsR6CbwXxAptjtW88PcK+wvty8DfE2FDutjJztQsxguFh1HkV2nM
-	 8zx4sKVCRK/0SCb+U1Ox1JY1ycMlMMPSGoL9lH53/a77PFq05lfv0dSqWbxVOltg0Sa4j
-	 E/mQw+zSUWu/nDSCseImgYVNtBzXdQGCw5zCYuMtm2AUsY9GdbioQIb8UxFfEoPhYo4Dt
-	 xSCPnnrFCFs+hdOOOaMcomZriUafzMNyvjxuQ3QJOkLBe2+MnXBVXPzHZsQJme/QsLAaN
-	 YGtXvgOyYlHnxQxm/KQ1y/tXcvob21GETij23XFdDGwPFhzY9ExGbOBh6TcDVy3bRIw==
+	t=1795617136;
+	b=yS/SQmjhre3QBvhS0Ng+/zPC6mq2ZbgUN9znUxzEEv570tC8+qK9IStDjgG7rn7qFjHG
+	 ED1KtSyHyAp7P6/CUgbwVUGlnm1J+5fRsoEti6hhrnvSS/JyL7YYEoUBpeUGhjuSfVBYw
+	 SP87SF52t3r4mlde3N35/V/2+t+mHvNtKi9jFj2CfDI9fhMKX8AAwBWJdj8Otrl0F5lqP
+	 iG+l7DpXWMOsK+eNAsrbmBc81VX/kXawRqczy5Ymcl+NuYgEmv3Y/98/X+J2eja692coU
+	 WTKrNnoNkSnAKF7vhOjKpTOxenD5IhCL70U7XYQ65ZzEFcJNNR7Wjz9JfeMHlKzdpgg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795616754;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-SRS-Rewrite;
-	bh=qUuiYfPMGF1dYU/3s8nfXtw2BbGEHy61uU94+Ks01XY=;
-	b=PLbIAzGUZi42jPvsvl2u3BYEn2f3GTv5PxSaqJMsWIdUOqp5Hwo6P37BqVVs3Icw8aFJ
-	 uVk2DbqJadiFMGwDSJJGX6QtQpd6XOzOboWeAxBQEWxBBHqCNnnOMTIhqvcrcYTPumIGj
-	 FmyduXM+i1KHHAyTodGiRTK1B014aZeCsoznnou7c/6eSs57n4dGwTO70bvBgUPqQh40V
-	 Hyc6fQwk1v01l1EVL3eZwJrBE3D1TwZb1toH8ezwzdgE5ZPDKZ3i2hdCvupL+cHcta8Jj
-	 Bzhg9Ntys4RGXnE4WVjdOPnZ6pCQeTmJsoN1BN5W26Rwwn6H1brr47ekEhBRXFM2oyg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795617136;
+	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
+	bh=PtRllFgQeaJJif96OcO1z/etvW3YwrHKGtxNZDdO9hA=;
+	b=biOmP/0BXjlakA9eLa1wOVRwHPsnjgvlbLtBzXR+bpE1lcUkFWdyWTYJXLySfblgscJt
+	 rKV/lmu/ijMuUFORxFrZaUpUeQ9UE1lbk9FJnhQgHfGCah10LWBMaWM5654qk8kfsG/5Q
+	 /viBKwLzkxitx8NDomiEauoTFk8KghBejuY+N0dpC/+9K9GfS/W2U0XdE0Ayqt3339gB+
+	 4uApSRIewgEkqaFczOZ+99JvTJVu9fNPMAFkK+UZESL/OSWSnAsn4SHNWM5sxLKwx0whB
+	 C5gDf+t+wVWG4kl8MMmA11BJcf/8lJM9o1E8D+qEQrayUyX5W6/uPAvGtiV1bZD3XZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=none smtp.mailfrom=bombadil.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=SPVQka5q;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=lst.de;
+	spf=pass smtp.mailfrom=lst.de;
+	arc=none smtp.remote-ip=213.95.11.211
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21955606A31E;
-	Wed, 25 Nov 2026 14:25:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21955606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=SPVQka5q
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=qUuiYfPMGF1dYU/3s8nfXtw2BbGEHy61uU94+Ks01XY=; b=SPVQka5q6b+Q1YM0gqBdrJp3y3
-	UUUokphX0g5eOWTiYvKvIDnraP8DhH9YtPY1ZVZmsYKhEi7+gXw3fYCn4rPNoFx2DLd55U804oNgy
-	BpAC/5lODMecYTLyeGz5nCdxDEtSTYfIvUTVe8FbTHsbr0cIOgfgv0jPn+sHtL6DMlT8tuSRuUd6v
-	32FH4VYNd9i9qBT2ZAx4KCl5vVK5/EmscHlH4AaNOdMwQCsBZIDp6aSZpqVQ4A5WpNM8a/Uxl+XzR
-	DKPxKHf0vYby5fO+XwYhJ+FBMHHCrLpsCuR4fOwgm09h/UIcEa50ozW2eGgy3J1Rf3BkAR21O08IJ
-	cQO/zxyw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWDwO-0000000A9gO-01yg;
-	Wed, 25 Nov 2026 14:25:44 +0000
-Date: Wed, 25 Nov 2026 06:25:43 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, Pedro Falcato <pfalcato@suse.de>,
-	John Hubbard <jhubbard@nvidia.com>, Jan Kara <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>, Peter Xu <peterx@redhat.com>,
-	Johannes Weiner <hannes@cmpxchg.org>, linux-ext4@vger.kernel.org,
-	linux-nfs@vger.kernel.org, "Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <nico.pache@linux.dev>,
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
-	Baoquan He <baoquan.he@linux.dev>, Michal Hocko <mhocko@kernel.org>,
-	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH RFC 0/5] mm: GUP dirty + ->release_folio() fixes
-Message-ID: <awbv55FryMamHvVP@infradead.org>
-References: <20261119-gup-dirty-what-v1-0-236d69f25c24@suse.de>
- <4f096d70-6f94-4148-8f47-242b8551e5f9@nvidia.com>
- <awWNyDZT2SVu2Zp9@pedro-suse.tail5790ac.ts.net>
- <55114986-0ba1-4a80-8498-bf674d64e01b@kernel.org>
- <away88BuU8ibcTA5@infradead.org>
- <d088452f-1118-4a06-bc16-1942e523e0fc@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB6B606A32E;
+	Wed, 25 Nov 2026 14:32:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CAB6B606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 2966F68BFE; Wed, 25 Nov 2026 15:32:07 +0100 (CET)
+Date: Wed, 25 Nov 2026 15:32:06 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Jan Kara <jack@suse.cz>
+Cc: Christoph Hellwig <hch@lst.de>, Matthew Wilcox <willy@infradead.org>,
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+	David Howells <dhowells@redhat.com>,
+	John Hubbard <jhubbard@nvidia.com>, Rik van Riel <riel@surriel.com>,
+	Qu Wenruo <wqu@suse.com>, "Darrick J. Wong" <djwong@kernel.org>,
+	linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-xfs@vger.kernel.org,
+	linux-rdma@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: Removing ->dirty_folio
+Message-ID: <20261125143206.GA15229@lst.de>
+References: <aoyWln-Gt-yvZQkE@casper.infradead.org> <CAG48ez0vXVUu9j4rYUeCqgwyHKAiN_6fL--D90WvX9q7B41V-A@mail.gmail.com> <ao3y8TtEGjniZ_4f@casper.infradead.org> <20260826050733.GB15122@lst.de> <20261125085814.GA24887@lst.de> <woe7ui2vuwznrdt4zxynkbnte7r57juoaicwuk4hmwmlhq7lmp@no52geqttfyk>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -91,27 +56,24 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d088452f-1118-4a06-bc16-1942e523e0fc@kernel.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <woe7ui2vuwznrdt4zxynkbnte7r57juoaicwuk4hmwmlhq7lmp@no52geqttfyk>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Wed, Nov 25, 2026 at 11:19:18AM +0100, David Hildenbrand (Arm) wrote:
-> > I don't think that is a good reason.  For file system backed VMAs we
-> > really need the pin to be able to do someting sane, DMA or not.
-> > 
-> >> 1) We fix all such cases now where unprivileged users can trigger this,
-> >>    converting to FOLL_PIN.
-> > 
-> > We need to, if not for this series then for all the other outstanding
-> > issues with GUP writes.
-> 
-> Cool, and I agree (that's why I placed it at 1).
-> 
-> But who is "we"? Because I recall that "we" wanted to do that a while ago.
-> 
-> (I won't be "we" ;) Pedro, can you take a look? I'm afraid the fuse thing might
-> be the harder nut to crack)
+On Wed, Nov 25, 2026 at 11:15:40AM +0100, Jan Kara wrote:
+> I think we agree regarding the direction where this should be going :).
 
-The collective of MM/FS integrity interested people (for which the
-recipient list is a good proxy) plus the maintainers of the code
-still writing through FOLL_GET.
+Well, that's good.
 
+> Regarding the tracking of longterm pins, I remember when we started working
+> of the GUP / pin_user_pages() fixes, one of the ideas that we floated was
+> to take pinned pages off the LRU (they cannot be freed anyway) and use that
+> space in struct folio for the tracking we need. John? even had patches for
+> that but the performance overhead was too big (primarily due to LRU locks
+> contention) for direct IO. But for longterm pins, the additional overhead
+> of the setup could be acceptable and that would significantly increase our
+> maneuvering space in what we can do (because longterm pins are yet another
+> page refcount in the end).
+
+Yes, additional significant overhead for plain FOLL_PIN would be bad.
+But for longterm pins it should not be an issue, as they should last
+long enough to amortize additional cost
