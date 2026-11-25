@@ -1,77 +1,114 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795599662;
-	b=0meIrmEBc7O6sbRs40ix7FYH5oXNHO0ynbJfwxHesDd3hzcbJQB3YOmqALiunWFduLG+
-	 jLQxoDCPxNDheNNh5t+g3iGuhJ2Xc5SwEl9t2gCy/1IKVkGx/OmPOSszOP3X8F/F+M7xz
-	 3tT54CDp0wskq01Vt/COS8+U7D+lX7UzwjrsMI8jFiMmbn1IDBA/0KdLB9lTYKciP+2nL
-	 BesrC3JO/pOw3Lrg0UsVj2bhZMqX4cka2cofUPPYr6BFeMmFhAL7g6wzOZ4PWmSeHfgB2
-	 oxbyngdhrFbiE3jLfyzrJTmQ17/8pcOopSLK7ghgj2OzE2tYj6USefTyAqSPdrP0eVg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795599662;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received;
-	bh=Go5NsoyuppAMWbSfZV52X8FSvYZuBcD031bthogNrOg=;
-	b=GRKiT0/qKcstNL/nh6oPTSGWW7vy+a73NLrzAkYxlV2w5kvC6yU/KBBJwoMEr6kpl9Tk
-	 cSG2lVsscnFXOfcDglLL1ldoVfQ2oXZFbfM/Xbslo7S4EiZcE5VpkI6vQXl/NSnAxo43u
-	 4EbCpVaRqb4OYxLXNO/gkh2ioUymQ2mkZoMt+Rth+sL61XakmBFn0biYaPe25jPkjS+oQ
-	 NfY1CE+Pkk0GCYaCQik/wXvR5HXlBQfk5fU0sZ2ZFUxm9sm3sIuyrYmbF/DD6lriSb7EL
-	 nb2Y85CwMI+Ec5P3/bw1PJlc0fqpyS7fUn5yK4Y79zMnTIvkV2zG771yaNPs3QcXNEg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U5bwkYk2;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8A98606A321;
-	Wed, 25 Nov 2026 09:41:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U5bwkYk2
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795599661;
-	b=JPfLE9NDzOVjTdBjsc6tG7EdQjHYskFmWSnugC7CNHjjWQNHQRpssAHozxjpzrBQw2/b
-	 ugmdCvnQSu9OpOkI74NKirUFYLxALo8g0ZJwoJ+edAEL2UDWsRS+jlcqEbYwCknnN2E3g
-	 5k9hVRBOdQ49gjRqWlgJRZuEs3pikt4EfW8v3TD+xvwA0QJdNXcyLXP7qN9gk9kgs0WLS
-	 EWVN+RAlP4+MZJvQSo/OnQK1osnjFq+qlykugDcflIGPAUa95KR2Wi9CEzuvUhNz0kW71
-	 FGhREuJmGV6v8YT8o3ryaL9wImyLe3abDVo5/SQm92zjJE3Sdt6hum0RUqpSHT1UcWw==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795599661;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received;
-	bh=Go5NsoyuppAMWbSfZV52X8FSvYZuBcD031bthogNrOg=;
-	b=Z97bCUH424gxUusAStbgqfyNjO+EPXHMCNYNRxU/HTjAq09VZOXOQ5+GQj/RrAHtyAnv
-	 8imbo6s2+x2vCfG5hbDEWj30e4VFeMALBCC108QID2GKeCSmKSZyWBu0Lon+x8+eQmw6H
-	 WLV7wN5HJXYhr+0xxzzFIOkHkThy+uvPP892o1kKmEaI4sEp04+UUnNDEdCeiBXOEhayx
-	 /O3Eg0iuArcy7+FmZFC9q64bruM3Efc4vFQ9ZvCCt6vyxSC/g78oD5wf1Lcl1mLInCsp5
-	 W8jdirKGJMAJI/H1/HAal4KXAJpVbaHt2QcGPD46XTU7yMdIPJ0YxgGil3I2kF6X96Q==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.147
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795599785;
+	b=nK1ecqBbPk25oDmQlPhZ8pahiceAqxIfM81x5OoX+G01nMMbWpKlBUzAJ2FlOSMDTxxX
+	 VpTVZMcceZGV2aAzVK4TyajZKQqHPWnNtojdbYuPBCV4jCRCRTTOVftxY2uROShpcoA2U
+	 Kb7Wc5CiuwI794tlXcaGaD/bl3L8bxRDbd1n5fcuJwACO7M7Axh7uTSXkQikjsFYu7ont
+	 ehGn2eGQWPHkHChyPB8NUeV4RqiBWdI0R0/MeOFp3Bfod/v0mR2Kum3+qVNwQTgQ/T72d
+	 xGY/UXT8Ng2MxepDUlzHr6+6ywFFv/ZbpjXQCiZUiSQNS8ZEuJdQbW8ebMoN5awebRg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795599785;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Content-Type:Content-Transfer-Encoding:MIME-Version:From:To:
+	 Cc:Subject:In-reply-to:References:Date:Message-id:Reply-To;
+	bh=q481VDhZEcw4c6WIDWUz65RfwNEc4JNVc4TqgIZ6vPM=;
+	b=g+LoXuXesXBb7dUgXrxB1BYFDjhf4+2BlgzQi+nRVEUDGp6WCSzHytRaQrsHrMGqa03X
+	 Z0qh8bFepPsaFU/cH4vtuMgigoF/8LEyIMfNXwci9IbcLi9VnMqntjI3RTe/LKMMQij6z
+	 KeNNCWkFaloQl35PzUb3zBnOhGlVX7hcAVV9BTAo84lvog8ximt2vZ1zDEsgrYlURTJY+
+	 eY89eyN/WiPRnygGZ4c61ai33byCQS/etHfrj/ca0GNlAkXZJAYY9YlSeZJDSVDWkIR4j
+	 y81zWQ8ZKjHTdsPew4PMCrHL/2le4kZNA7g82A+hLN1K47Tv64F8b6TNmk4Mxx1D33g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=ownmail.net;
+	spf=pass smtp.mailfrom=ownmail.net;
+	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm3 header.b=enZ0Swn5;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=zrHnSnO6;
+	arc=none smtp.remote-ip=103.168.172.147
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 33F321F000C4;
-	Wed, 25 Nov 2026 09:40:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795599661;
-	bh=Go5NsoyuppAMWbSfZV52X8FSvYZuBcD031bthogNrOg=;
-	h=From:Date:Subject:To:Cc;
-	b=U5bwkYk29EPa66nNb/UD3FT0LSil5i2cyls9NfllzFytyL3TZosV1gJIsdfxZ26q5
-	 bZJ5qeSwj5FtQkINKFFuEhQ24oMiu2muu7K3eCfKmxbuIeLep9wztwXmRxuIaaMlRx
-	 71CoeAOi/nOs0g0NKci0qWe/kOq48Adt4B1hhNYR+ulxvIU2bXDtWHLW/FQHM3cmWg
-	 GXyIQ/5hFGqboI3VfuppKNfTUNwf4lbERVjTyWICvLLs59kBn+C/dIwZ+yMs5velJR
-	 ay3FKhZleNQ85E+gQKeL43km2b/TfDYdJY9XRfoIG+nL6/XAYheT1aoH4av5XwFXz6
-	 Wlc6Yq1O1OCIA==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 8CBC74CDF2;
-	Wed, 25 Nov 2026 09:40:53 +0000 (UTC)
-From: Joel Granados <joel.granados@kernel.org>
-Date: Wed, 25 Nov 2026 10:40:51 +0100
-Subject: [PATCH] sysctl: Test rounding behaviour in jiffy-ms transformation
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885F2606A31E
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 09:43:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 885F2606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm3 header.b=enZ0Swn5;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=zrHnSnO6
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 4FB4BEC0BD7
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 04:43:03 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Wed, 25 Nov 2026 04:43:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
+	1795599783; x=1795686183; bh=q481VDhZEcw4c6WIDWUz65RfwNEc4JNVc4T
+	qgIZ6vPM=; b=enZ0Swn5ojZvj/hk0iEuOtaZoIL3oyUIK2pdQ8RX+fqpHiMMeSp
+	CQ1QCjZvRIXY7pxjZdorEpJ11hNDQdFilDnGAmHWXbFDm6qUTyB7S968C8dBB9ND
+	93A+I75Ake7jdwPLwDoReWZ57ikjY/vy355h8Ox1zUKiojCdSz+ay4vRB1vKp/qJ
+	SSaCTybAYr4fiEfWoRt+vipY/WkfVu9E/Ju/ey1bSOHSMVXbp7V+b6c7W+ZXztga
+	n+dSDDpsSbvPlb5y2zMdlYflCjXaDozIGoP+xCGCK9ktMRwq5aBGOQhglW3575z1
+	hC3x71l0nc4LF7JXP+AR82w7sMpaMk42j5w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795599783; x=
+	1795686183; bh=q481VDhZEcw4c6WIDWUz65RfwNEc4JNVc4TqgIZ6vPM=; b=z
+	rHnSnO6eiA/wZ7BeZ/LBOkjgo+YhbfCpUJ305+ACCeFSAJqXwn5bpqEV1l8GwWCw
+	a9eKVHMjDYS1orZK+9cThCe6flTH7TPWOXaG2HxUjBnmShtSVcge0K0GvYGaA9bk
+	kD9HbmbOI9sNTh0gJd6Ok5DczSBWKLqRnXGzfzilvXnEUA3DJPWgh5OOIPiiutXk
+	cK0R2MkIwnn53GUppU4e8v5zP7PFGALoho2ioDljJ02FQ7Lr1q2KTlHhvodoGW6k
+	G7yvNnWQeiKzXtXcGAKrcmGDu6+Am7sSfISsenLFN76PKpVtXGzvshxMV+AREp0g
+	v+/jHyOQtB7LNTf9U5mdw==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=ownmail.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1795599783; d=ownmail.net;
+	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
+	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
+	s=fm3:rsa-sha256:X5MVuKPdizRjfRXA20Q1dc0EYHIbUA9vDau76JIBxnRk82j
+	h7vFlZBF5aVaZPRiUZ/THFUdEgA+vx6GnVo+BMpAV53tBTQKKKzM5Rnbn3Kji6dI
+	QwUxX0HAncDMntZiAsdtV7ZcxiESoJL9kd8d9WXPQn+ip/dytS77YETJ+j3+nFcu
+	BAoYg8fpGMCICmAjSJi9aVNPFwfudVfal9ABdguvc/3wdzghhocXC0+8CUhhoCNj
+	P1ZjU2vki1NLlIUaMr7qwBne0Us8HLtKRdzJg28bGoflx+Epuo7BFCuuW3R3f/ig
+	18I9pACd+MUC51c3jaIOnNVLU+Pxoju9S9SAXhQ==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=13;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,reply-to,
+	subject,to;
+Message-Instance: m=1; h=sha256:1FZ2L6wcNHT10q1BDTmPA0+4/lCEdeaK4RrjjsqiU94=:P9Y0zxjMw3n++5NuGF9acER1t2vANIhfNr02E/IAfOA=;
+X-ME-Sender: <xms:pq0Ga0gvnMjsPNn7hFxM9tm5ZSh_uk6tKvOr1ZKk7TV4adAT9wR2-Q>
+    <xme:pq0GawvFIGGEr3kRpgl8S4ThN5_YGsTm3fmVLdRG3CyG9DDC9q6wprmUQElRN3sV6
+    KSQOfWE6m0E27aKpivNnXiosnBf6S4lavscjqrW3n8cWHBTWg>
+X-ME-Received: <xmr:pq0Ga0sVl8O5o7v4aPBLT8589BnZUPe-h-vDKzMr6gAIhEoG083UerUinHm_oumKH-odmv_xvw1ND0hfHip92beX_oE_Sy0>
+X-ME-Proxy-Cause: dmFkZTFyuWDnb16KytKZXuWsHKw3qfQNPsUWbn9XFgZbAZXVvLcXDxvEW/qdDl+iETJmtK
+    9FJLxVLCuQpO6dVhqnNzyV8JdgbNsEtdGMW7A8ec7gwh2leOOnOIAs9x2csr/W5VdqnchR
+    7Eac9XLEkhajGCQE4qLIAGLBjELBdEiKylaQfvxElFLAeatxAgtbPssOqODSrCcf5Qen4i
+    aPBHufUrP2HcIeque251pHcAkZJlMVwjJOXA4HZkULmtwhQnHop5Xql5SrbDk16M4iErl0
+    20l53cnEhdSpwfyZ3UcqAUZPiTKH+eoPl68cK8WgpIB4EQG2bXkhVeC692zDftk3kQU0Au
+    Dosq+Qw5polpcy+1uX1XIoDjJXP3iEVFq3yV1FQSYed8KwelLB+HSxSZ9RSHAHNubULuWe
+    ZGPLEunk1LYbsviMTDJFcphOylrVj5X/y2s9fpUCWF6jHuT7mkr/zZaJqSNyDNqiMKBaDl
+    +9I4zNcwTZb85mf4VlbrFsc6QediR4xjzQj+ivXeKH8YC7hMUjC9RxO7DkwuZRW4VRD/GP
+    AmCY5EGXl7RYqoZQm3Yo3+FGEqKVoRNaLZ6jkr3qazZQZDy2cEpNimrFCUhNk87ePTY+5O
+    VfLH5AYhZ47qkhVoJLDfi803oVQ5b3QR+zJSm8tRouwLhauCXwyl2QRsPLIw
+X-ME-Proxy: <xmx:pq0Ga2q6GeDNe-CkLwNhGOtslys55g1A9mJbMqdwWVQxh6LqJuzCOA>
+    <xmx:pq0GazIjkm3awJrDZaYHjOHlVBScZFMElKA1KYJv2XMDl-uI3rEeRg>
+    <xmx:pq0Ga2snDl9LNPBLG7P4nkcEz0XP1SACK_K-tuLpN03zGUkDjVpQpg>
+    <xmx:pq0GawB-kDNfxdV_cRgiJa7XNB9v-kxwa9ykhNdzYYi4BgA9Ck8Nlg>
+    <xmx:p60Ga2qvuDqYzCaTO-yvtMuSIbrDOeLZ0HNv1jxJycbihqLepmHX6C3g>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 25 Nov 2026 04:42:59 -0500 (EST)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -81,170 +118,104 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261125-lklm-jiffy_rounding-v1-1-ccf2ddf7bd3a@kernel.org>
-X-B4-Tracking: v=1; b=H4sIACKtBmsC/x3MTQ5AMBBA4avIrDXRoSSuIiLolPFT0oYQcXeN5
- bd47wFPjslDGT3g6GTPmw2QcQT92NqBBOtgwARzKVGJZV5WMbExd+O2w2q2g+iyHAulO0WYQih
- 3R4av/1rV7/sBEgGHdmUAAAA=
-X-Change-ID: 20261125-lklm-jiffy_rounding-b46275db5e23
-To: Kees Cook <kees@kernel.org>, Avi Weiss <thnkslprpt@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, Joel Granados <joel.granados@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4128;
- i=joel.granados@kernel.org; h=from:subject:message-id;
- bh=RpJAkbVCo3PiYqOJBu0qHd458RHdZ3KqXhVVUhOgvQ4=;
- b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGsGrSQ6ZjTQW/We47+1WsXkCJbRiidHpMEGS
- lr2z3gOOCCzTIkBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJrBq0kAAoJELqXzVK3
- lkFP+jYL/is73B+3x3Osc7NEipbbmNU9I5mXOvA209ipSqD1KBtjF7DGJMiIGvZ6d+KMOFqKXe5
- 3mbamOYNw0Pud0yvxoMRYzV6hH0fw1q7a2Ld9ZSwd5Dc63kfTpfZCfcWlsb7nFi8TB2F8ktCatX
- 70m5sHYTAU80Vg+AruwwQMG10TPQZSDUDdbZxTotXlot4V4Sd6bwcgEy15wG9HGD3UzLB9tOh4Z
- 4EdrSVAMTlzajZootfipaLg3dhy93Y9QLQTebbZqddtkyyLUqwuUg1wmcCsl9SrZKILnFe5VN1D
- 7OsaVtC+4GmrJCRF4zqch9jUl1HRdJA8McAWUWwxxSyCRQ03kqwy1+9QJ7U7+f40uNIHv75mqa0
- JUwVzht7FhMsQhbOhweq7aeQZ4VmwQQUGxFRLli4GdWhkV8d2VfX9b0/M0Ar2S4KSfwI/1KFLye
- HLjn+AfsKqWTo10e9we7E0+lH8SEh4V6HqKShfB4jPGIQI4TA07MdLX4OTbFtrcflrjGOd49bT7
- JA=
-X-Developer-Key: i=joel.granados@kernel.org; a=openpgp;
- fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
-X-Endpoint-Received: by B4 Relay for joel.granados@kernel.org/default with
- auth_id=239
+From: NeilBrown <neilb@ownmail.net>
+To: "Jori Koolstra" <jkoolstra@xs4all.nl>
+Cc: "Askar Safin" <safinaskar@gmail.com>, amir73il@gmail.com,
+ brauner@kernel.org, cyphar@cyphar.com, gregkh@linuxfoundation.org,
+ jack@suse.cz, jlayton@kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, shakeel.butt@linux.dev, tj@kernel.org,
+ viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v8 07/12] vfs: short-circuit MAY_WRITE access for
+ O_DIRECTORY opens
+In-reply-to: <1709003566.2632299.1795599064030@kpc.webmail.kpnmail.nl>
+References: <20261024213539.1307600-8-jkoolstra@xs4all.nl>
+  <20261125062146.940336-1-safinaskar@gmail.com>
+  <1709003566.2632299.1795599064030@kpc.webmail.kpnmail.nl>
+Date: Wed, 25 Nov 2026 20:42:54 +1100
+Message-id: <179559977412.1728055.14071803405199089608@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-Add two tests over int_ms_jiffies and ulong_ms_jiffies:
+On Wed, 25 Nov 2026, Jori Koolstra wrote:
+> > Op 25-11-2026 01:21 EST schreef Askar Safin <safinaskar@gmail.com>:
+> >=20
+> > =20
+> > Jori Koolstra <jkoolstra@xs4all.nl>:
+> > > Requesting write access on a directory can never succeed. Rather
+> > > than performing a path-walk to determine whether the target is
+> > > actually a directory (-EISDIR) or not (-ENOTDIR), or does not exist
+> > > (-ENOENT), etc., we short-circuit to -ENOTDIR.
+> > >=20
+> > > Currently O_WRONLY for directories is only blocked in may_open(),
+> > > which happens after we have the inode for the target, so after any
+> > > create via O_CREAT|O_DIRECTORY.
+> > >=20
+> > > The advantage of short-circuiting is that we don't have to add even more
+> > > logic to lookup_open() to differentiate -EISDIR/-ENOTDIR. Also, for
+> > > filesystems that define ->atomic_open, handling this cannot even be done
+> > > at the VFS level, as we can't know ahead what the result of the lookup
+> > > will be.
+> > >=20
+> > > Suggested-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> > > Reviewed-by: NeilBrown <neil@brown.name>
+> > > Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> > > ---
+> > >  fs/open.c | 9 +++++++++
+> > >  1 file changed, 9 insertions(+)
+> > >=20
+> > > diff --git a/fs/open.c b/fs/open.c
+> > > index e43f02ff64ac..4334f30bb7ff 100644
+> > > --- a/fs/open.c
+> > > +++ b/fs/open.c
+> > > @@ -1343,6 +1343,15 @@ inline int build_open_flags(const struct open_ho=
+w *how, struct open_flags *op)
+> > > =20
+> > >  	op->intent =3D flags & O_PATH ? 0 : LOOKUP_OPEN;
+> > > =20
+> > > +	/*
+> > > +	 * Requesting write access on a directory can never succeed. Rather
+> > > +	 * than performing a path-walk to determine whether the target is
+> > > +	 * actually a directory (-EISDIR) or not (-ENOTDIR), we short-circuit
+> > > +	 * to -ENOTDIR.
+> > > +	 */
+> > > +	if ((flags & O_DIRECTORY) && !(flags & __O_TMPFILE) && (acc_mode & MA=
+Y_WRITE))
+> > > +		return -ENOTDIR;
+> > > +
+> >=20
+> > Please, do -EISDIR here, not -ENOTDIR. You returning error here, **becaus=
+e** user attempts to write to **directory**. EISDIR is natural here, ENOTDIR =
+is not.
+> >=20
+>=20
+> That's a fair point, and I have thought about this. The downside is that
+> if we return -EISDIR there, that will also be returned if you open(O_DIRECT=
+ORY)
+> what turns out to be a regular file. So you may then get -EISDIR for someth=
+ing not
+> a directory.
+>=20
+> The semantics of -ENOTDIR here that I had in my mind is something like "the=
+ thing
+> you are trying to do can NOT be done _with_ a DIRectory." It made a bit mor=
+e sense
+> to me (but only a bit.) Really it should be -ENOTWITHDIR or something...
 
-1. roundup_on_write writes 1 ms and requires the read to be at least 1.
-   One millisecond is exact at HZ=1000 and rounds up to one jiffy below
-   that, reading back as 10, 4 and 3 ms at HZ=100, 250 and 300.
-2. stable_rewrite writes a random ms value, writes back what it reads,
-   and requires the second read to match the first.
+The problem is that "flags" contains an invalid value.  The correct
+error for that (according to open.2 man page) is EINVAL.
 
-Signed-off-by: Joel Granados <joel.granados@kernel.org>
----
-These tests make sure that the fix that was recently merged [1], stays
-fixed.
+NeilBrown
 
-[1] https://lore.kernel.org/all/awH4Fh-XofdwwRqZ@hobbes
----
- lib/test_sysctl.c                        | 13 ++++++++-
- tools/testing/selftests/sysctl/sysctl.sh | 50 ++++++++++++++++++++++++++++++++
- 2 files changed, 62 insertions(+), 1 deletion(-)
 
-diff --git a/lib/test_sysctl.c b/lib/test_sysctl.c
-index 65ce423461707170367a5df14999b571705251d0..40da8748c2ad283a8ac9fa9b859e8556e2dc3564 100644
---- a/lib/test_sysctl.c
-+++ b/lib/test_sysctl.c
-@@ -29,6 +29,7 @@
- 
- static int i_zero;
- static int i_one_hundred = 100;
-+static unsigned long ul_one = 1;
- static int match_int_ok = 1;
- 
- enum {
-@@ -52,6 +53,7 @@ struct test_sysctl_data {
- 	int int_jiffies;
- 	int int_ms_jiffies;
- 	int int_userhz_jiffies;
-+	ulong ulong_ms_jiffies;
- 
- 	unsigned int uint_0001;
- 
-@@ -72,10 +74,11 @@ static struct test_sysctl_data test_data = {
- 
- 	.boot_int = 0,
- 
--	/* One second in each converter's unit; all three store HZ jiffies. */
-+	/* One second in each converter's unit; all four store HZ jiffies. */
- 	.int_jiffies = HZ,
- 	.int_ms_jiffies = HZ,
- 	.int_userhz_jiffies = HZ,
-+	.ulong_ms_jiffies = HZ,
- 
- 	.uint_0001 = 314,
- 
-@@ -144,6 +147,14 @@ static const struct ctl_table test_table[] = {
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_userhz_jiffies,
- 	},
-+	{
-+		.procname	= "ulong_ms_jiffies",
-+		.data		= &test_data.ulong_ms_jiffies,
-+		.maxlen		= sizeof(ulong),
-+		.mode		= 0644,
-+		.proc_handler	= proc_doulongvec_ms_jiffies_minmax,
-+		.extra1		= &ul_one,
-+	},
- 	{
- 		.procname	= "uint_0001",
- 		.data		= &test_data.uint_0001,
-diff --git a/tools/testing/selftests/sysctl/sysctl.sh b/tools/testing/selftests/sysctl/sysctl.sh
-index ad1ee0fccd7cefb066caf23d8aad42abfa046ba0..d24ac6c5a027248afbad4ee0331800fb00aa8978 100755
---- a/tools/testing/selftests/sysctl/sysctl.sh
-+++ b/tools/testing/selftests/sysctl/sysctl.sh
-@@ -351,6 +351,56 @@ test_int_jiffies_negative()
- 	assert_content "$t" "1" || RET=$KSFT_FAIL
- }
- 
-+# Writing 1 ms reads back 10, 4, 3 and 1 ms at HZ=100, 250, 300 and 1000
-+# respectively. Here we make sure that it is >= to 1.
-+test_jiffies_conv_roundup_on_write()
-+{
-+	local m="${SYSCTL}/int_ms_jiffies"
-+	local l="${SYSCTL}/ulong_ms_jiffies"
-+	local f got
-+
-+	[[ -f "$m" && -f "$l" ]] || { RET=$KSFT_SKIP; return; }
-+
-+	for f in "$m" "$l"; do
-+		if ! printf '%s' "1" > "$f" 2>/dev/null; then
-+			ktap_print_msg "$f: write of 1 rejected"
-+			RET=$KSFT_FAIL
-+			continue
-+		fi
-+		got=$(cat "$f")
-+		if [[ ! "$got" =~ ^[0-9]+$ ]] || (( got < 1 )); then
-+			ktap_print_msg "$f: wrote 1, got '$got', want >= 1"
-+			RET=$KSFT_FAIL
-+		fi
-+	done
-+}
-+
-+# Check that writing back what was just read does not change it again.
-+test_jiffies_conv_stable_rewrite()
-+{
-+	local m="${SYSCTL}/int_ms_jiffies"
-+	local l="${SYSCTL}/ulong_ms_jiffies"
-+	local orig=$RANDOM
-+	local f first
-+
-+	[[ -f "$m" && -f "$l" ]] || { RET=$KSFT_SKIP; return; }
-+
-+	for f in "$m" "$l"; do
-+		if ! printf '%s' "$orig" > "$f" 2>/dev/null; then
-+			ktap_print_msg "$f: write of $orig rejected"
-+			RET=$KSFT_FAIL
-+			continue
-+		fi
-+		first=$(cat "$f")
-+		if ! printf '%s' "$first" > "$f" 2>/dev/null; then
-+			ktap_print_msg "$f: rewrite of '$first' rejected"
-+			RET=$KSFT_FAIL
-+			continue
-+		fi
-+		assert_content "$f" "$first" || RET=$KSFT_FAIL
-+	done
-+}
-+
- test_uint_plain()
- {
- 	local t="${SYSCTL}/uint_0001"
-
----
-base-commit: b6a9fa34ce4187cb69d3c588a4bbffc31ce5db8f
-change-id: 20261125-lklm-jiffy_rounding-b46275db5e23
-
-Best regards,
--- 
-Joel Granados <joel.granados@kernel.org>
-
+>=20
+> > (I'm human, not LLM.)
+> >=20
+>=20
+> Glad :)
+>=20
+> Best,
+> Jori.
+>=20
+> > --=20
+> > Askar Safin
+>=20
 
