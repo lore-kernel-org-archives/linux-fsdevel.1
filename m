@@ -1,99 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.227.132
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795576418;
-	b=4E/hYgHcgh6bkWKjeDeCEH4onzcLnEZVhjYXSqR7r9/oPv5EGa1Jpelbg4Y0nTNBo963
-	 DahFWaRdTOXn9+4nl1rs1gaQ0nTTYqfxk8dHdyoCLT4NU63oo7X2nLxNCw30cW2ukwies
-	 z+EntSQbTvcRwaRnMdYZBb6ZBt481L1XUnExwF320PQ3cjCoWaaFARMudVZRfQB4ZreJT
-	 2jYc491AMSN4/J0303Dl/DtJhu6yjUWuuy5jNwcxTIm2nllpLmktW+ey81chZ/KAgfWNG
-	 SxamwxEErDqiNdVPnPtPmufJs4UJg1XCEMb9/0MIAkzhrxJu6741nDugyx+HgHyMJPA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795576418;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=tCFbqC4C5B+TcudKUswIJlj5VybrEnHtIhkQZVCLE4o=;
-	b=JbaeYP43h3ucCxGKOaZBqDCVkcHbxe0VS+ogB6S4iMkUwWqpM7tMR7qtjRzpixAmXoQe
-	 FhcldoXSPs3EcR51V05SQlSAv9Su15xZqPlq2LyEey27f+MxdwXcvziyRiUjwxJ3Tg30l
-	 wFykXHhgArez0qZSeJb6qvyHnuYXsOqpY3NRsQQT+slkYyBEIoOOiJjSvNt0d4DFJ9Nah
-	 +VKPrxQdODxXZOgw1q4GLkg5jLRNEaPn3l3uqxMtqS4k/QJoL7cmY57FZu6p6Gowk6xSo
-	 4oR/jd5apF9pD8puJ0Op1WnxgTJ6/hwS9rvqcS27wQHjTt8ivKGkAkGkK30xinrE2fQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rXmdTs58;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.227.132
-Received: from mail-pj2-f4.google.com (mail-pj2-f4.google.com [74.125.227.132])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.4
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795576731;
+	b=WyBJS9BF1o2XwRCLk//As8zi4MHxNZ1tTAvPibnoczX6/KMz3sjvcXmM4O2LdzPu0V6T
+	 uDN2MYzUtZ4GRBjCTfybKNPbPiaGF7uUc6XDRxAobD1GsoyLKyu0tJ2c34BzSLnZFQdhs
+	 Jo3MDPPGWpbxpJ425I87lpYHLW1V44U8fXrsd4kbvm91Dd3x5PjydIneAD4jE6BCBTQru
+	 2awUb6lhW8hnvmLEdcjtUenQ7Sk9L19BRyiIQ0O+kydXGVdFQW9HTNA72A5CYTat2sl/5
+	 /e2F2F9Bf8+mOYPI4RS+nsMrCfopT0KqfnSc6J+lh4Jjps6Z1DpfrhoaB4OGaLOErJg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795576731;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-CM-TRANSID:
+	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
+	bh=3AGeBQ4n1Qn9/uaSpUsSFxFzHCYbDAjSiA3J7ReA5f0=;
+	b=4rwW+XGieC8uecx2FspUI48pOZYE5Zb5bdI+5UzjMO9gCyAE5UMLxlBI7YUFOokp8KH+
+	 MDqpR42a37fWNvy3iDXe/YUJBaZ6PWB+0PAi5LtIFPeQ2Qot949ikYEdIttRg+uwR1jbp
+	 8COljZSJc1Q2VAfa3KT4r2wsHpZ7TzUy9AqWdwHeuKkZDBEpY1jxlY6TkweyZf53176Ug
+	 APlHiek+matXPjno5Hyn9HvdHGzZ+SMUIVRRa10K8iGS29j4jXp8CDhLoxGdUqUCjRs9x
+	 OEKHiqg7oiBgtbAAp3tgsy0RlIBTOiDG6f4uCFRcRntcZrkYL6LjqXIOUyoWqCi4TLw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b="E/a6ZQao";
+	arc=none smtp.remote-ip=117.135.210.4
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625EB606A31E
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 03:13:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 625EB606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE0C606A31E;
+	Wed, 25 Nov 2026 03:18:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5CE0C606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rXmdTs58
-Received: by mail-pj2-f4.google.com with SMTP id 98e67ed59e1d1-3b497279c25so1316903a91.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 19:13:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795576418; cv=none;
-        d=google.com; s=arc-20260327;
-        b=m3AO+rfbS9asdavLLdChdL+5nlvJ6yA/pTRNgrUkocUTau9PwtCxE77y6JawDUOnVQ
-         WuXfS3Zjrz10+XTpJnCTjv/2oTxRO3WWvExvYzMvD/zW6BE1USeI+UyViysaYxDHvPdg
-         I2QDGqITBEeyvYI847TZWWlXzD7f0OkSJd0N/RkgMP88ynE47wGbUdLvDruHe9VhV5c1
-         34Ee+RYlwAxC7/KK8JFy08H0mztmLGyL6R89NxI6JOxmfdFaVTmR7vuhFINWWTV0envF
-         ibNVJAxIMW8uzKGygU0lBT5zA4R+vGFkWxwzc3rEzjg8FyNukLZAF5UK97neICrNXUPq
-         Go4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=tCFbqC4C5B+TcudKUswIJlj5VybrEnHtIhkQZVCLE4o=;
-        fh=hSBbGXkDBk3ruZN/sOwxyjspE1KEwEg84xzkvrkB28c=;
-        b=WYR7t5sI5ZlGmmFyXx/vsayBpYdVKm1OgZSzEziQZ7lLILmkn95crhChhavoJmCLXP
-         3s6QwVitWtm3xoE+Pz/MsvPedk/zI+NDLmJGrUYqHaqhnIgMAwVdiJDiS4pKQ5uFcPCs
-         VpqKFmsr7DICH/onO1+GGUmXuTTeAqOXCLVX7Q17F5RZ1j3tp0xRAG5MC+oUL3Mm+Ieo
-         sS0YI76A74wFsJQKXesFqTLDpxwbiEQa8QJ8HZd/zXQSBL44mW6MvmsxAxMhxg3PXCNS
-         tcLvgFD7sTXsCFNPvTz1si7YU+UXaIzdL8+v0OOatqbyqx/0BuQlJN4a8YNPpZKHUJdi
-         6bEQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795576418; x=1796181218; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tCFbqC4C5B+TcudKUswIJlj5VybrEnHtIhkQZVCLE4o=;
-        b=rXmdTs58n8JfEdQZ4HJe9pcRzDlBQeJ8CGNnQxZY9c+zSkk/5zUpxc5Ieu3awVsTbo
-         1xDLVWvtEr5GNBNnsjB7e9TithIelqyGPJFxWAQBw70S3tFtNmU37c1INdWp0EknyzKM
-         T1139q3oLAzi/hXRzI2Jrss2DdbZjCHcZZ0mKuvVeo3QskAtNhZ7TeTHj743Utw8bQLP
-         n2sLt52jR6Sz1UOwtUJ2xlW7zoiLQpqnaSCzW7nrSgAzWgqaGJ4Z9jipS/AJUQqxNhL4
-         sZcJ2jji6rFEGT+lIolVduLzCtkXWgXLtB61dIcFPnRXS5gO41XMwYyCOTVdVbQZtS5O
-         Fx8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795576418; x=1796181218;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=tCFbqC4C5B+TcudKUswIJlj5VybrEnHtIhkQZVCLE4o=;
-        b=rsGtXyqxlIVwGEZaprG1RsCUBFxSYCZHU39hnpyPFrliQ+/S69Qv7zUPLIKHJAlxXy
-         t9KCnhZDsv5spry+DwyIz04BfWSfV2YMTt2px9hIECIE34f3SKrAF4Nb7TW1oiGKVs07
-         N2+zns+5XXlEjq14wEV3BBNUDdPWXuvNdoPAWHD37UoXgs2wKhqAuB+lI7V6P+Taw38T
-         pLqw7Hc7gKv9JZxtHTr5Blq0LN1V74lYofR6QM9Ed1bnXDzpvaHgfF5w98kidaZv4IP4
-         lkc9M2eEJUpX0Xrs2tLPsWKglaO3952XuDLBveoYNSVELjb2csIPtyCl4YCcOnRcQXkL
-         HXTg==
-X-Forwarded-Encrypted: i=1; AL+hErE4xlnNvZDg6taIEndsPyOZX9oOp1i1x18cSna4H5wkTDzH7S34eEQd/e2wszhOT8WQ3bsnIkXbxK446vWh@vger.kernel.org
-X-Gm-Message-State: APuU4Z8cMTHCR8hG4FaJpE6y+BR3va5bynyNi2GFmU9z8Vl51MuxO0xR
-	r7n9XMmDQgQFtVORP0YjB7TxG1h0++I62pkf4N7QHcjITzFy+Sv8dlGv0q/Yiei5qXGelzpgMnp
-	xLpjqnOAmpv25hq/8Dnp2+I2xGBWIWX8=
-X-Gm-Gg: AZFdTZdXd7RAKzHCqaOU829pyLk2rD6ussyrBDylUmpzkxsGWFTMXxR2leTorjk8EWQ
-	BM6Xng7m4mzC25+IvBLuNOM4KKI0k/fhkCn7Yny0hHrPQax8SccalDogVFF/ZDrUFS5/ybKtbuT
-	2U+IC8PyiayZXz0RQA+5fT9QH7aIHHwbWQ46k0/nfn58l4fmnR2L9p/dXl9TgXvAgo7eQIfzkV5
-	czKjvA8Cus8BB/yLbyw364JhFzMfDIiEs2ItMmIWUlqIblqG7EK5HzwYVUnddQRWCER2J5CO46T
-	g+vPPoTZzJAgjP5+kkRnHIOkQvCUREqx+FFOgo8tMkkz+ozKUmpusXZfXL6eY66bZoqZDXsTl5H
-	5u7UqYjerjDxZaqHGPhRXxEOQDrB92bWEPs6lpQ==
-X-Received: by 2002:a17:90b:17cd:b0:3ab:4f1:4f76 with SMTP id
- 98e67ed59e1d1-3b41c900b24mr15919769a91.24.1795576417688; Tue, 24 Nov 2026
- 19:13:37 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=E/a6ZQao
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
+	Content-Type; bh=3AGeBQ4n1Qn9/uaSpUsSFxFzHCYbDAjSiA3J7ReA5f0=;
+	b=E/a6ZQaonO7qDO9pEfoug4VmVw+KeH9AHTVMUELkCUFqXowyV4ae0wjrSL4ahL
+	rHG1Cw2l/NYuIk3awxF9h6/LEVpBXpb/Rx8mMVZcGZqkAtYJgbvboRQ7X7gTVFKX
+	AKVF0B9iTxmvfZLMs569FdpDkljLOHSjaKlWYwBzx+rfA=
+Received: from [IPV6:2409:8900:1a90:8163:30cc:9d3c:47b5:d01f] (unknown [])
+	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wDXtBBzUwZrmGkkKA--.58335S2;
+	Wed, 25 Nov 2026 11:18:13 +0800 (CST)
+Message-ID: <072df74b-3271-4802-8037-ee620d5d0888@163.com>
+Date: Wed, 25 Nov 2026 11:18:11 +0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -103,31 +54,151 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261123030014.3116755-1-bsdhenrymartin@gmail.com>
- <lh4cnpy2kw3tdtmhubwhhvim25kxpqxo6xttt7sihyx7x5hqdf@3tvivew2qh7m> <CAKEwX=Py7W0vOwxKdWMCZu3d=BbF2OkgDt6Tu_AHhEJZ06w0ew@mail.gmail.com>
-In-Reply-To: <CAKEwX=Py7W0vOwxKdWMCZu3d=BbF2OkgDt6Tu_AHhEJZ06w0ew@mail.gmail.com>
-From: henry martin <bsdhenrymartin@gmail.com>
-Date: Wed, 25 Nov 2026 11:13:24 +0800
-X-Gm-Features: Aa3M54pnXMEK0Eck5BBUuqtUrkvY1nVqb3SO0OotTOKtwJph7tvN7_xbLx5Lf10
-Message-ID: <CAEnQdOrzP9wKwmyuySRch=a4B5F3Akgsvk9TNUj1Vycq-4JZEg@mail.gmail.com>
-Subject: Re: [PATCH] mm: fix cachestat NULL pgdat dereference on DAX mappings
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: ntfs: deleting $Extend breaks subsequent mount
+To: theBIT5 x3zk <x3zk@outlook.com>, Namjae Jeon <linkinjeon@kernel.org>
+Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:NTFS FILESYSTEM" <ntfs@lists.linux.dev>,
+ Hyunchul Lee <hyc.lee@gmail.com>, Baolin Liu <liubaolin@kylinos.cn>
+References: <DM4PR15MB6276A5C442568B4C7E604AA386452@DM4PR15MB6276.namprd15.prod.outlook.com>
+ <CAKYAXd-MHxzjvc20J-x4VYBnuk3sVpzmHo+zrHb8n3nx8Aav6g@mail.gmail.com>
+ <a2f75e81-b012-4bb1-8885-a2ed310fa988@163.com>
+ <DM4PR15MB6276AEA50787E7D27EF8590B86442@DM4PR15MB6276.namprd15.prod.outlook.com>
+Content-Language: en-US
+From: liubaolin <liubaolin12138@163.com>
+In-Reply-To: <DM4PR15MB6276AEA50787E7D27EF8590B86442@DM4PR15MB6276.namprd15.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDXtBBzUwZrmGkkKA--.58335S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxZr1DKrWDtF13GF1fur4fGrg_yoWrZFykpr
+	ZrGF92grykG347twnFqFZ8Z3W0vr1xtw4UXr13Xr18tas0q3ZIgF1jgFyYgr1rtryfKw45
+	Zw4UW345uw4UAa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U6a0dUUUUU=
+X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6hVOGWsGU3W5OQAA3j
 
-> +1. This sounds good to me.
->
-> Henry, would you mind sending v2 along this line?
->
-> (and maybe add some documentation).
 
- Sure, v2 sent: cachestat() now skips the xarray walk for DAX mappings
- and reports all zeros, and the behaviour is documented in the syscall's
- kernel-doc.
 
- Link: https://lore.kernel.org/linux-mm/20261125030432.274396-1-bsdhenrymartin@gmail.com/
+在 2026/11/25 01:20, theBIT5 x3zk 写道:
+> Hi,
+> 
+> Built 7.4.0-rc4 with both patches applied and ran basic checks.
+> Deleting '$Extend', creating files inside it, and writing to its system
+> files now all fail with Operation not permitted, and remounting works:
+> 
+> # mount -t ntfs /root/ntfs.img /mnt -o loop
+> # cd /mnt
+> # rm -fr '$Extend'
+> rm: cannot remove '$Extend/$ObjId': Operation not permitted
+> rm: cannot remove '$Extend/$Quota': Operation not permitted
+> rm: cannot remove '$Extend/$Reparse': Operation not permitted
+> # cd '$Extend'
+> # touch file
+> touch: cannot touch 'file': Operation not permitted
+> # cat /dev/null > '$ObjId'
+> warning: An error occurred while redirecting file '$ObjId'
+> open: Operation not permitted
+> # cat /dev/null > '$Quota'
+> warning: An error occurred while redirecting file '$Quota'
+> open: Operation not permitted
+> # cat /dev/null > '$Reparse'
+> warning: An error occurred while redirecting file '$Reparse'
+> open: Operation not permitted
+> 
+> Tested-by: theBIT5 x3zk <x3zk@outlook.com>
 
- Thanks,
- Henry
+  Thanks for testing and confirming
+
+> 
+> ________________________________________
+> От: liubaolin <liubaolin12138@163.com>
+> Отправлено: 24 ноября 2026 г. 10:08
+> Кому: Namjae Jeon; theBIT5 x3zk
+> Копия: linux-fsdevel@vger.kernel.org; linux-kernel@vger.kernel.org; open list:NTFS FILESYSTEM; Hyunchul Lee; Baolin Liu
+> Тема: Re: ntfs: deleting $Extend breaks subsequent mount
+> 
+> 
+> 
+> 在 2026/11/24 09:40, Namjae Jeon 写道:
+>> On Tue, Nov 24, 2026 at 5:01 AM theBIT5 x3zk <x3zk@outlook.com> wrote:
+>>>
+>>> Hi,
+>> Hi,
+>>>
+>>> Was messing around with the new ntfs driver (fs/ntfs) on 7.4.0-rc3-1-mainline
+>>> and noticed you can just rm -rf '$Extend' even without show_sys_files.
+>>> After umount, the filesystem fails to mount again.
+>>>
+>>> Steps:
+>>>
+>>> # mount -t ntfs /root/ntfs.img /mnt -o loop
+>>> # cd /mnt
+>>> # ls '$Extend'
+>>> '$ObjId'  '$Quota'  '$Reparse'
+>>> # rm -rf '$Extend'
+>>> # cd /
+>>> # umount /mnt
+>>> # mount -t ntfs /root/ntfs.img /mnt -o loop
+>>> mount: /mnt: wrong fs type, bad option, bad superblock on /dev/loop0,
+>>>          missing codepage or helper program, or other error.
+>>>
+>>> dmesg:
+>>> ntfs: volume version 3.1, dev loop0, cluster size 4096
+>>> ntfs: (device loop0): load_system_files(): Failed to load $Extend.
+>>> ntfs: (device loop0): ntfs_fill_super(): Failed to load system files (-22).
+>> Please check the attached patch.
+>> Thanks for the report.
+> 
+> Hi Namjae,
+>     I noticed that NInoSetExtendSys() is only reached when looking up the
+> unnamed $DATA attribute returns -ENOENT. A file directly under $Extend
+> that has an unnamed $DATA attribute skips this path and never gets
+> NI_ExtendSys set, leaving it mutable without sys_immutable.
+> 
+>     I reproduced this with your patch applied, using default mount options
+> and a synthetic NTFS image containing a SYSTEM-marked file with unnamed
+> $DATA directly under $Extend. After remounting, this write still succeeds:
+>       echo changed > '/mnt/$Extend/review-data'
+> 
+>     Could we move the direct-child classification into the common
+> inode-loading path, so that setting NI_ExtendSys does not depend on
+> whether the unnamed $DATA attribute exists?
+>     I tested the change below in QEMU. The write above is now rejected
+> with EPERM, and normal file, hard-link, symlink and remount checks pass.
+> 
+> Thanks,
+> Baolin
+> 
+> You may consider applying the following change on top of your attached
+> patch:
+> **************************************************************************
+> diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
+> index e1c5a767e62b..c0e2535401bb 100644
+> --- a/fs/ntfs/inode.c
+> +++ b/fs/ntfs/inode.c
+> @@ -959,6 +959,15 @@ static int ntfs_read_locked_inode(struct inode *vi)
+>                   goto unm_err_out;
+>           }
+> 
+> +       /* Classify $Extend children regardless of their data/index
+> layout. */
+> +       if (ni->mft_no >= FILE_first_user) {
+> +               err = ntfs_is_extended_system_file(ctx);
+> +               if (err < 0)
+> +                       goto unm_err_out;
+> +               if (err > 0)
+> +                       NInoSetExtendSys(ni);
+> +       }
+> +
+>           if (ni->flags & FILE_ATTR_REPARSE_POINT) {
+>                   unsigned int mode;
+> 
+> @@ -1163,7 +1172,6 @@ static int ntfs_read_locked_inode(struct inode *vi)
+>                            */
+>                           extend_sys = ntfs_is_extended_system_file(ctx);
+>                           if (extend_sys > 0) {
+> -                               NInoSetExtendSys(ni);
+>                                   if (m->flags & MFT_RECORD_IS_VIEW_INDEX) {
+>                                           if (extend_sys == 2) {
+>                                                   name = reparse_index_name;
+
