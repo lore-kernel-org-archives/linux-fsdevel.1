@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795642741;
-	b=dZWx5pma4OgBMthQuwQJ7GyeMrepWtctWFci76jAkGtkcFlO9NzE8U884meEJe/InSax
-	 DIgozzd30s8D6ChHtAjtWOtqjODtzXKreb4Ij3d7Prw3wnozxhzUWI/+B4YokApRSUHpM
-	 r8q4pf6RbwTEcPikSaFiMf1zU563aP1B9NGFTAMdbpwQyXYPYsDU+CifG5KMYDo/ujIK2
-	 SiJ73360V2Xbym7MfKCHsaJLpjiBwa+5wO60+RFLRzgFG92JKgTIpeOnJEtfUknU1Wk0O
-	 hZZ0nmlHkKHPACl5zfQnIFHJgXQJO0NBX/6aAs24VKkvOL/n4yrvXWz/qPbXDeEeHtw==
+	t=1795642750;
+	b=C9CtLyDYkvy7QUYESDAiSFV+w/dKAHmLGFSs4X63Lsf+fMCaYeVsudp0XGsXkgFFWq4y
+	 KOBEdFpU6kALbqLqfwfu2yJHstPnyw8E96IHRwD+hEdyFIvpm98y5Km/TEdLz1DGROUeD
+	 lBqqZVAhJym4E6Bj1gjWzUtseicQybNGPQh5JE3tSKVZgxLmQMxm89p34FqwzPKfgtV1o
+	 m7c2F7HOtxV9iSsF1xUMRa20MRT73Ft89PINLJWZt6xMS+2O46eDzqq+n9CAl2zBqtK3A
+	 P/stFM9WnrJVYQWU0TxlaW3utHwQOvcY0Px7HzJJNGOdi1iQiXDNkuroIbTipWDzCXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795642741;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795642750;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer;
-	bh=g9HZ6CESqCC3IbuIZeeH60D+MFwI+V+ns81lV3Y2LAA=;
-	b=JODN8UFKkGC3z/maifzSbDRz0XVWbp8aCJGIW9E8NbW5MDbrkf1nZKPwD7TjM8fX0BFU
-	 bxSo44+jvPeVBcg8Yl4UQ/jS1Kk+5P+ldXHz5q3ufLKrA1LFjafUKwZA3D0vf1OmgI+uB
-	 2wiZn8AaaqaggHzqJCjQ2FkMPVs5hj5xOMoLwWdkAEttGz/Rq5ifWwtjBv21OSNfq7xYi
-	 rCo6yJXc45zIQrH9FKx6DkkPXru9tnGSjG4iEi/SxpQlOUAr+uX0l04u6pWDlVhwgm4WV
-	 ld9mIQtHUQdB+++8ONJKZUPU2nlMpexuSKgWpXFAJS4NwcIKDey+lHo8m8SRj4eyesQ==
+	bh=rUM6DDgN644lwBMuVOf8hCvlUKG7RqWtFvmySpiCJP4=;
+	b=Q6NcXRiSM4z8Atynk5Tl9smrm+c0X6au33o/iK+2NPeewsIhlwBiaWGBq8tKS+xzK5F3
+	 11TTNzgNBQfYyya1NQ8iS4EZdEvulyTlknU0e21pvS3hAGCIBm3jFFCk6gjQo+N+zqOzK
+	 4/gIh6qit+KlaA3jB9WLFHVs+m6LNjAK5ifqSPgUGPOPRnE3W2HdT0RnzDKhoK5QIqOOy
+	 vvlAOwO9xcfchYo9x9zpkBnsqtvUbuLllKJeVzeAGWDZn6Hf9nvJOH93Pe8WdkuUhF5Sq
+	 J6xOnA9yBiSE1pjq3/e5VPULF79Auohq0MBc9uudjm3TjQatfr54UX3oJRuyA1+ThAA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Ntc1/cKL";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=csHVXRqO;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16367606A321;
-	Wed, 25 Nov 2026 21:39:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3154A606A32A;
+	Wed, 25 Nov 2026 21:39:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ntc1/cKL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F04021F000F2;
-	Wed, 25 Nov 2026 21:38:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=csHVXRqO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3346D1F000ED;
+	Wed, 25 Nov 2026 21:39:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795642740;
-	bh=g9HZ6CESqCC3IbuIZeeH60D+MFwI+V+ns81lV3Y2LAA=;
+	s=k20260515; t=1795642749;
+	bh=rUM6DDgN644lwBMuVOf8hCvlUKG7RqWtFvmySpiCJP4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Ntc1/cKLKb+8Patxe9n6wstPGCvrq26H4Tcsn38Rhk6RuSCvvN46w3x1WtKqjTuOA
-	 6st+MQ4ErxaBFPr0iiLA0fbC0+q1sHT5uY9eBtF6toWf4QJOozqgr8246o9Rzfqm4g
-	 RHwhhKuQMiZ8zzD4OaV26wbGQkS7DXl1kA5wJMECEtgr5olYRPAVYaMKkB2Bk3jpRS
-	 Q3E3wfxkOTNHJTPnAp0ciFAqfe2zPqsJWRcSel/MMjcwW/BNLifvygBPDi7qNcmch0
-	 Ed3INnmHFEy58vB79VTuatorZxZdMk1K/cLZHwSDHdgKhe9Xv+lHnWHjgGzXv/Kk0X
-	 OrI6evbyW9T7w==
+	b=csHVXRqONzw+Zf2W4mIiRNX44yIJY5CyRbFbcCR0+M/3R+GAiOMw3psRBPN1SgjKG
+	 e3zbCETZaMq3pe/kSpHAtZiGstZ7Nel3amY5pdz9XV8gqjeM1AXeDT7jpyIny0bOe9
+	 SuomrZaO2RHa2qG2CVi5VaWOYXyVZrW1FAihaRpWfvGCbxdLN/suOU+Wc2dERbKl8o
+	 boj2OWLoGU/PW20RgzAeGTnGgWZWL7274PUZOHFuSASuVtqK5eYFytXfIwSwwoOCk0
+	 g7EEMg5orzdhHYvJnZxuXFqRuBz9YUo0FhIUT/VJHPoRhMgzSPogevaDBmoXEyezPE
+	 LcFWpym+IE1LQ==
 From: "Harry Yoo (Meta)" <harry@kernel.org>
-Date: Wed, 25 Nov 2026 21:37:08 +0000
-Subject: [PATCH slab/for-next v2 07/14] arm64/mm: specify SLAB_MAY_ACCOUNT
- for pgd_cache
+Date: Wed, 25 Nov 2026 21:37:09 +0000
+Subject: [PATCH slab/for-next v2 08/14] powerpc/mm: specify
+ SLAB_MAY_ACCOUNT for pgtable caches
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261125-memalloc-prof-dont-waste-slabobj-ext-metadata-v2-7-7c680f02a734@kernel.org>
+Message-Id: <20261125-memalloc-prof-dont-waste-slabobj-ext-metadata-v2-8-7c680f02a734@kernel.org>
 References: <20261125-memalloc-prof-dont-waste-slabobj-ext-metadata-v2-0-7c680f02a734@kernel.org>
 In-Reply-To: <20261125-memalloc-prof-dont-waste-slabobj-ext-metadata-v2-0-7c680f02a734@kernel.org>
 To: Vlastimil Babka <vbabka@kernel.org>, 
@@ -90,39 +90,43 @@ Cc: Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
  Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
  Johannes Berg <johannes@sipsolutions.net>, 
  Eric Dumazet <edumazet@kernel.org>, 
- Anshuman Khandual <anshuman.khandual@arm.com>, 
- linux-arm-kernel@lists.infradead.org
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+ linuxppc-dev@lists.ozlabs.org
 X-Mailer: b4 0.16.0
 
-When PGD_SIZE != PAGE_SIZE, user PGDs are allocated from pgd_cache
-with GFP_PGTABLE_USER, which includes __GFP_ACCOUNT. Specify
-SLAB_MAY_ACCOUNT when the object may be charged to a memcg.
+User page tables are allocated from PGT_CACHE() with
+pgtable_gfp_flags(), which adds __GFP_ACCOUNT for non-kernel mms.
+Specify SLAB_MAY_ACCOUNT when the object may be charged to a memcg.
 __GFP_ACCOUNT without SLAB_MAY_ACCOUNT will not be allowed.
 
-Path (e.g. 64K pages): copy_process() -> mm_init() -> pgd_alloc()
-  -> kmem_cache_alloc(pgd_cache, GFP_PGTABLE_USER)
+Path: copy_process() -> mm_init() -> pgd_alloc()
+  -> kmem_cache_alloc(PGT_CACHE(PGD_INDEX_SIZE),
+                      pgtable_gfp_flags(mm, GFP_KERNEL))
 
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org
+Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+Cc: linuxppc-dev@lists.ozlabs.org
 Signed-off-by: Harry Yoo (Meta) <harry@kernel.org>
 ---
- arch/arm64/mm/pgd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/powerpc/mm/init-common.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/mm/pgd.c b/arch/arm64/mm/pgd.c
-index bf5110b91e2f..0fd5b90b5160 100644
---- a/arch/arm64/mm/pgd.c
-+++ b/arch/arm64/mm/pgd.c
-@@ -63,5 +63,5 @@ void __init pgtable_cache_init(void)
- 	 * Naturally aligned pgds required by the architecture.
- 	 */
- 	pgd_cache = kmem_cache_create("pgd_cache", PGD_SIZE, PGD_SIZE,
--				      SLAB_PANIC, NULL);
-+				      SLAB_PANIC | SLAB_MAY_ACCOUNT, NULL);
- }
+diff --git a/arch/powerpc/mm/init-common.c b/arch/powerpc/mm/init-common.c
+index 745097554bea..72dfcc559630 100644
+--- a/arch/powerpc/mm/init-common.c
++++ b/arch/powerpc/mm/init-common.c
+@@ -140,7 +140,8 @@ void pgtable_cache_add(unsigned int shift)
+ 	align = max_t(unsigned long, align, minalign);
+ 	name = kasprintf(GFP_KERNEL, "pgtable-2^%d", shift);
+ 	if (name)
+-		new = kmem_cache_create(name, table_size, align, 0, ctor(shift));
++		new = kmem_cache_create(name, table_size, align,
++					SLAB_MAY_ACCOUNT, ctor(shift));
+ 	if (!new)
+ 		panic("Could not allocate pgtable cache for order %d", shift);
+ 
 
 -- 
 2.54.0
