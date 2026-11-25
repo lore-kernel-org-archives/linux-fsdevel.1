@@ -1,42 +1,41 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=182.48.54.220
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795616335;
-	b=FTaOIXPhao7xKEZBKGVpRazoCDroBgBvn6mP7bR5RLPnVipiiFysswZErv0M2nunSoWy
-	 WqMs6EzhaT5hx8erVaXnWuIODY4l6nvyKmOYLbdFs3ALrjgmHOOH4sp2wxKssmT/7DB+n
-	 hwLyNT0e6ZILHeR9tSzv4AynloW0LuCHBKvleeRkCxo+G85ma+MFP0nmUkmZUQkd+Li37
-	 pnR5rLXxBSR+no0t7NP1wPRdw2XrMa46KNp4Iv7te2xVfaw5VKN33+eNOaGGdNkYTxSWw
-	 kYwSNH0VTvVv8zzcX9JgPKpbjYsfTiFka9vy14929ZB0pFa+kApgKpVdMwLKX6mtyjQ==
+	t=1795616330;
+	b=sXsW0b9kjC9zQeIgBv9asRWDKa/i6nYJN6NPz9W9/VFIgTpgg31/27qQgt49wpNm2jK4
+	 hGj6qe9lvd8qaq9vdhqDUDaHkT8a2IgkD+WMg4HvPxMJUI0vly3HJnqfM9kYNARRshWuW
+	 VCiIZC/4WI+9/JzrPc0D2dcR+oOAB9nyP/FeRMSpg5LFPay4DhcsIWGvJzcFvwH/ItPRO
+	 GcPsiJxTP+mS1huCKMQ4wg2a+Rb5uIU9CTifBXsjPdKf7uM1I60VK/4FB7uhrGa8unPTf
+	 t4bvv5oQZPrb14Mvm2vHMGCq0umkkN615Yromt2ddhP99zipynOjcJ86mcRII6VfT6A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795616335;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795616330;
 	h=DMARC-Filter:Received:From:Date:To:Cc:Subject:Message-ID;
-	bh=QUZRIzrCo3j2nKsGU8AWWA5KbeLJF/TXFpYUX5GHiD8=;
-	b=m5ywhdCBaZo2yVtg86FcmAvBXeVenplXqFXpT59GgzTY1kXKiP45fcX0GHKrm5Et/9Jd
-	 NitlkdAGajogU5B6ymZ21QTBvw9uUzncGbvp1RidkdHGbili54rEQpSHkRc1gYpEhchNp
-	 rGU6TaUqOFmaxCI1fTAgeFazDiBueWr7/nkSQE9hY/FZySLNvG4rHHktHuze4UNEKsh+5
-	 0JbcPPu8zm3qbjMzmJuqs5ERocfyzQnt1Ej1x0beMeZG7ou+IdygSULY+lEe0E06jwk1m
-	 m1dIYThdg3915e9xK+aA1bJu+A6QZPqkiQLafzIjYxBQR+L1UW4fsrofjEjpFr+E0RQ==
+	bh=3wOajHH4NzvZvBhjuRIDgAkiOClVftzL+88Gx9NKlJs=;
+	b=k72e6Y7PvJTin32NgGAnnKcfpaydwG39x5o9c3fPtFP+4tv2WChIrsgYqzHOEV5AMZ19
+	 /v+7b3mbR9sQW4kX7YgOlQGIE/KI1HDFkVIl5NTKjAToiC7zoztrrqhAWnah+ThgdPmHs
+	 G6zVWsZjEqrW7M2dygj9R9ZM+N79rLqYPIpL+YHM9v5dX+FWCR0QzUVRPJU7ndc0Ly6nZ
+	 XWPpSTfQ4rmUnjKPmtkq+emnCMK8mGceNarRqjjtPKAG3O8V2jAUyggUKVdCbF12bwIix
+	 WvFQN8haSR3N+p5i1Wdy49svh+UkP+dTv7YF1Pe2uywn5JnPzICIb4qVIH7nayeWTCA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=snowrabbit.org;
 	spf=pass smtp.mailfrom=snowrabbit.org;
 	arc=none smtp.remote-ip=182.48.54.220
 Received: from bambi.snowrabbit.org (bambi.snowrabbit.org [182.48.54.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E96D3606A31E;
-	Wed, 25 Nov 2026 14:18:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E96D3606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCCDB606A326;
+	Wed, 25 Nov 2026 14:18:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BCCDB606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=snowrabbit.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snowrabbit.org
 Received: by bambi.snowrabbit.org (Postfix, from userid 3001)
-	id 46984C9300; Wed, 25 Nov 2026 23:18:54 +0900 (JST)
+	id 17D42C9314; Wed, 25 Nov 2026 23:18:49 +0900 (JST)
 From: Showta Ishizaki <zakinko@snowrabbit.org>
 Date: Wed, 25 Nov 2026 23:18:20 +0900
-To: Namjae Jeon <linkinjeon@kernel.org>,
-    Hyunchul Lee <hyc.lee@gmail.com>
-Cc: ntfs@lists.linux.dev,
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev,
     linux-fsdevel@vger.kernel.org,
     linux-kernel@vger.kernel.org,
     Showta Ishizaki <zakinko@snowrabbit.org>
-Subject: [PATCH] ntfs: keep i_size of a directory equal to its index root
-Message-ID: <20261125-ntfs-01-v1@snowrabbit.org>
+Subject: [PATCH] fs/ntfs3: fall back to the substitute name of a junction
+Message-ID: <20261125-ntfs3-01a-v1@snowrabbit.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -46,67 +45,176 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 
-After mkdir, stat() gives a size of 0 for the directory until it is read
-back from disk, where it gives the length of $INDEX_ROOT.
-__ntfs_create() opens the index root but does not set i_size from it.
+A junction made with "New-Item -ItemType Junction" on Windows has an
+empty print name, and readlink() on it fails with EINVAL, because
+ntfs_readlink_hlp() only looks at the print name.
 
-When the index root is moved out to an index block,
-ntfs_ir_reparent() updates data_size but not i_size, which keeps the
-length the root had before.
+MS-FSCC 2.1.2.4 and 2.1.2.5 give a substitute name beside it.  Use that
+when the print name is empty, without the \??\ that starts it.  A
+symlink with an empty print name gets the same.
 
-Set i_size in both, as ntfs_ir_truncate() does.
+On a volume made on Windows Server 2025, readlink() of such a junction
+returned EINVAL.  With the patch it gives the translated path and the
+link can be followed.
 
-Without the patch a new directory was 0 bytes and became 48 after a
-remount, and one with 300 files was 248 and became 56.  With it the sizes
-are the same before and after.
-
-Fixes: af0db57d4293 ("ntfs: update inode operations")
-Fixes: 0a8ac0c1fa0b ("ntfs: update directory operations")
 Signed-off-by: Showta Ishizaki <zakinko@snowrabbit.org>
 ---
- fs/ntfs/index.c | 3 +++
- fs/ntfs/namei.c | 7 +++++++
- 2 files changed, 10 insertions(+)
+ fs/ntfs3/inode.c | 119 +++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 95 insertions(+), 24 deletions(-)
 
-diff --git a/fs/ntfs/index.c b/fs/ntfs/index.c
-index fe2a79b..73c8e6f 100644
---- a/fs/ntfs/index.c
-+++ b/fs/ntfs/index.c
-@@ -1434,6 +1434,8 @@ retry:
- 		icx->idx_ni->data_size = ix_root_size;
- 		icx->idx_ni->initialized_size = ix_root_size;
- 		icx->idx_ni->allocated_size = (ix_root_size + 7) & ~7;
-+		/* As ntfs_ir_truncate() does; i_size kept the old length. */
-+		i_size_write(VFS_I(icx->idx_ni), ix_root_size);
- 	}
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index 86d9ba8..1e99620 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -2133,6 +2133,94 @@ out:
+ 	return err;
+ }
  
- 	ntfs_ir_nill(ir);
-@@ -1455,6 +1457,7 @@ retry:
- 		icx->idx_ni->data_size = ix_root_size;
- 		icx->idx_ni->initialized_size = ix_root_size;
- 		icx->idx_ni->allocated_size = (ix_root_size + 7) & ~7;
-+		i_size_write(VFS_I(icx->idx_ni), ix_root_size);
- 	}
- 	ntfs_ie_set_vcn(ie, new_ib_vcn);
- 	goto err_out;
-diff --git a/fs/ntfs/namei.c b/fs/ntfs/namei.c
-index 29f1bf5..e4b0fc4 100644
---- a/fs/ntfs/namei.c
-+++ b/fs/ntfs/namei.c
-@@ -611,6 +611,13 @@ static struct ntfs_inode *__ntfs_create(const struct mnt_idmap *idmap, struct in
- 		err = ntfs_attr_open(ni, AT_INDEX_ROOT, I30, 4);
- 		if (err)
- 			goto err_out;
-+		/*
-+		 * ntfs_attr_open() sets data_size to the length of the new
-+		 * $INDEX_ROOT, as ntfs_read_locked_inode() does with i_size
-+		 * too.  i_size stayed at the 0 set above, so stat() gave 0
-+		 * until the directory was read back from disk.
-+		 */
-+		i_size_write(vi, ni->data_size);
- 	} else {
- 		/* Add DATA attribute to inode. */
- 		err = ntfs_attr_add(ni, AT_DATA, AT_UNNAMED, 0, NULL, 0);
++/*
++ * ntfs_link_target - Locate the target name of a junction or symlink.
++ * @rp:		reparse data, @size bytes long.
++ * @ulen:	returns the length of the name in bytes.
++ * @nt_path:	set when the name is the substitute name, which Windows
++ *		writes as an NT path such as \??\C:\dir.
++ *
++ * MS-FSCC 2.1.2.4 and 2.1.2.5 give both a substitute name and a print
++ * name.  The print name is the one meant for display and SHOULD be
++ * present, but it may be empty: Windows leaves it empty on a junction
++ * made with New-Item -ItemType Junction.  Fall back to the substitute
++ * name then.
++ *
++ * Return: the name, or NULL if the tag is neither of the two or the
++ * buffer is too short to hold its header.
++ */
++static const __le16 *ntfs_link_target(const struct REPARSE_DATA_BUFFER *rp,
++				      u64 size, u16 *ulen, bool *nt_path)
++{
++	size_t path;
++	u16 sub_off, sub_len, print_off, print_len;
++
++	switch (rp->ReparseTag) {
++	case IO_REPARSE_TAG_MOUNT_POINT: {
++		const typeof(rp->MountPointReparseBuffer) *mp =
++			&rp->MountPointReparseBuffer;
++
++		path = offsetof(struct REPARSE_DATA_BUFFER,
++				MountPointReparseBuffer.PathBuffer);
++		if (size <= path)
++			return NULL;
++		sub_off = le16_to_cpu(mp->SubstituteNameOffset);
++		sub_len = le16_to_cpu(mp->SubstituteNameLength);
++		print_off = le16_to_cpu(mp->PrintNameOffset);
++		print_len = le16_to_cpu(mp->PrintNameLength);
++		break;
++	}
++
++	case IO_REPARSE_TAG_SYMLINK: {
++		const typeof(rp->SymbolicLinkReparseBuffer) *sl =
++			&rp->SymbolicLinkReparseBuffer;
++
++		path = offsetof(struct REPARSE_DATA_BUFFER,
++				SymbolicLinkReparseBuffer.PathBuffer);
++		if (size <= path)
++			return NULL;
++		sub_off = le16_to_cpu(sl->SubstituteNameOffset);
++		sub_len = le16_to_cpu(sl->SubstituteNameLength);
++		print_off = le16_to_cpu(sl->PrintNameOffset);
++		print_len = le16_to_cpu(sl->PrintNameLength);
++		break;
++	}
++
++	default:
++		return NULL;
++	}
++
++	*nt_path = !print_len;
++	if (*nt_path) {
++		*ulen = sub_len;
++		return Add2Ptr(rp, path + sub_off);
++	}
++	*ulen = print_len;
++	return Add2Ptr(rp, path + print_off);
++}
++
++/*
++ * ntfs_strip_nt_prefix - Drop the \??\ that starts an NT path.
++ * @name:	link target, already with '\' turned into '/'.
++ * @len:	its length, not counting the terminating zero.
++ *
++ * MS-FSCC does not define this prefix; it is what Windows writes in a
++ * substitute name.  Without it the name reads like a print name.
++ *
++ * Return: the new length.
++ */
++static int ntfs_strip_nt_prefix(char *name, int len)
++{
++	static const char prefix[] = "/??/";
++	const int prefix_len = sizeof(prefix) - 1;
++
++	if (len < prefix_len || memcmp(name, prefix, prefix_len))
++		return len;
++
++	memmove(name, name + prefix_len, len - prefix_len + 1);
++	return len - prefix_len;
++}
++
+ static noinline int ntfs_readlink_hlp(const struct dentry *link_de,
+ 				      struct inode *inode, char *buffer,
+ 				      int buflen)
+@@ -2146,6 +2234,7 @@ static noinline int ntfs_readlink_hlp(const struct dentry *link_de,
+ 	void *to_free = NULL;
+ 	struct REPARSE_DATA_BUFFER *rp;
+ 	const __le16 *uname;
++	bool nt_path = false;
+ 	struct ATTRIB *attr;
+ 
+ 	/* Reparse data present. Try to parse it. */
+@@ -2187,32 +2276,11 @@ static noinline int ntfs_readlink_hlp(const struct dentry *link_de,
+ 	/* Microsoft Tag. */
+ 	switch (rp->ReparseTag) {
+ 	case IO_REPARSE_TAG_MOUNT_POINT:
+-		/* Mount points and junctions. */
+-		/* Can we use 'Rp->MountPointReparseBuffer.PrintNameLength'? */
+-		if (size <= offsetof(struct REPARSE_DATA_BUFFER,
+-				     MountPointReparseBuffer.PathBuffer))
+-			goto out;
+-		uname = Add2Ptr(rp,
+-				offsetof(struct REPARSE_DATA_BUFFER,
+-					 MountPointReparseBuffer.PathBuffer) +
+-					le16_to_cpu(rp->MountPointReparseBuffer
+-							    .PrintNameOffset));
+-		ulen = le16_to_cpu(rp->MountPointReparseBuffer.PrintNameLength);
+-		break;
+-
+ 	case IO_REPARSE_TAG_SYMLINK:
+-		/* FolderSymbolicLink */
+-		/* Can we use 'Rp->SymbolicLinkReparseBuffer.PrintNameLength'? */
+-		if (size <= offsetof(struct REPARSE_DATA_BUFFER,
+-				     SymbolicLinkReparseBuffer.PathBuffer))
++		/* Mount points, junctions and symbolic links. */
++		uname = ntfs_link_target(rp, size, &ulen, &nt_path);
++		if (!uname)
+ 			goto out;
+-		uname = Add2Ptr(
+-			rp, offsetof(struct REPARSE_DATA_BUFFER,
+-				     SymbolicLinkReparseBuffer.PathBuffer) +
+-				    le16_to_cpu(rp->SymbolicLinkReparseBuffer
+-							.PrintNameOffset));
+-		ulen = le16_to_cpu(
+-			rp->SymbolicLinkReparseBuffer.PrintNameLength);
+ 		break;
+ 
+ 	case IO_REPARSE_TAG_CLOUD:
+@@ -2281,6 +2349,9 @@ static noinline int ntfs_readlink_hlp(const struct dentry *link_de,
+ 	/* Always set last zero. */
+ 	buffer[err] = 0;
+ 
++	if (nt_path)
++		err = ntfs_strip_nt_prefix(buffer, err);
++
+ 	/* If this is a junction, translate the link target. */
+ 	if (rp->ReparseTag == IO_REPARSE_TAG_MOUNT_POINT)
+ 		err = ntfs_translate_junction(sb, link_de, buffer, err, buflen);
 -- 
 2.54.0 (Apple Git-157)
 
