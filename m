@@ -1,107 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.121.94.184
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795598075;
-	b=fkbfEbjCSjRFDN0hfasTL18Sn/37JKMuwKTXK4NoWYxl20MvgD0S0HPs4+4BNtxkAbfm
-	 d0sKlRmHAXxXxD6mTtDEBMTXNPD3UKvu5p5SgrjfwdWXs+BOQ7647MSB5hfawqCUQxtrR
-	 dGdSX2BCNYBZC8RwA1oztx+c9Hn/UsjNYYecVNKzdHO6p7Km2/9+KtexzwbQXI4JBi+5H
-	 JVSASXDDu7vjnYqP1h7B2yRQGEBkBYMN2ZuSWM7Dm9Ldmqt3+dCidyTFD476KkJ4UJneI
-	 CyUxn+69NXRwZl/vU+99cSUe7xsWaWAWkl7hYDKi3+755W8rha05mzPwFp94kL/XqeQ==
+	t=1795599073;
+	b=x3r9hSOKsOtxJZBLjg99ow2AYLSLDGskbRuXKgXOeXQKKXMrAHeQ3DqiukvDxGQIm5nS
+	 ibD4pOl7DmgpEhXCn3US0mjdq1tJ9ayZ06ehy2qzk1zGbVDnCYpmG03CZ4v2WrT9tDFE4
+	 S79ZbVJ2HiFcxKZIgQwv+fbXHk1tcDUl3JHX0ZoDPDQS69G3/BtfLRxKaN3yb2LvaxWSy
+	 J0FaSglQn5NYnXr/mnVF7pqlj9/UWSa6WnATnKggIA6dzgLRULzzqQ2/klPbCOUU0SRMi
+	 CfQ3L+Nvkon/lc9Z5Mx36LYh3z0m1EzYXy1S7j6UL12DbcFSM8dJuWmKLjmlN4RK5DA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795598075;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=9ruMhBL6geZHtZpeVeqePM4fPGxZEpg6PQ9GdOn9Qfc=;
-	b=29GZ//2uovaiXzhMkhO8P5kfdw1SgLcL4y5hhkKhxd+r2NVkkv8aLBbTwv2qAn9DDOWy
-	 0p3m3ogImCEglZw95scCcG6C50Rn3KgSIlj7y2LFsfSG/tdK+FM393jUIXWcFlOUTLi6z
-	 zlOWXoUZn7FcYMBJMoqC8tyWeTE1z/D4S/czQqk7iBxZgkIo0PKBK6LiLDBg3784rGFLz
-	 4x+29QtLfB3txKQ5doPUjVi73tyqXJ/jXJ6cUUyn3F1uJXdsZzoENc56hRGZx+tcMIx3T
-	 Eu0dnaE8/clY+VapdWaxXl+nzFUlmbKtvJD+EedcrBcskvTkNSttA1RS9Tc+A9q59cw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795599073;
+	h=DMARC-Filter:X-KPN-MessageId:Received:Received:DKIM-Signature:
+	 X-KPN-MID:X-CMASSUN:X-KPN-VerifiedSender:Received:Date:From:To:Cc:
+	 Message-ID:In-Reply-To:References:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Priority:Importance:X-Originating-IP;
+	bh=vYW0lwNtZZp4xMT2btYq2BWBULtTKydr9Jf0sny4QFw=;
+	b=nMzcNC8n0PvqIE6+zwEb/WBBgpqXg3uGdBpnovgBl4b+vN7YyK1y9dhSSJ+e+8bRAbCK
+	 bGeOQdOniqf9OH7XktXdwNw20ZiXafva02syHk903Gxy9xbEMvpI8n2aWRZFCg7hik2Nd
+	 xZgu8TuCuBoju+K7debkaW9qzMbCK25x/FKfSyNBSzZaXoahzIFXm/Ch4UxyQXFPYS2k+
+	 X8vrClCaQqldkeTd/eLilSk+IV3t2CSi486QJOvvlila7Qvrf6QIW1Uc3aQHjuXUXbjPG
+	 8FO6hFc6+bvn/Pnld99x9Wt+88cuPTldVJyNDaBrM09+gveU9MdBQD+EKjFBJhF4NMA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=x3G2Yh+W;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BX6TdYFy;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=x3G2Yh+W;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BX6TdYFy;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dmarc=pass header.from=xs4all.nl;
+	spf=pass smtp.mailfrom=xs4all.nl;
+	dkim=pass header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=B9IYqj7t;
+	arc=none smtp.remote-ip=195.121.94.184
+Received: from ewsoutbound.kpnmail.nl (unknown [195.121.94.184])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9AB606A68F;
-	Wed, 25 Nov 2026 09:14:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9E9AB606A68F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FABE606A32A
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 09:31:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FABE606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=x3G2Yh+W;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BX6TdYFy;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=x3G2Yh+W;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BX6TdYFy
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A5FCE1F456;
-	Wed, 25 Nov 2026 09:14:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795598072; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9ruMhBL6geZHtZpeVeqePM4fPGxZEpg6PQ9GdOn9Qfc=;
-	b=x3G2Yh+WF8bse2bC62OJJaDoSphgPQQV5gJgM8+KNL0txwsG45ahWusw4L/hZo1OD6j/q6
-	C5rl1V7XJjK04M/WpBwOPdFENLOHK+NgMG1ew84cFE8Xk/sC4w/lkGxIrBEFwmb/qrxyqm
-	JiYEkZjBOnsS7ck8uGt9bcBw4sel3IY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795598072;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9ruMhBL6geZHtZpeVeqePM4fPGxZEpg6PQ9GdOn9Qfc=;
-	b=BX6TdYFy9nKZNMhG8YeDvFJ4MGChj9K8CkJWw0Y32c4LF6QEM5Gl11K3mKe2Okz1D6UPdw
-	g/ZdUtFMJKyLoeBg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795598072; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9ruMhBL6geZHtZpeVeqePM4fPGxZEpg6PQ9GdOn9Qfc=;
-	b=x3G2Yh+WF8bse2bC62OJJaDoSphgPQQV5gJgM8+KNL0txwsG45ahWusw4L/hZo1OD6j/q6
-	C5rl1V7XJjK04M/WpBwOPdFENLOHK+NgMG1ew84cFE8Xk/sC4w/lkGxIrBEFwmb/qrxyqm
-	JiYEkZjBOnsS7ck8uGt9bcBw4sel3IY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795598072;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9ruMhBL6geZHtZpeVeqePM4fPGxZEpg6PQ9GdOn9Qfc=;
-	b=BX6TdYFy9nKZNMhG8YeDvFJ4MGChj9K8CkJWw0Y32c4LF6QEM5Gl11K3mKe2Okz1D6UPdw
-	g/ZdUtFMJKyLoeBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7B3141339F;
-	Wed, 25 Nov 2026 09:14:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id v3WvFfimBmsDGgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 25 Nov 2026 09:14:32 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 0981627BD4; Wed, 25 Nov 2026 10:14:28 +0100 (CET)
-Date: Wed, 25 Nov 2026 10:14:28 +0100
-From: Jan Kara <jack@suse.cz>
-To: Henry Martin <bsdhenrymartin@gmail.com>
-Cc: Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, Nhat Pham <nphamcs@gmail.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] mm: report all-zero cachestat for DAX mappings
-Message-ID: <mixn4cl5mnx5e2o3e5tlklaa5ynlu6qadorrlpifywqstbep2w@o6tylgke5umz>
-References: <20261125030432.274396-1-bsdhenrymartin@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=B9IYqj7t
+X-KPN-MessageId: ef456eb1-e8b2-11f1-98a9-005056994fde
+Received: from mta.kpnmail.nl (unknown [10.31.161.190])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id ef456eb1-e8b2-11f1-98a9-005056994fde;
+	Wed, 25 Nov 2026 10:31:04 +0100 (CET)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id ef41f494-e8b2-11f1-92a9-0050569977a2;
+	Wed, 25 Nov 2026 10:31:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=vYW0lwNtZZp4xMT2btYq2BWBULtTKydr9Jf0sny4QFw=;
+	b=B9IYqj7tcmscv9KSkAsiO9t2Q5Z4gC6oTu2tMa92BR7tJDPkJpiygv4d+cymrEaZWCu7XjBj3nbHH
+	 +3Re+xbFr2GjqgAVLb25aP5GPnTggSiwMmkU7+LaMDVgJL+puCNVXXE3ii/crNsCCq+C9mCYIAmCuZ
+	 DuVc5m9E8miIzRO9ffJad8VApbPGvRVpIwnRZURQAXxxgCiKvlYWFaKEvhwOZjWArQ1AVVJnmCTttQ
+	 MkM+K21YXpdhycvedKrM9qbhhSbQrkJq1qYrEfpKgnI8T4AzpAbnEp7326KTfN/CObwRgyHjYKD5TF
+	 9GEypZOLG6HPOl78PnBsYxxvS0QUitQ==
+X-KPN-MID: 33|MZfs89VgIfoUJX5X2lu9dngP4j3RU3Wytuy/Lq5JXjuWesmN2j2bIIbiN5/nPZ8
+ jHrsvxnk9cVg6LP55kyafNw==
+X-CMASSUN: 33|UKWRjPuv7sOoLQoEalkZh/lhDxaoITAfJMz4dawX254Bhx/9sWugtQscX8vqyD8
+ dzeSSc5ojlTE1npcaQcmQAw==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh06 (cpxoxapps-mh06.personalcloud.so.kpn.org [10.128.135.212])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id ef366f9d-e8b2-11f1-94bb-005056995d6c;
+	Wed, 25 Nov 2026 10:31:04 +0100 (CET)
+Date: Wed, 25 Nov 2026 10:31:04 +0100 (CET)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Askar Safin <safinaskar@gmail.com>
+Cc: amir73il@gmail.com, brauner@kernel.org, cyphar@cyphar.com,
+	gregkh@linuxfoundation.org, jack@suse.cz, jlayton@kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	neil@brown.name, shakeel.butt@linux.dev, tj@kernel.org,
+	viro@zeniv.linux.org.uk
+Message-ID: <1709003566.2632299.1795599064030@kpc.webmail.kpnmail.nl>
+In-Reply-To: <20261125062146.940336-1-safinaskar@gmail.com>
+References: <20261024213539.1307600-8-jkoolstra@xs4all.nl>
+ <20261125062146.940336-1-safinaskar@gmail.com>
+Subject: Re: [PATCH v8 07/12] vfs: short-circuit MAY_WRITE access for
+ O_DIRECTORY opens
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -111,112 +84,75 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261125030432.274396-1-bsdhenrymartin@gmail.com>
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-12.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[infradead.org,suse.cz,linux-foundation.org,gmail.com,cmpxchg.org,vger.kernel.org,kvack.org];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.com:email]
-X-Spam-Score: -12.80
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-On Wed 25-11-26 11:04:32, Henry Martin wrote:
-> filemap_cachestat() treats every xarray value entry as a workingset
-> shadow.  On DAX mappings, value entries are DAX exceptional entries:
-> same value bit, different bit layout (flags in the low bits, pfn
-> above).  Decoded as a shadow, a DAX entry yields a bogus node id;
-> NODE_DATA() for it can be NULL, and lru_gen_test_recent() then
-> dereferences it:
-> 
->   Oops: general protection fault
->   RIP: 0010:lru_gen_test_recent+0xde/0x300
->   Call Trace:
->    workingset_test_recent
->    filemap_cachestat
->    __x64_sys_cachestat
-> 
-> Any writable file on a DAX mount triggers this once an mmap write
-> fault has populated entries.
-> 
-> DAX mappings have no page cache, so none of the cachestat fields
-> make sense for them.  Skip the xarray walk for them and report all
-> zeros, and document the behaviour in the syscall's kernel-doc.
-> 
-> This issue was discovered by Tencent CodeBuddy Security.
-> Cc: stable@vger.kernel.org
-> Fixes: cf264e1329fb ("cachestat: implement cachestat syscall")
-> Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
 
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
-> Changes in v2:
-> - Return all zeros for DAX mappings instead of counting DAX entries as
->   cached, per Jan Kara's suggestion (Nhat Pham agreed).  This also drops
->   the dirty-accounting gap and the inaccurate PMD-order claim from v1.
-> - Document the DAX behaviour in the syscall's kernel-doc.
+> Op 25-11-2026 01:21 EST schreef Askar Safin <safinaskar@gmail.com>:
 > 
-> Link: https://lore.kernel.org/linux-mm/lh4cnpy2kw3tdtmhubwhhvim25kxpqxo6xttt7sihyx7x5hqdf@3tvivew2qh7m/ [Jan Kara]
-> Link: https://lore.kernel.org/linux-mm/CAKEwX=Py7W0vOwxKdWMCZu3d=BbF2OkgDt6Tu_AHhEJZ06w0ew@mail.gmail.com/ [Nhat Pham]
-> Link: https://sashiko.dev/#/patchset/20261123030014.3116755-1-bsdhenrymartin@gmail.com?part=1
-> 
->  mm/filemap.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index a1b2ca5b933cb..4f6fd1f4caedb 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -4779,7 +4779,8 @@ static inline bool can_do_cachestat(struct file *f)
->   * The `flags` argument is unused for now, but is included for future
->   * extensibility. User should pass 0 (i.e no flag specified).
->   *
-> - * Currently, hugetlbfs is not supported.
-> + * Currently, hugetlbfs is not supported.  DAX mappings have no page
-> + * cache, so cachestat() always reports all zeros for them.
->   *
->   * Because the status of a page can change after cachestat() checks it
->   * but before it returns to the application, the returned values may
-> @@ -4824,7 +4825,10 @@ SYSCALL_DEFINE4(cachestat, unsigned int, fd,
->  		csr.len == 0 ? ULONG_MAX : (csr.off + csr.len - 1) >> PAGE_SHIFT;
->  	memset(&cs, 0, sizeof(struct cachestat));
->  	mapping = fd_file(f)->f_mapping;
-> -	filemap_cachestat(mapping, first_index, last_index, &cs);
-> +
-> +	/* DAX mappings have no page cache; report all zeros. */
-> +	if (!dax_mapping(mapping))
-> +		filemap_cachestat(mapping, first_index, last_index, &cs);
 >  
->  	if (copy_to_user(cstat, &cs, sizeof(struct cachestat)))
->  		return -EFAULT;
-> -- 
-> 2.53.0
+> Jori Koolstra <jkoolstra@xs4all.nl>:
+> > Requesting write access on a directory can never succeed. Rather
+> > than performing a path-walk to determine whether the target is
+> > actually a directory (-EISDIR) or not (-ENOTDIR), or does not exist
+> > (-ENOENT), etc., we short-circuit to -ENOTDIR.
+> > 
+> > Currently O_WRONLY for directories is only blocked in may_open(),
+> > which happens after we have the inode for the target, so after any
+> > create via O_CREAT|O_DIRECTORY.
+> > 
+> > The advantage of short-circuiting is that we don't have to add even more
+> > logic to lookup_open() to differentiate -EISDIR/-ENOTDIR. Also, for
+> > filesystems that define ->atomic_open, handling this cannot even be done
+> > at the VFS level, as we can't know ahead what the result of the lookup
+> > will be.
+> > 
+> > Suggested-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> > Reviewed-by: NeilBrown <neil@brown.name>
+> > Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> > ---
+> >  fs/open.c | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> > 
+> > diff --git a/fs/open.c b/fs/open.c
+> > index e43f02ff64ac..4334f30bb7ff 100644
+> > --- a/fs/open.c
+> > +++ b/fs/open.c
+> > @@ -1343,6 +1343,15 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
+> >  
+> >  	op->intent = flags & O_PATH ? 0 : LOOKUP_OPEN;
+> >  
+> > +	/*
+> > +	 * Requesting write access on a directory can never succeed. Rather
+> > +	 * than performing a path-walk to determine whether the target is
+> > +	 * actually a directory (-EISDIR) or not (-ENOTDIR), we short-circuit
+> > +	 * to -ENOTDIR.
+> > +	 */
+> > +	if ((flags & O_DIRECTORY) && !(flags & __O_TMPFILE) && (acc_mode & MAY_WRITE))
+> > +		return -ENOTDIR;
+> > +
 > 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> Please, do -EISDIR here, not -ENOTDIR. You returning error here, **because** user attempts to write to **directory**. EISDIR is natural here, ENOTDIR is not.
+> 
+
+That's a fair point, and I have thought about this. The downside is that
+if we return -EISDIR there, that will also be returned if you open(O_DIRECTORY)
+what turns out to be a regular file. So you may then get -EISDIR for something not
+a directory.
+
+The semantics of -ENOTDIR here that I had in my mind is something like "the thing
+you are trying to do can NOT be done _with_ a DIRectory." It made a bit more sense
+to me (but only a bit.) Really it should be -ENOTWITHDIR or something...
+
+> (I'm human, not LLM.)
+> 
+
+Glad :)
+
+Best,
+Jori.
+
+> -- 
+> Askar Safin
