@@ -1,88 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795610652;
-	b=qOP95ipUXh3/vx3bDCIYbg9IFd/ZWG9mpJPBJwC46usucNRRFLk3Yaw5THdnDNw14Wo+
-	 gqUCr9MbJgvC/h6rNbR9gI5GuKvAr4/Nv8jDTRm9dQGZ2MA32wjy1779ZCA5yZXbbNlv3
-	 s/y9e5qKb/YPayYVLZG7NCWyxE/8rojZ1XNK3whiBi4x2cvxMZdsDirxql/+lkZj4NDTQ
-	 eCFFi5lwqrfEV0VKh0+l5o4p1+5sLcoEADMEWlOyagzoS+/ev3tqVAjAXI/ZHHy0X0NXQ
-	 bWlUKhBANCAShU/yk94/MOnTqJLzZc3LO49PLEPmsqfJu3wM7ubXgW2t7v+NuPNnlmQ==
+	t=1795610732;
+	b=pWKKN8LA3lBoEyBLV4b5gwyrdZo+TlFzCQ3W2Rn0kWCqNk6CdFAqs6b6HWw5Z9Knr0yz
+	 0qLFjiIjF/WOQrnjpcHiy41pKOh3tXfD3wj6OgtQpVazE/H0wLK9h1Vla8XfffTUuAzeL
+	 ZU6XXnnz0sLV1wykJ4btsPSYDXBhnd9157pCGKShX0h2FOWmYJWjf7wU/ZDwNZqPHxniH
+	 7iThyRqSGowAY8OAQ+nQyB+yPjrrEd38Q5Y5IrlwQ1vSNZCmVPPUcnVVOINsk1lOIVxjW
+	 ObU2e40hTEs1uNz/WDrWXHgRc9H83wfdLbHjyK8++yBNio/6xANNsoYKRDDpIw5ga+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795610652;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795610732;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
 	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=n3kRI1t8FC4sBJ1KlH6nbApPr67WWAzYu4YOF8wU9ro=;
-	b=tecVpvhvq8OKiOHxc0OjQUmdZEP/oI+xtHGAs0k8fmVE+hal/o+Qr35uM7iLk8ZlefJP
-	 ruhh5w9a3ydi9P3Cyob9KQcpAQGgT+cbROK5ND9169mjLoWp4m9zQV6IGC5EExYeOnB0k
-	 ZtmVjkP59qQTyO44F/QT+HrwggJHefglGWTYGJSMGvfgV37ZdoIzfvu4SDJh9tMFWrote
-	 umfGP5AOQUs2z8ESoycqkYo25A71I4HZ621hCFqnHsCv76jUq1ci1oipg8gt/EqCszYOP
-	 bRGtbLnIRv50NlGNvWOropTxMe7K7gOZWGpF9idsGIBGib3XZZ/pAF+aabosBBHfqqg==
+	bh=j8tGJOMZL0j/KUQBnDfeHMeTQs27ZK0iqIQ4+ayeZUU=;
+	b=BTEfoEVeHoQaG+I4ig+XP+blEBCNAYUqus6SHUer+gxPeKWYAi2Z/y/x5d86f9FDgNqd
+	 VqCuL/OldPfZ82SRWKGLDk95zbPVcFHZkCXB5BAalqc+PjbW3f3kK8KyPIPtfeNjJVuoz
+	 xXRWHsF+q45+2PIcJ4sASvCTqnS4txH+ksVvxJOlcT07bPeR+uNNSuuLfHLR6Jn6iGjxU
+	 s968SwRjCnEWYujayPX2lm91lzDfl1RVto+hjk2WcziihYMKWtn7e0I6GHgyPwtVzHlT5
+	 88CCI2jyiHay4PUMJDHM6i4MIKnsCtutRBOckIJ2pglfNkjmIZnkVME6UrChVnoAXPA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=amutable.com;
 	spf=pass smtp.mailfrom=amutable.com;
-	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=JcoUc7GM;
-	arc=none smtp.remote-ip=209.85.221.42
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Dn8fSjUJ;
+	arc=none smtp.remote-ip=209.85.128.48
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B809606A331
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 12:44:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8B809606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E44F5606A329
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 12:45:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E44F5606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=JcoUc7GM
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-491846221ffso4899905f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 04:44:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Dn8fSjUJ
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4bb6c7b6dbdso53013045e9.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 04:45:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1795610650; x=1796215450; darn=vger.kernel.org;
+        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1795610730; x=1796215530; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=n3kRI1t8FC4sBJ1KlH6nbApPr67WWAzYu4YOF8wU9ro=;
-        b=JcoUc7GMiAh0LkpV1E480w7GXCIAW/e8cF7hpO69S4aq0dcYx4tjFtoWiYr/DAm4+r
-         yQ/2E0q/ZEtANpcmhRiWttvENm2b4bj22INjO2Cx/R+/hBXaXVuDkjlb15+GWRRpJToA
-         gOt2R0IR6kS/Ao9M36XuCAmR5ct6HS3dYddtARbxeWS1JjHEBmwNCLXhc2QkvjRgk2lT
-         AJJAOIWWGoD+UkNdRCPXyT74UpyGH73ouJzCAPdkF/Lr70PZiakzkApmnO3aBQ+SwCeG
-         0TuQ+Y4k0z+qEetWXaTlu1C1y6AjZth3CoXXov75D3SM0G7QrDYTrkbxN01Y+ILgo/HG
-         90Nw==
+        bh=j8tGJOMZL0j/KUQBnDfeHMeTQs27ZK0iqIQ4+ayeZUU=;
+        b=Dn8fSjUJZ0W18CxI0+QBCtqPSCauc1BDi2lAYnZcUk/CGqeLcNTTMRBQW33oo9lIRF
+         +qyvu2+iBnTdmOFaW8crfcRdDgjN3stD2TkOd+qiSFU64QZ91RZmDEemG0ULNn1RY3iC
+         YFRu8prBJbwhpYRseFCHzdI0Xy1Rs6KvgbX+GhlEhKqDdK0OiWEd9dn9waUHZAoXcjMT
+         SsjAuOt7MYheWutuyfu5btVDQIYz6unWA7QWHe6zy/Iegke+cOWGKKoWX05Ks4iYqUbX
+         fZKTbaTyilEi/ETmhcznlr4c5D33jgH/U5Dd3FRA2SHdt5WUlH57N475qAk82MjsS/J+
+         uPnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795610650; x=1796215450;
+        d=1e100.net; s=20260707; t=1795610730; x=1796215530;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=n3kRI1t8FC4sBJ1KlH6nbApPr67WWAzYu4YOF8wU9ro=;
-        b=s5q1+8OFOkpW0lnh79O7O0BWNBqUjXN9WV3tZQnLNGvoVacVpJfpWcX1vzYwM4N71r
-         ZJ2wdqSnNu3LZTCkDvF91qZy/BmwD1/XbnHxPuQaWe7NmoK2lxn7OzVTZGrX9W2N1VdU
-         8kLaDZ2xlFkvpDgkZIKwaSo1Fb/6RbT73tNjmwK98jYbWtOmXNjrrzvHBJtE4nkiLG4M
-         360+U/yNpJydr4owx3pogMOKbQB/QXHa+XR3vX42N3k5OALnbHuJkLcIevwRaBOJSMq8
-         JSu1bnGWoUW4gEznWWC91eJ4NbCXLfoSTwleQnvBM+kVZ3Muv7E++QL7fcnbJiu11C+p
-         7ncw==
-X-Forwarded-Encrypted: i=1; AL+hErH1sTlSDECPSqxL21/xpO38Sqpvm6xN8uGtgY6cC8mYzELY0US/DyQSWrNbabP8Yyua8JscMsCILeH0p0xp@vger.kernel.org
-X-Gm-Message-State: APuU4Z9+1rpcn8p+AmTmXLPo8yTlT5Gi3fv2rzlfTCzaCaf/EeUyK0M6
-	EPsybLRz1/hwIgy9gMWXqqjLd39DLpItyuUtQ51RwS45/y6Vms8TXxSkocAndKn/sew5
-X-Gm-Gg: AZFdTZf4a1iYDM0fTwpKdOsEIr8S5dau+O6tL8QOCDbfIOriIm9k5PnEVmRPxQjIkNc
-	GRzvA7mweW5NkqXyGReonN7ZUOIzF8zsEnhnenYQFR9i4pWFSHo9BNEF5OYzAZXAgmXDkxiT4sK
-	9rFVpUdBgG1rcUqun3WjjTqIN2bLNCnV6pltq8G7/FL3xYJdFcsiwWjKHcYcE4kff34fuUuKySJ
-	MwgwGuZ+2VTvhvA8wvfMigCSQTKfC+1YkGRbSxeg7gbevQNqRQvUKI3sNBbRysV/dTZHYJOb089
-	ATAmfOybMRK01TBdytTuMBskSXApmIDP68iDHV3paWveeqLxeZpo3yjl/7fG1nABVPcjzS29vfE
-	Lm5rbNUY6qwJbqbG+rv9jHjzRClOuUEYEWWKJXTJjn2DX/RWST5Hl07zgSxwc3GD17GJLPON5My
-	0X0cieCWYIDqiPRNdBqOSYULWrCDmZxNYJihWa4CxkDlOXVWBzEZ2XGakxQtMEp8O4EIzIIviuW
-	LHKLf62Js9RVKKrIL4R6K5u06ZZEg7BFl8L5uEx1pSOSxhNrAhViqC79qr8kk4/11x2Ghwht8fp
-	VHwneza2VibrrYRbD8RG0bLoXhvvFZmRTof9vMIaM9/4LRVCzVs3Qks854LDWKIvhMRetqIBrks
-	gosY5Q4fc5jpclZTUsYFT2l6YuZgVKEFjdhnGind8hA+xsP+wW+PGQ0E=
-X-Received: by 2002:a5d:584f:0:b0:4b9:8ac3:f5fa with SMTP id ffacd0b85a97d-4b98ac3f6d5mr4714062f8f.48.1795610649431;
-        Wed, 25 Nov 2026 04:44:09 -0800 (PST)
+        bh=j8tGJOMZL0j/KUQBnDfeHMeTQs27ZK0iqIQ4+ayeZUU=;
+        b=1PF1+6nvksoXmS+RlTlmZQFkY6FAaprH4IueQ+x3EmKV/zV1p9pFNHhG270ZlXGR89
+         sCG1eMTQZZ8vFzqIky5jcj65oLiWN/gcF1VWW9Ldbax6i7XZWiTOUeWEOrPZcStqg4tW
+         cAP66A+qs1Lb6Qtzw7vIk28KhBqpcUXg5aBYB3RO/p65qdzauS3Mv8WA+Loc6wxve7nS
+         nBhF1o442O2T74Qe/jOusM+rhQyDSaIV1B73yiIHdpMNu1XBBwFB7KLaP4pgAZ+DD+tr
+         0+hjfXfs51f6IxPD1HP80Hlif5GOIPu/04MGE/oSwxtfzdOolV4sDy2Kst4JkZJyt9s9
+         GR+Q==
+X-Forwarded-Encrypted: i=1; AL+hErFEqsQRQwbwEkT4rvwmZq5B41PzsgZTpcBMZjUVKxr3Gz8IRvSBR0HajoiPs/RWPcpNM+JOtiXMzwqpmI5n@vger.kernel.org
+X-Gm-Message-State: APuU4Z+eLJuvb8KjfUzcfIYlDMEHVkix5ndpPeUo0jkZgjLRaaNft2Mp
+	OXMLJpVqm8hATmeY8UwBGcGJuXwZhzjBEHdeNaD4jFxs77/j/BzfC2F5UP+d5mdhfKt8
+X-Gm-Gg: AZFdTZdapXwUkfgwCnv2bkt2QNMxUBumgudZPecmWZhp79sienO5xlxEvh9GgCAerqp
+	0OJ2HDPxUon4q1UirU7REDDOImi7QNLwMEsB7UwrAIHsjKku4wfUyJUfmwAgR4iXEKwkuxj3Bay
+	zAq56VyqiICQYOsGYNqb5rbUck5+wz9jeBNCNYf6zl6mPLo0JCXC9GTmlC+7Sd18JDrT5SAySFc
+	l7HP3nsqEq9MAQWuwPSKneLjiE1qTtm23Ohg/4K7QZmML8XZhdEhPBf/SWlwsWO0LOO/+kptNZq
+	tXEMH24EOVZ9GTp5AysL00In0vLZxJUsdjtLTw5d44ZBAoY37Vl2p4tVoHxLhaysXfCix/pI4f8
+	KkKkfrlJ6HeK+6AeOPidE0w4UFE9FyJPMGx1aF2kI0xK+JmjiND32FUS/hUYogMFJgOeOlHl4vJ
+	T1+LGRD9+CH5dChECMuEKn6yjOyMGtdxwIPzUFxsGclCyqEQghfkY7J3AbzFb2LVn+W2MRDL7w9
+	anD/2grwZ7VYdooZSJ80JSG9xJdAbSQ9toECbSxuQrkzoib8PL6974nZQBu/WIOlRY9msaRZcKw
+	03e1/AJLp/cDzej2Fr42W+jAV5xcL9614peU7qYroBvmxNmgHhehOcBh5bgZbA89wBkOn47Q2U8
+	WUv290Pl7IwL55zrWNAxu0zhiMTg2hfYcJhEgFXTsXnyFPsZ19qxhcQ==
+X-Received: by 2002:a05:600c:8184:b0:4a3:5a7b:6002 with SMTP id 5b1f17b1804b1-4bb8881e969mr338093175e9.28.1795610730212;
+        Wed, 25 Nov 2026 04:45:30 -0800 (PST)
 Received: from ?IPv6:2003:cf:572c:2800:c235:97b:8b16:8928? (p200300cf572c2800c235097b8b168928.dip0.t-ipconnect.de. [2003:cf:572c:2800:c235:97b:8b16:8928])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6a67fe75sm38964871f8f.24.2026.11.25.04.44.08
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bba3d3679bsm34001885e9.2.2026.11.25.04.45.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 04:44:08 -0800 (PST)
-Message-ID: <e6c23984f7b47f9dcfffd6de2f6fdf75d07a14fe.camel@amutable.com>
-Subject: Re: [PATCH v2 01/13] ovl: don't warn when the lazy lowerdata lookup
- fails in ovl_d_real()
+        Wed, 25 Nov 2026 04:45:29 -0800 (PST)
+Message-ID: <9f460569c2d4236f470231a5cce0b6086c612e19.camel@amutable.com>
+Subject: Re: [PATCH v2 02/13] fs: add d_real_data_inode() and
+ d_real_metadata_inode()
 From: Alexander Mikhalitsyn <alex@amutable.com>
 To: Christian Brauner <brauner@kernel.org>, Amir Goldstein
  <amir73il@gmail.com>, 	linux-fsdevel@vger.kernel.org
@@ -90,12 +90,11 @@ Cc: Chris Down <chris@chrisdown.name>, Miklos Szeredi <mszeredi@redhat.com>,
  	linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org,
  bpf@vger.kernel.org, 	linux-trace-kernel@vger.kernel.org,
  linux-integrity@vger.kernel.org, 	linux-security-module@vger.kernel.org,
- linux-mm@kvack.org, 	stable@vger.kernel.org, Sashiko
- <sashiko-bot@kernel.org>
-Date: Wed, 25 Nov 2026 13:44:07 +0100
-In-Reply-To: <20261116-work-ovl-d_real-v2-1-90564c4ae347@kernel.org>
+ linux-mm@kvack.org
+Date: Wed, 25 Nov 2026 13:45:27 +0100
+In-Reply-To: <20261116-work-ovl-d_real-v2-2-90564c4ae347@kernel.org>
 References: <20261116-work-ovl-d_real-v2-0-90564c4ae347@kernel.org>
-	 <20261116-work-ovl-d_real-v2-1-90564c4ae347@kernel.org>
+	 <20261116-work-ovl-d_real-v2-2-90564c4ae347@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-0+deb13u1 
@@ -110,99 +109,127 @@ Precedence: list
 MIME-Version: 1.0
 
 On Mon, 2026-11-16 at 10:43 +0100, Christian Brauner wrote:
-> ovl_d_real() looks up the data of a metacopy file in a data-only
-> layer
-> itself if nothing has done that yet. If that lookup fails it WARN()s
-> and
-> returns the overlayfs dentry.
+> Currently, d_real() can't fail. When overlayfs fails to look up the
+> data
+> of a metacopy file in a data-only layer it hands back the overlayfs
+> dentry and callers silently work with the overlayfs inode. That's
+> more
+> problematic than current callers realize.
 >=20
-> Commit 42dd69ae1af4 ("ovl: implement lazy lookup of lowerdata in
-> data-only layers") assumed that the file would be read before
-> trace_uprobe places a uprobe on it so the data would be there
-> already.
+> For trace_uprobe and bpf's uprobe_multi it means uprobe_register()
+> fails
+> with an -EIO that has nothing to do with the actual problem. For IMA
+> it
+> means the stacked change detection is skipped and for IPE the file is
+> evaluated against an inode that has none of the properties of the
+> real
+> file.
 >=20
-> But nothing actually guarantees that. trace_uprobe takes the path
-> from
-> kern_path() and calls d_real_inode() on it when the event is created
-> and
-> again when it is enabled. So a uprobe on a metacopy file whose
-> redirect
-> points at nothing warns twice:
+> Teach d_real() to fail and teach all callers to handle errors. This
+> adds
+> two helpers for the callers to switch over to:
 >=20
-> =C2=A0 ovl_d_real(/f, 0): real dentry not found
-> =C2=A0 WARNING: fs/overlayfs/super.c:79 at ovl_d_real+0xc9/0x210, CPU#2:
-> sh/279
-> =C2=A0 Call Trace:
-> =C2=A0=C2=A0 <TASK>
-> =C2=A0=C2=A0 __trace_uprobe_create+0x1869/0x25b0
-> =C2=A0=C2=A0 trace_probe_create+0xcc/0xe0
-> =C2=A0=C2=A0 dyn_event_create+0x46/0x70
-> =C2=A0=C2=A0 create_or_delete_trace_uprobe+0x3c/0x70
-> =C2=A0=C2=A0 trace_parse_run_command+0x1a6/0x320
-> =C2=A0=C2=A0 vfs_write+0x1cd/0xfa0
-> =C2=A0=C2=A0 ksys_write+0x116/0x250
-> =C2=A0=C2=A0 do_syscall_64+0x10e/0x5e0
-> =C2=A0=C2=A0 entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> =C2=A0=C2=A0 </TASK>
+> - d_real_data_inode() returns the inode hosting the data or an
+> ERR_PTR()
+> =C2=A0 if that can't be resolved.
 >=20
-> bpf's uprobe_multi does the same.
->=20
-> A failed lookup isn't a bug though. The data can be missing, its
-> verity
-> digest can be wrong or a signal can interrupt the wait for the inode
-> lock. ovl_open() simply fails in that case and
-> ovl_maybe_lookup_lowerdata() already warns ratelimited about failed
-> lookups. So return the overlayfs dentry without warning. That's what
-> the
-> WARN() path returned anyway.
->=20
-> Fixes: 42dd69ae1af4 ("ovl: implement lazy lookup of lowerdata in
-> data-only layers")
-> Cc: stable@vger.kernel.org=C2=A0# v6.5+
-> Reported-by: Sashiko <sashiko-bot@kernel.org>
-> Closes: https://lore.kernel.org/all/sashiko-outbox-214581@kernel.org
-> Reported-by: Chris Down <chris@chrisdown.name>
-> Closes:
-> https://lore.kernel.org/all/20261114120557.4bc1eb6e57218cdc@chrisdown.nam=
+> - d_real_metadata_inode() returns the inode hosting the metadata or
+> an
+> =C2=A0 ERR_PTR(). overlayfs never has to look anything up for the metadat=
+a
+> =C2=A0 but we don't want to promise that it never fails. So callers handl=
 e
+> =C2=A0 errors for it as well.
+>=20
+> d_real() can't fail yet so this is a pure preparation. d_real_inode()
+> stays around until all callers are converted.
+>=20
+> No functional changes.
+>=20
+> Suggested-by: Amir Goldstein <amir73il@gmail.com>
+> Link:
+> https://lore.kernel.org/all/CAOQ4uxhGxpBtMZ5kfuzR1tQAewiecoX7UjXQRo91QjJH=
+H9T_Yw@mail.gmail.com
 > Reviewed-by: Amir Goldstein <amir73il@gmail.com>
 
 Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 > ---
-> =C2=A0fs/overlayfs/super.c | 10 ++++------
-> =C2=A01 file changed, 4 insertions(+), 6 deletions(-)
+> =C2=A0include/linux/dcache.h | 45
+> +++++++++++++++++++++++++++++++++++++++++++++
+> =C2=A01 file changed, 45 insertions(+)
 >=20
-> diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
-> index 08695a99f4f93..1985b553a47b7 100644
-> --- a/fs/overlayfs/super.c
-> +++ b/fs/overlayfs/super.c
-> @@ -58,15 +58,13 @@ static struct dentry *ovl_d_real(struct dentry
-> *dentry, enum d_real_type type)
+> diff --git a/include/linux/dcache.h b/include/linux/dcache.h
+> index 84b0cfe4ed0e7..a75016a713d4a 100644
+> --- a/include/linux/dcache.h
+> +++ b/include/linux/dcache.h
+> @@ -3,6 +3,7 @@
+> =C2=A0#define __LINUX_DCACHE_H
 > =C2=A0
-> =C2=A0	/*
-> =C2=A0	 * Best effort lazy lookup of lowerdata for D_REAL_DATA case
-> to return
-> -	 * the real lowerdata dentry.=C2=A0 The only current caller of
-> d_real() with
-> -	 * D_REAL_DATA is d_real_inode() from trace_uprobe and this
-> caller is
-> -	 * likely going to be followed reading from the file, before
-> placing
-> -	 * uprobes on offset within the file, so lowerdata should be
-> available
-> -	 * when setting the uprobe.
-> +	 * the real lowerdata dentry. Callers may ask for files that
-> were never
-> +	 * opened, e.g. for uprobes or O_PATH files, so the lookup
-> can fail
-> +	 * here. Return the overlayfs dentry then.
-> =C2=A0	 */
-> =C2=A0	err =3D ovl_verify_lowerdata(dentry);
-> =C2=A0	if (err)
-> -		goto bug;
-> +		return dentry;
-> =C2=A0	lower =3D ovl_dentry_lowerdata(dentry);
-> =C2=A0	if (!lower)
-> =C2=A0		goto bug;
+> =C2=A0#include <linux/atomic.h>
+> +#include <linux/err.h>
+> =C2=A0#include <linux/list.h>
+> =C2=A0#include <linux/math.h>
+> =C2=A0#include <linux/rculist.h>
+> @@ -660,6 +661,50 @@ static inline struct inode *d_real_inode(const
+> struct dentry *dentry)
+> =C2=A0	return d_inode(d_real((struct dentry *) dentry,
+> D_REAL_DATA));
+> =C2=A0}
+> =C2=A0
+> +/**
+> + * d_real_data_inode - Return the real inode hosting the data
+> + * @dentry: The dentry to query
+> + *
+> + * If @dentry is a regular file on a union/overlay, then return the
+> + * underlying, real inode that hosts its data. Otherwise return
+> d_inode().
+> + *
+> + * The union/overlay may have to look up the data first. This can
+> sleep and it
+> + * can fail, e.g., because the data is missing or because its verity
+> digest
+> + * doesn't match.
+> + *
+> + * Return: The real inode hosting the data of @dentry, or an
+> ERR_PTR() if it
+> + * can't be resolved.
+> + */
+> +static inline struct inode *d_real_data_inode(struct dentry *dentry)
+> +{
+> +	struct dentry *real;
+> +
+> +	real =3D d_real(dentry, D_REAL_DATA);
+> +	if (IS_ERR(real))
+> +		return ERR_CAST(real);
+> +	return d_inode(real);
+> +}
+> +
+> +/**
+> + * d_real_metadata_inode - Return the real inode hosting the
+> metadata
+> + * @dentry: The dentry to query
+> + *
+> + * If @dentry is a regular file on a union/overlay, then return the
+> + * underlying, real inode that hosts its metadata. Otherwise return
+> d_inode().
+> + *
+> + * Return: The real inode hosting the metadata of @dentry, or an
+> ERR_PTR() if
+> + * it can't be resolved.
+> + */
+> +static inline struct inode *d_real_metadata_inode(struct dentry
+> *dentry)
+> +{
+> +	struct dentry *real;
+> +
+> +	real =3D d_real(dentry, D_REAL_METADATA);
+> +	if (IS_ERR(real))
+> +		return ERR_CAST(real);
+> +	return d_inode(real);
+> +}
+> +
+> =C2=A0struct name_snapshot {
+> =C2=A0	struct qstr name;
+> =C2=A0	union shortname_store inline_name;
