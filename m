@@ -1,49 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795646246;
-	b=LHE5LftFyKzPW1zfF6JfANZ9vBPX90I3pqsKK6ulUVNA0vpLK1AkUtLZ84o5DNfwsNj8
-	 VqxEKlEMNCBnbh6Ki0ZkNRbg5rxtL4RenlZvgyfDWX9NhFb91BeznMei+i0wDo3OorkSO
-	 MogQSr705fdylxK7sM81ZyJZvwzIOzvDDjWnRwNNWI/nfDOqHfsuinMl8b2Taa93+bNyq
-	 jzvXD8XJ3uot0OnzRc2KdMUIZ1/cLhXM42BD3gdLAKZdZ05UvnSKpTqmcNdiWlQwzqQFp
-	 by7tHymz93axePelDJNgUweb4FI4ENwTNpUfH+xo+yGAMdeBpx424Kdr+zBD+ylL43g==
+	t=1795646262;
+	b=UyD5PTmBQvbhCbUPdQufQW+OvV9aEWEZJUv1xxt5XVGKJobzKTCQx2i7tMLFDXCc7xrF
+	 7WL9nsCf3QoEwdJIyGkB/Jrvs44baq9Ro56KHAJuno/+h8mBsJkNziLk07+NB/de8mUqj
+	 hZTCwH+ocVb8ix+z3727cFI0kV2QyseTZpARbn9ivudfwurNuAwHBEat2DbwF6UMS6PQd
+	 /WC2wlBNB2opsmyZfTUNjcCUA5zCcBODyP0SyVy0WwyuFOrnSBXohGb90GcocyuIKA2Gp
+	 25sfQeQqzEKfrKpkpEf0AhJhJ2kwo5TossaC3Yg0Fz7TZJkrmSWl2E1aV2omw9LT3UQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795646246;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795646262;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=r/88ZmpA7ofzoMgWfgW+R9YyORRfy205haZxhA2urC0=;
-	b=VtgQRq3TQmlp1q9ioqapuOa8NNl9mXQZLdp8ffbx0ZC197MrQO41qRFUCNOldb7lGNUP
-	 h4EcoLNN4SpWuYEoqs09LgzxpLwUqB5EuOtClaFeElImNuRQwge3HidxMVIXB7UI+0OXo
-	 Lqmqidj1G5pxM5gVPSl8T0XcStpdqG8jHAVgMxK7WOXYkonaXF3ofhFezNnkbM8teb9J2
-	 Wb6t91iu3znEHkwoAcosFmzrWX+ZwznXEYgpb4QCAcQpLd1SGWPuSZJwdYqXhs9bAl+GE
-	 PvuU/mwRr1aJQ/rC2MjGPKoGdWClbkVz04IBWBlc5mPcWgvMW2m+feiFzVmnbnm822g==
+	bh=P+6EYpLgAE/mRgNpOZ7Q+hz1peRJcwyxpJJGTowJORQ=;
+	b=2mr38NWl6pHijN8/antxaplb3GBbJt9Zd3+KvJz98wU/Nh6LO78ZUecTauinLsy3rSn/
+	 ErsxL2CHr+G1RxhowdKWdqPBSFAUI6p2nr/yGmDxvBXheOFchIuJxXVdadtC4t8siJRrD
+	 m2GtG0aeWle2wETm7S3z9VjXBaOURlDztC5QO8iuG40SCv4mhpPK5BZVCBp+lgje/WjzI
+	 1YlEGlNP22zppJ36QCKmUnKe289NZuozVCOV1XnTb1NQUPdGS3oKi6gFEFaQ6yVYH2LBi
+	 M/91+qzv8Ycdy16hS8X/Hios6bIIRTiBN91J1ny9TGr6TRwtrDk7+whUefFWHIUa6UQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YJEKNsew;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oQvinOFN;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB64606A321;
-	Wed, 25 Nov 2026 22:37:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C07606A31E;
+	Wed, 25 Nov 2026 22:37:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YJEKNsew
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4252B1F000CF;
-	Wed, 25 Nov 2026 22:37:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oQvinOFN
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 078B91F000F2;
+	Wed, 25 Nov 2026 22:37:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795646245;
-	bh=r/88ZmpA7ofzoMgWfgW+R9YyORRfy205haZxhA2urC0=;
+	s=k20260515; t=1795646261;
+	bh=P+6EYpLgAE/mRgNpOZ7Q+hz1peRJcwyxpJJGTowJORQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=YJEKNsewmLI2r18oxstIpVnByWfyrcBn6xzzvapfFHD1JVPvOLaFRvDpplT/GBlud
-	 GxAcgZQbQaqlAy7PQnj201vX8pgyoYiDrp4ZxoW+0DybXurghchrZUBbrxSQgVugQ7
-	 zWqmufBhrC3MMeZfcm7v4o9SbFWg58U7UmXX/b97O181tlYyXEaEdwsQ9XROgNWZD7
-	 dcKa20kW+EAGZOc18ONlXxjhVZGJp/NXcEQwp461Y69pB4NLisNIB1IMqY9/63Xsj5
-	 QUSZbxnNr6t2Iv1gGR0kGrw4ZV5TDJltnZNXPFbZrVZcStWRc9Ksyx1nlY4AfU5DZk
-	 Y/qnIDWEZv/5w==
+	b=oQvinOFN/+eS1gGNlyA1jrdenJLPZtq89iypBXtBD1BQptJqVTX8+7qZpvlAuw+So
+	 mvtePvyGjYUzUSP9Dd9Z6JFJEtsSE47C1cECBg4vBmMC6X/HvWMN+a9DgTKUU4vwT4
+	 NbOKg9iC2ODpta1AzEMd74Wf5QHE8zXqS1bMsqKBLH9n1/Gu61xk/52CFGisAS0S+7
+	 Y8axHVPNj0oaBbSpQcD2ffZCXyELzvSEyF0DGvOg2dYGIJg3kHOOX84fJQBegxe+pQ
+	 ofKaZOBjgb1tNK67YWADuwG5m/rDL6he2H1p9LhgD/eJzMlWDkR/n6C9xhRc1HgT8l
+	 +jZA56D1JMxHg==
 From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Wed, 25 Nov 2026 23:33:13 +0100
-Subject: [PATCH 15/21] mm/hugetlb: stop accounting HugetlbPages once PMD
- tables were shared
+Date: Wed, 25 Nov 2026 23:33:14 +0100
+Subject: [PATCH 16/21] mm/hugetlb_cgroup: track in-use folios per cgroup
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,7 +54,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261125-hugetlb_fixes_2-v1-15-db27fd2f71a8@kernel.org>
+Message-Id: <20261125-hugetlb_fixes_2-v1-16-db27fd2f71a8@kernel.org>
 References: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
 In-Reply-To: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
 To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
@@ -98,82 +97,214 @@ Cc: linux-mm@kvack.org, Jason Gunthorpe <jgg@ziepe.ca>,
  "David Hildenbrand (Arm)" <david@kernel.org>, 
  Chris Mason <mason@kernel.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3111; i=david@kernel.org;
- h=from:subject:message-id; bh=K65bx0/PtdyC5pc7uEgYhhGf7zKSOQWw4kDznZNplgg=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLZk1S7z76RWxGrM3GtanjsH9u8zLUHszoyMrtX16v0K
- S2WL/7aUcrCIMbBICumyBIUfN/g5ct1tdVufMwwc1iZQIYwcHEKwERMAxkZPjDptDIbrc0y8lkg
- db3DYeqRRtP/EhPXLpiqcHdfR8/MhQz/I+9YG1yY9WPudHOBvAeXo797x7Dpx+5pjVtcrjT9dUY
- IAwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7023; i=david@kernel.org;
+ h=from:subject:message-id; bh=Un1Xv2jSf94pjywu3PzLRYXUs4bjXbYIlpqIZ6naE1Y=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLZk1SdXkcXzRcvvv/mxMoDJ4R9jYVdLxw990HLKkZV+
+ WFdxu5fHaUsDGIcDLJiiixBwfcNXr5cV1vtxscMM4eVCWQIAxenAFzEj+GfrlOwQu95w3Oly51v
+ XQ+zduRnj3/PyVlaIRmjb6awtmkuw/9Ih2jjPuuKRWtFrk7dt+tvq065yqQlngdOdEzsXdxyxJ4
+ HAA==
 X-Developer-Key: i=david@kernel.org; a=openpgp;
  fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-Sharing hugetlb PMD tables can leave HugetlbPages in /proc/<pid>/status
-too low or too high, or make it underflow: when (un)mapping a folio in a
-shared PMD table, we only adjust mm->hugetlb_usage of the MM we process,
-not of the other sharers.
+From: Chris Mason <mason@kernel.org>
 
-Accounting this precisely is not worth it for a statistic, so let's just
-give up: once an MM shares a PMD table, set mm->hugetlb_usage of both
-MMs to LONG_MIN / 2, and report negative values as 0. Later updates
-cannot realistically make it positive again, as PMD table sharing is
-64-bit only.
+When offlining a hugetlb cgroup, hugetlb_cgroup_css_offline() walks the
+list of all in-use hugetlb folios of each hstate with hugetlb_lock held
+and interrupts disabled, to reparent the folios charged to the dying
+cgroup. With many in-use hugetlb folios, that can keep interrupts
+disabled for a long time on every hugetlb cgroup removal, even for
+cgroups that never charged any hugetlb folios.
 
-Document that HugetlbPages is 0 once a process shared hugetlb PMD page
-tables.
+Let's fix it by keeping in-use folios that are charged to a hugetlb
+cgroup on per-cgroup lists, so offlining only has to walk the folios of
+the dying cgroup.
 
-This has low urgency, as it only affects a statistic. Let's not CC
-stable.
+Process in batches to not keep interrupts disabled for too long when a
+single cgroup has many folios. Use batches of 32, like reclaim does with
+SWAP_CLUSTER_MAX.
 
-Fixes: 5d317b2b6536 ("mm: hugetlb: proc: add HugetlbPages field to /proc/PID/status")
-Reported-by: Chris Mason <mason@kernel.org>
+This has low urgency, as it only matters with a lot of hugetlb folios;
+let's not CC stable.
+
+Fixes: da1def55919f ("hugetlb/cgroup: add support for cgroup removal")
+Signed-off-by: Chris Mason <mason@kernel.org>
+[ david: add lock checks, add HUGETLB_CGROUP_OFFLINE_BATCH, simplify
+  comments and description ]
 Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 ---
- Documentation/filesystems/proc.rst | 3 ++-
- mm/hugetlb.c                       | 9 ++++++++-
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ include/linux/hugetlb_cgroup.h | 20 ++++++++++++++++++++
+ mm/hugetlb.c                   |  4 ++--
+ mm/hugetlb_cgroup.c            | 34 ++++++++++++++++------------------
+ 3 files changed, 38 insertions(+), 20 deletions(-)
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index bcbcb41814d96..8696359b06498 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -268,7 +268,8 @@ It's slow but very precise.
-  VmPTE                       size of page table entries
-  VmSwap                      amount of swap used by anonymous private data
-                              (shmem swap usage is not included)
-- HugetlbPages                size of hugetlb memory portions
-+ HugetlbPages                size of hugetlb memory portions (0 once the
-+                             process shared hugetlb PMD page tables)
-  CoreDumping                 process's memory is currently being dumped
-                              (killing the process may lead to a corrupted core)
-  THP_enabled                 process is allowed to use THP (returns 0 when
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 89d71e3dadd77..796f02a4ded63 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -4744,8 +4744,9 @@ void hugetlb_show_meminfo_node(int nid)
+diff --git a/include/linux/hugetlb_cgroup.h b/include/linux/hugetlb_cgroup.h
+index b4e0958eabf3b..1c437eb2e1c30 100644
+--- a/include/linux/hugetlb_cgroup.h
++++ b/include/linux/hugetlb_cgroup.h
+@@ -54,6 +54,9 @@ struct hugetlb_cgroup {
+ 	/* Handle for "hugetlb.events.local" */
+ 	struct cgroup_file events_local_file[HUGE_MAX_HSTATE];
  
- void hugetlb_report_usage(struct seq_file *m, struct mm_struct *mm)
- {
-+	/* Negative once the MM shared PMD tables, see huge_pmd_share(). */
- 	seq_printf(m, "HugetlbPages:\t%8lu kB\n",
--		   K(atomic_long_read(&mm->hugetlb_usage)));
-+		   K(max(atomic_long_read(&mm->hugetlb_usage), 0L)));
++	/* In-use folios whose usage is charged here, under hugetlb_lock. */
++	struct list_head activelist[HUGE_MAX_HSTATE];
++
+ 	struct hugetlb_cgroup_per_node *nodeinfo[];
+ };
+ 
+@@ -100,6 +103,17 @@ static inline void set_hugetlb_cgroup_rsvd(struct folio *folio,
+ 	__set_hugetlb_cgroup(folio, h_cg, true);
  }
  
- /* Return the number pages of memory we physically have, in PAGE_SIZE units. */
-@@ -7310,6 +7311,12 @@ pte_t *huge_pmd_share(struct mm_struct *mm, struct vm_area_struct *vma,
- 				(pmd_t *)((unsigned long)spte & PAGE_MASK));
- 		hugetlbfs_pmd_sharing_inc(file_inode(vma->vm_file));
- 		mm_inc_nr_pmds(mm);
-+		/*
-+		 * (Un)mapping folios with shared PMD tables would require
-+		 * updating statistics of all MMs. Instead, give up accounting.
-+		 */
-+		atomic_long_set(&mm->hugetlb_usage, LONG_MIN / 2);
-+		atomic_long_set(&svma->vm_mm->hugetlb_usage, LONG_MIN / 2);
- 	} else {
- 		ptdesc_pmd_pts_dec(virt_to_ptdesc(spte));
++static inline struct list_head *hugetlb_folio_activelist(struct folio *folio)
++{
++	struct hugetlb_cgroup *h_cg = hugetlb_cgroup_from_folio(folio);
++	struct hstate *h = folio_hstate(folio);
++
++	lockdep_assert_held(&hugetlb_lock);
++	if (!h_cg)
++		return &h->hugepage_activelist;
++	return &h_cg->activelist[hstate_index(h)];
++}
++
+ static inline bool hugetlb_cgroup_disabled(void)
+ {
+ 	return !cgroup_subsys_enabled(hugetlb_cgrp_subsys);
+@@ -185,6 +199,12 @@ static inline void set_hugetlb_cgroup_rsvd(struct folio *folio,
+ {
+ }
+ 
++static inline struct list_head *hugetlb_folio_activelist(struct folio *folio)
++{
++	lockdep_assert_held(&hugetlb_lock);
++	return &folio_hstate(folio)->hugepage_activelist;
++}
++
+ static inline bool hugetlb_cgroup_disabled(void)
+ {
+ 	return true;
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 796f02a4ded63..5db97f6d15595 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -7608,7 +7608,7 @@ void folio_putback_hugetlb(struct folio *folio)
+ {
+ 	spin_lock_irq(&hugetlb_lock);
+ 	folio_set_hugetlb_migratable(folio);
+-	list_move_tail(&folio->lru, &(folio_hstate(folio))->hugepage_activelist);
++	list_move_tail(&folio->lru, hugetlb_folio_activelist(folio));
+ 	spin_unlock_irq(&hugetlb_lock);
+ 	folio_put(folio);
+ }
+@@ -7684,7 +7684,7 @@ void move_hugetlb_state(struct folio *old_folio, struct folio *new_folio,
+ 	 */
+ 	spin_lock_irq(&hugetlb_lock);
+ 	folio_set_hugetlb_migratable(new_folio);
+-	list_move_tail(&new_folio->lru, &(folio_hstate(new_folio))->hugepage_activelist);
++	list_move_tail(&new_folio->lru, hugetlb_folio_activelist(new_folio));
+ 	spin_unlock_irq(&hugetlb_lock);
+ }
+ 
+diff --git a/mm/hugetlb_cgroup.c b/mm/hugetlb_cgroup.c
+index 6921b18572666..6ee771334a3bd 100644
+--- a/mm/hugetlb_cgroup.c
++++ b/mm/hugetlb_cgroup.c
+@@ -28,6 +28,8 @@
+ #define DFL_TMPL_SIZE		ARRAY_SIZE(hugetlb_dfl_tmpl)
+ #define LEGACY_TMPL_SIZE	ARRAY_SIZE(hugetlb_legacy_tmpl)
+ 
++#define HUGETLB_CGROUP_OFFLINE_BATCH	32
++
+ static struct hugetlb_cgroup *root_h_cgroup __read_mostly;
+ static struct cftype *dfl_files;
+ static struct cftype *legacy_files;
+@@ -123,6 +125,8 @@ static void hugetlb_cgroup_init(struct hugetlb_cgroup *h_cgroup,
+ 		VM_WARN_ON_ONCE(ret);
+ 		ret = page_counter_set_max(rsvd, limit);
+ 		VM_WARN_ON_ONCE(ret);
++
++		INIT_LIST_HEAD(&h_cgroup->activelist[idx]);
  	}
+ }
+ 
+@@ -219,18 +223,8 @@ static void hugetlb_cgroup_move_parent(int idx, struct hugetlb_cgroup *h_cg,
+ {
+ 	unsigned int nr_pages;
+ 	struct page_counter *counter;
+-	struct hugetlb_cgroup *hcg;
+ 	struct hugetlb_cgroup *parent = parent_hugetlb_cgroup(h_cg);
+ 
+-	hcg = hugetlb_cgroup_from_folio(folio);
+-	/*
+-	 * We can have pages in active list without any cgroup
+-	 * ie, hugepage with less than 3 pages. We can safely
+-	 * ignore those pages.
+-	 */
+-	if (!hcg || hcg != h_cg)
+-		goto out;
+-
+ 	nr_pages = folio_nr_pages(folio);
+ 	if (!parent) {
+ 		parent = root_h_cgroup;
+@@ -244,8 +238,7 @@ static void hugetlb_cgroup_move_parent(int idx, struct hugetlb_cgroup *h_cg,
+ 	hugetlb_cgroup_move_usage(h_cg, parent, folio, folio);
+ 
+ 	set_hugetlb_cgroup(folio, parent);
+-out:
+-	return;
++	list_move(&folio->lru, hugetlb_folio_activelist(folio));
+ }
+ 
+ /*
+@@ -255,15 +248,20 @@ static void hugetlb_cgroup_move_parent(int idx, struct hugetlb_cgroup *h_cg,
+ static void hugetlb_cgroup_css_offline(struct cgroup_subsys_state *css)
+ {
+ 	struct hugetlb_cgroup *h_cg = hugetlb_cgroup_from_css(css);
++	struct folio *folio, *next;
+ 	struct hstate *h;
+-	struct folio *folio;
+ 
+ 	do {
+ 		for_each_hstate(h) {
+-			spin_lock_irq(&hugetlb_lock);
+-			list_for_each_entry(folio, &h->hugepage_activelist, lru)
+-				hugetlb_cgroup_move_parent(hstate_index(h), h_cg, folio);
++			int idx = hstate_index(h);
++			unsigned int nr = 0;
+ 
++			spin_lock_irq(&hugetlb_lock);
++			list_for_each_entry_safe(folio, next, &h_cg->activelist[idx], lru) {
++				hugetlb_cgroup_move_parent(idx, h_cg, folio);
++				if (++nr == HUGETLB_CGROUP_OFFLINE_BATCH)
++					break;
++			}
+ 			spin_unlock_irq(&hugetlb_lock);
+ 		}
+ 		cond_resched();
+@@ -367,6 +365,7 @@ static void __hugetlb_cgroup_commit_charge(int idx, unsigned long nr_pages,
+ 		 */
+ 		WRITE_ONCE(h_cg->nodeinfo[folio_nid(folio)]->usage[idx],
+ 			   usage + nr_pages);
++		list_move(&folio->lru, hugetlb_folio_activelist(folio));
+ 	}
+ out:
+ 	if (!rsvd && charged_h_cg)
+@@ -940,7 +939,6 @@ void hugetlb_cgroup_migrate(struct folio *old_folio, struct folio *new_folio)
+ {
+ 	struct hugetlb_cgroup *h_cg;
+ 	struct hugetlb_cgroup *h_cg_rsvd;
+-	struct hstate *h = folio_hstate(old_folio);
+ 
+ 	if (hugetlb_cgroup_disabled())
+ 		return;
+@@ -957,7 +955,7 @@ void hugetlb_cgroup_migrate(struct folio *old_folio, struct folio *new_folio)
+ 
+ 	hugetlb_cgroup_move_usage(h_cg, h_cg, old_folio, new_folio);
+ 
+-	list_move(&new_folio->lru, &h->hugepage_activelist);
++	list_move(&new_folio->lru, hugetlb_folio_activelist(new_folio));
+ 	spin_unlock_irq(&hugetlb_lock);
+ }
+ 
 
 -- 
 2.56.1
