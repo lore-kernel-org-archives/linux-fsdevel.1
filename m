@@ -1,64 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795611085;
-	b=e71ObMBJYTzBSXnlbvwzVYzYfO3GwDdMwvZL8tYfegCP+58MhnXMu+Rl5CwgvUTlp+Qc
-	 B0j6JSnzcUyFuUtP/GJm3opdP7IVESQArHfY9JoZ27PWO4vkuodMmnVN+UKz9u24k/IWP
-	 pHwyU6MCuuephLLq9rhINTofRfqhHu9xa9Q92TPRZMvbyeahxE6EA6/1yr2Ol5X5wruOr
-	 zt6c2UfPkMaHynnu7WFrp5fKOj1pRXyNX93IcKMKTkHxs1zcbMM8nHbFyhmb52KffwnF6
-	 S+w67lSLtDRapn5qAozqScfwJSNkt29F8V2RjsWbFAGZtsuDSwUuKZnq2o1dgC/JysA==
+	t=1795611124;
+	b=jWibw1hAgkk3vZ9voLOmkolLAJOqPpeZQX8PJeiLEgNvhNFGZKq/tWQ6QT5AgkFgOeNZ
+	 2KYLH1uoIfiNKLFNAKpomKJ+fz99ksfrCmvkSPptHi1mm0anEHnEN1CRR5uecYwHYH2wg
+	 V1m3UY5oQM6J/JXyNHCzsmMg3jbsEJ3ouiYyTAGIfwjO9qya6Gb1s3t6S9HPYfF9kKQR6
+	 mElUmZ+JzjH9YV9unIld/j4uz5aGOHUA8HqpYpWNUO6R4Yr77W2MxfQ7XUOzfYBAodd8x
+	 dDj1GbZ5mjvyOA2FmNskP6lxURTmLNaLSkDR2BuGTQKgoWp1ycKJXDftkQk2B3++qIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795611085;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding:X-CM-TRANSID:
-	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=QYt8iWVPhccL/hESgXdi3uZSYohiuC6Q15+q3QaMUCY=;
-	b=BC+3O/aw+/BR0N3XqK078s9V3F7igHqLrKssGriz9SLSLek3vIVJD/Vv+rzL94JwF/6n
-	 hE+/RVK3lQJSgfd4GO/1LGiECLqoK4q9F7EQOjUU6U9ZLXaP/ZQNAd1ySr7Nftl6CjWNB
-	 +GusqmzpJkbnS+QGPN27fBC5J3ed2DOmOffuPq6u/op/dNurkej8AG9UvgtTkqIEuUHkd
-	 qOpY2bydPP2yb+OQ15TzfQYbmc7dQo8bDCPk+c11xwsA+fgo5Lj8ibR6Sqq8nsAytT84S
-	 kKrWXO4Sk+JRgA3oCVks0fbOVGpBTMi0jICMiUhHWDV8Q+OAf5qufD8zCIfd/Z1lC3w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795611124;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=a7/VZHL1+Zykiy4bJ1WLf1Y545HqmJxQ5d1ZgPnt3mk=;
+	b=X7y184RJB2dussE3uGX7Cp+T2tQsQGjnD1oqi5e+MSSZKlmilk5sq5O6LASTJw1Ltp5j
+	 EFBDKVlM0aAnNQ4Q4Ab1zPxKkRuFFw39C8VH9L5cDGhi1MWj0MymuQnfsCG2zDEXnZXT4
+	 M5n6Dv7w6o6CGTZt/IjUKtzusJXAc1Rm3WESs3ADPNYpSdvkT+q1+A9IpaA21ElF3ohBs
+	 QxaD0vsZ3BQ+yiiBh48MOw49UG6kukSHBdRuc6NtNCy6Ms8SU+Eus50G1U1mslATTLgIi
+	 2VmJ35AuvPObQMojBAr3qSv9G5n56FI5Rxe+CZbnSHru+QF9cPlb8WgoXA5Bq4v6Bew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=mails.ucas.ac.cn;
-	spf=pass smtp.mailfrom=mails.ucas.ac.cn;
-	arc=none smtp.remote-ip=159.226.251.21
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=amutable.com;
+	spf=pass smtp.mailfrom=amutable.com;
+	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=FaCzgTzM;
+	arc=none smtp.remote-ip=209.85.128.54
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C707C606A31E;
-	Wed, 25 Nov 2026 12:51:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C707C606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mails.ucas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mails.ucas.ac.cn
-Received: from k3-03 (unknown [159.226.43.8])
-	by APP-01 (Coremail) with SMTP id qwCowABXgfuY2QZrsdirAQ--.2368S2;
-	Wed, 25 Nov 2026 20:50:43 +0800 (CST)
-From: Tan Chi <tanchi25@mails.ucas.ac.cn>
-To: anup@brainfault.org
-Cc: atish.patra@linux.dev,
-	pjw@kernel.org,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu,
-	alex@ghiti.fr,
-	tj@kernel.org,
-	hannes@cmpxchg.org,
-	mkoutny@suse.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	yosry@kernel.org,
-	kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org,
-	linux-riscv@lists.infradead.org,
-	cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Tan Chi <tanchi25@mails.ucas.ac.cn>
-Subject: [PATCH] RISC-V: KVM: Account G-stage page table memory
-Date: Wed, 25 Nov 2026 20:50:23 +0800
-Message-ID: <20261125125024.1983082-1-tanchi25@mails.ucas.ac.cn>
-X-Mailer: git-send-email 2.53.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFEC7606A330
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 12:52:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DFEC7606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=FaCzgTzM
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4bb702a7548so50699075e9.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 04:52:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1795611122; x=1796215922; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=a7/VZHL1+Zykiy4bJ1WLf1Y545HqmJxQ5d1ZgPnt3mk=;
+        b=FaCzgTzM79b1rLC7Y0lWXfgV8Kk74ThPrd3xNDQRSLLtP4cD6HFhqDxdgzfRpsemVJ
+         nlHA7kMT8LMBzgIaoEVuhln9+qlfYcisGaufmlaQlBPDNbUNMl0FzRzOzlofD/x5ucXU
+         mlyXC7EVj/55iFpQqtldUfCZrRH2fJWwolf2TAbQ9i78WxlliAnlpQJy+9a4Z7Nf6hFj
+         MU/eY1TbZYqWmdJ9ZrdkFlIrUXIdSzZ23GtO/Q2ms2lJQWbCgceGq8MhfSyACCqTKgKj
+         FK1ZNyXFvflrgIeKL1MU2tFpy8QVFMyhixIbzztTn/4PLq2RIOuCj9bCXtpsblECaNTQ
+         ZOuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795611122; x=1796215922;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=a7/VZHL1+Zykiy4bJ1WLf1Y545HqmJxQ5d1ZgPnt3mk=;
+        b=tczGkIf/KsSrkO8JBILD7EdfpMYD7y1B1/q2Ui/Vz5d+jn0y+o/YBXnbF27r7jpi+U
+         g+OuDxH66Muzwzl4mnOHsoSOQmwA8J1G/76xB+Ul8vd9ptK3bNsJCOJnd0w9yuCrbTFW
+         /shWU48U4ALCJ0hfRwS8044m5yLtVPgL4nA/3EZqJWSAFXJKhp79R4p9DPlOOk2GEJ6J
+         tnpo7BVtFpGh8J0/Kz7DMHGUuBVMEwrtFZuIG1/EuUAZtTd4IJ0LfTsIjxJF51vMPbLZ
+         xnU4ShWQRTLA6HGn58I+yViIDc/eHZfKhCWenKuROnF0wKT35wsOg2mMuD1RBwtgLV1O
+         NYHA==
+X-Forwarded-Encrypted: i=1; AL+hErFVdkYOMSXrl+UU7S+a+ERd3s/l/14Ja/WNesJk6rcGbRBacuI+b0Cs9oUv6BQYP5tVsuJZNfkrMsXq6cGa@vger.kernel.org
+X-Gm-Message-State: APuU4Z+KOybLPmSUj8QjIQKxWzBBuZXXqEynOfq/mGuVWxa0CJ7R5KaF
+	utgSh7FWYrNoQPq8+/p9IW7qlRxZrnxtzjtkxR8McmvTbZHhdxcyTi1Vgimzu8Igg+8I
+X-Gm-Gg: AZFdTZd/0q07ZGdMOF0HzZOe15TKf3r+jt2F+hOyC+syR7yR2DKVUYcLVYqT78zpoW4
+	WGgCC+42MwZT6krTt4jzK3IaR4yITzlKolaU/xEa06nKp71VBcYsu0ihJDffOGt9wI/yQPbxPFs
+	ZsSxruBh42BV8blITwrMq2cYxHSVPuthcgB0AoDV4ZnmiqEpasC0AhplsawzA0BB8Zg6iFAPwIz
+	e4eBLs6p6c3JJCHH7z0d3AysuoTkpDF5qkygUB67xWGLXa9TmojPVQ2enQoFYS8uN+Jafw5a3Fk
+	BLlACi/PYicm0mOqwLoaKPPJNFKpFfM2F2tN3nqbta6eQYwTbwN/XcG5N6yc3TwOjCv1qcHR6Pk
+	fmu3sQcm5pWzHol3CRYyAfYOE5KBJxJrY9AEe7Ly0ky8T2Fi+Od7C/BZFSo5qYcSfrT8+Lnkz7C
+	e73ivRB4wAVWTLy7JEDMzirbnRtAr9h/Z7BpBMqdRA5pzYNL2v1Ta4+9EFBZMBJTKLl65UCeW62
+	n+MZLwRWkoDtXWu+jYmzpGrwDTowoKDLWRrKZR5cXdzBRIstsU5bi2QV5cN2d6eGJ2X7w8rUfHA
+	2lOM+chaLY0R0Xi0fISyyOVMWauCv4ZiJDjrNE3wtGuB3P+j8jpYrrz4Uee60pMm06IQQiKekht
+	OMcH5Z8+nlVU/OSDokd5VtCxonOsXEHmogtY3Fai5pHNL5qQuwcR1nA==
+X-Received: by 2002:a05:600c:3b8a:b0:4ba:761:c0c5 with SMTP id 5b1f17b1804b1-4bb8880f0e0mr363677835e9.5.1795611121806;
+        Wed, 25 Nov 2026 04:52:01 -0800 (PST)
+Received: from ?IPv6:2003:cf:572c:2800:c235:97b:8b16:8928? (p200300cf572c2800c235097b8b168928.dip0.t-ipconnect.de. [2003:cf:572c:2800:c235:97b:8b16:8928])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb90660cb4sm462265225e9.2.2026.11.25.04.52.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 04:52:01 -0800 (PST)
+Message-ID: <c4b406a5bb8968e4fd73bb984c55f8aafb4ce355.camel@amutable.com>
+Subject: Re: [PATCH v2 07/13] ima,evm: use d_real_metadata_inode()
+From: Alexander Mikhalitsyn <alex@amutable.com>
+To: Christian Brauner <brauner@kernel.org>, Amir Goldstein
+ <amir73il@gmail.com>, 	linux-fsdevel@vger.kernel.org
+Cc: Chris Down <chris@chrisdown.name>, Miklos Szeredi <mszeredi@redhat.com>,
+ 	linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+ bpf@vger.kernel.org, 	linux-trace-kernel@vger.kernel.org,
+ linux-integrity@vger.kernel.org, 	linux-security-module@vger.kernel.org,
+ linux-mm@kvack.org
+Date: Wed, 25 Nov 2026 13:52:00 +0100
+In-Reply-To: <20261116-work-ovl-d_real-v2-7-90564c4ae347@kernel.org>
+References: <20261116-work-ovl-d_real-v2-0-90564c4ae347@kernel.org>
+	 <20261116-work-ovl-d_real-v2-7-90564c4ae347@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,151 +106,127 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowABXgfuY2QZrsdirAQ--.2368S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxCrW8JrWUCr48Zr17ur4xCrg_yoWrKw47pF
-	1DCryS9r1rtr93Cr13twn2vr17Ga95Wr45Jr9F9a45ZFsxtrySywnYq3sFvF15XFykZayf
-	ZrZIgFy5Zrs2ywUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUPj14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
-	0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Gr0_Cr
-	1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IE
-	rcIFxwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AKxVW8ZVWrXwCY02Avz4vE14
-	v_Xr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AK
-	xVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrx
-	kI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v2
-	6r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8Jw
-	CI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjTRWeHgUUUU
-	U
-X-CM-SenderInfo: pwdquxrlsvqzpdlo2hpxfd2hldfou0/
 
-RISC-V KVM currently does not account G-stage page table memory
-in NR_SECONDARY_PAGETABLE.
+On Mon, 2026-11-16 at 10:44 +0100, Christian Brauner wrote:
+> d_real() is about to be able to fail. D_REAL_METADATA never has to
+> look
+> anything up but we don't want to promise that it never fails. So
+> switch
+> the open-coded d_inode(d_real(..., D_REAL_METADATA)) in
+> process_measurement() and evm_calc_hmac_or_hash() over to
+> d_real_metadata_inode() and deal with errors.
+>=20
+> evm_calc_hmac_or_hash() returns the error so EVM fails to verify the
+> metadata. process_measurement() passes the error on to
+> evm_metadata_changed() which treats it like changed metadata and
+> resets
+> the EVM status. That is needed as evm_verify_hmac() would otherwise
+> hand
+> out a cached INTEGRITY_PASS without looking at the metadata again.
+>=20
+> This is a no-op as long as overlayfs can't fail D_REAL_METADATA.
+>=20
+> Suggested-by: Amir Goldstein <amir73il@gmail.com>
+> Link:
+> https://lore.kernel.org/all/CAOQ4uxjoHbevvu8auB4m8AVcY9H6uHdDAP6mfi9OOMh+=
+3775xA@mail.gmail.com
 
-Use kvm_account_pgtable_pages() to account for the allocation and
-freeing of the root and lower-level page tables, including those
-allocated when splitting huge page mappings.
+Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 
-This makes G-stage page table memory usage visible through
-SecPageTables in /proc/meminfo and sec_pagetables in the cgroup
-memory.stat interface.
-
-Update the documentation accordingly.
-
-Tested on a RISC-V KVM host running under QEMU TCG with Sv57x4.
-The observed G-stage page table memory usage was:
-
-  100 empty VMs:                         1600 KiB
-  8 GiB sparsely mapped with 4 KiB pages: 16448 KiB
-  256 MiB mapped with 2 MiB pages:          36 KiB
-  After enabling dirty logging:           548 KiB
-
-The accounting in /proc/meminfo, /proc/vmstat and cgroup
-memory.stat matched the expected values and returned to zero
-after destroying the VMs.
-
-This reimplements the work originally proposed by Yosry Ahmed
-in 2022, adapted to the current G-stage MMU code.
-
-Link: https://lore.kernel.org/r/20220426053904.3684293-6-yosryahmed@google.com
-
-Signed-off-by: Tan Chi <tanchi25@mails.ucas.ac.cn>
----
- Documentation/admin-guide/cgroup-v2.rst | 4 ++--
- Documentation/filesystems/proc.rst      | 2 +-
- arch/riscv/kvm/gstage.c                 | 6 +++++-
- arch/riscv/kvm/mmu.c                    | 7 ++++++-
- 4 files changed, 14 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 9e3c67b02ae2..c79d6432ecc3 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1591,8 +1591,8 @@ The following nested keys are defined.
- 
- 	  sec_pagetables
- 		Amount of memory allocated for secondary page tables,
--		this currently includes KVM mmu allocations on x86
--		and arm64 and IOMMU page tables.
-+		this currently includes KVM mmu allocations on x86,
-+		arm64 and riscv and IOMMU page tables.
- 
- 	  percpu (npn)
- 		Amount of memory used for storing per-cpu kernel
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index fa7a468e8edf..cd1a74da287c 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -1208,7 +1208,7 @@ PageTables
-               Memory consumed by userspace page tables
- SecPageTables
-               Memory consumed by secondary page tables, this currently includes
--              KVM mmu and IOMMU allocations on x86 and arm64.
-+              KVM mmu and IOMMU allocations on x86, arm64 and riscv.
- NFS_Unstable
-               Always zero. Previously counted pages which had been written to
-               the server, but has not been committed to stable storage.
-diff --git a/arch/riscv/kvm/gstage.c b/arch/riscv/kvm/gstage.c
-index 0aace3215d3e..f8841136d852 100644
---- a/arch/riscv/kvm/gstage.c
-+++ b/arch/riscv/kvm/gstage.c
-@@ -162,6 +162,7 @@ int kvm_riscv_gstage_set_pte(struct kvm_gstage *gstage,
- 				return -ENOMEM;
- 			set_pte(ptep, pfn_pte(PFN_DOWN(__pa(next_ptep)),
- 					      __pgprot(_PAGE_TABLE)));
-+			kvm_account_pgtable_pages(next_ptep, 1);
- 		} else {
- 			if (gstage_pte_leaf(ptep))
- 				return -EEXIST;
-@@ -357,6 +358,7 @@ bool kvm_riscv_gstage_split_huge(struct kvm_gstage *gstage,
- 
- 		set_pte(ptep, pfn_pte(PFN_DOWN(__pa(next_ptep)),
- 				__pgprot(_PAGE_TABLE)));
-+		kvm_account_pgtable_pages(next_ptep, 1);
- 
- 		if (flush)
- 			gstage_tlb_flush(gstage, current_level, addr);
-@@ -399,8 +401,10 @@ bool kvm_riscv_gstage_op_pte(struct kvm_gstage *gstage, gpa_t addr,
- 		for (i = 0; i < PTRS_PER_PTE; i++)
- 			flush |= kvm_riscv_gstage_op_pte(gstage, addr + i * next_page_size,
- 							 &next_ptep[i], next_ptep_level, op);
--		if (op == GSTAGE_OP_CLEAR)
-+		if (op == GSTAGE_OP_CLEAR) {
-+			kvm_account_pgtable_pages(next_ptep, -1);
- 			put_page(virt_to_page(next_ptep));
-+		}
- 	} else {
- 		old_pte = *ptep;
- 		if (op == GSTAGE_OP_CLEAR)
-diff --git a/arch/riscv/kvm/mmu.c b/arch/riscv/kvm/mmu.c
-index 6861c0e2728d..c7141395b9e3 100644
---- a/arch/riscv/kvm/mmu.c
-+++ b/arch/riscv/kvm/mmu.c
-@@ -816,6 +816,8 @@ int kvm_riscv_mmu_alloc_pgd(struct kvm *kvm)
- 	if (!pgd_page)
- 		return -ENOMEM;
- 	kvm->arch.pgd = page_to_virt(pgd_page);
-+	kvm_account_pgtable_pages(kvm->arch.pgd,
-+				kvm_riscv_gstage_pgd_size >> PAGE_SHIFT);
- 	kvm->arch.pgd_phys = page_to_phys(pgd_page);
- 	kvm->arch.pgd_levels = kvm_riscv_gstage_max_pgd_levels;
- 	kvm->arch.pgd_split_page_cache.gfp_zero = __GFP_ZERO;
-@@ -843,8 +845,11 @@ void kvm_riscv_mmu_free_pgd(struct kvm *kvm)
- 	if (flush)
- 		kvm_flush_remote_tlbs(kvm);
- 
--	if (pgd)
-+	if (pgd) {
-+		kvm_account_pgtable_pages(pgd,
-+				-(kvm_riscv_gstage_pgd_size >> PAGE_SHIFT));
- 		free_pages((unsigned long)pgd, get_order(kvm_riscv_gstage_pgd_size));
-+	}
- }
- 
- void kvm_riscv_mmu_update_hgatp(struct kvm_vcpu *vcpu)
--- 
-2.53.0
-
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+> =C2=A0security/integrity/evm/evm_crypto.c | 5 ++++-
+> =C2=A0security/integrity/evm/evm_main.c=C2=A0=C2=A0 | 9 +++++----
+> =C2=A0security/integrity/ima/ima_main.c=C2=A0=C2=A0 | 6 +++---
+> =C2=A03 files changed, 12 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/security/integrity/evm/evm_crypto.c
+> b/security/integrity/evm/evm_crypto.c
+> index 1c41af2f91a60..17d528771d8fe 100644
+> --- a/security/integrity/evm/evm_crypto.c
+> +++ b/security/integrity/evm/evm_crypto.c
+> @@ -231,7 +231,7 @@ static int evm_calc_hmac_or_hash(struct dentry
+> *dentry,
+> =C2=A0				 uint8_t type, struct evm_digest
+> *data,
+> =C2=A0				 struct evm_iint_cache *iint)
+> =C2=A0{
+> -	struct inode *inode =3D d_inode(d_real(dentry,
+> D_REAL_METADATA));
+> +	struct inode *inode =3D d_real_metadata_inode(dentry);
+> =C2=A0	struct xattr_list *xattr;
+> =C2=A0	struct shash_desc *desc;
+> =C2=A0	size_t xattr_size =3D 0;
+> @@ -241,6 +241,9 @@ static int evm_calc_hmac_or_hash(struct dentry
+> *dentry,
+> =C2=A0	bool ima_present =3D false;
+> =C2=A0	u64 i_version =3D 0;
+> =C2=A0
+> +	if (IS_ERR(inode))
+> +		return PTR_ERR(inode);
+> +
+> =C2=A0	if (!(inode->i_opflags & IOP_XATTR) ||
+> =C2=A0	=C2=A0=C2=A0=C2=A0 inode->i_sb->s_user_ns !=3D &init_user_ns)
+> =C2=A0		return -EOPNOTSUPP;
+> diff --git a/security/integrity/evm/evm_main.c
+> b/security/integrity/evm/evm_main.c
+> index ac8328812e6ef..71faf156f9d6b 100644
+> --- a/security/integrity/evm/evm_main.c
+> +++ b/security/integrity/evm/evm_main.c
+> @@ -763,11 +763,11 @@ static void evm_reset_status(struct inode
+> *inode)
+> =C2=A0/**
+> =C2=A0 * evm_metadata_changed: Detect changes to the metadata
+> =C2=A0 * @inode: a file's inode
+> - * @metadata_inode: metadata inode
+> + * @metadata_inode: metadata inode, or an ERR_PTR() if it can't be
+> resolved
+> =C2=A0 *
+> =C2=A0 * On a stacked filesystem detect whether the metadata has changed.
+> If this is
+> - * the case reset the evm_status associated with the inode that
+> represents the
+> - * file.
+> + * the case, or if the metadata inode can't be resolved, reset the
+> evm_status
+> + * associated with the inode that represents the file.
+> =C2=A0 */
+> =C2=A0bool evm_metadata_changed(struct inode *inode, struct inode
+> *metadata_inode)
+> =C2=A0{
+> @@ -775,7 +775,8 @@ bool evm_metadata_changed(struct inode *inode,
+> struct inode *metadata_inode)
+> =C2=A0	bool ret =3D false;
+> =C2=A0
+> =C2=A0	if (iint) {
+> -		ret =3D (!IS_I_VERSION(metadata_inode) ||
+> +		ret =3D (IS_ERR(metadata_inode) ||
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 !IS_I_VERSION(metadata_inode) ||
+> =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 integrity_inode_attrs_change=
+d(&iint-
+> >metadata_inode,
+> =C2=A0						=C2=A0=C2=A0=C2=A0=C2=A0
+> metadata_inode));
+> =C2=A0		if (ret)
+> diff --git a/security/integrity/ima/ima_main.c
+> b/security/integrity/ima/ima_main.c
+> index e463cfc1e3f43..016de5a66eced 100644
+> --- a/security/integrity/ima/ima_main.c
+> +++ b/security/integrity/ima/ima_main.c
+> @@ -357,10 +357,10 @@ static int process_measurement(struct file
+> *file, const struct cred *cred,
+> =C2=A0		}
+> =C2=A0
+> =C2=A0		/*
+> -		 * Reset the EVM status when metadata changed.
+> +		 * Reset the EVM status when metadata changed or the
+> inode
+> +		 * hosting it can't be resolved.
+> =C2=A0		 */
+> -		metadata_inode =3D d_inode(d_real(file_dentry(file),
+> -					 D_REAL_METADATA));
+> +		metadata_inode =3D
+> d_real_metadata_inode(file_dentry(file));
+> =C2=A0		if (evm_metadata_changed(inode, metadata_inode))
+> =C2=A0			iint->flags &=3D ~(IMA_APPRAISED |
+> =C2=A0					 IMA_APPRAISED_SUBMASK);
