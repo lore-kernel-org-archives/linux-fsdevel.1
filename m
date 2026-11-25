@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=182.48.54.220
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795618469;
-	b=LUlJk/keob1sBpeFCD2/jt+XkcOm1SovudPqxugcSxjGzOKDFV0iE9GYp2zCbtZMLr/k
-	 cOPZ8NUY3bfw/gf0WVDygL7lsyNYVc0qzLajVYjJ4S1P1Oy2VZpAZG9mZSAq1XOnPy9Ih
-	 TGCbme7kYoiTHkcf/mjdRQn/sDGTmnm6XlSO2ryfMImg1dLbIjlN0bjtQ66PyXEwL5kB0
-	 U/s1Ymanpw19PhsaLUSIHXAGmtnWO5apktU6pzy/0UB1LmNQaaUoSyaojmgqo/d6966K/
-	 GTkfvHgZ3aUgCpUjXe1FXVgeo0JEGAh2OPPA2F/MRo5MLOhy1TVXF3LQW51R1xE2Mew==
+	t=1795618473;
+	b=5Fn/BF5JGvk6bziTYebYvfdiN8maYPFW58w0sZzN3xhpoEv8YJiVRR8UNg0+dqaM1UVB
+	 MRM/avaBnyRQK/noPJdGdt3KuYRRMqvNIhjohQzwx1V4nFYzjBL7ZaWcsECuO8WAmxYE5
+	 KT1X/R6o42J9eMROa+q9zeaKbQClY6pD2NJr55UEqZSFLAunau8HDWKab1sb5Zmdqe9XG
+	 EShqShPPAtMRsDx5uhvK1UoRzsd+1hR5ctP2Ez6EnnbtF/j2gcI+ps31tKZzzF9ujYZDZ
+	 hq7ZRO8sD8kaws32yxDIgkNHveS+bx1x9GaHuxJS1gYLA2RU5OJ6NQ9qJFI4x7AMaig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795618469;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795618473;
 	h=DMARC-Filter:Received:From:Date:To:Cc:Subject:Message-ID;
-	bh=lfide8guD1BuFQ5XcKrEgTrUEbu96f6/o/X5z2yJ0gc=;
-	b=0I8+3fAto55rJruslpmBNPtHr2YUShINAc5hinY8A0wySKJiOwSSImQQ6WW9V/fv5G4N
-	 p/Gjvz/qPC8NMvCC2ufrqJW56ggHwSRvZy3TBNzQxsHVcPx4YXIKOVk2uDDPT/fO2+Djn
-	 wuTuqH3IgN27/bI70WL+ZEfL9QdSIQ2pCObl5l2/hTyXv32NOUp2XPyfzrN77pacJegc5
-	 abJV+yudtqy9agYdi/h3m2muQrSoVnVQeu+rrh9STSzigHvOuGPUFzRbyNH3FVPqKR9/s
-	 fX0VH4a5SU+N2GZdr4IPKC46E/N5V29Ib+eTcf5CHqswLHrAAjxs3kcsB2nwnTI9cPA==
+	bh=a31bzpObHyvbvXgMSMXfTZt04v+YPDVnHR6JE7u15h8=;
+	b=2AyQ8KZsxezjBiDZF9I2ZajoWwthWniRJyBVHaPZ6OXkWvSl8yHBGD7zZxHM9gpWGYxI
+	 7v+Ev2UnWqY6KqMav6aYhXOWuRoHiOplxV4Vfdu6yPE+ltJds5WWdubtlxc68RpzzB3+R
+	 crFABJicE0NNsw56Se7Gxm6U7aoy7pqxPmVzfx+6FF6d4brZWaI48zdnJvaEGJ/HaoIbG
+	 qNRj1BYcqRohWWpGMC3jtHCXX1dLda1hRsfW1VndyNurb0kmB1TRKEhpzZtQ+5q9aAm8t
+	 DKUzYGCy58h3LeeZaFF5WFsRafbMpPbOm4xBAqtOO/NVpuXlDvMFI+fUCFJ4D0xrfKg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=snowrabbit.org;
 	spf=pass smtp.mailfrom=snowrabbit.org;
 	arc=none smtp.remote-ip=182.48.54.220
 Received: from bambi.snowrabbit.org (bambi.snowrabbit.org [182.48.54.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9ED4606A327;
-	Wed, 25 Nov 2026 14:54:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9ED4606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EBE0606A327;
+	Wed, 25 Nov 2026 14:54:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0EBE0606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=snowrabbit.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snowrabbit.org
 Received: by bambi.snowrabbit.org (Postfix, from userid 3001)
-	id 20591C9300; Wed, 25 Nov 2026 23:54:27 +0900 (JST)
+	id 4DF5FC9314; Wed, 25 Nov 2026 23:54:32 +0900 (JST)
 From: Showta Ishizaki <zakinko@snowrabbit.org>
 Date: Wed, 25 Nov 2026 23:54:14 +0900
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -35,8 +35,8 @@ Cc: Jan Kara <jack@suse.cz>,
     linux-fsdevel@vger.kernel.org,
     linux-kernel@vger.kernel.org,
     Showta Ishizaki <zakinko@snowrabbit.org>
-Subject: [PATCH] ufs: write out moved buffers past i_size
-Message-ID: <20261126-ufs-15-v1@snowrabbit.org>
+Subject: [PATCH] ufs: add readahead
+Message-ID: <20261126-ufs-07-v1@snowrabbit.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -46,56 +46,39 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 
-When ufs_new_fragments() has to move a file's tail, ufs_change_blocknr()
-gives the buffers in the page cache their new block numbers and marks
-them dirty, and leaves them to writeback.  This happens inside a write
-that has not moved i_size yet.  If writeback gets to a folio which is
-wholly past i_size first, block_write_full_folio() drops it and nothing
-is written at the new place.  The folio is clean afterwards with its
-buffers still dirty, so later writes to it do not reach the device
-either, and the file shows what the device held there before.  In a
-folio which straddles i_size the buffers past it can be skipped too.
+ufs has no ->readahead(), so readahead reads one folio at a time
+through ->read_folio().  Use mpage_readahead(), as ext2 does.
 
-Write such buffers out when they are moved.  The folio being written
-stays locked until i_size has moved, so it does not need it.
-
-I ran fsstress with eight processes on UFS2 images made on NetBSD and
-on FreeBSD, 16 seeds each, and compared the files before umount and
-after mounting again.  In 5 of the 32 runs a file had changed, all
-of them on the image from NetBSD, with 1K fragments.  With this patch
-none did.
+Reading 128 MiB with dd from virtio-blk after dropping the caches, five
+times, in MB/s: 635-667 before and 1063-1193 after with 1K fragments,
+1135-1216 before and 1457-1506 after with 4K fragments.
 
 Signed-off-by: Showta Ishizaki <zakinko@snowrabbit.org>
 ---
 
-diff --git a/fs/ufs/balloc.c b/fs/ufs/balloc.c
-index 628edfde3..b18a512c9 100644
---- a/fs/ufs/balloc.c
-+++ b/fs/ufs/balloc.c
-@@ -301,6 +301,24 @@ static void ufs_change_blocknr(struct inode *inode, sector_t beg,
- 			bh->b_blocknr = newb + pos;
- 			clean_bdev_bh_alias(bh);
- 			mark_buffer_dirty(bh);
-+			/*
-+			 * We are inside a write that has not moved i_size
-+			 * yet.  Writeback drops a folio wholly past i_size
-+			 * without writing it and leaves it clean with its
-+			 * buffers dirty, so that later writes do not reach
-+			 * the device either.  It may skip the buffers past
-+			 * i_size of one that straddles it, too.  The folio
-+			 * being written stays locked until the write has
-+			 * moved i_size, so only the others need this.
-+			 */
-+			if (folio != locked_folio &&
-+			    (loff_t)(beg + pos) << inode->i_blkbits >=
-+			    i_size_read(inode)) {
-+				/* A folio's buffers carry no reference. */
-+				get_bh(bh);
-+				sync_dirty_buffer(bh);
-+				put_bh(bh);
-+			}
- 			++j;
- 			bh = bh->b_this_page;
- 		} while (bh != head);
+diff --git a/fs/ufs/inode.c b/fs/ufs/inode.c
+index c9ff8673f..fc3d2ec77 100644
+--- a/fs/ufs/inode.c
++++ b/fs/ufs/inode.c
+@@ -457,6 +457,11 @@ static int ufs_read_folio(struct file *file, struct folio *folio)
+ 	return block_read_full_folio(folio, ufs_getfrag_block);
+ }
+ 
++static void ufs_readahead(struct readahead_control *rac)
++{
++	mpage_readahead(rac, ufs_getfrag_block);
++}
++
+ int ufs_prepare_chunk(struct folio *folio, loff_t pos, unsigned len)
+ {
+ 	return __block_write_begin(folio, pos, len, ufs_getfrag_block);
+@@ -510,6 +515,7 @@ const struct address_space_operations ufs_aops = {
+ 	.dirty_folio = block_dirty_folio,
+ 	.invalidate_folio = block_invalidate_folio,
+ 	.read_folio = ufs_read_folio,
++	.readahead = ufs_readahead,
+ 	.writepages = ufs_writepages,
+ 	.write_begin = ufs_write_begin,
+ 	.write_end = ufs_write_end,
 
 base-commit: 4dce97c6c265544342e716e62fd24bbb232590c5
