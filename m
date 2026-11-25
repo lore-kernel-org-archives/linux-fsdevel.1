@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795607960;
-	b=wkuOmCaPKxQ7dIJox1Mm4EcXl9GgW21fqjWn2K36st8HtPYBWmZOZawzLdAIPNSuU+B5
-	 EYz0dB9/d61PeeKBwIof+fjtEcyywN1CjJFXIGyIODHHF4pwDiyCO/+MmlwzZA15KHe0V
-	 Nq57Ujod9bDeBGA1AKhAYCAQD3X0kRuUHAKaQy64V1GMzvDyKqK4nKGvAS0KphnxD+kxF
-	 dxRu9gsDeJzOLXaLeuCVsQ+ewaW3HQIxViPD6v13zjnzfCcrY0R3A/UpHH32Eu4l30Kru
-	 RwRer220bRzgiCWgrTHvHHon1Vs5HM9N1ui0IgrK+BO/KOFv82tk82fdjCopUc87R5A==
+	t=1795607994;
+	b=YHE1UyY1+BSj1skKTHI/Yw2kuKym92HN4Sn8Of1rMww6zFCSEh5omO7GTv5C32TLy3P8
+	 alpRrFq9Tq1R+fFjEY31kRotT+uZB47/EhWN5caq3sVI/Vkyr2fFL/IlmiRtiuvSihcaC
+	 9ZzVGf8BdVxl683Jr9Q6Tb+skEZ4qzgH2i9lkEvP9KkpqeL7O/KtQF+OUWGQ3kYMNxDKn
+	 heMXnRiDiImrgZXTD3G8lcCZb5SQvNic75yAuLkCavfOyKaZjQ5wKcs57ZFS9lKdIJkoh
+	 SveE9pTF9TT30Cfh86H827vqNhw9uCxg6yw7b/S6dFFG4MtnG2AaWw5WfpqzhXWUJfA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795607960;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795607994;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=rsojXvZUV/8CWWLGDvdxZoety8wB2FPnWCvQ+ubHDsg=;
-	b=WESnumDhMXvrg7rAHaygME5yUAxooTqS7YZBZrDzKv8xjO6JmdArFEyqiXtXQmssVD9B
-	 zpaEvXvgbE88twSBCixAyEfEB+8iksccBJT6yTyGdGf6Zam5bG1AOyngVdWCsBmlkqsxr
-	 J/MYR0ZDYqsaZBgL8HWuyZKpoU9ydR7GhAJOYXW9MaS8UtZ0imLvdYy9jMjOUd/QuXH9l
-	 zjZBQ+NZCaa9gFny2XM2WNG1D4+aDfJS73HA+XDCFN+bqv6SOKKL/tD1lzV/mLTohRj0u
-	 DUX/JvarQOa+TI8XjFqJJ3P4fTlVT6j31gMcw6SJv+W5cFhT08hzxnwO1P5vYmoB5ig==
+	bh=e2BmeS4KhEEO8j7uMzrYvr+Q/f9Vk8XnoewXXH34OM8=;
+	b=K5LuqFcrZpSv3qgVAuE6UedqRIaUTUZB5B7MByVkayLZj/ZuE55js9q8P7+IbIqdqh2K
+	 4xS+cR4OYzvL7xwdKyAMH6g7DI7PdMAPtwxY93iJWo+81+9j2wvfftmMEMz2JUp3J/kBk
+	 8Nih7OZZB1+Y0Y1j8lQlbd0RLsNEqLQ9YhU/EyVX9VF5ZYwEvmaxoD1pRCnCwKIcWENy7
+	 /h4IlsMcZGlX/M48L/D26+BSt7VuBjda9QNhB8Hvk4DEYowcOtLm2fnveksIqsMY0ZFeZ
+	 L0umkierWbgW/A33xA3vQagZGK0iDLKyFCRnVJn0+LO8qkIcbs1gDO9QBrcPsIvH6kw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dL7fPahC;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=a6r7XW7Z;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCBC6606A330;
-	Wed, 25 Nov 2026 11:59:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2A0606A31E
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 11:59:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dL7fPahC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 379B81F000F4;
-	Wed, 25 Nov 2026 11:59:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=a6r7XW7Z
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BF211F000D3;
+	Wed, 25 Nov 2026 11:59:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795607960;
-	bh=rsojXvZUV/8CWWLGDvdxZoety8wB2FPnWCvQ+ubHDsg=;
-	h=Date:Subject:To:References:From:In-Reply-To;
-	b=dL7fPahCLzn8G1sTEduUAI6i//aBNNBx7AwuTOAasT7iM4V97HCsfh5uBWHRoyBYH
-	 oSSDQYix7BDViCl49Har43idoVTO1J+nA+Isbf4nKf9g0TVhDPeHjUBxSabBVAwaoG
-	 ifShjjz1RNUA/0cQ5nbsncVKAIJ9AcoOl6oBO9O+HRWNFGWl6lBh+74maJ4cIfPf9A
-	 hCBt14ubzttO5tLDfXENrKHKI9UdS0NsLBikZbnEwNThG/FIAQlZnmeLyxOQeLpgZP
-	 eGkZPD5/nsrtPR/dfbTtJhJkoDGbuihSdvlhfMTYC0wNd3v3amBT2aLXZ1vm1fs6LH
-	 neQNvjnsdKW1A==
-Message-ID: <57cbd30b-4c6d-4298-bdaa-481773279bae@kernel.org>
-Date: Wed, 25 Nov 2026 12:59:08 +0100
+	s=k20260515; t=1795607993;
+	bh=e2BmeS4KhEEO8j7uMzrYvr+Q/f9Vk8XnoewXXH34OM8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=a6r7XW7Zg/xT790o8tnznyoC2aZ0ZOKVUE4lD9lxyNSztg62L4l/YSC3ZlnoC56j6
+	 6ciWRAFE6L2afWaOEN4lmn+Cg9PtLM0WfHQH5nMKtokzX7A4uKVBzdUdGgmBBlaRN5
+	 W2OCYympSTgLWJOi4v2j87q14DCyvZa3vpiCs9urqP+iacQ13cd48S9PA/PCl7LTCS
+	 avhZy9sSb2PjJ64KtGWIDNRh9/LxOnobtWFBTjVo/czeIlPYbt3sAsSjXvJm6givIP
+	 JGWszG0hq9mpKGs4LIp8CRaR419KdDKgkEnUz2iMii31c73uHMyDqUsLG0V0MJqnjB
+	 cef4XNTAVf+nA==
+Message-ID: <8633c17b-5f15-41d6-98a2-cb11f7f850da@kernel.org>
+Date: Wed, 25 Nov 2026 12:59:44 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,21 +52,28 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] fs/proc/task_mmu: read the PMD once in
- smaps_pmd_entry()
-To: Usama Arif <usama.arif@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>, apopple@nvidia.com,
- byungchul@sk.com, gourry@gourry.net, jannh@google.com,
- joshua.hahnjy@gmail.com, liam@infradead.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, ljs@kernel.org,
- matthew.brost@intel.com, mhocko@suse.com, pfalcato@suse.de, rppt@kernel.org,
- surenb@google.com, vbabka@kernel.org, ying.huang@linux.alibaba.com,
- ziy@nvidia.com, kas@kernel.org, hannes@cmpxchg.org, riel@surriel.com,
- shakeel.butt@linux.dev, kernel-team@meta.com, baolin.wang@linux.alibaba.com,
- Nico Pache <nico.pache@linux.dev>, ryan.roberts@arm.com, dev.jain@arm.com,
- baohua@kernel.org, lance.yang@linux.dev
-References: <20261125115014.4014507-1-usama.arif@linux.dev>
- <20261125115014.4014507-2-usama.arif@linux.dev>
+Subject: Re: [PATCH 4/4] mm/khugepaged: use NOFS while collapse_file() holds
+ folio locks
+To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
+ Zach O'Keefe <zokeefe@google.com>, Lorenzo Stoakes <ljs@kernel.org>,
+ Dev Jain <dev.jain@arm.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Hugh Dickins <hughd@google.com>, Kiryl Shutsemau <kas@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Rik van Riel <riel@surriel.com>,
+ Song Liu <songliubraving@fb.com>
+Cc: "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Michal Hocko <mhocko@suse.com>, Nico Pache <nico.pache@linux.dev>,
+ Ryan Roberts <ryan.roberts@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+References: <20261125100058.15200-1-azpijr@gmail.com>
+ <20261125100058.15200-5-azpijr@gmail.com>
+ <8c60bed8-6857-4361-91b5-c8fed8a083c3@kernel.org>
+ <66fd4450-6e17-4a1c-be76-38758a62073a@gmail.com>
+ <413a7751-a368-42fd-8983-c3b44a86fd0c@kernel.org>
+ <286006b1-9f9e-4661-bd38-e5f5fce9646b@gmail.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -113,24 +120,19 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261125115014.4014507-2-usama.arif@linux.dev>
+In-Reply-To: <286006b1-9f9e-4661-bd38-e5f5fce9646b@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/25/26 12:49, Usama Arif wrote:
-> smaps_pmd_entry() dereferences the pmd pointer six times. Read it once
-> into a local with pmdp_get(), the way smaps_pte_entry() already does
-> with ptep_get(), so that every test sees the same value.
+On 11/25/26 12:34, Jose A. Perez de Azpillaga wrote:
+> On 11/25/26 12:15 PM, David Hildenbrand (Arm) wrote:
+>> On 11/25/26 12:12, Jose A. Perez de Azpillaga wrote:
+>>> it isn't, sorry. I'll drop 4/4.
+>> So there are no other allocations in there besides the one done by splitting?
 > 
-> No functional change intended.
-> 
-> Suggested-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
-> Signed-off-by: Usama Arif <usama.arif@linux.dev>
-> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> Reviewed-by: Zi Yan <ziy@nvidia.com>
-> ---
+> there are, the shmem swapin, but they can't deadlock.
 
-Reviewed-by: David Hildenbrand (Arm) <david@kernel.org>
+Okay, good.
 
 -- 
 Cheers,
