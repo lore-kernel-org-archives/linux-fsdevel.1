@@ -1,118 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795606476;
-	b=MkGYbpMUTKkPkUfakBIEFCkExPwMIFScRor830XruMPPz3evfyLCVRuepILr6dBO4WsK
-	 H8LLi1D4VB5z9I+Su3OM4mV4rurZmwGBDmv3h/NXlqq0cfLqXqtax/g6gesexEl1GeDpV
-	 kGQNHgGAw8mftaj+Y3oC9NeHD1nS8LnXNNgolknpcx+UEn2T5Q9nahN1fJOuFG1G5O0fi
-	 3MpDbbkI4SiBYEA85wBP0dm67Xo6e/BE1WN0KNliFOKu/4juKWaG7xdn7ILbvEs1v7A0A
-	 te6XxDjk+e0A23hLQscPDIGZLaTgCm+u3PiF4zUnK8NVPnl1sTRAUEhEa0j5D0rbzGw==
+	t=1795606478;
+	b=iP6hwwnAriZEf7oXRJyWJCD+80uOumd6HFJ1TqNDPpVcJjCtIHAmB8lcXpaXtT2mC8Ul
+	 di5KKBidhgNDQPw7xZY/+yaW6fqCDPFcfJGL6vk62Xian5dOJP62bW2AcXPMv7eAxivnz
+	 b1u5A0zBnmELcttcdLFlI6sH9pyGwaSlZ80P67A/L6FkwaMbL5KpDbxiNKxmou8W9fDok
+	 3oIyGNL3xYl1slmxodEqQe4cT636oaIRJ2alAyDQoMp/WEuGC9k1cZD73EEwkp1ei1pmF
+	 gqk4msGC3hEO6BEOkef+ww7xliuXXqpw5PKKnFwAis5aykPI4dz0naKcBUNB6ncSIFA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795606476;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:X-Spamd-Result:X-Rspamd-Server:
-	 X-Rspamd-Action:X-Spam-Flag:X-Spam-Score:X-Spam-Level:
-	 X-Rspamd-Queue-Id;
-	bh=QCWPZqy3E8KI6D3pSid9ooewA3U8Dto5kOddsAtNGhk=;
-	b=iSxA9L6IB7VXBmL1fEAEIejTYf9IpqOhl5f8DZ7BPc4WwaY2KhD6f1ou1TOvOqQ3D4m4
-	 3LP51VzFGxe3U/J3rTH1Qb3bU2kwef+CQxh6PwGTpZLBm9YrRxpjiPbndITOoaSNy1VTv
-	 v10kcWs3vHLjZ+9XOVjPhGyseq87ErybBOoS7QQsCDIiWOTMCFHdG6Y4NYMK3rwevBfl0
-	 6eHxogFgs0EpyDRtBjh4mPkiTPfRcr64TI97nWAMknPizHThR5bzFnstCMjkVdRYjlSdf
-	 9LkQ0m4SZ0o8MMSEvgQpScUXDpHy3qCluQV91Biin7+sfUQ+Mftmzha6skcrhkeOFyA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795606478;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=au+aUwkr58kHsbNGWzHntkHpOI9D5jL8SiuAtxwKygc=;
+	b=dg0IIzJQ6ceR/4qSMso/T4pnsquZ8BQvRLApRRWkKzxlFU0VTC5Ev/67LPoolhvveu7C
+	 Y0fZwYonIDesDo3eLL3/+tEyRRio/TNe5StwoKQmmyQAnsLXCsvOeJnxXEVbiWcUhdXgD
+	 wfyrxHuKYSUZaxkQky/95YAuJR3BmdqDddGmb5iVqrvXkkCBLSUSMVqn3UHb4IZjfCYs2
+	 AzJlFsJm7oSF5Mc4NmkWbVUrbfIu0Ysu90dIynzb+bFzzh10D6XLU0zsSMwdoYoId/5eF
+	 MdKy1IaHjloqFhHucoAIJUvS/kwwrQ6AvS+OayfeM9GDE6QVziWDSQ7W2iIoXhCxdcA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ZgffNQ2J;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CdD2uzJA;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ZgffNQ2J;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CdD2uzJA;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XfO46EC5;
+	arc=none smtp.remote-ip=209.85.128.50
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76405606A31E;
-	Wed, 25 Nov 2026 11:34:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76405606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2B1606A332
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 11:34:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9B2B1606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ZgffNQ2J;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CdD2uzJA;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ZgffNQ2J;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CdD2uzJA
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 37A3A22346;
-	Wed, 25 Nov 2026 11:34:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795606473; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QCWPZqy3E8KI6D3pSid9ooewA3U8Dto5kOddsAtNGhk=;
-	b=ZgffNQ2JaTbrObSnm1IFKJ0T2dJkkcLj1nQNGkBIXw4Cgv7GqznmCMrhPxSfSHcar8BTVg
-	LA+cUCkUVJDyRuyZQdgJ6k89bvzt8UMk4SBLR1xhEzGtSdsy4ozBeB5AjiTrD+rKv9iwRl
-	ZSoARKoQK/nwX8pdIkiiHfOH7xB2X1U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795606473;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QCWPZqy3E8KI6D3pSid9ooewA3U8Dto5kOddsAtNGhk=;
-	b=CdD2uzJAJB2fkd1qeggAP/dpDI4mTovh7kYVT/579Rv+4SOqGt9B5EimsUZk9fS1JprvkA
-	3wc9onrEHdfamJDw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=ZgffNQ2J;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=CdD2uzJA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795606473; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QCWPZqy3E8KI6D3pSid9ooewA3U8Dto5kOddsAtNGhk=;
-	b=ZgffNQ2JaTbrObSnm1IFKJ0T2dJkkcLj1nQNGkBIXw4Cgv7GqznmCMrhPxSfSHcar8BTVg
-	LA+cUCkUVJDyRuyZQdgJ6k89bvzt8UMk4SBLR1xhEzGtSdsy4ozBeB5AjiTrD+rKv9iwRl
-	ZSoARKoQK/nwX8pdIkiiHfOH7xB2X1U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795606473;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QCWPZqy3E8KI6D3pSid9ooewA3U8Dto5kOddsAtNGhk=;
-	b=CdD2uzJAJB2fkd1qeggAP/dpDI4mTovh7kYVT/579Rv+4SOqGt9B5EimsUZk9fS1JprvkA
-	3wc9onrEHdfamJDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 00BB81339F;
-	Wed, 25 Nov 2026 11:34:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id IRg7M8jHBmsvLQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 25 Nov 2026 11:34:33 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 7F31827C21; Wed, 25 Nov 2026 12:34:24 +0100 (CET)
-Date: Wed, 25 Nov 2026 12:34:24 +0100
-From: Jan Kara <jack@suse.cz>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Ian Kent <raven@themaw.net>, 
-	Jake Edge <jake@lwn.net>
-Subject: Re: [PATCH v6 0/5] Fix easy bits of the negative dentry problem
-Message-ID: <sc6xnwguimy23dexr3eosbe64xmmewn5ml5gso4m5xozw6fqlt@2hji64vi7eaw>
-References: <20261123221410.3328780-1-neilb@ownmail.net>
- <179550252639.1728055.4014817916838632741@noble.neil.brown.name>
- <CAOQ4uxgF6=QoD9RoAOPmxtvkq1jWf+gG1AsJzR=Kt3ROMA=X0g@mail.gmail.com>
- <aau5z6kck6a2efcjvzrt6gno6ljs4eioncgizeh7vfbc6ipkr3@hjxzdk5pvgmt>
- <CAOQ4uxjXP4Zegb2Vgsv-yBeFmhvc8FT2bDKDcaM_t0=oJ5KpXQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XfO46EC5
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4bb69f5b161so36683855e9.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 03:34:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795606476; x=1796211276; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=au+aUwkr58kHsbNGWzHntkHpOI9D5jL8SiuAtxwKygc=;
+        b=XfO46EC52jl5ccgR5gMDRt0sSyg+TN4LWK+5BUM1aLXNe/3R9K5OjTR7oderP9CGNK
+         nX4LZygMlG/b0GfF5ETtxDr3F1DwW+o5u6L/kuigKs+mCZVzWR/WK9CZRXewErtLeHMn
+         sJYVueJeinnNyPg2RMove84xtmhwCCABe5hU1NvdXWYwuJcQ6n3wklagD5H+FOdZXw+k
+         wjKAC713OiPzoWFDWN+zEXTZRKWyh6nuw1pthC+uyVpw7A6EWUy+YGtEfBwq8vvqbH1+
+         YTCMzZaoqjmWjjAE6v0ylF8BfUMfahcocm3FxUMNU68ztHkrC7ZZCtBN2ReUrv9+YwOu
+         cFQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795606476; x=1796211276;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=au+aUwkr58kHsbNGWzHntkHpOI9D5jL8SiuAtxwKygc=;
+        b=2RjO/bOgte08cPjtCnzzVKspyn7lM/8ZUrYfeU95zZQBNc3apLXg4pTO+zZLGrC828
+         71Qrtl2EHkBeAGNlueDyuMYJ6TkHMRmPA1Kg/1Pqsdl01GtGBof234wCF2ZXrONrnyQ4
+         ICiB4sWg1xVA1+ecPr2MD1jl1zgEl6BLiI3s/0CZiK10DLflLxwFhItnCgSA6is4VSQ0
+         5huvHVh5vguMmCIMFFt4svrGBAhHJ51msrlXSvu+lSImyUJfRuIdcgJsAHBV9DuhOzXy
+         ea3HwFjazgn4d+V4UZ8LcbGUtDHQCkAgml6BVM4xxxXGQ61uXt+DcbPxmIAMgiXs4mw8
+         F/Vw==
+X-Forwarded-Encrypted: i=1; AL+hErGxzKWNj0NXgLi6/GgvR0PeKakOMuycCX/KjE61VX8iY1xWCqR1ZPotzKIe8Us8QFP75zd0SUunhqV5WTkO@vger.kernel.org
+X-Gm-Message-State: APuU4Z/jMjrpFJRvNNLgX0dPDGm86eYJZjwJdVy+e0zXZgzI5ncswLiC
+	RFhW8ZsoJVw6YWNgnY6KNwsx/ygGVRIfmFtHsDBVWJNogxbdFB+i3EE6
+X-Gm-Gg: AZFdTZe/6/vfYLvpYfmfcdMA5ERVPr2o8OGgNMdNvegwZpzfCS9voAiPisCqXKErEeH
+	OwnthHmj2XALJ8iQmmzH62DDfRkqOTPKseonXP95QY7R9OebBPW2nkitbmOnnNe/XUZlIE2mrOA
+	78POB9X9ecWeTHj4SvfRq0/fmDgoFpB80y4CSD/EqwQkBI0SuvX/ZU79V7117PcRXDj3sbAfEUu
+	wtOK33gNw2fCyQP++75NvHfLDwOUHWqCPxPyQLWLNIZVYyAstJnDtK/dZhFpq8LOGv7f3fH2LoJ
+	pwvUJ+uh9seVB1XRvGdPr7co7gJvyvt5fvk9C7xPo3668BbrJUHMWyB3CsUhyWp3kISfTVtDtbu
+	Fqmwkb2+P7mwXOgeZUMpf3nL7ehb4lQVXu4u3qdzFfuadaOsZOl3ExBanRP8a4NIFJQ7ne9xsiz
+	FWYk527nM+8cWVsEsQQUsUozrqSJ5ojQouexCBgM6K/nsEJfY7PJFLf1vZ4thSj8RfRJBBxseib
+	NsubF0JIqd/zkwc1Hkld2sB2eiK5BeJCmJ3BKYkPs7lGaYk5qifdUo7zYFkEPhN9jIziPi5voyZ
+	Fpkoibz3SEb82eIFKmj9oiIp
+X-Received: by 2002:a05:600c:64c7:b0:4bb:68b9:f610 with SMTP id 5b1f17b1804b1-4bb887ffee2mr340117785e9.9.1795606475753;
+        Wed, 25 Nov 2026 03:34:35 -0800 (PST)
+Received: from [192.168.1.22] ([83.231.69.9])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853a9687sm572512745e9.10.2026.11.25.03.34.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Nov 2026 03:34:35 -0800 (PST)
+Message-ID: <286006b1-9f9e-4661-bd38-e5f5fce9646b@gmail.com>
+Date: Wed, 25 Nov 2026 12:34:33 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -122,202 +92,53 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxjXP4Zegb2Vgsv-yBeFmhvc8FT2bDKDcaM_t0=oJ5KpXQ@mail.gmail.com>
-X-Spamd-Result: default: False [-13.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim,suse.com:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -13.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 37A3A22346
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/4] mm/khugepaged: use NOFS while collapse_file() holds
+ folio locks
+To: "David Hildenbrand (Arm)" <david@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
+ Zach O'Keefe <zokeefe@google.com>, Lorenzo Stoakes <ljs@kernel.org>,
+ Dev Jain <dev.jain@arm.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Hugh Dickins <hughd@google.com>, Kiryl Shutsemau <kas@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Rik van Riel <riel@surriel.com>,
+ Song Liu <songliubraving@fb.com>
+Cc: "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Michal Hocko <mhocko@suse.com>, Nico Pache <nico.pache@linux.dev>,
+ Ryan Roberts <ryan.roberts@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+References: <20261125100058.15200-1-azpijr@gmail.com>
+ <20261125100058.15200-5-azpijr@gmail.com>
+ <8c60bed8-6857-4361-91b5-c8fed8a083c3@kernel.org>
+ <66fd4450-6e17-4a1c-be76-38758a62073a@gmail.com>
+ <413a7751-a368-42fd-8983-c3b44a86fd0c@kernel.org>
+Content-Language: en-US
+From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+In-Reply-To: <413a7751-a368-42fd-8983-c3b44a86fd0c@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed 25-11-26 08:46:45, Amir Goldstein wrote:
-> On Tue, Nov 24, 2026 at 5:26 PM Jan Kara <jack@suse.cz> wrote:
-> >
-> > On Tue 24-11-26 14:08:07, Amir Goldstein wrote:
-> > > On Tue, Nov 24, 2026 at 7:42 AM NeilBrown <neilb@ownmail.net> wrote:
-> > > >
-> > > > On Tue, 24 Nov 2026, NeilBrown wrote:
-> > > > > This v6:
-> > > > >  - fixes the autofs changes in 1/5
-> > > >
-> > > > Sashiko says this is racy.  I think it is but the original code was just
-> > > > as racy.  Maybe the race isn't relevant.  I haven't properly understood
-> > > > it yet.
-> > > >
-> > > > >  - updates d_duplicate() in 1/5
-> > > >
-> > > > The fix was seriously broken.  Sorry.
-> > > >
-> > > > >  - uses a new version of 2/5 from Amir
-> > > >
-> > > > Sashiko has something to say about this
-> > > >
-> > > >     Can clearing FSNOTIFY_CONN_FLAG_UPDATE_CHILDREN and dropping conn->lock
-> > > >     before fsnotify_set_children_dentry_flags() finishes allow a concurrent
-> > > >     watch-adding syscall to return to userspace before the children's
-> > > >     DCACHE_FSNOTIFY_PARENT_WATCHED flags have been set?
-> > > >
-> > > > Thoughts?
-> > >
-> > > Sashiko is right, but this race is not new.
-> > > The same window exists upstream: if another thread's recalc observes
-> > > the 0->watching transition and does the walk, fanotify_mark() can return
-> > > to userspace before all children have DCACHE_FSNOTIFY_PARENT_WATCHED set.
-> > >
-> > > What changes with this series is that the walk is sleepable, so the
-> > > window is longer, and in some workloads it could go from rare to
-> > > plausible. OTOH, skipping negative dentries may shorten the walk.
-> > >
-> > > The more important question is whether a child can be left without
-> > > PARENT_WATCHED permanently. Upstream it can: the transition can be
-> > > observed by a recalc from the mark destroy path, which never walks.
-> > > With FSNOTIFY_CONN_FLAG_UPDATE_CHILDREN that cannot happen.
-> > > Every transition sets the flag, and every caller that can add a watch
-> > > consumes it,
-> > > so a walk that started after the transition always runs and fixes the flags.
-> > > What remains is the transient window above.
-> >
-> > I agree this is preexisting issue. Let's not block this series with it.
-> 
-> preexisting, but sleepable children walks could make an
-> improbable race actually observable, because the scans are not
-> serialized and could take longer (I don't know how the scheduler
-> treats a dying process which has its marks removed).
-> Just wanted to make sure that the point is clear.
+On 11/25/26 12:15 PM, David Hildenbrand (Arm) wrote:
+> On 11/25/26 12:12, Jose A. Perez de Azpillaga wrote:
+>> On 11/25/26 11:55 AM, David Hildenbrand (Arm) wrote:
+>>> On 11/25/26 10:59, Jose A. Perez de Azpillaga wrote:
+>>>> collapse_file() keeps the folios it collapses locked until it is done.
+>>>> With those locks held, it calls filemap_release_folio() with GFP_KERNEL,
+>>>> and for shmem it swaps folios in with the mapping gfp, which includes
+>>>> __GFP_FS.
+>>>>
+>>>> As when splitting folios, allocating with __GFP_FS while holding folio
+>>>> locks can deadlock in direct reclaim or compaction, and __GFP_FS also
+>>>> lets filemap_release_folio() wait on the filesystem.
+>>> How is that possible with my fixes?
+>>>
+>> it isn't, sorry. I'll drop 4/4.
+> So there are no other allocations in there besides the one done by splitting?
 
-Yes, the window can be larger now but it still shouldn't be a practical
-problem unless there are several watchers placing marks on insanely large
-dir in parallel. So I think we can live with the race for a while longer :)
+there are, the shmem swapin, but they can't deadlock.
 
-> > > I think a proper fix for the transient window needs a sequence counter
-> > > of scans in the connector. Each caller would wait until a scan that
-> > > started after its transition has completed, no matter which thread ran it.
-> > >
-> > > I think we can live with this v6 patch for your series and deal with
-> > > the remaining race later if we want to, but I am not sure and would
-> > > like to hear what Jan thinks.
-> > >
-> > > If you want, I can implement the sequence counter for v7.
-> >
-> > No sure what exactly you have in mind but a sequence counter per inode
-> > looks like an overkill for this. A global one can get contended and
-> > a bit hairy to manage but let's see...
-> 
-> I had a patch with another conn flag _CHILDREN_WATCHED
-> set at the end of the walk, which covers the Sashiko race, but
-> leaves some other corner cases (see below).
-
-Yes, I was also concerned about those races when thinking about that
-yesterday. Let's discuss below.
-
-> Are you concerned over the size of the mark connector?
-> I think that connectors should be rare and scarce.
-
-Yes, I was concerned about the size of the connector. On a second thought
-I tend to agree it wouldn't be a huge deal if we need it.
-
-> With workloads that frequently add/remove watch,
-> Sleepable children walks could cause a situation where
-> scan that started a few add/remove cycles ago complete out
-> or order with the most recent walk.
-
-Well, let's discuss the behavior of the walks and the flags. I imagine we
-could have two bits like _UPDATE_CHILDREN and _UPDATE_CHIDREN_RUNNING.
-When children flags need update we set _UPDATE_CHILDREN. When we see
-_UPDATE_CHILDREN set, we call fsnotify_conn_set_children_dentry_flags().
-That function checks _UPDATE_CHIDREN_RUNNING. If already set, it waits for
-it to get cleared and returns. If not set, it sets _UPDATE_CHIDREN_RUNNING,
-does the walk and clears both _UPDATE_CHILDREN and _UPDATE_CHIDREN_RUNNING.
-
-> Only the completion of the most recent walk can guarantee
-> that all the children dentries are watched.
-
-So I don't think that's an issue. Look, if someone places a mark which
-watches children of an inode, we either end up updating the children flags
-or we wait for _UPDATE_CHIDREN_RUNNING to clear. So any mark update from
-userspace blocks, until the children walk is done and then they all return.
-We hold the group lock during the wait so the mark that makes the parent
-watch children is guaranteed to stay attached to the inode and subsequent
-mask updates on the inode all result in the conclusion that children are
-watched (so fsnotify_parent() doesn't clear the children flags while we are
-still walking).
-
-One catch in the above argument are oneshot marks for inotify & dnotify.
-Inotify is actually fine since it grabs group lock when removing mark after
-the event was sent (so the above argument holds). Dnotify doesn't grab group
-lock when removing oneshot mark and so breaks the argument. I think we
-should just make dnotify grab that lock to make our life simpler.
-
-Thoughts? Counter examples?
-
-								Honza
-
-
-> void fsnotify_conn_set_children_dentry_flags(
->                                         struct fsnotify_mark_connector *conn)
-> {
->         unsigned int gen;
->         bool update_children;
-> 
->         if (!conn || conn->type != FSNOTIFY_OBJ_TYPE_INODE)
->                 return;
-> 
->         spin_lock(&conn->lock);
->         if (conn->flags & FSNOTIFY_CONN_FLAG_UPDATE_CHILDREN) {
->                 conn->flags &= ~FSNOTIFY_CONN_FLAG_UPDATE_CHILDREN;
->                 conn->children_gen++;
->                 update_children = true;
->         } else {
->                 /* Walk that consumed the update flag may still be in
-> progress */
->                 update_children = conn->children_done != conn->children_gen &&
->                                   fsnotify_conn_watches_children(conn);
->         }
->         gen = conn->children_gen;
->         spin_unlock(&conn->lock);
-> 
->         if (!update_children)
->                 return;
-> 
->         fsnotify_set_children_dentry_flags(fsnotify_conn_inode(conn));
-> 
->         spin_lock(&conn->lock);
->         /* Concurrent walks may complete out of order */
->         if ((int)(gen - conn->children_done) > 0)
->                 conn->children_done = gen;
->         spin_unlock(&conn->lock);
-> }
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+cheers,
+jose a. p-a
