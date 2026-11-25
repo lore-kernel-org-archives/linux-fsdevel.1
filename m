@@ -1,48 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795646279;
-	b=r8FslWlmkV8xqHUKxASc816eledpGBiycC5W3S6hPN4Lf5hCjWApgAjMhcm140IuGEH8
-	 k2bESwYjU/141AK9o7nWJ8EGUCysgGJQ+wwgpyjWew5y2r61YaRRQn8mEPR0iTmT5Zfgc
-	 AmD+X7ANw6dHbleZi2feDSdH7NyBdDW8qmaWGhNrkzL8GJlcMSf3fABFEBfm11NqGSmTz
-	 EGrBhUH+QfIC2SYg2zU6zvho4PUYhnX8drt8jWFHXfdIm1bB2LmcJRc2mEQQM6HKH/E3n
-	 KIJd1jG7gya60FbhzPS5QT1rrwW7AhRdUTlSZwqXpSCBAntlbZNJiQlErplFPDPpXXA==
+	t=1795646296;
+	b=IrET+h72uSKNOWxYmK91cQiRe2cHdUafu8rwy/Dkc/Pq0X1A2ovOiiwQQE1PPax0M22h
+	 HYYFAMNaaDyRlCL706NaZFsAryoAtpdwa6buZ5Jm7LCZiTLlW9jkKKdL/UN0mZX6KxwAU
+	 Xger2a4AzftJCCY+nHxutnpeu4HhAxGBIunLfFlbw3NEO0vsBgXvvVprLgWA60WZhPXR7
+	 i+Js1aiOXcpejDGfr99IVBooKCOUeMjnzn85Iz+16HnLW10Q/6uyu8FZgfsv7tKXJEMGk
+	 GZ1sCca/JzJD+CL36dYeTT0VzMJj9gEy4er7X9IutMMkb7fpB9lw0LphbPC/bI17Pag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795646279;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795646296;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=VjKgL3sFoPldgijp6lCpDuD+mopBcsgB/ttP+1X/jCk=;
-	b=H1bausfDo7nMGm/lm5+GwIg37aV3xkwASTJX1K1XeLE5Emi62c4mLYyfZq8VMp1IC8Ca
-	 mrsawuzUEMXEZCEh545oUu8igd5tsqRASjSTPUNs7zbF8HfQxTEQUePajemrjIWKCJ8Y9
-	 Kzo6gWK1vXDnda9ao4B34h+7+IWXlq2crHHRxONZp0/SmGwHqwORB9U+sM8xKZM2LmACe
-	 b7b7Tp0UgVXQsPYC7KKOu8IoBJrfdKDXM+/CvbbpvWQRkpJ1uA0QbJs4lxvOAi9ybgtFr
-	 ZbWvGK+18m4PGsXEUJT7uzUiMVItvKUvRj9HjLbxhb7eGueq+Cm6mvVWKAP1UkVeq8w==
+	bh=c5sCadhkwY9UanmmId4XEWhXMASQtuWsR/mG1JPVDXI=;
+	b=jebthmMroQQNfzolDo4kKoteP7Zj/Y2vlgPBFGEyiu4983PFAjvERg0FC8y4zr6xhYMs
+	 AlvGPeee1cgXCrKNwj3NpP8JpbJlgeuOFmdVujlGqUuya6L5o5aC02OAA7vwsKg1zhjBQ
+	 TfE9ZQfXML6DLAl2NBdWCrm+n5EdcPLkfdhqVF7lVhcSpGVcUx7kpuq1/W3LUGczh3Oek
+	 tv3+EqgtJ3nhugxVhrONPFDhXzJ5ivqrkGloI5GHjJZOxJSV6l+3N5Fwnok+UZEiC3nvx
+	 gOi0vgz6ZLXOdm+kLRXkqN/iVou9g9CWF6P3duvJ9iI0j8rV1BXtZ6KD+5mIxYxadqg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Remf4O7f;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mcGV1irF;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5360606A31E;
-	Wed, 25 Nov 2026 22:37:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297E7606A31E;
+	Wed, 25 Nov 2026 22:38:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Remf4O7f
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 144731F000F2;
-	Wed, 25 Nov 2026 22:37:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mcGV1irF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19CA81F000C0;
+	Wed, 25 Nov 2026 22:37:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795646279;
-	bh=VjKgL3sFoPldgijp6lCpDuD+mopBcsgB/ttP+1X/jCk=;
+	s=k20260515; t=1795646295;
+	bh=c5sCadhkwY9UanmmId4XEWhXMASQtuWsR/mG1JPVDXI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Remf4O7fx/AFusGUzQGfMeurEwsxkr3JAjv+utPVTBog7uXBrh9k8Olw0S4aBBWhq
-	 ZMJr8AK1bKTrctfwD5XRfVhKpDhV7RyCR8E1x1xIwcvB61Ab4cw0rGSZ70ZgC8AdR6
-	 6xJLwj2ERSj36Qh6Ucu2sFyMuwQVBG0fqIBxlarS4qmcqQvdGdSDV3X7v/hqXRfNky
-	 Vhfpt0qB2IOsztafgaQR2l0+2LyC0G1q9087mysc9AGjAvNdcLk3sYD0lb9D8U1Z6p
-	 UrboJ+kOxmYit4FP9EApxwoNXZr+jjkmcoeRU1xVWookI9Wj69k/JrjzwYsFEXGYg5
-	 zjG06Bjo1tVbQ==
+	b=mcGV1irFRfXDZP7eEVn2PE6y0zqMjBz3R4YH3XVsY1dIM8vndetGzsNVRLSa9MHqH
+	 Hl8tPm3IHHw8Q+AWHbAmKVE8Eokao7NczVWg8nPhKPR1BZ9rGJoernBmso/wi+Lvmn
+	 I1oNfQ86/7bW+rb+gZM3Sr9iVsB0iUxRM+nd6p3ha72bJMyr4FvbaQnt+EQPcQhZDF
+	 xmmEK1Ro+b8WaD1DQn4PQv8jOyiIt5Q8LY+q5ei+PGW6+Ud9+cpmHuOCatVBkqyr6Y
+	 lpvOFTcZtHdIOmkTP6GZ7zxp2qtV9fIRjDzqLM0Ep6XUzFQ42c4NcdPFrDEK/hSR1A
+	 sk6LwO1VZkHZQ==
 From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Wed, 25 Nov 2026 23:33:15 +0100
-Subject: [PATCH 17/21] hugetlbfs: seal SHM_HUGETLB files against growth
+Date: Wed, 25 Nov 2026 23:33:16 +0100
+Subject: [PATCH 18/21] fs/proc/task_mmu: don't clear VM_SOFTDIRTY on
+ hugetlb VMAs
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261125-hugetlb_fixes_2-v1-17-db27fd2f71a8@kernel.org>
+Message-Id: <20261125-hugetlb_fixes_2-v1-18-db27fd2f71a8@kernel.org>
 References: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
 In-Reply-To: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
 To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
@@ -94,74 +95,69 @@ To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
 Cc: linux-mm@kvack.org, Jason Gunthorpe <jgg@ziepe.ca>, 
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  Andrew Morton <akpm@osdl.org>, linux-doc@vger.kernel.org, 
- "David Hildenbrand (Arm)" <david@kernel.org>, 
+ "David Hildenbrand (Arm)" <david@kernel.org>, stable@vger.kernel.org, 
  Chris Mason <mason@kernel.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2124; i=david@kernel.org;
- h=from:subject:message-id; bh=7MoiVxUj4TNHB3tVg+ZjfIFB8GSvxEg3MaoP8tyv0c4=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLZk1SjvLf+tbVQYWRgEJnlsbPsrAqLUZ7mS+OLfwP/X
- 0xm0k3pKGVhEONgkBVTZAkKvm/w8uW62mo3PmaYOaxMIEMYuDgFYCILtBgZVgpIsu3W3CuwUPdH
- zXMxCa+e5KwHG49FdB72aCufc9ayipHhxDV7EeHYao7bdqpWu+INNpR1n3JbvdRCbeoWvSs1i3O
- 5AQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1880; i=david@kernel.org;
+ h=from:subject:message-id; bh=+sv+UhDuOwJztPqdlwWWA+euIQWZKN3bwN8oaLd2OMA=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLZk1RjN1gnhsRf/3P15CPRqcePHrc9xZkad2Pdwldv2
+ 2d6xawS7ChlYRDjYJAVU2QJCr5v8PLlutpqNz5mmDmsTCBDGLg4BWAiu5Yx/I/o3civLLybU1m6
+ 1z3Qdp/Q7vdu6p+t9rxujPg/YU3NK1dGhtfpgcuaM5e8/G12cbkh71vRn9cr38Tqv9XZ8iC0ILr
+ MnQsA
 X-Developer-Key: i=david@kernel.org; a=openpgp;
  fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-From: Chris Mason <mason@kernel.org>
+hugetlb does not support soft-dirty tracking: since commit f96f7a40874d
+("mm/hugetlb: fix hugetlb not supporting softdirty tracking"),
+vma_wants_writenotify() ignores VM_SOFTDIRTY for hugetlb VMAs, and
+clear_refs never clears the soft-dirty bits of hugetlb entries.
 
-The size of a SysV shared memory segment is fixed at shmget(), and
-do_shmat() relies on that by mapping i_size bytes of the backing file.
+However, clear_refs still clears VM_SOFTDIRTY on hugetlb VMAs. With
+CONFIG_MEM_SOFT_DIRTY, a FOLL_FORCE write to a private hugetlb mapping
+without VM_WRITE can then loop in __get_user_pages() until the task is
+killed, with the mmap_lock held for reading:
 
-However, with SHM_HUGETLB, the hugetlbfs file can be grown through an
-fd obtained from /proc/<pid>/map_files with ftruncate() or fallocate().
-Also, remap_file_pages() with a pgoff beyond the segment can grow it,
-because hugetlbfs_file_mmap() grows the file to the end of a writable
-mapping:
+    __get_user_pages()
+    retry:
+      follow_page_mask()
+        follow_huge_pmd()
+          can_follow_write_pmd()
+            pmd_needs_soft_dirty_wp() is true
+          returns NULL
+      faultin_page()
+        hugetlb_wp()
+          set_huge_ptep_maybe_writable()
+            no VM_WRITE: the entry stays as it is
+        returns 0
+      goto retry
 
-    shmget(key, 4M, SHM_HUGETLB)            i_size = 4M
-    addr = shmat(id, NULL, 0)
-    remap_file_pages(addr, 2M, 0, 6M >> PAGE_SHIFT, 0)
-                                            i_size = 8M
-    shmat(id, NULL, 0)                      maps 8M
+Let's fix it by not clearing VM_SOFTDIRTY on hugetlb VMAs, so we always
+treat hugetlb pages as soft-dirty.
 
-Later calls to shmat() will map the bigger size.
+This has low urgency, as the loop can be killed.
 
-Using /proc/<pid>/map_files requires CAP_CHECKPOINT_RESTORE, but
-remap_file_pages() does not require any privileges, so we focus on the
-latter.
-
-Let's fix it by setting F_SEAL_GROW on the inode when creating it for a
-segment. remap_file_pages() beyond the segment still succeeds, like for
-shmem segments, but accessing pages there now correctly results in
-SIGBUS.
-
-This has low urgency, and likely nobody ever ran into this in practice.
-Let's not CC stable.
-
-Fixes: c8d78c1823f4 ("mm: replace remap_file_pages() syscall with emulation")
-Signed-off-by: Chris Mason <mason@kernel.org>
-[ david: adjust description ]
+Fixes: 052ccfbcc6cd ("mm/hugetlb: support FOLL_FORCE|FOLL_WRITE")
+Cc: <stable@vger.kernel.org>
+Reported-by: Chris Mason <mason@kernel.org>
 Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 ---
- fs/hugetlbfs/inode.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ fs/proc/task_mmu.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
-index 0b96fdc3ad9d8..f1a8208ffc818 100644
---- a/fs/hugetlbfs/inode.c
-+++ b/fs/hugetlbfs/inode.c
-@@ -1559,8 +1559,11 @@ struct file *hugetlb_file_setup(const char *name, size_t size,
- 				    S_IFREG | S_IRWXUGO, 0);
- 	if (!inode)
- 		goto out;
--	if (creat_flags == HUGETLB_SHMFS_INODE)
-+	if (creat_flags == HUGETLB_SHMFS_INODE) {
- 		inode->i_flags |= S_PRIVATE;
-+		/* The size of a segment is fixed at shmget(). */
-+		HUGETLBFS_I(inode)->seals |= F_SEAL_GROW;
-+	}
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index 41b280ab7b19d..d9ecb94f4daa5 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -1801,6 +1801,9 @@ static ssize_t clear_refs_write(struct file *file, const char __user *buf,
  
- 	inode->i_size = size;
- 	clear_nlink(inode);
+ 		if (type == CLEAR_REFS_SOFT_DIRTY) {
+ 			for_each_vma(vmi, vma) {
++				/* hugetlb does not support soft-dirty tracking. */
++				if (vma_is_hugetlb(vma))
++					continue;
+ 				if (!(vma->vm_flags & VM_SOFTDIRTY))
+ 					continue;
+ 				vm_flags_clear(vma, VM_SOFTDIRTY);
 
 -- 
 2.56.1
