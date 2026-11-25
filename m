@@ -1,143 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795587252;
-	b=ewHlSMP8rpLkWIDVpUu41zVc6v846CBULUzYbDWL5lgRx7JME+UPXSC9h7OJgI5uOe6o
-	 zw8bWzmquWmjXhxbNSG54VNa7+3CQLVhpGRsRQoBlSdBhg6wJjO86d7/hEDMAG61GXm4E
-	 rXy/Xmr1i2daMHBgj1bQG53juSDuBJPxDUKuWDb1ydTD0eUCqESGD/hxPWZAqlDwS+A7G
-	 I6WI7BPjtWWkCMaaWwnkTqWgvH7MW1ovnDwEGxBmmfcHzbWCWuFiqPWdFDRx2D2z0JbIg
-	 xqqc9/ItCuDetehAUUyEEazeanAX/2Tc0Rm4wM38wSWMGaY1YkGdMLxH7VELnQxMftg==
+	t=1795587754;
+	b=TIeRU2ki+d4SFSSzqXTrF6dT+AK3Kz2BYzisVgyM4ZAALJQp/0hJcEyXHxbSj4vmN4G7
+	 4/x5mxgIL4GfPbjqaHkbhpQYnvj0hDEMpWjx+NLfPJTh38PuJw9CTU9Cm9urmaqOI5Lyd
+	 BVMd6rgxBvIUx7lI2b3sRQAxCH3nVTzQmx6tcRonDrJrykGetExOMWbfwFqaQWCSUcOn8
+	 z6yo2aj5ZeYjBEcA/7vcXM8d1WuRngHMzN/uAyc/EjCEVKOiI8ZyYgznCANtNAN2qGwgK
+	 4O0/Z0ic/KHLCZGJD7vB0b8OKu2Hdd46dRE9X6CVrgIvvOmpBQgnj98ajtYz5fFY7lQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795587252;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=nH1JDKUpxZKr2E7xywv7sSC/lG5A4nxPxWDHndTmH+U=;
-	b=hUhEEe/BfZ5BXebxZ3LAwfTmiEjluT69SppI5QVfVblHOxk88Kodfewj3MaGdqcKs03T
-	 mkhZpRKKAfCQaYxsNXTj+bfW6j1ij8UoIu2tEDxGo8O+sM/rIp5J3OHgcvO2TRCGI7RKF
-	 DbwomOpyLkM2ULZRD1y/+belpPDmBhTO01Y44XYoNmH0h08JPhm3+0LiYnDzzcQhIOj9N
-	 F4VFnSuiEz4vtWLsTlHuu1NT96oftX7pZu5p041qm3Ky+L0TK2SPa72rGR8EMjLPYYu39
-	 7mvQF41r1fbgBxZ3N3heLL19aL5g4pvZci/jyOOTyL5Hb2ix/QcdWE347c22d/HJQww==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795587754;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=Tjtx0YAdrMpcvwQv+CSokdx6fTpn2TH63lyYF/I9Hz0=;
+	b=jHWXIzOaqRrTKPC4zcwltTF6ZruK039zyUIlGKmD4r5GA8eBzYOx9h011I1YjgsBUh5c
+	 ONUzt7AXl3hgkfjI/SEpHEBhyl1OOluxegwGkMl5NWzMXnCh4tXRDEnCZdI4bNGhb5z77
+	 iLiwyZOlyJ1OM1E0pFcX3x7m0KYhaGWHCOSItDNdPOrB7njFAFI30SwcddVQs29gwk4+W
+	 kgYnaG5jJ01NvVp/QUAjNzvteOwuEbYa4dJo9J5k2eXq1jc5Rm8m9ht8JJQpANtWCt7g/
+	 bo6KQfam+a5d29rSwPX48DKn1WXS2h7IfpTOTOsL54tjMAmUpPTDHRUwKzHXMJqCHMA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=OQ10UQlo;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UqpqaVI0;
+	arc=none smtp.remote-ip=209.85.221.46
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC72606E94B;
-	Wed, 25 Nov 2026 06:14:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2FC72606E94B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41CFE606A31E
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 06:22:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41CFE606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=OQ10UQlo
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Sender:Reply-To:Content-ID:Content-Description;
-	bh=nH1JDKUpxZKr2E7xywv7sSC/lG5A4nxPxWDHndTmH+U=; b=OQ10UQlojOOElMejsET63HIbzZ
-	3DHzvbtYIGqi3qtZVmlnOiTGbSwjJaXCrsDgpHInm2eUGr8Xc79IeDQYDrtJVitNB0FwJZCPO4B8q
-	+iOBeVWlbGzBejGX44u6FBx6jMlOzwnzs0/RPybD92JWe+ZEhd2F0VZXPfoSXXKlqmHkpJj3BYeff
-	PI7xG81lPzaQFyumhKdnS4tNxkr8IW9Cdx3c7fbkK4m5X/Zh5Rgxrc0VYPw9ZDhRuFltHqM60uFWP
-	hZDBs8jxgJq594XvPuA6d95qyJlYfVavjeq76w/EreE8GdBtyeqVTX0Sp6D1XhKyU0S94iu4liry5
-	Ut1LqIcw==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xW6Gh-00000008Wvh-0GYM;
-	Wed, 25 Nov 2026 06:14:11 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	David Hildenbrand <david@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	linux-mm@kvack.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	linux-bluetooth@vger.kernel.org,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowangio@gmail.com>,
-	David Heidelberg <david@ixit.cz>,
-	oe-linux-nfc@lists.linux.dev,
-	Chas Williams <3chas3@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org,
-	Helge Deller <deller@gmx.de>,
-	linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	MPT-FusionLinux.pdl@broadcom.com,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	"Martin K. Petersen" <mkp@kernel.org>,
-	linux-scsi@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	linux-mtd@lists.infradead.org,
-	Neill Kapron <nkapron@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	xen-devel@lists.xenproject.org,
-	Hans de Goede <hansg@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	kvm@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	Jan Kara <jack@suse.cz>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UqpqaVI0
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-492690dd5daso4043681f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 22:22:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795587751; x=1796192551; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Tjtx0YAdrMpcvwQv+CSokdx6fTpn2TH63lyYF/I9Hz0=;
+        b=UqpqaVI08vg/ZUhs0YfTfM7EKN+BktLowjhHqXircA9B0nqfiWU/3SND1AkqbSr3sn
+         /AVCl002szn2ePT5T4LcKjz1yWsIeJHk63uWnEJ+OOWpumoKerzXDUJIKFixz8xPmcfj
+         a4QG/ITjUiPWrOd2Blx4AJZBlolGuRgZbwNaFUVihOQQ380cAaGL97Gd6pBeScNaj8Qs
+         YLQa8XAxh1RgIn57M/1/qHlztxfcjoF0zKQDaH3w/y0pboJtXDX+L/aS//YtSZA0rdTj
+         +z+vvN6r6+BvLvDuBRHIZOF3VPAGdXvR2wCtr8S1fH3nm+Gf+5lr+4EdAuanaY3lITdq
+         3rAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795587751; x=1796192551;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Tjtx0YAdrMpcvwQv+CSokdx6fTpn2TH63lyYF/I9Hz0=;
+        b=VWcePAangPJwRjeCVqy1S6VBKvrZ5zcESMzymeCXBfcYeUy8wEYSvVRJANy8wg+g89
+         kao771YNbWGyL9XtJCHy9c4k+v96ClGLSmbsNbUg26AqWoDHdQGl48iPzmyXhKmMNt1b
+         WN9pTYHaZLA6tldIWh0y6X8CB3OlHjYCoIClHwFTBK/PSQte9Q2uu10ONMbJicI1fHpe
+         aOCcvnZdo2rEmi2fWbOqtAPVV65kjFfEuH+awLBExr3vqW5JeiD72CjK1T5XVTpvVxix
+         AffCheG02Ig+CotagJvmhoW8ya6R+raIITqRJe97csyBXEvJiG/8BitCSVsptNnVHRXn
+         odxA==
+X-Forwarded-Encrypted: i=1; AL+hErEeckc6PDqHeuEG/2Q5Aeubd9BmVgbEQB/NOF9BPvNB8xc1Mlrj8J6aQu8SFWSMmomsw/iFd1l1xC9gTRjb@vger.kernel.org
+X-Gm-Message-State: APuU4Z8BsEQ4M1gF8AnE/bIYbgepJQQxon58tM38gJjUpK7En4ooR040
+	Iq81Ldmo26dBaz1kJfmB7ca5YKqJj2d3si853JQpk9Cnnitc4DF3Lv8Q
+X-Gm-Gg: AZFdTZeMiZJ3f1qYO8CqAbsi3iIxff2k09qs0amiSwVDk/QYrNz6e7dasdVzhaAzXco
+	muw9ijzZv/uXwYA9GcZWApSUXjQ7VHtLgWkY1UBRJcNtJo+pKJPvQtXOiJTDzaO7fuZLZ6UU5/7
+	+oPArpGgcqF0tq+gqmP5PnfjV9zQSUJvJ4HW+2LmUzEPPloFoBSdE89HyY2rLuUaqjVqsScuFwn
+	vyYOF7xxlGQbSNTjpNtVu+pz/TVM5TUvP/M490TN0pqBbvX/sIG7siI0SHA48N2RrYfArEm/t/V
+	uVg0thDWzoCCV1VbR6tOtxirfcdr0XM6YUgD8Vfus4EL/WMFwhnjeICTzItas3N+8o3bOKYrqT0
+	0U9EV4rw/YlRG1DV4cLAPibV2fOO4sKhhj7e6MtobwgObFa1yIe7BHOLT+lR+4GoWAoyEWIIMGb
+	j0NJyF0+pPsdzx0jDaBLxmIA6BNN9cHAalFuxiiq5Ni2TzlcKwBoqIK8KUJfbnalt4WYHCtIvg1
+	vbLTvU2c6UTV1r4VeJSSgyuqoyv2rpEZSi5Qol/b3qukOt2hEyTy8DZ++3gcoCsllrwxLohhkZS
+	spHLuvWNCpP+Hpe9G2UGzEl7lw==
+X-Received: by 2002:a5d:5f53:0:b0:4b7:6ea2:54be with SMTP id ffacd0b85a97d-4b76ec0df5fmr9041902f8f.14.1795587751217;
+        Tue, 24 Nov 2026 22:22:31 -0800 (PST)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4ab9cf005f2sm26407054f8f.45.2026.11.24.22.22.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Nov 2026 22:22:30 -0800 (PST)
+From: Askar Safin <safinaskar@gmail.com>
+To: jkoolstra@xs4all.nl
+Cc: amir73il@gmail.com,
+	brauner@kernel.org,
+	cyphar@cyphar.com,
+	gregkh@linuxfoundation.org,
+	jack@suse.cz,
+	jlayton@kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	"Theodore Ts'o" <tytso@mit.edu>,
-	linux-ext4@vger.kernel.org,
-	Mike Marshall <hubcap@omnibond.com>,
-	devel@lists.orangefs.org,
-	Paulo Alcantara <pc@manguebit.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	linux-cifs@vger.kernel.org,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Chao Yu <chao@kernel.org>,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	amd-gfx@lists.freedesktop.org,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	intel-gfx@lists.freedesktop.org,
-	Matthew Brost <matthew.brost@intel.com>,
-	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-xe@lists.freedesktop.org
-Subject: [PATCH v3 12/12] docs: ioctl-number: update DRM entries
-Date: Tue, 24 Nov 2026 22:13:39 -0800
-Message-ID: <20261125061340.3402300-13-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261125061340.3402300-1-rdunlap@infradead.org>
-References: <20261125061340.3402300-1-rdunlap@infradead.org>
+	linux-kernel@vger.kernel.org,
+	neil@brown.name,
+	shakeel.butt@linux.dev,
+	tj@kernel.org,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v8 07/12] vfs: short-circuit MAY_WRITE access for O_DIRECTORY opens
+Date: Wed, 25 Nov 2026 09:21:46 +0300
+Message-ID: <20261125062146.940336-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261024213539.1307600-8-jkoolstra@xs4all.nl>
+References: <20261024213539.1307600-8-jkoolstra@xs4all.nl>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -147,66 +107,52 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Update the list of files where DRM ioctls are defined.
+Jori Koolstra <jkoolstra@xs4all.nl>:
+> Requesting write access on a directory can never succeed. Rather
+> than performing a path-walk to determine whether the target is
+> actually a directory (-EISDIR) or not (-ENOTDIR), or does not exist
+> (-ENOENT), etc., we short-circuit to -ENOTDIR.
+> 
+> Currently O_WRONLY for directories is only blocked in may_open(),
+> which happens after we have the inode for the target, so after any
+> create via O_CREAT|O_DIRECTORY.
+> 
+> The advantage of short-circuiting is that we don't have to add even more
+> logic to lookup_open() to differentiate -EISDIR/-ENOTDIR. Also, for
+> filesystems that define ->atomic_open, handling this cannot even be done
+> at the VFS level, as we can't know ahead what the result of the lookup
+> will be.
+> 
+> Suggested-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> Reviewed-by: NeilBrown <neil@brown.name>
+> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> ---
+>  fs/open.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/fs/open.c b/fs/open.c
+> index e43f02ff64ac..4334f30bb7ff 100644
+> --- a/fs/open.c
+> +++ b/fs/open.c
+> @@ -1343,6 +1343,15 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
+>  
+>  	op->intent = flags & O_PATH ? 0 : LOOKUP_OPEN;
+>  
+> +	/*
+> +	 * Requesting write access on a directory can never succeed. Rather
+> +	 * than performing a path-walk to determine whether the target is
+> +	 * actually a directory (-EISDIR) or not (-ENOTDIR), we short-circuit
+> +	 * to -ENOTDIR.
+> +	 */
+> +	if ((flags & O_DIRECTORY) && !(flags & __O_TMPFILE) && (acc_mode & MAY_WRITE))
+> +		return -ENOTDIR;
+> +
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-v2: no change
-v3: rebase
+Please, do -EISDIR here, not -ENOTDIR. You returning error here, **because** user attempts to write to **directory**. EISDIR is natural here, ENOTDIR is not.
 
-[Since having multiple maintainers trying to merge these would
-cause some conflicts, it would be more manageable for Jon to
-take all of these through the docs-next tree.]
+(I'm human, not LLM.)
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: intel-gfx@lists.freedesktop.org
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: intel-xe@lists.freedesktop.org
-
- Documentation/userspace-api/ioctl/ioctl-number.rst |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
---- linux-next-20261123.orig/Documentation/userspace-api/ioctl/ioctl-number.rst
-+++ linux-next-20261123/Documentation/userspace-api/ioctl/ioctl-number.rst
-@@ -98,6 +98,7 @@ Code  Seq#    Include File
- 0x1b  all                                                              InfiniBand Subsystem
-                                                                        <http://infiniband.sourceforge.net/>
- 0x20  all    drivers/cdrom/cm206.h
-+0x20  00-01  drivers/gpu/drm/amd/amdgpu/amdgpu_umr.h
- 0x22  all    scsi/sg.h
- 0x3E  00-0F  linux/counter.h                                           <mailto:linux-iio@vger.kernel.org>
- '!'   00-1F  uapi/linux/seccomp.h
-@@ -268,7 +269,7 @@ Code  Seq#    Include File
- 'c'   08     drivers/scsi/ch.c                                         conflict!
- 'c'   80-9F  arch/s390/include/asm/chsc.h                              conflict!
- 'c'   A0-AF  arch/x86/include/asm/msr.h conflict!
--'d'   00-FF  linux/char/drm/drm.h                                      conflict!
-+'d'   00-FF  drm/drm.h                                                 conflict!
- 'd'   02-40  pcmcia/ds.h                                               conflict!
- 'd'   F0-FF  linux/digi1.h
- 'e'   all    linux/digi1.h                                             conflict!
-@@ -292,6 +293,8 @@ Code  Seq#    Include File
-                                                                        <mailto:zapman@interlan.net>
- 'h'   00-1F  linux/hpet.h                                              conflict!
- 'h'   80-8F  fs/hfsplus/ioctl.c
-+'i'   00-02  drm/i915_drm.h
-+'i'   00-04  drm/xe_drm.h
- 'i'   00-3F  linux/i2o-dev.h                                           conflict!
- 'i'   0B-1F  linux/ipmi.h                                              conflict!
- 'i'   80-8F  linux/i8k.h
+-- 
+Askar Safin
