@@ -1,49 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795608292;
-	b=kAHrK6lbTd5aYwEiDpMU2SXvazCXV/lBbsdxUkngwlUyj+TKD1HeCV1rMCT0Im+/K9lG
-	 SR4ycMf+L8EuXFlArZBvXtFYupwCLJDmqYdX3bWHkZeVxFzBm1O/QzVOKhpabzArbdTFn
-	 r7SdVDYTnCYnNU+VGPU5qEMnI6dlqE5/u+YTpsTOldgyPGQNQLhSWishvNlYequ395Xsz
-	 jD6j478aQGfrnumRlOhHjhfFU1KYjYEdCA1QJdBgERep7Jo7i+2ITf+eKVPlMK7ncSPGS
-	 BGh5baSYbbGVuUI5hVRGPzXUL2hcjcWmtSFv+KecQ4guYGD2FE8lR3p/Tib+z8yyEAQ==
+	t=1795608954;
+	b=HW8YCTaVpJ1NNXJ9enain/6co24vSiq9F4JU9BuLuITIkyq0ucXF1nzXoR4EaoMhtfq5
+	 kYJGx2cUVCCZLJ2VikuYYPkdjhYA+6gWfT0BZ90c90zlI2+cJNIV3IDg+Yv+2NGatvD8k
+	 vrSXL4Qr6U4TJXumuMiIwbH3VK69IUjXiTUqTG+v8u9rW+YBmSZzWmsvgA14ZQs7UGfKq
+	 L1MTQRkQ73EpKigykfvC6CNk6f/K4GG6s4sCw2YI/E1eUbgfWzRhG9ElIzGUTYD5iQQrk
+	 UtwMJNV1P3x3dTL5ghfSORFPrOF1CTFmDp/mq6bgXYNLuHc1smvCmgRCRTZJh+GdT6g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795608292;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=PghfIw5FkDOWeuIpOC4fp+g5iHrz81XWJyRUzrTRwCA=;
-	b=gaSstFq5EOXs24G9zB4Qw2GCph8eORHVNCw6VglJAwCDzpvSobVO5nBlhoVr07mhxQdq
-	 Kp9nxf/mqyQU3Ll1+qTjzlrLDj9AM3kbmt1YNFvc0nLqd6Ofg3W25GXrY+bkjZee9oez3
-	 3vryCeUpe91xoO5dsBvxZT+kaX/Ured3bAGSS6WI4fAZ/jHHC1FDAlzMGP4zttoEHS07B
-	 i5rjm6D7xxbyyewDPj2wYDDM/r7GnpEKM5Mk6zGdQ5/Yw0iUWN+K+TaLmhtfo73kJGjE7
-	 hwc0+GGD+g4tNTtLcfsLofWtc2q+/bAKtySGJ92Jua5y23AV68XqlSnbnxw9bbHcxmw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795608954;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Scanned-By;
+	bh=zoN7I0BDPbXDDeNenHos3vHXfJ3u5ltkjoBOqq3KTgU=;
+	b=1Autk/li0amRiIRNfVb6gFVEGU00X6T5iTI5BTLcTQIkQPUii3z0bOHknYkxNQ6BPOI+
+	 M3G6NUL39y9WE1qNnI3Swm70B/h6p0N0oWMz9EjV3j3ymcRAt6zJhQ0XUrKipQsnBeIwl
+	 KdlFvysZR8NMFmVwDdnLQgltwJ8kMll9sinmGNT78xq7oA4XL3iy3D9q40wvWT3ox+9yG
+	 CDLvBrw/106lJl81Mz3F+vrapMBH686yWAhZvNnbMiwR4KTAFUypTjpDoUo4rFDY9xiad
+	 fjYFk3ya5F0vNDowEyEKNR27/woMkTfrHfEabKS3YOD3d68Y0B3JVAkp6NvCddBA6yQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=le6mXG5g;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b="G/CktXkt";
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512B5606A31E;
-	Wed, 25 Nov 2026 12:04:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5A0606A321
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 12:15:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC5A0606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=le6mXG5g
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1685B1F000D1;
-	Wed, 25 Nov 2026 12:04:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795608291;
-	bh=PghfIw5FkDOWeuIpOC4fp+g5iHrz81XWJyRUzrTRwCA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=le6mXG5gFsuHR9GZAlf2bLTFh2WVDklnebyY7jI5vwZxtnG5Wy60JVmlvU+VI6TX7
-	 zYxTVaIR+bEhE7JuvPXgRwh0O7Z6OhRZaeAbOmtSjwENOkZt8B0j0/n8sO62cPvx+p
-	 GxW+LgQZ6cvEAqY4IewGfo6AGbTGlu0IaNIXq3/P4PloB0J/qVse3QYlnnLA/uibb9
-	 KHiK746SDEIleDq7sBIrJgOLOgAtAIxX4vV9UwPaN1S3DpMSeGQ/h+k8VQ6FbEhteF
-	 oUVbylCEobt9lqLStwTFOwB3GqQ3DU4MJIsa6PHlZbBHNRrPWlO7UR6vLiYvfBrz4V
-	 krNRwfONwyg0Q==
-From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 25 Nov 2026 13:04:27 +0100
-Subject: [PATCH 1/2] libfs: don't copy the child's ctime to the parent
- directory
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=G/CktXkt
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1795608952;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zoN7I0BDPbXDDeNenHos3vHXfJ3u5ltkjoBOqq3KTgU=;
+	b=G/CktXktkKQDZE0/jrCSzOMefBU8noKzfNfw8G5m8Kl7FAc6S0U2EUoYRln/9K/CyercGI
+	TXTiqkcLdpu7tZLFvmr2XnmE9nAewUrZmxQyytRR+IeSa4fRUzTs3KCNe/0/4l+dcwhaZi
+	tQVjxrgF4e9M0lQumXuAGTJH42P82eQ=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-586-GDTU3zJxMsaXpCLmoG1DuQ-1; Wed,
+ 25 Nov 2026 12:15:47 +0000
+X-MC-Unique: GDTU3zJxMsaXpCLmoG1DuQ-1
+X-Mimecast-MFC-AGG-ID: GDTU3zJxMsaXpCLmoG1DuQ_1795608945
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 344C119560B1;
+	Wed, 25 Nov 2026 12:15:45 +0000 (UTC)
+Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id D9B8C18004FC;
+	Wed, 25 Nov 2026 12:15:41 +0000 (UTC)
+Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
+	oleg@redhat.com; Wed, 25 Nov 2026 13:15:44 +0100 (CET)
+Date: Wed, 25 Nov 2026 13:15:40 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: mt4022@columbia.edu, Jens Axboe <axboe@kernel.dk>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Michal Nazarewicz <mina86@mina86.com>,
+	Wen Yang <wen.yang@linux.dev>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, tz2294@columbia.edu,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 2/7] sched/wait: add WQ_FLAG_POLL_EXCLUSIVE for user
+ space waiters
+Message-ID: <awbRbH35xP3KEEOF@redhat.com>
+References: <20261122-b4-sched-wait-intr-head-v2-0-4a764b64e8ce@columbia.edu>
+ <20261122-b4-sched-wait-intr-head-v2-1-4a764b64e8ce@columbia.edu>
+ <CAHk-=wj_eqNh+gNhCQh3exrL5Pmo5hbZBcL0W-4Ah_Nw0Kegzw@mail.gmail.com>
+ <awWSwmvaTwBxfU-r@redhat.com>
+ <CAHk-=wj3GCXZohdFWWPAOkC_LHno4X0oQW+0sQFJzRMvjpODUg@mail.gmail.com>
+ <CAHk-=wgYc9vFEmyV0Ch_e49j6GOhUCMQMnMV4f1FLLvumZOmRw@mail.gmail.com>
+ <CAHk-=wjbK0xyhwvWP1uNiYR6i-X9MpCn8bnm_akxq0MsrYOL+w@mail.gmail.com>
+ <awbJz9stwx_JzZFX@redhat.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -53,70 +92,47 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261125-work-libfs-mgtime-v1-1-8022a81d0b9e@kernel.org>
-References: <20261125-work-libfs-mgtime-v1-0-8022a81d0b9e@kernel.org>
-In-Reply-To: <20261125-work-libfs-mgtime-v1-0-8022a81d0b9e@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Josef Bacik <josef@toxicpanda.com>, 
- linux-fsdevel@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
-X-Mailer: b4 0.17-dev-04696
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1832; i=brauner@kernel.org;
- h=from:subject:message-id; bh=ydmLsipCJR9WepNKTHyAeGjqs+DJAXxw0rk3lS/y+zE=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSznbt1OHrFxUulpfsWblwxae+9E6d5OZXf3Arf8+cVx
- +MZGydMndxRysIgxsUgK6bI4tBuEi63nKdis1GmBswcViaQIQxcnAIwkeabjAwrmT2MHxxmm25l
- 8omziUWI4z2DcfPspo9JfQaqJUv3vGJnZNilbyo/K3Xqbo5HZ278Ondox5WVjnvbp0RcdI1u7Vi
- uOIsFAA==
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <awbJz9stwx_JzZFX@redhat.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-simple_link() and __simple_unlink() copy the child's new ctime into the
-parent directory. With multigrain timestamps that ctime is only
-fine-grained if the child was queried and copying it drops the parent's
-I_CTIME_QUERIED flag. So a queried tmpfs directory keeps its ctime and
-mtime across link(), unlink() and rmdir() as long as the coarse clock
-hasn't ticked. shmem_rename2() unlinks the victim of a rename the same
-way, so a rename over an entry from another directory changes nothing
-at all that userspace could see, size and link count included.
+On 11/25, Oleg Nesterov wrote:
+>
+> On 11/24, Linus Torvalds wrote:
+> >
+> > @@ -105,10 +111,16 @@ static int __wake_up_common(struct
+> > wait_queue_head *wq_head, unsigned int mode,
+> >  		unsigned flags = curr->flags;
+> >  		int ret;
+> >
+> > +		if ((flags & WQ_FLAG_POLL_EXCLUSIVE) && poll_woken)
+> > +			continue;
+> >  		ret = curr->func(curr, mode, wake_flags, key);
+> >  		if (ret < 0)
+> >  			break;
+> > -		if (ret && (flags & WQ_FLAG_EXCLUSIVE) && !--nr_exclusive)
+> > +		if (!ret)
+> > +			continue;
+> > +		if (flags & WQ_FLAG_POLL_EXCLUSIVE)
+> > +			poll_woken = nr_exclusive > 0;
+> > +		else if ((flags & WQ_FLAG_EXCLUSIVE) && !--nr_exclusive)
+> >  			break;
+>
+> I obviously like this change, but note that wake_up_all*() helpers
+> use nr_exclusive == 0, so
+>
+> 		poll_woken = nr_exclusive > 0;
+>
+> doesn't look correct.
 
-Give the directory its own inode_set_ctime_current() call.
+Yes, but ...
 
-Fixes: 234d8895e3ad ("tmpfs: add support for multigrain timestamps")
-Cc: stable@vger.kernel.org # v6.13+
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/libfs.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> I think this patch should also change them to
+> use nr_exclusive = -1.
 
-diff --git a/fs/libfs.c b/fs/libfs.c
-index 96a6e9b1535fb..07331e829c133 100644
---- a/fs/libfs.c
-+++ b/fs/libfs.c
-@@ -754,8 +754,8 @@ int simple_link(struct dentry *old_dentry, struct inode *dir, struct dentry *den
- {
- 	struct inode *inode = d_inode(old_dentry);
- 
--	inode_set_mtime_to_ts(dir,
--			      inode_set_ctime_to_ts(dir, inode_set_ctime_current(inode)));
-+	inode_set_mtime_to_ts(dir, inode_set_ctime_current(dir));
-+	inode_set_ctime_current(inode);
- 	inc_nlink(inode);
- 	ihold(inode);
- 	d_make_persistent(dentry, inode);
-@@ -788,8 +788,8 @@ void __simple_unlink(struct inode *dir, struct dentry *dentry)
- {
- 	struct inode *inode = d_inode(dentry);
- 
--	inode_set_mtime_to_ts(dir,
--			      inode_set_ctime_to_ts(dir, inode_set_ctime_current(inode)));
-+	inode_set_mtime_to_ts(dir, inode_set_ctime_current(dir));
-+	inode_set_ctime_current(inode);
- 	drop_nlink(inode);
- }
- EXPORT_SYMBOL(__simple_unlink);
+No, this won't help. It seems that __wake_up_common() needs
+"bool all = !nr_exclusive" before the main loop.
 
--- 
-2.53.0
+Oleg.
 
