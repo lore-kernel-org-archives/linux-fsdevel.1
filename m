@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795646230;
-	b=p4ua15kQSyviHmz5xHuHIxhenWukzvqELtEwcrBDosFPy0uytAcPXiVwJsr+tySVnm03
-	 mgFG3GijBpEyEZA0B9ASY/B4VdbDOPcYMm9YEJM6ps/DqHKm/8RhDMTSq40UwMJ9bBoPz
-	 QUJV3KS0Or6qFd1J/f4kgJm/ywE18c3IvtSjmyitSFRwpU8HqWNUXahPzvjrUZhlAcJRG
-	 Dk97J15BPo3PUfuHZfzYUXbK7ECf81mrAXLDtb8qP7PRDi0hNzVt7C0c3zMS0HhF7ykXS
-	 y6rDHnqA+CrnMmvObvZoHVlU5wRjwmoWDabTcOcpU6ExQ4NkmkdV3wZGEzjtAbzP+iA==
+	t=1795646246;
+	b=LHE5LftFyKzPW1zfF6JfANZ9vBPX90I3pqsKK6ulUVNA0vpLK1AkUtLZ84o5DNfwsNj8
+	 VqxEKlEMNCBnbh6Ki0ZkNRbg5rxtL4RenlZvgyfDWX9NhFb91BeznMei+i0wDo3OorkSO
+	 MogQSr705fdylxK7sM81ZyJZvwzIOzvDDjWnRwNNWI/nfDOqHfsuinMl8b2Taa93+bNyq
+	 jzvXD8XJ3uot0OnzRc2KdMUIZ1/cLhXM42BD3gdLAKZdZ05UvnSKpTqmcNdiWlQwzqQFp
+	 by7tHymz93axePelDJNgUweb4FI4ENwTNpUfH+xo+yGAMdeBpx424Kdr+zBD+ylL43g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795646230;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795646246;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=LPv00HXBHGcnrHwnYYcnQWrnezJpmZjmRwZVDwpJYZs=;
-	b=lg9F1tulatxOBv3GJ2nPdrDbX+BkwEBa3Sj0LeJIm4HiTIYsCMiPGrAqUkBeA50d/Kpt
-	 aE6aHaL5LGl3fQcVce0Zs/lUmXdSSI8Dr8kIXj6JyzAKVrohKDEeufGVr17CO7gWNQWE8
-	 jWnmayzqViif+uB0EjsSjxLnsPl4EGI9TaastAat3q9oGt32g0iHr5IsPv7ZOYclyOktR
-	 MdVJRuCHmpOWHdIyrj6nyzoNuZ44ajkipQ+GQQwfYbqT7UwsH3eVcUcWikGFCRDy4GwQl
-	 22tViXZtMH+1eq8PtQY2QDOxY97n2lZKIDbfGwDbIDVEOeMvdaCmzXc46DLUaQ8UQPg==
+	bh=r/88ZmpA7ofzoMgWfgW+R9YyORRfy205haZxhA2urC0=;
+	b=VtgQRq3TQmlp1q9ioqapuOa8NNl9mXQZLdp8ffbx0ZC197MrQO41qRFUCNOldb7lGNUP
+	 h4EcoLNN4SpWuYEoqs09LgzxpLwUqB5EuOtClaFeElImNuRQwge3HidxMVIXB7UI+0OXo
+	 Lqmqidj1G5pxM5gVPSl8T0XcStpdqG8jHAVgMxK7WOXYkonaXF3ofhFezNnkbM8teb9J2
+	 Wb6t91iu3znEHkwoAcosFmzrWX+ZwznXEYgpb4QCAcQpLd1SGWPuSZJwdYqXhs9bAl+GE
+	 PvuU/mwRr1aJQ/rC2MjGPKoGdWClbkVz04IBWBlc5mPcWgvMW2m+feiFzVmnbnm822g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xd9AE7iW;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YJEKNsew;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86F7606A31E;
-	Wed, 25 Nov 2026 22:37:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB64606A321;
+	Wed, 25 Nov 2026 22:37:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xd9AE7iW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3D821F000E6;
-	Wed, 25 Nov 2026 22:36:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YJEKNsew
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4252B1F000CF;
+	Wed, 25 Nov 2026 22:37:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795646230;
-	bh=LPv00HXBHGcnrHwnYYcnQWrnezJpmZjmRwZVDwpJYZs=;
+	s=k20260515; t=1795646245;
+	bh=r/88ZmpA7ofzoMgWfgW+R9YyORRfy205haZxhA2urC0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Xd9AE7iWYslCbkrOtsacMp9S4QZka9TCU/PTNwIXNqVICw0J/mz8SeELZNUrsWsMT
-	 i/3vqUZbMVdkv0i5UiOE913bfUaSAUQrzbUx7YHK3OM+bJdIdQ7pb8HRwU6UdI6bh6
-	 6EUZDa6zh9fZYGiDDzM8RsVCOVrKdi5kK8sqsHLD8b9TE7IhDNAUKZsZS/jTCC+4AD
-	 cplOKfhFhaAxb6ucOMt8Gj1rzz+Pkf3t1NXhNp4bsAuYXFez+3IQ24oLgM0J6pSfAr
-	 i8fkUVtfgvdIjIjTpmhhU4RDqv3dLlNMkJmSN7ELsHi1pWuRZgWvuAWV0v0WYZvKNQ
-	 LePKrkoEiP4sQ==
+	b=YJEKNsewmLI2r18oxstIpVnByWfyrcBn6xzzvapfFHD1JVPvOLaFRvDpplT/GBlud
+	 GxAcgZQbQaqlAy7PQnj201vX8pgyoYiDrp4ZxoW+0DybXurghchrZUBbrxSQgVugQ7
+	 zWqmufBhrC3MMeZfcm7v4o9SbFWg58U7UmXX/b97O181tlYyXEaEdwsQ9XROgNWZD7
+	 dcKa20kW+EAGZOc18ONlXxjhVZGJp/NXcEQwp461Y69pB4NLisNIB1IMqY9/63Xsj5
+	 QUSZbxnNr6t2Iv1gGR0kGrw4ZV5TDJltnZNXPFbZrVZcStWRc9Ksyx1nlY4AfU5DZk
+	 Y/qnIDWEZv/5w==
 From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Wed, 25 Nov 2026 23:33:12 +0100
-Subject: [PATCH 14/21] mm/hugetlb: count migration entries at fork and
- unmap
+Date: Wed, 25 Nov 2026 23:33:13 +0100
+Subject: [PATCH 15/21] mm/hugetlb: stop accounting HugetlbPages once PMD
+ tables were shared
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261125-hugetlb_fixes_2-v1-14-db27fd2f71a8@kernel.org>
+Message-Id: <20261125-hugetlb_fixes_2-v1-15-db27fd2f71a8@kernel.org>
 References: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
 In-Reply-To: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
 To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
@@ -98,82 +98,82 @@ Cc: linux-mm@kvack.org, Jason Gunthorpe <jgg@ziepe.ca>,
  "David Hildenbrand (Arm)" <david@kernel.org>, 
  Chris Mason <mason@kernel.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2527; i=david@kernel.org;
- h=from:subject:message-id; bh=irf5GUIfBQCl4azbFe2lzFg+Z8O8lLWnIpcOG+Ooqq0=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLZk1SvdCdnH1Dp2q7waYJMTTen2x+d5O1NyinbLpRf6
- W5U/vGto5SFQYyDQVZMkSUo+L7By5fraqvd+Jhh5rAygQxh4OIUgInYpzMydFg8+TjFoIT7VpSU
- tBrv042ykYeL7ydm+z+7c6d9n+LzNkaGntqIqXvql15JSA76aLPu+95pOXMftDx2bRd4nGM2NX4
- qLwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3111; i=david@kernel.org;
+ h=from:subject:message-id; bh=K65bx0/PtdyC5pc7uEgYhhGf7zKSOQWw4kDznZNplgg=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLZk1S7z76RWxGrM3GtanjsH9u8zLUHszoyMrtX16v0K
+ S2WL/7aUcrCIMbBICumyBIUfN/g5ct1tdVufMwwc1iZQIYwcHEKwERMAxkZPjDptDIbrc0y8lkg
+ db3DYeqRRtP/EhPXLpiqcHdfR8/MhQz/I+9YG1yY9WPudHOBvAeXo797x7Dpx+5pjVtcrjT9dUY
+ IAwA=
 X-Developer-Key: i=david@kernel.org; a=openpgp;
  fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-HugetlbPages in /proc/<pid>/status can be wrong, and even drop below
-zero, if we fork() or unmap while mapped hugetlb folios are being
-migrated.
+Sharing hugetlb PMD tables can leave HugetlbPages in /proc/<pid>/status
+too low or too high, or make it underflow: when (un)mapping a folio in a
+shared PMD table, we only adjust mm->hugetlb_usage of the MM we process,
+not of the other sharers.
 
-There is an inconsistency: when installing migration entries we don't
-adjust the counter, treating them as if they were present. However, when
-copying or unmapping a migration entry, we don't adjust the counter like
-we would for a present entry.
+Accounting this precisely is not worth it for a statistic, so let's just
+give up: once an MM shares a PMD table, set mm->hugetlb_usage of both
+MMs to LONG_MIN / 2, and report negative values as 0. Later updates
+cannot realistically make it positive again, as PMD table sharing is
+64-bit only.
 
-Let's fix it by adjusting the counter also for migration entries in
-these cases. Add pte_is_migration_entry() like we did for other softleaf
-types already.
+Document that HugetlbPages is 0 once a process shared hugetlb PMD page
+tables.
 
-This has low urgency and given that this has been around forever and
-likely nobody cares, let's not CC stable.
+This has low urgency, as it only affects a statistic. Let's not CC
+stable.
 
 Fixes: 5d317b2b6536 ("mm: hugetlb: proc: add HugetlbPages field to /proc/PID/status")
 Reported-by: Chris Mason <mason@kernel.org>
 Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 ---
- include/linux/leafops.h | 11 +++++++++++
- mm/hugetlb.c            |  3 +++
- 2 files changed, 14 insertions(+)
+ Documentation/filesystems/proc.rst | 3 ++-
+ mm/hugetlb.c                       | 9 ++++++++-
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/leafops.h b/include/linux/leafops.h
-index 4c1476ae32343..c315a3531485e 100644
---- a/include/linux/leafops.h
-+++ b/include/linux/leafops.h
-@@ -587,6 +587,17 @@ static inline bool pte_is_uffd_marker(pte_t pte)
- 	return false;
- }
- 
-+/**
-+ * pte_is_migration_entry() - Does this PTE entry encode a migration entry?
-+ * @pte: PTE entry.
-+ *
-+ * Returns: true if the PTE encodes a migration entry, otherwise false.
-+ */
-+static inline bool pte_is_migration_entry(pte_t pte)
-+{
-+	return softleaf_is_migration(softleaf_from_pte(pte));
-+}
-+
- #if defined(CONFIG_ZONE_DEVICE) && defined(CONFIG_ARCH_HAS_PMD_SOFTLEAVES)
- 
- /**
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index bcbcb41814d96..8696359b06498 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -268,7 +268,8 @@ It's slow but very precise.
+  VmPTE                       size of page table entries
+  VmSwap                      amount of swap used by anonymous private data
+                              (shmem swap usage is not included)
+- HugetlbPages                size of hugetlb memory portions
++ HugetlbPages                size of hugetlb memory portions (0 once the
++                             process shared hugetlb PMD page tables)
+  CoreDumping                 process's memory is currently being dumped
+                              (killing the process may lead to a corrupted core)
+  THP_enabled                 process is allowed to use THP (returns 0 when
 diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 2bba0940a40d5..89d71e3dadd77 100644
+index 89d71e3dadd77..796f02a4ded63 100644
 --- a/mm/hugetlb.c
 +++ b/mm/hugetlb.c
-@@ -5131,6 +5131,7 @@ int copy_hugetlb_page_range(struct mm_struct *dst, struct mm_struct *src,
- 			if (!userfaultfd_protected(dst_vma))
- 				entry = pte_swp_clear_uffd(entry);
- 			set_huge_pte_at(dst, addr, dst_pte, entry, sz);
-+			hugetlb_count_add(npages, dst);
- 		} else if (unlikely(pte_is_marker(entry))) {
- 			const pte_marker marker = copy_pte_marker(softleaf, dst_vma);
+@@ -4744,8 +4744,9 @@ void hugetlb_show_meminfo_node(int nid)
  
-@@ -5480,6 +5481,8 @@ static void hugetlb_unmap_range(struct mmu_gather *tlb,
- 				spin_unlock(ptl);
- 				continue;
- 			}
-+			if (pte_is_migration_entry(pte))
-+				hugetlb_count_sub(pages_per_huge_page(h), mm);
- 			/*
- 			 * If the pte was wr-protected by uffd-wp in any of the
- 			 * swap forms, meanwhile the caller does not want to
+ void hugetlb_report_usage(struct seq_file *m, struct mm_struct *mm)
+ {
++	/* Negative once the MM shared PMD tables, see huge_pmd_share(). */
+ 	seq_printf(m, "HugetlbPages:\t%8lu kB\n",
+-		   K(atomic_long_read(&mm->hugetlb_usage)));
++		   K(max(atomic_long_read(&mm->hugetlb_usage), 0L)));
+ }
+ 
+ /* Return the number pages of memory we physically have, in PAGE_SIZE units. */
+@@ -7310,6 +7311,12 @@ pte_t *huge_pmd_share(struct mm_struct *mm, struct vm_area_struct *vma,
+ 				(pmd_t *)((unsigned long)spte & PAGE_MASK));
+ 		hugetlbfs_pmd_sharing_inc(file_inode(vma->vm_file));
+ 		mm_inc_nr_pmds(mm);
++		/*
++		 * (Un)mapping folios with shared PMD tables would require
++		 * updating statistics of all MMs. Instead, give up accounting.
++		 */
++		atomic_long_set(&mm->hugetlb_usage, LONG_MIN / 2);
++		atomic_long_set(&svma->vm_mm->hugetlb_usage, LONG_MIN / 2);
+ 	} else {
+ 		ptdesc_pmd_pts_dec(virt_to_ptdesc(spte));
+ 	}
 
 -- 
 2.56.1
