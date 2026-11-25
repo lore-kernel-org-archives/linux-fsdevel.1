@@ -1,50 +1,132 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.144
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795576731;
-	b=WyBJS9BF1o2XwRCLk//As8zi4MHxNZ1tTAvPibnoczX6/KMz3sjvcXmM4O2LdzPu0V6T
-	 uDN2MYzUtZ4GRBjCTfybKNPbPiaGF7uUc6XDRxAobD1GsoyLKyu0tJ2c34BzSLnZFQdhs
-	 Jo3MDPPGWpbxpJ425I87lpYHLW1V44U8fXrsd4kbvm91Dd3x5PjydIneAD4jE6BCBTQru
-	 2awUb6lhW8hnvmLEdcjtUenQ7Sk9L19BRyiIQ0O+kydXGVdFQW9HTNA72A5CYTat2sl/5
-	 /e2F2F9Bf8+mOYPI4RS+nsMrCfopT0KqfnSc6J+lh4Jjps6Z1DpfrhoaB4OGaLOErJg==
+	t=1795578363;
+	b=mJOtt1L/3Y1/UEFbRmMW42G0v7MwCZYdLGymd8tG4ivuvx4H2LGpbscCh6EC+do9OJq8
+	 kL/e03vABVKkEGFeZlXV8OJf6hF2SWHfiOkBjXYMGpXyYKhTclxFl3+/HKalkNa4avOWt
+	 xvmJBQX8ndTKR8eJuXcWfBTSo7WDDdQUc3/4TT5ISMuRVe+dMV0bXi/SiIpbN0k6WmU1z
+	 Xm7q2t/GkKhOeX+THPypN1QWCHI6uS4ewh8cIvL8d+2H7k6zlHb0hX89VZPz5uRdBr8oQ
+	 Qf5NylIZH/rB50s3QNpyCMihEDz803mw2fER+v1+MYWWyeXGd+cMoP9KIRrLP5eGoRA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795576731;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-CM-TRANSID:
-	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=3AGeBQ4n1Qn9/uaSpUsSFxFzHCYbDAjSiA3J7ReA5f0=;
-	b=4rwW+XGieC8uecx2FspUI48pOZYE5Zb5bdI+5UzjMO9gCyAE5UMLxlBI7YUFOokp8KH+
-	 MDqpR42a37fWNvy3iDXe/YUJBaZ6PWB+0PAi5LtIFPeQ2Qot949ikYEdIttRg+uwR1jbp
-	 8COljZSJc1Q2VAfa3KT4r2wsHpZ7TzUy9AqWdwHeuKkZDBEpY1jxlY6TkweyZf53176Ug
-	 APlHiek+matXPjno5Hyn9HvdHGzZ+SMUIVRRa10K8iGS29j4jXp8CDhLoxGdUqUCjRs9x
-	 OEKHiqg7oiBgtbAAp3tgsy0RlIBTOiDG6f4uCFRcRntcZrkYL6LjqXIOUyoWqCi4TLw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795578363;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:Reply-To:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=te+85rs6L0Tu1kg3pduPz/TdZSjogt/uQT+qd17wdHs=;
+	b=wXcCeDaOWav72TPmtmQcpj9ciGIMkh5LPX0GjX+WQDr2xI85NRKvcYB2zSLHmuby3lpn
+	 RXiRgUmFHQEEZUSKSPJ4dkJsHtKbB+oYOzMJGBkQmRWsVmNnTBIWFjQxkfmr1k3WzIvUt
+	 HWFu4DbcYwhdNediC5XQF3TWb9JRCmDxeOqW/9laaTH5fPmZV5kcC76JDmRhdeMYRKUwg
+	 fdc+VFtmdCmmKiPVYoZ6hJe4V8aI03NuQeA028XkWBlqNbluaqN+YEoMndKIdWpDhcL+d
+	 VbxxyPaBTTpuRDNO1zeNU5DTrmNO9plG5zsMobY/wUm3yYJJpLLt8mRKwMi/V4ShfDQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b="E/a6ZQao";
-	arc=none smtp.remote-ip=117.135.210.4
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	dmarc=pass header.from=ownmail.net;
+	spf=pass smtp.mailfrom=ownmail.net;
+	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm3 header.b=DC+u0VGj;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=XWfVsu7y;
+	arc=none smtp.remote-ip=103.168.172.144
+Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE0C606A31E;
-	Wed, 25 Nov 2026 03:18:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5CE0C606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66EA0606A321
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 03:46:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66EA0606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=E/a6ZQao
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
-	Content-Type; bh=3AGeBQ4n1Qn9/uaSpUsSFxFzHCYbDAjSiA3J7ReA5f0=;
-	b=E/a6ZQaonO7qDO9pEfoug4VmVw+KeH9AHTVMUELkCUFqXowyV4ae0wjrSL4ahL
-	rHG1Cw2l/NYuIk3awxF9h6/LEVpBXpb/Rx8mMVZcGZqkAtYJgbvboRQ7X7gTVFKX
-	AKVF0B9iTxmvfZLMs569FdpDkljLOHSjaKlWYwBzx+rfA=
-Received: from [IPV6:2409:8900:1a90:8163:30cc:9d3c:47b5:d01f] (unknown [])
-	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wDXtBBzUwZrmGkkKA--.58335S2;
-	Wed, 25 Nov 2026 11:18:13 +0800 (CST)
-Message-ID: <072df74b-3271-4802-8037-ee620d5d0888@163.com>
-Date: Wed, 25 Nov 2026 11:18:11 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm3 header.b=DC+u0VGj;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=XWfVsu7y
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.phl.internal (Postfix) with ESMTP id 914B2EC0AAC
+	for <linux-fsdevel@vger.kernel.org>; Tue, 24 Nov 2026 22:45:57 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Tue, 24 Nov 2026 22:45:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to; s=fm3; t=1795578357; x=1795664757; bh=te+85rs6L0
+	Tu1kg3pduPz/TdZSjogt/uQT+qd17wdHs=; b=DC+u0VGjhueZqVxgfl8gwONxO0
+	oBznNlhevQZAEAUu+r36xA99W9a9oR+jxpqC0ewn+eOrkywE/xQovHK/m2PhgbEt
+	w/WqSmu/Mp/+NLdzQOcxqlnZktZ/VptSZIXPnic7A9VEQzydJHU8c9l9c0HXP8z3
+	f1he6adItjEocphVGvzCUH+kIBRclWbZPbMkXnjAUjsuiCKHvNYFST0JZfXvg51+
+	E3Kmnk9n2GVvrKFXB6b7QKX5lb4E1fU9uE94Kn2BHUjcVEZ04lX3LMz3+7lrs04G
+	5NwUPM2ZDarNyDzQVAHVCnOk3z8yIAz2Sj7RLAYYnm+qAV03b9yERUvzt19w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1795578357; x=1795664757; bh=te+85rs6L0Tu1kg3pduPz/TdZSjo
+	gt/uQT+qd17wdHs=; b=XWfVsu7y8NvcqBvkgx6AQvHsBOkiuzcZwrYGZAQC5Bhw
+	vtE73miMY/vLyuOzg7Fzu4YU/9mYTRcY9IbDQoMFdLPz9gIU4Jb6C0GuVa50930P
+	N47f5oHBminLjxjgiJrSvY/WviUSIwjgeioIxb7Ef8j5qMI5OMX+U7Uvl/uPut+c
+	XNRI9jNeGdAAvDDR9ODf+8mtIlkxnXcXFgUVptDEny1wot8IIFIHeuH/H7K5dRnA
+	qhD4TOLXn2+K/4QTaa7B6t+0ZsNAsx5UtxPBnU67byV4jDP7vT+gjyB5akeC8Fjx
+	FRMlEZGvWGU+Pd6GWCo9JSO/Iy/DPLIUyCFvoS/xaA==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=ownmail.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1795578357; d=ownmail.net;
+	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
+	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
+	s=fm3:rsa-sha256:jGPjcXft0JDgSmgy5PV3I+o9dO6F6X2URanSqBecaF9lxSG
+	E0Suxv3YbT42gGXl3cMkSwQ8Aixk6/R1kHC6hj4rNw8VSQL4w/0iLlYhLbVQ0aFg
+	hCJTy7+RBHA9HL7PHDUfIkh7HJIIjjLOkm4swQsYDc24DtdqNu6dXo6ns9gNZBRH
+	BtdY4t2lBGRkDh/yof4FtpYkIg+H96lA+3/Xzk3mHAASCfOc048GIanHtJgP0fBX
+	FFp71PT6SLOY5444thvcZJh50FjEHumydbqV0H6spyC5kgKbzfioyVQhzem62F0a
+	EVtpfzrEjDFJNGHXQbkHsajbBxzaq7mjSfx777A==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=10;
+	hn=cc,content-transfer-encoding,date,feedback-id,from,
+	message-id,mime-version,reply-to,subject,to;
+Message-Instance: m=1; h=sha256:6gIgKmEK+V1m8xQeD9wAvM2W7KHH8KguQF7kcD8RfFw=:KIpdI8wXTkKfTbClohnjMMutdVqFsf8UXtyA3Nw66JM=;
+X-ME-Sender: <xms:81kGawuuyqWvXHqmVqljAlQedszfwZO9EA5rtQ4yIqdPSULxXEBooA>
+    <xme:81kGa0ZascAx2U54dKCZxqpgQPp59dWetNxPpwyHddGeX1TQjNJEVQxN93auHIoTc
+    mgGiFiYYiADfxRvTjlS7giTm7NNr6TYs6fqN3vnSjRL6-VmnxE>
+X-ME-Received: <xmr:81kGaw2mFQG2xymvtRzybD_q0_b4KW8DdRwXRcAvZXOxbkcp-qjpqpXXz2uPS4v5lw>
+X-ME-Proxy-Cause: dmFkZTGHTDLHrhSdcFVSltAhItO5CQcE/TjFbuhiumOu22/hJvNr30J77pkfAtY26o2DMg
+    VSD3uY+/cuaDJ4Sh2bWyrrkqZBASGKCdjQbH6pMHWkkbOYJMg5HQITRhPlC6KnXFgzK1io
+    I1b2u1NNTXTg/nkeE00xO7eBghnrtGEl7S/Rn5evCukV0GkFGzbkDSZAXnsLIpDwTTZ6bD
+    TJMeI+IavU+KlNcB+hcEpXWHmEnj4UwjAz83EM4764K87HVhTIQ+CSy4s3TFg2j0TXM1eZ
+    QVHK8rdWI846K2nUNW9gZUmN1pKfh+FdDUZxf2KFlC+9FBLtsS+qj3sdT5Stx/bTFOO0IX
+    q2V4lTFYErE5TfSXc249mMlVKib+slQADVsyE+fJ38+pWN3L/9jBGZV7687vBrpIz+shzY
+    bbPYsXQHsP+JSxeCQtQFGLBK2XK5r99hpxQzRfWuMqs2sdH1L00+aJXV3VTnSH96fP0qhs
+    9ZJwyCNOH1dTJdSqthybpeDIaCydF8GMHm7UDWxXVYcCwuy43S0CZQRLQROy40JUa6Go2m
+    H0oo/eT2fYlff7D3LTvaO9jt7PJKUBLZWWzfngmG5PQ06bP2f86MBc+pcEK3LfV/dE9nd0
+    89wPPfXq1YcsILR/jFv3tqMVus8/YqE0wtK5YaZ1LttvH40YoChtPmCo+Rjw
+X-ME-Proxy: <xmx:81kGa6WZGWgAoyTx_rB0U6xCgY_RO7sCFffzTnybvXOgXC7HreJn2A>
+    <xmx:81kGa7udaydsCniw3bdpJEdSckm6DO_jRFs2PacG2UL_RGiWvRKacQ>
+    <xmx:81kGaxUCvoegXUpv2RRc4kkXsnG5Ce32qXDxBS90PBFrvEj5G1uvfg>
+    <xmx:81kGa3UJbtZmsHlTig2b9B6lM4eldHbONHWbgqNQBM966-au78wlfQ>
+    <xmx:9VkGax7pJjaB4qXIZwDpaWUtfa98NSvU5HEyDycAnKopGiGBuoisihSY>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 24 Nov 2026 22:45:51 -0500 (EST)
+From: NeilBrown <neilb@ownmail.net>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: David Howells <dhowells@redhat.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Jan Harkes <jaharkes@cs.cmu.edu>,
+	coda@cs.cmu.edu,
+	Jan Kara <jack@suse.cz>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	codalist@coda.cs.cmu.edu,
+	linux-fsdevel@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-afs@lists.infradead.org
+Subject: [PATCH v3 00/11] multiple-filesystems: prepare for changes to VFS locking
+Date: Wed, 25 Nov 2026 14:16:38 +1100
+Message-ID: <20261125034543.4084039-1-neilb@ownmail.net>
+X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
+Reply-To: NeilBrown <neil@brown.name>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,151 +136,57 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: ntfs: deleting $Extend breaks subsequent mount
-To: theBIT5 x3zk <x3zk@outlook.com>, Namjae Jeon <linkinjeon@kernel.org>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "open list:NTFS FILESYSTEM" <ntfs@lists.linux.dev>,
- Hyunchul Lee <hyc.lee@gmail.com>, Baolin Liu <liubaolin@kylinos.cn>
-References: <DM4PR15MB6276A5C442568B4C7E604AA386452@DM4PR15MB6276.namprd15.prod.outlook.com>
- <CAKYAXd-MHxzjvc20J-x4VYBnuk3sVpzmHo+zrHb8n3nx8Aav6g@mail.gmail.com>
- <a2f75e81-b012-4bb1-8885-a2ed310fa988@163.com>
- <DM4PR15MB6276AEA50787E7D27EF8590B86442@DM4PR15MB6276.namprd15.prod.outlook.com>
-Content-Language: en-US
-From: liubaolin <liubaolin12138@163.com>
-In-Reply-To: <DM4PR15MB6276AEA50787E7D27EF8590B86442@DM4PR15MB6276.namprd15.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDXtBBzUwZrmGkkKA--.58335S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxZr1DKrWDtF13GF1fur4fGrg_yoWrZFykpr
-	ZrGF92grykG347twnFqFZ8Z3W0vr1xtw4UXr13Xr18tas0q3ZIgF1jgFyYgr1rtryfKw45
-	Zw4UW345uw4UAa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U6a0dUUUUU=
-X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6hVOGWsGU3W5OQAA3j
 
+(ACKs for hostfs and afs still sought).
 
+For this version I have included the AFS patches, included
+"use d_alloc_parallel() in lookup_one_qstr_excl().
+The latter patch is needed to make it safe to use
+d_alloc_parallel() outside of i_rwsem.  This is, in turn,
+needed for the three patch which drop i_rwsem before
+calling d_alloc_parallel() (which is preparation for
+inverting the order between i_rwsem and d_alloc_parallel()).
 
-在 2026/11/25 01:20, theBIT5 x3zk 写道:
-> Hi,
-> 
-> Built 7.4.0-rc4 with both patches applied and ran basic checks.
-> Deleting '$Extend', creating files inside it, and writing to its system
-> files now all fail with Operation not permitted, and remounting works:
-> 
-> # mount -t ntfs /root/ntfs.img /mnt -o loop
-> # cd /mnt
-> # rm -fr '$Extend'
-> rm: cannot remove '$Extend/$ObjId': Operation not permitted
-> rm: cannot remove '$Extend/$Quota': Operation not permitted
-> rm: cannot remove '$Extend/$Reparse': Operation not permitted
-> # cd '$Extend'
-> # touch file
-> touch: cannot touch 'file': Operation not permitted
-> # cat /dev/null > '$ObjId'
-> warning: An error occurred while redirecting file '$ObjId'
-> open: Operation not permitted
-> # cat /dev/null > '$Quota'
-> warning: An error occurred while redirecting file '$Quota'
-> open: Operation not permitted
-> # cat /dev/null > '$Reparse'
-> warning: An error occurred while redirecting file '$Reparse'
-> open: Operation not permitted
-> 
-> Tested-by: theBIT5 x3zk <x3zk@outlook.com>
+I've also reverted the LOOKUP_SHARED patch as I now see that was a
+mistake.
 
-  Thanks for testing and confirming
+Thanks,
+NeilBrown
 
-> 
-> ________________________________________
-> От: liubaolin <liubaolin12138@163.com>
-> Отправлено: 24 ноября 2026 г. 10:08
-> Кому: Namjae Jeon; theBIT5 x3zk
-> Копия: linux-fsdevel@vger.kernel.org; linux-kernel@vger.kernel.org; open list:NTFS FILESYSTEM; Hyunchul Lee; Baolin Liu
-> Тема: Re: ntfs: deleting $Extend breaks subsequent mount
-> 
-> 
-> 
-> 在 2026/11/24 09:40, Namjae Jeon 写道:
->> On Tue, Nov 24, 2026 at 5:01 AM theBIT5 x3zk <x3zk@outlook.com> wrote:
->>>
->>> Hi,
->> Hi,
->>>
->>> Was messing around with the new ntfs driver (fs/ntfs) on 7.4.0-rc3-1-mainline
->>> and noticed you can just rm -rf '$Extend' even without show_sys_files.
->>> After umount, the filesystem fails to mount again.
->>>
->>> Steps:
->>>
->>> # mount -t ntfs /root/ntfs.img /mnt -o loop
->>> # cd /mnt
->>> # ls '$Extend'
->>> '$ObjId'  '$Quota'  '$Reparse'
->>> # rm -rf '$Extend'
->>> # cd /
->>> # umount /mnt
->>> # mount -t ntfs /root/ntfs.img /mnt -o loop
->>> mount: /mnt: wrong fs type, bad option, bad superblock on /dev/loop0,
->>>          missing codepage or helper program, or other error.
->>>
->>> dmesg:
->>> ntfs: volume version 3.1, dev loop0, cluster size 4096
->>> ntfs: (device loop0): load_system_files(): Failed to load $Extend.
->>> ntfs: (device loop0): ntfs_fill_super(): Failed to load system files (-22).
->> Please check the attached patch.
->> Thanks for the report.
-> 
-> Hi Namjae,
->     I noticed that NInoSetExtendSys() is only reached when looking up the
-> unnamed $DATA attribute returns -ENOENT. A file directly under $Extend
-> that has an unnamed $DATA attribute skips this path and never gets
-> NI_ExtendSys set, leaving it mutable without sys_immutable.
-> 
->     I reproduced this with your patch applied, using default mount options
-> and a synthetic NTFS image containing a SYSTEM-marked file with unnamed
-> $DATA directly under $Extend. After remounting, this write still succeeds:
->       echo changed > '/mnt/$Extend/review-data'
-> 
->     Could we move the direct-child classification into the common
-> inode-loading path, so that setting NI_ExtendSys does not depend on
-> whether the unnamed $DATA attribute exists?
->     I tested the change below in QEMU. The write above is now rejected
-> with EPERM, and normal file, hard-link, symlink and remount checks pass.
-> 
-> Thanks,
-> Baolin
-> 
-> You may consider applying the following change on top of your attached
-> patch:
-> **************************************************************************
-> diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
-> index e1c5a767e62b..c0e2535401bb 100644
-> --- a/fs/ntfs/inode.c
-> +++ b/fs/ntfs/inode.c
-> @@ -959,6 +959,15 @@ static int ntfs_read_locked_inode(struct inode *vi)
->                   goto unm_err_out;
->           }
-> 
-> +       /* Classify $Extend children regardless of their data/index
-> layout. */
-> +       if (ni->mft_no >= FILE_first_user) {
-> +               err = ntfs_is_extended_system_file(ctx);
-> +               if (err < 0)
-> +                       goto unm_err_out;
-> +               if (err > 0)
-> +                       NInoSetExtendSys(ni);
-> +       }
-> +
->           if (ni->flags & FILE_ATTR_REPARSE_POINT) {
->                   unsigned int mode;
-> 
-> @@ -1163,7 +1172,6 @@ static int ntfs_read_locked_inode(struct inode *vi)
->                            */
->                           extend_sys = ntfs_is_extended_system_file(ctx);
->                           if (extend_sys > 0) {
-> -                               NInoSetExtendSys(ni);
->                                   if (m->flags & MFT_RECORD_IS_VIEW_INDEX) {
->                                           if (extend_sys == 2) {
->                                                   name = reparse_index_name;
+Original description, updated.
 
+I am working on changes to directory locking.  The medium term goal is
+to lift d_alloc_parallel() locking above i_rwsem, so d_alloc_paralle()
+can be run unlocked, and consequently cannot be called when ->i_rwsem is
+held.
+
+This patch set makes small changes to a number of filesystems which each
+require just one patch.  Patch series for nfs, cifs, fuse, cephfs
+have been posted separately
+
+The main requirements are:
+ 1/ that d_alloc_parallel() not be called while i_rwsem is held.
+    Places which currently do this can be changed to use d_alloc_trylock(),
+    or d_duplicate(), or change to drop and retake the parent lock.
+
+ 2/ a dentry must not be d_drop()ed while an operation is ongoing, as an
+    unlocked d_alloc_parallel() would then be able to create a new
+    dentry with the same name.  d_splice_alias() can now work with a
+    hash dentry, so often the d_drop() can simply be dropped.  Other
+    times it can be moved to after the operation has completed.
+
+I think it would be best for these to land in the VFS tree and would
+appreciate Acks from relevant maintainer.
+
+ [PATCH v3 01/11] coda: don't d_drop() early.
+ [PATCH v3 02/11] hostfs: don't d_drop() before d_splice_alias() in
+ [PATCH v3 03/11] afs: don't unhash/rehash dentries during
+ [PATCH v3 04/11] afs: use d_splice_alias() in afs_vnode_new_inode()
+ [PATCH v3 05/11] afs: use d_alloc_trylock in afs_sillyrename()
+ [PATCH v3 06/11] afs: use d_duplicate()
+ [PATCH v3 07/11] Revert "VFS: Add LOOKUP_SHARED flag."
+ [PATCH v3 08/11] VFS: use d_alloc_parallel() in
+ [PATCH v3 09/11] VFS: drop parent lock across d_alloc_parallel() in
+ [PATCH v3 10/11] procfs: drop parent lock for d_alloc_parallel() in
+ [PATCH v3 11/11] afs: lookup_atsys to drop and reclaim lock.
