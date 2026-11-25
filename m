@@ -1,97 +1,120 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795596187;
-	b=3sVgq+WQq9+OSHSOXdPovUuOxpuY3hqlzknLl5LriZDYH4AAoGX0vuOrao1PGB6JIrJ9
-	 t8rKyWpUaiD0FcS7AlNWKDqywdsE58eRoZDizfJPJ4AJC7ZLE+4V+FnaTqYhIJUiXzlnm
-	 /Uht0S05wIWux+E4oIzDgwOpghxUA3EklgSeqWEAeDBPfEMHIvoxT4FGWwO4WcvG+PyyL
-	 64HGfgfWH1zB17AUhDILRkHCx+O0IUQ/5A31OB+D/M2/MEwwEaj9aEQlRdf8XJm+w/O9a
-	 4Qlz69R9OEDVzj6+MCqywoanQk+K7dQX+4ADyJsiF11oqebGmudKiw13fjsoCX1sQAw==
+	t=1795596309;
+	b=Z6DzYoWOPJ2/SXY8XI5dufxUVRiCEDBtW5RWVNd3KOsBqn7Adg9PpteMRagqk5BK1kV1
+	 A/mROJ3yGB4pAhqdzG5G/h+lgi1uWSH7sTuOOraGADXKJBilUtOLDVJsv+4nnCKnYVqma
+	 ks43Nne22hBAG8Oa6sl+S+LXQtSz3twOt2GJVeXldT7OlBRFSIiDzRmP/vzIJaakGyleI
+	 JWSBwu/t6JcnQWLqvAZO/tGlYjqZlrdS872PRTNrm9i0ZlseRhVJct85c4H0gkYGSyTxa
+	 alwNrG2C1/VPD+dmy7YOW/Rr73xUdkC5ZBEHoIyP3XHlgV75e52O6R8kO6g47oV+RAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795596187;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=hUNPEXc2yaJDfkZm6JnwWfLvwUjJNXbmItS1SRelE8w=;
-	b=naBkvOxV+8XPFvMB/KyRbpvfix8vyGkwpUdAde4dFrb4j/aeKEbZG0XdwrWKYEgrqB6v
-	 s3lga8skXgn83jwhXdIopxl1QLmjJro0Qn/E5XqGHAaLKERP3VBlHcWGmhyZ4wu3+LLLa
-	 jTwIezYxLUUUi3q/W1s0w3mMqqJlIrkvstmwqY7g+RfZfhJPkXoNSnNyNMKeIfjntYTE7
-	 H9rGrnKM3n4IlHE3NoEqiOpBRoQxnstTJemmNZwYs19/OK6ZENyEMVISOdVKr5lUMidXW
-	 YL8HPxHFqanb55S4F9mBh2P8u+/VT1cD/WeHoCyuTQeq6pPPFM7fjbETKpVSzROLqAA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795596309;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=xIQGPFCJd67xaKCihbcJC3tux5xClyxULhK31mQOmgA=;
+	b=iLErAtVwGgrTgjfqugaWCc+QyxkoAgMtIFs9OhXxiPmrFPR/VjnOlHMmp/TkoCOqWEFN
+	 z2C9g3eVsgg47DxyZzpWe0YFMIJ/4AhNQVTE/SGqXhwFCNqpdyKppafpdUhhm27DGgHiX
+	 K4zbiixJlEfmOfHlJTwy2JF4IgV2TIhL+Ap4eEapLqhEpmjJbqBndcHjaBPY42h3hweh8
+	 DWwL4KUSKXcfWfZW8ABTmaUAjRTQ90pwEKoXIeGXZXpkUE1m0ybtJu6Yi/EwBXnYaiH8W
+	 ro+7LeryYxu9lbKDzAQboexir5eZoBWwXPX+I4rflFrd/wCjm5reVZxaXYPNJ3w1yuQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oDRZFmm+;
-	arc=none smtp.remote-ip=209.85.218.51
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="1R4oRQ/i";
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Xseqmy5b;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="1R4oRQ/i";
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Xseqmy5b;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B24CD606A32E
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 08:43:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B24CD606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A81AE606A31E;
+	Wed, 25 Nov 2026 08:45:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A81AE606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oDRZFmm+
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c4cac7a7d3cso804216166b.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 00:43:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795596185; x=1796200985; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hUNPEXc2yaJDfkZm6JnwWfLvwUjJNXbmItS1SRelE8w=;
-        b=oDRZFmm+IGlYMxKZqISBi94orPylDlrScg0llpeDu3frBG1BRuMNrEaW3d7q4R5XeV
-         +GepH2ninPqJisJcxCv9qWp6zjM4W5yTvk5I+knedG5PVUGffb1pnUq2IP3sSSs2XPpO
-         09m59erlsswq7qRFcDX327zOTLzDPiFAgefTnHF4E3sAhH7b21mBABL1eJYmNdBgQplJ
-         KxLFFQJX24klvDEGzIcyzLdRClKlJ48e3gpQJ3RG4CqYLYJnQKco5ejSUXYbI00qaawD
-         hL+/9vmnqJURyoHI3NyQBgH0YiRI1Yn9+qR2F5Fzyu/FjtGNLsMjuO/zQR0QuNF62Fg0
-         W/ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795596185; x=1796200985;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hUNPEXc2yaJDfkZm6JnwWfLvwUjJNXbmItS1SRelE8w=;
-        b=jDDPSwrYfcE8A5GBvmL7MMzHkSURP7Toiy4aTeFK7ZBfIzuBnxbXc1Aay9WkrI5SRN
-         c0g7HvD3ET6XlAkT3944rsly9vedvWFoIRFFSLsAXCvYJdxMVaLNkbgIdtzD1CSQFkDy
-         KMy7HE+fmf9t6N2hvuedbLSEpye5iTEWDS87POR5g45xJHl+++YvUFmAhpIdnJEugE66
-         Fa4yqEthwr5fxdhzzXc6Y5yWCnrqWu+IejUTlTP9+oc8MmAkcARazK91wy/RdnULQoXc
-         LKV5RS76+a7PQF1oA9oaLjXkUr9HZy2LDncVoc4JcBdv5yiPM4o8YgXU4r5yPZC7TrkB
-         KW8w==
-X-Forwarded-Encrypted: i=1; AL+hErG06Xq15jYy+bCKzhNAkYaVrpxqFq7p+0rBTElsLu4ASt1V2cqaJcXdJFDbSPGj/2AAaKqZW0ST02w0FKkM@vger.kernel.org
-X-Gm-Message-State: APuU4Z9sKlc5aqebP4j+Yy67Ev5wkl+Rmapatik4czvmKqjN0vwU8zxG
-	R+cdme7VJfbUv1Ruz/pu2dji5360Ok7kQkSTpRFgE0yCNG7hgl5WexKx
-X-Gm-Gg: AZFdTZfC5cZ08HnBfgZ0S73/nHsGp4W9uSLNPDtuHktWwFf8tmqMspG3OspHv6xpl3V
-	idpV1eKtoQAtx7jMwJOmdrpuAeGxfxzTSSjkk9VLUhQT1Xjm67xeWDPTMG1YeoNWKyIW8Pkr0/0
-	K9+nJLnSbgQDUrgqUtA/jryggBUzZOXA15ZiiEv6vyhBn1wfUI+ZEDwtOXyTKHudZjRlu1+fTzf
-	vSWv1HSx18FnFkloTbhsgHSvqZMng7MC3czfAjjwubps/poHUYikS96QQaXsPSAsxuLgoog8HdU
-	RJp7G9k1MjoIJL9zUaZ8CkG+6ERUYiTd20YVNJYZHUBNNGZzF1Sb6JsJvquiS10eLlkhCUYpZEW
-	3CE+depw39ZS4xNko9g5M4jhLMPI8x+H4TLuzG/k1xyN9Q73ZFnOFM/t98Kb5xdNwYNfIlbDGGw
-	Q5/ZOHfjjAAyjRVeDUrYmNX684WJaSF47mjA60p/PDiNFmWQrFAgJ8zHHBujsYCbCsYUlUucGTF
-	GCnlk0lfbbMF72dfa4cGpzwdEjcDqosHvus+2em1bGwuaAoiG1TnT5bcldqmS5kSgsiq8SnThAC
-	envgk8nuKlEaVt5D4WfhugMMmxcDJ9XUB8Jw7T/ovHigzDR10vlEwNKgmhtweiIAfMsa055giAO
-	BDKrC3qWl9Az9
-X-Received: by 2002:a17:906:b009:b0:c29:4fcb:2886 with SMTP id a640c23a62f3a-c513ab47ff7mr994909866b.39.1795596184766;
-        Wed, 25 Nov 2026 00:43:04 -0800 (PST)
-Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c513afdf022sm606367166b.67.2026.11.25.00.43.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 00:43:04 -0800 (PST)
-Date: Wed, 25 Nov 2026 09:43:03 +0100
-From: Amir Goldstein <amir73il@gmail.com>
-To: syzbot <syzbot+ecf337bf2c6f75c1ddd8@syzkaller.appspotmail.com>
-Cc: a.hindborg@kernel.org, leitao@debian.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-unionfs@vger.kernel.org,
-	miklos@szeredi.hu, syzkaller-bugs@googlegroups.com,
-	zohar@linux.ibm.com, ngocthang2710.1999@gmail.com,
-	roberto.sassu@huawei.com
-Subject: Re: [syzbot] [overlayfs?] possible deadlock in ima_path_truncate
-Message-ID: <awafl-xj-fpufqI7@gmail.com>
-References: <6a8e6f78.dbb3a75c.7844.0033.GAE@google.com>
- <6b064809.e1ffc79a.44bf.0003.GAE@google.com>
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=1R4oRQ/i;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Xseqmy5b;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=1R4oRQ/i;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Xseqmy5b
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 78AE61F747;
+	Wed, 25 Nov 2026 08:45:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795596306; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xIQGPFCJd67xaKCihbcJC3tux5xClyxULhK31mQOmgA=;
+	b=1R4oRQ/iWiVF3GfygHgPI9xqm0DU0PL/33RSEd0kAHFOjj03JbHnGcDeKjPUuZVKUfQ/C3
+	se0iiVMXGurVPeKjOHJAJnk/StmPKNjpbtuFJjiXHDzF2B6Iiqw2/KkYzF02DFKI3odKHe
+	4PRjahV3Nz4geMoybs+TdWwUp9oQtfo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795596306;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xIQGPFCJd67xaKCihbcJC3tux5xClyxULhK31mQOmgA=;
+	b=Xseqmy5b9lVtcOfm6N7qVKeOgqlUYxNKD7bCD3QFJ2Xcfd0l+ZHy35FU1NbGLHKMQyqpAk
+	Kdvq0lCqAMg4XqBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795596306; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xIQGPFCJd67xaKCihbcJC3tux5xClyxULhK31mQOmgA=;
+	b=1R4oRQ/iWiVF3GfygHgPI9xqm0DU0PL/33RSEd0kAHFOjj03JbHnGcDeKjPUuZVKUfQ/C3
+	se0iiVMXGurVPeKjOHJAJnk/StmPKNjpbtuFJjiXHDzF2B6Iiqw2/KkYzF02DFKI3odKHe
+	4PRjahV3Nz4geMoybs+TdWwUp9oQtfo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795596306;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xIQGPFCJd67xaKCihbcJC3tux5xClyxULhK31mQOmgA=;
+	b=Xseqmy5b9lVtcOfm6N7qVKeOgqlUYxNKD7bCD3QFJ2Xcfd0l+ZHy35FU1NbGLHKMQyqpAk
+	Kdvq0lCqAMg4XqBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4D533134CA;
+	Wed, 25 Nov 2026 08:45:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id FrpCChKgBmvYegAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 25 Nov 2026 08:45:06 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id C7C0F27BBB; Wed, 25 Nov 2026 09:45:01 +0100 (CET)
+Date: Wed, 25 Nov 2026 09:45:01 +0100
+From: Jan Kara <jack@suse.cz>
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: David Hildenbrand <david@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Lorenzo Stoakes <ljs@kernel.org>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, linux-ext4@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Michal Hocko <mhocko@kernel.org>, linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH RFC 4/5] mm/vmscan: be more careful when releasing FS
+ metadata if buffer_heads_over_limit
+Message-ID: <wm57zjtvdpexvbfygmdggw2ytsazelyds4rt3mtx6oy6u72mke@rhviuzp26rt6>
+References: <20261119-gup-dirty-what-v1-0-236d69f25c24@suse.de>
+ <20261119-gup-dirty-what-v1-4-236d69f25c24@suse.de>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -103,199 +126,82 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6b064809.e1ffc79a.44bf.0003.GAE@google.com>
+In-Reply-To: <20261119-gup-dirty-what-v1-4-236d69f25c24@suse.de>
+X-Spamd-Result: default: False [-12.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[37];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	R_RATELIMIT(0.00)[to_ip_from(RLc5chj8mdhigtayhgqted7wkp)];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo,suse.de:email]
+X-Spam-Score: -12.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Tue, Nov 24, 2026 at 06:29:29PM -0800, syzbot wrote:
-> syzbot has found a reproducer for the following issue on:
+On Thu 19-11-26 20:10:47, Pedro Falcato wrote:
+> Namely, don't call ->release_folio() for mapped or referenced folios.
+> Since this is the active list, there's no actual point in doing
+> unmapping. In fact, that would be counterproductive for active folios.
 > 
-> HEAD commit:    8d7fe9885c62 Merge tag 'hid-for-linus-2026112301' of git:/..
-> git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> console output: https://syzkaller.appspot.com/x/log.txt?x=12615bbe580000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=462e918ed4cc6d73
-> dashboard link: https://syzkaller.appspot.com/bug?extid=ecf337bf2c6f75c1ddd8
-> compiler:       Debian clang version 22.1.8 (1~deb13u5), Debian LLD 22.1.8
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=112be823580000
+> So, gate on !mapped && may_release_folio.
 > 
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+ecf337bf2c6f75c1ddd8@syzkaller.appspotmail.com
-> 
+> Reported-by: David Hildenbrand <david@kernel.org>
+> Cc: stable@vger.kernel.org
+> Fixes: d824ec2a1546 ("mm: do not reclaim private data from pinned page")
+> Signed-off-by: Pedro Falcato <pfalcato@suse.de>
 
+This is OK with me but so feel free to add:
 
-#syz dup: possible deadlock in vfs_iocb_iter_write
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-This looks like the same lockdep false positive as syzbot+deb8af81d91415fabac1,
-fixed by "ima: key iint mutex lockdep class per filesystem type":
-https://lore.kernel.org/r/20261123111452.237422-1-ngocthang2710.1999@gmail.com/
+Just given buffer_heads_over_limit is a HIGHMEM thing and given how much we
+care (not) about HIGHMEM, maybe just completely ripping out the whole
+buffer_heads_over_limit logic is a better "solution"? I mean it's a crude
+heuristic anyway and for struct buffer_head to occupy significant portion
+of ZONE_NORMAL, you'd have to have several GB of pagecache with buffers
+which means the machine has to have quite some highmem which makes the
+setup even more dubious...
 
+								Honza 
 
-> ======================================================
-> WARNING: possible circular locking dependency detected
-> syzkaller #0 Not tainted
-> ------------------------------------------------------
-> syz-executor272/5659 is trying to acquire lock:
-> ffff88801359bed0 (&ima_iint_mutex_key[depth]){+.+.}-{4:4}, at: ima_reset_action_flags security/integrity/ima/ima_main.c:709 [inline]
-> ffff88801359bed0 (&ima_iint_mutex_key[depth]){+.+.}-{4:4}, at: ima_path_truncate+0xd3/0x190 security/integrity/ima/ima_main.c:718
+> ---
+>  mm/vmscan.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> but task is already holding lock:
-> ffff888051144478 (sb_writers#4){.+.+}-{0:0}, at: mnt_want_write+0x41/0x90 fs/namespace.c:531
+> diff --git a/mm/vmscan.c b/mm/vmscan.c
+> index d80bbb607a15..986742d7fb6a 100644
+> --- a/mm/vmscan.c
+> +++ b/mm/vmscan.c
+> @@ -2217,7 +2217,10 @@ static void shrink_active_list(unsigned long nr_to_scan,
+>  		if (unlikely(buffer_heads_over_limit)) {
+>  			if (folio_needs_release(folio) &&
+>  			    folio_trylock(folio)) {
+> -				filemap_release_folio(folio, 0);
+> +				if (!folio_mapped(folio) &&
+> +				    filemap_may_release_folio(folio, 1)) {
+> +					filemap_release_folio(folio, 0);
+> +				}
+>  				folio_unlock(folio);
+>  			}
+>  		}
 > 
-> which lock already depends on the new lock.
+> -- 
+> 2.56.1
 > 
-> 
-> the existing dependency chain (in reverse order) is:
-> 
-> -> #3 (sb_writers#4){.+.+}-{0:0}:
->        percpu_down_read_internal include/linux/percpu-rwsem.h:53 [inline]
->        percpu_down_read_freezable include/linux/percpu-rwsem.h:83 [inline]
->        __sb_start_write include/linux/fs/super.h:19 [inline]
->        sb_start_write+0x48/0x1c0 include/linux/fs/super.h:125
->        mnt_want_write+0x41/0x90 fs/namespace.c:531
->        ovl_xattr_set+0x15c/0x5e0 fs/overlayfs/xattrs.c:61
->        __vfs_setxattr+0x442/0x480 fs/xattr.c:223
->        __vfs_setxattr_noperm+0x12a/0x660 fs/xattr.c:257
->        vfs_setxattr+0x151/0x370 fs/xattr.c:344
->        cachefiles_preset_object_xattr+0x142/0x3e0 fs/cachefiles/xattr.c:58
->        cachefiles_create_tmpfile+0x3e7/0x790 fs/cachefiles/namei.c:455
->        cachefiles_create_file+0x78/0x140 fs/cachefiles/namei.c:487
->        cachefiles_look_up_object+0x38c/0x7b0 fs/cachefiles/namei.c:622
->        cachefiles_lookup_cookie+0x374/0x750 fs/cachefiles/interface.c:125
->        fscache_perform_lookup fs/netfs/fscache_cookie.c:518 [inline]
->        fscache_cookie_state_machine fs/netfs/fscache_cookie.c:729 [inline]
->        fscache_cookie_worker+0xa77/0x1170 fs/netfs/fscache_cookie.c:835
->        process_one_work kernel/workqueue.c:3495 [inline]
->        process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3578
->        worker_thread+0xa47/0xfb0 kernel/workqueue.c:3659
->        kthread+0x38b/0x480 kernel/kthread.c:436
->        ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
->        ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-> 
-> -> #2 (&ovl_i_mutex_key[depth]){+.+.}-{4:4}:
->        down_write+0x91/0x200 kernel/locking/rwsem.c:1631
->        inode_lock include/linux/fs.h:1027 [inline]
->        ovl_write_iter+0x1fb/0x3b0 fs/overlayfs/file.c:358
->        vfs_iocb_iter_write+0x245/0x5e0 fs/read_write.c:930
->        __cachefiles_write+0x6c9/0xbd0 fs/cachefiles/io.c:355
->        netfs_issue_write fs/netfs/write_issue.c:290 [inline]
->        netfs_advance_write+0x328/0x4b0 fs/netfs/write_issue.c:331
->        netfs_write_folio fs/netfs/write_issue.c:510 [inline]
->        netfs_writepages+0x12d3/0x22b0 fs/netfs/write_issue.c:600
->        do_writepages+0x338/0x560 mm/page-writeback.c:2562
->        filemap_writeback mm/filemap.c:386 [inline]
->        filemap_fdatawrite_range mm/filemap.c:411 [inline]
->        filemap_fdatawrite+0x1e9/0x2f0 mm/filemap.c:417
->        v9fs_vfs_setattr_dotl+0x4dc/0xab0 fs/9p/vfs_inode_dotl.c:585
->        notify_change+0xbba/0xea0 fs/attr.c:556
->        do_truncate+0x1c2/0x250 fs/open.c:68
->        handle_truncate fs/namei.c:4306 [inline]
->        do_open fs/namei.c:4855 [inline]
->        path_openat+0x18a6/0x20f0 fs/namei.c:5016
->        do_file_open+0x23e/0x4a0 fs/namei.c:5045
->        do_sys_openat2+0x115/0x200 fs/open.c:1443
->        do_sys_open fs/open.c:1449 [inline]
->        __do_sys_openat fs/open.c:1465 [inline]
->        __se_sys_openat fs/open.c:1460 [inline]
->        __x64_sys_openat+0x138/0x170 fs/open.c:1460
->        do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
->        do_syscall_64+0x171/0x540 arch/x86/entry/syscall_64.c:89
->        entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> 
-> -> #1 (&sb->s_type->i_mutex_key#25){++++}-{4:4}:
->        down_read_interruptible+0x4b/0x3b0 kernel/locking/rwsem.c:1584
->        netfs_start_io_read+0x25/0x180 fs/netfs/locking.c:67
->        netfs_buffered_read_iter+0xd6/0x160 fs/netfs/buffered_read.c:940
->        __kernel_read+0x4ca/0x960 fs/read_write.c:512
->        integrity_kernel_read+0x89/0xd0 security/integrity/iint.c:28
->        ima_calc_file_hash_tfm security/integrity/ima/ima_crypto.c:222 [inline]
->        ima_calc_file_hash+0x451/0x890 security/integrity/ima/ima_crypto.c:280
->        ima_collect_measurement+0x51b/0xa00 security/integrity/ima/ima_api.c:300
->        process_measurement+0x1272/0x1c10 security/integrity/ima/ima_main.c:425
->        ima_file_check+0xdc/0x130 security/integrity/ima/ima_main.c:686
->        security_file_post_open+0xb3/0x260 security/security.c:2777
->        do_open fs/namei.c:4853 [inline]
->        path_openat+0x1748/0x20f0 fs/namei.c:5016
->        do_file_open+0x23e/0x4a0 fs/namei.c:5045
->        do_sys_openat2+0x115/0x200 fs/open.c:1443
->        do_sys_open fs/open.c:1449 [inline]
->        __do_sys_openat fs/open.c:1465 [inline]
->        __se_sys_openat fs/open.c:1460 [inline]
->        __x64_sys_openat+0x138/0x170 fs/open.c:1460
->        do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
->        do_syscall_64+0x171/0x540 arch/x86/entry/syscall_64.c:89
->        entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> 
-> -> #0 (&ima_iint_mutex_key[depth]){+.+.}-{4:4}:
->        check_prev_add kernel/locking/lockdep.c:3209 [inline]
->        check_prevs_add kernel/locking/lockdep.c:3328 [inline]
->        validate_chain kernel/locking/lockdep.c:3952 [inline]
->        __lock_acquire+0x164c/0x2de0 kernel/locking/lockdep.c:5288
->        lock_acquire+0x115/0x350 kernel/locking/lockdep.c:5942
->        __mutex_lock_common kernel/locking/mutex.c:646 [inline]
->        __mutex_lock+0x197/0x15a0 kernel/locking/mutex.c:821
->        ima_reset_action_flags security/integrity/ima/ima_main.c:709 [inline]
->        ima_path_truncate+0xd3/0x190 security/integrity/ima/ima_main.c:718
->        security_path_truncate+0x1d0/0x310 security/security.c:1578
->        vfs_truncate+0x46e/0x540 fs/open.c:116
->        ksys_truncate+0xf3/0x1c0 fs/open.c:142
->        __do_sys_truncate fs/open.c:154 [inline]
->        __se_sys_truncate fs/open.c:152 [inline]
->        __x64_sys_truncate+0x5b/0x70 fs/open.c:152
->        do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
->        do_syscall_64+0x171/0x540 arch/x86/entry/syscall_64.c:89
->        entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> 
-> other info that might help us debug this:
-> 
-> Chain exists of:
->   &ima_iint_mutex_key[depth] --> &ovl_i_mutex_key[depth] --> sb_writers#4
-> 
->  Possible unsafe locking scenario:
-> 
->        CPU0                    CPU1
->        ----                    ----
->   rlock(sb_writers#4);
->                                lock(&ovl_i_mutex_key[depth]);
->                                lock(sb_writers#4);
->   lock(&ima_iint_mutex_key[depth]);
-> 
->  *** DEADLOCK ***
-> 
-> locks held by syz-executor272/5659: 1, on CPU#0:
->  #0: ffff888051144478 (sb_writers#4){.+.+}-{0:0}, at: mnt_want_write+0x41/0x90 fs/namespace.c:531
-> 
-> stack backtrace:
-> CPU: 0 UID: 0 PID: 5659 Comm: syz-executor272 Not tainted syzkaller #0 PREEMPT(full) 
-> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-> Call Trace:
->  <TASK>
->  dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
->  print_circular_bug+0x2e2/0x300 kernel/locking/lockdep.c:2087
->  check_noncircular+0x12f/0x150 kernel/locking/lockdep.c:2219
->  check_prev_add kernel/locking/lockdep.c:3209 [inline]
->  check_prevs_add kernel/locking/lockdep.c:3328 [inline]
->  validate_chain kernel/locking/lockdep.c:3952 [inline]
->  __lock_acquire+0x164c/0x2de0 kernel/locking/lockdep.c:5288
->  lock_acquire+0x115/0x350 kernel/locking/lockdep.c:5942
->  __mutex_lock_common kernel/locking/mutex.c:646 [inline]
->  __mutex_lock+0x197/0x15a0 kernel/locking/mutex.c:821
->  ima_reset_action_flags security/integrity/ima/ima_main.c:709 [inline]
->  ima_path_truncate+0xd3/0x190 security/integrity/ima/ima_main.c:718
->  security_path_truncate+0x1d0/0x310 security/security.c:1578
->  vfs_truncate+0x46e/0x540 fs/open.c:116
->  ksys_truncate+0xf3/0x1c0 fs/open.c:142
->  __do_sys_truncate fs/open.c:154 [inline]
->  __se_sys_truncate fs/open.c:152 [inline]
->  __x64_sys_truncate+0x5b/0x70 fs/open.c:152
->  do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
->  do_syscall_64+0x171/0x540 arch/x86/entry/syscall_64.c:89
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> RIP: 0033:0x7f0e2c62c7c7
-> Code: 44 00 00 31 ff e8 89 f7 ff ff 48 8b 2d f2 81 2a 00 85 c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 b8 4c 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 01 c3 48 c7 c2 d0 ff ff ff f7 d8 64 89 02 b8
-> RSP: 002b:00007ffe754e2898 EFLAGS: 00000246 ORIG_RAX: 000000000000004c
-> RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f0e2c62c7c7
-> RDX: 0000000000000001 RSI: 0000000000000000 RDI: 00007f0e2c69ea92
-> RBP: 00007ffe754e2940 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000246 R12: 00007f0e2c69eab0
-> R13: 00007ffe754e28c0 R14: 00007ffe754e2980 R15: 00007f0e2c69e8cf
->  </TASK>
-> CacheFiles: File cache on CacheFiles unregistering
-> netfs: Withdrawing cache "CacheFiles" (6 objs)
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
