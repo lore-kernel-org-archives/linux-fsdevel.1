@@ -1,115 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795648620;
-	b=dDfXhgtMS2a7x+BHfxiUG4BxsSoOtX0+UXCiP2sBwJsNxbf2JbqYbDx2ePJlZTdCwGHk
-	 oIqqkacKE/o71wmKaumQe4UAj3Vby9niwVcnxYgCmXAqVsc9CStOnKc0QbkJfsWqzO34f
-	 WLXQOnpJmVrFceS93oF+ZaGcMGKvI0+vZLZ3nicpq7UalKNUNBRvIQ8aUxJiExOfJvnaD
-	 7QOJudMuH4tdmcafmeic1rklA765VWTJuTBsU3tvVRltJFuRpXx6mq0ijmxuVY/IHH/C+
-	 bhE1t25xpSM31r1bIY4ltghOYHgrWReyWwSDU77zQIKpEieLTX6KpHcNfzQ/uf2b+og==
+	t=1795649101;
+	b=tVdvzraOuMTMdN1AnWb2stYF7YnFxpU2UOiOjTwRGOP72ve/LHI+4boskQfJLD4/OQWu
+	 t9oM20HfM/srmnFhOC8j6QwNRGHzg+uh8Bc3ECDGlkCNWwadja2SSec+540XGGk0//dJH
+	 Ao2EDgPUeSElqDZaPPVhfZfVhCV2FFyMwCxOy+cs7Myl+/gDwcMGfsb8DUQh7kbgvPFCQ
+	 nFM9AJgCzC1We94wfSwYh+jLWq9opKvLwmN5mdijBNQpetCmpeRJg5JPBk4a/SGlL6NsB
+	 Q/3IvMxYYrzVqgJ7CKE4kIN3oqF8Vtsr2uohiSQwrvMKsdknNK1llfjhdasB8za5+vQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795648620;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:From:Content-Language:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=f6GXD02OB33NaAQyvTM59QBW0GDbPJIgHJ/b4w+UY/4=;
-	b=4w4c5Xix4aC7D4I/iUHsm8a/Tu3ndib25zr+R4cLo9q0xe3yrpOVLYO2F93XWcibtQ5g
-	 MWTouQ8r+jEg1F6IhivTYszxzcBQ8wbVQmK9UCY3L3lHH0rn82WuxX9ggsStNaYeuS5Te
-	 UMdetTBlWCvI96Asj8OOXobIWryeRkP2OAx00fQFcYGE/opoLikNkqvVOstXaSJa3POlF
-	 /SaSvO5GIyxw/RpF3xZTsBfs/FDa7jPT+dUoX0VKtxH9QPW+u/qnQKvSwqdidn3HHES2K
-	 L+7H0/yg15CbRfeTnXLDjpTEi13t1cZO4vMA44XGz+bLb+sDGNfLnh6L+925QaAqUmQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795649101;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=L6X4hxg9g2a4Kk54pYVDsh+6JPYXZP17k3uQAGcEC60=;
+	b=i+mxAJu8MsB49A/ahw1Vvn3xW/z7/Ge4uSIgWGJERic5Ll6nGycDjeqhUc3czknonaqZ
+	 NQRxCXC5G7xyX5lG3bvd3gPeCBVTFwxbh4loodqknntr7dwq4kxwSXiLltPffJ9oiHXFX
+	 HLz90CvZJMH3ulPabLkK3RYzyCkMmfznGGwTMyMbm+kYn5G0ExKVifImKxHXXjBWabqmQ
+	 lEWpIt9o6q0rVnVDVmKnG/XPDW3SHLsywv1Uzm/d5ke6YHoLz4SGJhCVEI5Y4OEIpZ47m
+	 Im8nb1M3rpGxK1GOTAhxLOTnsi0PNUc0+Qk7Q2rAd7uC8tgVb3P75IQvHrEu0b6xAtw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bsbernd.com;
-	spf=pass smtp.mailfrom=bsbernd.com;
-	dkim=pass header.d=bsbernd.com header.i=@bsbernd.com header.a=rsa-sha256 header.s=fm2 header.b=cYXkxpP7;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=5E7g26Vf;
-	arc=none smtp.remote-ip=202.12.124.145
-Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nU0bcAb9;
+	arc=none smtp.remote-ip=209.85.128.47
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CEAE606A323
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 23:16:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CEAE606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8F2606A321
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 23:25:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B8F2606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bsbernd.com header.i=@bsbernd.com header.a=rsa-sha256 header.s=fm2 header.b=cYXkxpP7;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=5E7g26Vf
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.stl.internal (Postfix) with ESMTP id 5746C1D00502
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 18:16:59 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Wed, 25 Nov 2026 18:16:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1795648618;
-	 x=1795735018; bh=f6GXD02OB33NaAQyvTM59QBW0GDbPJIgHJ/b4w+UY/4=; b=
-	cYXkxpP7wq+TjvZyIe0lKWW2/DdbsewBrgSbvf2HVOCD5Zix4sRzWeNfPQJ4pWvT
-	I/WxujNBEfFXD1NOwa6T2RJEUaxov9mLdPC/OYQcpshqVOQDbZyPwFh7JGl/AFSu
-	VV0Mqvq+Pd5bXVZtdEhVyLKdxXxQOpvAiwiFQjJFxU1MSZTroMedropcaxx9oUFB
-	Kc0DKbYbWm+NACyBaLrH54eaZI5TbsfK6vMGO6Uj1EyMPbpYvGbuCAec0LdXbYcx
-	mwU+vcvP22ciUPTyMWuy2aSUxz1DWuVGqPSz8rl0HIkDCglxA+XHY3nffF3UAEKH
-	5vedEyCPeAHwY/c8WKpdGQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795648618; x=
-	1795735018; bh=f6GXD02OB33NaAQyvTM59QBW0GDbPJIgHJ/b4w+UY/4=; b=5
-	E7g26VfxZsFvIc0jx5LyIM6/u7mlHYF8JjiIkabQMC/RjsJEjaz4RcHiDfdwj69Z
-	SKZ7+IJHDxlDV2KFiUGZ1KWsjBTSC8qOPOuooV3Q4j8lzCifh+2uJnRAop8d3dwF
-	l5HZkpltL1HyhIunIL91/1NOtFtW6FonrRDJq78F7XrSCGyANhDarUSBHq5eIhTc
-	IcXb22T8zh3UE2WScEz4+iRwc33U9GNQTw8m+dYKLz8OBIuh7+VoXsEP08nehReJ
-	CCyVb1m4dE6acAnoqoo2nEUGAPbswSguP7NGaV7xsyHMTuZ2v6sQSGsBx2HfwbAs
-	oWcbhbar/oNRXpGV2MK6w==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=bsbernd.com a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795648618; d=bsbernd.com;
-	mf=PGJlcm5kQGJzYmVybmQuY29tPg==;
-	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
-	s=fm2:rsa-sha256:Rq4YWnx3r17QwmdFS3IqmTba65H/JA/wH4WU9OQyHHLcPO0
-	79ciSRaqOVKvPDXjOZ+OIERjqzE7hCN7IKZGYwd/LRhWy5wr1a8Iiztna+fVJupl
-	tFU+zIQjx7ntIgMuRcWEPsOqsNT6XYiOV4J0Dd1x3OyZge2wWh4zovFlHycHUFa3
-	VETUl1FdFiW+rtG6fkv6/MOr+YUkq1Cmiy/fwgIaKFn3yx75CuuJzJrPJ6B8pGka
-	p+PVEayUgzCZzP3/zu/jRlt1shZMLGpd0/9FMRFZ0xnn3sTlFY0T9Z1OocoRrXD/
-	9qG1NKNaH7mRYgTTjlrrsMJyGZf178VHrYaDBow==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=14;
-	hn=cc,content-language,content-transfer-encoding,content-type,
-	date,feedback-id,from,in-reply-to,message-id,mime-version,
-	references,subject,to,user-agent;
-Message-Instance: m=1; h=sha256:cbO5gqgHYCV9nHqmB2/wf8+i8RzheBPO1TgXcvsuW10=:uGzc65jZgxw5wCUyJj6XYCb3MkBfwzdzBsC3aXKGD5s=;
-X-ME-Sender: <xms:amwHa1DgNTav2K216AzSwWqgECREtwhdfXnecVj8eM6BLBp3kLoHKQ>
-    <xme:amwHa9nBhfjO64HyO2UjmmNgZ5cxi1L5NCul7ALUFaHeN0ErvX8GZy9sPYnaBDPUE
-    6F6KYmfylAJ4uhrqtOYfVBS26FkU0wYPCL7ah0BAVbYm0Zo27025g>
-X-ME-Received: <xmr:amwHawfbAlM4lh8QVxaNujZKZXNE8kxwCllWYIWWSODA0MvFKSi8Eq1CNkXpKskFWgDG6BlaeBuevroVfZH0NoQFGPvkW7lfIEZm7NaUN1ATYAgx6w>
-X-ME-Proxy-Cause: dmFkZTFNyrJAJO5NbnfvBDoFub4JKkZfjv1RWUY2SHBdloUNm0SAEkFyppoIwdnzwEnuKn
-    5dJT1qE06KCGiTMXGw1qVcyKD0nqRs5n4rB/7fqYvnhJMTT5fpkdLYeGTkfsje0A58Ssup
-    Mewp1bTE4hH6TQHVbtPDL82QK0ioDc8olDTchmQsKEHTNNdLz/d1eqv+7cN2jXI4YGiMX2
-    jU4ECoz+3hB00+3XTOoCEE1v7ZjlmeE57atsAPQskFd52ZATiPTGpgSBoun61tTU/xLep9
-    FcthcMHi59At9IOOM+Il28/gnzS6I2lxDNImq29O3vQ/v/omAq6ZXsgRbTY3X8n+la1TLf
-    8kIDJ5H7VenkfqZta+Vy8gAsCwJlz8Bi4/+npmFhFLgKfVnNy3/OOdaScJ9ucPqoYBsWNX
-    wZPLuW+QFbgI3AadXyq0ju4PFOLvVmlQ27c5VhIYIBrHURNLXmiFzyLGxvIFnWzRiRRlUK
-    7J+0SpsaY054cpsZZwfHMUzHGT3CI3hXr5g3IZ57H9BqrCYozOXUlW4Jp/MEkIQrPeReO8
-    iS8SahnFPBYlaCRyDiBaaZXDYPmLk/q1pUOA3unMj2S03zUdvRMHcpSdXaU5VT6j7tXs75
-    +Wo4kn7X7oqh5AROQzoTBxQtlyusonv5KAYlUhWlovx7LLvRbjL1cmHajO7w
-X-ME-Proxy: <xmx:amwHaxSH3HPwCm7FdcThgrGDT9Stklubc8Et_ZUeZtneV6yFPJdl7g>
-    <xmx:amwHa3s5Puim8oLQlnObGIjyMmpB_dVaqqG9X51Vvk0gEjwuV_sFrg>
-    <xmx:amwHaycZcOYf40uo4QN40hHKrysIDsGVWd2L4Ed4FOH6KNPZ50j0xw>
-    <xmx:amwHaxZOhv6yQLUNRK5nHczOEHok7EnCinlyH4Z0m3L0pnLds97PuQ>
-    <xmx:amwHa9lML8jDqbPvKStmNwp-tTw5MOrNp5-rNdyO_4EwTcLfKfRm44aE>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 25 Nov 2026 18:16:57 -0500 (EST)
-Message-ID: <af756676-5bbd-4624-acf6-c2eb65ecd132@bsbernd.com>
-Date: Thu, 26 Nov 2026 00:16:55 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nU0bcAb9
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4bb64ef5a14so64330895e9.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 15:25:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795649099; x=1796253899; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=L6X4hxg9g2a4Kk54pYVDsh+6JPYXZP17k3uQAGcEC60=;
+        b=nU0bcAb9fsTujKO4firFKvcUAuPT8aUbcufiUqVA9gF9kqLjgdWOABKvoMX+ru2K1V
+         3e8RwqIIWi61/pcvQhafPPco4CBat41WCNtkAuMYkxjEUdAjHBLNtzYUUVwpV/FUCnbh
+         BHOIJuQBZsGZ/cIv+Vbxqaj+QQ9CFScpBX1ZT0nQgCB6WGVzTQpTsXRUGX/EdG+HGgwY
+         4ODQb/aMG8QwSCAZMg8ZPqIVZvWzrJqs3CXk4O+BehrNOMqATQF2zXztMoJI93Ko1hK5
+         V8P1t1xYvRVwKWo/aFeV+XyXkJTQ0BJglH9FO4F3l6U+pq+VyGfDiqZqZ/TUbQyQ6PrV
+         ypMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795649099; x=1796253899;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=L6X4hxg9g2a4Kk54pYVDsh+6JPYXZP17k3uQAGcEC60=;
+        b=JX7sZKTbvmjEj/EAmFs8WKRN0ahfYmcS786NpzbiR+OCGtFHNxl69qNImwO6X+mdKu
+         YiYJeTdt+Ycu4hgwqHEVeP3KWxwmFMl77PAsvkGHhwTTKK7cKPUyg9ZyJ063QHke0OG7
+         NW2pg5+E1hDEcS2Q8u8RsOAq9hQaSjQFo5jx4TsnoQ1zqIjKJAA8Mk5EdnM7F1EpBzHk
+         TQyYf3T8+VS6qoFXn4amxotlBeSKf9KfXWG/O40lYWjNYTI8i0T7nZqEzT2LL+h7p1JY
+         li1v3ppKnP3K2X/VPFmU2C0hC0pvBRKKtwurLCWb6rlt8t04iqKg2jcGkDx6HukW3KBR
+         xN5g==
+X-Forwarded-Encrypted: i=1; AL+hErFGcOPbu/SduLbpQZWpHd/zcH7JUg0aAe6nfX1+zxNIwOrB0CLyTGjmMJ7rPIrwxxwUBRKbf4QUQakcF7yH@vger.kernel.org
+X-Gm-Message-State: APuU4Z/6or5Qnr+V96EM9hcqy8rf1A5A+qvrYW86Nmg5sTYnwvyhcy7b
+	2ehUKVLTz+7kHriC7FJXF2T5ND+hgYUMiVefvNjdM8WFzhGhgqUiENEH
+X-Gm-Gg: AZFdTZe1IdD9SRxZq2a1moXCCaxV+F/wL91niLqPwqvVm8JcA2pP8WMoCxHumQk9YNl
+	W6ZgFGlklU3NuIcSsX1VyTeWGUP88zea4i70Yfi911hMx9Bat6QbRm/FIS3g0wQovmv9Vnfpu7E
+	AtUTsdUrKkaTKt1O88yCnWanpfQPLKwqq9yttVatpJtFQzLgB4+KqldOTcSDonubbL7iZuVGeFy
+	dtZNTBIH4Dm0cMenQs3uKPwCBam4Wuvyw4MXVRwIfK2BBK9YqcszGYYn8eFQG2eBW6DzafbsXJq
+	iiI4mzZhLce5uo9RSqxQySszwSdK0oCpuQNW3bIkNLwhpxIY5FfRgD7dc7HKFZB7t9Xt2RTlf9g
+	d8Pec3jpczdzNpkSsaZ3+XEv7CHxIJVienkMWRj563vz9t3B9uvHXYcHvfYqGqKoJV9uTcYsFaJ
+	tvwG29EFnIc1c3APVprsbd6Pdb083c+a0TkBpTKL3sTC5n4ZtdDF2VebGlIEkeRa+PGEMLNU0st
+	av0UyH6zJo96BkjU98kRCZaQKEtA1E2SbvFtbUj1/UULa+vUNvkSLGCVobDGOt3I73RI0wTNPCU
+	rH4ALDdrBtSlRZzVhd4BhR3qPBi0bf9r2MJkaWJUoO+j2hw=
+X-Received: by 2002:a05:600c:154c:b0:4a2:729:f7ce with SMTP id 5b1f17b1804b1-4bb8881c378mr396837705e9.8.1795649099232;
+        Wed, 25 Nov 2026 15:24:59 -0800 (PST)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4b34e9c3ffesm20957965f8f.19.2026.11.25.15.24.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Nov 2026 15:24:58 -0800 (PST)
+From: Askar Safin <safinaskar@gmail.com>
+To: jkoolstra@xs4all.nl
+Cc: amir73il@gmail.com,
+	brauner@kernel.org,
+	cyphar@cyphar.com,
+	gregkh@linuxfoundation.org,
+	jack@suse.cz,
+	jlayton@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	neil@brown.name,
+	neilb@ownmail.net,
+	safinaskar@gmail.com,
+	shakeel.butt@linux.dev,
+	tj@kernel.org,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH v8 07/12] vfs: short-circuit MAY_WRITE access for O_DIRECTORY opens
+Date: Thu, 26 Nov 2026 02:24:43 +0300
+Message-ID: <20261125232443.1897836-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <1119017860.2578021.1795602566314@kpc.webmail.kpnmail.nl>
+References: <1119017860.2578021.1795602566314@kpc.webmail.kpnmail.nl>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -119,106 +109,21 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] fuse: make readdir requests big enough for the
- largest dirent
-To: Christian Brauner <brauner@kernel.org>,
- Amir Goldstein <amir73il@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>,
- Joanne Koong <joannelkoong@gmail.com>, linux-fsdevel@vger.kernel.org
-Cc: fuse-devel@lists.linux.dev, stable@vger.kernel.org
-References: <20261125-work-fuse-readdir-v1-0-44312add01a8@kernel.org>
- <20261125-work-fuse-readdir-v1-1-44312add01a8@kernel.org>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <20261125-work-fuse-readdir-v1-1-44312add01a8@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-
-
-On 11/25/26 11:26, Christian Brauner wrote:
-> Since commit 27992ef80770 ("fuse: Increase FUSE_NAME_MAX to PATH_MAX")
-> a dirent can be larger than a page. But the readdir request can still be
-> a single page, for a small getdents() buffer or when alloc_pages_bulk()
-> didn't give us more. The server can't fit the dirent and sends an empty
-> reply which we take as end of directory. So the long name and all
-> entries after it silently disappear.
+Jori Koolstra <jkoolstra@xs4all.nl>:
+> > The problem is that "flags" contains an invalid value.  The correct
+> > error for that (according to open.2 man page) is EINVAL.
+> > 
 > 
-> Make the request big enough for the largest dirent the server may send.
+> This is best probably. The counter is that I wanted to change errnos as little
+> as possible. Now you get at least something that could already happen when
+> you did a normal open(O_DIRECTORY). Were this designed from the start -EINVAL
+> is obviously what is needed here.
 > 
-> Fixes: 27992ef80770 ("fuse: Increase FUSE_NAME_MAX to PATH_MAX")
-> Fixes: 4dd6f6d3085a ("fuse: back uncached readdir buffers with pages")
-> Cc: stable@vger.kernel.org # v6.15+
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
->  fs/fuse/readdir.c | 22 +++++++++++++++-------
->  1 file changed, 15 insertions(+), 7 deletions(-)
-> 
-> diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
-> index 1f6cf565477f7..a75baed673a76 100644
-> --- a/fs/fuse/readdir.c
-> +++ b/fs/fuse/readdir.c
-> @@ -333,17 +333,23 @@ static int parse_dirplusfile(char *buf, size_t nbytes, struct file *file,
->  	return 0;
->  }
->  
-> -static struct page **fuse_readdir_alloc_buf(struct fuse_args_pages *ap, size_t *bufsize)
-> +static struct page **fuse_readdir_alloc_buf(struct fuse_args_pages *ap, size_t *bufsize,
-> +					    size_t minsize)
->  {
->  	unsigned int i, nr_alloc, nr_pages = DIV_ROUND_UP(*bufsize, PAGE_SIZE);
-> +	unsigned int nr_min = DIV_ROUND_UP(minsize, PAGE_SIZE);
->  	struct page **pages = kzalloc_objs(*pages, nr_pages);
->  
->  	if (!pages)
->  		return NULL;
->  
->  	nr_alloc = alloc_pages_bulk(GFP_KERNEL, nr_pages, pages);
-> -	if (!nr_alloc)
-> -		goto free_array;
-> +	/* The bulk allocator may stop early, but the largest entry must fit. */
-> +	for (; nr_alloc < nr_min; nr_alloc++) {
-> +		pages[nr_alloc] = alloc_page(GFP_KERNEL);
-> +		if (!pages[nr_alloc])
-> +			goto release_pages;
-> +	}
->  
->  	if (nr_alloc < nr_pages) {
->  		nr_pages = nr_alloc;
-> @@ -364,8 +370,7 @@ static struct page **fuse_readdir_alloc_buf(struct fuse_args_pages *ap, size_t *
->  	return pages;
->  
->  release_pages:
-> -	release_pages(pages, nr_pages);
-> -free_array:
-> +	release_pages(pages, nr_alloc);
->  	kfree(pages);
->  	return NULL;
->  }
-> @@ -380,10 +385,13 @@ static int fuse_readdir_uncached(struct file *file, struct dir_context *ctx)
->  	struct fuse_io_args ia = {};
->  	struct fuse_args_pages *ap = &ia.ap;
->  	void *buf;
-> -	size_t bufsize = clamp((unsigned int) ctx->count, PAGE_SIZE, fc->max_pages << PAGE_SHIFT);
-> +	/* Room for the largest entry the server may send, a direntplus. */
-> +	size_t minsize = max(PAGE_SIZE,
-> +			     FUSE_DIRENT_ALIGN(FUSE_NAME_OFFSET_DIRENTPLUS + fc->name_max));
-> +	size_t bufsize = clamp((unsigned int) ctx->count, minsize, fc->max_pages << PAGE_SHIFT);
->  	u64 attr_version = 0, evict_ctr = 0;
->  	bool locked;
-> -	struct page **pages = fuse_readdir_alloc_buf(ap, &bufsize);
-> +	struct page **pages = fuse_readdir_alloc_buf(ap, &bufsize, minsize);
->  
->  	if (!pages)
->  		return -ENOMEM;
-> 
+> I dunno, not sure what other people think.
 
-Ooops, sorry about this. There was no good reason to have more than
-name_max > 3072 for the DDN use case - I should have used that :/
+Now I think it should be changed to EINVAL, too.
 
-
-Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
-
-
-
-
+-- 
+Askar Safin
