@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795608290;
-	b=DariqowEXvSBQWaHup+z5rbur0/dJE4jd2RHKT19D3F8gvcVaP61v5AfxW9moVjqyqCD
-	 timjWgRHnaJwwbv48nJhi50L2+kmjrOqAorh5EdKkYJObaaNd3gpDKxO5HvW/NG+09UuP
-	 KAh6MOilvpu8/pVPQc5rxlVx/yYUrE6oUsMYoGBKvcBxBlELqJVVGv1Q1RX7iXY1BNygi
-	 XegP5z3NiWwak3MAoqWuPK94jEoII3b/40qQuSfbOIO/Jkc/Dg5S59XzyPc9oVNk02SWW
-	 bAMkE7wVisyjj4WGDc+1S9ZiIgH04oBsyJ+kAQJKBWOWdoSALCfwgZrjczuIjDS+ISQ==
+	t=1795608293;
+	b=JBSrUAvO9y0BruLWmV2qqm6cqAWqGjBeUTO+xeQCe8+Azt60Veg89teCiGLWf8YX3BOt
+	 8Y2/S7dGKICIDz4UPTPn/R22GNhUgBY6zSAEWjXAfVd8O82dnKyYzd+EgwnP12JFScBFn
+	 mBlekhRpM6iiVlOugqH/UEN3JQpiPcDPhihbCGlIv+zhcX5bwGsqXLGBWudayL/niRuz7
+	 qaYk0Ox032X7mq2vb2bTGF/j4+iZS3qe6EJxoijFN8cT2L11wpZJs/LvLeUY3Em0b912N
+	 QBjCVMN/ItBVwirMJVXg/Iy8Ne921HgAyWOHCKHu6n3s9wb3nA6C6c+pqmHNEIy3g4A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795608290;
-	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=CPo50qO2PRidUlCI48Oz0XpVeY7AnksU4RM+i2sI4Q4=;
-	b=abebisz/BlzGgH6k04BIWkC99Skcqlm9/qcZKpZ2jTf9YmL3qiv3X2kVr+vEB/8YUjUQ
-	 tCIA/sKwpHTLQCm1K1vJ/tdUeS2V9to3jx8/Ca/CRy2vqemogyj2sxd5uUGzMwgMaO/ut
-	 RO/0zcHmOrJSSBt/m6shG7Y5leoHDLAT2r5uvQT+iXgbCO57jNgqWgLvRihKu4pUUrwcj
-	 XR8f/sCTxLlUsoQc5KE4yWk5cg7Eqjeh6z8Y07wB2c22ReLcG/LxJMyFQl/YAsU4HEXXP
-	 9kD94GwtWNNduz2hbUBkccvfEqZGFQSYTfgb9krrZg7jyUXj6H6nOdHhl/TJ3ZHiqEA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795608293;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=EM9v7lx+Ly0ln/7bCidqbWhjZnISr5hSFtK9NQhxA0o=;
+	b=R+Zk7upHK3znnI1vgiCSdZVrdzbiDAM69aLqRF/nYn0WHIbJ5pc0YJIL7Z3obJNw+QFn
+	 54q0w4aiDhdgRIau+E8GGVhD/uJWtu3G/1/R3OAQOwHY3TTk44mGSiHV26muS2X0A4aKr
+	 UKlPTagLJh+Qoul+YT93tczltC/wNwO9EQWb4cOF3oaxGWs6kLOLAZB9xJKB8biY0Qa3H
+	 rxYQvUYsWJ6pLUOUcRquRoVVm3GyruwNrfzJ2i2kKCh2jLKwjYyPgxf/XLMw2STll8UUH
+	 4qFGmXYpqbTBrPFyNR6op1+4kxAZyqhwhzy8s7n1KOAXnX94K7Udr2290k78iPWSTSQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b9VBq4B9;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KsIpo6cM;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF793606A31E;
-	Wed, 25 Nov 2026 12:04:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3645606A337
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 12:04:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b9VBq4B9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E8231F000D2;
-	Wed, 25 Nov 2026 12:04:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KsIpo6cM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 600C51F000EE;
+	Wed, 25 Nov 2026 12:04:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795608289;
-	bh=CPo50qO2PRidUlCI48Oz0XpVeY7AnksU4RM+i2sI4Q4=;
-	h=From:Subject:Date:To:Cc;
-	b=b9VBq4B9N23N8o8Rz3rJwWdSB7leqeSGFQecFMcAcxD+oRpjnWNoQEGd2g9OAFZek
-	 +KVXXkNQnVFc1Vrm4hvQoocf2/SCfwn8IJX/pK4l50U4Mri77OimcmQBnIX/1uRDJ9
-	 igWKXzMrjJ0yr6FhAqpzRyu0m+TsyQ+WinkV9//GYwhgKmPxQL16eM1sia3fk+W+Ef
-	 t0f2qG4MZG1QPFblPwuvfXb3UP30HOL0OnJRo38JTK7uHSNQyPOQw48gLAIZ6n0+Pn
-	 8r/ZShEwWf1wHOt2dEh+vVv5kYLc6LKtH7ZiJPV3pON0VNKWt6/Bam1teuDH67+5wu
-	 qbhShPYJqlgtQ==
+	s=k20260515; t=1795608293;
+	bh=EM9v7lx+Ly0ln/7bCidqbWhjZnISr5hSFtK9NQhxA0o=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=KsIpo6cMlGRiGJerDd1u3CfK5Zh2MR0gwVPAI5fMcrYXTkT9U4kd2yUJuw70tqIpL
+	 CZwBzPp3x6fuTG3thEsXQEFlLzxuhzb7jNZJGD9t98Dh3o4LF6N6Ql49lqbRBQUlhI
+	 E0o9J1c7E8Bnlf4W6Ve2WcWkxNvuFfC33kDniylpVaPLdotT37H6UbNHX6QYkbhHGO
+	 7mFyYxtlZk3IgMmDJ3kc5la4VL8JyMmWtUKaf2kfIgGnUlSi1GfPQonxaOSQ3/2o4M
+	 5h8uqOZLt23gKfYXDlZ5iP9uOhg94vEBGh5ORkEQG5YNvYmdaV0DkSwhtNKQoTRiuM
+	 XffwJg2QD9wZg==
 From: Christian Brauner <brauner@kernel.org>
-Subject: [PATCH 0/2] libfs: fix multigrain timestamps of tmpfs directories
-Date: Wed, 25 Nov 2026 13:04:26 +0100
-Message-Id: <20261125-work-libfs-mgtime-v1-0-8022a81d0b9e@kernel.org>
+Date: Wed, 25 Nov 2026 13:04:28 +0100
+Subject: [PATCH 2/2] selftests/filesystems: test multigrain timestamps of
+ tmpfs directories
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,53 +55,316 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQ6DIBCG4auYWRciEJrQqzRdAA46bcWGsT+J8
- e4VXb6Tb54FGAshw6VZoOCHmKa8hTo1EAefexTUbQ261WeltBXfqTzEk0JiMfYzjSisMs4a17p
- kOtj+XgUT/Xbzejua3+GOca5QXQTPKELxOQ71VEm5k/IgZR3Auv4BxEz4XZ4AAAA=
-X-Change-ID: 20261125-work-libfs-mgtime-513953909f3d
+Message-Id: <20261125-work-libfs-mgtime-v1-2-8022a81d0b9e@kernel.org>
+References: <20261125-work-libfs-mgtime-v1-0-8022a81d0b9e@kernel.org>
+In-Reply-To: <20261125-work-libfs-mgtime-v1-0-8022a81d0b9e@kernel.org>
 To: Jeff Layton <jlayton@kernel.org>
 Cc: Jan Kara <jack@suse.cz>, Josef Bacik <josef@toxicpanda.com>, 
  linux-fsdevel@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-04696
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1613; i=brauner@kernel.org;
- h=from:subject:message-id; bh=hyRI8f8EzBB1XjIl344P4Wx37/LDhzauX0S0ElTo+n4=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSznbuZf6JIUer/IZ9O/07N86/ttlYJv25y5Ordfpvpa
- +L5N5O/d5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExk4jdGhoeX9wSVX/DSFJl8
- 4SvP810hWSe3iUX1GLZOufDRLV5uYzIjw9Fo53cpDpMlRA24I5w+nmq6tyLvmfK3f59j/xx4cbY
- /lxsA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8363; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=oWzQq168cMvkxrBQInUReMgd6PIkNsXH84TA6eRFVgs=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSznbuzO/ihWfSZnb92Hb+lIjvt/P1Hzz/F/YgWvacbW
+ T1fUa/nbkcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBENA4z/K877cS0nittulrD
+ lbCQ39cn+X9/v+V5z/5HCd8NmNxkPa8zMlzYWPbmL3OeiENYc6S/SS87O1txUpuMF/ukJr3Lfg3
+ TWAA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-simple_link() and __simple_unlink() copy the child's new ctime into the
-parent directory. That doesn't work with multigrain timestamps. The
-child's ctime is only fine-grained if the child itself was queried and
-copying it clears the I_CTIME_QUERIED flag of the directory.
+Check that a tmpfs directory whose timestamps were queried shows a new
+ctime and mtime after:
 
-tmpfs is the only multigrain filesystem that uses these helpers. So
-since v6.13 a tmpfs directory whose timestamps were queried can come out
-of link(), unlink(), rmdir() or a rename over an existing entry with the
-same ctime and mtime as before. If the renamed entry comes from another
-directory size and link count stay the same as well and userspace has
-no way to tell that the directory changed at all. In a VM that happened
-in 1738 of 2000 tries.
+- creating a file or a directory
+- link(), unlink() and rmdir()
+- a rename, a rename over a file or an empty directory, and
+  RENAME_EXCHANGE
 
-Give the directory its own inode_set_ctime_current() call like the other
-multigrain filesystems do and add a selftest that checks the timestamps
-of the parent directory after each directory operation.
+Each case is tried a hundred times right after the directory changed so
+that most tries land in the same coarse clock tick.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
-Christian Brauner (2):
-      libfs: don't copy the child's ctime to the parent directory
-      selftests/filesystems: test multigrain timestamps of tmpfs directories
-
- fs/libfs.c                                        |   8 +-
  tools/testing/selftests/filesystems/.gitignore    |   1 +
  tools/testing/selftests/filesystems/Makefile      |   1 +
  tools/testing/selftests/filesystems/mgtime_test.c | 244 ++++++++++++++++++++++
- 4 files changed, 250 insertions(+), 4 deletions(-)
----
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-change-id: 20261125-work-libfs-mgtime-513953909f3d
+ 3 files changed, 246 insertions(+)
+
+diff --git a/tools/testing/selftests/filesystems/.gitignore b/tools/testing/selftests/filesystems/.gitignore
+index cf79000e4092a..091095198a855 100644
+--- a/tools/testing/selftests/filesystems/.gitignore
++++ b/tools/testing/selftests/filesystems/.gitignore
+@@ -4,6 +4,7 @@ devpts_pts
+ fclog
+ anon_inode_test
+ kernfs_test
++mgtime_test
+ idmapped_tmpfile
+ ustat_test
+ rw_hint_test
+diff --git a/tools/testing/selftests/filesystems/Makefile b/tools/testing/selftests/filesystems/Makefile
+index fbd5c27505ef5..1474b05874dc2 100644
+--- a/tools/testing/selftests/filesystems/Makefile
++++ b/tools/testing/selftests/filesystems/Makefile
+@@ -4,6 +4,7 @@ CFLAGS += $(KHDR_INCLUDES)
+ TEST_GEN_PROGS := devpts_pts anon_inode_test kernfs_test fclog ustat_test rw_hint_test
+ TEST_GEN_PROGS += idmapped_tmpfile
+ TEST_GEN_PROGS_EXTENDED := dnotify_test
++TEST_GEN_PROGS += mgtime_test
+ 
+ include ../lib.mk
+ 
+diff --git a/tools/testing/selftests/filesystems/mgtime_test.c b/tools/testing/selftests/filesystems/mgtime_test.c
+new file mode 100644
+index 0000000000000..21b5f41c3e99f
+--- /dev/null
++++ b/tools/testing/selftests/filesystems/mgtime_test.c
+@@ -0,0 +1,244 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * tmpfs uses multigrain timestamps: once the timestamps of a directory
++ * have been queried, the next change to the directory must show a new
++ * ctime and mtime, even within the same coarse clock tick.
++ */
++
++#define _GNU_SOURCE
++#include <errno.h>
++#include <fcntl.h>
++#include <stdbool.h>
++#include <stdio.h>
++#include <linux/magic.h>
++#include <sys/mount.h>
++#include <sys/stat.h>
++#include <sys/vfs.h>
++#include <unistd.h>
++
++#include "kselftest_harness.h"
++
++/*
++ * Each try changes the directory right before querying it, so nearly
++ * every try lands in the same coarse clock tick as that change. A single
++ * one that shows no new timestamp fails the test, so a hundred tries
++ * leave no realistic chance for a broken kernel to pass.
++ */
++#define NR_TRIES 100
++
++enum dir_op {
++	OP_CREATE,
++	OP_MKDIR,
++	OP_LINK,
++	OP_UNLINK,
++	OP_RMDIR,
++	OP_RENAME,
++	OP_RENAME_OVER_FILE,
++	OP_RENAME_OVER_DIR,
++	OP_RENAME_EXCHANGE,
++};
++
++FIXTURE(mgtime) {
++	int root;
++};
++
++FIXTURE_VARIANT(mgtime) {
++	enum dir_op op;
++	/* Take the renamed entry from another directory. */
++	bool other_dir;
++};
++
++FIXTURE_VARIANT_ADD(mgtime, create) {
++	.op = OP_CREATE,
++};
++
++FIXTURE_VARIANT_ADD(mgtime, mkdir) {
++	.op = OP_MKDIR,
++};
++
++FIXTURE_VARIANT_ADD(mgtime, link) {
++	.op = OP_LINK,
++};
++
++FIXTURE_VARIANT_ADD(mgtime, unlink) {
++	.op = OP_UNLINK,
++};
++
++FIXTURE_VARIANT_ADD(mgtime, rmdir) {
++	.op = OP_RMDIR,
++};
++
++FIXTURE_VARIANT_ADD(mgtime, rename_other_dir) {
++	.op = OP_RENAME,
++	.other_dir = true,
++};
++
++FIXTURE_VARIANT_ADD(mgtime, rename_over_file) {
++	.op = OP_RENAME_OVER_FILE,
++};
++
++FIXTURE_VARIANT_ADD(mgtime, rename_over_file_other_dir) {
++	.op = OP_RENAME_OVER_FILE,
++	.other_dir = true,
++};
++
++FIXTURE_VARIANT_ADD(mgtime, rename_over_dir_other_dir) {
++	.op = OP_RENAME_OVER_DIR,
++	.other_dir = true,
++};
++
++FIXTURE_VARIANT_ADD(mgtime, rename_exchange_other_dir) {
++	.op = OP_RENAME_EXCHANGE,
++	.other_dir = true,
++};
++
++FIXTURE_SETUP(mgtime)
++{
++	struct statfs sfs;
++	int fsfd;
++
++	fsfd = fsopen("tmpfs", FSOPEN_CLOEXEC);
++	if (fsfd < 0 && errno == EPERM)
++		SKIP(return, "mounting tmpfs requires CAP_SYS_ADMIN");
++	ASSERT_GE(fsfd, 0);
++	ASSERT_EQ(fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0), 0);
++	self->root = fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
++	ASSERT_GE(self->root, 0);
++	ASSERT_EQ(close(fsfd), 0);
++
++	/* Without CONFIG_SHMEM tmpfs is ramfs, which has no multigrain timestamps. */
++	ASSERT_EQ(fstatfs(self->root, &sfs), 0);
++	if (sfs.f_type != TMPFS_MAGIC)
++		SKIP(return, "tmpfs is ramfs without CONFIG_SHMEM");
++}
++
++FIXTURE_TEARDOWN(mgtime)
++{
++	close(self->root);
++}
++
++/* Create a file without taking its status. */
++static int create_file(int dfd, const char *name)
++{
++	int fd;
++
++	fd = openat(dfd, name, O_CREAT | O_EXCL | O_WRONLY | O_CLOEXEC, 0644);
++	if (fd < 0)
++		return -1;
++	return close(fd);
++}
++
++static int remove_all(int root)
++{
++	static const char *const files[] = {
++		"dir/victim", "dir/new", "dir/link", "src/new",
++	};
++	static const char *const dirs[] = {
++		"dir/victim", "dir/new", "src/new", "dir", "src",
++	};
++
++	for (size_t i = 0; i < sizeof(files) / sizeof(files[0]); i++)
++		if (unlinkat(root, files[i], 0) && errno != ENOENT &&
++		    errno != EISDIR)
++			return -1;
++	for (size_t i = 0; i < sizeof(dirs) / sizeof(dirs[0]); i++)
++		if (unlinkat(root, dirs[i], AT_REMOVEDIR) && errno != ENOENT &&
++		    errno != ENOTDIR)
++			return -1;
++	return 0;
++}
++
++/* Build what the operation needs, changing "dir" last. */
++static int prepare(int root, enum dir_op op, bool other_dir)
++{
++	const char *from = other_dir ? "src/new" : "dir/new";
++
++	if (mkdirat(root, "src", 0755) || mkdirat(root, "dir", 0755))
++		return -1;
++
++	switch (op) {
++	case OP_CREATE:
++	case OP_MKDIR:
++	case OP_LINK:
++	case OP_UNLINK:
++		return create_file(root, "dir/victim");
++	case OP_RMDIR:
++		return mkdirat(root, "dir/victim", 0755);
++	case OP_RENAME:
++	case OP_RENAME_OVER_FILE:
++	case OP_RENAME_EXCHANGE:
++		if (create_file(root, from))
++			return -1;
++		return create_file(root, "dir/victim");
++	case OP_RENAME_OVER_DIR:
++		if (mkdirat(root, from, 0755))
++			return -1;
++		return mkdirat(root, "dir/victim", 0755);
++	}
++	return -1;
++}
++
++static int change(int root, enum dir_op op, bool other_dir)
++{
++	const char *from = other_dir ? "src/new" : "dir/new";
++
++	switch (op) {
++	case OP_CREATE:
++		return create_file(root, "dir/new");
++	case OP_MKDIR:
++		return mkdirat(root, "dir/new", 0755);
++	case OP_LINK:
++		return linkat(root, "dir/victim", root, "dir/link", 0);
++	case OP_UNLINK:
++		return unlinkat(root, "dir/victim", 0);
++	case OP_RMDIR:
++		return unlinkat(root, "dir/victim", AT_REMOVEDIR);
++	case OP_RENAME:
++		return renameat(root, from, root, "dir/new");
++	case OP_RENAME_OVER_FILE:
++	case OP_RENAME_OVER_DIR:
++		return renameat(root, from, root, "dir/victim");
++	case OP_RENAME_EXCHANGE:
++		return renameat2(root, from, root, "dir/victim", RENAME_EXCHANGE);
++	}
++	return -1;
++}
++
++static bool same_time(const struct statx_timestamp *a,
++		      const struct statx_timestamp *b)
++{
++	return a->tv_sec == b->tv_sec && a->tv_nsec == b->tv_nsec;
++}
++
++TEST_F(mgtime, parent_times_change)
++{
++	for (int i = 0; i < NR_TRIES; i++) {
++		struct statx before, after;
++		int dfd;
++
++		ASSERT_EQ(prepare(self->root, variant->op, variant->other_dir), 0);
++		dfd = openat(self->root, "dir", O_RDONLY | O_DIRECTORY | O_CLOEXEC);
++		ASSERT_GE(dfd, 0);
++
++		/* Querying the timestamps asks for a visible next change. */
++		ASSERT_EQ(statx(dfd, "", AT_EMPTY_PATH,
++				STATX_CTIME | STATX_MTIME, &before), 0);
++		ASSERT_EQ(change(self->root, variant->op, variant->other_dir), 0);
++		ASSERT_EQ(statx(dfd, "", AT_EMPTY_PATH,
++				STATX_CTIME | STATX_MTIME, &after), 0);
++
++		ASSERT_FALSE(same_time(&before.stx_ctime, &after.stx_ctime))
++			TH_LOG("try %d: ctime stayed at %lld.%09u", i,
++			       (long long)before.stx_ctime.tv_sec,
++			       before.stx_ctime.tv_nsec);
++		ASSERT_FALSE(same_time(&before.stx_mtime, &after.stx_mtime))
++			TH_LOG("try %d: mtime stayed at %lld.%09u", i,
++			       (long long)before.stx_mtime.tv_sec,
++			       before.stx_mtime.tv_nsec);
++
++		ASSERT_EQ(close(dfd), 0);
++		ASSERT_EQ(remove_all(self->root), 0);
++	}
++}
++
++TEST_HARNESS_MAIN
+
+-- 
+2.53.0
 
