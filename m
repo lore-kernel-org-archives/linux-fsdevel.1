@@ -1,45 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.121.94.184
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795643894;
-	b=dOFECdzIe4768r1VQ5ZT+fxsP8xR1r/z60Dlmkuj58EHvI3Vu4HX9GCo8p18xpgITqb3
-	 btDtGmoR07Yn9Z45wpw59Q8IPXvG/DTBmLy5c/6og9Z89A/yiUAeZZ4n61X7TrmhxRnzs
-	 4rxiEGm7PjMCuLIlABIcqzQJFR8jcH36Cs0LXu9G1ZmpO8pzTQOxGXyzjFVfY7Ubh2Yp6
-	 HsoLmYcBf9xJRF2F0ea18MS6pig/kIhTplYU5EErQFUxLOsyX461osrgrQUKQL8jVAipt
-	 mT5uWw4qODAslwBBDQhkVoh7vIM06E/meeg4XyxGvAPsH2n4fyY8K8su0Wr8IGLv1tQ==
+	t=1795644150;
+	b=TNyQobmn7HLbqlfsJQBLviIRbb9euBT+wBtDCNiADLIPAMcieKt+j8kUHNkqn3syKuMR
+	 KpkXURnpjyKShm04ET/iXQJ3K1qUa6oWFXBcCQsmRzu0sQ3UA9URFSq1jI1MxzwWI8yhr
+	 KBkjCWqj6jUNZMqxGlm7baUCIxE+nmHbKo+8M2hnjUo0lrjTN8CZXasbf+lAKm5XX/7hV
+	 ntJDE+wMVgTkg/ZdyKljq5wJwgQXsvBeT4oPFgXBEAimziSCr2Pq8ilvetAPnrEGM3j8e
+	 iqZFa4V5cp/D0V6zOBoZ0W2Ff1s6ZD8APSxgl42a1baA2ncM+2IFXKif9WpJZCJjXfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795643894;
-	h=Received:DKIM-Signature:Content-Type:MIME-Version:Message-Id:
-	 In-Reply-To:References:Subject:From:To:Cc:Date;
-	bh=h6Q9R3G+JkZHYy+1pHT69C6xcyqGso5GBeWoA+f5Z7M=;
-	b=b3Kg38jHwp1M4fFk+AiX8ACIwvxVsGjm9VZvc8jbrEXW3Kr5Z2CUskKBaggzqUntCovG
-	 UY2AV7ghaqC3RDmnGPeDNH6q9W3M4ygUpJlmehMVqL2gJin7B7IJ1t5x1+2O2pR4VnvQ4
-	 nnpSbhgRW09TYjPGS80HqBSmBsjd1qftK74kVTmkYkYm7iSfwDAtd1efne75W+aMNtKF6
-	 lJRIAmmQMY5Ts5kx4DuIgmfcgmbvtuUQJk4R0gJgeHkTaFCtjVy67/94a7Qhkom3pHU7D
-	 ni2hv4uH6vLUucAeWK+VJgp+h8OTc3sBVRxaXKTX+FpLHL0v8X1lY0KwNm7s5Fj1h7Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795644150;
+	h=DMARC-Filter:X-KPN-MessageId:Received:Received:DKIM-Signature:
+	 X-KPN-MID:X-CMASSUN:X-KPN-VerifiedSender:Received:Date:From:To:Cc:
+	 Message-ID:In-Reply-To:References:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Priority:Importance:X-Originating-IP;
+	bh=c2ucA1euV+R8ODwbxe9jfB2W2c87Tit7wapu+gok7v4=;
+	b=5AexOZTR2bogCsdzoDSyx/ZCG9zeqLMlfXeDisusgP5Q5YvxVq1ugiFtxZlHT7hZy4+6
+	 SQpREp9h1BKJDYOrlxgTDkYcJm2PQpvlIrntSJo9ipPLYGPDaHYtEshH+kcZ5KRAxNPa0
+	 kOTn25x20AXnEFCmV535BkBnKzzMlqj4DJIEVStm+cXN2waDeBjDkG/ZRjDfp2hXRvx10
+	 8UCI0b62vr3/uKK9RDbWpd1qeX5lR8lULmbAbOCez+jtivKKGeyWHFG6N0DVNFUb9VJU0
+	 mCMdcBkkn6uXVBzNzoA/c+0/jZQQyiZVj2s3OtxEDl6riR1UD6O7QzRoaOuVXF+Xg4w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Do+Lu3gJ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=xs4all.nl;
+	spf=pass smtp.mailfrom=xs4all.nl;
+	dkim=pass header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=b1gOZUTR;
+	arc=none smtp.remote-ip=195.121.94.184
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C461606A326;
-	Wed, 25 Nov 2026 21:58:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1998606A326
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 22:02:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1998606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Do+Lu3gJ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69DD01F000C0;
-	Wed, 25 Nov 2026 21:58:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795643893;
-	bh=h6Q9R3G+JkZHYy+1pHT69C6xcyqGso5GBeWoA+f5Z7M=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=Do+Lu3gJMB6cY+Z5JHaD0/fg3qxdr1h0BBjsgfNyeezx2S61E5LLgF6PI+w/r8o9A
-	 Uq56f3OpGuCsgLpdIf7GkIKcazyOnxxLIn61kz0mzNsig1or3pyPskbhrOD3Vw8ZHz
-	 VnjQdROaoj+ECEwNgNYxgXifIw70w/8rr2onK7IgWc56QDHL1IIPbR25zXrHreQFFQ
-	 r6vDvIn+fMlsZ4psReeZNSG15nGtZ6rFJhQNi2aMEswnnoMd5shEYMpCdQyvBi5NCm
-	 oRWoFfYjgW7az6nX0D7HKRyHNXMGn2acm/uyW8pclyrjQqfm52a2Uyl4/IL7LZ70En
-	 NrxtRRyPJ4JeA==
-Content-Type: multipart/mixed; boundary="===============6772155462259261077=="
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=b1gOZUTR
+X-KPN-MessageId: e6c29041-e91b-11f1-98a9-005056994fde
+Received: from mta.kpnmail.nl (unknown [10.31.161.189])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id e6c29041-e91b-11f1-98a9-005056994fde;
+	Wed, 25 Nov 2026 23:02:27 +0100 (CET)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id e6c1659c-e91b-11f1-b795-0050569981f5;
+	Wed, 25 Nov 2026 23:02:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=c2ucA1euV+R8ODwbxe9jfB2W2c87Tit7wapu+gok7v4=;
+	b=b1gOZUTRmHFRwcwOy+nEip0DmLmqZUXQ8OZiqD7CGmW/i4D+4WCCFJ1yMPI+3xSjpElyfjDxkq6iG
+	 IxpfwBxjyK1NLzT05y2RDjX93pUJXXS/bBO0Mx6borBLni8KIF1pHlD63gDGKCR0z4W1gOuNXOFd/l
+	 Fwd6rotEFZ+SFwet7FxIOETx5gBzw0GBJrRSjP692oNzzcPHwsAWJ8mW0m38zC7JPOyUlDTtBHneii
+	 loyxCp7O7On7NxzSpuZuXI+eNSuOfftWTDRzwEefb3I4e0fWjyPFXM7rergF//ZcidJktWimb0QoVF
+	 BeYiR8tD6vCujrNW+vf5w/R7NBcExyA==
+X-KPN-MID: 33|Xhr4CeQe8pHfgk3+KrDZf6RvLpQUw+dILX124qCDPdze/VbrZsdLc8dSLVKtRTh
+ 8iJTUea46Tkwbl65os9vbjIhxA91sk5up0TwQXdS8D30=
+X-CMASSUN: 33|g0vKsP9VCv83CvR/FYQAqoRjguJVOUyXSKxFBZV9y44hK12nKxm6f/Uh5SDLNfW
+ KMaK4xvFJfIQ6q6sqxprIWw==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh05 (cpxoxapps-mh05.personalcloud.so.kpn.org [10.128.135.211])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id e6b69b89-e91b-11f1-94bb-005056995d6c;
+	Wed, 25 Nov 2026 23:02:26 +0100 (CET)
+Date: Wed, 25 Nov 2026 23:02:26 +0100 (CET)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Jens Axboe <axboe@kernel.dk>, Hengyu Liang <hengyul@cs.unc.edu>
+Cc: Christian Brauner <brauner@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>,
+	io-uring@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Message-ID: <805466896.2784291.1795644146928@kpc.webmail.kpnmail.nl>
+In-Reply-To: <86fea5ad-43d5-46d6-b2e5-f93b8a6afb8f@kernel.dk>
+References: <20261125180817.3682397-1-hengyul@cs.unc.edu>
+ <170898867.2781789.1795642036410@kpc.webmail.kpnmail.nl>
+ <86fea5ad-43d5-46d6-b2e5-f93b8a6afb8f@kernel.dk>
+Subject: Re: [PATCH] io_uring/openclose: allow an empty path with
+ O_EMPTYPATH
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -49,92 +83,28 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Message-Id: <6262e5090a78f9ff8760d62be7c78067f4daa988ab01fc6659c5f60ece1d7d1c@mail.kernel.org>
-In-Reply-To: <20261125211928.3481451-1-daniel@iogearbox.net>
-References: <20261125211928.3481451-1-daniel@iogearbox.net>
-Subject: Re: [PATCH vfs.bpf] bpf: Read security.bpf xattrs without caller's permission
-From: bot+bpf-ci@kernel.org
-To: daniel@iogearbox.net,brauner@kernel.org
-Cc: ast@kernel.org,kpsingh@kernel.org,dwindsor@gmail.com,bpf@vger.kernel.org,linux-fsdevel@vger.kernel.org,song@kernel.org,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
-Date: Wed, 25 Nov 2026 21:58:12 +0000 (UTC)
-
---===============6772155462259261077==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-
-> bpf: Read security.bpf xattrs without caller's permission
-
-TL;DR: Skipping inode_permission() for security.bpf. xattrs may let a
-sleepable BPF LSM program send FUSE_GETXATTR to an untrusted server for
-disallowed tasks, possibly hanging root's statfs in D state. Should FUSE still
-be refused?
-
-> diff --git a/fs/bpf_fs_kfuncs.c b/fs/bpf_fs_kfuncs.c
-> --- a/fs/bpf_fs_kfuncs.c
-> +++ b/fs/bpf_fs_kfuncs.c
-
-[ ... ]
-
-> @@ -107,8 +107,9 @@ static int bpf_xattr_read_permission(const char *name, struct inode *inode)
->  		return -EINVAL;
->
->  	/* Allow reading xattr with user. and security.bpf. prefix */
-> -	if (strncmp(name, XATTR_USER_PREFIX, XATTR_USER_PREFIX_LEN) &&
-> -	    !match_security_bpf_prefix(name))
-> +	if (match_security_bpf_prefix(name))
-> +		return 0;
-> +	if (strncmp(name, XATTR_USER_PREFIX, XATTR_USER_PREFIX_LEN))
->  		return -EPERM;
->
->  	return inode_permission(&nop_mnt_idmap, inode, MAY_READ);
-
-A subsystem pattern flags this as potentially concerning.  For
-security.bpf. names, bpf_get_dentry_xattr() now goes straight to
-__vfs_getxattr() without inode_permission().  On FUSE that reaches:
-
-fuse_xattr_get()
-  fuse_getxattr()
-    fuse_simple_request(FUSE_GETXATTR)
-
-and fuse_xattr_get() never calls fuse_allow_current_process().  Before this
-change, inode_permission() reached fuse_permission(), which returns -EACCES
-without sending a request when !fuse_allow_current_process(fc).
-
-Can this send FUSE_GETXATTR to an untrusted server on behalf of a task the
-mount owner does not allow?  For example, sb_statfs is a sleepable LSM hook
-that receives a trusted struct dentry *.  If a sleepable BPF LSM program
-calls bpf_get_dentry_xattr(dentry, "security.bpf.<x>", ...) there, and an
-unprivileged user has mounted a FUSE filesystem without allow_other, then
-root calling statfs() (e.g. df, or statfs on /proc/<pid>/cwd) goes:
-
-statfs_by_dentry()
-  security_sb_statfs(dentry)
-
-with no prior inode_permission() on an inode of that connection.  Previously
-the result was -EACCES with no request sent.  Now the request is sent, and
-request_wait_answer() ends in an uninterruptible wait until the server
-replies, so a non-replying server can hang root's statfs in D state.
-
-The commit message compares this to SELinux and Smack reading labels with
-__vfs_getxattr().  Those LSMs cache the label in the inode blob at
-d_instantiate or mount time, in the context of a task that already passed
-the FUSE checks, whereas a BPF LSM program may read security.bpf. on every
-hook invocation.
-
-Mitigating context: this only applies when an admin-loaded sleepable BPF LSM
-program reads security.bpf. xattrs in such a hook, the user. prefix is
-unaffected, and security.* xattrs are already readable from userspace
-without read permission.
-
-Should the security.bpf. path keep refusing FUSE inodes whose connection does
-not allow the current task, or should the kfunc documentation state that it
-can block on an untrusted FUSE server for any task?
+X-Priority: 3
+Importance: Normal
 
 
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+> Op 25-11-2026 22:47 CET schreef Jens Axboe <axboe@kernel.dk>:
+> 
+> > 
+> > Reviewed-by: Jori Koolstra (CIQ) <jkoolstra@xs4all.nl>
+> > 
+> > @Jens - You've pulled this already, I don't know if io_uring appreciates reviews
+> > after pull. Let me know if not.
+> 
+> Always appreciate that, the link is in the commit too so it'll be
+> discoverable after the fact as well.
+> 
 
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/45706851285
---===============6772155462259261077==--
+All right, good to know ;) .
+
+I know Christian does some magic with pulling in the tags even much later,
+but I don't know what he does exactly.
+
+Best,
+Jori.
