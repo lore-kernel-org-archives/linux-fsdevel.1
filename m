@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795646262;
-	b=UyD5PTmBQvbhCbUPdQufQW+OvV9aEWEZJUv1xxt5XVGKJobzKTCQx2i7tMLFDXCc7xrF
-	 7WL9nsCf3QoEwdJIyGkB/Jrvs44baq9Ro56KHAJuno/+h8mBsJkNziLk07+NB/de8mUqj
-	 hZTCwH+ocVb8ix+z3727cFI0kV2QyseTZpARbn9ivudfwurNuAwHBEat2DbwF6UMS6PQd
-	 /WC2wlBNB2opsmyZfTUNjcCUA5zCcBODyP0SyVy0WwyuFOrnSBXohGb90GcocyuIKA2Gp
-	 25sfQeQqzEKfrKpkpEf0AhJhJ2kwo5TossaC3Yg0Fz7TZJkrmSWl2E1aV2omw9LT3UQ==
+	t=1795646279;
+	b=r8FslWlmkV8xqHUKxASc816eledpGBiycC5W3S6hPN4Lf5hCjWApgAjMhcm140IuGEH8
+	 k2bESwYjU/141AK9o7nWJ8EGUCysgGJQ+wwgpyjWew5y2r61YaRRQn8mEPR0iTmT5Zfgc
+	 AmD+X7ANw6dHbleZi2feDSdH7NyBdDW8qmaWGhNrkzL8GJlcMSf3fABFEBfm11NqGSmTz
+	 EGrBhUH+QfIC2SYg2zU6zvho4PUYhnX8drt8jWFHXfdIm1bB2LmcJRc2mEQQM6HKH/E3n
+	 KIJd1jG7gya60FbhzPS5QT1rrwW7AhRdUTlSZwqXpSCBAntlbZNJiQlErplFPDPpXXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795646262;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795646279;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=P+6EYpLgAE/mRgNpOZ7Q+hz1peRJcwyxpJJGTowJORQ=;
-	b=2mr38NWl6pHijN8/antxaplb3GBbJt9Zd3+KvJz98wU/Nh6LO78ZUecTauinLsy3rSn/
-	 ErsxL2CHr+G1RxhowdKWdqPBSFAUI6p2nr/yGmDxvBXheOFchIuJxXVdadtC4t8siJRrD
-	 m2GtG0aeWle2wETm7S3z9VjXBaOURlDztC5QO8iuG40SCv4mhpPK5BZVCBp+lgje/WjzI
-	 1YlEGlNP22zppJ36QCKmUnKe289NZuozVCOV1XnTb1NQUPdGS3oKi6gFEFaQ6yVYH2LBi
-	 M/91+qzv8Ycdy16hS8X/Hios6bIIRTiBN91J1ny9TGr6TRwtrDk7+whUefFWHIUa6UQ==
+	bh=VjKgL3sFoPldgijp6lCpDuD+mopBcsgB/ttP+1X/jCk=;
+	b=H1bausfDo7nMGm/lm5+GwIg37aV3xkwASTJX1K1XeLE5Emi62c4mLYyfZq8VMp1IC8Ca
+	 mrsawuzUEMXEZCEh545oUu8igd5tsqRASjSTPUNs7zbF8HfQxTEQUePajemrjIWKCJ8Y9
+	 Kzo6gWK1vXDnda9ao4B34h+7+IWXlq2crHHRxONZp0/SmGwHqwORB9U+sM8xKZM2LmACe
+	 b7b7Tp0UgVXQsPYC7KKOu8IoBJrfdKDXM+/CvbbpvWQRkpJ1uA0QbJs4lxvOAi9ybgtFr
+	 ZbWvGK+18m4PGsXEUJT7uzUiMVItvKUvRj9HjLbxhb7eGueq+Cm6mvVWKAP1UkVeq8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oQvinOFN;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Remf4O7f;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C07606A31E;
-	Wed, 25 Nov 2026 22:37:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5360606A31E;
+	Wed, 25 Nov 2026 22:37:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oQvinOFN
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 078B91F000F2;
-	Wed, 25 Nov 2026 22:37:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Remf4O7f
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 144731F000F2;
+	Wed, 25 Nov 2026 22:37:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795646261;
-	bh=P+6EYpLgAE/mRgNpOZ7Q+hz1peRJcwyxpJJGTowJORQ=;
+	s=k20260515; t=1795646279;
+	bh=VjKgL3sFoPldgijp6lCpDuD+mopBcsgB/ttP+1X/jCk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=oQvinOFN/+eS1gGNlyA1jrdenJLPZtq89iypBXtBD1BQptJqVTX8+7qZpvlAuw+So
-	 mvtePvyGjYUzUSP9Dd9Z6JFJEtsSE47C1cECBg4vBmMC6X/HvWMN+a9DgTKUU4vwT4
-	 NbOKg9iC2ODpta1AzEMd74Wf5QHE8zXqS1bMsqKBLH9n1/Gu61xk/52CFGisAS0S+7
-	 Y8axHVPNj0oaBbSpQcD2ffZCXyELzvSEyF0DGvOg2dYGIJg3kHOOX84fJQBegxe+pQ
-	 ofKaZOBjgb1tNK67YWADuwG5m/rDL6he2H1p9LhgD/eJzMlWDkR/n6C9xhRc1HgT8l
-	 +jZA56D1JMxHg==
+	b=Remf4O7fx/AFusGUzQGfMeurEwsxkr3JAjv+utPVTBog7uXBrh9k8Olw0S4aBBWhq
+	 ZMJr8AK1bKTrctfwD5XRfVhKpDhV7RyCR8E1x1xIwcvB61Ab4cw0rGSZ70ZgC8AdR6
+	 6xJLwj2ERSj36Qh6Ucu2sFyMuwQVBG0fqIBxlarS4qmcqQvdGdSDV3X7v/hqXRfNky
+	 Vhfpt0qB2IOsztafgaQR2l0+2LyC0G1q9087mysc9AGjAvNdcLk3sYD0lb9D8U1Z6p
+	 UrboJ+kOxmYit4FP9EApxwoNXZr+jjkmcoeRU1xVWookI9Wj69k/JrjzwYsFEXGYg5
+	 zjG06Bjo1tVbQ==
 From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Wed, 25 Nov 2026 23:33:14 +0100
-Subject: [PATCH 16/21] mm/hugetlb_cgroup: track in-use folios per cgroup
+Date: Wed, 25 Nov 2026 23:33:15 +0100
+Subject: [PATCH 17/21] hugetlbfs: seal SHM_HUGETLB files against growth
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,7 +54,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261125-hugetlb_fixes_2-v1-16-db27fd2f71a8@kernel.org>
+Message-Id: <20261125-hugetlb_fixes_2-v1-17-db27fd2f71a8@kernel.org>
 References: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
 In-Reply-To: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
 To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
@@ -97,214 +97,71 @@ Cc: linux-mm@kvack.org, Jason Gunthorpe <jgg@ziepe.ca>,
  "David Hildenbrand (Arm)" <david@kernel.org>, 
  Chris Mason <mason@kernel.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7023; i=david@kernel.org;
- h=from:subject:message-id; bh=Un1Xv2jSf94pjywu3PzLRYXUs4bjXbYIlpqIZ6naE1Y=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLZk1SdXkcXzRcvvv/mxMoDJ4R9jYVdLxw990HLKkZV+
- WFdxu5fHaUsDGIcDLJiiixBwfcNXr5cV1vtxscMM4eVCWQIAxenAFzEj+GfrlOwQu95w3Oly51v
- XQ+zduRnj3/PyVlaIRmjb6awtmkuw/9Ih2jjPuuKRWtFrk7dt+tvq065yqQlngdOdEzsXdxyxJ4
- HAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2124; i=david@kernel.org;
+ h=from:subject:message-id; bh=7MoiVxUj4TNHB3tVg+ZjfIFB8GSvxEg3MaoP8tyv0c4=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLZk1SjvLf+tbVQYWRgEJnlsbPsrAqLUZ7mS+OLfwP/X
+ 0xm0k3pKGVhEONgkBVTZAkKvm/w8uW62mo3PmaYOaxMIEMYuDgFYCILtBgZVgpIsu3W3CuwUPdH
+ zXMxCa+e5KwHG49FdB72aCufc9ayipHhxDV7EeHYao7bdqpWu+INNpR1n3JbvdRCbeoWvSs1i3O
+ 5AQ==
 X-Developer-Key: i=david@kernel.org; a=openpgp;
  fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
 From: Chris Mason <mason@kernel.org>
 
-When offlining a hugetlb cgroup, hugetlb_cgroup_css_offline() walks the
-list of all in-use hugetlb folios of each hstate with hugetlb_lock held
-and interrupts disabled, to reparent the folios charged to the dying
-cgroup. With many in-use hugetlb folios, that can keep interrupts
-disabled for a long time on every hugetlb cgroup removal, even for
-cgroups that never charged any hugetlb folios.
+The size of a SysV shared memory segment is fixed at shmget(), and
+do_shmat() relies on that by mapping i_size bytes of the backing file.
 
-Let's fix it by keeping in-use folios that are charged to a hugetlb
-cgroup on per-cgroup lists, so offlining only has to walk the folios of
-the dying cgroup.
+However, with SHM_HUGETLB, the hugetlbfs file can be grown through an
+fd obtained from /proc/<pid>/map_files with ftruncate() or fallocate().
+Also, remap_file_pages() with a pgoff beyond the segment can grow it,
+because hugetlbfs_file_mmap() grows the file to the end of a writable
+mapping:
 
-Process in batches to not keep interrupts disabled for too long when a
-single cgroup has many folios. Use batches of 32, like reclaim does with
-SWAP_CLUSTER_MAX.
+    shmget(key, 4M, SHM_HUGETLB)            i_size = 4M
+    addr = shmat(id, NULL, 0)
+    remap_file_pages(addr, 2M, 0, 6M >> PAGE_SHIFT, 0)
+                                            i_size = 8M
+    shmat(id, NULL, 0)                      maps 8M
 
-This has low urgency, as it only matters with a lot of hugetlb folios;
-let's not CC stable.
+Later calls to shmat() will map the bigger size.
 
-Fixes: da1def55919f ("hugetlb/cgroup: add support for cgroup removal")
+Using /proc/<pid>/map_files requires CAP_CHECKPOINT_RESTORE, but
+remap_file_pages() does not require any privileges, so we focus on the
+latter.
+
+Let's fix it by setting F_SEAL_GROW on the inode when creating it for a
+segment. remap_file_pages() beyond the segment still succeeds, like for
+shmem segments, but accessing pages there now correctly results in
+SIGBUS.
+
+This has low urgency, and likely nobody ever ran into this in practice.
+Let's not CC stable.
+
+Fixes: c8d78c1823f4 ("mm: replace remap_file_pages() syscall with emulation")
 Signed-off-by: Chris Mason <mason@kernel.org>
-[ david: add lock checks, add HUGETLB_CGROUP_OFFLINE_BATCH, simplify
-  comments and description ]
+[ david: adjust description ]
 Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 ---
- include/linux/hugetlb_cgroup.h | 20 ++++++++++++++++++++
- mm/hugetlb.c                   |  4 ++--
- mm/hugetlb_cgroup.c            | 34 ++++++++++++++++------------------
- 3 files changed, 38 insertions(+), 20 deletions(-)
+ fs/hugetlbfs/inode.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/hugetlb_cgroup.h b/include/linux/hugetlb_cgroup.h
-index b4e0958eabf3b..1c437eb2e1c30 100644
---- a/include/linux/hugetlb_cgroup.h
-+++ b/include/linux/hugetlb_cgroup.h
-@@ -54,6 +54,9 @@ struct hugetlb_cgroup {
- 	/* Handle for "hugetlb.events.local" */
- 	struct cgroup_file events_local_file[HUGE_MAX_HSTATE];
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index 0b96fdc3ad9d8..f1a8208ffc818 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -1559,8 +1559,11 @@ struct file *hugetlb_file_setup(const char *name, size_t size,
+ 				    S_IFREG | S_IRWXUGO, 0);
+ 	if (!inode)
+ 		goto out;
+-	if (creat_flags == HUGETLB_SHMFS_INODE)
++	if (creat_flags == HUGETLB_SHMFS_INODE) {
+ 		inode->i_flags |= S_PRIVATE;
++		/* The size of a segment is fixed at shmget(). */
++		HUGETLBFS_I(inode)->seals |= F_SEAL_GROW;
++	}
  
-+	/* In-use folios whose usage is charged here, under hugetlb_lock. */
-+	struct list_head activelist[HUGE_MAX_HSTATE];
-+
- 	struct hugetlb_cgroup_per_node *nodeinfo[];
- };
- 
-@@ -100,6 +103,17 @@ static inline void set_hugetlb_cgroup_rsvd(struct folio *folio,
- 	__set_hugetlb_cgroup(folio, h_cg, true);
- }
- 
-+static inline struct list_head *hugetlb_folio_activelist(struct folio *folio)
-+{
-+	struct hugetlb_cgroup *h_cg = hugetlb_cgroup_from_folio(folio);
-+	struct hstate *h = folio_hstate(folio);
-+
-+	lockdep_assert_held(&hugetlb_lock);
-+	if (!h_cg)
-+		return &h->hugepage_activelist;
-+	return &h_cg->activelist[hstate_index(h)];
-+}
-+
- static inline bool hugetlb_cgroup_disabled(void)
- {
- 	return !cgroup_subsys_enabled(hugetlb_cgrp_subsys);
-@@ -185,6 +199,12 @@ static inline void set_hugetlb_cgroup_rsvd(struct folio *folio,
- {
- }
- 
-+static inline struct list_head *hugetlb_folio_activelist(struct folio *folio)
-+{
-+	lockdep_assert_held(&hugetlb_lock);
-+	return &folio_hstate(folio)->hugepage_activelist;
-+}
-+
- static inline bool hugetlb_cgroup_disabled(void)
- {
- 	return true;
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 796f02a4ded63..5db97f6d15595 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -7608,7 +7608,7 @@ void folio_putback_hugetlb(struct folio *folio)
- {
- 	spin_lock_irq(&hugetlb_lock);
- 	folio_set_hugetlb_migratable(folio);
--	list_move_tail(&folio->lru, &(folio_hstate(folio))->hugepage_activelist);
-+	list_move_tail(&folio->lru, hugetlb_folio_activelist(folio));
- 	spin_unlock_irq(&hugetlb_lock);
- 	folio_put(folio);
- }
-@@ -7684,7 +7684,7 @@ void move_hugetlb_state(struct folio *old_folio, struct folio *new_folio,
- 	 */
- 	spin_lock_irq(&hugetlb_lock);
- 	folio_set_hugetlb_migratable(new_folio);
--	list_move_tail(&new_folio->lru, &(folio_hstate(new_folio))->hugepage_activelist);
-+	list_move_tail(&new_folio->lru, hugetlb_folio_activelist(new_folio));
- 	spin_unlock_irq(&hugetlb_lock);
- }
- 
-diff --git a/mm/hugetlb_cgroup.c b/mm/hugetlb_cgroup.c
-index 6921b18572666..6ee771334a3bd 100644
---- a/mm/hugetlb_cgroup.c
-+++ b/mm/hugetlb_cgroup.c
-@@ -28,6 +28,8 @@
- #define DFL_TMPL_SIZE		ARRAY_SIZE(hugetlb_dfl_tmpl)
- #define LEGACY_TMPL_SIZE	ARRAY_SIZE(hugetlb_legacy_tmpl)
- 
-+#define HUGETLB_CGROUP_OFFLINE_BATCH	32
-+
- static struct hugetlb_cgroup *root_h_cgroup __read_mostly;
- static struct cftype *dfl_files;
- static struct cftype *legacy_files;
-@@ -123,6 +125,8 @@ static void hugetlb_cgroup_init(struct hugetlb_cgroup *h_cgroup,
- 		VM_WARN_ON_ONCE(ret);
- 		ret = page_counter_set_max(rsvd, limit);
- 		VM_WARN_ON_ONCE(ret);
-+
-+		INIT_LIST_HEAD(&h_cgroup->activelist[idx]);
- 	}
- }
- 
-@@ -219,18 +223,8 @@ static void hugetlb_cgroup_move_parent(int idx, struct hugetlb_cgroup *h_cg,
- {
- 	unsigned int nr_pages;
- 	struct page_counter *counter;
--	struct hugetlb_cgroup *hcg;
- 	struct hugetlb_cgroup *parent = parent_hugetlb_cgroup(h_cg);
- 
--	hcg = hugetlb_cgroup_from_folio(folio);
--	/*
--	 * We can have pages in active list without any cgroup
--	 * ie, hugepage with less than 3 pages. We can safely
--	 * ignore those pages.
--	 */
--	if (!hcg || hcg != h_cg)
--		goto out;
--
- 	nr_pages = folio_nr_pages(folio);
- 	if (!parent) {
- 		parent = root_h_cgroup;
-@@ -244,8 +238,7 @@ static void hugetlb_cgroup_move_parent(int idx, struct hugetlb_cgroup *h_cg,
- 	hugetlb_cgroup_move_usage(h_cg, parent, folio, folio);
- 
- 	set_hugetlb_cgroup(folio, parent);
--out:
--	return;
-+	list_move(&folio->lru, hugetlb_folio_activelist(folio));
- }
- 
- /*
-@@ -255,15 +248,20 @@ static void hugetlb_cgroup_move_parent(int idx, struct hugetlb_cgroup *h_cg,
- static void hugetlb_cgroup_css_offline(struct cgroup_subsys_state *css)
- {
- 	struct hugetlb_cgroup *h_cg = hugetlb_cgroup_from_css(css);
-+	struct folio *folio, *next;
- 	struct hstate *h;
--	struct folio *folio;
- 
- 	do {
- 		for_each_hstate(h) {
--			spin_lock_irq(&hugetlb_lock);
--			list_for_each_entry(folio, &h->hugepage_activelist, lru)
--				hugetlb_cgroup_move_parent(hstate_index(h), h_cg, folio);
-+			int idx = hstate_index(h);
-+			unsigned int nr = 0;
- 
-+			spin_lock_irq(&hugetlb_lock);
-+			list_for_each_entry_safe(folio, next, &h_cg->activelist[idx], lru) {
-+				hugetlb_cgroup_move_parent(idx, h_cg, folio);
-+				if (++nr == HUGETLB_CGROUP_OFFLINE_BATCH)
-+					break;
-+			}
- 			spin_unlock_irq(&hugetlb_lock);
- 		}
- 		cond_resched();
-@@ -367,6 +365,7 @@ static void __hugetlb_cgroup_commit_charge(int idx, unsigned long nr_pages,
- 		 */
- 		WRITE_ONCE(h_cg->nodeinfo[folio_nid(folio)]->usage[idx],
- 			   usage + nr_pages);
-+		list_move(&folio->lru, hugetlb_folio_activelist(folio));
- 	}
- out:
- 	if (!rsvd && charged_h_cg)
-@@ -940,7 +939,6 @@ void hugetlb_cgroup_migrate(struct folio *old_folio, struct folio *new_folio)
- {
- 	struct hugetlb_cgroup *h_cg;
- 	struct hugetlb_cgroup *h_cg_rsvd;
--	struct hstate *h = folio_hstate(old_folio);
- 
- 	if (hugetlb_cgroup_disabled())
- 		return;
-@@ -957,7 +955,7 @@ void hugetlb_cgroup_migrate(struct folio *old_folio, struct folio *new_folio)
- 
- 	hugetlb_cgroup_move_usage(h_cg, h_cg, old_folio, new_folio);
- 
--	list_move(&new_folio->lru, &h->hugepage_activelist);
-+	list_move(&new_folio->lru, hugetlb_folio_activelist(new_folio));
- 	spin_unlock_irq(&hugetlb_lock);
- }
- 
+ 	inode->i_size = size;
+ 	clear_nlink(inode);
 
 -- 
 2.56.1
