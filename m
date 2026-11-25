@@ -1,54 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.200
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795602213;
-	b=WODDQo5lNqUsha/Y3KASK2jLNzwRZt0ORbtbpoOnZ+U/k0ydAVq5+LpgE1aqs0JA5luO
-	 W1I2GucgSQVi0r9eyQyGBs+VFePAiekIVZvfncWf0W0gmZyN/djbnBxsIckRDDgkpwSsO
-	 N6WiLFSxJty/IY3AUaeiRiEc/KachjspHcZ4oewvyVmBIaHCmvtgwYUmCKaEQBbUqglEs
-	 LPtTWg1LJsbJOFhy14tuHqFrI+lQS3vH6EhF7xNlC1oSAN3WJxAqpf0aTTBIZR7Rhiits
-	 d6yi4xCB1EvSmCLj/VcIKt/NXzeBdMJ/FCQXzOUWGiN7oHEME8bha4dWrFK8OuTuIgQ==
+	t=1795602432;
+	b=pRFjnsFTqmvR124gxtBYVANLu1GOsLE9zPtRMAVWOvmVmxjsU5ko85eXFWXXM/HzZcOl
+	 +B5sykJZZARS8gdKym8L4jEPqxkVZkWyRLjhO0Mp91Yo28e7FeFJY2gOcPaEvDvOA53nn
+	 +pQM/5gtbmRD8DBF61a/rL5+/nIvTmCgER2r7qxloivPoxEb2jcpM3LTasqf4YoLvCV7a
+	 WVUY+cqbNUMSV4+Ij8g7kPHsCr+dcKDzjJ+zId4b47PE7ObMqAhJAlmpQVM6zuqQpPVWV
+	 s4dYoVz84FWHr+dsKkWQdMuUjRITUUgaU9Um1nbXccawc1XCxqTDM27SuWc/ki0HuFQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795602213;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:In-Reply-To:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Cc:Content-Type;
-	bh=nAwEpdk8W5zOz8dRUea8wq0PG12t8rrSsYABB8slUxU=;
-	b=ZmzLohwQdpmfOJMq1+poZH+bkE/YVm129VGuS373ZJ+V8LWUo59asemAlGIPt4bljFR2
-	 ZRPsw0qko8MB3nuiKWtdqx5hD+3CQ515OkeSrKel0b+QmWU7AQ/3y8iehqXP4qmshSipd
-	 bFf3n1Qn5miNG+yNcxfSdVbTSsTEiOEFj98Je0OjMvSG2+eTzkFE5Gl/ew8OEP9Jeuror
-	 8slRzLrw0xhqsJKGGAFJ2L9vW9xjWHldWfTrB4cdSnC08et4m/qbYCi9TdWnUsYphxMTW
-	 OcFnTQCrlL3VLUbZJodIvTHwv3hOMMLSReu+07pdK3NgKv2wVoVEkF8zkmyU05VHJVQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795602432;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=CXKo1jruSQjhW8nYdBo4FFAzkVjdofHYeQq37LEsvbg=;
+	b=q5f7jf9Qm7amyhYK6GZ/t1FQSO3DU7xrXf5+Bw0YNkdw+TcilfsAcVRpgB5pqB0VN/YX
+	 MbFOA6csHVNSRSRoRvVgz011deanHLPml9FFkEhITrAzKClyT77IAj38jYK55XNE4HkCf
+	 D+WgwOFU6kO6sXAMV1tX05TNR2KMvngAopl+JwTnShJN7GIU7vvPUrGGBbJ2l3QBHltL6
+	 wZFdepf3OD0ZPxdpXYj3yqyuaQD3EMgpJPl3TjoXLnN//Wnxi2QIJQ8mRQRKkDcAnuuRj
+	 MeYcCS9eOojxvgI6pxcNSQ84pBp2M4HV6+nzQGDN7KOO82BdMF6kMSmNryfsVcEJSaQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.167.200
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m4JWl6Mh;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E615606A32D
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 10:23:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E615606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-5727b04b81eso3598002b6e.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 02:23:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795602211; x=1796207011;
-        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=nAwEpdk8W5zOz8dRUea8wq0PG12t8rrSsYABB8slUxU=;
-        b=muOqYYBErZVCkbF871QMxE2M6AShTYkNYqWymc8hNV5n9QtRnJDKuA+eQDXmu/BzWC
-         SA5tn75FViwRXUuuWnob0kpHoYQouwhAoYX95qJ0Wa0XBvySoyyWrJ4Wu+oRWqsUS/8u
-         Wo8+UIU0FSMEShQc6EsUAd692mG8vQLR8Ar1fOK0AMYm/MI+a8jMuHiG/bijO5rllGzg
-         BlP6vC9WIpa4SKgvzCaIYc4tINsXc2eJfeJ+p8WovmhuqphQA3kKYJiUcpSJ2z3Xpg7r
-         fHBMdxJHNUZ+40Na8U1E3WIlF/GUK4+0YzlrVFtuaTlCl3wFnq2QVomBY2jA44zjSpUb
-         //vA==
-X-Forwarded-Encrypted: i=1; AL+hErH4JIVTFEOdF3UC2lofPW8FjStCRNGomyNc6zDCxintIUy6A49kW0rp55Lvw/wFfgS/H2aeIkr051BOZGHA@vger.kernel.org
-X-Gm-Message-State: APuU4Z+Nj1D0LsUpcnKMIUr3qvbULy+S+ARyLl8seYb9HIEoDzq9LeNQ
-	FiDYtTVcWzn+VOaB82/DX6CVU1SObvlwY89X0IdR3k24qOtDgeM2T6lWbxECpQds2xhRxCP47W2
-	qNFz56R3oGWMqhqRA/aiFTvb/74KHieKfnOWQtjYHsUtRy+9Ntb9zVWXm23U=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A200C606A31E;
+	Wed, 25 Nov 2026 10:27:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m4JWl6Mh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AAE21F000C0;
+	Wed, 25 Nov 2026 10:27:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795602432;
+	bh=CXKo1jruSQjhW8nYdBo4FFAzkVjdofHYeQq37LEsvbg=;
+	h=From:Subject:Date:To:Cc;
+	b=m4JWl6MheOSUVsvey7mpFcy72qMYNLIzFhV3wkKnv4XkLUf2UuzRl3uKMFMWF+0+d
+	 5UG3a3MXzRIiPs5Vb1RHdRrP4UIjByd/7E6W1zO8+CnlzL3uB27V4mTZZNJLi0cm5t
+	 IFS6BfHgV7rH7xIliFSo/7SCCmor/0I7F7g/6DiOdZfr0cQdbpOqLOe88K5LRiU1AX
+	 N6VG3xAN6EjVUaZjcJRteavXkbsxOO4jJftwiSdYd1JWOdSyJaoGzNGcyoQ7ArtXRf
+	 tY9gM0uUYnFjOxF0n4ZGR0LeE7WOMQ0CvGtj0GgqKek7/6ZntjDObx+qtx6sK2b+FV
+	 tdrge+Mcz9+5Q==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH 0/2] fuse: fix readdir with long names
+Date: Wed, 25 Nov 2026 11:26:51 +0100
+Message-Id: <20261125-work-fuse-readdir-v1-0-44312add01a8@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,153 +53,73 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:c2be:b0:4d6:90f3:74b1 with SMTP id
- 5614622812f47-57a0ba5a8e4mr18256405b6e.49.1795602211468; Wed, 25 Nov 2026
- 02:23:31 -0800 (PST)
-Date: Wed, 25 Nov 2026 02:23:31 -0800
-In-Reply-To: <20261120010655.467825-1-lrizzo@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6b06b723.588a1920.b1e98.0003.GAE@google.com>
-Subject: [syzbot ci] Re: PISA: Pre-mapped IOVA Superpage Allocator for DMA and CoCo
-From: syzbot ci <syzbot+ci910cdb42d3006024@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, aleksander.lobakin@intel.com, axboe@kernel.dk, 
-	brendan.jackman@linux.dev, catalin.marinas@arm.com, cl@gentwo.org, 
-	corbet@lwn.net, dakr@kernel.org, davem@davemloft.net, david@kernel.org, 
-	driver-core@lists.linux.dev, dtatulea@nvidia.com, edumazet@kernel.org, 
-	gregkh@linuxfoundation.org, hannes@cmpxchg.org, hao.li@linux.dev, 
-	harry@kernel.org, hawk@kernel.org, hch@lst.de, horms@kernel.org, 
-	hramamurthy@google.com, ilias.apalodimas@linaro.org, iommu@lists.linux.dev, 
-	jack@suse.cz, jannh@google.com, jgg@ziepe.ca, joro@8bytes.org, 
-	joshwash@google.com, kuba@kernel.org, kuniyu@google.com, liam@infradead.org, 
-	linux-api@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, ljs@kernel.org, lrizzo@google.com, 
-	m.szyprowski@samsung.com, mhocko@suse.com, namangulati@google.com, 
-	netdev@vger.kernel.org, pabeni@redhat.com, praan@google.com, 
-	rafael@kernel.org, rdunlap@infradead.org, rientjes@google.com, 
-	rizzo.unipi@gmail.com
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/y2MSw7CMAwFr1J5TaIkLSy4CmKRj0MNUoocCkhV7
+ 964sJynN7NARSascO4WYHxTpak0sIcO4ujLDRWlxuCMO1nrBvWZ+KHyXFEx+pSIlcmY+myOfug
+ NNO/JmOm7Ny/XH9c53DG+JCSP4Jse2Jc4yiRJLUn9T2o5wLpuUS4vW54AAAA=
+X-Change-ID: 20261124-work-fuse-readdir-0fed3f05a430
+To: Amir Goldstein <amir73il@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+ Joanne Koong <joannelkoong@gmail.com>, linux-fsdevel@vger.kernel.org
+Cc: fuse-devel@lists.linux.dev, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
+X-Mailer: b4 0.17-dev-04696
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2538; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=cNE1veV3S+QT5nA9HmRYzHy8uo+p4/7IAskfT0so4RY=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSzbf/+6uNVB6ud0+7YVS3VrDRqvHfpxXKHhk3X808df
+ thQanhjc0cpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBEWuYw/LMseh2+xz3qy6G0
+ 06GXpW5s6p+T4pw8pebVb4e2G6nrpjQy/OGqOlsrKXbDT+/rjf0fowVOifI8yhZ8W8X3K/7lxaU
+ Vj/kA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-syzbot ci has tested the following series
+This fixes directory listings on fuse silently ending right before a
+long name.
 
-[v3] PISA: Pre-mapped IOVA Superpage Allocator for DMA and CoCo
-https://lore.kernel.org/all/20261120010655.467825-1-lrizzo@google.com
-* [RFC PATCH v3 01/25] mm: Introduce CONFIG_PISA and metadata table
-* [RFC PATCH v3 02/25] mm: Add PISA allocator lifecycle and page recycle hook
-* [RFC PATCH v3 03/25] mm: Add per-NUMA-node PISA page reservoir
-* [RFC PATCH v3 04/25] mm/page_alloc: Extend alloc_pages() to __GFP_PISA and PISA block allocation
-* [RFC PATCH v3 05/25] mm: Add global cap and shrinker for PISA pages
-* [RFC PATCH v3 06/25] iommu/dma: Map PISA memory in a per-domain IOVA window
-* [RFC PATCH v3 07/25] driver core: Add per-device pisa_* sysfs attributes for PISA optin
-* [RFC PATCH v3 08/25] iommu/dma: Use PISA for coherent DMA allocations
-* [RFC PATCH v3 09/25] mm: Add per-CPU block caches to PISA allocators
-* [RFC PATCH v3 10/25] mm: Add background page scrubber for PISA allocators
-* [RFC PATCH v3 11/25] mm: Migrate user pages into PISA
-* [RFC PATCH v3 12/25] block, mm: Support PISA for disk I/O and scrub migration
-* [RFC PATCH v3 13/25] net: Cache leaf PISA TX flags on struct net_device
-* [RFC PATCH v3 14/25] net: Use per-node PISA allocators for skb_page_frag_refill()
-* [RFC PATCH v3 15/25] net: Use PISA for page_pool memory
-* [RFC PATCH v3 16/25] mm/slub: Add SLAB_CACHE_PISA_RO for PISA-backed slab caches
-* [RFC PATCH v3 17/25] net: Allocate small skb heads from PISA
-* [RFC PATCH v3 18/25] net: Migrate user pages into PISA for MSG_ZEROCOPY
-* [RFC PATCH v3 19/25] mm, iommu/dma: Support decrypted PISA pages
-* [RFC PATCH v3 20/25] arm64/mm, mm: Support decrypted PISA pages in Realms
-* [RFC PATCH v3 21/25] mm: Add PISA statistics and debugfs
-* [RFC PATCH v3 22/25] net/libeth: Use GFP_KERNEL when pre-filling RX rings
-* [RFC PATCH v3 23/25] net/gve: Use GFP_KERNEL when pre-filling RX rings
-* [RFC PATCH v3 24/25] net/gve: Use PISA memory for RX buffers
-* [RFC PATCH v3 25/25] Documentation: Add PISA architecture documentation
+Since FUSE_NAME_MAX was raised to PATH_MAX - 1 a READDIR entry can be up
+to 4120 bytes and a READDIRPLUS entry up to 4248 bytes. But the READDIR
+request is only as large as the getdents() buffer and never smaller than
+a page. The server can't send more than we asked for so it sends
+nothing. And an empty reply means end of directory. So getdents()
+returns 0 and the long name and everything after it are gone. Userspace
+never gets the EINVAL that would tell it to retry with a larger buffer.
 
-and found the following issue:
-WARNING in __alloc_workqueue
+That hits getdents() with a buffer of a page or less, the old readdir()
+system call, and in-kernel callers like nfsd that don't pass a size. And
+since we fall back to whatever alloc_pages_bulk() hands us it can hit
+glibc's 32k buffer under memory pressure as well. Falling back to a
+shorter read is fine (cf. [1]) but it must still fit the largest entry.
 
-Full report is available here:
-https://ci.syzbot.org/series/80fa818b-452d-4361-bfc6-33c65f928f71
+This came up with a userspace directory walker that starts with a small
+getdents() buffer and doubles it on EINVAL.
 
-***
+The first patch makes the request large enough for the largest entry
+the server may send and makes sure we always have the pages for it. The
+second patch adds a selftest. It fails on v7.4-rc1 and passes with the
+fix. I also reproduced all of it in a VM on v7.4-rc1, including the
+memory pressure case.
 
-WARNING in __alloc_workqueue
+The request is sized by fc->name_max, not FUSE_NAME_MAX, as that's what
+the connection negotiated. But parse_dirfile() and parse_dirplusfile()
+accept names up to FUSE_NAME_MAX no matter what was negotiated. So a
+server that doesn't negotiate FUSE_MAX_PAGES and returns long names
+anyway still loses them. I don't think that's worth caring about but I'm
+happy to size by FUSE_NAME_MAX instead.
 
-tree:      axboe
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/axboe/linux.git
-base:      20eef29b7c8465ac98d7dd6d6f2ac07a8d8056ca
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/1b1679cb-3959-4df9-8546-bc04ba6e5cd3/config
+[1]: https://lore.kernel.org/CAJfpegtcsWnXh-uDh1Qu83dFF9nJji1gytk2y9Wk5p9+JDTZ+w@mail.gmail.com
 
-smpboot: CPU0: Intel QEMU Virtual CPU version 2.5+ (family: 0xf, model: 0x6b, stepping: 0x1)
-Performance Events: unsupported Netburst CPU model 107 no PMU driver, software events only.
-signal: max sigframe size: 1440
-rcu: Hierarchical SRCU implementation.
-rcu: 	Max phase no-delay instances is 1000.
-Timer migration: 1 hierarchy levels; 8 children per group; 0 crossnode level
-NMI watchdog: Perf NMI watchdog permanently disabled
-smp: Bringing up secondary CPUs ...
-smpboot: x86: Booting SMP configuration:
-.... node  #1, CPUs:      #1
-smp: Brought up 2 nodes, 2 CPUs
-smpboot: Total of 2 processors activated (11200.80 BogoMIPS)
-Memory: 5553400K/7339508K available (181131K kernel code, 30788K rwdata, 59468K rodata, 27564K init, 120564K bss, 1621204K reserved, 0K cma-reserved)
-devtmpfs: initialized
-x86/mm: Memory block size: 128MB
-Running RCU synchronous self tests
-Running RCU synchronous self tests
-Running RCU Tasks wait API self tests
-Running RCU Tasks Trace wait API self tests
-posixtimers hash table entries: 1024 (order: 5, 73728 bytes, vmalloc)
-futex hash table entries: 256 (32768 bytes on 2 NUMA nodes, total 64 KiB, linear).
-PM: RTC time: 20:32:46, date: 2026-11-24
-NET: Registered PF_NETLINK/PF_ROUTE protocol family
-audit: initializing netlink subsys (disabled)
-thermal_sys: Registered thermal governor 'step_wise'
-cpuidle: using governor menu
-NET: Registered PF_QIPCRTR protocol family
-dca service started, version 1.12.1
-PCI: ECAM [mem 0xb0000000-0xbfffffff] (base 0xb0000000) for domain 0000 [bus 00-ff]
-PCI: ECAM [mem 0xb0000000-0xbfffffff] reserved as E820 entry
-PCI: Using configuration type 1 for base access
-HugeTLB: registered 2.00 MiB page size, pre-allocated 0 pages
-HugeTLB: 28 KiB vmemmap can be freed for a 2.00 MiB page
-------------[ cut here ]------------
-workqueue: pisa is using neither WQ_PERCPU or WQ_UNBOUND. Setting WQ_PERCPU.
-WARNING: kernel/workqueue.c:6151 at __alloc_workqueue+0x1e4b/0x21d0, CPU#1: swapper/0/1
-Modules linked in:
-CPU: 1 UID: 0 PID: 1 Comm: swapper/0 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:__alloc_workqueue+0x1e4e/0x21d0
-Code: 18 89 39 00 90 0f 0b 90 e9 87 fd ff ff e8 0a 89 39 00 90 0f 0b 90 e9 79 fd ff ff e8 fc 88 39 00 48 8d 3d 65 52 32 10 4c 89 f6 <67> 48 0f b9 3a 8b 5c 24 20 81 cb 00 01 00 00 e9 99 e4 ff ff e8 d9
-RSP: 0000:ffffc90000067750 EFLAGS: 00010293
-RAX: ffffffff818fa174 RBX: 0000000000000000 RCX: ffff888102aa5ac0
-RDX: 0000000000000000 RSI: ffff888162ab5d78 RDI: ffffffff91c1f3e0
-RBP: ffffc900000678a0 R08: ffff888102aa5ac0 R09: 0000000000000002
-R10: 0000000000000102 R11: 0000000000000000 R12: dffffc0000000000
-R13: ffff888162ab5c00 R14: ffff888162ab5d78 R15: ffff888162ab5d18
-FS:  0000000000000000(0000) GS:ffff8882a77e4000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000000000000 CR3: 000000000ff48000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- alloc_workqueue_noprof+0xe3/0x210
- pisa_init+0x127/0x260
- do_one_initcall+0x250/0x870
- do_initcall_level+0x10a/0x1a0
- do_initcalls+0x59/0xa0
- kernel_init_freeable+0x29d/0x3e0
- kernel_init+0x22/0x1d0
- ret_from_fork+0x514/0xb70
- ret_from_fork_asm+0x1a/0x30
- </TASK>
-
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+Christian Brauner (2):
+      fuse: make readdir requests big enough for the largest dirent
+      selftests/fuse: test listing directories with long names
+
+ fs/fuse/readdir.c                                  |  22 ++-
+ .../testing/selftests/filesystems/fuse/.gitignore  |   1 +
+ tools/testing/selftests/filesystems/fuse/Makefile  |   2 +
+ .../filesystems/fuse/fuse_readdir_long_name_test.c | 197 +++++++++++++++++++++
+ 4 files changed, 215 insertions(+), 7 deletions(-)
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261124-work-fuse-readdir-0fed3f05a430
+
