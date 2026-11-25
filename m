@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795646150;
-	b=FLKFYuQuwgrczCJjtIXHHkE95mYRn6ypxMx8TeyZ5bCOVoRhfNTFmASF6uFGPz8B6mZj
-	 B52u5nUdJWbc3MMUnpNvWBAnJptQIGHdOwsi3f5mOBR5ZHO8X1qxLdD6/eAPpkwTxNEa3
-	 /+H0Sfgr9yDL4M6ZNhfRCkJcuirMFZxQpp1Ga+L18sl46MD35jaIgoeR66wu27R65HsgQ
-	 rJukHa/tc8UhHD0HCcOzlHER8UH5fUE7WgUpdLWeUGOez1e9B/dDMvwHvaDdbaHmmsJqS
-	 IL9dJ+Emf7OyaF4kBa8pBRlRnxRxSrophFCzgbTMilj+mkBvthowLwr8iQqCrJxuqBw==
+	t=1795646167;
+	b=RTupVzVTH7EIkAHZucXw/8a280iSortKyjBPyHyNV96t/yBiVYdiZB57p7BBDnZyb7ER
+	 FWEJqHerSj6ueR1pAU+bknahH/J3dlXQdhxvlefmOqrcoK+T5Id92ZQUzcthXYg6nHzeg
+	 ZgZKl99wO5BhGU4IuCnT2+dXC3hryUIqj1HR+JczTD6xYFqfusiHJNsrmmeOx0EYwUzuh
+	 7VEu6bggoPb3pfVOPaQcKnOUAWyxrB+FVWKmnVL1Ib/S0wquSWffxTrzgOBksK1Rd1IJG
+	 aKDQypmwZCsEVV9X7mdj6uOzFaAeL6Yp0OdIXyOjGt0gKCjdwCGuifKwNkO23GPEC/g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795646150;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795646167;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=YMCbRgDJx8My7FQr8Am7ZyN1elVge2GAU4cJitwdV1I=;
-	b=THexBIrQChwBWdxp11y7cke7ug2M1VDZxWTAnPG5/xDdGiXk5InDtHX9UpAAlNGfhptU
-	 irMXUgqsVe4Jwh1psk96G+Fh9UgfzMJG89DAS2Aq2ByC3KiMY9dAU9G/n8qxaFs27lJs1
-	 IT6RRrHuqJg7rBm71/axE6kFk/bvLqLWIJ1idP0lmZTg7yJGrUpPLbYUMuuBjqowS+E1X
-	 fAjqVLUNa2VeXsmh1J2zeWgD6yPVCvgFInK7yfFy3RfQyRHufLq7zLQB+XLeM70LWOa69
-	 t3i6aSGEt86s/awVdfQgzYw70Txpcg8yKhLpeAhcvfmTuZSS0KSfF4DV2gNnWQAZLww==
+	bh=p1rYByMhz0KjcnKxiH/WuOpBmwN+k1Zzr7v4FN4dO+g=;
+	b=cZTr8wwP1LK1ll20/gl5q56ECp9y1dIVYcbFfLavpFPr7fnT0QuAhIGyjOOHlrEkZhum
+	 GKu0W0sYIgL6RQIuxvPpAwRJrfWNxGmIoHvQoEiUHoq0h+2JAuYnEWNWXQrO0tJbCNNn2
+	 GAwK6FyQ6TL9pA5vGCvNT0iIblM5BB8UATCdviIbCzqbRa/fMC03Ce784/dF+rmDinZr/
+	 fl4gYK6zjlv1Mhh43q5T1WVnZJ++R20fQ7h8A3SWxo5KKc7vIvRLxWOCPakJuP4TdvaNE
+	 NOMX4RcJUVeSMVs2sB6qD/ggHcIxkJnXdLtcr5QG/PXMYBCvfeabGfKeCvLzzfLWg2Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SJXjn1c+;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T1yDptkd;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A6E606A321;
-	Wed, 25 Nov 2026 22:35:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06178606A321;
+	Wed, 25 Nov 2026 22:36:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SJXjn1c+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 366811F000C4;
-	Wed, 25 Nov 2026 22:35:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T1yDptkd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1AFC1F000C4;
+	Wed, 25 Nov 2026 22:35:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795646150;
-	bh=YMCbRgDJx8My7FQr8Am7ZyN1elVge2GAU4cJitwdV1I=;
+	s=k20260515; t=1795646166;
+	bh=p1rYByMhz0KjcnKxiH/WuOpBmwN+k1Zzr7v4FN4dO+g=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=SJXjn1c+7pIabnj8kPX5lZxyarzkpDWWLusXBCpqjsExrs/MaVwmfO95QUNnTd5Re
-	 r27Q2AYBE8B+MyS0tm7Ft1TS/WmNAPOPHKFXH2SPyoz2nIETvKNkU4qz3+gFP6Cozx
-	 OTQezEc4bbc17FFzXQfvHMXsarQelHiOVkRJ81ZvGq0QVaBkeuPLeYZAvryL/OlLe8
-	 PjAjI1j8B7T2SBg1nFfpd7ZTrXfeKZdsAFbZI1n/JUIX4eIpemDzoAwsx02LClA3bo
-	 wSO/OapyRca3JYN2LWkXF5Ep0pv1mQT4bbua2hclzhdeX5VcKC2zaoSbFbw/DPOUJE
-	 HLcMD7dRyvNfg==
+	b=T1yDptkdGkhkS4DIxHYWR8qc1deBMKJOGNiY/8Xr9dtoAjuu7hzpJcLvYs/dh5moW
+	 aM53gd1HM9rf9K8UIiY+slvhsN2H5X1EvzGOHbSPaBv6wlo7/VANCAznNVbD3oTer8
+	 EsLOZULLTDbrBDytJ/eDRNyUjkvmA5jZdsuvtKJIIqmOfbnpIRoPAVYCM/cov6t8m7
+	 vIni4++pC828MD8grzV/M/r0dGpUPl4/8MWkeddfXXSn+4AjOjKbHwN4tfkCDdM4fD
+	 S06jjQJHPI8hYCdvtWSWmcHddQODiIkcAsjmMpJefrliTd/utiosAWJKwkEAjYuhSu
+	 bnsDBqlJ1C1IQ==
 From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Wed, 25 Nov 2026 23:33:07 +0100
-Subject: [PATCH 09/21] mm/hugetlb: don't zap non-present entries when
- unmapping a folio
+Date: Wed, 25 Nov 2026 23:33:08 +0100
+Subject: [PATCH 10/21] mm/hugetlb: only check PMD table sharing for
+ PMD-sized folios
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261125-hugetlb_fixes_2-v1-9-db27fd2f71a8@kernel.org>
+Message-Id: <20261125-hugetlb_fixes_2-v1-10-db27fd2f71a8@kernel.org>
 References: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
 In-Reply-To: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
 To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
@@ -95,66 +95,110 @@ To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
 Cc: linux-mm@kvack.org, Jason Gunthorpe <jgg@ziepe.ca>, 
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  Andrew Morton <akpm@osdl.org>, linux-doc@vger.kernel.org, 
- "David Hildenbrand (Arm)" <david@kernel.org>, 
+ "David Hildenbrand (Arm)" <david@kernel.org>, stable@vger.kernel.org, 
  Chris Mason <mason@kernel.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1858; i=david@kernel.org;
- h=from:subject:message-id; bh=mlk8Hq0S+1YqGOS8OKXZSom4G0hgd8p+sLBTmZ3zL2Y=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLZk1TkFCb7vtXncJnSciWWZdZr3xr2DvaQ8snSp86Ir
- nPsTJDrKGVhEONgkBVTZAkKvm/w8uW62mo3PmaYOaxMIEMYuDgFYCKp3Ay/mJ/q7Gvau3DWknWS
- G/XWZ/bUmfPJxTaa2vW5Hzgf7jhDjJHhoe8mazm9wuUZAVom2lkOO7bPVWw/dEbFRsN+97Mjc7b
- xAwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3518; i=david@kernel.org;
+ h=from:subject:message-id; bh=HG9FVeHkf3r0GJ2DWJD6urls2DRbMkH6Rwt8+2D/97s=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLZk1R6m1me+71ZUHJi1ga2I7lVS1vbHrv2XazSX/Xyl
+ P008Xq5jlIWBjEOBlkxRZag4PsGL1+uq61242OGmcPKBDKEgYtTACZi9ofhnyVj/g+BQ2/zX7y9
+ 6fytvlqwhNVJNVlJ49bB5mJPTd6fyxkZdkbM+L3vy4qZibnTnlteatu/4sedOKblnZ1dBrxldq9
+ 7GQA=
 X-Developer-Key: i=david@kernel.org; a=openpgp;
  fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-From: Chris Mason <mason@kernel.org>
+hugetlb_pmd_shared() reads "pt_share_count" from the ptdesc of the page
+table that maps a hugetlb folio, independent of the folio size, to tell
+whether that page table is shared. Only PMD tables have a valid
+"pt_share_count"; for other folio sizes, such as 1 GiB folios on x86
+that are mapped by a PUD table, we read whatever another user of the
+union left behind.
 
-When the owner of a private hugetlb mapping fails to allocate a folio
-for COW, unmap_ref_private() unmaps the old folio from the forked
-children, and marks them with HPAGE_RESV_UNMAPPED, so they get a SIGBUS
-on their next access.
+As a result, such folios might be reported as shared in smaps and as not
+exclusively mapped in pagemap, and mbind(MPOL_MF_MOVE) and
+migrate_pages() might skip them.
 
-hugetlb_unmap_range() is supposed to only unmap that folio, but it
-clears non-present page table entries unconditionally.
+Let's fix it by adding hugetlb_folio_maybe_mapped_shared(), which
+combines folio_maybe_mapped_shared(), documented to not care about page
+table sharing, with a check for PMD table sharing only for PMD-sized
+folios, and using it in the affected callers.
 
-A child can silently lose its COWed folio while it is getting migrated,
-or a hwpoison entry or uffd poison marker, without HPAGE_RESV_UNMAPPED
-getting set. Consequently, it would not SIGBUS on the next access.
+This has low urgency.
 
-Let's fix it by ignoring non-present entries when unmapping a folio. As
-the folio is locked, migration entries of that folio do not apply.
-
-This has low urgency, as it requires a failing COW allocation in the
-owner racing with migration or memory failure in the child. Let's not CC
-stable.
-
-Fixes: 8c4894c6bc79 ("hwpoison, hugetlbfs: fix "bad pmd" warning in unmapping hwpoisoned hugepage")
-Signed-off-by: Chris Mason <mason@kernel.org>
-[ david: adjust comment and description ]
+Fixes: ca1a47cd3f5f ("mm/hugetlb: fix hugetlb_pmd_shared()")
+Cc: <stable@vger.kernel.org>
+Reported-by: Chris Mason <mason@kernel.org>
 Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 ---
- mm/hugetlb.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ fs/proc/task_mmu.c      |  6 ++----
+ include/linux/hugetlb.h | 16 ++++++++++++++++
+ mm/mempolicy.c          |  2 +-
+ 3 files changed, 19 insertions(+), 5 deletions(-)
 
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index befa2670cb03f..2c13349863bd8 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -5457,6 +5457,14 @@ static void hugetlb_unmap_range(struct mmu_gather *tlb,
- 		 * unmapped and its refcount is dropped, so just clear pte here.
- 		 */
- 		if (unlikely(!pte_present(pte))) {
-+			/*
-+			 * If we have a folio provided, we only care about
-+			 * present page table entries (folio is locked).
-+			 */
-+			if (folio_provided) {
-+				spin_unlock(ptl);
-+				continue;
-+			}
- 			/*
- 			 * If the pte was wr-protected by uffd-wp in any of the
- 			 * swap forms, meanwhile the caller does not want to
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index d2a524c6ad4b9..41b280ab7b19d 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -1211,8 +1211,7 @@ static int smaps_hugetlb_range(pte_t *pte, unsigned long hmask,
+ 
+ 	if (folio) {
+ 		/* We treat non-present entries as "maybe shared". */
+-		if (!present || folio_maybe_mapped_shared(folio) ||
+-		    hugetlb_pmd_shared(pte))
++		if (!present || hugetlb_folio_maybe_mapped_shared(folio, pte))
+ 			mss->shared_hugetlb += huge_page_size(hstate_vma(vma));
+ 		else
+ 			mss->private_hugetlb += huge_page_size(hstate_vma(vma));
+@@ -2131,8 +2130,7 @@ static int pagemap_hugetlb_range(pte_t *ptep, unsigned long hmask,
+ 		if (!folio_test_anon(folio))
+ 			flags |= PM_FILE;
+ 
+-		if (!folio_maybe_mapped_shared(folio) &&
+-		    !hugetlb_pmd_shared(ptep))
++		if (!hugetlb_folio_maybe_mapped_shared(folio, ptep))
+ 			flags |= PM_MMAP_EXCLUSIVE;
+ 
+ 		if (huge_pte_uffd(pte))
+diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+index 0d5414392d870..49dad5ae57512 100644
+--- a/include/linux/hugetlb.h
++++ b/include/linux/hugetlb.h
+@@ -1386,6 +1386,22 @@ static inline bool hugetlb_pmd_shared(pte_t *pte)
+ }
+ #endif
+ 
++#ifdef CONFIG_HUGETLB_PAGE
++static inline bool hugetlb_folio_maybe_mapped_shared(struct folio *folio,
++		pte_t *ptep)
++{
++	if (folio_maybe_mapped_shared(folio))
++		return true;
++	return folio_size(folio) == PMD_SIZE && hugetlb_pmd_shared(ptep);
++}
++#else /* !CONFIG_HUGETLB_PAGE */
++static inline bool hugetlb_folio_maybe_mapped_shared(struct folio *folio,
++		pte_t *ptep)
++{
++	return true;
++}
++#endif /* CONFIG_HUGETLB_PAGE */
++
+ bool want_pmd_share(struct vm_area_struct *vma, unsigned long addr);
+ 
+ #ifndef __HAVE_ARCH_FLUSH_HUGETLB_TLB_RANGE
+diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+index 6f800fb961aec..229efcdb2c7db 100644
+--- a/mm/mempolicy.c
++++ b/mm/mempolicy.c
+@@ -833,7 +833,7 @@ static int queue_folios_hugetlb(pte_t *pte, unsigned long hmask,
+ 	 * cannot easily detect if a folio is shared.
+ 	 */
+ 	if ((flags & MPOL_MF_MOVE_ALL) ||
+-	    (!folio_maybe_mapped_shared(folio) && !hugetlb_pmd_shared(pte)))
++	    !hugetlb_folio_maybe_mapped_shared(folio, pte))
+ 		if (!folio_isolate_hugetlb(folio, qp->pagelist))
+ 			qp->nr_failed++;
+ unlock:
 
 -- 
 2.56.1
