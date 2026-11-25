@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795646007;
-	b=35Y/bRRm1qPyoSGv57Os/9UL3SZYaSR2MXP0/SmsNAMASNXqkbS7Dk94Jqy2CfVRgNry
-	 uq5BU+CDzy/yXFZFrJpyYrWvg2dMpaLZMhzyafB2NWWt7gegeHRdEyJqIn56F8i1q2QjG
-	 GZ9fVxtpj9HKMbxvygeYT+QWha+CvmYvx5+f1ngiFyyD7SHQmtQgaCt8MNwRMgjbIhMLR
-	 GTDWhHv6qlbaYh/r270D2w2p/eh7pZM0XzPPat4lShVh9e2ZAYYfIAiyoF863hLycwEgB
-	 3kQ2V1CH5KCZYeDEkghxOjdCGmBASzWqtu2WsmkRruwDItniLhFXSJU3AMLCa47k3eg==
+	t=1795646023;
+	b=QpDMSTHLgrBHkK27L6PHg6mj7Vw2G9Mc0a+IvdPux+HWPZRH7TNTZ8H7eBfx7va1rEQc
+	 Dd0ABIkZueqsqcY94leCWRpEF7FRlvlOOaPQ4hKBPDYtEdcdL5vwl12gor3dx9mODnxvC
+	 sHdfQtHfYbztX8MiS2K2TjIWT9xnJdfOPgu7KMe4Z0eUR4cTv86BH+l0ds7QA4ZGtB/Zw
+	 X9JeXgjLPrUzuhTZBdM9cW1SKca4aqjrrL5GalC16Q/x4w7RUxH2BdzNOSnXS95N12YT2
+	 KBUEsQl5bK3szGwchsz/cX+2UtgQuq2Ivp43rryqAEKzbHEA7jZ63BUhz4aNZTcJOeg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795646007;
-	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=tzn+by+k8G1JwXk+S/E0tJAgmy0jLDfOi0f5NcqA/MY=;
-	b=etIfPFiDEcqW2qOOe+TrG1z6Kho3IQ+t/5H1NM6aPV9IEoey5HrX9Sao1NbfYvvzpX6c
-	 oQmLqsMPEQycOZjgIeAZrWZ8Ct11K7ZPnrUKVN94kjolvQSQs02QxB+eQJ3Md342g7rqG
-	 GLoU3rQMB9AhYUqXDCuh27jn445fol9M12HhYBPFk3QJZCZkKYb4JECWHRgOhQanMorZS
-	 VOIvsnnSUHx+poMKtPu49und4vA4PlBjqE7Jr/2kOZVASnqahLHYX8UbpB9K5wgBf3mOx
-	 k9TYavT47O08Wn/aYLYAze02t0/tmw687lnZddGuGZdXfAcIzdHA52iSVzYMhQA0GJQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795646023;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=fXzNfGo7RfddoR5dRtUrH7smQbzk3tlvBFxiBJPCKVk=;
+	b=X/+HyoAFwZD7IkUWWR2tP0LDizr8hLd2QK9mIdiePlSaYhhMmTQ8XnESo4DfZ9QKJzu4
+	 dX65rojUQ9NoWfEq3dW1KwRSMEb/sWJmZ16fw8ye5H9O64ird2Op5cReDMizBo2J+cFn7
+	 WxvGloAlPVwhMmrYm7LUsELSFxFReNmcTpAdzXRYSutUfi+brLdNHyia1ldZ2IEEY1/iz
+	 kqQ/L44Q9Nn6KSE26jBCOWjC7hIm14xKkLVpHmzqC8Ae/AODt7q5v7JQk0Lq49DqJdi0m
+	 Rqwj3JEMpdetK/SyKUkKTwRqtGAzq9J8WWZFsGIVLMir1NUYvSWIEJZn30a3IS19RAg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oeF+83ri;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NmYEF5Ft;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE971606A321;
-	Wed, 25 Nov 2026 22:33:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358DD606A321;
+	Wed, 25 Nov 2026 22:33:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oeF+83ri
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 655D71F000C0;
-	Wed, 25 Nov 2026 22:33:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NmYEF5Ft
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D5351F000C0;
+	Wed, 25 Nov 2026 22:33:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795646006;
-	bh=tzn+by+k8G1JwXk+S/E0tJAgmy0jLDfOi0f5NcqA/MY=;
-	h=From:Subject:Date:To:Cc;
-	b=oeF+83ripG+YMJQ6SibQuirzvfqlLreGg2dU0N4iBw6J9SwMfGbEdiYCtiUZLOpMd
-	 JYqiF79Vytug9G0B2DkzFLIWoipJtdH+XMvOxqN0DGGpyctPV9W9zPh95DOEF2Z+QY
-	 Xceo8UU5pO3BjrUwnu0S1uUp8LqLqgTugPbAVmqe/LCUO1oXZ7psZ5qitBlKCivcYb
-	 cJwxUd3Rj2XwgOzgIRdtbB/JU+sW9VMX6ByXF7MliTP9djs6rMrE08LzryKnJqRfcE
-	 PzisQMZIlNmWvvo++RWg05A5YHf7BJGoQffk2A7bJcTCTSBVSYYhY9OhGmH+h5669x
-	 28AaXAPpZrf/Q==
+	s=k20260515; t=1795646022;
+	bh=fXzNfGo7RfddoR5dRtUrH7smQbzk3tlvBFxiBJPCKVk=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=NmYEF5FtX6uDI4qQqeJ26Pi4q7EkUp7H9qXmB+5VFWNUj0H7Lmevbqo+IwECQy0US
+	 Gzi27CL25JJNKCkmrMQZH8U1+eeac5ljt2zihFcIjGZH8IA1N1cbOlStAX0wbmBa/q
+	 trk736gQ1b2+GcOsSwVSGK9aWe0QBsOEdC5Qipg3JCi1+iYUfH01y4nje16Wz6NEvY
+	 esLL13GSFWNe+4ESBtAVcOyX0slwHcGsslTY83n/HNm6RKej8uCOpS8hOo/6ERIEDA
+	 KRByR6HZ/krdf8FgVgQ3FOkgN8ZbxY/HJv4RLNv94Ic0noflkaUZcIOmNcMhc2HBfA
+	 rBGq+fN9NCX9Q==
 From: "David Hildenbrand (Arm)" <david@kernel.org>
-Subject: [PATCH 00/21] mm/hugetlb: various fixes (2)
-Date: Wed, 25 Nov 2026 23:32:58 +0100
-Message-Id: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
+Date: Wed, 25 Nov 2026 23:32:59 +0100
+Subject: [PATCH 01/21] mm/hugetlb: charge the copy made at fork to the
+ parent
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,10 +55,9 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAA/yXMUQqDMBBF0a0M79uAGRIp2UopoumoU4otGS0Fc
- e9i+3k5cDeYFBVDog1FPmr6mpHIV4Q8dfMoTu9IBK658Z5rN62jLM++HfQr1rLjJsSY4yUMQVA
- R3kV+hETX279t7R+Sl3ODfT8AsQh4LHMAAAA=
-X-Change-ID: 20261120-hugetlb_fixes_2-26455c584f4e
+Message-Id: <20261125-hugetlb_fixes_2-v1-1-db27fd2f71a8@kernel.org>
+References: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
+In-Reply-To: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
 To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
  Andrew Morton <akpm@linux-foundation.org>, 
  Jinmeng Zhou <jinmengzhou22@gmail.com>, Hongfu Li <lihongfu@kylinos.cn>, 
@@ -97,87 +96,95 @@ Cc: linux-mm@kvack.org, Jason Gunthorpe <jgg@ziepe.ca>,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  Andrew Morton <akpm@osdl.org>, linux-doc@vger.kernel.org, 
  "David Hildenbrand (Arm)" <david@kernel.org>, 
- Chris Mason <mason@kernel.org>, stable@vger.kernel.org
+ Chris Mason <mason@kernel.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3106; i=david@kernel.org;
- h=from:subject:message-id; bh=nzCzOz26eddU4SO7rlRqgKmrjP0kTfGyA8Ecr2EgmCo=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLZk5TjVFYV1bZe5k5Juf3u5oJJF15cifxTFhJhcLJqq
- bD0jE2KHaUsDGIcDLJiiixBwfcNXr5cV1vtxscMM4eVCWQIAxenAExk40aG/zULo7sKr5Xeb15i
- yrPhVfhsTYlSt3trHn7f/fipxO+MF84Mf7iiPeLe3jxfdNmWL429a9eJRb0vt/byrv3/cI5p6+N
- fbnwA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3025; i=david@kernel.org;
+ h=from:subject:message-id; bh=2bk4PJ9Bi2fWpYOfBgjZCtpD6hSW3oRGiP3OyVjpNlM=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLZk5R/n7v2dSOzb41n7rspJSwMBjsiju1PTdvqYWi/s
+ /J98N7yjlIWBjEOBlkxRZag4PsGL1+uq61242OGmcPKBDKEgYtTACbC3srIsHpN3uQpJWdPKmml
+ mkou3sKd1ZT2+hlHo+vS2Y8Y9rw9m87wz/4V+3ax/zaKxnyGK17pyR7bKHg6ou9GlkPCtppfizJ
+ 38gAA
 X-Developer-Key: i=david@kernel.org; a=openpgp;
  fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-Hi,
+When copying page tables during fork(), the child is not yet assigned to
+the right memcg. When copying possibly pinned anon hugetlb folios, we
+must charge them to the parent's memcg, otherwise we can end up
+allocating more hugetlb folios than allowed.
 
-some more hugetlb fixes, this time not as horrible and confusing stuff as
-last time:
+Let's fix it by charging the copy to the parent's mm, like we do when
+copying small folios in copy_present_page(), introducing a new helper
+function alloc_hugetlb_folio_for_fork().
 
- - Patch #1: a hotfix for v7.4
- - Patch #2 - #18: a bunch of non-urgent fixes
- - Patch #19 - #20: two related improvements
- - Patch #21: an RFC for a hugetlb cgroup fix
+This is a hotfix for v7.4.
 
-I think patch #21 is the right thing to do, but I am not really a cgroup
-expert.
-
-Patch #19 deserves a closer look from our VMA locking experts :)
-
-Patch #1 should go into v7.4, the rest can wait for the next merge
-window.
-
-Tested with hugetlb selftests and some targeted tests that reproduce
-some of these issues.
-
+Fixes: c2deb1356d82 ("mm/hugetlb: charge folios to the target mm's memcg")
+Reported-by: Chris Mason <mason@kernel.org>
+Acked-by: Michal Hocko <mhocko@suse.com>
 Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 ---
-Chris Mason (8):
-      mm/hugetlb: fix truncated copy result in UFFDIO_COPY
-      hugetlbfs: fix deadlock between hole punching and memory failure
-      hugetlbfs: recheck the vma range after the lock wait
-      mm/hugetlb: don't zap non-present entries when unmapping a folio
-      mm/hugetlb: unshare PMDs of a split VMA if allocating its lock fails
-      mm/hugetlb_cgroup: track in-use folios per cgroup
-      hugetlbfs: seal SHM_HUGETLB files against growth
-      mm/hugetlb: resolve protnone faults without a uffd bit
+ mm/hugetlb.c | 26 ++++++++++++++++++++++----
+ 1 file changed, 22 insertions(+), 4 deletions(-)
 
-David Hildenbrand (Arm) (13):
-      mm/hugetlb: charge the copy made at fork to the parent
-      mm/hugetlb: always mark new page cache folios migratable
-      mm/memfd: mark new hugetlb folios migratable
-      mm/hugetlb: free surplus folios of other nodes on free
-      hugetlbfs: don't zero poisoned pages in a hole punch
-      mm/hugetlb: only check PMD table sharing for PMD-sized folios
-      mm/migrate: check hugetlb PMD sharing in move_pages()
-      mm/hugetlb: don't share page tables of a VMA during mprotect()
-      mm/hugetlb: count migration entries at fork and unmap
-      mm/hugetlb: stop accounting HugetlbPages once PMD tables were shared
-      fs/proc/task_mmu: don't clear VM_SOFTDIRTY on hugetlb VMAs
-      mm/hugetlb: use the VMA lock to stabilize flags for PMD sharing
-      RFC: mm/hugetlb_cgroup: charge faults to mm->owner
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index d0e66fb306221..f46c85fc0cd0b 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -3103,8 +3103,9 @@ typedef enum {
+  * allocation).  New call sites should (probably) never set it to true!!
+  * When it's set, the allocation will bypass all vma level reservations.
+  */
+-struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+-				    unsigned long addr, bool cow_from_owner)
++static struct folio *__alloc_hugetlb_folio(struct vm_area_struct *vma,
++		unsigned long addr, bool cow_from_owner,
++		struct mm_struct *memcg_mm)
+ {
+ 	struct hugepage_subpool *spool = subpool_vma(vma);
+ 	struct hstate *h = hstate_vma(vma);
+@@ -3187,7 +3188,7 @@ struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+ 		.nodemask = nodemask,
+ 	};
+ 
+-	folio = hugetlb_alloc_folio(h, &mpoli, vma->vm_mm, alloc_flags);
++	folio = hugetlb_alloc_folio(h, &mpoli, memcg_mm, alloc_flags);
+ 
+ 	mpol_cond_put(mpol);
+ 
+@@ -3249,6 +3250,23 @@ struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+ 	return ERR_PTR(ret);
+ }
+ 
++struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
++		unsigned long addr, bool cow_from_owner)
++{
++	return __alloc_hugetlb_folio(vma, addr, cow_from_owner, vma->vm_mm);
++}
++
++/*
++ * Allocate a folio for a copy in the child VMA during fork(), charged to the
++ * parent's mm: the child is not in its memory cgroup yet.
++ */
++static struct folio *alloc_hugetlb_folio_for_fork(struct vm_area_struct *dst_vma,
++		unsigned long addr, struct mm_struct *src_mm)
++{
++	return __alloc_hugetlb_folio(dst_vma, addr, /* cow_from_owner = */ false,
++				     src_mm);
++}
++
+ static __init void *alloc_bootmem(struct hstate *h, int nid, bool node_exact)
+ {
+ 	if (hugetlb_early_cma(h))
+@@ -5110,7 +5128,7 @@ int copy_hugetlb_page_range(struct mm_struct *dst, struct mm_struct *src,
+ 				spin_unlock(src_ptl);
+ 				spin_unlock(dst_ptl);
+ 				/* Do not use reserve as it's private owned */
+-				new_folio = alloc_hugetlb_folio(dst_vma, addr, false);
++				new_folio = alloc_hugetlb_folio_for_fork(dst_vma, addr, src);
+ 				if (IS_ERR(new_folio)) {
+ 					folio_put(pte_folio);
+ 					ret = PTR_ERR(new_folio);
 
- Documentation/filesystems/proc.rst |   3 +-
- fs/hugetlbfs/inode.c               |  22 +++--
- fs/proc/task_mmu.c                 |   9 +-
- include/linux/hugetlb.h            |  22 ++++-
- include/linux/hugetlb_cgroup.h     |  30 +++++--
- include/linux/leafops.h            |  11 +++
- include/linux/mmap_lock.h          |   1 +
- mm/hugetlb.c                       | 174 ++++++++++++++++++++++++++-----------
- mm/hugetlb_cgroup.c                |  64 ++++++++------
- mm/memfd.c                         |   1 +
- mm/mempolicy.c                     |   2 +-
- mm/migrate.c                       |  23 +++--
- mm/mmap_lock.c                     |  78 +++++++++++------
- mm/rmap.c                          |   4 +-
- mm/vma.c                           |   2 +-
- tools/testing/vma/include/stubs.h  |   3 +-
- 16 files changed, 314 insertions(+), 135 deletions(-)
----
-base-commit: c8117bff684306f5c1f959d055cc2b24dd67b1eb
-change-id: 20261120-hugetlb_fixes_2-26455c584f4e
-
-Best regards,
---  
-David Hildenbrand (Arm) <david@kernel.org>
+-- 
+2.56.1
 
