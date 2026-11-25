@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795646296;
-	b=IrET+h72uSKNOWxYmK91cQiRe2cHdUafu8rwy/Dkc/Pq0X1A2ovOiiwQQE1PPax0M22h
-	 HYYFAMNaaDyRlCL706NaZFsAryoAtpdwa6buZ5Jm7LCZiTLlW9jkKKdL/UN0mZX6KxwAU
-	 Xger2a4AzftJCCY+nHxutnpeu4HhAxGBIunLfFlbw3NEO0vsBgXvvVprLgWA60WZhPXR7
-	 i+Js1aiOXcpejDGfr99IVBooKCOUeMjnzn85Iz+16HnLW10Q/6uyu8FZgfsv7tKXJEMGk
-	 GZ1sCca/JzJD+CL36dYeTT0VzMJj9gEy4er7X9IutMMkb7fpB9lw0LphbPC/bI17Pag==
+	t=1795646311;
+	b=LlrWba2V7CJA9A07lBj7JwH95qAwo2lk7Y/L42UizO6e3lemVMoNJgm+6BmWHlVeLabi
+	 9UrtdScqzVDJsfWadLO8oqfifAZRL6erGFQrPeCpo8WgVMHNi6v4TsGN1u6Efo9g7WLuN
+	 dkKzStv69gWSeyVGCBmIgXYnU1FRHEgtzvDqq2Ia8CT+UOEzjkoFuHmwf9E3MAGI4HIdH
+	 iqVdPbJpyEZOM62OSL5itHoU8kh6Nl2COhKec9ysaQBxjMQZ6YuftH8qUCBZ9/Y1nO3D9
+	 jYH7ZD6yewAxefVLcbpOhXA2FqOgKFGfYMMtXwcD7MtyaL4ZyOo94GxhFRbESlkWZjg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795646296;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795646311;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=c5sCadhkwY9UanmmId4XEWhXMASQtuWsR/mG1JPVDXI=;
-	b=jebthmMroQQNfzolDo4kKoteP7Zj/Y2vlgPBFGEyiu4983PFAjvERg0FC8y4zr6xhYMs
-	 AlvGPeee1cgXCrKNwj3NpP8JpbJlgeuOFmdVujlGqUuya6L5o5aC02OAA7vwsKg1zhjBQ
-	 TfE9ZQfXML6DLAl2NBdWCrm+n5EdcPLkfdhqVF7lVhcSpGVcUx7kpuq1/W3LUGczh3Oek
-	 tv3+EqgtJ3nhugxVhrONPFDhXzJ5ivqrkGloI5GHjJZOxJSV6l+3N5Fwnok+UZEiC3nvx
-	 gOi0vgz6ZLXOdm+kLRXkqN/iVou9g9CWF6P3duvJ9iI0j8rV1BXtZ6KD+5mIxYxadqg==
+	bh=xAZnRy4ClkSREhxpzPfANj/gGJeGD+jD2/eNSheQ1pc=;
+	b=H5EPCcdaHeE8T2UoKreqS+N/S0MyuZLPqYo8LiLw2T2OylbnelyIF56rh6JaNE28chy6
+	 hkLHNldzig2uFdtzw2Uw49G6jDtbRWwqRx/c2MtCtSM3IU4lJ2hKNl/GNLj/feWSoVqeE
+	 Drf+QYQEMHh7OqlcX2l8ow2BCDpl2TK9MkFNS8uxmXZcB2Vf7npU88juKoI41fsbm05aN
+	 /LAW9q6rxHrbRYdAz+IRqEdx9J8Z0BVTJLwfzIOUiOMhgc5aBmJNV2Va8UjForHOb5D09
+	 MQ+IlhcbaoPd15+cGXFr0PpkrZBMym0qQUDsqqNAeUbbhKGU+t2IEa2rjnuDZVua8Nw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mcGV1irF;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Hd2Wiu/P";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297E7606A31E;
-	Wed, 25 Nov 2026 22:38:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D51D606A31E;
+	Wed, 25 Nov 2026 22:38:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mcGV1irF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19CA81F000C0;
-	Wed, 25 Nov 2026 22:37:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Hd2Wiu/P
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45AC91F000D0;
+	Wed, 25 Nov 2026 22:38:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795646295;
-	bh=c5sCadhkwY9UanmmId4XEWhXMASQtuWsR/mG1JPVDXI=;
+	s=k20260515; t=1795646311;
+	bh=xAZnRy4ClkSREhxpzPfANj/gGJeGD+jD2/eNSheQ1pc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=mcGV1irFRfXDZP7eEVn2PE6y0zqMjBz3R4YH3XVsY1dIM8vndetGzsNVRLSa9MHqH
-	 Hl8tPm3IHHw8Q+AWHbAmKVE8Eokao7NczVWg8nPhKPR1BZ9rGJoernBmso/wi+Lvmn
-	 I1oNfQ86/7bW+rb+gZM3Sr9iVsB0iUxRM+nd6p3ha72bJMyr4FvbaQnt+EQPcQhZDF
-	 xmmEK1Ro+b8WaD1DQn4PQv8jOyiIt5Q8LY+q5ei+PGW6+Ud9+cpmHuOCatVBkqyr6Y
-	 lpvOFTcZtHdIOmkTP6GZ7zxp2qtV9fIRjDzqLM0Ep6XUzFQ42c4NcdPFrDEK/hSR1A
-	 sk6LwO1VZkHZQ==
+	b=Hd2Wiu/P8uIxlKTdjUOUTYFoij2bc4AjUep+hFytgDGFz4JyXIiyXD9VW3wDxpNxS
+	 +obf+ckENrzeA9vbQqu2NviMHORKBVMsJ6b8Q2lXjNIu9DbkFlA9HaLBF33edWjPGi
+	 hckgy6Xe0kuB9i4sqQELrUCO84TtwrwjvLMXIC7NYlalyxmv5BtReOOsdVrdOqQZql
+	 QygU+eT9s2nYmFzzl+CPwZbLPHsC3v/CKciZKSw3Qp67i7cXRgz9+APlIbouBE7DG7
+	 baFeo5B21tKkkv0WtMffh4PXCv8ZcbXuV2L21g07upLcGqRlswmAoY8Kkak91j23sE
+	 1iMeICdwga3XA==
 From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Wed, 25 Nov 2026 23:33:16 +0100
-Subject: [PATCH 18/21] fs/proc/task_mmu: don't clear VM_SOFTDIRTY on
- hugetlb VMAs
+Date: Wed, 25 Nov 2026 23:33:17 +0100
+Subject: [PATCH 19/21] mm/hugetlb: use the VMA lock to stabilize flags for
+ PMD sharing
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261125-hugetlb_fixes_2-v1-18-db27fd2f71a8@kernel.org>
+Message-Id: <20261125-hugetlb_fixes_2-v1-19-db27fd2f71a8@kernel.org>
 References: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
 In-Reply-To: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
 To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
@@ -95,69 +95,201 @@ To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
 Cc: linux-mm@kvack.org, Jason Gunthorpe <jgg@ziepe.ca>, 
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  Andrew Morton <akpm@osdl.org>, linux-doc@vger.kernel.org, 
- "David Hildenbrand (Arm)" <david@kernel.org>, stable@vger.kernel.org, 
- Chris Mason <mason@kernel.org>
+ "David Hildenbrand (Arm)" <david@kernel.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1880; i=david@kernel.org;
- h=from:subject:message-id; bh=+sv+UhDuOwJztPqdlwWWA+euIQWZKN3bwN8oaLd2OMA=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLZk1RjN1gnhsRf/3P15CPRqcePHrc9xZkad2Pdwldv2
- 2d6xawS7ChlYRDjYJAVU2QJCr5v8PLlutpqNz5mmDmsTCBDGLg4BWAiu5Yx/I/o3civLLybU1m6
- 1z3Qdp/Q7vdu6p+t9rxujPg/YU3NK1dGhtfpgcuaM5e8/G12cbkh71vRn9cr38Tqv9XZ8iC0ILr
- MnQsA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6785; i=david@kernel.org;
+ h=from:subject:message-id; bh=PwP2RLUs3pwQwesqKHMjKcPs2SdsbC0XZtUwTfW/jbY=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLZk1T/hT3qEOxbNI3jiYVKS0y/7dL2txxznbbt1PirY
+ 3bgnOPpjlIWBjEOBlkxRZag4PsGL1+uq61242OGmcPKBDKEgYtTACZyypDhr/yPUyqfzity8EUq
+ q7U33lSM9a9qFqmQWF985N/8PRa1KowMX9qi9PY7pn01Ouho8OuZ/jUrtS3+ga4X7kamhEuv7Wl
+ nAwA=
 X-Developer-Key: i=david@kernel.org; a=openpgp;
  fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-hugetlb does not support soft-dirty tracking: since commit f96f7a40874d
-("mm/hugetlb: fix hugetlb not supporting softdirty tracking"),
-vma_wants_writenotify() ignores VM_SOFTDIRTY for hugetlb VMAs, and
-clear_refs never clears the soft-dirty bits of hugetlb entries.
+huge_pmd_share() currently only shares the page tables of another VMA if
+it can read-lock the mmap lock of the corresponding mm. That refuses
+sharing whenever that mm is write-locked or if the mmap lock is
+contended.
 
-However, clear_refs still clears VM_SOFTDIRTY on hugetlb VMAs. With
-CONFIG_MEM_SOFT_DIRTY, a FOLL_FORCE write to a private hugetlb mapping
-without VM_WRITE can then loop in __get_user_pages() until the task is
-killed, with the mmap_lock held for reading:
+mprotect() holds the VMA write lock while changing the flags and the
+page table entries, so let's read-lock only that VMA instead. As we hold
+i_mmap_rwsem, that VMA remains part of its mm and cannot go away.
 
-    __get_user_pages()
-    retry:
-      follow_page_mask()
-        follow_huge_pmd()
-          can_follow_write_pmd()
-            pmd_needs_soft_dirty_wp() is true
-          returns NULL
-      faultin_page()
-        hugetlb_wp()
-          set_huge_ptep_maybe_writable()
-            no VM_WRITE: the entry stays as it is
-        returns 0
-      goto retry
+Add vma_trylock_read(), a variant of vma_start_read(), that does not
+require being called with the RCU read lock held, and will also not drop
+it itself.
 
-Let's fix it by not clearing VM_SOFTDIRTY on hugetlb VMAs, so we always
-treat hugetlb pages as soft-dirty.
-
-This has low urgency, as the loop can be killed.
-
-Fixes: 052ccfbcc6cd ("mm/hugetlb: support FOLL_FORCE|FOLL_WRITE")
-Cc: <stable@vger.kernel.org>
-Reported-by: Chris Mason <mason@kernel.org>
 Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 ---
- fs/proc/task_mmu.c | 3 +++
- 1 file changed, 3 insertions(+)
+ include/linux/mmap_lock.h |  1 +
+ mm/hugetlb.c              |  4 +--
+ mm/mmap_lock.c            | 78 +++++++++++++++++++++++++++++++----------------
+ 3 files changed, 55 insertions(+), 28 deletions(-)
 
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index 41b280ab7b19d..d9ecb94f4daa5 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -1801,6 +1801,9 @@ static ssize_t clear_refs_write(struct file *file, const char __user *buf,
+diff --git a/include/linux/mmap_lock.h b/include/linux/mmap_lock.h
+index bada7a03ddf4b..f42444069e76c 100644
+--- a/include/linux/mmap_lock.h
++++ b/include/linux/mmap_lock.h
+@@ -278,6 +278,7 @@ static inline bool vma_start_read_locked(struct vm_area_struct *vma)
  
- 		if (type == CLEAR_REFS_SOFT_DIRTY) {
- 			for_each_vma(vmi, vma) {
-+				/* hugetlb does not support soft-dirty tracking. */
-+				if (vma_is_hugetlb(vma))
-+					continue;
- 				if (!(vma->vm_flags & VM_SOFTDIRTY))
- 					continue;
- 				vm_flags_clear(vma, VM_SOFTDIRTY);
+ struct vm_area_struct *vma_start_read_unlocked(struct mm_struct *mm,
+ 					       unsigned long address);
++bool vma_trylock_read(struct vm_area_struct *vma);
+ 
+ static inline void vma_end_read(struct vm_area_struct *vma)
+ {
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 5db97f6d15595..62ed8d9aeeadd 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -7287,7 +7287,7 @@ pte_t *huge_pmd_share(struct mm_struct *mm, struct vm_area_struct *vma,
+ 		 * Stabilize the svma flags, as mprotect() changes flags
+ 		 * before adjusting page tables.
+ 		 */
+-		if (!mmap_read_trylock(svma->vm_mm))
++		if (!vma_trylock_read(svma))
+ 			continue;
+ 
+ 		saddr = page_table_shareable(svma, vma, addr, idx);
+@@ -7297,7 +7297,7 @@ pte_t *huge_pmd_share(struct mm_struct *mm, struct vm_area_struct *vma,
+ 			if (spte)
+ 				ptdesc_pmd_pts_inc(virt_to_ptdesc(spte));
+ 		}
+-		mmap_read_unlock(svma->vm_mm);
++		vma_end_read(svma);
+ 		if (spte)
+ 			break;
+ 	}
+diff --git a/mm/mmap_lock.c b/mm/mmap_lock.c
+index c7261f980cef1..68c16281e52a5 100644
+--- a/mm/mmap_lock.c
++++ b/mm/mmap_lock.c
+@@ -212,26 +212,17 @@ static bool vma_seqcount_is_write_locked(unsigned int vma_seq, unsigned int mm_s
+ }
+ 
+ /*
+- * Try to read-lock a vma. The function is allowed to occasionally yield false
+- * locked result to avoid performance overhead, in which case we fall back to
+- * using mmap_lock. The function should never yield false unlocked result.
+- * False locked result is possible if vma gets reused and attached to a
+- * different mm before we lock it.
+- * Returns the vma on success, NULL on failure to lock and EAGAIN if vma got
+- * detached.
+- *
+- * IMPORTANT: RCU lock must be held upon entering the function, but upon error
+- *            IT IS RELEASED. The caller must handle this correctly.
++ * Like vma_start_read(), but without RCU handling: the caller must make sure
++ * that the vma cannot be freed, for example by holding the RCU lock.
+  */
+-static struct vm_area_struct *vma_start_read(struct mm_struct *mm,
+-					     struct vm_area_struct *vma)
++static struct vm_area_struct *__vma_start_read(struct mm_struct *mm,
++		struct vm_area_struct *vma)
+ {
+ 	unsigned int vma_seq;
+ 	unsigned int mm_seq;
+ 	struct mm_struct *other_mm;
+ 	int oldcnt;
+ 
+-	RCU_LOCKDEP_WARN(!rcu_read_lock_held(), "no rcu lock held");
+ 	/*
+ 	 * Check before locking. A race might cause false locked result.
+ 	 * We can use READ_ONCE() for the mm_lock_seq here, and don't need
+@@ -241,10 +232,8 @@ static struct vm_area_struct *vma_start_read(struct mm_struct *mm,
+ 	 */
+ 	vma_seq = READ_ONCE(vma->vm_lock_seq);
+ 	mm_seq = READ_ONCE(mm->mm_lock_seq.sequence);
+-	if (vma_seqcount_is_write_locked(vma_seq, mm_seq)) {
+-		vma = NULL;
+-		goto err;
+-	}
++	if (vma_seqcount_is_write_locked(vma_seq, mm_seq))
++		return NULL;
+ 
+ 	/*
+ 	 * If VM_REFCNT_EXCLUDE_READERS_FLAG is set,
+@@ -257,8 +246,7 @@ static struct vm_area_struct *vma_start_read(struct mm_struct *mm,
+ 	if (unlikely(!__refcount_inc_not_zero_limited_acquire(&vma->vm_refcnt, &oldcnt,
+ 							      VM_REFCNT_LIMIT))) {
+ 		/* return EAGAIN if vma got detached from under us */
+-		vma = oldcnt ? NULL : ERR_PTR(-EAGAIN);
+-		goto err;
++		return oldcnt ? NULL : ERR_PTR(-EAGAIN);
+ 	}
+ 
+ 	__vma_lockdep_acquire_read(vma);
+@@ -288,14 +276,9 @@ static struct vm_area_struct *vma_start_read(struct mm_struct *mm,
+ 	mm_seq = raw_read_seqcount(&mm->mm_lock_seq);
+ 	if (unlikely(vma_seqcount_is_write_locked(vma_seq, mm_seq))) {
+ 		vma_refcount_put(vma);
+-		vma = NULL;
+-		goto err;
++		return NULL;
+ 	}
+ 
+-	return vma;
+-err:
+-	rcu_read_unlock();
+-
+ 	return vma;
+ err_unstable:
+ 	/*
+@@ -309,11 +292,54 @@ static struct vm_area_struct *vma_start_read(struct mm_struct *mm,
+ 	mmgrab(other_mm);
+ 	vma_refcount_put(vma);
+ 	mmdrop_async(other_mm);
+-	rcu_read_unlock();
+ 
+ 	return NULL;
+ }
+ 
++/**
++ * vma_start_read() - Try to read-lock a vma looked up under RCU.
++ * @mm: The mm the vma is expected to belong to.
++ * @vma: The vma to read-lock.
++ *
++ * The function is allowed to occasionally yield false locked result to avoid
++ * performance overhead, in which case we fall back to using mmap_lock. The
++ * function should never yield false unlocked result. False locked result is
++ * possible if vma gets reused and attached to a different mm before we lock it.
++ *
++ * Context: RCU lock must be held upon entering the function, but upon error
++ * IT IS RELEASED. The caller must handle this correctly.
++ *
++ * Return: The vma on success, NULL on failure to lock and ERR_PTR(-EAGAIN) if
++ * the vma got detached.
++ */
++static struct vm_area_struct *vma_start_read(struct mm_struct *mm,
++		struct vm_area_struct *vma)
++{
++	RCU_LOCKDEP_WARN(!rcu_read_lock_held(), "no rcu lock held");
++
++	vma = __vma_start_read(mm, vma);
++	if (IS_ERR_OR_NULL(vma))
++		rcu_read_unlock();
++	return vma;
++}
++
++/**
++ * vma_trylock_read() - Try to read-lock a VMA that belongs to its mm.
++ * @vma: The VMA to read-lock.
++ *
++ * Unlike vma_start_read(), this function does not deal with VMAs that might
++ * get freed and reused in another mm concurrently.
++ *
++ * Context: The caller must make sure that @vma remains part of @vma->vm_mm
++ * and cannot go away.
++ *
++ * Return: true if @vma is read-locked, false otherwise.
++ */
++bool vma_trylock_read(struct vm_area_struct *vma)
++{
++	return !IS_ERR_OR_NULL(__vma_start_read(vma->vm_mm, vma));
++}
++
+ /*
+  * Lookup and lock a VMA under RCU protection. Returned VMA is guaranteed to be
+  * stable and not isolated. If the VMA is not found or is being modified the
 
 -- 
 2.56.1
