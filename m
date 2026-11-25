@@ -1,58 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795620779;
-	b=0PeRaFTf8K5/Q7Js9qZTF9JoiqgVE++V6uDrGX4Dfz8UHj6vv5WmrboYLZvXvGMAvsTW
-	 anrrf44SJI1bUeLaHWM7lauvazDFCYiYCp2GM1TdxTjqVv8zaUs1TpsgdxixQesJBsBYZ
-	 CXY7JWpa4H6fqIBRu36drgX10ECmxJsNDoRUCEo2aK9uFJAXSbmFmKk1GYtp5GsGTBN0X
-	 I9E21sZGUAarK+OCsSi+QpCRwBwDYlhMXq73hyMfTsRait5b8fqHt9IE3JstsqODMlmpv
-	 KjdHIgQqZgYm2CgEe6sElVUJfqUtkVGRy7CyWq526Kyc1Ut/Hf+eB0b7f26qAGLUOWQ==
+	t=1795622173;
+	b=Wl2x725wRqSzW3Q9x6oVDnGl2dSuhNrNqp40qu9bdSCd7vFj/AqtE3nMYf+6Wv39Yty8
+	 bZ6dnat/bBOsuSIsDbvBD3RgRj95PCLf3UqnR3l1lZ2J2KE2R2Uzk3e+InvT4p1DitvxQ
+	 ZpCD1obtpq+DdtVXYGM0HRSatqRCaMHTICXIR7MjidsoiKQMkwInlL0JIzmTSGwiRHGOQ
+	 5jAIZ5cJ5Lbo7WAEK4hNcXPU1yRYkwt2Ai0oSk/Uqubx7ct3Vdi53NVfQcIL/AEfmX8vH
+	 ha+DuPxJMPcnHbX4x6ggb+XpsdMBKYrmwOmaU8nJCxJjv4Pg9YrFa8kObJ29DZnjHsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795620779;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=P9ziKV8LpwywZ6keY4HAU4E3v0yjAaX5+ig0pbD9Vik=;
-	b=TSZ/Dw0D3rzkvepq7xu4EBcHRPwlSIS8iuuOjBENxZtPETThel7egTQwrXYRNRYW9eX1
-	 YzzQWCDec72jKS6V5lT6maqqyO703b9JUj/KzYtAu6wYR65lHZNyVJGr4cgS+aLAe5YQA
-	 woV9i6JzrVKmY5dfMD9qw5Q9zR8kO9b7wBszm/Wtv6Y006ZpVoMHSTG8x07VwFROdhmJ9
-	 3cK1Lk+QHPutQmt4Ah0qCovM/Cx0JOWedf0+3bRxqbdFZ+uRhWhqT8dpOG9Y1vYZCi8qB
-	 ONyQtb7SxjnicITY2c588YYoyPzqz5oYi/wmeNWslel0ZwpCYP4iu/ZggcKi879b9xg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795622173;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Jx+9TpizadpQKBLHxL23KFlEYMCU+nwylP7180AvooA=;
+	b=k8D1zi2c9ZyBwr8IvFSWfXghNhbSDb4JkUT22dYGmEdL5D+U30Q0VIy7Nfn7GvGtXGPO
+	 Jyw71YujnRTFp2mw0SuWxKag5xWGA8hAxyxvP0X0QzK4Ak8AZc7D+estF8H7lm/T4mR9o
+	 ctbQQiYLtxlT2GzSsbmdgMDAu5/pemqbsRZog7csi3GeZRK2tJbz/n5Tf+RZ3FjtwDkwR
+	 dajar3r4iPH7fXqi9gNKp53HRjxOhw+Y7anGTYDUsOFsAv8uwOnmim2CQEF0lI/kGj6So
+	 a15BKcvjl/aBG88RcOuB+K6OPr75uioZx27F7TjDGECXPVJOQNq9Y2YhRd0lzkIcnSA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ILwnqsTJ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=q1aGW84S;
+	arc=none smtp.remote-ip=209.85.214.179
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B86A9606A31E;
-	Wed, 25 Nov 2026 15:32:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CBC606A32C
+	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 15:56:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 84CBC606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ILwnqsTJ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11C791F000C4;
-	Wed, 25 Nov 2026 15:32:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795620779;
-	bh=P9ziKV8LpwywZ6keY4HAU4E3v0yjAaX5+ig0pbD9Vik=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ILwnqsTJoTAX2y6yreyBSv7Ug5yv859gbc5ivHDIVIiyndf4xWNa3m/VfGPI0DL99
-	 6gFkrWdGw5l67ojlhP1I0mG6HuDXK7MYpGaXJ4/mhpgBzqcv9csTA63EjjPcJYp7VM
-	 zd1bRMFUPXTBVD4WIF+ATgxG7wh6LebcmSAsIaw7wIlmAtpj0YB86daZiYYipg/xOf
-	 9k3BQCDgFcoAvRsp1wiODXhIQ4a8wYfGFQB7msaKHKnYHfUnHEnKBdj4iMKDrRzyOG
-	 ST7+BxK9KYa8YfKIMqlD1LZN6QfEoeOny+w0NBKTzGb5Z0EJ3B73Dp7xyuJ87OVw3t
-	 IB5NC0uG0pr8g==
-Date: Wed, 25 Nov 2026 15:32:57 +0000
-From: Harry Yoo <harry@kernel.org>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Andrea Righi <arighi@nvidia.com>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Quan Liu <qualiu@nvidia.com>, Lee Trager <ltrager@nvidia.com>, 
-	Seth Forshee <sforshee@nvidia.com>, Gregory Price <gourry@gourry.net>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, Hao Li <hao.li@linux.dev>
-Subject: Re: [PATCH] pipe: Prefer mempolicy node for metadata allocations
-Message-ID: <awb8v4sLglHQyHQ2@thinkstation>
-References: <20261110065219.894219-1-arighi@nvidia.com>
- <hbkxlhc5y2jkvuov5o2kjgpisx2pavuo3ad4c4ydixeic7vaq6@mpzzfmhjvtof>
- <avQP1aXhe7nQuzt9@gpd4>
- <3f761a27-74df-4e19-878b-323164da5a69@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=q1aGW84S
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2f04ad2c46dso36624665ad.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 07:56:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795622173; x=1796226973; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Jx+9TpizadpQKBLHxL23KFlEYMCU+nwylP7180AvooA=;
+        b=q1aGW84SUiBzdEdeFr+avVY2LCrsH6fXhU5M5QqLXW2IWElBZeF2VPKvEYGdebnb5b
+         VZynbb9QeI9TgvyZmIH2JL5Sxs2sP3Fwu4qRraJHphPKb1MuAqeV+zSy0Tn84M8kWK9m
+         TZcNpewQGU8YHmkFgN4y8BdMfpSp23yRHzn+cxA0YWKwDiTLSriz0CGzIUIxJ3Snntoi
+         e6QpUacKCKxEwS+KTNyCTfwQ1gv3owdTvCiJ9B/grFirDFHk0MEQDeTRC3uTCgYS8kKZ
+         qgHCN+o433IqlfsOpkEm6xnTNAy8qiQKumh29nmhMfdU69UORKyhyKEmKgCS7RcDoofd
+         KZMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795622173; x=1796226973;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Jx+9TpizadpQKBLHxL23KFlEYMCU+nwylP7180AvooA=;
+        b=03uSV7M3/VlA15iZ7cXeAMlfXL79vwpJazpGv6X/jNKM2ib/+rZrLj1O35+rgkjz5Y
+         csLYv8xa1ZWBNFVIBaJOupqkTr8IngxCXEUbEAvz0OSSdbLJtJ2SOJlnROW4xHdqOQCU
+         IH34b/yqTyWcU0aIB1g9cJXhg1LplDr8FWTy4v9QE7Wio3WwsKg3vAzqnt33UUYbn42h
+         oG8jOaa4YM1l02rAVloocOC5OYgkSczjFUDjw9tgyTZtiF4bqC2mmq7yXFIM9HDx/trH
+         0pqiVpUsrKvMKrxlTwbCm1Hd4sv0Int7k6aHjsCEjnbUBHMYK+Re7DtRlSgivHKt/wME
+         tmQQ==
+X-Forwarded-Encrypted: i=1; AL+hErGXIa5ZKyb2qZJSm1ePWphBj+itGF1qWbelgq7Gsj866cyrHgYS30z3gPE9jvVH7nfg+hUAmYxxIRI18JGS@vger.kernel.org
+X-Gm-Message-State: APuU4Z8fgOgGGkP6GYy+SvtLe7R9NQqEZWz8tcZ0LOv+SQMoKlcDcLSO
+	3SnrPfWhyJbSS8NloL0A63E41kybEhvk5EkjzhP0yMkcfaOx7WlKxovf
+X-Gm-Gg: AZFdTZce9qFi38kboM11jpYLfmxNdsSFd+IjJ/Epx8OdUd0mKyNG/lQv5fnjogy81hg
+	g056u8n7cLCsj54F/jJFBIdFVRisG3ubVdJux9PagXqsU0s4GJabNS0xdjlsWki3T8+fbd+KGNP
+	tV6VP82++PTJI2A5qFfVnV2n6tvCWHwEo0V5MryWCLpUz6+MMRwHW78ZZTWc9xO8EldkJFpRTVD
+	8eBGE4KwkvwOculxifjtRpqPUEWFSOzyL9+C9Y7xLHmFy0sMWHn7t1kQ3n4TGz8JCwn7tHvM/V8
+	1copVARHI+jQSeBylu0x3PMk2T++tdXvkxwym9Ew0Rmv//7ecWf7Y+TV6PzKfcnR9Zrb5Qjkeyf
+	imVPq9az42xwdEQH/RoPMcJ9sZpSBYjmjHOGpWscetOL87CSmKp8qnl5LkfphFlOQ33V+bT0a20
+	IhByn/skCbPV9ieCAgUlllTzGsC5jiQPLcYZFCbeFoVFI/pt4KE81YtGS2/yOHjcpM3OhQ4c4mQ
+	H1LjqaDQoW7/VCL1JVObsoPBlegVEoKJy0cWDXMHejivlbfw5V9+X4nhZ86A47nj33EUmsupzBl
+	tEPYLYANR8thQo0r0DcviVjlNwX+jEiSRIMMFBxjnpBy8ni21g==
+X-Received: by 2002:a17:903:2a88:b0:2f0:4fa1:9661 with SMTP id d9443c01a7336-2f04fa19715mr153580775ad.18.1795622172893;
+        Wed, 25 Nov 2026 07:56:12 -0800 (PST)
+Received: from localhost.localdomain ([112.170.44.210])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f147a9esm87467165ad.72.2026.11.25.07.56.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 07:56:12 -0800 (PST)
+From: Junyoung Jang <graypanda.inzag@gmail.com>
+To: Jan Kara <jack@suse.cz>
+Cc: Junyoung Jang <graypanda.inzag@gmail.com>,
+	Gwanhyun Lee <gwanhyunlee@gmail.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] udf: validate logical volume partition map lengths before parsing
+Date: Thu, 26 Nov 2026 00:56:07 +0900
+Message-ID: <20261125155608.282719-1-graypanda.inzag@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -62,102 +96,96 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3f761a27-74df-4e19-878b-323164da5a69@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 11, 2026 at 09:12:44AM +0100, Vlastimil Babka (SUSE) wrote:
-> On 11/11/26 07:48, Andrea Righi wrote:
-> > Hi Jan,
-> > 
-> > On Tue, Nov 10, 2026 at 01:27:53PM +0100, Jan Kara wrote:
-> >> On Tue 10-11-26 07:52:19, Andrea Righi wrote:
-> >> > Generic slab allocations can reuse partial slabs from another NUMA node,
-> >> > even when a pipe workload is bound to one node. Pipe metadata is shared
-> >> > between senders and receivers and accessed throughout the pipe lifetime.
-> >> > Reusing remote metadata can therefore make an IPC workload pay remote
-> >> > access and coherence costs on every exchange.
-> >> > 
-> >> > The target use case is a workload that binds its workers and memory to
-> >> > one NUMA node with numactl. The policy node is then a useful placement
-> >> > hint for shared pipe metadata.
-> >> > 
-> >> > Allocate pipe_inode_info and its descriptor array on the node selected
-> >> > by the caller's memory policy. Apply the same preference when replacing
-> >> > slab-sized descriptor arrays during ring resizing. An explicit node lets
-> >> > SLUB try local allocations before reusing remote partial slabs.
-> >> > 
-> >> > For descriptor arrays larger than KMALLOC_MAX_CACHE_SIZE, pass
-> >> > NUMA_NO_NODE to keep the policy-aware page allocation path. An explicit
-> >> > node would otherwise lose the MPOL_BIND nodemask on fallback. Select the
-> >> > policy node only for slab-sized arrays, avoiding an extra advance of an
-> >> > interleave policy for large allocations.
-> >> > 
-> >> > Moving a pipe's users to another node doesn't migrate its existing
-> >> > metadata, so migration can still result in remote accesses regardless of
-> >> > this change. Generic allocations may reuse remote partial slabs, making
-> >> > initial placement dependent on allocator state. In contrast, preferring
-> >> > the policy node leverages the workload's placement hint to improve
-> >> > locality when users remain on the intended node.
-> >> > 
-> >> > Testing has been performed on a dual-socket NVIDIA Vera system, covering
-> >> > hackbench, pipe transfers, pipe creation and resizing, pipe_bench, and
-> >> > targeted stress tests.
-> >> > 
-> >> > The primary hackbench reproducer is:
-> >> > 
-> >> >   $ numactl --physcpubind=0-87 --membind=0 \
-> >> >       hackbench -P -p -g 10 -f 20 -s 100 -l 100000
-> >> > 
-> >> > Results (over 10 measured runs per case):
-> >> > 
-> >> >               avg       stdev
-> >> >    before     9.811s    0.130s
-> >> >    after      5.770s    0.058s
-> >> > 
-> >> > Before this change, allocations could reuse remote pipe metadata. With
-> >> > this change, both pipe objects and descriptor arrays are allocated on
-> >> > the requested node, improving locality and reducing hackbench runtime by
-> >> > approximately 41%.
-> >> > 
-> >> > Reported-by: Quan Liu <qualiu@nvidia.com>
-> >> > Signed-off-by: Andrea Righi <arighi@nvidia.com>
-> >> 
-> >> To me this makes sense so feel free to add:
-> >> 
-> >> Acked-by: Jan Kara <jack@suse.cz>
-> >> 
-> >> But IMHO it deserves a look from MM guys since this is more of an MM thing
-> >> than a filesystem one... Added to CC.
-> > 
-> > Thanks for taking a look, and good point about getting MM feedback.
-> > 
-> > Vlastimil, Gregory, do you think this SLUB locality and mempolicy
-> > aspects makes sense here? In particular, does preferring the policy node
-> > for slab-sized pipe metadata, while retaining the policy-aware path for
-> > larger arrays, look reasonable?
-> 
-> It's not wrong, but feels a bit ad-hoc. If it's pipe metadata now, what's next?
+udf_load_logicalvol() checks the aggregate partition map table length,
+but uses each entry's unvalidated partitionMapLength to walk the table.
+A truncated type-2 map near the end of a Logical Volume Descriptor can
+contain the sparable partition identifier while its packetLength field
+lies past the descriptor buffer. This causes a two-byte out-of-bounds
+read in udf_load_sparable_map(), reported by KASAN in
+udf_process_sequence().
 
-Good point.
+Check that each map header fits in the remaining table and that its
+declared length fits in the table and covers the fields for its type.
+The 64-byte generic type-2 size covers the virtual, sparable, and
+metadata partition map layouts. Report and reject truncated headers
+and invalid map lengths before accessing type-specific fields. The
+unchecked walk is present in the initial imported tree.
 
-> Slab will generally return objects from the cpu's local node even if it's
-> not specified. It's not guaranteed, but it's not guaranteed also when it's
-> specified by kmalloc_node() (unless __GFP_THISNODE forces it).
-> 
-> So the results above are surprising to me. Are they on recent kernels? Are
-> cpus 0-87 all local to node 0, or is membind 0 there to force a node that's
-> not local to some of them? If they are all local, I would expect the objects
-> to be from node 0 even without kmalloc_node(). So maybe we have some unknown
-> deficiency that should be investigated.
+A custom LLM agent assisted with discovery and reproducer setup.
 
-This is the default behaviour of remote_node_defrag_ratio = 1000.
-When there's no slabs left on the local node, most likely it grabs
-objects from remote node before allocating slabs from the local node.
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Co-developed-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
+Signed-off-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
+Signed-off-by: Junyoung Jang <graypanda.inzag@gmail.com>
+---
+The malformed image uses a 4096-byte Logical Volume Descriptor with a
+3656-byte partition map table and 16 maps. The last map begins at table
+offset 3626 and declares a 30-byte type-2 sparable map. Its
+packetLength field lies at descriptor byte 4106, past the end of the
+4096-byte buffer. A second image declares a 3627-byte table, leaving
+only one byte of the last map header inside the table.
 
-This means quite some of allocations would have to be served from the
-remote nodes before the slab memory on the local node grows.
+On unmodified mainline 4dce97c6c265 with UDF and KASAN enabled, the
+first image produced:
 
+  BUG: KASAN: use-after-free in udf_process_sequence+0x3cfe/0x3f60
+  Read of size 2 at addr ffff88807ffc000a by task busybox/57
+  Call Trace:
+    udf_process_sequence+0x3cfe/0x3f60
+    udf_check_anchor_block+0x270/0x460
+    udf_load_vrs+0x67b/0xde0
+    udf_fill_super+0x778/0x19d0
+
+The read crossed the descriptor boundary into an adjacent freed page;
+that is why KASAN classified it as use-after-free. The mount failed
+with EIO after the invalid packetLength was read. On patched mainline,
+three boots rejected map length 30 at offset 3626 before that read;
+three boots of the second image rejected the truncated header at the
+same offset. Neither patched case produced a KASAN report. Valid UDF
+and sparable UDF images mounted before and after the patch.
+
+ fs/udf/super.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/fs/udf/super.c b/fs/udf/super.c
+index a81a8509524a..41988a07b86b 100644
+--- a/fs/udf/super.c
++++ b/fs/udf/super.c
+@@ -1580,9 +1580,29 @@ static int udf_load_logicalvol(struct super_block *sb, sector_t block,
+ 	     i < sbi->s_partitions && offset < table_len;
+ 	     i++, offset += gpm->partitionMapLength) {
+ 		struct udf_part_map *map = &sbi->s_partmaps[i];
++		unsigned int min_len;
++
++		if (table_len - offset < sizeof(*gpm)) {
++			udf_err(sb, "Truncated partition map header at offset %d\n",
++				offset);
++			ret = -EIO;
++			goto out_bh;
++		}
+ 		gpm = (struct genericPartitionMap *)
+ 				&(lvd->partitionMaps[offset]);
+ 		type = gpm->partitionMapType;
++		min_len = sizeof(*gpm);
++		if (type == 1)
++			min_len = sizeof(struct genericPartitionMap1);
++		else if (type == 2)
++			min_len = sizeof(struct genericPartitionMap2);
++		if (gpm->partitionMapLength < min_len ||
++		    gpm->partitionMapLength > table_len - offset) {
++			udf_err(sb, "Invalid partition map length %u at offset %d\n",
++				gpm->partitionMapLength, offset);
++			ret = -EIO;
++			goto out_bh;
++		}
+ 		if (type == 1) {
+ 			struct genericPartitionMap1 *gpm1 =
+ 				(struct genericPartitionMap1 *)gpm;
+
+base-commit: 4dce97c6c265544342e716e62fd24bbb232590c5
 -- 
-Cheers,
-Harry / Hyeonggon
+2.43.0
+
