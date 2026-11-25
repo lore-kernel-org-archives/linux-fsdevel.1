@@ -1,93 +1,42 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.173
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795625951;
-	b=RKUj8kpCbsANSytPI2PIj7FQslsOoqyA92Vfm+yFx+uCTuAkmu9LYO2UR3yFT8B/eLER
-	 Uo+A8FnLQ25IT4rNLDGIGbf956C/bDIaC+QW5v7srUl6vA/mJt1OuqLRmUGqDvzgvH59w
-	 AjM3OlJRiRctgohJ30NIIvoJaywFdezdtpUyK1SJd24QAJvUMImhOFe6vqKfXSTB0+gOq
-	 SkYc/m1B8ut7Jyb+SxMRMjhcRtrI9IeNZa1h+NBSAHEZ6ZFhIWipEHyb8Scdwh/VEEL0u
-	 TGpUZVTYkJ1o/1TWpt10TRMAtgUixFPM8yaYDc+AdrL6a9uMrkZlchAH0cq+dcS3jcA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795625951;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=ssqoSi76g+LtX30iLsvIWKdf1J/8p1hvBN52gnrjlGc=;
-	b=iQzmk3XdOMIxo7uJexm8CkuAuD0sJ1Cn75jmZfT1n39QUzzJwvX4HfFINr6hDLfu61Wd
-	 bb2Q+yUqmxGKFihusTBuDa/UdIcH8pPukgKURO0SyhWJ4OZUlZKEfvCKD+DA6OriyQ68i
-	 R6Kx0sDL2vwTfcrVV/nzqNOI2HvCAcxb1gEGeIngOkQBWTZTKcUhoISuAzHxgntGwPjVN
-	 GcWX9Mdg6nxB+sDnpLaKp2WtpdjLTlmPMSe/mUVHY1hdOQIKyAOaPpxb4dmBf2joaPV7m
-	 VGIYDheJzfpQNC/frx6g06J0FvVD7Kr4SUj5vj7Hu2lymGtS4q8RgFAKgbyA9VPvaRA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=szeredi.hu;
-	spf=pass smtp.mailfrom=szeredi.hu;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.173
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69760606A32A
-	for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 16:58:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69760606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-93a40a9a01aso816855385a.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 08:58:59 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795625939; cv=none;
-        d=google.com; s=arc-20260327;
-        b=loSMws1SDKeYNfbmqGjGaqgGgVbgfzDbK/ayg8FrukEdCgNIBevMrDSIpUnry8meXQ
-         Yo3URmQzb/gtWUtWM6/nwm406t/ZjnoBMFtREvq8jh0tKKC3iisIGM0qVAqSvfXnTXm7
-         wUalCKb+PtRw5909uCEhWdtg2XnpDbOiCdg6bRxKk1znMsWyHt8Zz/aslufuiOuPXCxb
-         7GT66E8sdok6ZuJ2q+LbkMOTmPKXx2yqHNpN/KSogIz8YYZQZ5E12Q5qEm4/4WTWwnXa
-         6sABCoAAISIs0ANzyn+cExRULm6uyl9q+H6aVeT9qDrsVk76llQFv3l93LPc9x1qOgFG
-         084g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ssqoSi76g+LtX30iLsvIWKdf1J/8p1hvBN52gnrjlGc=;
-        fh=/uNEBI+IM0Ws6bjq6BjMeQ/WropqiemNaRrl+2v3DBs=;
-        b=M04HvZy+OBIWqmypuSkHV5mSuwoUeOIkiXvWdk0WpeZwqdZL/aM4Xs8zj96bs2IVq7
-         QFtjZKiY+wTaRqJrffXO+mUp03BT4sxyykbOPam8FTLhqgwRRdecxLhivzQWVps5lGRi
-         cOeHQM63NuWY1+Hz5M8te97XqNn801DmvwiHNu5PGZkgb+MhqPBWfqgr5VCfrdkMt7be
-         f2O8H1e6ctZCk4J7dWr1SBgHRCkdkWQbENg2L1xdpFSNtbzAUy1/d9tJqs9GMlfLOHj5
-         ACsuxD7Vs+uEUFNnRBiPtASmIUGfHCpOU8ZJcZ8jLXuoZsxvNjKU/9Q/0xv+IORiZApF
-         AuRg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1795625939; x=1796230739; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ssqoSi76g+LtX30iLsvIWKdf1J/8p1hvBN52gnrjlGc=;
-        b=L14WoLA/qRDg+CVR/tmUvT8uk2Lab7pJ07N8cJEF3gw3FrRc7pYROp6eRI9hl3cXXG
-         RxRbw8kEjQqT2sVOeOTRn0iaYrI5Vbok+kzkZlOjQdo5roL87Qxr4UR0kCbTN6pX/QCp
-         xagytRSAbo64M+PxvJe5RHFPApTKyOmlSeajE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795625939; x=1796230739;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ssqoSi76g+LtX30iLsvIWKdf1J/8p1hvBN52gnrjlGc=;
-        b=orhlL7lcErjWpcLSmd74qzUdIhEPGJ3AWEIl7UhLp9xw4uNmSI0miA3gS0Rq4zKVs/
-         tPMl69NbS7aThIohSRQ+7TIJd/9IO+0Nr3eRo51faRCK2uBTd/vqGVzr4kGD7BQdYVEA
-         oLrLWgWRR3UAgIWiOmUcJd8N7PtHWW7sKlmkaz48SDxWDez36bqg2fNVoZs5oSyEjT1m
-         T5rwX/vi4zqCBOZQ08DGeVt/kQwXVkMd8X7YsZLefJBGzqP5XlvNincf+ItBC6Qr5Jtp
-         8UCUtxxd3C/dBrtb68tBXaR2mOUpGKXjX51A8eZEY7RJOdyRiT8ki0i6JpRfcDCutbzM
-         TDFQ==
-X-Forwarded-Encrypted: i=1; AL+hErE6uq/CQb+TukMrBQicKesCMe6VpNKUJuUSFF7j9Km8onoPDKDiIqMhHBHldKtlRsvSuMSnzsGh+DsJlpaS@vger.kernel.org
-X-Gm-Message-State: APuU4Z9K9QWv5wF0NwmPqq3R3ZKOQbYzZSsr4ZvLN34oeux0l/bBuZxs
-	ueZApxxWLyIDpX0uyh+6rHxTA6a8bs58fKhu7476BgG5TRvQXIZiCoN+ZA7eoP7n5c9lXxTs6P3
-	mezZlJGpPqvdITuu33WNnkXjrQZWy/uebCZx79ts9wkrefpiXLSCx
-X-Gm-Gg: AZFdTZe8NSvcYUor2iWPuMplDhdLbyppWxYrdqQULT0PjRzZR2Jn1bGaCG4XXU2oqKN
-	emWy7rewqT/VHp018dpGTf3OEUJ0Mar80ya5HPsN4ICvVkaVpPI52jLzOFNk7M8Ze87wfp4pvg2
-	lNwRNv8Icc+hHAHahwfBEI9GHmDbdVcFItHb9qnL9ryShz5LUob8LrXbOacnSdjFxVXZMPu5T/F
-	5oFugy9czlQ50jxqADzm3hNWVua63H2l1SmPgqaDTWB9JOFPUBDcRWgE74QBDLdgfSsGwi3t3d5
-	JVfTw+6YDaT+qPGi5Hkmn/JFJSFprWXaJj6077tUBwlX8D/VPEPEYM09n031DB17aEVAjPY/Xmj
-	7PP7fOs1C/DJjfp0urEXP9sCg/TOw/H/DHF27ai1df3qx/dA/yp38ZuGerbabv2+ef+wTPA==
-X-Received: by 2002:a05:620a:130f:b0:93e:95ce:5394 with SMTP id
- af79cd13be357-949ba81953fmr3086387085a.2.1795625939096; Wed, 25 Nov 2026
- 08:58:59 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=182.48.54.220
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795626562;
+	b=5L6Lz5N0ISWXorQrCxH6PuE0lY4BAey0sXMWbO1mdI25Fnt10zjAuhCfg6Y/f8uGOHhg
+	 ieiWPve6OD84kDWSYPUU7q5/zV/miE9/m8+/VU7xom85QaBGbnHQuz1NS6Tztt1OgZTvh
+	 KtLq/nxtuNmMqrkUdM7rwiH1qveuUUKvRFySWxtb6fhTcyv+dOEkL2JUtxMCKZIXTGYzU
+	 1sYiPU0Ojjv3i7m6jYgW44preBBGp92xxP4lkxdRfQAg7tvdjV0LRkXMc4b+r5V+l+ulm
+	 cBrTl/4jjMV8TFAWzy+nEX1GMVZspg8+9a1sHh0VPCKSsgTIui/OojCPVIrkqOXm8NA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795626562;
+	h=DMARC-Filter:Received:From:Date:To:Cc:Subject:Message-ID;
+	bh=WBBm0zhB0s2uFMKDgwrR0/RI1MLnMKTKikU+uMziPVw=;
+	b=QvZnJjjI2LTiFSP+mu8RUpQyakX6vzyX59A1OA31XEuX+QR1JvdvbVb77uWAZcLUZVJZ
+	 R1C9Ma68igdIpKtYBjlHC46hV7cDXnD9B1ke3RAMWywINXSZx4qkggl5rw/BI3u9exCb6
+	 ytvzZruF0JQCh9KlK8sNDVDurdWkj/sBEVPsQGV3JtRU3hKTRcazq1snqVtVpqHi4YMCq
+	 jEcbsJFA2y+iA4fkt+RCk+9bybovpdGTmFyaT/ZKhn3qUOKg+mtIg2peOXYo4ame3rNco
+	 2+BhiS51wiheS0rvzK1mUFlCMI51LYGYX56YP5SI++2VNbKwwUZkZZcRjoelHlyyQ2w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=snowrabbit.org;
+	spf=pass smtp.mailfrom=snowrabbit.org;
+	arc=none smtp.remote-ip=182.48.54.220
+Received: from bambi.snowrabbit.org (bambi.snowrabbit.org [182.48.54.220])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83E1A606A31E;
+	Wed, 25 Nov 2026 17:09:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 83E1A606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=snowrabbit.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snowrabbit.org
+Received: by bambi.snowrabbit.org (Postfix, from userid 3001)
+	id 038FDC9300; Thu, 26 Nov 2026 02:09:20 +0900 (JST)
+From: Showta Ishizaki <zakinko@snowrabbit.org>
+Date: Thu, 26 Nov 2026 02:08:59 +0900
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+    Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>,
+    linux-fsdevel@vger.kernel.org,
+    linux-kernel@vger.kernel.org,
+    Showta Ishizaki <zakinko@snowrabbit.org>
+Subject: [PATCH] ufs: zero new data fragments with one request
+Message-ID: <20261126-ufs-05-v1@snowrabbit.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -96,28 +45,74 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-References: <20261125-work-fuse-readdir-v1-0-44312add01a8@kernel.org>
-In-Reply-To: <20261125-work-fuse-readdir-v1-0-44312add01a8@kernel.org>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 25 Nov 2026 17:58:47 +0100
-X-Gm-Features: Aa3M54pPfuXZohQGDn5k0h9sL1sElbGXsBZCEsXt30y_HQ67RFbg9tpBWfdjmqU
-Message-ID: <CAJfpeguDMe4ZooXec_djQ_Kv2jL4HNum=LvhUtA9iPrHStgnaQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] fuse: fix readdir with long names
-To: Christian Brauner <brauner@kernel.org>
-Cc: Amir Goldstein <amir73il@gmail.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 25 Nov 2026 at 11:27, Christian Brauner <brauner@kernel.org> wrote:
+A block taken for a page being written is zeroed on the device with
+sync_dirty_buffer(), one fragment at a time.  That is a synchronous
+write for every fragment of every new block, and most of the time spent
+writing a new file.
 
-> The first patch makes the request large enough for the largest entry
-> the server may send and makes sure we always have the pages for it. The
-> second patch adds a selftest. It fails on v7.4-rc1 and passes with the
-> fix. I also reproduced all of it in a VM on v7.4-rc1, including the
-> memory pressure case.
+Zero the run with one sb_issue_zeroout(), after cleaning what the block
+device's cache holds over it, and keep the old loop for when that fails.
 
-Applied, thanks.
+Metadata stays with the loop, with -o sync too.  An indirect block is
+read back through the block device's cache, so it has to be zeroed
+there.
 
-Miklos
+Writing 128 MiB with dd conv=fsync to virtio-blk, five times, in MB/s:
+12-13 before and 87-89 after with 1K fragments, 47-50 before and
+272-284 after with 4K fragments.  Creating and removing files of 128 KiB
+to 1.4 MiB with -o sync, none differed from what was written, also after
+a remount.
+
+Signed-off-by: Showta Ishizaki <zakinko@snowrabbit.org>
+---
+ fs/ufs/balloc.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/fs/ufs/balloc.c b/fs/ufs/balloc.c
+index 628edfde3..44ff268fd 100644
+--- a/fs/ufs/balloc.c
++++ b/fs/ufs/balloc.c
+@@ -17,6 +17,7 @@
+ #include <linux/capability.h>
+ #include <linux/bitops.h>
+ #include <linux/bio.h>
++#include <linux/blkdev.h>
+ #include <asm/byteorder.h>
+ 
+ #include "ufs_fs.h"
+@@ -311,12 +312,32 @@ static void ufs_change_blocknr(struct inode *inode, sector_t beg,
+ 	UFSD("EXIT\n");
+ }
+ 
++/*
++ * Zero @n fragments from @beg, taken for a page being written, on the
++ * device itself.  Such a block is larger than the page when the block is,
++ * and its other fragments may be read back from the device before anything
++ * else writes them, so the zeroes have to be there already.
++ *
++ * Only for data.  A buffer the block device's cache has over the fragments
++ * is cleaned, not zeroed, and an indirect block is read through it.
++ */
++static int ufs_zero_frags_now(struct inode *inode, sector_t beg,
++			      unsigned int n)
++{
++	struct super_block *sb = inode->i_sb;
++
++	clean_bdev_aliases(sb->s_bdev, beg, n);
++	return sb_issue_zeroout(sb, beg, n, GFP_NOFS);
++}
++
+ static void ufs_clear_frags(struct inode *inode, sector_t beg, unsigned int n,
+ 			    int sync)
+ {
+ 	struct buffer_head *bh;
+ 	sector_t end = beg + n;
+ 
++	if (sync && !ufs_zero_frags_now(inode, beg, n))
++		return;
+ 	for (; beg < end; ++beg) {
+ 		bh = sb_getblk(inode->i_sb, beg);
+ 		lock_buffer(bh);
+
+base-commit: 4dce97c6c265544342e716e62fd24bbb232590c5
