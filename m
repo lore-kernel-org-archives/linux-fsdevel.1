@@ -1,98 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.6.134.125
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.193
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795664015;
-	b=nsG1RWTLjtPL5U3v2nWpXXc1ykUP/36412s10/ZHbiUfV9+ki1Q0oAkluxhXdFCQq4De
-	 TfJM9/f5pGXHpD79cNRf9excGdWDrxIGfMcPWTojL7oTxLXsm9be5ZY/fnl9P4WFnSzuj
-	 B9tt5lIQyPJ4spiNFibHpPzw8DuRvSofKDYwn+aV+vuKUOBpFbeAAzbkmHwr8L6qFJNnr
-	 l0oX9neLH1442eQ1vURKUbZHHKy5/yoeBHMdLTSUkQRgiD0fYwfHCd/b/lMz10/w34Ce2
-	 5Dd1HWUbK6BbsmtFy5Am9uRoggO1sgORDQi7PIf5zpEkeNzBpa41pkCAmTzIilC+QOA==
+	t=1795668756;
+	b=HPdrgieTyi34cR7yhZwEGrOPr3yvGsBZB3NiuEIF/LypfVJFRQ3ub6j4DdNbuWsg1NeQ
+	 lFU9AoDsGfyGaygw/xIF58t3FqfJSK4CKbR7Mt0wYzwAgaRQiR4TJ9/s7R1qoYWupx636
+	 izREXSmi28DCIdvLcoKNlCoRSDZsb7qMqO0AN8LBHWTJZn6OIn8ml+SSIdIllqhY4WaFo
+	 q7bwKWgSLjJVibexA+ezzS2oRzM45LWSHpJNQMOJofMP/YCLzA8Ma9tscrd3kTjR4UzRm
+	 mB1+7jNRmM4IPqXqcxD7q1/UqceEGZGMoOdyMShntFiX1i2HbUMUF+krplQ6QTmJ0GQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795664015;
-	h=DMARC-Filter:DKIM-Signature:X-SONIC-DKIM-SIGN:X-YMail-OSG:X-Sonic-MF:
-	 X-Sonic-ID:Received:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795668756;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=YcM9NeytmDEp3ZHnhl05h0wZi5zVcYRHE8yN3GpV/uk=;
-	b=jkcfLoDPQK0+L3LB7izulfu+w0JyYu7pjTyNtcaexXUVjkuheCLdqC/1mUgsysRPkHzE
-	 rbe39MmK8Unljr5jTIWW4XV5R8aEiRcz2Xgxeuic2j7hyZ4rhv+ATdO48VQpg3rSXlcZR
-	 zs6fDuuJ1P2nGJOZkpsgT21R1TdcGsisxMadtFRgeaG9WeIlRjUDOLIV8oJm7t1Xu4pa2
-	 H3Icgwb7lAF7g6XtXjc9KDu/FXnGBhQN4Neim+PlXALd8s5k0W3oF7bbKo4Y4JhyA58gr
-	 +OX+8DxMQnKCZpBmqus+zOQrzOhaAWY6zF3JQ4XF+FnnMgqn6j45xTT0l1oa2dajzVQ==
+	bh=lqulBbTwbeeixwOkIu5Oj5QCzLuwttc22xt7NXl3CCQ=;
+	b=D+PtPqZt0LA2CuT2YnLYCUpaQj43ownSqUVPanFGqDJel4G14R+N63BV7xMOfXFxWpQR
+	 Ly6S2qP4mIL7hdUnO+5YvT38Ojdfwj1/k1tZfM+RGk8p9c1uTGYsH/NhHSYbB/qZdcGx3
+	 yiQqQg9JB1qE1fHqiljWTMfGD8O+pewdBnABRf4tXdN1yURcU+8XBMo+Ey8c5XBuU0rLx
+	 1lvE/I5/ohrdj/YXZ1iZuYbGatV1xQ97LjunCS8kY4HlmfqTgYzIl6asJmRyePuqaJi3g
+	 OpRN4eRwo0KzbdWU5nc6mlPeNf2gXxdPFRZCmt7dLQWF6pNN/bMrK+OrtHQ483iR2MQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=yahoo.com;
-	spf=pass smtp.mailfrom=yahoo.com;
-	dkim=pass header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=o8rJxBu4;
-	arc=none smtp.remote-ip=74.6.134.125
-Received: from sonic315-15.consmr.mail.bf2.yahoo.com (sonic315-15.consmr.mail.bf2.yahoo.com [74.6.134.125])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DvZFstsL;
+	arc=none smtp.remote-ip=74.125.82.193
+Received: from mail-dy1-f193.google.com (mail-dy1-f193.google.com [74.125.82.193])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B15F606A33C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 03:33:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2B15F606A33C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893DD606A31E
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 04:52:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 893DD606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=o8rJxBu4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1795664014; bh=YcM9NeytmDEp3ZHnhl05h0wZi5zVcYRHE8yN3GpV/uk=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To:Content-Type; b=o8rJxBu4ne1hHkdEfFFiMFwmWQ6R1ylvamcmZW9MQBZlRRdt+SmIgJ3Rp/0pzH3sPruKsyQKVg4LeyhjfxR0dc14XYX1hL/IzojXfg1iUCibMa0RTRPn8y2UGw1YOrME/KOV/ET2+O9EZcj7hyWboCsofxWmSmKk/uWpl2+yj6Q55mLndl985lTe2iUTgK0a2hMJFZS8SDqHohR3iiAuqJKUUMDHzKBWW/djteHwD42Bl5yaMjMMlFumX4Uymb+aEt5RmK5QKU87l62MIWVvgN7PgKH8HP4ltXiMwlUomK8CzAjvj+8KZ4ZEdFXckp6T9uD6itIo3tGB/AVmJDP9SQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1795664014; bh=/2Tlz5ND402ydS4wmF0R/ar/qtdz/i2oGCpEaZnYDZ5=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=Dg6+ljCRiE/2w9KXXZ8Lsivx32O2Xto0K217sQEXMCB929R8gw9YdXhYOf4Pb6HkcZ5AVPdaBKzCivm1gEvqi9IKocJqWVu1diI5CscKaiJmGqklkq1wUz1o4qPdv4vClxfxIyDYin0gU1E0AgPrh5mCSf8O81GGeqwdRl5wORJ8Bhh4Kk9RFVpHzpN6H3vjgYXEH54dODQY1RONiGxDqzbrwI8eYPJd/dukc8SijUfavp31vv/idt0pqeihxaiFSTxqzPK613DVKe+OtdbzSkux7QTQ4MBDc/WwJEw+2IoDUl1Bjhn1rFwhYeKLpG0pziAhXzUimgN9UiE9EKoxpg==
-X-YMail-OSG: CP1AjuIVM1ltWqCiIJXJ_jVj5a0za5zPAFcSWULMECVOwF3fXdsBlPO24_0jDlR
- NiGJdU2.T.sVjVaVnkzx6p.AtKDPsKUO_G2P_kgn2Z994nAr.7bW9i2cF9Sp9T8XmuFG8Fch3DPx
- 2zO8JmAEqpgeQAvmMjMMKjcSq8WBLIw9nVMWucCr_8O8H8k2lxmj6FO6UFY92JNpXecgdh7z5wBS
- R7clQ7FSlKzSwP1EbvoHHvwt1mg1lbDc.nGT480c2enbzsMsXbSQBB56sYOJiVKHPTkuEioflBNG
- KW_7qw1MI8BdLPIkO9jqApxsntjQTNpc8bF.4GCJeDxtX8K__atPk.YNxuxI52H4Q31C5K2VEcww
- 72fQAMi88C18lsb1e6gRj4TsdvJkFqG5rJ1VQVockeLIBe5HZgPKCCUTBTIiDMAzixWbpAbxDYcB
- XxA_Jk6PKR4.6toggNOdATGBacXP0U6zrOfGCbPHONhKmSI3Yug1CPsWgKQi8EtZwaxAZZuCodT6
- ILQzkRkuS42T32iIXmV6QAg1GmarezR_4.bc78luGRuLf67ejEmE0xBbGn4bNJ6TcaAfXpxvrzrx
- rL8vj6dBEhfnRVp92qwyzJ9CsTICt2JV2zWyXp2OHHv9P8o3DbeDihXnv9nuoJrreI94bL8WuZ7d
- 9DxUxrnrv_TpD1AAw4K22mENQJBK7gL6H9gBiS8fPeblpnJxYOt0foGAOm4G4sW_t9sv._Qb7rQU
- nsVH8gGi4jJbSnRDv2J2k_LsHrE4iWgIRRODaZTv7X.F_Qfb5kmKPyeu2fC6k7sWuTOSfcCLDN97
- JfUGY.Zi5w84HqIi_OCmLMKLB8TLuODrD3POMWV07zX44dbW0deE7gdv0MzQLMlDABzu8kSKvcX5
- Ma9G88FX3XUvcG1V0OHKUBp9wOiXUTfpOsxaEcRdr0_svU8kLISG8Lc3thJf6fjdL6LQPIFjritd
- gAoX4ycfhq53ZsYBaLXSgev2WuKh7iQ_YpqArgj_z1aFRI7fG77u8ToVNCyqRqYISB3u0dBFQ4Ja
- uD2tdPPQgGKwf0.PKDUJWMeHXH1M2doKgTQVuCjgNAO4Bzyi0iD_ZO6OZLmP_7i6yT4ZhsdK_t73
- komPcy0TnTR64fg6wLugpGoY3POnElLhB5IFCaA.DaNid5t26noiWm8eWl9sHsL1lsVChyzJtwbq
- bMzP9M6kDg8s3QT6LeTvro_AjsuSAerIGExppMrldUJHwhGa5K1Tuc_9iUcqQ4yFz0DQhtB5jiwR
- EQfsDHExSlLAOwOYc4e1b2f8Pq38afZlhaKUNIKOtoYh1xz3KbQ1.iv2xHLFPpfgx44mezkBhD4a
- pg87NC7_cTt7g1NuEi7jsQ5r1PuEM4Ej6wn_SG213f3gEB5RM0RSEXrxFyZorMArUjrNOi4OyVBY
- _BsEXK5tubGtjhW_zRCvVc.Mj7QcLanSVYWfmj_UKMXQKqY5phQ0pQU5upOxQCh3s1ur_7k3fasq
- sjz62Ky4_2A4kZuQGIUTmdWjJRoFiRMbTiHPYVS3OeIzwK.I7ijRf8lYgSo5_tSG3tk9GcynmRO_
- P76HcX7IiEMWQ_yhf6cgiJtU.uvoS1Og.G8YTFW3.BEkziRvtZg88MM2ICqAx2jVlOhGeewwsTQV
- nMv4aoljAf1216rN819muqIe109Ynl8z3u7QC5tmIvxyBewS0ATp_.OJzwX0MhwFUk8T6XZ1GoBE
- tJHOUZwjTacQnGT.lAQVRo5fnkQ581CHZ6fPdvDvjdYpVDzls8iv8BBS0HFkuTLjO2BFkkbEwcgq
- Gr4IYl8lOJ4mdaohYSIWaV.y60OCccq3RWikLymRGTCV5IBaDhWsmOsR2lzycj5XkTBnncexgcCu
- rIwEG3SmzoYUpsCBgz7VsNhDl3RNkTXXmNDd4nrKCpyhN5vdIARjHElXA4ygLZfIIloIqb4tP8eT
- xU2jRpi_PLNJkncvjzTzCi2z9KQC3xCw4lWgf2zoaSIpgigCjPrZSakerfcH9sow.uX2s07y.ZBY
- QCC2TjVO_HGfD4OCfXZI6AmSsSzUKspWDIlZNdYBsLrXzBC8pv8Qs5O5pCIEB1OLwkT0EWC8ZwNu
- PBuFHiAwPRKCFniup0IRx9zPy_43TagBhDNdFPnZC.dBrVHkWGhkXJggsdmIjLV4Hee_bkqO1srM
- lt_IPPWcmtkMfzxqNnfiEseUa4FZi7cU9fE2NX0xqSwMO8LJQmDeuNGFxkYwFPvVQF9oeB4_FRyg
- M4MiSgvDs5ZheEEydnUG0y5H_YytPyl7jqQonB.bfzH.mMB7KAA--
-X-Sonic-MF: <deaner92@yahoo.com>
-X-Sonic-ID: 0b7a824f-7bf0-4139-a5b5-2ff63710ff0d
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic315.consmr.mail.bf2.yahoo.com with HTTP; Thu, 26 Nov 2026 03:33:34 +0000
-Received: by hermes--production-bf1-8768df57c-64qn4 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 28e7f0a650024974c67d26ee33943d03;
-          Thu, 26 Nov 2026 03:33:29 +0000 (UTC)
-From: Jeremy Dean Clifton <deaner92@yahoo.com>
-To: syzbot+4507914ec56d21bb39ed@syzkaller.appspotmail.com
-Cc: brauner@kernel.org,
-	clm@fb.com,
-	dsterba@suse.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DvZFstsL
+Received: by mail-dy1-f193.google.com with SMTP id 5a478bee46e88-3869f03af6aso5776617eec.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 20:52:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795668755; x=1796273555; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=lqulBbTwbeeixwOkIu5Oj5QCzLuwttc22xt7NXl3CCQ=;
+        b=DvZFstsLLK+1xG2KigY2VDKpJPTRqwgiZVAa8LjS9LWMHgwIkWFfzK9gwhucuxJ83h
+         u8PcYAek+ZQP7EgnB0jubD3AQayrOoCUq+ot6LSO+dJHlWbIMkvCDWgPsSqydJ8zverF
+         PlBiZSYhO3SkLDB4Hj90SZuhvGevAEzWBmYnuREYnm0Vi9mmlvYgKnMcfRxBaF50P96/
+         nAGrjcxf3wPQHXHJtj4tQuMP4URAiv+T8ou0Y5tdou+C1+gGde8GtjxGuDUWCZ2CLMSw
+         LKhi070BRgNmwzwYeEIR4RqeJnvKe2bYPy2PZN6iJcEqreKL2Ea2Iipr25q3p+Q+1HbX
+         VN7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795668755; x=1796273555;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=lqulBbTwbeeixwOkIu5Oj5QCzLuwttc22xt7NXl3CCQ=;
+        b=1QwHIbgIg3QB42IzZuQUF1WKIBXBZYqzakhUgtP2kWbkgqc0x5zI8LP0OtMbRjy0QW
+         VYO83HGbL0tb/Btd6SkRiaBRt7sGUc7T99wCprxN2fa6bKckrxYAam6r7llWffcf8xtw
+         cQUoS8B9iJV6k2sPc++V7wxxmPcJBvK19P1UA/ttbkkNVAvdKupJ9jkJTR7rXfGnylQ9
+         2uVUSyuOVPbaWzhacihl8KL47FvwhR+lnbC9SSWg3KsSfSFzl4Go41qFCduSiLlQlJxk
+         fn3e68MeGpA6vWjVDrs/9FTuH2RO9iZbkO043LOIiDnCp0VD3++AdJ17ZeONgsrG4q71
+         Cong==
+X-Forwarded-Encrypted: i=1; AL+hErG18WcrIsMUuJs8VYXhnIrDLDtl9l62L0tI1sSWp+oIc2bUIP4uHgqgkDoLlGrWXhsh+rNiWyB1icAL20Om@vger.kernel.org
+X-Gm-Message-State: APuU4Z9y5wem9IN08LJ2DHB5gX7BOQuMJDGe9fitOIr2UQpgb/P0VAjH
+	a3yMOm1fL/5xONmZgll53j1fxEUNa2gS8qkbta4vpUab2AnTmGe3HW4H8Zdx9UQxnfG+hQ==
+X-Gm-Gg: AZFdTZffr+SrjWajpmCg2h8bah1VPFU32vR4Ab8GyQQ4LzE4FigxyxBRX1ElzAoYi34
+	XIhGKKrutk6x3mQ+sJzer5ycfTj7Kxo2T/afRPydfXqdOjHxWwKTRXphma3ju+irEilnEmcZyay
+	t9jifFw5DoQ4ywPuyi6rwlx4nuunV+XLZ5Fbo8J9dwbGoZxmzlSjut4+ZP+CDvL8qLJfIjPrjEo
+	2/sDKWbq/4NY6YIetZqE80prP6EvgYeooDu3le/B69tc4zVBMKaUS0AN65kinWHSM4vSp6POZJ3
+	T8n2yShfQeoZVJjXy2HZFaP84Rj7Ysb1dUZXY9g58tTTiQC2en2huwzlqXcKp/pzWsqtl2Iuh1H
+	2k94YrALaPTCUX/XJ0UNY6t62ZpY1uDWbhbuYSv8jNb8f9XVnN0FjzlEYy6C42KIkEwt5m5Y6TO
+	TsLQ3b1Y/7/fMIBIDyIyPvN1nXAWdvIxtyH0r4oucldoKbEpOgSwuSorJ3anbW071x1ngOFSzD7
+	SnLKkeRSA3DXFtb85XTkjKCF40YhQ7i0R4ZvKfnFyNphThvrXswFrK6Rh2e/qa6TWUwSvJ2EhCT
+	qetot/9dQnBVM0j82oOM0cy1UMfgbI7NM+GporMsVrHbosx0/Z2QFeE5aokYexQHd//lcdzVrCO
+	j9mKhsqHqX5shCIVVgGHHQkrQNmYj984Fa/44XwpAnzn1HI+pnoOAqE/Wkadt/A==
+X-Received: by 2002:a05:7301:a0b:b0:386:a416:6c91 with SMTP id 5a478bee46e88-386a4166fdemr14329337eec.20.1795668755200;
+        Wed, 25 Nov 2026 20:52:35 -0800 (PST)
+Received: from localhost.localdomain ([76.33.234.50])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-386aaae4960sm31450572eec.18.2026.11.25.20.52.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 20:52:34 -0800 (PST)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: akpm@linux-foundation.org,
+	brauner@kernel.org
+Cc: adobriyan@gmail.com,
+	jannh@google.com,
+	oleg@redhat.com,
 	jack@suse.cz,
-	josef@toxicpanda.com,
-	viro@zeniv.linux.org.uk,
-	hdanton@sina.com,
-	linux-block@vger.kernel.org,
-	linux-btrfs@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
+	sforshee@kernel.org,
+	me@black-desk.cn,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [block?] [ext4?] [btrfs?] INFO: rcu detected stall in sys_mount (8)
-Date: Thu, 26 Nov 2026 03:33:27 +0000
-Message-ID: <20261126033327.416414-1-deaner92@yahoo.com>
+	dennylin0707@gmail.com
+Subject: [PATCH] proc: also check the opener's capability for oom_score_adj and oom_adj
+Date: Thu, 26 Nov 2026 04:52:22 +0000
+Message-ID: <20261126045222.20770-1-dennylin0707@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <68af0313.a70a0220.3cafd4.0020.GAE@google.com>
-References: <68af0313.a70a0220.3cafd4.0020.GAE@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,17 +105,50 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-#syz fix: fix the softlockups in attach_recursive_mnt()
+__set_oom_adj() checks CAP_SYS_RESOURCE against the task that calls
+write(). A task without the capability can open its own
+/proc/<pid>/oom_score_adj or /proc/<pid>/oom_adj and have a privileged
+process write to that file descriptor, for example a set-user-ID
+program that inherits it as standard output. The write then lowers the
+value below oom_score_adj_min, down to OOM_SCORE_ADJ_MIN, which the
+opener is not allowed to do.
 
-The original arm64 report (soft lockup in skip_mnt_tree() via
-commit_tree()/attach_recursive_mnt()) is fixed by commit 0ddfb62f5d01
-("fix the softlockups in attach_recursive_mnt()"). Hillf's test of the
-vfs fixes branch on 2025-08-27 already showed the reproducer no longer
-triggers.
+Require the capability from the opener of the file as well as from the
+writer: check file_ns_capable() in addition to capable().
 
-I also ran that reproducer on current mainline (7.4-rc4, arm64 QEMU,
-2 vCPUs, KASAN + lockdep), with a debug print timing the mount_lock
-section of attach_recursive_mnt(). The largest attach (32768 copies)
-held mount_lock for 16-19 ms, and no soft lockup or RCU stall
-appeared in 300 s, including after killing the reproducer to tear the
-namespace down.
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+---
+ fs/proc/base.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index e6d54193b9f5..42e4645899fe 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -1099,7 +1099,8 @@ static int __set_oom_adj(struct file *file, int oom_adj, bool legacy)
+ 	mutex_lock(&oom_adj_mutex);
+ 	if (legacy) {
+ 		if (oom_adj < task->signal->oom_score_adj &&
+-				!capable(CAP_SYS_RESOURCE)) {
++				(!file_ns_capable(file, &init_user_ns, CAP_SYS_RESOURCE) ||
++				 !capable(CAP_SYS_RESOURCE))) {
+ 			err = -EACCES;
+ 			goto err_unlock;
+ 		}
+@@ -1112,7 +1113,8 @@ static int __set_oom_adj(struct file *file, int oom_adj, bool legacy)
+ 			  task_pid_nr(task));
+ 	} else {
+ 		if ((short)oom_adj < task->signal->oom_score_adj_min &&
+-				!capable(CAP_SYS_RESOURCE)) {
++				(!file_ns_capable(file, &init_user_ns, CAP_SYS_RESOURCE) ||
++				 !capable(CAP_SYS_RESOURCE))) {
+ 			err = -EACCES;
+ 			goto err_unlock;
+ 		}
+
+base-commit: 9437046953b2fb3bf55b36582450ea0267df82a7
+-- 
+2.43.0
+
