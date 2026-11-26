@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795710310;
-	b=rl+qQ4UMSWOHKiHE3j1mALnji5jFRaUrLFt6yCkK1E1h/EiyJSwsXNZuJRTjOMY9yNXL
-	 XpnJ8K2HjSoSv3v5GcecaAJWO2ve76hJ5bdqfsN+Bs5N6moyCbkNUL3zGxF/VfDvqkc9q
-	 kW/HNi7l6XNoH53yI76VmCNLdoylpcsxDeNx48SxiRJi/nK2O7EUCD5gKi/h0Fe7HE9WG
-	 EViFj9xOdJVGooWrYsu8LiPWDqdtfyBUmBpVJGaTIuQlChev61+t0lf/KMBmixUgVH2Se
-	 LnxgBphAS8jV+f6BT+DNus8P0ovFVNO0ypn2bFioMzqR/uvEx1Uv7nUb0oxVbG9necg==
+	t=1795710551;
+	b=UMdUV77GqQHb3/qSxeQyIghZvKHm9nOle3WSGB6yY3jxgxD1Sl+2WkxJsNUJx7A1ibTH
+	 uTKANCrhn4wBLFNeMYM+iFnDq7NsP6tyf8vG23XP5GxfOtuNcBtGYaAVL/4yU3ZWv71ru
+	 R14fa9kP9aujFTsnVI/svuEW6ftv/3raqcEgdcKyiimrvJmuF6oGnUL9LG+s3yBC+Dxrj
+	 mQ/nDXbVycKJcex85dgMg1tv03hacXdmgSve7Lrbhziid2QrXNfNFTMpfFD1VmK8olJMO
+	 PlgCW+OAFLkjVUlTWscAPjawxAvyBgDUcgZJMbs7XfW6FJX1HWdwOvEjXRCs7Di2Iag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795710310;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795710551;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=2UPNRRIVz5KRFGxnDTZmZbYAI/y+27zb2Ho2AqiDdIY=;
-	b=K3iz4kAM9ZT/BUK/S2iRO1HMBmRoQY7N1iejzl/iXMI99JTsxoLhx76iVdPGNkiGi907
-	 j9NaOIAP3PxsKvHHEg7TOhPUqNssu+oiAq+ub4YL7hDm0aYyyPeI6dUl66o6NSDYvWXMv
-	 PygxhsXpHdR3b+sOoQ2IZVJkfK0yooTUsGG0GUfI8xLNZbVKzfDiYUoKeK/WtGkMs7cIH
-	 PMDJZwaHEWJ6VHM9vCS88t/mAknYr/f32BCL8MKb1dAwd2Bj4QKHHL/7Bt/tJt8zyQT+n
-	 HLL/Dvhi/jd3FLXavd1zqTtP5dF7eSi6LlOpSqW96XfBFWTQ0NKBjFnbBgSvkC+WoVg==
+	bh=WGmEidvvehaJScFEq1xdQHoioXcnhe32ej9jHAQch0c=;
+	b=FYPk1tXDo4Ny6vQOB1YWN11pYTLnT9BfxidrZaVWQCG/zjOmturL0qYonsl5i+W9G8aZ
+	 mzZRQixNI8XA6o3QbwKlxsVkG6jyoXEJEmYEToqwXI8Ep2tGofSl1CRVJrxW8xyqSloZ8
+	 J4wv5H916RYCRElS7oaNWlaj+UElmQQf1PL33OG4wfhRx9NU+Y0+RhMGBhYfn/4QjFpkx
+	 kP8dm+JfuflerJgUuuSHYC55dyfUqZ2wWqKy1bin4W/OlnB2z7NvAogEbJ5T6ZtTOUkH1
+	 9ZLFV0k7HkIs1rfO7kg4WwodeucmsWm/PRlNKestl2g/R1mQlp9BAILFszAAtBIZX/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OCLxusdV;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gSw4txl+;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF63606A32E;
-	Thu, 26 Nov 2026 16:25:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90097606A31C;
+	Thu, 26 Nov 2026 16:29:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OCLxusdV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E0F41F000F2;
-	Thu, 26 Nov 2026 16:25:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gSw4txl+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A5161F000CF;
+	Thu, 26 Nov 2026 16:29:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795710309;
-	bh=2UPNRRIVz5KRFGxnDTZmZbYAI/y+27zb2Ho2AqiDdIY=;
+	s=k20260515; t=1795710551;
+	bh=WGmEidvvehaJScFEq1xdQHoioXcnhe32ej9jHAQch0c=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=OCLxusdVYBkFomceMQ/l6ugQeuOgW9cgvcPw7B8Dg6WOMeIZ4kdj0APSvCghwvySW
-	 QjkG+SpgYcQaZlM5x+W+2tegSCFyLjJstr45BsHW5ScQial/H7aV4aNYcAHMvr9Bqh
-	 qaH4uc+s1UVN28vvQPQBTJt+9KKV8q0W4iAKq5EN4cN++RfGSyJ+LUJfv6GRjVKygm
-	 9qX7yxoWIKGW9fsCOJGgaQhnLKtMlR7VxcUjp7kcgtMVNLzfLAGRPTzcYYTbeKvegO
-	 vbHo6ttTzsDll3jLFx8u1+WNcJFrskCvD4x9GkzxN9631H1MfxbLrgsnlKQTl88B7w
-	 ZN1J5mWE0vmpg==
-Message-ID: <042ab922-4707-4c96-80a2-83a0378646d1@kernel.org>
-Date: Thu, 26 Nov 2026 17:24:59 +0100
+	b=gSw4txl+iuw4H5rZj8WPEf4SBYiu9DB3ztjOF5v+Vk42UKSVNFruGF/SeI8dzy1iO
+	 ApOd4Wh/plF0BOKvI6wi7apjnYeItra1nCAy32L3hqiLslojZac0jaNGu3m/KMvQXg
+	 3kHk7AvNTT9NQ2g8KPxM+jXJ/Vv63NC7myfnO4A03r15C5205bE8SSu1IYsUnT5JlL
+	 K0mkPVjbvnqHlvGciqTjtmriHmLi8Gt31lx63Djwh1LCGFxrodm+nQUKS5D/yzoWHM
+	 /sruyTWBwQUHbF0xYinYTYSntWJF4G+uzwHiNX5MQUC7c54/8bzi5C6LDUPn8YkXPF
+	 TGRXS0MDxF16Q==
+Message-ID: <9d506473-4844-4ed2-ac58-e72cd72b5c9e@kernel.org>
+Date: Thu, 26 Nov 2026 17:29:00 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,8 +52,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] mm/khugepaged: allocate page tables before locking
- the folio
+Subject: Re: [PATCH 2/4] mm/memory: don't allocate in finish_fault() with the
+ folio locked
 To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
  "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
  Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
@@ -69,7 +69,7 @@ Cc: "Liam R. Howlett" <liam@infradead.org>,
  Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
  linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
 References: <20261125100058.15200-1-azpijr@gmail.com>
- <20261125100058.15200-2-azpijr@gmail.com>
+ <20261125100058.15200-3-azpijr@gmail.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -116,41 +116,67 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261125100058.15200-2-azpijr@gmail.com>
+In-Reply-To: <20261125100058.15200-3-azpijr@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/25/26 10:59, Jose A. Perez de Azpillaga wrote:
-> try_collapse_pte_mapped_thp() calls set_huge_pmd() with the folio
-> locked. set_huge_pmd() allocates the missing p4d/pud/pmd tables there,
-> and on ppc64 with the hash MMU do_set_pmd() also allocates the page
-> table to deposit.
+> __do_fault() preallocates a page table only when the PMD is empty, so
+> that finish_fault() does not have to allocate one with the folio locked.
+> 
+> Since retract_page_tables() no longer takes the mmap and VMA locks, the
+> page table can be removed while the fault waits in ->fault().
+> finish_fault() then finds an empty PMD without a preallocated table, and
+> calls pte_alloc() with the folio locked. On ppc64 with the hash MMU,
+> do_set_pmd() allocates the page table to deposit in the same case.
 > 
 > Allocating with __GFP_FS while holding a folio lock can deadlock in
-> reclaim. For example, memcg reclaim on cgroup v1 waits for writeback
-> that may be waiting for the folio lock we hold.
+> reclaim, for example the memcg reclaim deadlock on cgroup v1 described
+> in commit 63f3655f9501 ("mm, memcg: fix reclaim deadlock with
+> writeback").
 > 
-> Allocate these page tables before locking the folio. The mmap lock
-> keeps the upper levels around, and an unused deposit table is freed
-> after unlocking the folio.
+> Return VM_FAULT_NOPAGE instead, as we already do when
+> pte_offset_map_lock() fails. The retried fault preallocates the page
+> table before locking the folio.
 > 
-> Fixes: 34488399fa08 ("mm/madvise: add file and shmem support to MADV_COLLAPSE")
-> Fixes: f8a01513f574 ("mm/khugepaged: do not fail collapse_pte_mapped_thp() on SCAN_PMD_NULL")
+> Fixes: 1d65b771bc08 ("mm/khugepaged: retract_page_tables() without mmap or vma lock")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
 > ---
->  mm/khugepaged.c | 79 +++++++++++++++++++++++++++++++++++--------------
->  1 file changed, 56 insertions(+), 23 deletions(-)
+>  mm/memory.c | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
 > 
+> diff --git a/mm/memory.c b/mm/memory.c
+> index 11cc4039b853..b7e53d7cf6e5 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -5986,16 +5986,21 @@ vm_fault_t finish_fault(struct vm_fault *vmf)
+>  	}
+>  
+>  	if (pmd_none(*vmf->pmd)) {
+> +		/*
+> +		 * The page table was removed after __do_fault() found it, so
+> +		 * nothing was preallocated. Allocating with the folio locked
+> +		 * can deadlock in reclaim, so retry the fault instead.
+> +		 */
+> +		if (!vmf->prealloc_pte)
+> +			return VM_FAULT_NOPAGE;
 
-That's a lot of churn for a corner case (powerpc with hash MMU).
+Hm, but do_set_pmd() really only needs one for ppc64. Assuming we allocate it as
+NOFS in there for that corner cases ...
 
-What about simply running in NOFS context when allcoating that page table?
-
-Apparently pte_alloc_one() doesn't consume GFP flags ... but we could add NOFS
-around the allocation.
-
-Any reason you went for this more complicated solution?
+> +
+>  		if (!needs_fallback && folio_test_pmd_mappable(folio)) {
+>  			ret = do_set_pmd(vmf, folio, page, /* may_alloc= */ true);
+>  			if (ret != VM_FAULT_FALLBACK)
+>  				return ret;
+>  		}
+>  
+> -		if (vmf->prealloc_pte)
+> -			pmd_install(vma->vm_mm, vmf->pmd, &vmf->prealloc_pte);
+> -		else if (unlikely(pte_alloc(vma->vm_mm, vmf->pmd)))
+> -			return VM_FAULT_OOM;
+Could we instead fallback here, after we tried to install the PMD ?
 
 -- 
 Cheers,
