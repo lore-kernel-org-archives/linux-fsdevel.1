@@ -1,113 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795693004;
-	b=ulIMP/EQ9421Hy66wRxd2By4my/TYpHlAk7sNqD4SeNFlopOPBZikM61oBiGtUUxp8hT
-	 HcfF5av2pI8ptrugjf9rhYPOpH9IgniOOnNiR+358f0czOyQG63KVvXnua5Ix2dACgHh7
-	 ifOVljEx/Bq+57vJipw+tTwSTpFw0etNKoPmI6zgZeFPmaJvse0tCfaZuyAZrtV171x14
-	 yuQVScQ+3BBWCUpWh9blM5rBUGrfPYmsWU2stulUsNdMbHS7Z/jzHdQ0rMGK7l3JHX1hx
-	 /LGxn7fCti2coLFEJ+t6XPJp7FgGhZq7EYE0rt+72RZ7d+Nnf8eh/2VKRogSTKFyCvg==
+	t=1795693272;
+	b=1oyyz9fJyUZcnfAC3VQ2+DDr1w/YWiL4ZduKIDbL2ktjwiya5APutWVj5c2B+tXOy6pz
+	 er0hVKJNcI3DFxusKELqFviZLsnhxjbzDzYDFIWPVDjv1dfZQmbNoCqFtMb6Om3g7gtXG
+	 bSKWL8CkXHQKhFu3XoPnDhT3t5VGmak4CjXG9agIpDPJnJcmwm4ve2MSaXSCy216bxmJi
+	 QSSygwYasMFSenfMYTSv4IVvBIUqjtP5n4iacDlpjXbCpbT4ItvBAgBJoig6QlVUnyVTC
+	 AIfgflPAvfY4vKcYVH4EYHbMy+vhUeARQJklMIA/W81C+o9NU6CuSRj4f2iW0g9g4cw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795693004;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:X-Spamd-Result:X-Spam-Score:
-	 X-Spam-Level:X-Spam-Flag;
-	bh=WXXZdtfXKLM3zYE0qG9EJihyMbjCoUyvjBI3IiYPtjE=;
-	b=YMr6hCRpDqHEZ8BhGp/o8r094VfH0ekrQP2pav3ca/VmmmD/sE/rSs3ILcjmVw54r9UI
-	 xcNE+8YyTpDygEpDWY8C3S/H9EHuqM7I6Ve1POrzFH3iCsuELOZ5uUtybY60bQIHWUtjC
-	 NWTPfCu9hm9eR9AlW+wU/0ruTrgUZiS3gRzJRdOZ1VGTYe6z14YZrQNM5k7fDflL8DiXG
-	 bjViw+NIF47/BExhvPN2MDz9Z9w05MN+aPCJ3ik8lEWf7S+4X5h95jiVPSj4o/lfYaD2Y
-	 3ciUMFNf6yHgsgFpEJHj0ulnjUuA0zVaLUXaLW8ZQlNDXzQOLj3tLraDazxlWJWT13Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795693272;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=FP9pt3QilAIpGn3f/dJzkmExKoiwGWGGll2pCN+MFX0=;
+	b=Z0HBZisGQLYhf5AwhZgQD9qWQq/+3KWGgBzGevDV3oyJb0BKZA1A4+RbdYY/kmG0hNGo
+	 GdD5gySUzmlP3E8FFxKE5jVHIUujuhzXXgfhiT15BOVgLthdPoS5t6e6zLP3rBbppudMG
+	 r5OPq4o3+lMmgm8sg/LFJeV+3UenKO8l/Lgxm8pVEGimOEmo6YyTPTk8qb6XXdUiQZzMf
+	 I1pYoHcjCVrIHMIK+H2JNojF3UV6achBWC4QeHNtEOHYlHwY2+UneF/1ex8GLSH5IdDVj
+	 hOuwIY0HJdftS9i0Us/bZYAJAnt2d0aTeWN8yAEEuln77X7ffD+jeJYKAUbe9UF6pkQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=KrNh25BV;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lDeIZ5aP;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=KrNh25BV;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lDeIZ5aP;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TN71n9ol;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9688B606A323;
-	Thu, 26 Nov 2026 11:36:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9688B606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E4D1606A32E;
+	Thu, 26 Nov 2026 11:41:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=KrNh25BV;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lDeIZ5aP;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=KrNh25BV;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lDeIZ5aP
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D04DF223E5;
-	Thu, 26 Nov 2026 11:36:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795693001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WXXZdtfXKLM3zYE0qG9EJihyMbjCoUyvjBI3IiYPtjE=;
-	b=KrNh25BVC2/OYPvpReolTZb5rac9a7ixkcRpJgsakyctIYmY8FB9/Vs095h+ahZbB0GdxN
-	rFq1npRLL4t3h3d5fEtDA3Xfpo2jD7sgVJqHjQX43ndqnx1mbIRElhHjY1JxiwbcvsKWi9
-	NRweTstgQcYPiLdEF9q1+R7OSKvtqRk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795693001;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WXXZdtfXKLM3zYE0qG9EJihyMbjCoUyvjBI3IiYPtjE=;
-	b=lDeIZ5aPYmEBynilgJWe+CqP5UKEI2XdNd68R402BpY8aHkY1qsA//qpz1mAJV92XKru4O
-	4Zf+JqhJbYPj/uDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795693001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WXXZdtfXKLM3zYE0qG9EJihyMbjCoUyvjBI3IiYPtjE=;
-	b=KrNh25BVC2/OYPvpReolTZb5rac9a7ixkcRpJgsakyctIYmY8FB9/Vs095h+ahZbB0GdxN
-	rFq1npRLL4t3h3d5fEtDA3Xfpo2jD7sgVJqHjQX43ndqnx1mbIRElhHjY1JxiwbcvsKWi9
-	NRweTstgQcYPiLdEF9q1+R7OSKvtqRk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795693001;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WXXZdtfXKLM3zYE0qG9EJihyMbjCoUyvjBI3IiYPtjE=;
-	b=lDeIZ5aPYmEBynilgJWe+CqP5UKEI2XdNd68R402BpY8aHkY1qsA//qpz1mAJV92XKru4O
-	4Zf+JqhJbYPj/uDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A77BB134C3;
-	Thu, 26 Nov 2026 11:36:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xH+xIMkZCGspbAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 26 Nov 2026 11:36:41 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 3989A27DED; Thu, 26 Nov 2026 12:36:37 +0100 (CET)
-Date: Thu, 26 Nov 2026 12:36:37 +0100
-From: Jan Kara <jack@suse.cz>
-To: =?utf-8?B?5p2o6L2255SE?= <yangyizhen3198@phytium.com.cn>
-Cc: Christian Brauner <brauner@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-block@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/1] block: long udev open waits during cache teardown
-Message-ID: <hvxissqup3n5tti6as2csdducwz6ywju4awgfozdwjimoplmst@shps625lugoq>
-References: <20261117105107.14236-1-yangyizhen3198@phytium.com.cn>
- <20261120-hassliebe-arena-kaufvertrag-3ac58fd0483a@brauner>
- <4effe3b8.6085.1a217879319.Coremail.yangyizhen3198@phytium.com.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TN71n9ol
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65AFA1F000CA;
+	Thu, 26 Nov 2026 11:41:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795693271;
+	bh=FP9pt3QilAIpGn3f/dJzkmExKoiwGWGGll2pCN+MFX0=;
+	h=From:Subject:Date:To:Cc;
+	b=TN71n9olPeXZGQwicPObHATxfmwrRXlFDUF1baVhc5froBsm8oxJs15colF9p+byb
+	 Qc0sHvyT1+cVz6id5CEymCR/lGjZf9mqQUghCsZXcURUqLOcnBKvC2QWpj+NuBLnJ6
+	 Tvd+64/ytHIZ8cYGX5wCRL5j08D1NfKKVEH/kI/dX2Iqb++s/gqXlKMciUlG+Z2BwB
+	 xaiHU5hpwMFMp5UM4rxZU1XTXcHqV1OKDCP148HbuP+EqSlAEkdg0/rPRFBMRITHv8
+	 7LN66kQzw4sFHkdtXIH4PunHyH49SWkWbjYemWkUamgHLeYH2Lh4XCECeDk1fUPp8W
+	 /PvgsmaF1km0w==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH 0/2] namespace: allow bind mounts of ephemeral procfs files
+ again
+Date: Thu, 26 Nov 2026 12:40:32 +0100
+Message-Id: <20261126-work-mount-cant_mount-v1-0-781d911a32e1@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -117,94 +54,56 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4effe3b8.6085.1a217879319.Coremail.yangyizhen3198@phytium.com.cn>
-X-Spamd-Result: default: False [-12.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Spam-Score: -12.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/0WM2wrCMBBEf6XssxuaUOvlV0Qkl9VGMZFNqkLpv
+ 5u0D77NGWbOBInYU4JjMwHT2ycfQwG5acAOOtwIvSsMqlW9lGqLn8gPfMYxZLQ65Msae7frOiP
+ 3+uBaKN8X09V/F+/pvHIazZ1srrK6MDoRGtbBDrWqWrG4xF8r6gjm+QcLwMMPpgAAAA==
+X-Change-ID: 20261125-work-mount-cant_mount-6d744b18a9d0
+To: linux-fsdevel@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Aleksa Sarai <cyphar@cyphar.com>, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
+X-Mailer: b4 0.17-dev-04696
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1620; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=0xppqihwRu8FodWUm5W9j6NaRYtJt/bVoAcwbOmE7EQ=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRzSF1Y29tzxYDXISo94sljhX6ukNnZWXMbvRJi9kw7e
+ +1m1/ncjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIkEMzD8L9UO1066ENJ4Uein
+ jfQCdpVlHHmejpdmG/1Rn3suJoArn+GvtIT2T5/J1iXGYR85l86ReMLBonBgSbD08qqkBz8Yj2c
+ wAgA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Thu 26-11-26 19:04:50, 杨轶甄 wrote:
-> Hi Christian,
-> 
-> > If that still reproduces on mainline it's a question
-> > about the bdev release locking.
-> 
-> I reproduced the long udev open wait on upstream Linux v6.6 and on
-> Linux v7.0.14. On both kernels, udev blocked while trying to open the
-> device as mkfs.ntfs was closing it after a full format.
-> 
-> Thanks for pointing out the impact on other openers. I agree that a
-> udev probe closing its own file could trigger writeback and evict
-> cache that another opener is still using. I'll drop the __fput()
-> proposal.
-> 
-> I'd like to understand the locking requirements in the block device
-> last-close path. In particular, why does kill_bdev() need to complete
-> while open_mutex is held? What state and ordering requirements does
-> the lock protect during this cleanup?
+Bind-mounting of files in /proc/<pid>/{fd,fdinfo,map_files} and below
+/proc/<pid>/net got broken with commit 75f4197f1e11 ("dcache: don't put
+a mountpoint on a dentry that's being removed").
 
-The page cache cleanup in kill_bdev() needs to complete before we allow new
-openers to open the device and open_mutex serializes that. If the cleanup
-would race, we could destroy data the new opener has written to the page
-cache of the device. 
+procfs calls dont_mount() on these files so nothing can be mounted on
+top of them. But attach_recursive_mnt() makes a mountpoint out of the
+root of every source in case it goes beneath a mount. So bind-mounting
+one of them fails with ENOENT now. libpathrs does exactly that in its
+tests and it's broken in stable too.
 
-> I'm asking because the device mapping can still contain a large
-> amount of clean page cache after the early sync. In my tests on the
-> vendor 6.6 kernel, about 805 GiB remained at final teardown, and
-> the truncate took roughly seven minutes while udev was waiting.
-> Could the release path be changed to reduce the time open_mutex is
-> held while preserving those requirements?
+Only refuse such a root when the source or one of its copies would go
+beneath a mount. The race the original commit closed stays closed. The
+selftest checks that these files can be bind-mounted but still can't be
+mounted on.
 
-Perhaps. We currently do:
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Christian Brauner (2):
+      namespace: allow bind mounts of ephemeral procfs files again
+      selftests/filesystems: check that ephemeral procfs files can be bind-mounted
 
-        if (atomic_read(&bdev->bd_openers) == 1)
-                sync_blockdev(bdev);
+ fs/dcache.c                                        |   5 +-
+ fs/namespace.c                                     |  25 ++
+ fs/pnode.c                                         |   6 +
+ fs/pnode.h                                         |   2 +
+ .../selftests/filesystems/mount_cycle/.gitignore   |   1 +
+ .../selftests/filesystems/mount_cycle/Makefile     |   2 +-
+ .../filesystems/mount_cycle/procfs_source_test.c   | 283 +++++++++++++++++++++
+ 7 files changed, 320 insertions(+), 4 deletions(-)
+---
+base-commit: 2dc60bd9975fc8666a13d58410499e06e6799ba9
+change-id: 20261125-work-mount-cant_mount-6d744b18a9d0
 
-in bdev_release(). We could enhance it to:
-
-        if (atomic_read(&bdev->bd_openers) == 1) {
-                sync_blockdev(bdev);
-		/* Still the only opener after the writeback? */
-        	if (atomic_read(&bdev->bd_openers) == 1)
-			invalidate_mapping_pages(bdev->bd_mapping, 0, -1);
-	}
-
-This is safe to run without open_mutex and should get rid of 99.9% of pages
-before we take open_mutex and do a reliable cleanup. Feel free to submit a
-patch with this change describing your motivation.
-
-> > And mkfs can just fsync() and POSIX_FADV_DONTNEED the device itself
-> > before it closes it.
-> 
-> I've submitted a patch to the ntfs-3g project that calls fsync()
-> and then posix_fadvise(..., POSIX_FADV_DONTNEED) in userspace
-> before closing the device.
-
-Good.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
