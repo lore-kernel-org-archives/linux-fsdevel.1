@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795693274;
-	b=TYxE9dpRlLsUa3sxktZpQCsWBBXldu29fRkqIzGhm64xNjEdEPIYOZHghRuQ7GjlN+K6
-	 PxErvALYYKKn6LJflB3nFORy83LyyF1CfQNvP29sHaoRmKp1Ums1HaPvBA6VuhZ0fN21x
-	 dieQEOzmh9S+OoH9/Dk7SZjrBabxwOp7duj92Ss9dlpXdLNyRAbnELrA+ATOgarNO5GiZ
-	 v/c+9YHivN+Uf4v94tBVyZh0l3s/kbhjtlm9I96RrM4XIkZWMeZ+pLEIBEc6JeT5OJnuw
-	 qrsxKiOjkvbMx78z28TZ/0zPInott/9G4/AhXe03ymStPAxsn+KqMmsCbx9mpXnDo/A==
+	t=1795693276;
+	b=Xz3ZH0oDudp/MJOpeFZ3nJOGfrX630jMmFLrIGeiopG882W6kMmVgamWEE2bkN3Uf12l
+	 ykt3iHjeM7NG5NiKmnbiYe0Y9laoCXdCdjJMP3pJKUly5KFdOPNOdGMZiP36dz/DJwaP2
+	 Ftwyn+/MpvKjVlEqFGeNbcmnpYz2RQfWgYngZGKSX3r6NJgpRgx1WwxVEOE53zxiC3rL9
+	 GYK5b4g4pmqgMrPZ+K0I57/nxsG9yWS7kegAnF1P4+/zXcmM6GU6wb+nxOz4utD97LwzO
+	 Y3/8MSyKgJ0xm8GTFsTAM3NrWogsi9vssBHuGhMTiN9YXU4iiGo+1wmQ/T5jDRLRiTA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795693274;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795693276;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=7HOYhpJGLjrkTlh7xvgl6rhBHPtcVUXz8xkKDyHu/gU=;
-	b=q8cWimphHESN9Jb19SpSjT06ItG8YYaG07DEq+nL75nWLwWAFmqJFTtBu9YB8EC3tzBr
-	 JiK97siKS2ceQLyvYTPsjgc0fvcauRU6AcKckoCZaYsEPMAWLjxQFDnioBFX84/ntJtK/
-	 8gZgw8D6olNHvxaAlJD8cNzBSZiFWdsP9v/+52fz/k3DD5Us+eByK/P4Jeog2taI9oixj
-	 zuz4V6d6WxnpHQ83vsxD2R2T+S3o7DvJsoXoD0UMSjglyQ6jPDbM9VvxWIli/lNXNHuyF
-	 XSf35sR7LZFC+5zKPHuAoTeTgMDyNIIa8ISR5mcyJ4D/+oBMwBFkdP/bHk6cfRE2Kfw==
+	bh=aspoYAJjlG/SinBd3ZyrEb/HtxoYu3xjnfbAcn612Mg=;
+	b=HSKTATCSZOHKzRIPanKavMVXA/aq3c38kAkVp9ZeO6k7YnJvve4UiV9UGNdleKxMLjZ2
+	 YPXQFNNsTRhj8tvjMYRFWBL4RAXJptz2FbbdEHU3o0LbKO9frXwuFwuZPdsIqt1zCpDXq
+	 PlMsRCkOGzCYeuZne24ulPpAa14MSCkUQ/YzYS6RKniIilqXwDotGvdjYuY1RhKYPJN3C
+	 kj9qcAxeEeeicgPjCJwSV8A9k+KUHQXiQWjaLIYckgriM3s/wdEJr8TBtRjxFYgu9d5oQ
+	 3KtBCyT4CGdO+vJ3T0JMcshdGmXuPaf1UkeO2Fl0LmkXI7HnDmyUbGA0XcC4nfzssGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ajewG0Ex;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cU3XX6Ag;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1752D606A31C;
-	Thu, 26 Nov 2026 11:41:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125EC606A31C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 11:41:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ajewG0Ex
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 457A51F000C0;
-	Thu, 26 Nov 2026 11:41:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cU3XX6Ag
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 848D31F000D3;
+	Thu, 26 Nov 2026 11:41:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795693273;
-	bh=7HOYhpJGLjrkTlh7xvgl6rhBHPtcVUXz8xkKDyHu/gU=;
+	s=k20260515; t=1795693275;
+	bh=aspoYAJjlG/SinBd3ZyrEb/HtxoYu3xjnfbAcn612Mg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=ajewG0ExiAX7Y2Fdj0R5IAdb+uFc4iTmtcs+dKbt2xLZPq8XDcH44B4QPPgdz7O0S
-	 aoyqi9n9WCYmOvmov+4N7VBQ1W30LcJ2JfCJlsLl01MsiYBMlQo2SF5S4SBg5YcLrg
-	 K2BSqT8mMpS+u/lXnOGGCLvatFbahihCn5gfJgegBCZTcMFCXSawuU7KDMmt97h8la
-	 jzSySuvoUVAOe+4IP2NDpiu7Tt6kvBdsIp5KI9yqbqf58fq+86rBQahycP7aYUpik8
-	 yI9lUZadW1UfIw/lZfOz4jmCXAV562dTwHBZBZZ6d5hAHH6DHn/sb6NOsWnDgSt1bx
-	 RsxxFnHUKBc6g==
+	b=cU3XX6AgPtpfN0qlRUnSOLd+ouc44djHaet+4yXD3Oiz8GN4LNNgfYak357pOt0ea
+	 hZgsu+4nIrKgDeYFXSvvRvdP+5GbpczLbv0et5UAnlKML5kzjCXULaEkfQ+WOCKV9E
+	 V4Pws1NJhFPq2Cukh6SgkFQTd8bkZwoOX8b37kWgRRRV6TihnaexISaYpOcKbWrFGT
+	 NUsdhJhiLY5G7QjXgJlVFJpIoyPVBhXe3I6lkRkzdbcTW5IOz9iE6DiIAbidLuD8t+
+	 qLY1pMwOTiR/To/0VLWZJhE42f0UdaC1I7uCd3nTI+VKh1OIC9a71hHPCpd9Zlt6XH
+	 KaMeu6J+LKmOw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Thu, 26 Nov 2026 12:40:33 +0100
-Subject: [PATCH 1/2] namespace: allow bind mounts of ephemeral procfs files
- again
+Date: Thu, 26 Nov 2026 12:40:34 +0100
+Subject: [PATCH 2/2] selftests/filesystems: check that ephemeral procfs
+ files can be bind-mounted
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,148 +55,354 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261126-work-mount-cant_mount-v1-1-781d911a32e1@kernel.org>
+Message-Id: <20261126-work-mount-cant_mount-v1-2-781d911a32e1@kernel.org>
 References: <20261126-work-mount-cant_mount-v1-0-781d911a32e1@kernel.org>
 In-Reply-To: <20261126-work-mount-cant_mount-v1-0-781d911a32e1@kernel.org>
 To: linux-fsdevel@vger.kernel.org
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
  Aleksa Sarai <cyphar@cyphar.com>, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-04696
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4794; i=brauner@kernel.org;
- h=from:subject:message-id; bh=G6z1QP/jE/NS78zeAyPCY+agifrWaQiQWPLVHcJaeFE=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRzSF10ryjyfJWofrRUcabJysVJUt8elm6f06OxLMFjk
- cWqRYuXdpSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEwk6gEjw8y0+Myl81krEgTO
- 5FQwpbkq+Z42W2nA8W752mUaS+KXHmD4Zzv70aE5B3LT9c+siune96zG1e7aDt5r81/F/GftSyw
- rZgYA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=10279; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=rP5RKQCFYJTLUgYCgClhcAgMIqo3Vgt2N6gl3Apla34=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRzSF3qjfn2fG+k4hfdY8LrhJklN857kMotK9m/6pDlP
+ ElN83/VHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABPpXMfI8Pln6hxNJ5bAWnmv
+ /ET2Gd4H2/NYV59L735zb62FRDRXPSPDikU+Jcc/R3SwdvJ05q9W73wn+DN46lXOXyWpMQ8TKx3
+ 5AQ==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Commit 75f4197f1e11 ("dcache: don't put a mountpoint on a dentry that's
-being removed") made d_set_mounted() refuse dentries that dont_mount()
-was called on. I overlooked that procfs calls dont_mount() on the files
-in /proc/<pid>/{fd,fdinfo,map_files} and below /proc/<pid>/net when it
-creates them and that attach_recursive_mnt() makes a mountpoint out of
-the root of every source in case it goes beneath a mount. So
-bind-mounting one of these files fails with ENOENT now. libpathrs does
-that in its tests, e.g., by bind-mounting /proc/1/fd/0 over
-/proc/self/exe.
+Check that the ephemeral procfs files can be the source of a mount but
+can't be mounted on:
 
-Nothing may be mounted on top of these files but they can be the source
-of a mount. So drop the check from d_set_mounted() again and refuse such
-a root only if the source or one of its copies would go beneath a mount
-that is already there. attach_recursive_mnt() checks the source and
-propagate_mnt() checks each copy right after making it. The root is a
-mountpoint by then so either we see the flag or detach_mounts() finds
-the mount, same as before.
+- bind mounts of fd, fdinfo and net files, including over /proc/self/exe
+  as libpathrs does
+- open_tree() and move_mount() of an fdinfo file
+- moving a mount of an fdinfo file from a slave to its master
+- mounting on top of an fdinfo file
+- moving an fdinfo file beneath a mount
+- a propagated copy that would end up beneath a mount in a slave
+- the same after a peer got its copy
 
-Fixes: 75f4197f1e11 ("dcache: don't put a mountpoint on a dentry that's being removed")
-Cc: stable@vger.kernel.org
-Reported-by: Aleksa Sarai <cyphar@cyphar.com>
+The last four have to keep failing with ENOENT.
+
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/dcache.c    |  5 ++---
- fs/namespace.c | 25 +++++++++++++++++++++++++
- fs/pnode.c     |  6 ++++++
- fs/pnode.h     |  2 ++
- 4 files changed, 35 insertions(+), 3 deletions(-)
+ .../selftests/filesystems/mount_cycle/.gitignore   |   1 +
+ .../selftests/filesystems/mount_cycle/Makefile     |   2 +-
+ .../filesystems/mount_cycle/procfs_source_test.c   | 283 +++++++++++++++++++++
+ 3 files changed, 285 insertions(+), 1 deletion(-)
 
-diff --git a/fs/dcache.c b/fs/dcache.c
-index ba17f49f8a636..b734ce65e6377 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -1628,8 +1628,7 @@ static __cacheline_aligned_in_smp DEFINE_SEQLOCK(d_set_mounted_lock);
-  *
-  * Only one of d_invalidate() and d_set_mounted() must succeed.  For
-  * this reason take rename_lock, d_set_mounted_lock and d_lock on dentry
-- * and ancestors.  Likewise for dont_mount() which marks a dentry that
-- * is being removed under d_lock.
-+ * and ancestors.
-  */
- int d_set_mounted(struct dentry *dentry)
- {
-@@ -1647,7 +1646,7 @@ int d_set_mounted(struct dentry *dentry)
- 		spin_unlock(&p->d_lock);
- 	}
- 	spin_lock(&dentry->d_lock);
--	if (!d_unlinked(dentry) && !cant_mount(dentry)) {
-+	if (!d_unlinked(dentry)) {
- 		ret = -EBUSY;
- 		if (!d_mountpoint(dentry)) {
- 			dentry->d_flags |= DCACHE_MOUNTED;
-diff --git a/fs/namespace.c b/fs/namespace.c
-index aecd05ac01705..443a8e3b74f9b 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -2561,6 +2561,21 @@ int count_mounts(struct mnt_namespace *ns, struct mount *mnt)
- 	return 0;
- }
+diff --git a/tools/testing/selftests/filesystems/mount_cycle/.gitignore b/tools/testing/selftests/filesystems/mount_cycle/.gitignore
+index 30f7dd071bcbb..514e7295abb4b 100644
+--- a/tools/testing/selftests/filesystems/mount_cycle/.gitignore
++++ b/tools/testing/selftests/filesystems/mount_cycle/.gitignore
+@@ -6,3 +6,4 @@ mount_cover_test
+ locked_handle_test
+ nsfs_rbind_loop_test
+ overmount_ns_file_test
++procfs_source_test
+diff --git a/tools/testing/selftests/filesystems/mount_cycle/Makefile b/tools/testing/selftests/filesystems/mount_cycle/Makefile
+index fbe8c5e19d424..a2afe7090556a 100644
+--- a/tools/testing/selftests/filesystems/mount_cycle/Makefile
++++ b/tools/testing/selftests/filesystems/mount_cycle/Makefile
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ TEST_GEN_PROGS := loop_cycle_test unmounted_tree_test overmount_reparent_test mount_cover_test locked_handle_test
+-TEST_GEN_PROGS += nsfs_rbind_loop_test overmount_ns_file_test
++TEST_GEN_PROGS += nsfs_rbind_loop_test overmount_ns_file_test procfs_source_test
  
+ CFLAGS += -Wall -O2 -g $(KHDR_INCLUDES)
+ 
+diff --git a/tools/testing/selftests/filesystems/mount_cycle/procfs_source_test.c b/tools/testing/selftests/filesystems/mount_cycle/procfs_source_test.c
+new file mode 100644
+index 0000000000000..ece21f22e589e
+--- /dev/null
++++ b/tools/testing/selftests/filesystems/mount_cycle/procfs_source_test.c
+@@ -0,0 +1,283 @@
++// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Would @source_mnt or a copy of it go beneath a mount that is already at
-+ * @mp on @parent? Call under namespace_sem, without mount_lock.
++ * The files in /proc/<pid>/fd, /proc/<pid>/fdinfo and below /proc/<pid>/net
++ * can't be mounted on but they can be bind-mounted elsewhere.
 + */
-+bool mount_goes_beneath(struct mount *parent, struct mountpoint *mp,
-+			struct mount *source_mnt)
-+{
-+	struct mount *q;
++#define _GNU_SOURCE
++#include <errno.h>
++#include <fcntl.h>
++#include <sched.h>
++#include <stdbool.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++#include <sys/mount.h>
++#include <sys/stat.h>
 +
-+	guard(mount_locked_reader)();
-+	q = __lookup_mnt(&parent->mnt, mp->m_dentry);
-+	/* a moved @source_mnt is gone from there by then */
-+	return q && q != source_mnt;
++#include "../wrappers.h"
++#include "../../kselftest_harness.h"
++
++#ifndef MOVE_MOUNT_BENEATH
++#define MOVE_MOUNT_BENEATH 0x00000200
++#endif
++
++#define DIR_LEN 64
++#define PATH_LEN 128
++
++/* Open the procfs file itself, not the file it refers to. */
++static int open_entry(const char *dir, int fd)
++{
++	char path[PATH_LEN];
++
++	snprintf(path, sizeof(path), "/proc/self/%s/%d", dir, fd);
++	return open(path, O_PATH | O_NOFOLLOW | O_CLOEXEC);
 +}
 +
- enum mnt_tree_flags_t {
- 	MNT_TREE_BENEATH = BIT(0),
- 	MNT_TREE_PROPAGATION = BIT(1),
-@@ -2677,6 +2692,16 @@ static int attach_recursive_mnt(struct mount *source_mnt,
- 	if (err)
- 		return err;
- 
-+	/*
-+	 * Don't mount on top of a root that dont_mount() was called on. It's
-+	 * a mountpoint now so a later detach_mounts() will find it.
-+	 */
-+	if (cant_mount(root.mp->m_dentry) &&
-+	    mount_goes_beneath(dest_mnt, dest_mp, source_mnt)) {
-+		err = -ENOENT;
-+		goto out;
-+	}
++static int bind_entry(int pfd, const char *target)
++{
++	char src[PATH_LEN];
 +
- 	/* Is there space to add these mounts to the mount namespace? */
- 	if (!moving) {
- 		err = count_mounts(ns, source_mnt);
-diff --git a/fs/pnode.c b/fs/pnode.c
-index 5f07fa14099bf..4514e75311972 100644
---- a/fs/pnode.c
-+++ b/fs/pnode.c
-@@ -351,6 +351,12 @@ int propagate_mnt(struct mount *dest_mnt, struct mountpoint *dest_mp,
- 			err = count_mounts(n->mnt_ns, this);
- 			if (err)
- 				break;
-+			/* what is already there would end up on this root */
-+			if (cant_mount(topmost_overmount(this)->mnt.mnt_root) &&
-+			    mount_goes_beneath(n, dest_mp, source_mnt)) {
-+				err = -ENOENT;
-+				break;
-+			}
- 			type = CL_MAKE_SHARED;
- 		} while ((n = next_peer(n)) != m);
- 	}
-diff --git a/fs/pnode.h b/fs/pnode.h
-index b029db225f33c..0fb217c48f17a 100644
---- a/fs/pnode.h
-+++ b/fs/pnode.h
-@@ -59,6 +59,8 @@ struct mount *copy_tree(struct mount *, struct dentry *, int);
- bool is_path_reachable(struct mount *, struct dentry *,
- 			 const struct path *root);
- int count_mounts(struct mnt_namespace *ns, struct mount *mnt);
-+bool mount_goes_beneath(struct mount *parent, struct mountpoint *mp,
-+			struct mount *source_mnt);
- bool propagation_would_overmount(const struct mount *from,
- 				 const struct mount *to,
- 				 const struct mountpoint *mp);
++	snprintf(src, sizeof(src), "/proc/self/fd/%d", pfd);
++	return mount(src, target, NULL, MS_BIND, NULL);
++}
++
++/* An fdinfo file starts with the position of the file. */
++static bool is_fdinfo(const char *path)
++{
++	char buf[5] = {};
++	int fd;
++	bool ret;
++
++	fd = open(path, O_RDONLY | O_CLOEXEC);
++	if (fd < 0)
++		return false;
++	ret = read(fd, buf, 4) == 4 && !strcmp(buf, "pos:");
++	close(fd);
++	return ret;
++}
++
++/* A shared tmpfs on @dir/a with a slave on @dir/b, both showing a file f. */
++static int setup_slave(const char *dir, char *af, char *bf)
++{
++	char a[PATH_LEN], b[PATH_LEN];
++
++	snprintf(a, sizeof(a), "%s/a", dir);
++	snprintf(b, sizeof(b), "%s/b", dir);
++	snprintf(af, PATH_LEN, "%s/a/f", dir);
++	snprintf(bf, PATH_LEN, "%s/b/f", dir);
++	if (mkdir(a, 0755) || mkdir(b, 0755) ||
++	    mount("tmpfs", a, "tmpfs", 0, NULL) ||
++	    mount(NULL, a, NULL, MS_SHARED, NULL) ||
++	    mount(a, b, NULL, MS_BIND, NULL) ||
++	    mount(NULL, b, NULL, MS_SLAVE, NULL))
++		return -1;
++	return mknod(af, S_IFREG | 0644, 0);
++}
++
++FIXTURE(procfs_source) {
++	char dir[DIR_LEN];
++	char file[PATH_LEN];
++	int fd;
++};
++
++FIXTURE_SETUP(procfs_source)
++{
++	if (geteuid())
++		SKIP(return, "test requires root");
++
++	ASSERT_EQ(unshare(CLONE_NEWNS), 0);
++	ASSERT_EQ(mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL), 0);
++	snprintf(self->dir, sizeof(self->dir), "/tmp/procfs_source.XXXXXX");
++	ASSERT_NE(mkdtemp(self->dir), NULL);
++	ASSERT_EQ(mount("tmpfs", self->dir, "tmpfs", 0, NULL), 0);
++	snprintf(self->file, sizeof(self->file), "%s/file", self->dir);
++	self->fd = open(self->file, O_RDWR | O_CREAT | O_CLOEXEC, 0644);
++	ASSERT_GE(self->fd, 0);
++}
++
++FIXTURE_TEARDOWN(procfs_source)
++{
++	umount2(self->dir, MNT_DETACH);
++	rmdir(self->dir);
++}
++
++TEST_F(procfs_source, bind_fd)
++{
++	struct stat st;
++	int pfd;
++
++	pfd = open_entry("fd", self->fd);
++	ASSERT_GE(pfd, 0);
++	ASSERT_EQ(bind_entry(pfd, self->file), 0);
++	ASSERT_EQ(lstat(self->file, &st), 0);
++	ASSERT_TRUE(S_ISLNK(st.st_mode));
++	close(pfd);
++}
++
++TEST_F(procfs_source, bind_fdinfo)
++{
++	int pfd;
++
++	pfd = open_entry("fdinfo", self->fd);
++	ASSERT_GE(pfd, 0);
++	ASSERT_EQ(bind_entry(pfd, self->file), 0);
++	ASSERT_TRUE(is_fdinfo(self->file));
++	close(pfd);
++}
++
++/* An entry below /proc/<pid>/net can't be mounted on either. */
++TEST_F(procfs_source, bind_net)
++{
++	char buf[7] = {};
++	int fd;
++
++	if (access("/proc/self/net/dev", F_OK))
++		SKIP(return, "no /proc/self/net/dev");
++	ASSERT_EQ(mount("/proc/self/net/dev", self->file, NULL, MS_BIND, NULL), 0);
++	fd = open(self->file, O_RDONLY | O_CLOEXEC);
++	ASSERT_GE(fd, 0);
++	ASSERT_EQ(read(fd, buf, 6), 6);
++	ASSERT_STREQ(buf, "Inter-");
++	close(fd);
++}
++
++/* What libpathrs does to test that it notices overmounts in procfs. */
++TEST_F(procfs_source, bind_fd_on_exe)
++{
++	char target[PATH_LEN];
++	int pfd, exe;
++
++	exe = open("/proc/self/exe", O_PATH | O_NOFOLLOW | O_CLOEXEC);
++	ASSERT_GE(exe, 0);
++	pfd = open_entry("fd", self->fd);
++	ASSERT_GE(pfd, 0);
++	snprintf(target, sizeof(target), "/proc/self/fd/%d", exe);
++	ASSERT_EQ(bind_entry(pfd, target), 0);
++	close(pfd);
++	close(exe);
++}
++
++TEST_F(procfs_source, open_tree_fdinfo)
++{
++	int pfd, tfd;
++
++	pfd = open_entry("fdinfo", self->fd);
++	ASSERT_GE(pfd, 0);
++	tfd = sys_open_tree(pfd, "", OPEN_TREE_CLONE | OPEN_TREE_CLOEXEC | AT_EMPTY_PATH);
++	ASSERT_GE(tfd, 0);
++	ASSERT_EQ(sys_move_mount(tfd, "", AT_FDCWD, self->file, MOVE_MOUNT_F_EMPTY_PATH), 0);
++	ASSERT_TRUE(is_fdinfo(self->file));
++	close(tfd);
++	close(pfd);
++}
++
++TEST_F(procfs_source, no_mount_on_fdinfo)
++{
++	char target[PATH_LEN];
++	int pfd;
++
++	pfd = open_entry("fdinfo", self->fd);
++	ASSERT_GE(pfd, 0);
++	snprintf(target, sizeof(target), "/proc/self/fd/%d", pfd);
++	ASSERT_NE(mount(self->file, target, NULL, MS_BIND, NULL), 0);
++	ASSERT_EQ(errno, ENOENT);
++	close(pfd);
++}
++
++/* Moving beneath would put the existing mount on top of the fdinfo file. */
++TEST_F(procfs_source, no_tuck_beneath_fdinfo)
++{
++	char other[PATH_LEN];
++	int pfd, tfd;
++
++	snprintf(other, sizeof(other), "%s/other", self->dir);
++	ASSERT_EQ(mknod(other, S_IFREG | 0644, 0), 0);
++	ASSERT_EQ(mount(other, self->file, NULL, MS_BIND, NULL), 0);
++
++	pfd = open_entry("fdinfo", self->fd);
++	ASSERT_GE(pfd, 0);
++	tfd = sys_open_tree(pfd, "", OPEN_TREE_CLONE | OPEN_TREE_CLOEXEC | AT_EMPTY_PATH);
++	ASSERT_GE(tfd, 0);
++	ASSERT_NE(sys_move_mount(tfd, "", AT_FDCWD, self->file,
++				 MOVE_MOUNT_F_EMPTY_PATH | MOVE_MOUNT_BENEATH), 0);
++	ASSERT_EQ(errno, ENOENT);
++	ASSERT_FALSE(is_fdinfo(self->file));
++	ASSERT_EQ(umount2(self->file, 0), 0);
++	ASSERT_NE(umount2(self->file, 0), 0);
++	close(tfd);
++	close(pfd);
++}
++
++/* A copy in a slave would be tucked beneath the slave's own mount. */
++TEST_F(procfs_source, no_tuck_beneath_fdinfo_copy)
++{
++	char af[PATH_LEN], bf[PATH_LEN];
++	int pfd;
++
++	ASSERT_EQ(setup_slave(self->dir, af, bf), 0);
++	ASSERT_EQ(mount(self->file, bf, NULL, MS_BIND, NULL), 0);
++
++	pfd = open_entry("fdinfo", self->fd);
++	ASSERT_GE(pfd, 0);
++	ASSERT_NE(bind_entry(pfd, af), 0);
++	ASSERT_EQ(errno, ENOENT);
++	ASSERT_FALSE(is_fdinfo(af));
++
++	/* Without the mount in the slave the copy goes there. */
++	ASSERT_EQ(umount2(bf, 0), 0);
++	ASSERT_EQ(bind_entry(pfd, af), 0);
++	ASSERT_TRUE(is_fdinfo(af));
++	ASSERT_TRUE(is_fdinfo(bf));
++	close(pfd);
++}
++
++/* A peer gets its copy before the copy for the slave fails. */
++TEST_F(procfs_source, no_tuck_beneath_fdinfo_after_peer)
++{
++	char af[PATH_LEN], bf[PATH_LEN], a[PATH_LEN], c[PATH_LEN], cf[PATH_LEN];
++	int pfd;
++
++	ASSERT_EQ(setup_slave(self->dir, af, bf), 0);
++	snprintf(a, sizeof(a), "%s/a", self->dir);
++	snprintf(c, sizeof(c), "%s/c", self->dir);
++	snprintf(cf, sizeof(cf), "%s/c/f", self->dir);
++	ASSERT_EQ(mkdir(c, 0755), 0);
++	ASSERT_EQ(mount(a, c, NULL, MS_BIND, NULL), 0);
++	ASSERT_EQ(mount(self->file, bf, NULL, MS_BIND, NULL), 0);
++
++	pfd = open_entry("fdinfo", self->fd);
++	ASSERT_GE(pfd, 0);
++	ASSERT_NE(bind_entry(pfd, af), 0);
++	ASSERT_EQ(errno, ENOENT);
++	ASSERT_FALSE(is_fdinfo(af));
++	ASSERT_FALSE(is_fdinfo(cf));
++
++	ASSERT_EQ(umount2(bf, 0), 0);
++	ASSERT_EQ(bind_entry(pfd, af), 0);
++	ASSERT_TRUE(is_fdinfo(af));
++	ASSERT_TRUE(is_fdinfo(bf));
++	ASSERT_TRUE(is_fdinfo(cf));
++	close(pfd);
++}
++
++/* Moved off a slave, its copy goes where the mount came from. */
++TEST_F(procfs_source, move_fdinfo_off_slave)
++{
++	char af[PATH_LEN], bf[PATH_LEN];
++	int pfd;
++
++	ASSERT_EQ(setup_slave(self->dir, af, bf), 0);
++	pfd = open_entry("fdinfo", self->fd);
++	ASSERT_GE(pfd, 0);
++	ASSERT_EQ(bind_entry(pfd, bf), 0);
++	ASSERT_EQ(mount(bf, af, NULL, MS_MOVE, NULL), 0);
++	ASSERT_TRUE(is_fdinfo(af));
++	ASSERT_TRUE(is_fdinfo(bf));
++	/* only the copy is left in the slave */
++	ASSERT_EQ(umount2(bf, 0), 0);
++	ASSERT_FALSE(is_fdinfo(bf));
++	close(pfd);
++}
++
++TEST_HARNESS_MAIN
 
 -- 
 2.53.0
