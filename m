@@ -1,50 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=101.204.27.37
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795694938;
-	b=Xm3gJbEHiepfaI++qVjsoz0dy4TAGOT2K0x4Pw5sxDePskymrSH4QjRWNHw7y5UTDOEl
-	 TF9o+Lu7ndYpubcDil0k1yoeY1R8992S7mMteLL4yHaVDjfFt24Z/E535DQPzMixOCn/Y
-	 TDG5q8crAedAEsWuD9EOKm8kwNgSWF82ge+g2f4CdkWldEAus1GJ445ONAPKibRo3ot8Q
-	 IP2lZB4XtYV710VlUJ7OAhs8/isEPH6uTruq0NTq1n61IgJeeLzL1YK5+wGfD6ab3tvcn
-	 LAxXhG0x4p9vJ7hxFaMNuSZ31flZPLrRfnZn41wf8hwNEt0kOVV5y7kUsONfqJL54NA==
+	t=1795695363;
+	b=W0EmjVoW/Lt/NFl17cyxcOi0UJI0nkwJRd5aV2lUOfAb8r80sz+DNxpnXB3OJmQTvm2i
+	 rOmfE4J6KX9EeKSuRwrm+BTuy/6PvI3wvc3nWiOxJ19CDdSEMwU9MPdmCLWuCdadUl64c
+	 sqXRskc9lLdPqSDH19wsG7C5asMs/mbP0jXOfhcGUbA4DssLFwep+g17ONvKfObU98DzH
+	 AXDdMy7r4LqRcGIpM2bEBYjwJVfIblWxQ/75x+JmbmwwvhbHnN2nnLeuvGx5m1zWDHTnG
+	 OWwkbIK0MgjlX8rVSjF+QfU6FlcI4BToDxLGQzDIoejfqQJqxldaKmH63xizD5kWEdw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795694938;
-	h=Received:DKIM-Signature:Date:Message-ID:From:To:Cc:Subject:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=RJ6ABZmDyn/Dl1B0+dcioahhPK/gYG42Zr7uAiRksnI=;
-	b=ftMo3Egba654nGPHvCA24+cjtibmYrX1Tocvn5A0ZLAhQKMxqff90hsS6zngWWvl/LUn
-	 EAPeiUd1AV7HfvAe2PiR/h4M99hVU7JQuOhqAQ9flTStPgttN1n8FtO7C0Z/LKUZAM/j/
-	 2Ohm1hshmtv8o9wkmelkKJ70w9SScc3kKduDg31nm4+LVsFAm6/AZoPxTcjvlaX45ymG1
-	 oDG1vdBirygGA6GpygwgtbCbIindWnacFuLu2sbcA/w4d7DtRuASOvSwtm9+iO6y5i3E2
-	 G9gzPaghwVv++aS94szWgufAc7JW0qvrbjJyJ9IAkdf1og8/bQqJ+hWn85ihy5xhDRg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795695363;
+	h=DMARC-Filter:Received:Received:Received:Received:Date:From:To:CC:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
+	 X-Originating-IP:X-ClientProxiedBy;
+	bh=vVi+hjHGX0RzAqKFCQt8csRr2KRMwhIJaCDqR21Qs38=;
+	b=yUcueqCqF4ACdD3yhshY4otKC5033ufgrNeTDwBx2b0SO0LyC/QOM3z0d2dThHKmO6rc
+	 O3cKUvYwpcZCPsHtp7vdXQ7EPABSDDOm+b91Ld/eV5w55BvNcRWho9CxURj9iylV0V2mI
+	 GhgPH+XJ/1efqg8gNu5Dz35hTY1vMRcgf8Ey6A+ddzo+6ZTw9O47Ln0vHhpXv2FSc86dC
+	 TU1/FINOuiJZvYzcDt3EVNbwLtGFH/J+mF3HHw8IgFE3SuqlYeA3iNVJ8tBl75gwV7iQJ
+	 kM2WhoUSs8YVhSN/E7uc77DzQPQiCNboAO0OxajFF6O/jHOGWnHehZTaF1la8bivy8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oZRCpdFj;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60EE7606A31E;
-	Thu, 26 Nov 2026 12:08:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oZRCpdFj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9E151F000C4;
-	Thu, 26 Nov 2026 12:08:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795694938;
-	bh=RJ6ABZmDyn/Dl1B0+dcioahhPK/gYG42Zr7uAiRksnI=;
-	h=Date:From:To:Cc:Subject;
-	b=oZRCpdFjKa3WVZWONiR2bV3G9Y70FwuGXfrhSRv2rLb/Mruc5Z6jGKM/rmrIgsFKN
-	 dgLaZ/yDUJJrPX25DteDDDxzFb7twuKux8nl2CW9Fc/4M2RthlSFz4zCL2Nbv2+IY0
-	 PARsMuyP6UBeSqgz5lukDWWbfDrUyAriW2L6RI/WU56QQ4DeFwTu12mh5BO7Fg9Zhz
-	 0Cxf+7HeNsT4ca2LB+dqMv6Tbw+I+bJiAVtPzMnrZyCM3tmOfeoHsRTVXAtoEoq1xo
-	 LcE2mBVWgZcumD0fu4Mows+Neh3Af80rwOA/aUitItjxexOzIUNBkr8Q9aS3TWhmCs
-	 a+3dhMpRRa0zw==
-Date: Thu, 26 Nov 2026 02:08:56 -1000
-Message-ID: <17d0d1395c0237d201a1abb2473d51f5@kernel.org>
-From: Tejun Heo <tj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, Shakeel Butt <shakeel.butt@linux.dev>, Roman Gushchin <roman.gushchin@linux.dev>, Muchun Song <muchun.song@linux.dev>, David Hildenbrand <david@kernel.org>, Qi Zheng <qi.zheng@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Greg Thelen <gthelen@google.com>, Greg KH <greg@kroah.com>, Ming Lei <tom.leiming@gmail.com>, linux-mm@kvack.org, cgroups@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND] mm/vmscan: Fix legacy memcg reclaim deadlock against filesystem freeze
+	dmarc=pass header.from=hygon.cn;
+	spf=pass smtp.mailfrom=hygon.cn;
+	arc=none smtp.remote-ip=101.204.27.37
+Received: from spam01.hygon.cn (unknown [101.204.27.37])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66BB5606A326;
+	Thu, 26 Nov 2026 12:15:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66BB5606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
+Received: from maildlp1.hygon.cn (unknown [127.0.0.1])
+	by spam01.hygon.cn (Postfix) with ESMTP id 4jZwVl4CwLzVcB6;
+	Thu, 26 Nov 2026 20:15:43 +0800 (CST)
+Received: from maildlp1.hygon.cn (unknown [172.23.18.60])
+	by spam01.hygon.cn (Postfix) with ESMTP id 4jZwVh6m9YzVcB6;
+	Thu, 26 Nov 2026 20:15:40 +0800 (CST)
+Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
+	by maildlp1.hygon.cn (Postfix) with ESMTPS id 952E9DC23;
+	Thu, 26 Nov 2026 20:15:33 +0800 (CST)
+Received: from hsj-2U-Workstation (172.19.24.226) by cncheex04.Hygon.cn
+ (172.23.18.114) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Thu, 26 Nov
+ 2026 20:15:39 +0800
+Date: Thu, 26 Nov 2026 20:15:37 +0800
+From: Huang Shijie <huangsj@hygon.cn>
+To: Andreas Gruenbacher <agruenba@redhat.com>
+CC: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <jack@suse.cz>,
+	<hch@infradead.org>, <mic@digikod.net>, <axboe@kernel.dk>,
+	<gnoack@google.com>, <paul@paul-moore.com>, <jmorris@namei.org>,
+	<serge@hallyn.com>, <legion@kernel.org>, <aleksa@amutable.com>,
+	<libaokun@linux.alibaba.com>, <ebiggers@kernel.org>, <djwong@kernel.org>,
+	<sandeen@redhat.com>, <zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>,
+	<yingzhiwei@hygon.cn>, <wujianyong@hygon.cn>, <shijie8@gmail.com>,
+	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-block@vger.kernel.org>, <gfs2@lists.linux.dev>,
+	<linux-security-module@vger.kernel.org>
+Subject: Re: [PATCH v4 00/11] vfs: add inode iteration methods
+Message-ID: <awgi6a0Hayug7RJH@hsj-2U-Workstation>
+References: <20261125091157.1822521-1-huangsj@hygon.cn>
+ <CAHc6FU4h-FRvLkO_0ouTey9MbX=n61t3abt4hPNFOthsRGG9mQ@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,267 +67,153 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHc6FU4h-FRvLkO_0ouTey9MbX=n61t3abt4hPNFOthsRGG9mQ@mail.gmail.com>
+X-ClientProxiedBy: cncheex05.Hygon.cn (172.23.18.115) To cncheex04.Hygon.cn
+ (172.23.18.114)
 
-Legacy memcg reclaim has no dirty throttling, and shrink_folio_list() waits
-for a folio that is under writeback and already marked for reclaim (case 3
-in its comment). That wait can deadlock against a filesystem freeze:
+在 Wed, Nov 25, 2026 at 11:25:12PM +0100，Andreas Gruenbacher 写道：
+> Huang,
+> 
+> I have some thoughts ...
+> 
+> On Wed, 25 Nov 2026 at 10:18, Huang Shijie <huangsj@hygon.cn> wrote:
+> > This series adds a superblock inode iterator and converts the open-coded
+> > sb->s_inodes walks in the VFS to it.  The design follows the cursor-based
+> > construct proposed by Christian Brauner:
+> >
+> >   https://lore.kernel.org/all/20261120-mitverantwortlich-drehbaren-kantholz-241300d20168@brauner/
+> >
+> > and is the same direction as Dave Chinner's patch set:
+> >
+> >   "vfs: improving inode cache iteration scalability"
+> >   https://lore.kernel.org/all/20241002014017.3801899-1-david@fromorbit.com/
+> >
+> > The caller owns the iterator state and drives the walk itself:
+> >
+> >   CLASS(sb_inode_iter, iter)(sb, eligible, priv, flags);
+> >   while ((inode = sb_inode_iter_next(&iter)))
+> >           /* do stuff */;
+> 
+> The pattern should be:
+> 
+>   for (CLASS(...); ...; ...) {
+>       /* ... */
+>       if (/* end iteration early */)
+>           break;
+>       /* ... */
+>   }
+> 
+> so that the iterator goes out of scope immediately when the loop ends.
+> Hide the details of the loop header in a macro and that this becomes:
+> 
+>   for_each_inode(inode, sb) {
 
-1. A task in write() to filesystem B holds freeze protection on B, enters
-   memcg reclaim and waits for writeback of a folio of a filesystem on a
-   loop device backed by a file on B.
+The fs/jffs2/build.c has used this for_each_inode.
+Maybe change to for_each_sb_inode?
 
-2. A freeze of B waits for the task to drop its freeze protection.
+>       /* inode is referenced and unlocked here */
+>   }
+> 
+> Use that to convert the simple cases.
+> 
+> And then we've got preconditions that are checked while the inode is
+> locked. Those can probably go in an expression:
+> 
+>   for_each_inode(inode, sb, expression) {
+We still need add flags here.
 
-3. The loop worker has to take freeze protection on B to write the folio out
-   and blocks behind the freeze.
+In evict_inodes() and hook_sb_delete(), only the expression is not enough.
 
-The same applies to any driver that writes to a file on a local filesystem
-to serve block I/O and takes freeze protection for it.
+How about add a raw code like this:
 
-Reclaim can't tell which filesystem a writeback depends on. Count the
-superblocks that are being frozen and make the wait time out after 15
-seconds. If one is being frozen at that point, warn and give up. Until none
-is, treat such folios like case 2 and skip the legacy writeback throttle, so
-that the task a freeze may be waiting for isn't held up.
+    for_each_inode_raw(inode, sb, expression, flags) {
+    }
 
-This trades the deadlock for premature memcg OOM kills during such a freeze.
-The wait also no longer hits the folio_wait_writeback tracepoint, and the
-hung task detector no longer reports a task stuck in it for another reason
-as the task wakes up every 15 seconds.
+And add a macro for_each_inode:
+  #define for_each_inode(inode, sb, expression)	 for_each_inode_raw(inode, sb, expression, 0)
 
-Fixes: e62e384e9da8 ("memcg: prevent OOM with too many dirty pages")
-Reported-by: Christian Brauner <brauner@kernel.org>
-Signed-off-by: Tejun Heo <tj@kernel.org>
-Reviewed-by: Johannes Weiner <hannes@cmpxchg.org>
-Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
-This was first posted in a private thread and is resent here for the lists,
-rebased onto the current mainline. The only other change is the added
-Reviewed-by tags.
+Most of the cases, we can use the for_each_inode.
 
-This is on top of v7.4-rc4-388 (25faec9ce61c). In a test with a filesystem
-on a loop device backed by a file on another filesystem, writers to both in
-a v1 memcg and the backing filesystem frozen and thawed in a loop, the
-unpatched kernel deadlocks within seconds. With the patch, a stuck freeze
-gets through in 15 to 18 seconds.
+But in the evict_inodes() and hook_sb_delete() we can use the for_each_inode_raw. 
 
- fs/super.c               |    7 +++++
- include/linux/fs/super.h |    1 
- mm/filemap.c             |   22 +++++++++++++++--
- mm/internal.h            |    1 
- mm/vmscan.c              |   58 ++++++++++++++++++++++++++++++++++++++++++++---
- 5 files changed, 83 insertions(+), 6 deletions(-)
 
---- a/fs/super.c
-+++ b/fs/super.c
-@@ -48,6 +48,9 @@ static int thaw_super_locked(struct supe
- static LIST_HEAD(super_blocks);
- static DEFINE_SPINLOCK(sb_lock);
- 
-+/* nr of superblocks that freeze_super() is in the middle of freezing */
-+atomic_t sb_nr_freezing;
-+
- static char *sb_writers_name[SB_FREEZE_LEVELS] = {
- 	"sb_writers",
- 	"sb_pagefaults",
-@@ -2235,6 +2238,7 @@ retry:
- 		return 0;
- 	}
- 
-+	atomic_inc(&sb_nr_freezing);
- 	sb->s_writers.frozen = SB_FREEZE_WRITE;
- 	/* Release s_umount to preserve sb_start_write -> s_umount ordering */
- 	super_unlock_excl(sb);
-@@ -2249,6 +2253,7 @@ retry:
- 	ret = sync_filesystem(sb);
- 	if (ret) {
- 		sb->s_writers.frozen = SB_UNFROZEN;
-+		atomic_dec(&sb_nr_freezing);
- 		sb_freeze_unlock(sb, SB_FREEZE_PAGEFAULT);
- 		wake_up_var(&sb->s_writers.frozen);
- 		deactivate_locked_super(sb);
-@@ -2265,6 +2270,7 @@ retry:
- 			printk(KERN_ERR
- 				"VFS:Filesystem freeze failed\n");
- 			sb->s_writers.frozen = SB_UNFROZEN;
-+			atomic_dec(&sb_nr_freezing);
- 			sb_freeze_unlock(sb, SB_FREEZE_FS);
- 			wake_up_var(&sb->s_writers.frozen);
- 			deactivate_locked_super(sb);
-@@ -2278,6 +2284,7 @@ retry:
- 	WARN_ON_ONCE(freeze_inc(sb, who) > 1);
- 	sb->s_writers.freeze_owner = freeze_owner;
- 	sb->s_writers.frozen = SB_FREEZE_COMPLETE;
-+	atomic_dec(&sb_nr_freezing);
- 	wake_up_var(&sb->s_writers.frozen);
- 	lockdep_sb_freeze_release(sb);
- 	super_unlock_excl(sb);
---- a/include/linux/fs/super.h
-+++ b/include/linux/fs/super.h
-@@ -234,6 +234,7 @@ int freeze_super(struct super_block *sup
- 		 const void *freeze_owner);
- int thaw_super(struct super_block *super, enum freeze_holder who,
- 	       const void *freeze_owner);
-+extern atomic_t sb_nr_freezing;
- 
- int sb_init_dio_done_wq(struct super_block *sb);
- 
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -1245,8 +1245,8 @@ static inline bool folio_trylock_flag(st
- 	return true;
- }
- 
--static inline int folio_wait_bit_common(struct folio *folio, int bit_nr,
--		int state, enum behavior behavior)
-+static inline int folio_wait_bit_common_timeout(struct folio *folio, int bit_nr, int state,
-+		enum behavior behavior, long timeout)
- {
- 	wait_queue_head_t *q = folio_waitqueue(folio);
- 	int unfairness = sysctl_page_lock_unfairness;
-@@ -1324,7 +1324,9 @@ repeat:
- 			if (signal_pending_state(state, current))
- 				break;
- 
--			io_schedule();
-+			timeout = io_schedule_timeout(timeout);
-+			if (!timeout)
-+				break;
- 			continue;
- 		}
- 
-@@ -1393,6 +1395,13 @@ repeat:
- 	return wait->flags & WQ_FLAG_WOKEN ? 0 : -EINTR;
- }
- 
-+static inline int folio_wait_bit_common(struct folio *folio, int bit_nr, int state,
-+		enum behavior behavior)
-+{
-+	return folio_wait_bit_common_timeout(folio, bit_nr, state, behavior,
-+					     MAX_SCHEDULE_TIMEOUT);
-+}
-+
- #ifdef CONFIG_MIGRATION
- /**
-  * softleaf_entry_wait_on_locked - Wait for a migration entry or
-@@ -1490,6 +1499,13 @@ int folio_wait_bit_killable(struct folio
- }
- EXPORT_SYMBOL(folio_wait_bit_killable);
- 
-+/* wait up to @timeout jiffies for @bit_nr to clear, true if it cleared */
-+bool folio_wait_bit_timeout(struct folio *folio, int bit_nr, long timeout)
-+{
-+	return !folio_wait_bit_common_timeout(folio, bit_nr, TASK_UNINTERRUPTIBLE, SHARED,
-+					      timeout);
-+}
-+
- /**
-  * folio_put_wait_locked - Drop a reference and wait for it to be unlocked
-  * @folio: The folio to wait for.
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -1276,6 +1276,7 @@ struct migration_target_control {
-  */
- ssize_t splice_folio_into_pipe(struct pipe_inode_info *pipe,
- 			       struct folio *folio, loff_t fpos, size_t size);
-+bool folio_wait_bit_timeout(struct folio *folio, int bit_nr, long timeout);
- 
- static inline bool vma_is_single_threaded_private(struct vm_area_struct *vma)
- {
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -1157,6 +1157,55 @@ static bool may_enter_fs(struct folio *f
- }
- 
- /*
-+ * Legacy memcg reclaim has no dirty throttling and waits for writeback in
-+ * shrink_folio_list() instead. That wait can deadlock against a filesystem
-+ * freeze:
-+ *
-+ * 1. A task holds freeze protection on filesystem B, e.g. in write(), enters
-+ *    reclaim and waits for writeback of a folio whose I/O ends up as a write to
-+ *    B, e.g. through a loop device backed by a file on B.
-+ *
-+ * 2. A freeze of B waits for the task to drop its freeze protection.
-+ *
-+ * 3. The write to B waits for the freeze.
-+ *
-+ * Reclaim can't tell which filesystem a writeback depends on. As a crude
-+ * workaround, memcg_wait_writeback() times out and, if any filesystem is being
-+ * frozen at that point, sets memcg_wb_wait_skip. While it is set, legacy memcg
-+ * reclaim neither waits for nor throttles on writeback, so that the task a
-+ * freeze may be waiting for isn't held up in reclaim and can drop its freeze
-+ * protection. This can cause premature memcg OOM kills.
-+ */
-+static bool memcg_wb_wait_skip;
-+
-+/*
-+ * Test memcg_wb_wait_skip. It takes effect only while a filesystem is being
-+ * frozen and is cleared here once none is. A freeze that starts before it is
-+ * cleared inherits the skip.
-+ */
-+static bool memcg_skip_wb_wait(void)
-+{
-+	if (!READ_ONCE(memcg_wb_wait_skip))
-+		return false;
-+	if (atomic_read(&sb_nr_freezing))
-+		return true;
-+	WRITE_ONCE(memcg_wb_wait_skip, false);
-+	return false;
-+}
-+
-+/* wait for writeback of @folio, see memcg_wb_wait_skip for the timeout */
-+static void memcg_wait_writeback(struct folio *folio)
-+{
-+	while (!folio_wait_bit_timeout(folio, PG_writeback, 15 * HZ)) {
-+		if (atomic_read(&sb_nr_freezing)) {
-+			WRITE_ONCE(memcg_wb_wait_skip, true);
-+			pr_warn("memcg1 writeback wait timed out during fs freeze, skipping waits, may OOM early\n");
-+			return;
-+		}
-+	}
-+}
-+
-+/*
-  * shrink_folio_list() returns the number of reclaimed pages
-  */
- static unsigned int shrink_folio_list(struct list_head *folio_list,
-@@ -1277,7 +1326,9 @@ retry:
- 		 *    reclaim flag set. memcg does not have any dirty folio
- 		 *    throttling so we could easily OOM just because too many
- 		 *    folios are in writeback and there is nothing else to
--		 *    reclaim. Wait for the writeback to complete.
-+		 *    reclaim. Wait for the writeback to complete. If
-+		 *    memcg_wait_writeback() gives up, such folios are treated
-+		 *    as in case 2 until no filesystem is being frozen.
- 		 *
- 		 * In cases 1) and 2) we activate the folios to get them out of
- 		 * the way while we continue scanning for clean folios on the
-@@ -1300,6 +1351,7 @@ retry:
- 
- 			/* Case 2 above */
- 			} else if (writeback_throttling_sane(sc) ||
-+			    memcg_skip_wb_wait() ||
- 			    !folio_test_reclaim(folio) ||
- 			    !may_enter_fs(folio, sc->gfp_mask) ||
- 			    (mapping &&
-@@ -1325,7 +1377,7 @@ retry:
- 			/* Case 3 above */
- 			} else {
- 				folio_unlock(folio);
--				folio_wait_writeback(folio);
-+				memcg_wait_writeback(folio);
- 				/* then go back and try same folio again */
- 				list_add_tail(&folio->lru, folio_list);
- 				continue;
-@@ -2086,7 +2138,7 @@ static void handle_reclaim_writeback(uns
- 		 * enough for cgroupv1 writeback throttling to work
- 		 * on a large system.
- 		 */
--		if (!writeback_throttling_sane(sc))
-+		if (!writeback_throttling_sane(sc) && !memcg_skip_wb_wait())
- 			reclaim_throttle(pgdat, VMSCAN_THROTTLE_WRITEBACK);
- 	}
- 
+>       /* expression was true */
+>       /* inode is referenced and unlocked here */
+>   }
+> 
+> This unfortunately cannot be implemented on top of the
+> sb_inode_iter_next() pattern, at least not in a reasonable way, so we
+> actually shouldn't use that pattern.
+> 
+> The locked iterator would look like this:
+> 
+>   for_each_inode_locked(inode, sb) {
+	
+I tried this way today.
+
+The macro for_each_inode_locked is complicated.	
+When I tried to add more hooks to super_operations to implement the
+procfs issue, the for_each_inode_locked becomes more complicated.
+
+BTW: the procfs issue see the link:
+  https://lore.kernel.org/all/20260920072811.2064247-1-huangsj@hygon.cn/
+
+>       /* inode is locked here */
+>   }
+> 
+> This doesn't cover all existing cases, but that's okay. Don't force
+> things into this pattern that are not a match.
+> 
+> We can always extend things further if it makes sense.
+> 
+> > The lock does not span iterations.  sb_inode_iter_next() takes
+> > sb->s_inode_list_lock, takes a reference on the next inode, drops the lock
+> > again and hands the inode out; the reference is what keeps the cursor on
+> > sb->s_inodes so that the next call can resume from it.  As the iterator
+> > is a cleanup class, a caller that breaks out early does not have to call
+> > sb_inode_iter_end() explicitly.
+> >
+> > Two optional channels let a caller keep its own state instead of filling in
+> > a shared context:
+> >
+> >   - iter->eligible is called with inode->i_lock held, so that a caller can
+> >     reject an inode before a reference is paid for.
+> >
+> >   - iter->status carries an error out of the walk.  Setting it to a
+> >     negative value makes sb_inode_iter_next() return NULL.
+> 
+> Nobody needs that. Just break out of the loop.
+> 
+> > Most callers just want a referenced inode and use no flags at all.  Three
+> > flags cover the walks that need something else:
+> >
+> >   - %INO_ITER_F_REFERENCED restricts the walk to inodes that still have a
+> >     reference, preserving the "only handle referenced inodes" rule of
+> >     landlock's sb-delete walk.
+> >
+> >   - %INO_ITER_F_NOREF hands out only inodes whose reference count has
+> >     already reached zero, and %INO_ITER_F_NOIGET suppresses the reference.
+> >     Neither keeps the inode alive, so the caller has to make the inode
+> >     unclaimable itself.
+> 
+> No flags.
+If we do not add flags, we cannot convert the evict_inodes() and hook_sb_delete().
+
+We'd better convert evict_inodes/hook_sb_delete this time, and then
+we can add more hooks to super_operations{}, such as sb_add_inode/sb_del_inode/sb_iter_inode.
+With these hooks in super_operations, we can add more optimization code for different FSs.
+For example:
+  
+  "vfs: improving inode cache iteration scalability"
+  https://lore.kernel.org/all/20241002014017.3801899-1-david@fromorbit.com/
+  
+  and 
+  https://lore.kernel.org/all/20260920072811.2064247-1-huangsj@hygon.cn/
+
+
+Thanks
+Huang Shijie
+
