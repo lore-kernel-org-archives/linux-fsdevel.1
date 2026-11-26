@@ -1,88 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.33
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795708494;
-	b=Q+yljGyNguYFAuw4jrJ6DmcjC2zQx8z5M/AgGiRWlUU7Cp12yF7q3i2ja9SzYR1WXXi9
-	 iDFfgcVoKluW6aa6RWWld3Sfg+Ou7t3Gjs65+VISR3DgZ9MxI2BUPAiK1FaQn2uwrHJ7g
-	 XYjiRE8lfrs+PlUYt7i6lszfn6IWY39ZvtGyhD1WDZMzIpGyKc5nJJkFKFNsxx2e37iml
-	 /1XzLFQgwSc6ILLq2dcyedNAhKdPc3cvAtgPfRMg2L8cSxtSOWqXWkaOwwABXA4kAH/oI
-	 WeyJpPotrQDYEeCz8Ylo5pfG+24qG7EmVrO8uNjwXRmWyotibtcRW0phyTA1YuajlCw==
+	t=1795709268;
+	b=f/zVdnZ5Os3j2i8J9WKE+hj5uJB1ENYFs0Hkx0V5G61hZF5mHanzllYKCvQ52DQPBOoX
+	 VcWtd5pYHa4Jtrx3REoQBqDpBMzThpc1wPP8TxCUvkM/V4icAPtywhJzeuF8XOeU/7uE7
+	 Osbh091cAUN3hCepSBWtx5xJ9RbfwErcEvCUL/vWZa5o76GhFxIGIu8jPRImd3a4zOf3J
+	 TKRIHwPq0JK7FAvKdYgXvl1DQHAQc+AzzFyuiMi/qpis/9ygHauPuI2UVI2TtwlJleXsk
+	 WCqE6MlXM3AQ6oM+rDPTOO1T3WKn3l1dTlVLFF+sXPNNTpVCTW5VThkxY+o9fjFn22Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795708494;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
-	 Received:Received:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
-	 In-Reply-To:X-CMS-MailID:X-Msg-Generator:Content-Type:
-	 X-Sendblock-Type:CMS-TYPE:cpgsPolicy:X-CFilter-Loop:X-CMS-RootMailID:
-	 References;
-	bh=5M9xtfTWt/rD6V3Yq9/gJOzmL0PuY9q0JOmTonMrkYc=;
-	b=tTMXDsUPkUve7LOve57bQ+wovpB8krKhrLyTc2oyUo8bfPs8UHFbmkkco6wY5rUJEBCc
-	 lE+81OIQ7Ujy+oNovCftuduV39P0ZmAG49Ss5d/+y9n7difPoAhPry+QMhEoKV6Huu17k
-	 tq8APb3vqE5uV3xVgtma9mFc+kD96vEUiyg4L/6TCmwFPkoqlZmIE0eM5pDVi5d/QJLQO
-	 b2XRjuLzax61GYeJkPbDoMG98zNLcW4Fy3Hz8UpeEYmB1BwFV/a4nw3YGWN3k7pXmCoRg
-	 j7w9xpNL7V6XUdK4uONuQzToO5ywGHZ7UIeTlrJmuLhhJLhuX1x/697xHlzApjUmR1g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795709268;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=Ol+xtVQ8x84qhmHAyLzeeqLY/hav6oBMjj9R04KAVmI=;
+	b=k7K+k7Uc1C/1IeQMAnj6VeyAQ/QSGkf/L9lwbKnEnNQqy7nRTKFFgLEKCWrzOUITMJ/C
+	 nrzjt8EbqmlmqfA/u/i5FKu5qxjFmZ/93gJXIMvzM5VDtga/dAIYf3WXioDF54VEDkM+C
+	 2sq7ikxwyO4h0f0I3YBrl0rGm1DI32mMNyYG6uZRlGRJXvvzRmotkjwQiO3xd21aZzkmC
+	 eQo6aL9ZUAwCVimc5BKyRcQoi4TTJa9fMgHYHJ3kGxqcP8qwuJE9EwCwgo287Ip1ftZvA
+	 RGSA8IOOIC7hcsulBuda+SDq381fy0pG6nCe2rSoPhirlBGu2MAUMXFFtXmzu1M5clg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=samsung.com;
-	spf=pass smtp.mailfrom=samsung.com;
-	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=S8Q+2CV4;
-	arc=none smtp.remote-ip=203.254.224.33
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Qstm9Aja;
+	arc=none smtp.remote-ip=220.197.31.4
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A23606A31E;
-	Thu, 26 Nov 2026 15:54:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03A23606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5358606A321;
+	Thu, 26 Nov 2026 16:07:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A5358606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=S8Q+2CV4
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20261126155444epoutp03dcd4ec9596cec66ed694dc1c2cd611a1~ro1pFr0S32621526215epoutp032;
-	Thu, 26 Nov 2026 15:54:44 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20261126155444epoutp03dcd4ec9596cec66ed694dc1c2cd611a1~ro1pFr0S32621526215epoutp032
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1795708484;
-	bh=5M9xtfTWt/rD6V3Yq9/gJOzmL0PuY9q0JOmTonMrkYc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=S8Q+2CV47r+jcyB/hxRZQoNdHuxQ/gWyvqpTmqCCGD4I8E1N/8Sp5R2e+BT1h5Dit
-	 Id45RW2ZS5AZJEl/R4M3H3tcJ9xLhuBNVHLz9LrKcWbkmclmhrryoUfbwW/+ukJYtW
-	 oFWXu+LFCdF+trLev1upv67SG1axo8gAriR3T9dQ=
-Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
-	20261126155443epcas5p3efe33a75b41143a93560ac14ae0acd78~ro1oKmgN02527325273epcas5p3D;
-	Thu, 26 Nov 2026 15:54:43 +0000 (GMT)
-Received: from epcas5p4.samsung.com (unknown [182.195.38.95]) by
-	epsnrtp03.localdomain (Postfix) with ESMTP id 4jb1MQ68Ssz3hhT3; Thu, 26 Nov
-	2026 15:54:42 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20261126140745epcas5p4f87a6186091785f4d3de4b69734aed88~rnYO8DwMQ2019420194epcas5p43;
-	Thu, 26 Nov 2026 14:07:45 +0000 (GMT)
-Received: from green245.gost (unknown [107.99.41.245]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20261126140741epsmtip24d507cb1363ab8b6b8b6b2fe8c81b878~rnYK24Eeh1787017870epsmtip2c;
-	Thu, 26 Nov 2026 14:07:41 +0000 (GMT)
-Date: Thu, 26 Nov 2026 19:36:51 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Mengmeng Zhao <mengmeng.zhao@linux.dev>, Anuj Gupta
-	<anuj20.g@samsung.com>, Christoph Hellwig <hch@lst.de>, Christian Brauner
-	<brauner@kernel.org>, Anuj Gupta <anuj1072538@gmail.com>, Jens Axboe
-	<axboe@kernel.dk>, Sumit Semwal <sumit.semwal@linaro.org>, Christian Koenig
-	<christian.koenig@amd.com>, Philipp Stanner <phasta@kernel.org>, Dan
-	Williams <djbw@kernel.org>, Matthew Wilcox <willy@infradead.org>, Jan Kara
-	<jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, Theodore Ts'o
-	<tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, Baokun Li
-	<libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, Ritesh
-	Harjani <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>, Jonathan
-	Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy
-	Dunlap <rdunlap@infradead.org>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-ext4@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, Li Wang <liwang@kylinos.cn>, Mengmeng Zhao
-	<zhaomengmeng@kylinos.cn>
-Subject: Re: [RFC PATCH v2 0/8] ext4: Add dma-buf read/write support
-Message-ID: <20261126140651.vzs2gdwajemvf6kt@green245.gost>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Qstm9Aja
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Ol
+	+xtVQ8x84qhmHAyLzeeqLY/hav6oBMjj9R04KAVmI=; b=Qstm9Aja3Iz+aXmTEr
+	mBVWMJoP8IvMP+UrwJo0RBE6Px3LDqiDXhkErpz665QrXxQTV8phkqIcFaNAMZl+
+	XnhygCrzwNiB1F/0hDtgd528Aw5+PjvWY1YR/k0k2H5jo7K5ZXXGzpCqvJYbdzO/
+	h13dMlFEYAOzXXKvvfmh7ujXg=
+Received: from shaos.localdomain (unknown [])
+	by gzsmtp3 (Coremail) with SMTP id PigvCgAXdUA5WQhrZWimIQ--.14037S2;
+	Fri, 27 Nov 2026 00:07:21 +0800 (CST)
+From: shaos <shawnq1@163.com>
+To: slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] hfsplus: reorder complete combining runs for dentry keys
+Date: Thu, 26 Nov 2026 16:07:20 +0000
+Message-Id: <20261126160720.3007837-1-shawnq1@163.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -92,43 +61,180 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-In-Reply-To: <0b76171b-7f2e-41d2-8a5c-102dbe4cb85b@gmail.com>
-X-CMS-MailID: 20261126140745epcas5p4f87a6186091785f4d3de4b69734aed88
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----sfnc.NZyIOBfLTiZTLswaXBSL0w4GQC52Zj1LhBq2cHN2.MV=_ad66_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20261124084131epcas5p3098eab1bc134da7aefcc83c646b54a9d
-References: <20261113070621.273953-1-mengmeng.zhao@linux.dev>
-	<20261120154153.GC28611@lst.de>
-	<361c4312-f77b-495f-9ee4-e0b9612b4463@linux.dev>
-	<CGME20261124084131epcas5p3098eab1bc134da7aefcc83c646b54a9d@epcas5p3.samsung.com>
-	<20261124084025.2101804-1-anuj20.g@samsung.com>
-	<3bce3a69-e41c-4683-b1ca-9477dd41a7e0@linux.dev>
-	<0b76171b-7f2e-41d2-8a5c-102dbe4cb85b@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PigvCgAXdUA5WQhrZWimIQ--.14037S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3Gry3JFyfCFW8Ar4UGw18Grg_yoW3XryxpF
+	Z2qa1ayr1rtFsF934fWrW8XF1Yvwn7JF45tr98Gr10vw43J3W0yrZIv345CFWUXr4kXrZ8
+	C3WYy3W7uan8uFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jnsqXUUUUU=
+X-CM-SenderInfo: pvkd40jtr6il2tof0z/xtbC0BlBT2sIWTm42wAA3n
 
-------sfnc.NZyIOBfLTiZTLswaXBSL0w4GQC52Zj1LhBq2cHN2.MV=_ad66_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+Hello,
 
-On 26/11/26 10:44AM, Pavel Begunkov wrote:
->I'll resend it later, how to store the tag is the least interesting
->part, it can just move inside the block/ext4/etc code, which would
->be uglier, but whatever.
->
+HFS+ catalog names are decomposed and canonically reordered as a complete
+string. The dentry iterator reorders a combining run in chunks of 32 code
+units. With a 33-mark run, two spellings can produce the same catalog key
+but different dentry hashes and comparisons. After creating one spelling,
+lookup of the other returns ENOENT until remount.
 
-What about the f_op method instead of storing the
-tag in multiple users that we support now i.e., block/ext4/xfs code?
-We refined your patches with this approach and it seemed to fit well.
+Use the maximum decomposed HFS+ name length for the iterator buffer so a
+representable combining run is reordered as a whole. Add a KUnit regression
+test covering dentry hashes, dentry comparison, and the stored Unicode form
+of two spellings with a 33-mark run.
 
---
-Nitesh
+The issue affects name lookup on a mounted HFS+ filesystem. The reproducer
+shows a stale negative dentry, not a kernel crash or memory-safety violation.
 
-------sfnc.NZyIOBfLTiZTLswaXBSL0w4GQC52Zj1LhBq2cHN2.MV=_ad66_
-Content-Type: text/plain; charset="utf-8"
+Tested source:
+HEAD commit:    8d7fe9885c62fc9a95bf55d9db244d9672a8aadc
+git tree:       fe970b05333fb8e41da21e9e289f652abcc7cba7
+source version: Linux 7.4.0-rc4
+compiler:       gcc 11.4.0, GNU ld 2.38
+QEMU:           6.2.0
 
+Reproducer bundle (PoC, image builder, configurations, console output,
+QEMU scripts, and KUnit results):
+https://gist.github.com/shaos26/bf0227a0628804407940c14be25e4208
+Reproduction guide:
+https://gist.githubusercontent.com/shaos26/bf0227a0628804407940c14be25e4208/raw/9fdd6f6d081f7b772a03589367a0da955c811ee5/reproduce.md
+Baseline console output:
+https://gist.githubusercontent.com/shaos26/bf0227a0628804407940c14be25e4208/raw/95967671db4b687ea5305865f3c167e580ed4395/console-output.txt
+Kernel configuration:
+https://gist.githubusercontent.com/shaos26/bf0227a0628804407940c14be25e4208/raw/120b0b771aeca1f299a6cbc505b25c84c0725b78/kernel-config.txt
+Userspace reproducer:
+https://gist.githubusercontent.com/shaos26/bf0227a0628804407940c14be25e4208/raw/463437cdfc959b30109c7a2b5ce1871653a55509/poc.c
 
-------sfnc.NZyIOBfLTiZTLswaXBSL0w4GQC52Zj1LhBq2cHN2.MV=_ad66_--
+The unpatched kernel reproduced the lookup failure in two fresh QEMU boots;
+the 31-mark control resolved immediately. With the patch, the alternate
+spelling resolved immediately in two fresh boots. The hfsplus_unicode KUnit
+suite passed all 35 tests. Restoring the old 32-unit limit made the new test
+fail on hash equality and dentry comparison (34 passed, 1 failed). The
+x86-64 bzImage build completed without warnings. checkpatch.pl with --strict,
+git diff --check, and git apply --check all passed.
+
+Fixes: bbe5ebcbc006 ("hfsplus: canonicalize decomposed catalog names like fsck_hfs expects")
+Assisted-by: OpenAI Codex
+Signed-off-by: shaos <shawnq1@163.com>
+---
+ fs/hfsplus/unicode.c      | 16 ++++-------
+ fs/hfsplus/unicode_test.c | 68 +++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 73 insertions(+), 11 deletions(-)
+
+diff --git a/fs/hfsplus/unicode.c b/fs/hfsplus/unicode.c
+index 59b8788a69a9e..585f3fd089aac 100644
+--- a/fs/hfsplus/unicode.c
++++ b/fs/hfsplus/unicode.c
+@@ -577,21 +577,15 @@ int hfsplus_asc2uni(struct super_block *sb,
+ EXPORT_SYMBOL_IF_KUNIT(hfsplus_asc2uni);
+ 
+ /*
+- * Maximum length of a single maximal run of nonzero-combining-class code
+- * units that hfsplus_decompose_iter_next() below will canonically
+- * reorder. Every code unit with combining class 0 starts a new run, so
+- * this only bounds how many *consecutive* combining marks between two
+- * base characters get sorted - real text, and even deliberately
+- * adversarial "Zalgo" text, essentially never approaches this. Keeping
+- * it small means hfsplus_hash_dentry() and hfsplus_compare_dentry() only
+- * ever need a tiny amount of lookahead state, rather than buffering an
+- * entire (up to 255-unit) name.
++ * A maximal combining run can contain every code unit in an HFS+ catalog
++ * name. Keep the iterator limit aligned with the name limit so it can
++ * reorder the complete run like hfsplus_decompose_str().
+  */
+-#define HFSPLUS_CCC_RUN_MAX 32
++#define HFSPLUS_CCC_RUN_MAX HFSPLUS_MAX_STRLEN
+ 
+ /*
+  * Iterator that produces the canonically-ordered, decomposed code units
+- * of a Linux name one at a time, without materializing the whole name.
++ * of a Linux name one combining run at a time.
+  * hfsplus_hash_dentry() and hfsplus_compare_dentry() use this so that
+  * hashing and comparison always agree with what hfsplus_asc2uni() would
+  * actually store, while still comparing lazily (stopping at the first
+diff --git a/fs/hfsplus/unicode_test.c b/fs/hfsplus/unicode_test.c
+index a683c6d5fc221..2e88697bc4e71 100644
+--- a/fs/hfsplus/unicode_test.c
++++ b/fs/hfsplus/unicode_test.c
+@@ -1479,6 +1479,73 @@ static void hfsplus_hash_dentry_combining_reorder_test(struct kunit *test)
+ 	free_mock_sb(mock_sb);
+ }
+ 
++static void hfsplus_dentry_combining_reorder_long_test(struct kunit *test)
++{
++	static const char acute[] = "\xcc\x81";
++	static const char dot_below[] = "\xcc\x96";
++	enum { NR_ACUTE = 32, NAME_LEN = 1 + (NR_ACUTE + 1) * 2 + 1 };
++	char acute_first[NAME_LEN], dot_first[NAME_LEN];
++	struct hfsplus_unistr stored1, stored2;
++	struct test_mock_sb *mock_sb;
++	struct qstr str1, str2;
++	char *p;
++	int i, result;
++
++	mock_sb = setup_mock_sb();
++	KUNIT_ASSERT_NOT_NULL(test, mock_sb);
++
++	setup_mock_dentry(&mock_sb->sb);
++	mock_sb->nls.char2uni = test_char2uni_utf8;
++
++	p = acute_first;
++	*p++ = 'e';
++	for (i = 0; i < NR_ACUTE; i++) {
++		memcpy(p, acute, sizeof(acute) - 1);
++		p += sizeof(acute) - 1;
++	}
++	memcpy(p, dot_below, sizeof(dot_below) - 1);
++	p += sizeof(dot_below) - 1;
++	*p = '\0';
++
++	p = dot_first;
++	*p++ = 'e';
++	memcpy(p, dot_below, sizeof(dot_below) - 1);
++	p += sizeof(dot_below) - 1;
++	for (i = 0; i < NR_ACUTE; i++) {
++		memcpy(p, acute, sizeof(acute) - 1);
++		p += sizeof(acute) - 1;
++	}
++	*p = '\0';
++
++	create_qstr(&str1, acute_first);
++	create_qstr(&str2, dot_first);
++	result = hfsplus_hash_dentry(&test_dentry, &str1);
++	KUNIT_ASSERT_EQ(test, 0, result);
++	result = hfsplus_hash_dentry(&test_dentry, &str2);
++	KUNIT_ASSERT_EQ(test, 0, result);
++	KUNIT_EXPECT_EQ(test, str1.hash, str2.hash);
++
++	KUNIT_EXPECT_EQ(test, 0,
++			hfsplus_compare_dentry(&test_dentry, str1.len,
++					       str1.name, &str2));
++
++	result = hfsplus_asc2uni(&mock_sb->sb, &stored1, HFSPLUS_MAX_STRLEN,
++				 str1.name, str1.len, HFS_REGULAR_NAME);
++	KUNIT_ASSERT_EQ(test, 0, result);
++	result = hfsplus_asc2uni(&mock_sb->sb, &stored2, HFSPLUS_MAX_STRLEN,
++				 str2.name, str2.len, HFS_REGULAR_NAME);
++	KUNIT_ASSERT_EQ(test, 0, result);
++	KUNIT_EXPECT_EQ(test, be16_to_cpu(stored1.length),
++			be16_to_cpu(stored2.length));
++	KUNIT_EXPECT_EQ(test, 34, be16_to_cpu(stored1.length));
++	KUNIT_EXPECT_EQ(test,
++			memcmp(stored1.unicode, stored2.unicode,
++			       be16_to_cpu(stored1.length) * sizeof(stored1.unicode[0])),
++			0);
++
++	free_mock_sb(mock_sb);
++}
++
+ /* Test hfsplus_compare_dentry basic functionality */
+ static void hfsplus_compare_dentry_basic_test(struct kunit *test)
+ {
+@@ -1880,6 +1947,7 @@ static struct kunit_case hfsplus_unicode_test_cases[] = {
+ 	KUNIT_CASE(hfsplus_hash_dentry_consistency_test),
+ 	KUNIT_CASE(hfsplus_hash_dentry_edge_cases_test),
+ 	KUNIT_CASE(hfsplus_hash_dentry_combining_reorder_test),
++	KUNIT_CASE(hfsplus_dentry_combining_reorder_long_test),
+ 	KUNIT_CASE(hfsplus_compare_dentry_basic_test),
+ 	KUNIT_CASE(hfsplus_compare_dentry_casefold_test),
+ 	KUNIT_CASE(hfsplus_compare_dentry_special_chars_test),
+
