@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795699677;
-	b=rfkgcrKCcW9Nts88O4+GpdxfZXkADGMBmoCN2gjSGxuriGw71x8k0AiYuxRCBwF00pUl
-	 Glphz+Z8S8niJCPOmTYSZnujBrj7T43I0pW8CA4ugCM4CM14M5U9ZLxLTAC14VtqTkY/F
-	 okixa/vdu2a393N/28AiW/lm5Cu7otVOfuMsBX4zFJM8aXi/9NqA//AkFBW0nzBUrQOU6
-	 BIsb6d06y+FMKIBXn1a33WU3GcnPT8RnQl5MyktVyindyrSSh0I/jIPTMAi2h0S8qSnKf
-	 pOE0rUdZhK7mrkKymzwscX/OzzgNZD0SgTkMzT/PY1RSrFyKQTcAEhgILN/feDzST4g==
+	t=1795699725;
+	b=gZyxb5xq7rVF/Asoa9YZHdco02fJ+ES90CD7h6WuMFJGI7wH07SBTbgBlrABqKpDSF6F
+	 4OXtimCLtxHxM0g0S8GDvC8p74ioQvfmQSJnNdz4k4KVYWL4UqJtCQMuStiGBGDqgVdVV
+	 NgcRpza8ckpwtxnJT542zUD1TsY4uKceMsTrSg9dZwF9ax6jYOMzPKoUuqji2eeIGqs0m
+	 MsASEAusqoNQx8/rV6l/EZCqcz9IShhBHYyDBlyd4WEPiW2s5ouLoQJmzN3K3u1kbIko1
+	 aqMs7PwEBNcqX6ThwpQkNKTe3kJumUXp6PIjyuI2YevRMur9p+/XEbT/Fb9BgPlm/zA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795699677;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795699725;
 	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
 	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
 	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=0SuygBFJgQJDPEHL8vg5eLv9glUvVL4TbpwchKTOKc8=;
-	b=SG5Mu4Tcy9TMZYmCBZ1gP/9c0hmMUvVbSTtKqVAwroqvPmCxAh6KDBvuv3pa4Jz9L7sI
-	 FBIdXlLkUdW2KldmqD6SK0cJF4KPaLTpyF8ChmHEUHVlSjsEmCq+YHtOmy/BYDnS/KFSL
-	 xHpBUhFatYOsG4YiiPYc2cBB9XIvNe+zYnWPCmqUnjaOVBObBAa5sF8tNrVaboBwZfqzT
-	 MYkX80LlXvNSvOl5rHHEGlJTN2PNe9Pe5MJydIuOyEITHzZ3mmmhmow41mFakIJM1O7ZK
-	 G+/wBWEvDCwHEEa3TIaFdOgkiFCLeYhD/vgFX+9G89D2oQbV5eG4en3P7dFQZAGcd0g==
+	bh=cjfeIB7Jh9Ac/AfayNnL1Yf0x7S27z/ryKSokFRvmis=;
+	b=oo5hpBNqBgI/lZznUmRrFCkEn0gF4jRRElmlxO9b6pH0ctt8vfAdJ6Tv+cRJsiw9RL1L
+	 ML7N+Fe4mtVTVXycjziKzq/GfCgp/3GshvD2GPvJjqt9iHDNE4TgVWoI+Yup39GhMDV15
+	 nZURgxtiFZAlkEmvL0B6jEEj07/AqeWE9iJ38gEfhmoQ1F9P1PfZhAKOutqn0v105H1fA
+	 7AHtp58Sp2Gtmts9uTsRVVCfC+6VRgkAmYpiostGBI/QZQGLdkrkr8MkUOeeoYV3//3Kb
+	 XAhID4fidoRLCJKVdsgxpSw7x5RpQaZGEbEmvp6bsdJt5g0zUX1cu0CyTDq5LqrZeQw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EPHU4bh1;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OKjmQFPo;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E1C606A31E
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 13:27:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3831E606A32D
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 13:28:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EPHU4bh1
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97EAA1F00AE3
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 13:27:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OKjmQFPo
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B77A1F000F0
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 13:28:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795699676;
-	bh=0SuygBFJgQJDPEHL8vg5eLv9glUvVL4TbpwchKTOKc8=;
+	s=k20260515; t=1795699724;
+	bh=cjfeIB7Jh9Ac/AfayNnL1Yf0x7S27z/ryKSokFRvmis=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=EPHU4bh1rQUynF67I/BLiAYnpMItWNnTQ9AParYyhIyJ+y6H3njJ4HyIE0s6Jx202
-	 xCNzY4EbdFEUvhIGV7u89sr9xvmTk/hzD3usLMoUVQo7zRS1mVOEOGXKaU7srd0lqN
-	 QJ8zgMkZSbzwDG6k/Q8gKHxK2xOwoNZh0rfmPcgTWzKzVzQoVxEJRXus9AvWUL1U2G
-	 poRlMVnD4ZVArgDu1nm8eFgis+FkVYb/7yrTihelucyhtlDiutnGbPYYQd1IeXPRF1
-	 uMR3MT3fEDrUV6O3qWBar39ZOF0tAC8l88Y7GgJIURjBmPo17gy3FHsqx2yCKI3NPh
-	 QpwxgY4N6hLRw==
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5c1479a959aso5286676e87.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 05:27:56 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErEsbf6Qb57EYJFmIKSkjTuK53qP1r///vUMJsgbYTYOciByZy9zBKKpeJqDJlrQiBD8ajXlDPj9cE8o6hQp@vger.kernel.org
-X-Gm-Message-State: APuU4Z/TyaCbC7n0movzn/HzmjQcVtqXQF33mWT5dovucv0NAna25f1o
-	c7BsYmfFEMput1H6FXjiw4YEA7GOxbxDM7hSdmkTs2N4MvGxKuAAG963Ak6Ah3azkNBLpJDmXzG
-	HRHwtNNDGDDBevuFnM+TinJl3bW7KW44=
-X-Received: by 2002:a05:6512:36d9:b0:5c1:5976:1d30 with SMTP id
- 2adb3069b0e04-5c1bc8206cdmr4300123e87.57.1795699675392; Thu, 26 Nov 2026
- 05:27:55 -0800 (PST)
+	b=OKjmQFPo1M75NXkW1bHMDWybQdIuae5BfdUB+xGnCd8WnZUl/pDfDcBO7rB3WwRBS
+	 /Ob1mY//DhcXEHQ/uv6PMdV+zDPkCmw026DdqzRidvVfO57zNsZ5lx19VY8mEJEfRI
+	 NbQBvzhp+gPFFwQBIh98wVGgz0sVb5J2qhuKj3w2sLjZLC+2Jz3xd/iXOMiHZuSFhu
+	 VXk/8CCos/vN9KGdGMsSfxA8Ueh0PcXCmFe3AY2A44UJ4PQrSBxPd/ZTi4mfET6X/v
+	 ExJt6R9GcDL0CkqyBHW7iQlwm4AKk2/6tvRSIaioKBzEDyuHPX6sX/aLjG/Prito3n
+	 cJnEjZgWJdwjA==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-3ae85add4ceso50029901fa.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 05:28:44 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErGdvQG540XwRv5azwYbk4G132FuC35KKFY3GD0gOG33tYuXc6WcL97Vz2gDd6mXODV/qvZ8osRsNG8z4HFD@vger.kernel.org
+X-Gm-Message-State: APuU4Z/YW/SHOE1Vpo7mLMtHQHzZGZz70vNMXvkufC/LbCjxBLMFbtCs
+	ImU0Xihvx+RLy5SX4T16AKYrhoCmtSE2Nj0YHSU5Aayg8HQb3jgD6asclnl6w0aNyh/+ApbbAR+
+	LWyxBtV7FG+LSoThErczLMR5C0fIdbiE=
+X-Received: by 2002:a05:6512:124d:b0:5c1:56f2:fda4 with SMTP id
+ 2adb3069b0e04-5c1bc89530fmr5518571e87.49.1795699723141; Thu, 26 Nov 2026
+ 05:28:43 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,14 +59,14 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261116124832.662455-1-arnd@kernel.org> <20261116124832.662455-6-arnd@kernel.org>
-In-Reply-To: <20261116124832.662455-6-arnd@kernel.org>
+References: <20261116124832.662455-1-arnd@kernel.org> <20261116124832.662455-8-arnd@kernel.org>
+In-Reply-To: <20261116124832.662455-8-arnd@kernel.org>
 From: Linus Walleij <linusw@kernel.org>
-Date: Thu, 26 Nov 2026 14:27:42 +0100
-X-Gmail-Original-Message-ID: <CAD++jL=ZyHZcJRUTpVghs3xYH0OGOKauKVWTF8tiPpHPjuad+g@mail.gmail.com>
-X-Gm-Features: Aa3M54pIH7xhTLEiVGxFItiuCxGTTC1f9B6RJQ9R1KEb9x9xI611Qqdum1NmRD8
-Message-ID: <CAD++jL=ZyHZcJRUTpVghs3xYH0OGOKauKVWTF8tiPpHPjuad+g@mail.gmail.com>
-Subject: Re: [PATCH v3 05/10] ARM: add CONFIG_VMSPLIT_2G_OPT option
+Date: Thu, 26 Nov 2026 14:28:30 +0100
+X-Gmail-Original-Message-ID: <CAD++jLmT3dgWNhwXnxBbMWT4FPtM85j7pGqphVhofVDn6bgq4w@mail.gmail.com>
+X-Gm-Features: Aa3M54qt87pVcinKxHwHL_cdEyu5uWkoYM1H8TRwnc8234Hd9kxa6PUDkX4jAZc
+Message-ID: <CAD++jLmT3dgWNhwXnxBbMWT4FPtM85j7pGqphVhofVDn6bgq4w@mail.gmail.com>
+Subject: Re: [PATCH v3 07/10] ARM: defconfig: turn off highmem in favor of CONFIG_VMSPLIT_2G_OPT
 To: Arnd Bergmann <arnd@kernel.org>
 Cc: linux-mm@kvack.org, Arnd Bergmann <arnd@arndb.de>, 
 	Andreas Larsson <andreas@gaisler.com>, Andrew Morton <akpm@linux-foundation.org>, 
@@ -87,21 +87,34 @@ te:
 
 > From: Arnd Bergmann <arnd@arndb.de>
 >
-> Unlike x86 and powerpc, there is currently no option to use exactly 2GiB
-> of lowmem on Arm. Since 2GiB is still a relatively common configuration
-> on embedded systems, it makes sense to allow this to be used in
-> non-highmem builds.
+> The multi_v7_defconfig and omap2plus_defconfig attempt to support a
+> broad range of hardware. This is at odds with the setting for highmem
+> being slowly phased out on the one hand but still enabled by means of
+> CONFIG_ARCH_OMAP2PLUS_TYPICAL, leading to a default CONFIG_VMSPLIT_2G_OPT
+> split.
 >
-> Add the Kconfig option and make this the default for non-LPAE builds
-> with highmem enabled instead of CONFIG_VMSPLIT_2G.  LPAE still requires
-> the vmsplit to be on a gigabyte boundary, so this is only available for
-> classic pagetables at the moment, same as CONFIG_VMSPLIT_3G_OPT.
-> Keep ARCH_MMAP_RND_BITS_MAX at 15 for this.
+> None of the upstream OMAP2+ DTS files actually list more than 2GiB
+> of RAM, so it seems fine to just turn off highmem by default and use
+> CONFIG_VMSPLIT_2G_OPT from the defconfig to still support the same
+> hardware but not require highmem.
 >
-> Tested in qemu -M virt, both with and without HIGHMEM enabled.
+> This also changes multi_v7_defconfig, which currently supports all sorts
+> of ARMv7 systems except those that require LPAE.
 >
-> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> The best comprimise I can think of again is to use VMSPLIT_2G_OPT in
+> place of highmem. Compared to highmem configurations, this should be
+> an improvement on most machines with 2GiB of installed memory for the
+> lower overhead and complexity, but it does degrade machines that rely
+> on highmem to access all memory, as well as reduce the available user
+> address space (1.75GiB instead of the traditional 3GiB).
+>
+> For aspeed_g5_defconfig, the decision is trivial, as there are no
+> 4GiB configurations we need to support, but g6 is known to use
+> up to 2GiB.
+>
+> If you run into problems on production machines with the new default,
+> with the absence of highmem, or the smaller user area, please complain.
+>
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
 Reviewed-by: Linus Walleij <linusw@kernel.org>
