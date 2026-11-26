@@ -1,77 +1,77 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795693686;
-	b=1KDbnaYaEYEdijxVkPORdRtkEl+2pPcq+BOKAxacvP9/6v3/mbxLBWsTtXTbOD1wMAXx
-	 gch+835QS9ksPjoP8GBK8icDl/tZFx7zRX5o995macJKi+kbd2VRL9zxLs0h/RbOX/TnF
-	 0iMeo3Tausx4+0IjlPAjo7aWKpblpcx+UwctniT6cdxj44w1cTPykAgqDk5gNoS6mctE/
-	 O2LzuWO5YNGhPXGUBO3YAJuPTcSXIfyd+ocXFLGnsIDjM6av8QTKbP5oh21L9nUIw73ZR
-	 elLZ+1JxvvRdPTxZ57AXYPGVCEV821NmVANlDJxMkz2zlEctTvVmgLtbsEI/ZI6L7hQ==
+	t=1795693693;
+	b=frR66V0/IgDbj5ZfK3FWehXFwIfwWbjyskvLfPGR7eq0lvl03C656ZEZeT0lNPbI8fWH
+	 HY6D9TZHQF3GqKOgFuxgL+UI+OFEzauC306kbgF7KKHZPuJT37vlVg0uTRAcpMu38J2WF
+	 LeFEZpyI5HXaydVeOFg1XgapXBZpJrQTecDq2Vq38PQdWE/bf4LtzzmnBAWfrXM/zGLce
+	 qXJ6crdJ00bPZW7fobkv0awpWgMln8Fd2oC4qzwhSeoAUzAdwRpPXI1mi5HGvg0miljTR
+	 WKRLlf5/wra8jCA+ZGGY/qa0BAuvGF1WvJVnrwwxR9X0pn+wsRJIeQPvdLnv3MZhvww==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795693686;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795693693;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
 	 X-Endpoint-Received;
-	bh=18eq3zn7SYic2J5YYPv2+2B+xOJ6IJ74Gwbr4qRC70I=;
-	b=qT+7ir0FwhGNjgLRLtzIp59OxICXMC7ZEnl8vcguc1SBpOqZzhdoW6qoeLxJkwf+Xljz
-	 ZUd09G3pR31dQhP9LBce7svMuVjVKNWzYPimETlsMXHaknbbznX10jMxTeavhEP+JydhD
-	 +4VkDSKCLmLSkV4X3HaaJd19ZJDkgQDL/1QPDVvg35WegUR5f/fG60cJqUAOVQt42cn62
-	 anz2BxBw+KMUcWaLOme9h63Zy3Fn6gIIPcMxA/zRD3Tyyxf5i9hBL8joO07bKtLOjc3fV
-	 tr9U2+z158D6FH/vlK3jdOvQTrSfe8w7EMpYCKUgLbhbLzmqcIpkS3OesRaDL1Bxitw==
+	bh=JMOqSQXm9yjr94VJxt+wr5RlHBO3egF6Z5jn0YsYKKk=;
+	b=rgYtd75CZS13jt7TSPE2t7VhC3EuP78INg6aKOBhOU4K2FeNMyFaXh1WHEJpS6TbYVV6
+	 tSaYUud1eBZpkBF12tSLmGK3XY+r91mE8yvpa+SLkgwxuvDJdJPN/nF4UWydE/Z6VW2sp
+	 uq3p+mVDJa05xbTVEcBk7pmG4FJEDQrpSRQ/78+vHh6i548CviokY20+sYPAjoBl8Yqta
+	 HG4lRG1zoyR0n428P7qxPpZvJgxEAHJpKv/FWx99l+cQCpBYqHuInlpL/fcVtvBPYtryA
+	 mIjJ6TXYYJfEH4eLGgqX+51vE6RlwcsEmO6OLfiujkbG+TWEgU1blpdLiMz9AiYqgrg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=czBLgJkw;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YzL2RnUh;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA8A3606A32D;
-	Thu, 26 Nov 2026 11:48:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E77660A3807;
+	Thu, 26 Nov 2026 11:48:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=czBLgJkw
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YzL2RnUh
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795693686;
-	b=q8dILZKlde/k6xI9O1LLOCtSJZEoewhRWPRc5EPiCCLyu2REQYlpV3PWGqhy14OYtnCV
-	 0ApTeoHCexxavLmWMaWZuVflSksrY3y0BJpIAcNwZ4DVEy1kO+nG4551nsoaNcsOCUXKt
-	 dJ+dCwp5g4qJzTqp0vgAu+iRDBxVNR1zyConVyeZcjWGSE2TVlpoJ3Se0p++UCzBZ4NeQ
-	 ouFA/5kKWBU5gxfzCEgrJTLjQsV/2DFTWpN/nppLzGdYVeJ8j0fjAJU8PdUY4nmhqkDW5
-	 6kyoXV/S38rxFkQAX6aJsVTppsGFQ9gPijxKPg0ulBQF+C/NX0iaT+0Qt6QvUK2CVCA==
+	t=1795693692;
+	b=QVz5CFGUVseD48h+0pzrVhL4baPcM+B+C5ZTz8XC5dC2vN/n3iIOgEyc/YMu2jqHGDpW
+	 PXE06jcrC0W2kowgYTRxSEwLmIAWE6MMe8uXBNf1isMo768L5bj9DFCqactONXvQ86TJU
+	 mkoUwNtlEe4bl16zwEA/O6Gt+TIkD7/I7rRG9l8l/6SRob5MRANSw1wY+zubfzLcW1SAQ
+	 5Mhaf7fuL6QrxKI3gm2CbieQUaPQclfLBH+9mn5iKs6cRb9wrqNTKJFV+IQ4qq/PHvXXM
+	 RRuy2b+2+WIu1mzEBLdI3Qr2X/kBWKp3P7z+RVYz9/N19j/kUbOdqf42fBqwAmPpW9Q==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795693686;
+	c=relaxed/relaxed; t=1795693692;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received;
-	bh=18eq3zn7SYic2J5YYPv2+2B+xOJ6IJ74Gwbr4qRC70I=;
-	b=D/3l4gpOn6b1dUCMaAUP0BGNPxIzw3bEa+1HPacdOZqRHUdjklEjYQuTnGu7Sg3CeCXV
-	 86tidSndMtAfgXRDMr6Pf8KRMbZKvJaV6CZ/qpdxzzp+kOlwwUg01fIJIzhG6yx/rOSKg
-	 hChWCURyLtsAuHuSIw7AOVfZBQwvZOlqtPpV/I2I6vVSsBlFjd/slZeBj3oJzCH4CvS/R
-	 bCUG76K6nzs50kY7p64ce5a857sRt0AlWQlf8+NGjdluapNzgYDWsGDFYGECDXf7vkGh8
-	 J+h+e3fK7AB9HtddiaRxYaLUowqmZ8TK2+Y9in2PJgw8DBHr0zcqhf4VLTv6sTuOtbQ==
+	bh=JMOqSQXm9yjr94VJxt+wr5RlHBO3egF6Z5jn0YsYKKk=;
+	b=fP212NZOa9wEILe97mQpSEbLtYqTCZu7uwAQoIJ4gwWFfcXhEHTx7LRw43ZYoAaWqDcx
+	 cr/svxpKlIdgGNCQ3vjglB3q/lXWrh5+hEj146y6Lx1Suyc7Im3aJHvjYrM36VD73fhUq
+	 dvkKtfgOJ2HAq3D00YCEySpvrZ2xcqsYWi01Thzso7ghyu5W4ixBPfegzdyP8lFhIJ86+
+	 /SZ6RJtIt/cS/c6xaFe60XXaawvLBEtwGqwyvFnGLcuGbiYlY8nv8Iel7AWqENo8wArZO
+	 R+XYeUteKbUKRoD2TKWmAXiL/URg8oplKuWNiy4bNowj8ZsiMwepkSzuth1T+2qVkzQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A126A1F000D8;
-	Thu, 26 Nov 2026 11:47:53 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 279BC1F000D4;
+	Thu, 26 Nov 2026 11:48:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795693686;
-	bh=18eq3zn7SYic2J5YYPv2+2B+xOJ6IJ74Gwbr4qRC70I=;
+	s=k20260515; t=1795693692;
+	bh=JMOqSQXm9yjr94VJxt+wr5RlHBO3egF6Z5jn0YsYKKk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=czBLgJkwkuq4G4TN5EU2DfNVl4uY3rz/weCEYg6skbwS4jjzFgPOO4ttY1BkhmT40
-	 1J+S+8m5OyC6cAgOFxEAVHQIHsuOo8h+0UZgIMRBf6DOOuAbPJJyzKW2pm/tzPfT4q
-	 ne0Isr0NlX4almQkaBprmuKbdb4fbbuazTPVPT6VNLns3aUCsV6tFPDnuQBs6/9sJB
-	 nYodnqKskw+NU9qIneUZqVjUvl359vRjHmuFVEKCsvVUFgMUFQ/ABKqQ62v7cmQdat
-	 T3SrGDSYk5sdebUJN5a6kpZEW4WdKLLZE38c2mqVIbNC/TUlRUnAj+C7MdTAXQJ1qQ
-	 4HpMCkZY+d64Q==
+	b=YzL2RnUhxz/ebRJXU9rSSAlPC785wUJ5rgCKS9gn9p8eyxfAXmq1gLzd/vQW63/+X
+	 WTkFPliOuW2ifVTJ6WGWUhS7uzq5gTf6k+xoIGjNZJpsVzu7ZW4Q1GGo95rDLeFMXz
+	 g4bCtdG6H4CTQvyqTs+koexu2RmrdQk9zWUIDyyBNOVACzBdxnTbDiWz3gtc2njdsz
+	 sGvJqEG/f0VUPIE6Mm7Qqhch+KGjjaHMTFvxiFoSfYVubEuH4Z0mZ/cNJ3iDoRCWx4
+	 n7BHcNocm0q/lwUqfg0Q0IjeBaRCocukVwRATv4SrbqZGaxxuXw0HLW5iu5vPwPYDh
+	 Ipx91Yt3omCwA==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 29E734D491;
+	by lkml.kernel.org (Postfix) with ESMTP id 8BFBF4D49D;
 	Thu, 26 Nov 2026 11:47:53 +0000 (UTC)
 From: Joel Granados <joel.granados@kernel.org>
-Date: Thu, 26 Nov 2026 12:47:44 +0100
-Subject: [PATCH RFC 4/9] sysctl: Add sysctl template registration
+Date: Thu, 26 Nov 2026 12:47:47 +0100
+Subject: [PATCH RFC 7/9] ipc: Register ipc_sysctls as a template
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -83,7 +83,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261126-lklm-sysctl-ctx-flatarray-v1-4-d7fc9cc9b03e@kernel.org>
+Message-Id: <20261126-lklm-sysctl-ctx-flatarray-v1-7-d7fc9cc9b03e@kernel.org>
 References: <20261126-lklm-sysctl-ctx-flatarray-v1-0-d7fc9cc9b03e@kernel.org>
 In-Reply-To: <20261126-lklm-sysctl-ctx-flatarray-v1-0-d7fc9cc9b03e@kernel.org>
 To: Kees Cook <kees@kernel.org>, Alexey Gladkov <legion@kernel.org>, 
@@ -94,431 +94,158 @@ Cc: Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  netdev@vger.kernel.org, Joel Granados <joel.granados@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=14316;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4976;
  i=joel.granados@kernel.org; h=from:subject:message-id;
- bh=eW097mEkqhuZunAIEgyFJZ7ZyrcCo+Hgb0Cm8AguRSU=;
- b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGsIHGPo9anX2QhjuzL/XKOOLG0t59OcZM37n
- m29g8zUZpaJHokBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJrCBxjAAoJELqXzVK3
- lkFP4CQL/1hoOazkl4mVp2aNHL31buKhNSXe0uhboIjH+okIdlgQupdsQvENn4hCQhpoMEUxqCQ
- ciSva+/GNjntB6du2m+MwUSjYR3awNe+2ghfMAkklDTscx6e4xUcrDVg1Xr2mHzv/R4GuNkwKoV
- cG9zYKn5vfsCTcn6vDZ0UCU8RCOAOgM+C/jEkAtiQ8/UXCmBqXo2QBB3acNkWGpfAH4piyIqJqj
- zbdv8vGb52XWrX24pbXoJqiZgEKXJ7at/oJrBqkMNxqOmpYJwlPu6/rhC10vHT9gWf/7MAhocGA
- 1UQxDX6+fXKTbcZOeP5jSQ15ZitHKnp1qM2q4zVYIxOZ1HfS+3ogVT9L+tjI3VQuo9qcNxmVjyQ
- HVkRFTEYSe3ZZyBsIsnoYpiOMpqyb12tzY4PFtWIHtZnHxbedSfke1G0BrAXz1xLaFyCKeeHQsU
- 7LF6yAXCki/ESYwdfUWTD4QPU62jzMk/yZwn1170pL1owrRCLA2gDIDK5bnb6++XhLvqCu2sM86
- lU=
+ bh=54HGww1X23ASNOxIGe3Rxq7gJzlT62N2Vt9USaYOQiY=;
+ b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGsIHGUvwSVAnNS5lLfxc7WVC/uJB8e3Oz0ob
+ bPc1/RP5CyLL4kBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJrCBxlAAoJELqXzVK3
+ lkFPgTIMAIR4yCRrf8qNLZiE+iuepvt8fDSt9M1X3AAwFrc+ny59YhNL7QAc3Ko4szYiepSb0cU
+ 43nc4NArMYz2Wa5IBpKTqp3R/qOpwfQ53vqLschdcs4afJKoaU/4ix/ZuoJp9Y3KVU2P88TAoTp
+ I3iqlwwbobpD0wxNQpkr2OBNxljQgBp+wWABEtDc//EUVp+lPQNBBaJWOCnxGGmRd8W26XgHAK+
+ x5s2Erb1XZiwdvz8jR8SxiBiLz+whvpvuz8RLpLAm9bxyLpCNzeZZv5VHktDh+ePud9At9jSl/X
+ /3IUsvRIoblRzQzfjHhD9Bhw7u0jSqVfphjSK8ckB+WyWu/C9+gERcB0W+84dwI5Os9z+5MEOZd
+ 2i0xaH3D785woVTYapd1j8xC/Xrv+YoQSRcOMZtRZmSsHFCzLNnpy60RW7nx2J8FTltLWG1IaXK
+ cP4Hb2ufYtt5lrOVeL7RUf7qz20ai9s46L+tQmftRO2VfXfGVGM6zfXeSFNsFJp80PHG2WEdsg5
+ +Q=
 X-Developer-Key: i=joel.granados@kernel.org; a=openpgp;
  fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
 X-Endpoint-Received: by B4 Relay for joel.granados@kernel.org/default with
  auth_id=239
 
-Add register_sysctl_tmpl{,_sz}() for sysctl template registrations. A
-caller marks the entries that vary with the SYSCTL_OVERLAY_* flags in
-the already existing const struct ctl_table. The "new" entry values are
-filled and passed along in a copy of the array.
-
-	overlay = kmemdup_array(tbl, ARRAY_SIZE(tbl), sizeof(*tbl), GFP_KERNEL);
-	overlay[idx].data = VALUE;
-	hdr = register_sysctl_tmpl("kernel", tbl, overlay);
-	kfree(overlay);
-
-sysctl_ctx_fill adds the overlay (flagged) entries into the header
-context. Check that every flagged overlay carries a value; return an
-error if this is not the case.
-
-The new internal function register_header() contains the common logic
-between the two ways of doing the sysctl registration (original and
-templated)
-
-This is a prep commit, no caller uses this yet. No functional change
-intended.
+Flag SYSCTL_OVERLAY_DATA on every entry of ipc_sysctls that has a .data
+pointer and register the table through __register_sysctl_table_tmpl(),
+passing the rebased copy that setup_ipc_sysctls() already builds as the
+overlay. Free the copy once the call returns and stop freeing
+ctl_table_arg in retire_ipc_sysctls(). auto_msgmni has no .data and
+stays unflagged.
 
 Signed-off-by: Joel Granados <joel.granados@kernel.org>
 ---
- fs/proc/proc_sysctl.c  | 264 ++++++++++++++++++++++++++++++++++++++++++-------
- include/linux/sysctl.h |  30 ++++++
- 2 files changed, 256 insertions(+), 38 deletions(-)
+ ipc/ipc_sysctl.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
-diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
-index 5b5db9fcc3c63444e79b76d94891af70ec8ecc0a..aabcb9ef8e8e7832734360cec80796c2ee7547d4 100644
---- a/fs/proc/proc_sysctl.c
-+++ b/fs/proc/proc_sysctl.c
-@@ -1176,6 +1176,53 @@ static int sysctl_err(const char *path, const struct ctl_table *table, char *fmt
- 	return -EINVAL;
- }
+diff --git a/ipc/ipc_sysctl.c b/ipc/ipc_sysctl.c
+index d038d944257f60b3a35b72492c73c41774a73da4..42a249cb58747e75fa76aa94570e5ad23cf8b003 100644
+--- a/ipc/ipc_sysctl.c
++++ b/ipc/ipc_sysctl.c
+@@ -79,6 +79,7 @@ static const struct ctl_table ipc_sysctls[] = {
+ 		.data		= &init_ipc_ns.shm_ctlmax,
+ 		.maxlen		= sizeof(init_ipc_ns.shm_ctlmax),
+ 		.mode		= 0644,
++		.flags		= SYSCTL_OVERLAY_DATA,
+ 		.proc_handler	= proc_doulongvec_minmax,
+ 	},
+ 	{
+@@ -86,6 +87,7 @@ static const struct ctl_table ipc_sysctls[] = {
+ 		.data		= &init_ipc_ns.shm_ctlall,
+ 		.maxlen		= sizeof(init_ipc_ns.shm_ctlall),
+ 		.mode		= 0644,
++		.flags		= SYSCTL_OVERLAY_DATA,
+ 		.proc_handler	= proc_doulongvec_minmax,
+ 	},
+ 	{
+@@ -93,6 +95,7 @@ static const struct ctl_table ipc_sysctls[] = {
+ 		.data		= &init_ipc_ns.shm_ctlmni,
+ 		.maxlen		= sizeof(init_ipc_ns.shm_ctlmni),
+ 		.mode		= 0644,
++		.flags		= SYSCTL_OVERLAY_DATA,
+ 		.proc_handler	= proc_dointvec_minmax,
+ 		.extra1		= SYSCTL_ZERO,
+ 		.extra2		= &ipc_mni,
+@@ -102,6 +105,7 @@ static const struct ctl_table ipc_sysctls[] = {
+ 		.data		= &init_ipc_ns.shm_rmid_forced,
+ 		.maxlen		= sizeof(init_ipc_ns.shm_rmid_forced),
+ 		.mode		= 0644,
++		.flags		= SYSCTL_OVERLAY_DATA,
+ 		.proc_handler	= proc_ipc_dointvec_minmax_orphans,
+ 		.extra1		= SYSCTL_ZERO,
+ 		.extra2		= SYSCTL_ONE,
+@@ -111,6 +115,7 @@ static const struct ctl_table ipc_sysctls[] = {
+ 		.data		= &init_ipc_ns.msg_ctlmax,
+ 		.maxlen		= sizeof(init_ipc_ns.msg_ctlmax),
+ 		.mode		= 0644,
++		.flags		= SYSCTL_OVERLAY_DATA,
+ 		.proc_handler	= proc_dointvec_minmax,
+ 		.extra1		= SYSCTL_ZERO,
+ 		.extra2		= SYSCTL_INT_MAX,
+@@ -120,6 +125,7 @@ static const struct ctl_table ipc_sysctls[] = {
+ 		.data		= &init_ipc_ns.msg_ctlmni,
+ 		.maxlen		= sizeof(init_ipc_ns.msg_ctlmni),
+ 		.mode		= 0644,
++		.flags		= SYSCTL_OVERLAY_DATA,
+ 		.proc_handler	= proc_dointvec_minmax,
+ 		.extra1		= SYSCTL_ZERO,
+ 		.extra2		= &ipc_mni,
+@@ -138,6 +144,7 @@ static const struct ctl_table ipc_sysctls[] = {
+ 		.data		= &init_ipc_ns.msg_ctlmnb,
+ 		.maxlen		= sizeof(init_ipc_ns.msg_ctlmnb),
+ 		.mode		= 0644,
++		.flags		= SYSCTL_OVERLAY_DATA,
+ 		.proc_handler	= proc_dointvec_minmax,
+ 		.extra1		= SYSCTL_ZERO,
+ 		.extra2		= SYSCTL_INT_MAX,
+@@ -147,6 +154,7 @@ static const struct ctl_table ipc_sysctls[] = {
+ 		.data		= &init_ipc_ns.sem_ctls,
+ 		.maxlen		= 4*sizeof(int),
+ 		.mode		= 0644,
++		.flags		= SYSCTL_OVERLAY_DATA,
+ 		.proc_handler	= proc_ipc_sem_dointvec,
+ 	},
+ #ifdef CONFIG_CHECKPOINT_RESTORE
+@@ -155,6 +163,7 @@ static const struct ctl_table ipc_sysctls[] = {
+ 		.data		= &init_ipc_ns.ids[IPC_SEM_IDS].next_id,
+ 		.maxlen		= sizeof(init_ipc_ns.ids[IPC_SEM_IDS].next_id),
+ 		.mode		= 0444,
++		.flags		= SYSCTL_OVERLAY_DATA,
+ 		.proc_handler	= proc_dointvec_minmax,
+ 		.extra1		= SYSCTL_ZERO,
+ 		.extra2		= SYSCTL_INT_MAX,
+@@ -164,6 +173,7 @@ static const struct ctl_table ipc_sysctls[] = {
+ 		.data		= &init_ipc_ns.ids[IPC_MSG_IDS].next_id,
+ 		.maxlen		= sizeof(init_ipc_ns.ids[IPC_MSG_IDS].next_id),
+ 		.mode		= 0444,
++		.flags		= SYSCTL_OVERLAY_DATA,
+ 		.proc_handler	= proc_dointvec_minmax,
+ 		.extra1		= SYSCTL_ZERO,
+ 		.extra2		= SYSCTL_INT_MAX,
+@@ -173,6 +183,7 @@ static const struct ctl_table ipc_sysctls[] = {
+ 		.data		= &init_ipc_ns.ids[IPC_SHM_IDS].next_id,
+ 		.maxlen		= sizeof(init_ipc_ns.ids[IPC_SHM_IDS].next_id),
+ 		.mode		= 0444,
++		.flags		= SYSCTL_OVERLAY_DATA,
+ 		.proc_handler	= proc_dointvec_minmax,
+ 		.extra1		= SYSCTL_ZERO,
+ 		.extra2		= SYSCTL_INT_MAX,
+@@ -290,11 +301,12 @@ bool setup_ipc_sysctls(struct ipc_namespace *ns)
+ 				tbl[i].data = NULL;
+ 		}
  
-+/* Move the flagged members into the header sysctl context. */
-+static int sysctl_ctx_fill(const char *path, struct ctl_table_header *head,
-+			   const struct ctl_table *overlay)
-+{
-+	struct sysctl_context *ctx = &head->ctx;
-+	const struct ctl_table *tmpl;
-+
-+	list_for_each_table_entry(tmpl, head) {
-+		size_t idx = tmpl - head->ctl_table;
-+		const struct ctl_table *ovl = &overlay[idx];
-+		u8 flags = tmpl->flags;
-+
-+		/* An unflagged member must match the template. */
-+		if (ovl->procname != tmpl->procname ||
-+		    ovl->maxlen != tmpl->maxlen ||
-+		    ovl->proc_handler != tmpl->proc_handler ||
-+		    ovl->poll != tmpl->poll ||
-+		    ovl->flags != flags ||
-+		    (!(flags & SYSCTL_OVERLAY_DATA) && ovl->data != tmpl->data) ||
-+		    (!(flags & SYSCTL_OVERLAY_EXTRA1) && ovl->extra1 != tmpl->extra1) ||
-+		    (!(flags & SYSCTL_OVERLAY_EXTRA2) && ovl->extra2 != tmpl->extra2) ||
-+		    (!(flags & SYSCTL_OVERLAY_MODE) && ovl->mode != tmpl->mode))
-+			goto err;
-+
-+		/* A flagged one must be set: an empty slot means "not overlaid". */
-+		if (((flags & SYSCTL_OVERLAY_DATA) && !ovl->data) ||
-+		    ((flags & SYSCTL_OVERLAY_EXTRA1) && !ovl->extra1) ||
-+		    ((flags & SYSCTL_OVERLAY_EXTRA2) && !ovl->extra2) ||
-+		    ((flags & SYSCTL_OVERLAY_MODE) && !ovl->mode))
-+			goto err;
-+
-+		if (flags & SYSCTL_OVERLAY_DATA)
-+			ctx->data[idx] = ovl->data;
-+		if (flags & SYSCTL_OVERLAY_EXTRA1)
-+			ctx->extra1[idx] = ovl->extra1;
-+		if (flags & SYSCTL_OVERLAY_EXTRA2)
-+			ctx->extra2[idx] = ovl->extra2;
-+		if (flags & SYSCTL_OVERLAY_MODE)
-+			ctx->mode[idx] = ovl->mode;
+-		ns->ipc_sysctls = __register_sysctl_table(&ns->ipc_set, "kernel", tbl,
+-							  ARRAY_SIZE(ipc_sysctls));
+-	}
+-	if (!ns->ipc_sysctls) {
++		ns->ipc_sysctls = __register_sysctl_table_tmpl(&ns->ipc_set, "kernel",
++							       CTL_TABLE_TMPL(ipc_sysctls),
++							       tbl, ARRAY_SIZE(ipc_sysctls));
+ 		kfree(tbl);
 +	}
-+
-+	return 0;
-+
-+err:
-+	return sysctl_err(path, tmpl, "error while filling the sysctl context");
-+}
-+
- static int sysctl_check_table_array(const char *path, const struct ctl_table *table)
- {
- 	unsigned int extra;
-@@ -1213,6 +1260,30 @@ static int sysctl_check_table_array(const char *path, const struct ctl_table *ta
- 	return err;
- }
- 
-+/* A flagged member must be different between the underlying entry and the overlay */
-+static int sysctl_check_overlay(const char *path,
-+				struct ctl_table_header *head,
-+				const struct ctl_table *entry)
-+{
-+	const struct sysctl_context *ctx = &head->ctx;
-+	size_t idx = entry - head->ctl_table;
-+	u8 flags = entry->flags;
-+	int err = 0;
-+
-+	if (flags & ~SYSCTL_OVERLAY_MASK)
-+		err |= sysctl_err(path, entry, "bogus .flags 0x%x", flags);
-+	if ((flags & SYSCTL_OVERLAY_DATA) && (!ctx->data || !ctx->data[idx]))
-+		err |= sysctl_err(path, entry, "no data to overlay");
-+	if ((flags & SYSCTL_OVERLAY_EXTRA1) && (!ctx->extra1 || !ctx->extra1[idx]))
-+		err |= sysctl_err(path, entry, "no extra1 to overlay");
-+	if ((flags & SYSCTL_OVERLAY_EXTRA2) && (!ctx->extra2 || !ctx->extra2[idx]))
-+		err |= sysctl_err(path, entry, "no extra2 to overlay");
-+	if ((flags & SYSCTL_OVERLAY_MODE) && (!ctx->mode || !ctx->mode[idx]))
-+		err |= sysctl_err(path, entry, "no mode to overlay");
-+
-+	return err;
-+}
-+
- static int sysctl_check_table(const char *path, struct ctl_table_header *header)
- {
- 	const struct ctl_table *entry;
-@@ -1247,6 +1318,9 @@ static int sysctl_check_table(const char *path, struct ctl_table_header *header)
- 		    (entry->mode & (S_IRUGO|S_IWUGO)) != entry->mode)
- 			err |= sysctl_err(path, entry, "bogus .mode 0%o",
- 				entry->mode);
-+
-+		if (entry->flags)
-+			err |= sysctl_check_overlay(path, header, entry);
++	if (!ns->ipc_sysctls) {
+ 		retire_sysctl_set(&ns->ipc_set);
+ 		return false;
  	}
- 	return err;
- }
-@@ -1398,6 +1472,110 @@ static struct ctl_dir *sysctl_mkdir_p(struct ctl_dir *dir, const char *path)
- 	return dir;
- }
+@@ -304,12 +316,8 @@ bool setup_ipc_sysctls(struct ipc_namespace *ns)
  
-+/* OR of every entry's flags, so the context gets an array per kind in use. */
-+static u8 sysctl_table_flags(const struct ctl_table *table, size_t table_size)
-+{
-+	u8 flags = 0;
-+	size_t i;
-+
-+	for (i = 0; i < table_size; i++)
-+		flags |= table[i].flags;
-+
-+	return flags & SYSCTL_OVERLAY_MASK;
-+}
-+
-+static size_t sysctl_header_size(const struct ctl_table *table, size_t table_size)
-+{
-+	u8 flags = sysctl_table_flags(table, table_size);
-+	size_t size = sizeof(struct ctl_table_header) +
-+		      sizeof(struct ctl_node) * table_size;
-+
-+	if (flags & SYSCTL_OVERLAY_DATA)
-+		size += table_size * sizeof(void *);
-+	if (flags & SYSCTL_OVERLAY_EXTRA1)
-+		size += table_size * sizeof(void *);
-+	if (flags & SYSCTL_OVERLAY_EXTRA2)
-+		size += table_size * sizeof(void *);
-+	if (flags & SYSCTL_OVERLAY_MODE)
-+		size += table_size * sizeof(umode_t);
-+
-+	return size;
-+}
-+
-+/* Init only the pointers that will be used */
-+static void sysctl_ctx_init(struct ctl_table_header *head)
-+{
-+	size_t table_size = head->ctl_table_size;
-+	u8 flags = sysctl_table_flags(head->ctl_table, table_size);
-+	void **slots = (void **)(head->node + table_size);
-+
-+	if (flags & SYSCTL_OVERLAY_DATA) {
-+		head->ctx.data = slots;
-+		slots += table_size;
-+	}
-+	if (flags & SYSCTL_OVERLAY_EXTRA1) {
-+		head->ctx.extra1 = slots;
-+		slots += table_size;
-+	}
-+	if (flags & SYSCTL_OVERLAY_EXTRA2) {
-+		head->ctx.extra2 = slots;
-+		slots += table_size;
-+	}
-+	if (flags & SYSCTL_OVERLAY_MODE)
-+		head->ctx.mode = (umode_t *)slots;
-+}
-+
-+static struct ctl_table_header *register_header(struct ctl_table_set *set,
-+	const char *path, const struct ctl_table *table,
-+	const struct ctl_table *overlay, size_t table_size)
-+{
-+	struct ctl_table_root *root = set->dir.header.root;
-+	struct ctl_table_header *header;
-+	struct ctl_dir *dir;
-+	struct ctl_node *node;
-+	size_t size;
-+
-+	size = sysctl_header_size(table, table_size);
-+	header = kzalloc(size, GFP_KERNEL_ACCOUNT);
-+	if (!header)
-+		return NULL;
-+
-+	node = (struct ctl_node *)(header + 1);
-+	init_header(header, root, set, node, table, table_size);
-+	if (overlay) {
-+		sysctl_ctx_init(header);
-+		if (sysctl_ctx_fill(path, header, overlay))
-+			goto fail;
-+	}
-+	if (sysctl_check_table(path, header))
-+		goto fail;
-+
-+	spin_lock(&sysctl_lock);
-+	dir = &set->dir;
-+	/* Reference moved down the directory tree get_subdir */
-+	dir->header.nreg++;
-+	spin_unlock(&sysctl_lock);
-+
-+	dir = sysctl_mkdir_p(dir, path);
-+	if (IS_ERR(dir))
-+		goto fail;
-+	spin_lock(&sysctl_lock);
-+	if (insert_header(dir, header))
-+		goto fail_put_dir_locked;
-+
-+	drop_sysctl_table(&dir->header);
-+	spin_unlock(&sysctl_lock);
-+
-+	return header;
-+
-+fail_put_dir_locked:
-+	drop_sysctl_table(&dir->header);
-+	spin_unlock(&sysctl_lock);
-+fail:
-+	kfree(header);
-+	return NULL;
-+}
-+
- /**
-  * __register_sysctl_table - register a leaf sysctl table
-  * @set: Sysctl tree to register on
-@@ -1446,45 +1624,31 @@ struct ctl_table_header *__register_sysctl_table(
- 	struct ctl_table_set *set,
- 	const char *path, const struct ctl_table *table, size_t table_size)
+ void retire_ipc_sysctls(struct ipc_namespace *ns)
  {
--	struct ctl_table_root *root = set->dir.header.root;
--	struct ctl_table_header *header;
--	struct ctl_dir *dir;
--	struct ctl_node *node;
-+	return register_header(set, path, table, NULL, table_size);
-+}
- 
--	header = kzalloc(sizeof(struct ctl_table_header) +
--			 sizeof(struct ctl_node)*table_size, GFP_KERNEL_ACCOUNT);
--	if (!header)
--		return NULL;
+-	const struct ctl_table *tbl;
 -
--	node = (struct ctl_node *)(header + 1);
--	init_header(header, root, set, node, table, table_size);
--	if (sysctl_check_table(path, header))
--		goto fail;
--
--	spin_lock(&sysctl_lock);
--	dir = &set->dir;
--	/* Reference moved down the directory tree get_subdir */
--	dir->header.nreg++;
--	spin_unlock(&sysctl_lock);
--
--	dir = sysctl_mkdir_p(dir, path);
--	if (IS_ERR(dir))
--		goto fail;
--	spin_lock(&sysctl_lock);
--	if (insert_header(dir, header))
--		goto fail_put_dir_locked;
--
--	drop_sysctl_table(&dir->header);
--	spin_unlock(&sysctl_lock);
--
--	return header;
--
--fail_put_dir_locked:
--	drop_sysctl_table(&dir->header);
--	spin_unlock(&sysctl_lock);
--fail:
--	kfree(header);
--	return NULL;
-+/**
-+ * __register_sysctl_table_tmpl - register a table from a template/overlay
-+ * @set: Sysctl tree to register on
-+ * @path: The path to the directory the sysctl table is in.
-+ * @tmpl: the template, passed through CTL_TABLE_TMPL. Must be available
-+ *	until unregistered. Should be const global.
-+ * @overlay: caller's copy of @tmpl in which every flagged member has its
-+ *	own value. The callers should free it after the registration call
-+ * @table_size: The number of elements in @tmpl and @overlay.
-+ *
-+ * The flagged members of @overlay are stored in the header's context and
-+ * overlaid on the template entry each time it is accessed.
-+ *
-+ * This routine returns %NULL on a failure to register, and a pointer
-+ * to the table header on success.
-+ */
-+struct ctl_table_header *__register_sysctl_table_tmpl(
-+	struct ctl_table_set *set, const char *path,
-+	const struct ctl_table_tmpl *tmpl, const struct ctl_table *overlay,
-+	size_t table_size)
-+{
-+	return register_header(set, path, &tmpl->t, overlay, table_size);
+-	tbl = ns->ipc_sysctls->ctl_table_arg;
+ 	unregister_sysctl_table(ns->ipc_sysctls);
+ 	retire_sysctl_set(&ns->ipc_set);
+-	kfree(tbl);
  }
  
- /**
-@@ -1513,6 +1677,30 @@ struct ctl_table_header *register_sysctl_sz(const char *path, const struct ctl_t
- }
- EXPORT_SYMBOL(register_sysctl_sz);
- 
-+/**
-+ * register_sysctl_tmpl_sz - register a sysctl table from a template
-+ * @path: The path to the directory the sysctl table is in. If the path
-+ *	doesn't exist we will create it for you.
-+ * @tmpl: the template, see __register_sysctl_table_tmpl()
-+ * @overlay: the filled-in copy of @tmpl, see __register_sysctl_table_tmpl()
-+ * @table_size: The number of elements in @tmpl and @overlay.
-+ *
-+ * Register a sysctl table whose entries flagged SYSCTL_OVERLAY_* take their
-+ * values from @overlay while @tmpl stays shared and unmodified. The
-+ * register_sysctl_tmpl() macro supplies the cast and the size for an array.
-+ *
-+ * See __register_sysctl_table_tmpl() for more details.
-+ */
-+struct ctl_table_header *register_sysctl_tmpl_sz(const char *path,
-+						 const struct ctl_table_tmpl *tmpl,
-+						 const struct ctl_table *overlay,
-+						 size_t table_size)
-+{
-+	return __register_sysctl_table_tmpl(&sysctl_table_root.default_set,
-+					    path, tmpl, overlay, table_size);
-+}
-+EXPORT_SYMBOL(register_sysctl_tmpl_sz);
-+
- /**
-  * __register_sysctl_init() - register sysctl table to path
-  * @path: path name for sysctl base. If that path doesn't exist we will create
-diff --git a/include/linux/sysctl.h b/include/linux/sysctl.h
-index 11ee0cdeef0ffe8daa4cc8756a820bf2b002c9ad..1eefcbb9f02a612118bf3810f137e713dc9389cd 100644
---- a/include/linux/sysctl.h
-+++ b/include/linux/sysctl.h
-@@ -22,6 +22,7 @@
- #ifndef _LINUX_SYSCTL_H
- #define _LINUX_SYSCTL_H
- 
-+#include <linux/array_size.h>
- #include <linux/bits.h>
- #include <linux/build_bug.h>
- #include <linux/list.h>
-@@ -250,6 +251,16 @@ static_assert(sizeof(struct ctl_table_tmpl) == sizeof(struct ctl_table));
- static_assert(__alignof__(struct ctl_table_tmpl) == __alignof__(struct ctl_table));
- static_assert(offsetof(struct ctl_table_tmpl, t) == 0);
- 
-+/**
-+ * CTL_TABLE_TMPL - cast a struct ctl_table * as a ctl template
-+ * @arr: array of struct ctl_table
-+ *
-+ * This macro is the only way to get a ctl_table_tmpl to register as a template
-+ */
-+#define CTL_TABLE_TMPL(arr)						\
-+	((const struct ctl_table_tmpl *)(arr) + __must_be_array(arr) +	\
-+	 BUILD_BUG_ON_ZERO(!__same_type((arr)[0], struct ctl_table)))
-+
- struct ctl_node {
- 	struct rb_node node;
- 	struct ctl_table_header *header;
-@@ -331,6 +342,9 @@ struct ctl_table_root {
- 
- #define register_sysctl(path, table)	\
- 	register_sysctl_sz(path, table, ARRAY_SIZE(table))
-+#define register_sysctl_tmpl(path, tmpl, overlay)			\
-+	register_sysctl_tmpl_sz(path, CTL_TABLE_TMPL(tmpl), overlay,		\
-+				ARRAY_SIZE(tmpl))
- 
- #ifdef CONFIG_SYSCTL
- 
-@@ -346,6 +360,14 @@ struct ctl_table_header *__register_sysctl_table(
- 	const char *path, const struct ctl_table *table, size_t table_size);
- struct ctl_table_header *register_sysctl_sz(const char *path, const struct ctl_table *table,
- 					    size_t table_size);
-+struct ctl_table_header *__register_sysctl_table_tmpl(
-+	struct ctl_table_set *set, const char *path,
-+	const struct ctl_table_tmpl *tmpl, const struct ctl_table *overlay,
-+	size_t table_size);
-+struct ctl_table_header *register_sysctl_tmpl_sz(const char *path,
-+						 const struct ctl_table_tmpl *tmpl,
-+						 const struct ctl_table *overlay,
-+						 size_t table_size);
- void unregister_sysctl_table(struct ctl_table_header * table);
- 
- extern int sysctl_init_bases(void);
-@@ -379,6 +401,14 @@ static inline struct ctl_table_header *register_sysctl_sz(const char *path,
- 	return NULL;
- }
- 
-+static inline struct ctl_table_header *register_sysctl_tmpl_sz(const char *path,
-+							       const struct ctl_table_tmpl *tmpl,
-+							       const struct ctl_table *overlay,
-+							       size_t table_size)
-+{
-+	return NULL;
-+}
-+
- static inline void unregister_sysctl_table(struct ctl_table_header * table)
- {
- }
+ static int __init ipc_sysctl_init(void)
 
 -- 
 2.50.1
