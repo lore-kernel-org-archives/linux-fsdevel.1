@@ -1,77 +1,77 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795693693;
-	b=HRwrSJjdUWs9I5fsPPxLK7qNASvpw/RO6m/5AlbXK9EpByi/TUbWq/hoQQGIeax9VTWM
-	 66L1TjIvfzJZiGI22H9jBnwDVjJIJhSfRd0mDHXqWkq2shrRm4QA80t2Ac0FI29JmAzVN
-	 iT4txsUkOU9ttFY+uUTlj/MPrVn8KvyfZpn1Ol4PNM9AAvoVlQF7vHeEgSxd98qmOQbJM
-	 X2Ptc3oHyYYkYcNS0RDOsg7Bpk5nseUjQZfSI1lJdEtPUx9shftMCzB+vWzmzQ+sMx/BZ
-	 fyfzinYMBBvJyLxghSMEYt6MAy/+kpKT5Biz2Q/bO1SHhOMchvL0ZnFawVtK+OdL8bw==
+	t=1795693694;
+	b=Ii7EcEIJeDP1J+DNrs61hwU6iZDg6g3AliclqDkvqpp9MDQdq4hpfuZlxVU1JPym45TC
+	 DFc/T9pKKjtgs9Ptkl9Dm8sUtoXMtpNVqUzi6BjwSQZSa61MYMIyDKzyYf/7srx4YRY4F
+	 SUje4rJBNh7o+2rWK2Njg6hEe6y+pgT22gg4jeOCyPyq+hD1LbIRR8KlD0aZvZpc9/Ybc
+	 pda5oygQ5TpoIbcXjo7fthp60lPEPlGzKfFeizyQHSVzoTal9ObT+0RPmIW+iFx92mPCt
+	 tM3yxH89CyYJasch7wCO2P01qtiML1k3QzprTRPbaIVkr5P3SpQa8nH/N89+f2i/U6w==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795693693;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795693694;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
 	 X-Endpoint-Received;
-	bh=s+VZwiE4Ud8gLLrn1mTGYrAlBJZfxGaD9UVFMTvU5sQ=;
-	b=H6gDrzsbFkeUO4TvbbMpaqRctAV6dmttIxDtMlcxQqt1PgKYwP0h3s41AMfvy17Hkcol
-	 6KOh+zAcwqicXlzga++eXg3zGx9Ea/mYgDistId875Jq2u0Pk4MIeqDB+zjMKNtI6/XQt
-	 CrgCLlayAZnwojb3X2Gl5NglX2gl2Mc1MutH7QIw+0aIZ719TYB5+GGoIERsQ6f0+LfBh
-	 lewcMUApT14bM0A2Ci5gqN/oPg88kWxykRRwsRPDPWkCiZ9q5NFcaohpVkymNu19VsK9O
-	 AS3UkEMlDvINynzgWsYpYtAL/OuwxTva02irfoLJmKB3jbmgeIXJn6HerjKhmdyQNag==
+	bh=P1jXufVPzc9IkmUZ87kfTJT9n9zJtHlLLzaPGRLFINM=;
+	b=5iLVNS6c/8VQplhc6qcnDU6Kbil0S/rMiHhv7IuN4FrXtfe74da/ge7ma3IoyDQ7gstw
+	 zHWKThHaALHMN32MCypG/GqMYA7n1a28I6yp1M8+c2oGYvB5ecHuX7nCkC4nKH8g01Cac
+	 2zxeV3whj2q8hjnFTDa7SdIKZJ52rV7TRcHH3aotr94MziM4c79zIJau6rz4aKxlV3Lka
+	 weLOa6NiKDQZR7Bm6yrzG9AaQMejC3xAygS9FQvgJVxgJPCRIZm2f87uX4gUStdKw08Fy
+	 lh53i7VaUO4/Irg4dW26D/Q00YMkf4lScbLv70RjbVNQtk9Qa1zVcwyDvjYeAh7S+8Q==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WwDgetJJ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dhQBqCG3;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42E8060A3802;
-	Thu, 26 Nov 2026 11:48:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57EFD60A2602;
+	Thu, 26 Nov 2026 11:48:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WwDgetJJ
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dhQBqCG3
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795693692;
-	b=RDZwYjN9phQ6DImmPn0XX15r/tjj9ISI7K0Vw6kTCPAYWN6UCr494gAp+b0IhICDT0nx
-	 qz5xdCXi/NNAwXghGoGrNLf03p2+LYkKmVa3YOLH0lcam1ahMjTarzU/NUIc92RNynt/d
-	 fKN/RgetLfz6xJN1ff5PFKi6oyPKEqBNJctL0p3e0IkmRP1+FaDdU8JfgLrHMSwAo68cZ
-	 AgSmE2pIMTNNvwOuilHDL12yhMtgLexqO2Gc4gu6GsunfzTyxbRUSMYgGcwTkBeuRr4S9
-	 DvCBCswXXsMhjlQGOO9Bv8W13yWvnNM/z6v+yerVEnrmcem1NUe3SpW6mQv6qjIu3kg==
+	t=1795693693;
+	b=23wW0JgI1tymhrKaarr51K+MbZOTN9J8nq1zmANUfopor6U8x/SYIfK+gxFVcn1Xr4mQ
+	 iSrkaIJhx41cAq1rlzEUZcmqB5Ihw7usrQHc+2t7VCHl5/l4Wz+qw5XjDkK2YqtUyt/1K
+	 5bRy6GWUHv4ivLkUD0x+JU0Z8NYkiPlzM8j6qBF4mk0kqcSFCGBQtLqia+IXgW8K2LXZc
+	 vPQnavJWpxFjECaY0Qsznq0EHjEsfoFZJ/Hizc9tkR802DNi05m4ScQuHVgWtEcKXRrSL
+	 /1pntc8DJ0jyCJ+XEpxL9BieRkMMOb68U3QHQGnoILpYZlpFT270QXzcPOkQI4nFdTA==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795693692;
+	c=relaxed/relaxed; t=1795693693;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received;
-	bh=s+VZwiE4Ud8gLLrn1mTGYrAlBJZfxGaD9UVFMTvU5sQ=;
-	b=EUlv5U1dcn5sdADps5gmIxZA8WMd4i7ASPVzsjDqGaNG3TWNxKDBGSCzBV+TSSNX4IR/
-	 5Q2x4tq67yICNvkwsAioVfGZGUzUaQa+PUBVWLxBLa3YXxRVDBmN5STaKhRaEGtzdlPo2
-	 JwK40ph8m8yO/NDIYvhKY5A3TKSdaIlk7ZcY69EGxPEbb2SbEv/o6FhfvQhzkRBJMIWOY
-	 pBMZy5ftiWmtmRCUUsStr8zk7lwQdr62kk8CPzv4zOKuWxx3qhhu+H5XGTsrvaAQlUFhq
-	 FOcNoDP5WPtDcYElwx8EqVjvTCrSLNA9hz4KKe/fG8KB+ewYnZpK+3APCiwAhBf7BGA==
+	bh=P1jXufVPzc9IkmUZ87kfTJT9n9zJtHlLLzaPGRLFINM=;
+	b=c+5WaNEPQTHlIoEprox5nt8igr/JeiaNbQRlaOqvjduPP6D4QcpxQhx6atoyxQY1DhU3
+	 aFWldRbBxZNnPGoCCGHe0p/UQm+Gg7SeZWIRURsWzuspzCcOixyk/VZcufD6C38ztyEDM
+	 Ujmw4ZVuqu/4PUW4lsdnkpopgOx1OXo7q89YnUO1+t5/7yfs6CvXjBGH7Ehw/HM+qkGeZ
+	 URFrsH7zoUTnNdWngPgA8dfhDMjW9Hv+cYcY4YD3aMvQwAQnG2cVK5CVEGmwqGhO2lQ5I
+	 /ozmh/qEgTHWClatu401gNfA18o8/lrJtOOXC5aqd4cl3n1ZdWz4vkMxsDWN2hC96yA==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 748691F000D2;
-	Thu, 26 Nov 2026 11:47:57 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 2CB851F000E0;
+	Thu, 26 Nov 2026 11:48:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795693692;
-	bh=s+VZwiE4Ud8gLLrn1mTGYrAlBJZfxGaD9UVFMTvU5sQ=;
+	s=k20260515; t=1795693693;
+	bh=P1jXufVPzc9IkmUZ87kfTJT9n9zJtHlLLzaPGRLFINM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=WwDgetJJ/kgDQrldwtq4REOmt13d5KGSMn3Aa6Kk9ciI4HeQEMUIk+kchSR1CRHM8
-	 SIP9uVgX1iADFqUNHm1AYS78f43UtLHsiu0QIfjiGWgz5AfdasgR45IvLFQfRJrwQi
-	 6pXkdwBRisLITLDqfGETMW2tGJpgHhEW5ZI1OPd+QM2hNZs4irBv5R2jRvwUgHocrQ
-	 LM0jdh2f6+bkduGXnQ/6xmwwkiuqcF83HWiR3KUmq9vcIIOLRFg36Q5QajWzEQCDyB
-	 Qu1Ij8xJ7t1NA18QPsagwJQ2ERd075+7nBLAoA2qMpw37tlM+ujoO31LneFm6c0jW6
-	 laZleCLLBEp7A==
+	b=dhQBqCG3vUgbG3X4V3jpxQD2zjcvL70JtFL7jQ8kfVxxKPGTx7ueUV3ywQpk2vZXK
+	 rEhgmFuRjEbDsQSbu7iZ90nzOEvkmrRW0r/A/cBf9/xFgbVxRhnZ4rv7Vjwu5WEqKM
+	 6ut2xj+fGSLq9tpc6swIhpzprcgVsHaWGb3TJN7X+V7WVMxfb6IB7fQSxmisOiyP5g
+	 zzPP7Q6c1pszYJdzPeMMSrXe6W6CmAwNU5PxTDTu6DlLt7PTG8NFfc5Z23iUW+Hneu
+	 Ufsl3n6BU3Q2FqWFN+o3+lEluPEmb6ZST2b7xB+rrLLsn9DltTfsUiy1AeBCDmcW3c
+	 vt7lcpZ8ztHQA==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 6ABEF4D499;
+	by lkml.kernel.org (Postfix) with ESMTP id B128A4D4A1;
 	Thu, 26 Nov 2026 11:47:53 +0000 (UTC)
 From: Joel Granados <joel.granados@kernel.org>
-Date: Thu, 26 Nov 2026 12:47:46 +0100
-Subject: [PATCH RFC 6/9] ipv4: Register ipv4_net_table as a template
+Date: Thu, 26 Nov 2026 12:47:48 +0100
+Subject: [PATCH RFC 8/9] ipc: Register mq_sysctls as a template
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -83,7 +83,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261126-lklm-sysctl-ctx-flatarray-v1-6-d7fc9cc9b03e@kernel.org>
+Message-Id: <20261126-lklm-sysctl-ctx-flatarray-v1-8-d7fc9cc9b03e@kernel.org>
 References: <20261126-lklm-sysctl-ctx-flatarray-v1-0-d7fc9cc9b03e@kernel.org>
 In-Reply-To: <20261126-lklm-sysctl-ctx-flatarray-v1-0-d7fc9cc9b03e@kernel.org>
 To: Kees Cook <kees@kernel.org>, Alexey Gladkov <legion@kernel.org>, 
@@ -94,1144 +94,109 @@ Cc: Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  netdev@vger.kernel.org, Joel Granados <joel.granados@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=40497;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2968;
  i=joel.granados@kernel.org; h=from:subject:message-id;
- bh=oSMtkkRJb6haZ71YK3M5fia6zugX0TM6idwAumSh7z4=;
- b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGsIHGUEmvNmnmsX2d1PPhnYIL3ToXfM7tIIH
- R8gke83HH/BiIkBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJrCBxlAAoJELqXzVK3
- lkFPnc4L/2dC406ccLBNJ2d3jVOruCr3stJZf581DgbzMonoq+cptfqjsne/dXKOubx+ALwBPLD
- dwse+urCZEJ786hUzn5d+8Xo9hDJrNDRoPndvEZUAI4q3TEt4nSHBUQPcXxKq4jkWGKqx76qmcq
- xtSLOGYuEFmhQJvWxNC5GAFLNVTqJxRSQpwYKRQskx8x/8mlDYpp6cJ3qPxFLnjXUJU25/0jfmE
- EF52cVPXheYCjC+WbLBxfM4CMUij9tlxqPVfTj1FYgg6TZ++NIFGLAFZPivOd3XrtCpilfUG3MR
- 5rExHaOjZ9E+Vk/lrh1pyEWMMaVxIteY916NhMsK7BGg1L2QdSD559ld3pZVLEuwKl+MhWP8LWT
- DssEUb2as29reIu7h10uHxMM9Uo7LQLOTqdhjDVq26kghL6XHPucZKZefbGPQxBiHjBfLznhO0P
- FPWw9WwM8YNPNNDr5rGiQStvMeZgt86f1AbCkLPkOSzyZfoxCD53twdLXFZOghXdbeh82BYIZ26
- N0=
+ bh=WkQNr6QnWoumKVxyewSSlZ9tzXOb2ucls8i2JZ231Ug=;
+ b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGsIHGYrbDOl6KkAQLkQYC3EcXdsceyF87xgq
+ rrHsSB5YX02q4kBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJrCBxmAAoJELqXzVK3
+ lkFPJgAL/A6cdr0GRDrKF/B80MWYZTZqDRohMggTUeQdBzrDwqcU2tVGBxU7mLJq/E88lCWqPM2
+ 3b3FsML3WG3jFhBeDUs0AUrbM4LF1pjOmasf4uwI+jA/Httyl4nl3CtlMRJeN3beA7sdNRdakmD
+ wu/qkaq5BGsIh8SAxt8m3Q6vLwscikzkJ0u8H4hjrzOUSu4MoKoinxIA01G+f7rFwsSC5pF38sk
+ ETn1JJuJ+4YCZhR7EUMZJC7MLTGb8ZYuzvbg6jeoKRO+dTsL/sOa6n+T1U55kpw537DzvIMfiHH
+ LQvgPXk57ne/v2tY472d7rDSV1eW3Tts/yV7iUg3h178npeoRSOJNqkq0EmPwe3rl1PuieCt2Oc
+ SuoZW4WZmFsk+4/Bfxz7nzOekoVUURlRnSgkARCxfRPsRiuJSIUv+UAgG3HhDGdjs4DMb3lJRxE
+ WI3m4dH8lag+CFxcqxlz3ljGxO4di2VAR2t8hN71DVwY8XVmDU9NsErUhMnfy+GwqB+ghdbcmD7
+ Ls=
 X-Developer-Key: i=joel.granados@kernel.org; a=openpgp;
  fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
 X-Endpoint-Received: by B4 Relay for joel.granados@kernel.org/default with
  auth_id=239
 
-Flag the members of ipv4_net_table that differ per namespace and
-register it through register_net_sysctl_tmpl():
-
-  * SYSCTL_OVERLAY_DATA on the 127 entries with a .data pointer,
-  * SYSCTL_OVERLAY_EXTRA2 on tcp_reordering, whose bound is the
-    namespace's tcp_max_reordering,
-  * SYSCTL_OVERLAY_MODE on tcp_allowed_congestion_control,
-  * dataless entry that becomes read-only outside init_net
-
-Rename ipv4_net_table_dup() to ipv4_net_table_overlay(), build the
-overlay for init_net as well, free it once the call returns and stop
-freeing ctl_table_arg in ipv4_sysctl_exit_net().
-
-A namespace then keeps the context arrays in its header instead of a
-copy of the whole table. init_net needs an overlay too because the core
-refuses a flagged entry that has no context value.
+Flag SYSCTL_OVERLAY_DATA on all five entries of mq_sysctls and register
+the table through __register_sysctl_table_tmpl(), passing the rebased
+copy that setup_mq_sysctls() already builds as the overlay. Free the
+copy once the call returns and stop freeing ctl_table_arg in
+retire_mq_sysctls().
 
 Signed-off-by: Joel Granados <joel.granados@kernel.org>
 ---
- net/ipv4/sysctl_net_ipv4.c | 163 +++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 143 insertions(+), 20 deletions(-)
+ ipc/mq_sysctl.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
-index bf193e7ec51684a78387d30c959b5ad235c6865d..876bbec562e539520f0642e9567cd498a3678f8d 100644
---- a/net/ipv4/sysctl_net_ipv4.c
-+++ b/net/ipv4/sysctl_net_ipv4.c
-@@ -633,6 +633,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.tcp_death_row.sysctl_max_tw_buckets,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec
- 	},
- 	{
-@@ -640,6 +641,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_icmp_echo_ignore_all,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE
-@@ -649,6 +651,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_icmp_echo_enable_probe,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE
-@@ -658,6 +661,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_icmp_echo_ignore_broadcasts,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE
-@@ -667,6 +671,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_icmp_ignore_bogus_error_responses,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE
-@@ -676,6 +681,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_icmp_errors_use_inbound_ifaddr,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE
-@@ -685,6 +691,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_icmp_errors_extension_mask,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= &icmp_errors_extension_mask_all,
-@@ -694,6 +701,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_icmp_ratelimit,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec_ms_jiffies,
- 	},
- 	{
-@@ -701,6 +709,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_icmp_ratemask,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec
- 	},
- 	{
-@@ -708,6 +717,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_icmp_msgs_per_sec,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 	},
-@@ -716,6 +726,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_icmp_msgs_burst,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 	},
-@@ -724,6 +735,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.ping_group_range.range,
- 		.maxlen		= sizeof(gid_t)*2,
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= ipv4_ping_group_range,
- 	},
- #ifdef CONFIG_NET_L3_MASTER_DEV
-@@ -732,6 +744,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_raw_l3mdev_accept,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE,
-@@ -742,6 +755,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_ecn,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= &tcp_ecn_mode_max,
-@@ -751,6 +765,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_ecn_option,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_THREE,
-@@ -760,6 +775,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_ecn_option_beacon,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_THREE,
-@@ -769,6 +785,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_ecn_fallback,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE,
-@@ -778,6 +795,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_ip_dynaddr,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -785,6 +803,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_ip_early_demux,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -792,6 +811,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data           = &init_net.ipv4.sysctl_udp_early_demux,
- 		.maxlen         = sizeof(u8),
- 		.mode           = 0644,
-+		.flags          = SYSCTL_OVERLAY_DATA,
- 		.proc_handler   = proc_dou8vec_minmax,
- 	},
- 	{
-@@ -799,6 +819,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data           = &init_net.ipv4.sysctl_tcp_early_demux,
- 		.maxlen         = sizeof(u8),
- 		.mode           = 0644,
-+		.flags          = SYSCTL_OVERLAY_DATA,
- 		.proc_handler   = proc_dou8vec_minmax,
- 	},
- 	{
-@@ -806,6 +827,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data           = &init_net.ipv4.sysctl_nexthop_compat_mode,
- 		.maxlen         = sizeof(u8),
- 		.mode           = 0644,
-+		.flags          = SYSCTL_OVERLAY_DATA,
- 		.proc_handler   = proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE,
-@@ -815,6 +837,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_ip_default_ttl,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= &ip_ttl_min,
- 		.extra2		= &ip_ttl_max,
-@@ -824,6 +847,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.maxlen		= 0,
- 		.data		= &init_net,
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= ipv4_local_port_range,
- 	},
- 	{
-@@ -831,6 +855,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.maxlen		= sizeof(u32),
- 		.data		= &init_net.ipv4.sysctl_ip_local_port_step_width,
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_douintvec,
- 	},
- 	{
-@@ -838,6 +863,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_local_reserved_ports,
- 		.maxlen		= 65536,
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_do_large_bitmap,
- 	},
- 	{
-@@ -845,6 +871,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_ip_no_pmtu_disc,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -852,6 +879,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_ip_fwd_use_pmtu,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -859,6 +887,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_ip_fwd_update_priority,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler   = ipv4_fwd_update_priority,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE,
-@@ -868,6 +897,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_ip_nonlocal_bind,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -875,6 +905,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_ip_autobind_reuse,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1         = SYSCTL_ZERO,
- 		.extra2         = SYSCTL_ONE,
-@@ -884,6 +915,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_fwmark_reflect,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -891,6 +923,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_fwmark_accept,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- #ifdef CONFIG_NET_L3_MASTER_DEV
-@@ -899,6 +932,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_l3mdev_accept,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE,
-@@ -909,6 +943,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_mtu_probing,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -916,6 +951,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_base_mss,
+diff --git a/ipc/mq_sysctl.c b/ipc/mq_sysctl.c
+index 0dd12e1c9f53ef07092ca3b638335a438d273a8c..d98c90595fabedc30fa565c8e0ca16ec3399bcf4 100644
+--- a/ipc/mq_sysctl.c
++++ b/ipc/mq_sysctl.c
+@@ -26,6 +26,7 @@ static const struct ctl_table mq_sysctls[] = {
+ 		.data		= &init_ipc_ns.mq_queues_max,
  		.maxlen		= sizeof(int),
  		.mode		= 0644,
 +		.flags		= SYSCTL_OVERLAY_DATA,
  		.proc_handler	= proc_dointvec,
  	},
  	{
-@@ -923,6 +959,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_min_snd_mss,
+@@ -33,6 +34,7 @@ static const struct ctl_table mq_sysctls[] = {
+ 		.data		= &init_ipc_ns.mq_msg_max,
  		.maxlen		= sizeof(int),
  		.mode		= 0644,
 +		.flags		= SYSCTL_OVERLAY_DATA,
  		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= &tcp_min_snd_mss_min,
- 		.extra2		= &tcp_min_snd_mss_max,
-@@ -932,6 +969,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_mtu_probe_floor,
+ 		.extra1		= &msg_max_limit_min,
+ 		.extra2		= &msg_max_limit_max,
+@@ -42,6 +44,7 @@ static const struct ctl_table mq_sysctls[] = {
+ 		.data		= &init_ipc_ns.mq_msgsize_max,
  		.maxlen		= sizeof(int),
  		.mode		= 0644,
 +		.flags		= SYSCTL_OVERLAY_DATA,
  		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= &tcp_min_snd_mss_min,
- 		.extra2		= &tcp_min_snd_mss_max,
-@@ -941,6 +979,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_probe_threshold,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec,
- 	},
- 	{
-@@ -948,6 +987,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_probe_interval,
- 		.maxlen		= sizeof(u32),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_douintvec_minmax,
- 		.extra2		= &u32_max_div_HZ,
- 	},
-@@ -956,6 +996,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_igmp_llm_reports,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -963,6 +1004,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_igmp_max_memberships,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec
- 	},
- 	{
-@@ -970,6 +1012,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_igmp_max_msf,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec
- 	},
- #ifdef CONFIG_IP_MULTICAST
-@@ -978,6 +1021,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_igmp_qrv,
+ 		.extra1		= &msg_maxsize_limit_min,
+ 		.extra2		= &msg_maxsize_limit_max,
+@@ -51,6 +54,7 @@ static const struct ctl_table mq_sysctls[] = {
+ 		.data		= &init_ipc_ns.mq_msg_default,
  		.maxlen		= sizeof(int),
  		.mode		= 0644,
 +		.flags		= SYSCTL_OVERLAY_DATA,
  		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ONE
- 	},
-@@ -986,6 +1030,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.procname	= "tcp_congestion_control",
- 		.data		= &init_net.ipv4.tcp_congestion_control,
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.maxlen		= TCP_CA_NAME_MAX,
- 		.proc_handler	= proc_tcp_congestion_control,
- 	},
-@@ -999,6 +1044,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.procname	= "tcp_allowed_congestion_control",
- 		.maxlen		= TCP_CA_BUF_MAX,
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_MODE,
- 		.proc_handler   = proc_allowed_congestion_control,
- 	},
- 	{
-@@ -1006,6 +1052,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_keepalive_time,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec_jiffies,
- 	},
- 	{
-@@ -1013,6 +1060,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_keepalive_probes,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1020,6 +1068,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_keepalive_intvl,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec_jiffies,
- 	},
- 	{
-@@ -1027,6 +1076,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_syn_retries,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= &tcp_syn_retries_min,
- 		.extra2		= &tcp_syn_retries_max
-@@ -1036,6 +1086,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_synack_retries,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- #ifdef CONFIG_SYN_COOKIES
-@@ -1044,6 +1095,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_syncookies,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- #endif
-@@ -1052,6 +1104,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_migrate_req,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE
-@@ -1061,6 +1114,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_reordering,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA | SYSCTL_OVERLAY_EXTRA2,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ONE,
- 		.extra2		= &init_net.ipv4.sysctl_tcp_max_reordering,
-@@ -1070,6 +1124,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_retries1,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra2		= &tcp_retr1_max
- 	},
-@@ -1078,6 +1133,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_retries2,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1085,6 +1141,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_orphan_retries,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1092,6 +1149,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_fin_timeout,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec_jiffies,
- 	},
- 	{
-@@ -1099,6 +1157,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_notsent_lowat,
- 		.maxlen		= sizeof(unsigned int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_douintvec,
- 	},
- 	{
-@@ -1106,6 +1165,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_tw_reuse,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_TWO,
-@@ -1115,6 +1175,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_tw_reuse_delay,
- 		.maxlen		= sizeof(unsigned int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_douintvec_minmax,
- 		.extra1		= SYSCTL_ONE,
- 		.extra2		= &tcp_tw_reuse_delay_max,
-@@ -1124,6 +1185,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_max_syn_backlog,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec
- 	},
- 	{
-@@ -1131,11 +1193,13 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_fastopen,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec,
- 	},
- 	{
- 		.procname	= "tcp_fastopen_key",
- 		.mode		= 0600,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.data		= &init_net.ipv4.sysctl_tcp_fastopen,
- 		/* maxlen to print the list of keys in hex (*2), with dashes
- 		 * separating doublewords and a comma in between keys.
-@@ -1150,6 +1214,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_fastopen_blackhole_timeout,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_tfo_blackhole_detect_timeout,
- 		.extra1		= SYSCTL_ZERO,
- 	},
-@@ -1159,6 +1224,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_fib_multipath_use_neigh,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE,
-@@ -1168,6 +1234,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_fib_multipath_hash_policy,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_fib_multipath_hash_policy,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_THREE,
-@@ -1177,6 +1244,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_fib_multipath_hash_fields,
- 		.maxlen		= sizeof(u32),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_fib_multipath_hash_fields,
- 		.extra1		= SYSCTL_ONE,
- 		.extra2		= &fib_multipath_hash_fields_all_mask,
-@@ -1186,6 +1254,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net,
- 		.maxlen		= sizeof(u32),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_fib_multipath_hash_seed,
- 	},
- #endif
-@@ -1194,6 +1263,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.maxlen		= sizeof(int),
- 		.data		= &init_net.ipv4.sysctl_ip_prot_sock,
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= ipv4_privileged_ports,
- 	},
- #ifdef CONFIG_NET_L3_MASTER_DEV
-@@ -1202,6 +1272,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_udp_l3mdev_accept,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE,
-@@ -1212,6 +1283,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_sack,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1219,6 +1291,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_window_scaling,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1226,6 +1299,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_timestamps,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1233,6 +1307,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_early_retrans,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_FOUR,
-@@ -1242,6 +1317,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_recovery,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1249,6 +1325,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data           = &init_net.ipv4.sysctl_tcp_thin_linear_timeouts,
- 		.maxlen         = sizeof(u8),
- 		.mode           = 0644,
-+		.flags          = SYSCTL_OVERLAY_DATA,
- 		.proc_handler   = proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1256,6 +1333,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_slow_start_after_idle,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1263,6 +1341,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_retrans_collapse,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1270,6 +1349,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_stdurg,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1277,6 +1357,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_rfc1337,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1284,6 +1365,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_abort_on_overflow,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1291,6 +1373,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_fack,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1298,6 +1381,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_max_reordering,
+ 		.extra1		= &msg_max_limit_min,
+ 		.extra2		= &msg_max_limit_max,
+@@ -60,6 +64,7 @@ static const struct ctl_table mq_sysctls[] = {
+ 		.data		= &init_ipc_ns.mq_msgsize_default,
  		.maxlen		= sizeof(int),
  		.mode		= 0644,
 +		.flags		= SYSCTL_OVERLAY_DATA,
  		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ONE,
- 	},
-@@ -1306,6 +1390,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_dsack,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1313,6 +1398,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_app_win,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= &tcp_app_win_max,
-@@ -1322,6 +1408,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_adv_win_scale,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= &tcp_adv_win_scale_min,
- 		.extra2		= &tcp_adv_win_scale_max,
-@@ -1331,6 +1418,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_frto,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1338,6 +1426,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_nometrics_save,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1345,6 +1434,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_no_ssthresh_metrics_save,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE,
-@@ -1354,6 +1444,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_moderate_rcvbuf,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1361,6 +1452,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_rcvbuf_low_rtt,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_INT_MAX,
-@@ -1370,6 +1462,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_tso_win_divisor,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1377,6 +1470,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_workaround_signed_windows,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1384,6 +1478,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_limit_output_bytes,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec
- 	},
- 	{
-@@ -1391,6 +1486,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_challenge_ack_limit,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec
- 	},
- 	{
-@@ -1398,6 +1494,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_min_tso_segs,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ONE,
- 	},
-@@ -1406,6 +1503,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_tso_rtt_log,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra2		= &tcp_tso_rtt_log_max,
- 	},
-@@ -1414,6 +1512,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_min_rtt_wlen,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= &one_day_secs
-@@ -1423,6 +1522,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_autocorking,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE,
-@@ -1432,6 +1532,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_invalid_ratelimit,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec_ms_jiffies,
- 	},
- 	{
-@@ -1439,6 +1540,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_pacing_ss_ratio,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE_THOUSAND,
-@@ -1448,6 +1550,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_pacing_ca_ratio,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE_THOUSAND,
-@@ -1457,6 +1560,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_wmem,
- 		.maxlen		= sizeof(init_net.ipv4.sysctl_tcp_wmem),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ONE,
- 	},
-@@ -1465,6 +1569,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_rmem,
- 		.maxlen		= sizeof(init_net.ipv4.sysctl_tcp_rmem),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= &tcp_min_rcvbuf,
- 	},
-@@ -1473,6 +1578,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_comp_sack_delay_ns,
- 		.maxlen		= sizeof(unsigned long),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_doulongvec_minmax,
- 	},
- 	{
-@@ -1480,6 +1586,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_comp_sack_rtt_percent,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ONE,
- 		.extra2		= SYSCTL_ONE_THOUSAND,
-@@ -1489,6 +1596,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_comp_sack_slack_ns,
- 		.maxlen		= sizeof(unsigned long),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_doulongvec_minmax,
- 	},
- 	{
-@@ -1496,6 +1604,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_comp_sack_nr,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 	},
-@@ -1504,6 +1613,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_backlog_ack_defer,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE,
-@@ -1513,6 +1623,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data           = &init_net.ipv4.sysctl_tcp_reflect_tos,
- 		.maxlen         = sizeof(u8),
- 		.mode           = 0644,
-+		.flags          = SYSCTL_OVERLAY_DATA,
- 		.proc_handler   = proc_dou8vec_minmax,
- 		.extra1         = SYSCTL_ZERO,
- 		.extra2         = SYSCTL_ONE,
-@@ -1521,6 +1632,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.procname	= "tcp_ehash_entries",
- 		.data		= &init_net.ipv4.sysctl_tcp_child_ehash_entries,
- 		.mode		= 0444,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_tcp_ehash_entries,
- 	},
- 	{
-@@ -1528,6 +1640,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_child_ehash_entries,
- 		.maxlen		= sizeof(unsigned int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_douintvec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= &tcp_child_ehash_entries_max,
-@@ -1536,6 +1649,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.procname	= "udp_hash_entries",
- 		.data		= &init_net.ipv4.sysctl_udp_child_hash_entries,
- 		.mode		= 0444,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_udp_hash_entries,
- 	},
- 	{
-@@ -1543,6 +1657,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_udp_child_hash_entries,
- 		.maxlen		= sizeof(unsigned int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_douintvec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= &udp_child_hash_entries_max,
-@@ -1552,6 +1667,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_udp_rmem_min,
- 		.maxlen		= sizeof(init_net.ipv4.sysctl_udp_rmem_min),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ONE
- 	},
-@@ -1560,6 +1676,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_udp_wmem_min,
- 		.maxlen		= sizeof(init_net.ipv4.sysctl_udp_wmem_min),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ONE
- 	},
-@@ -1568,6 +1685,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_fib_notify_on_flag_change,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_TWO,
-@@ -1577,6 +1695,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data           = &init_net.ipv4.sysctl_tcp_plb_enabled,
- 		.maxlen         = sizeof(u8),
- 		.mode           = 0644,
-+		.flags          = SYSCTL_OVERLAY_DATA,
- 		.proc_handler   = proc_dou8vec_minmax,
- 		.extra1         = SYSCTL_ZERO,
- 		.extra2         = SYSCTL_ONE,
-@@ -1586,6 +1705,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data           = &init_net.ipv4.sysctl_tcp_plb_idle_rehash_rounds,
- 		.maxlen         = sizeof(u8),
- 		.mode           = 0644,
-+		.flags          = SYSCTL_OVERLAY_DATA,
- 		.proc_handler   = proc_dou8vec_minmax,
- 		.extra2		= &tcp_plb_max_rounds,
- 	},
-@@ -1594,6 +1714,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data           = &init_net.ipv4.sysctl_tcp_plb_rehash_rounds,
- 		.maxlen         = sizeof(u8),
- 		.mode           = 0644,
-+		.flags          = SYSCTL_OVERLAY_DATA,
- 		.proc_handler   = proc_dou8vec_minmax,
- 		.extra2         = &tcp_plb_max_rounds,
- 	},
-@@ -1602,6 +1723,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data           = &init_net.ipv4.sysctl_tcp_plb_suspend_rto_sec,
- 		.maxlen         = sizeof(u8),
- 		.mode           = 0644,
-+		.flags          = SYSCTL_OVERLAY_DATA,
- 		.proc_handler   = proc_dou8vec_minmax,
- 	},
- 	{
-@@ -1609,6 +1731,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data           = &init_net.ipv4.sysctl_tcp_plb_cong_thresh,
- 		.maxlen         = sizeof(int),
- 		.mode           = 0644,
-+		.flags          = SYSCTL_OVERLAY_DATA,
- 		.proc_handler   = proc_dointvec_minmax,
- 		.extra1         = SYSCTL_ZERO,
- 		.extra2         = &tcp_plb_max_cong_thresh,
-@@ -1618,6 +1741,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_syn_linear_timeouts,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= &tcp_syn_linear_timeouts_max,
-@@ -1627,6 +1751,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_shrink_window,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE,
-@@ -1636,6 +1761,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_pingpong_thresh,
- 		.maxlen		= sizeof(u8),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dou8vec_minmax,
- 		.extra1		= SYSCTL_ONE,
- 	},
-@@ -1644,6 +1770,7 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_rto_min_us,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ONE,
- 	},
-@@ -1652,13 +1779,19 @@ static const struct ctl_table ipv4_net_table[] = {
- 		.data		= &init_net.ipv4.sysctl_tcp_rto_max_ms,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
-+		.flags		= SYSCTL_OVERLAY_DATA,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ONE_THOUSAND,
- 		.extra2		= &tcp_rto_max_max,
- 	},
- };
+ 		.extra1		= &msg_maxsize_limit_min,
+ 		.extra2		= &msg_maxsize_limit_max,
+@@ -143,12 +148,13 @@ bool setup_mq_sysctls(struct ipc_namespace *ns)
+ 				tbl[i].data = NULL;
+ 		}
  
--static const struct ctl_table *ipv4_net_table_dup(struct net *net)
-+/*
-+ * Fill in, for @net, the members of ipv4_net_table that are flagged
-+ * SYSCTL_OVERLAY_*. The copy only lives for the registration call; the
-+ * table itself is shared by every namespace.
-+ */
-+static struct ctl_table *ipv4_net_table_overlay(struct net *net)
- {
- 	size_t table_size = ARRAY_SIZE(ipv4_net_table);
- 	struct ctl_table *table;
-@@ -1674,7 +1807,7 @@ static const struct ctl_table *ipv4_net_table_dup(struct net *net)
- 			 * the current struct net
- 			 */
- 			table[i].data += (void *)net - (void *)&init_net;
--		} else {
-+		} else if (!net_eq(net, &init_net)) {
- 			/* Entries without data pointer are global;
- 			 * Make them read-only in non-init_net ns
- 			 */
-@@ -1689,20 +1822,17 @@ static const struct ctl_table *ipv4_net_table_dup(struct net *net)
- 
- static __net_init int ipv4_sysctl_init_net(struct net *net)
- {
--	size_t table_size = ARRAY_SIZE(ipv4_net_table);
--	const struct ctl_table *table;
-+	struct ctl_table *table;
- 
--	table = ipv4_net_table;
--	if (!net_eq(net, &init_net)) {
--		table = ipv4_net_table_dup(net);
--		if (!table)
--			goto err_alloc;
+-		ns->mq_sysctls = __register_sysctl_table(&ns->mq_set,
+-							 "fs/mqueue", tbl,
+-							 ARRAY_SIZE(mq_sysctls));
 -	}
-+	table = ipv4_net_table_overlay(net);
-+	if (!table)
-+		goto err_alloc;
+-	if (!ns->mq_sysctls) {
++		ns->mq_sysctls = __register_sysctl_table_tmpl(&ns->mq_set,
++							      "fs/mqueue",
++							      CTL_TABLE_TMPL(mq_sysctls),
++							      tbl, ARRAY_SIZE(mq_sysctls));
+ 		kfree(tbl);
++	}
++	if (!ns->mq_sysctls) {
+ 		retire_sysctl_set(&ns->mq_set);
+ 		return false;
+ 	}
+@@ -158,10 +164,6 @@ bool setup_mq_sysctls(struct ipc_namespace *ns)
  
--	net->ipv4.ipv4_hdr = register_net_sysctl_sz(net, "net/ipv4", table,
--						    table_size);
-+	net->ipv4.ipv4_hdr = register_net_sysctl_tmpl(net, "net/ipv4",
-+						      ipv4_net_table, table);
-+	kfree(table);
- 	if (!net->ipv4.ipv4_hdr)
--		goto err_reg;
-+		goto err_alloc;
- 
- 	net->ipv4.sysctl_local_reserved_ports = kzalloc(65536 / 8, GFP_KERNEL);
- 	if (!net->ipv4.sysctl_local_reserved_ports)
-@@ -1714,20 +1844,13 @@ static __net_init int ipv4_sysctl_init_net(struct net *net)
- 
- err_ports:
- 	unregister_net_sysctl_table(net->ipv4.ipv4_hdr);
--err_reg:
--	if (!net_eq(net, &init_net))
--		kfree(table);
- err_alloc:
- 	return -ENOMEM;
- }
- 
- static __net_exit void ipv4_sysctl_exit_net(struct net *net)
+ void retire_mq_sysctls(struct ipc_namespace *ns)
  {
--	const struct ctl_table *table;
+-	const struct ctl_table *tbl;
 -
--	table = net->ipv4.ipv4_hdr->ctl_table_arg;
- 	unregister_net_sysctl_table(net->ipv4.ipv4_hdr);
--	kfree(table);
- 	kfree(net->ipv4.sysctl_local_reserved_ports);
+-	tbl = ns->mq_sysctls->ctl_table_arg;
+ 	unregister_sysctl_table(ns->mq_sysctls);
+ 	retire_sysctl_set(&ns->mq_set);
+-	kfree(tbl);
  }
- 
 
 -- 
 2.50.1
