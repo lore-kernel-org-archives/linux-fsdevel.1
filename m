@@ -1,23 +1,23 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795691833;
-	b=TUXPAcd8dwuj4nKeXhEwq9VZuLDgm+whqtHPBd2RzIhurXG1lg80ulBLSqP9uFDHIigW
-	 YWQi6xsUF1jtXgj8Q8XZGPdNEHbYnPQQg3LxzzPW5ykFZDYmNHun/7QqhmBrLg9aXZ6Az
-	 NsUXFCTa6ZedYLFcoBfieV0ug8oncesD3dd0deEK8mbuLC1mXL/hNxzqySyFfurAf6XlW
-	 n34IywEUFRCIL3vXMpwSjoC31M0ic7aNz1IlU5fHE/4GphVth3RiV5nKALA5zDwMFlO2V
-	 MsS4DLN8oaHjPz5CD3bhSELNLAa7R11b2c6tUg+fX+pegg5J03kE8UWHrVDaalhBvYA==
+	t=1795692001;
+	b=wRcQFYXAwfBcdhdgU2aiPc9ks5Gw/eFioYTgaKAszH7TYcrGpOSSwkWi/UlnWAku8QKE
+	 hLK4uxmpqYg4c0xAYNYBf6Evoruag5vBSVyX6r/knbRv87+c8O2FdN9ZbryfAwPOFy3sf
+	 jffp7a6QU3ciQMObVbl09KY1ziQhROH1zKETm+DMNle13/iNfpjv4LEdBU7xgW66rodYk
+	 /IApDaUx4RwO3Vb2TsTziV9vt4bXcNG5qO9CxWNWKjK9u4MJBhTQHtn1zXIcuya6d5wP0
+	 WJuJ7Q/30pqTJ2Pcno8kJuQV8PEDIVrBGb0wEs08v00YFRqrfpxTpgdXytmArIDP99w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795691833;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795692001;
 	h=DMARC-Filter:X-UUID:X-CTIC-Tags:X-CID-P-RULE:X-CID-O-INFO:X-CID-INFO:
 	 X-CID-META:X-CID-BVR:X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:
 	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
 	 References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=yvpFVPS5nHjAd98a7zI89o00MRQ9zkYpBpD7SEFfFdo=;
-	b=Qupk+GPP31nEKR3g1ZQ+93JgQkzyASRv0hXORxqMF8ZQAetS4QTn4Zud51UYOJSQD2s/
-	 jpP19+DVAHZjTlb5dIZdJEFNEJR/s1JS1NOpyy7GNyhTZRa9avMY4OMqY3aJf06KAevHs
-	 wujP+a5mySzmTdwqaFTfgopP6GHO8a3yjLRGGi6JnqBwvZbH0HydXbew94jPmLE96ghQn
-	 ad4M66VLetZHGcbyLm++CuiAypiB7xiAwJIPtdRSzXY+C/FLn0DjPo/ME98AnZXE8UuOV
-	 Y2yeDOg3N4CXrehdjdPmCU4L/v+VgULN50WRACYu/ileP/GoCCDFDE5Hp4UlIbmwOjg==
+	bh=oy20coKOo4RVez7QDzR5SPGemys71Bilu2eltbE7agM=;
+	b=eJ8LIeoO+SqpyeTbpO6XdMFqc1BoVlSOiYwBWmT5/QwNWcliS6FZFkTWji66vAmTw4bm
+	 p5BRabMMm027YeRUJptJvXgel84RTQ3m4rc7hA8uK6Mu9qQuCHeCMP4LbpdVtymrWfPaP
+	 3zZi+eduTZ+qNnnBvgAzUEmx3H5bGxkqZIvQATQwIpOGGKvxSM9biTSIsh9fRwJY5r9Lu
+	 dRiF+f/7TGGgIEFVmqySD2rK5YHs6B/wJGF6XmNNlSA3LjWDPCCcpr9P7AiGq2fKNSCpK
+	 Y/QslyPRTQKGK9z/F4cgnq0voWGLb4kxlHprLs6TqpFDTdhstdz/qRXTUttlxDnEDBA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=kylinos.cn;
 	spf=pass smtp.mailfrom=kylinos.cn;
@@ -26,12 +26,12 @@ Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC043606A329;
-	Thu, 26 Nov 2026 11:17:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC043606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E02606A338;
+	Thu, 26 Nov 2026 11:19:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1E02606A338
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: e71d7726e98a11f19a56ed5b684f684d-20261126
+X-UUID: 49a4ca20e98b11f19a56ed5b684f684d-20261126
 X-CTIC-Tags:
 	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
 	HR_CTT_TXT, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
@@ -43,29 +43,29 @@ X-CTIC-Tags:
 	CIE_GOOD_SPF, CIE_UNKNOWN, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU
 	AMN_GOOD, ABX_MISS_RDNS
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:7452ed6e-7e81-4150-93e8-1cd97ed03b34,IP:10,
+X-CID-O-INFO: VERSION:1.3.19,REQID:5164b479-3906-4282-8c19-e641c61d65a5,IP:10,
 	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
 	:release,TS:10
-X-CID-INFO: VERSION:1.3.19,REQID:7452ed6e-7e81-4150-93e8-1cd97ed03b34,IP:10,UR
+X-CID-INFO: VERSION:1.3.19,REQID:5164b479-3906-4282-8c19-e641c61d65a5,IP:10,UR
 	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
 	elease,TS:10
-X-CID-META: VersionHash:7db8b62,CLOUDID:ecac7c148939b6f01b1df28134bf306d,BulkI
-	D:261126094937PW693UOR,BulkQuantity:4,SF:10|38|64|66|78|80|81|82|83|102|12
-	7|136|153|841|865|898,TC:nil,Content:0|15|52|99,EDM:-3|-100,IP:-2,URL:0,Fi
-	le:nil,RT:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,D
-	KR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-META: VersionHash:7db8b62,CLOUDID:0a6e950a75cdc679f99637ba237caaba,BulkI
+	D:26112610033528PJVL0O,BulkQuantity:4,SF:10|38|64|66|78|80|81|82|83|102|12
+	7|153|841|865|898,TC:nil,Content:0|15|52|99,EDM:-3,IP:-2,URL:0,File:nil,RT
+	:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:
+	0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: e71d7726e98a11f19a56ed5b684f684d-20261126
+X-UUID: 49a4ca20e98b11f19a56ed5b684f684d-20261126
 X-User: lihongfu@kylinos.cn
 Received: from [192.168.43.7] [(114.246.238.190)] by mailgw.kylinos.cn
 	(envelope-from <lihongfu@kylinos.cn>)
 	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 1496325343; Thu, 26 Nov 2026 19:17:01 +0800
-Message-ID: <5dc5ea66-ba09-48d3-8c72-bcc5c141b6d9@kylinos.cn>
-Date: Thu, 26 Nov 2026 19:16:54 +0800
+	with ESMTP id 2135561116; Thu, 26 Nov 2026 19:19:47 +0800
+Message-ID: <a7bb101b-e9d9-4e03-9854-33ccc6d6eda9@kylinos.cn>
+Date: Thu, 26 Nov 2026 19:19:41 +0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -76,8 +76,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/21] mm/hugetlb: charge the copy made at fork to the
- parent
+Subject: Re: [PATCH 02/21] mm/hugetlb: fix truncated copy result in
+ UFFDIO_COPY
 To: "David Hildenbrand (Arm)" <david@kernel.org>,
  Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -115,95 +115,62 @@ To: "David Hildenbrand (Arm)" <david@kernel.org>,
 Cc: linux-mm@kvack.org, Jason Gunthorpe <jgg@ziepe.ca>,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  Andrew Morton <akpm@osdl.org>, linux-doc@vger.kernel.org,
- Chris Mason <mason@kernel.org>, Hongfu Li <hongfu.li@linux.dev>
+ Chris Mason <mason@kernel.org>, stable@vger.kernel.org,
+ Hongfu Li <hongfu.li@linux.dev>
 References: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
- <20261125-hugetlb_fixes_2-v1-1-db27fd2f71a8@kernel.org>
+ <20261125-hugetlb_fixes_2-v1-2-db27fd2f71a8@kernel.org>
 From: Hongfu Li <lihongfu@kylinos.cn>
-In-Reply-To: <20261125-hugetlb_fixes_2-v1-1-db27fd2f71a8@kernel.org>
+In-Reply-To: <20261125-hugetlb_fixes_2-v1-2-db27fd2f71a8@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 
-在 11/26/26 06:32, David Hildenbrand (Arm) 写道:
-> When copying page tables during fork(), the child is not yet assigned to
-> the right memcg. When copying possibly pinned anon hugetlb folios, we
-> must charge them to the parent's memcg, otherwise we can end up
-> allocating more hugetlb folios than allowed.
+在 11/26/26 06:33, David Hildenbrand (Arm) 写道:
+> From: Chris Mason <mason@kernel.org>
 >
-> Let's fix it by charging the copy to the parent's mm, like we do when
-> copying small folios in copy_present_page(), introducing a new helper
-> function alloc_hugetlb_folio_for_fork().
+> Folios that span more bytes than can fit into an unsigned integer (e.g.,
+> 16 GiB folios on arm64) are problematic with UFFDIO_COPY: the result
+> from copy_folio_from_user() can be truncated, possibly indicating
+> success instead of an error.
 >
-> This is a hotfix for v7.4.
+> We will then continue with the folio that has stale data, and make it
+> accessible to user space.
 >
-> Fixes: c2deb1356d82 ("mm/hugetlb: charge folios to the target mm's memcg")
-> Reported-by: Chris Mason <mason@kernel.org>
-> Acked-by: Michal Hocko <mhocko@suse.com>
+> For example, if copy_folio_from_user() fails such that the number of
+> bytes not copied is a multiple of 4 GiB, we'll get an effective ret ==
+> 0.
+>
+> Let's fix it by simply testing the return value directly.
+>
+> This has medium urgency, as it's an information leak.
+>
+> Fixes: 8fb5debc5fcd ("userfaultfd: hugetlbfs: add hugetlb_mcopy_atomic_pte for userfaultfd support")
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Chris Mason <mason@kernel.org>
+> [ david: cleanup code and description ]
 > Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-Tested-by: Hongfu Li <lihongfu@kylinos.cn>
 Reviewed-by: Hongfu Li <lihongfu@kylinos.cn>
 
 > ---
->   mm/hugetlb.c | 26 ++++++++++++++++++++++----
->   1 file changed, 22 insertions(+), 4 deletions(-)
+>   mm/hugetlb.c | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
 >
 > diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index d0e66fb306221..f46c85fc0cd0b 100644
+> index f46c85fc0cd0b..d57964914e18a 100644
 > --- a/mm/hugetlb.c
 > +++ b/mm/hugetlb.c
-> @@ -3103,8 +3103,9 @@ typedef enum {
->    * allocation).  New call sites should (probably) never set it to true!!
->    * When it's set, the allocation will bypass all vma level reservations.
->    */
-> -struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
-> -				    unsigned long addr, bool cow_from_owner)
-> +static struct folio *__alloc_hugetlb_folio(struct vm_area_struct *vma,
-> +		unsigned long addr, bool cow_from_owner,
-> +		struct mm_struct *memcg_mm)
->   {
->   	struct hugepage_subpool *spool = subpool_vma(vma);
->   	struct hstate *h = hstate_vma(vma);
-> @@ -3187,7 +3188,7 @@ struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
->   		.nodemask = nodemask,
->   	};
+> @@ -6568,11 +6568,8 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
+>   			goto out;
+>   		}
 >   
-> -	folio = hugetlb_alloc_folio(h, &mpoli, vma->vm_mm, alloc_flags);
-> +	folio = hugetlb_alloc_folio(h, &mpoli, memcg_mm, alloc_flags);
->   
->   	mpol_cond_put(mpol);
->   
-> @@ -3249,6 +3250,23 @@ struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
->   	return ERR_PTR(ret);
->   }
->   
-> +struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
-> +		unsigned long addr, bool cow_from_owner)
-> +{
-> +	return __alloc_hugetlb_folio(vma, addr, cow_from_owner, vma->vm_mm);
-> +}
-> +
-> +/*
-> + * Allocate a folio for a copy in the child VMA during fork(), charged to the
-> + * parent's mm: the child is not in its memory cgroup yet.
-> + */
-> +static struct folio *alloc_hugetlb_folio_for_fork(struct vm_area_struct *dst_vma,
-> +		unsigned long addr, struct mm_struct *src_mm)
-> +{
-> +	return __alloc_hugetlb_folio(dst_vma, addr, /* cow_from_owner = */ false,
-> +				     src_mm);
-> +}
-> +
->   static __init void *alloc_bootmem(struct hstate *h, int nid, bool node_exact)
->   {
->   	if (hugetlb_early_cma(h))
-> @@ -5110,7 +5128,7 @@ int copy_hugetlb_page_range(struct mm_struct *dst, struct mm_struct *src,
->   				spin_unlock(src_ptl);
->   				spin_unlock(dst_ptl);
->   				/* Do not use reserve as it's private owned */
-> -				new_folio = alloc_hugetlb_folio(dst_vma, addr, false);
-> +				new_folio = alloc_hugetlb_folio_for_fork(dst_vma, addr, src);
->   				if (IS_ERR(new_folio)) {
->   					folio_put(pte_folio);
->   					ret = PTR_ERR(new_folio);
+> -		ret = copy_folio_from_user(folio, (const void __user *) src_addr,
+> -					   false);
+> -
+>   		/* fallback to copy_from_user outside mmap_lock */
+> -		if (unlikely(ret)) {
+> +		if (unlikely(copy_folio_from_user(folio, (const void __user *)src_addr, false))) {
+>   			ret = -ENOENT;
+>   			/* Free the allocated folio which may have
+>   			 * consumed a reservation.
 >
