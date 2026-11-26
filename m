@@ -1,88 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795689925;
-	b=4UwAaFkbovm+cLJDq/xWldjnjE45oj1Buo8yOC4l4e6ARRbS/l4IqrdY1GH9a3n+OyNx
-	 fgmk1syMHmgNxPfzVHuAYNeEXva+39xX7Z1YLa6HYJRKrJTzoaY4QheBxNT6iitA0GkQM
-	 R5LFdsyWBG7RRwtQenpuFzIucgdtkXfD3NtVYeg6OM1X0hsYqka3l27ahoosFo4ipWasa
-	 wyqgGrB5nGXP7ZXSXEk7nmnyUyP3obhIn6uccWiBnZGIjAFcT1Kvk98aKalsfnNrOvMi3
-	 xidsIe7OXJ00Jf+xR/dtFy5IEMv/jI8r/tpTlPhH1N6fUJ8pu4oYxO3ggdDJepCpQ/g==
+	t=1795690267;
+	b=OYkfIVyGKYyfLGdMNwNRul1ePchAsZKA5GWN7PMILSg7TNqlKhUd55suG3U5gSjW1uiW
+	 4ziIOGlll3/zetQom+302Zyrgrw/f498lVzgR3m7qbaSjHhyFhkPy2Mu2clBU7bg83cnk
+	 2jKvNblnMuHGAm9UW9jvAiVD4o/+gwwyjB5gtpFme1vSgWh3rRE3ckue4kqWU9DKBlwVf
+	 THRlwoYW06LEhK/5jKGozipOtTKJuPFhHpF3C0TJ/pKYcCpvOGZvvyZISrgp8p77JoEmT
+	 B3F4LB7xBM0eBpV8Ne1Tuu5HtyKXu3FQ+kjNmQBaTOedVVVpBaCctzRXbeGLF388WQw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795689925;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=Un6gMhy72C5GdMKpxarLNGYbqAQ9rBfW8csPHV3xsTs=;
-	b=CDWf8d8YJ9PWD2MyZGlVN2l/ZU7cksClQnTkperK9eFBQ03gDSHXu680ym7oiN3oaixc
-	 wR3mzf4/lgNI8550PodwefTLJSYLBDvlIVZzVk9Lu96xDY/eWqlCDcmg9JPZnTNEzublW
-	 pZ/XmmTms8lB0n0OI2EtrnOwjdNHfxBgCfT2XFdUD1Bad5iIKIey0DXIsYP0kFbWsrPme
-	 xF0fVdc6LZ89YcF+78s8LngnXt7JaklO2IzldLtHvnjdta5jIYhPBm0/495TKloyYvFH+
-	 HDUnBtaP2qpWUVGOQFVph4MQq502+g4X3PbQD91DNIiqA7Yz739EnHw/fbVpsxm32yQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795690267;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Scanned-By;
+	bh=CVdSbvuqngFGYkMK81UV44VU4VJLlbgtcDVIbEqpauw=;
+	b=MJ3EdTNaIG+oyO59FFcLCcMkv60shfhbiCN/CjfPcwNas4oEmScDVpnvubLz5OjYrzrO
+	 Z/wy2EvjSa+KkN0Yy+/mM6u5S3qrIycyy2SBtMEDy/ezfUEbMb7hBFjmsuqKPpAqslkmK
+	 n2pz5c1KZiBZEa9Hq+UYV0KaS3EFvEWtiBEHbr4iYQYiNl7mUBEqR+b93iALdkx3mJ3zq
+	 u3NCznD+rrlk+oXIaETntWc6YF/p7i1Vf3ZvXYelWAwawLqKsvMNvSJMrmIwUoGOCkr5+
+	 XpcAGgvyfOTdeqw+5TS0Y2jNfIXih4FI/7OEHlYunu7l/dF/+gGsrxCjAMpTPga2DWQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b="fb/AnGuu";
-	arc=none smtp.remote-ip=209.85.221.41
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=IYJd8X59;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F7F606A31C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 10:45:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C7F7F606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E612B606A31C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 10:51:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E612B606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=fb/AnGuu
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-492fcbfaa88so4535182f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 02:45:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1795689923; x=1796294723; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Un6gMhy72C5GdMKpxarLNGYbqAQ9rBfW8csPHV3xsTs=;
-        b=fb/AnGuufRVSuumZI6EQLA6cj75+M3xYaDzd0Gy6RIfFD9vTufZ0ocvqMKbKkCMuJU
-         HCBXLOxx8vgikybvFGaP8kOTEPC96KRwXnjjGdmpRLIAP3v7/cEX49ZmqXzavqZRuij3
-         yAgWXhNLnFWVkhqNg9FhZPzLqKHj3vih4TQBrzWrYFpbfSQ4U8bI/qVviCwdNFG1GKRg
-         Hxn6CMjZT5DpBlzV5e6WnYlgdhQXs2yNA/UJVS7jWkPiOHnO8ZNEWlUFaREDrgmI9OpC
-         SZzobCPy89LxilfHUkDRa5QJboD//JYUx9AJLoSKPUrVgXCRpyowQ5xPdH3/qHs9I8jV
-         3Rpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795689923; x=1796294723;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Un6gMhy72C5GdMKpxarLNGYbqAQ9rBfW8csPHV3xsTs=;
-        b=YwbveLZ+kOvuYFp42BMg8mWxXkvHvbg5WFpf0q2wUMG2GTh5a94gnzUBHw7jtGf3gt
-         xSbrrrDzUUyhel7eJ5Bt9BtGXy4QYy+VXfeSlTqJjZqPrsCYqcsChzyBpPxjThtsSind
-         XzM7cPpvj2Q/NecQjEHt9/QB7iLAuJvD9ocEgyJYc2N+OERkEcaxrGy5rDZZ0/VWeXoq
-         FlFyJyTVdCNPdsvTN05rIxaSKPL5yNbRUR233IMldd7IHbt/dMzp5/SydXTUOqH8lKBf
-         OQpPpQWt0luhK8tHMnn1LhPHIfrq3YMIzCuBHFZpVE4e1OBMKKIYjapvWEwuwYYwigsl
-         FOkw==
-X-Forwarded-Encrypted: i=1; AL+hErFckqesa8LHzSm7RsnfaHDpJbUZtxA5I1DKzZSc2L8hWYqTZStCaYt1zESG5WEWtihjMf8V4HRTmluz2FCh@vger.kernel.org
-X-Gm-Message-State: APuU4Z/YidMnelIrAJoUj0UQGcmr51LZ09KcdyGaRGA0YbSoec8ghKfk
-	n1mJH3Orlrv2p8Y+ulZKK0CD1HmYvFCkb/Fmfil8ZswNNFRdYfrWWdXC4SQ03SY4gRs=
-X-Gm-Gg: AZFdTZfIFYNUS0qJypFe2jouWZcbh9LrnjMGaeYHV/evU17huxtWs1RcNDUpkwoWP3d
-	s0cmvaGrgea51qV6Cg9a82kVWrJSoCahqf06cdrMnumXC8z0lix6Gr5x57YRVDbWCHYJzHeBnA/
-	aN9PJLf0Js2yg85UY/ZipfMgbk9tjNj++YWpSwNxxyFKnMyn+92CPyV7zhDoUXWBaqQsxVmf5Rb
-	a2glirCYU59/JRg+GDfNHtOZ9Nrg3TlkCN2TsnlN1APuyK0Pwjd+x7f1/hNDrYXxdrCG+am9rCZ
-	F5FL9DL4lAbsEW5zMC8IM2ui/9UsIUT2PWY6/JK56+R80jJ7nKpVoE5m+jmBVsQMI50q2HZCVD6
-	oshljPY4YY1mtkkju11FwEMDkInYdqAzOKzZV+Ceqo+NX3Vn3+n1l5F1lh0bxheQ5WYzVtdIu6s
-	xOtZrwFx+lzrv+2tqSlAIRFeju9ICSl7Cvu80bVMALCI9BLDhBL4SgMf9yHpemeULCsF2i0xSWC
-	rbZfYiYjGU9tev72XkBaKiODlbkqpjeBjQus7gh9YS13XeKSTJWHIH6Octi1vFQ/EgI2X8WwAts
-	mBwWl2Yi5CXn2uWf5pOoN+/VVDE7HDI/W50fBEZym5sS/5KYJY+YaCNt8KOnon5G5w==
-X-Received: by 2002:a05:6000:248a:b0:487:b50:101c with SMTP id ffacd0b85a97d-4abaa97702bmr38359967f8f.5.1795689923186;
-        Thu, 26 Nov 2026 02:45:23 -0800 (PST)
-Received: from ?IPV6:2a07:de40:8100:0:89a9:fd0e:583d:4a53? ([2001:af0:8000:1409:193:86:92:181])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6bb98b4dsm40416103f8f.53.2026.11.26.02.45.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Nov 2026 02:45:22 -0800 (PST)
-Message-ID: <a40ad738-cb7b-469e-b67b-353b64622dbd@suse.com>
-Date: Thu, 26 Nov 2026 11:45:21 +0100
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=IYJd8X59
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1795690265;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CVdSbvuqngFGYkMK81UV44VU4VJLlbgtcDVIbEqpauw=;
+	b=IYJd8X5949IVd58RBuWCW7n186CS/xQR0azC2dKXdW9ZwehZiVH7h9PbDkPKMrI1hGcj+/
+	Sq63yslPwr63DhmGS76uz1dRttqyynJAou6RT7T4HXeIKGN1F0Ozqur+Q+Ik9QFmbvO7Xz
+	Hx/mg3rySJLLkvKuyKTq00obaKi3ndg=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-638-NdibSaJiMeOeqtEyoPb28A-1; Thu,
+ 26 Nov 2026 10:51:00 +0000
+X-MC-Unique: NdibSaJiMeOeqtEyoPb28A-1
+X-Mimecast-MFC-AGG-ID: NdibSaJiMeOeqtEyoPb28A_1795690259
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DC7991955E7F;
+	Thu, 26 Nov 2026 10:50:58 +0000 (UTC)
+Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 03D62428;
+	Thu, 26 Nov 2026 10:50:55 +0000 (UTC)
+Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
+	oleg@redhat.com; Thu, 26 Nov 2026 11:50:58 +0100 (CET)
+Date: Thu, 26 Nov 2026 11:50:54 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: akpm@linux-foundation.org, brauner@kernel.org, adobriyan@gmail.com,
+	jannh@google.com, jack@suse.cz, sforshee@kernel.org,
+	me@black-desk.cn, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] proc: also check the opener's capability for
+ oom_score_adj and oom_adj
+Message-ID: <awgPDmEbGpJsT_iS@redhat.com>
+References: <20261126045222.20770-1-dennylin0707@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -92,57 +81,73 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf-next v3 3/9] kallsyms: Add KALLSYMS_QUERY_BY_NAME
- ioctl to /proc/kallsyms
-To: Samuel Wu <wusamuel@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Luis Chamberlain <mcgrof@kernel.org>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>,
- Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
- Emil Tsalapatis <emil@etsalapatis.com>,
- Ihor Solodrai <ihor.solodrai@linux.dev>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>,
- David Laight <david.laight.linux@gmail.com>, kernel-team@android.com,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-modules@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
-References: <20261113221248.3535369-11-wusamuel@google.com>
- <20261113221248.3535369-14-wusamuel@google.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20261113221248.3535369-14-wusamuel@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261126045222.20770-1-dennylin0707@gmail.com>
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-On 11/13/26 11:12 PM, Samuel Wu wrote:
-> To find a few kernel symbols, users such as libbpf parse all of
-> /proc/kallsyms, which is several MB and text based.
+On 11/26, Hungyu Lin wrote:
+>
+> __set_oom_adj() checks CAP_SYS_RESOURCE against the task that calls
+> write(). A task without the capability can open its own
+> /proc/<pid>/oom_score_adj or /proc/<pid>/oom_adj and have a privileged
+> process write to that file descriptor, for example a set-user-ID
+> program that inherits it as standard output. The write then lowers the
+> value below oom_score_adj_min, down to OOM_SCORE_ADJ_MIN, which the
+> opener is not allowed to do.
+>
+> Require the capability from the opener of the file as well as from the
+> writer: check file_ns_capable()
+
+Looks reasonable but
+
+> in addition to capable().
+
+do we really need to keep the old capable(CAP_SYS_RESOURCE) check?
+
+If a privileged opener of /proc/<pid>/oom_score_adj passes fd to
+to unprivileged writer, we probably don't care?
+
+Just in case, I am not saying that the old check should be removed,
+I am trying to understand.
+
+Oleg.
+
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> ---
+>  fs/proc/base.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 > 
-> Add the KALLSYMS_QUERY_BY_NAME ioctl. It finds a symbol by exact name or
-> by prefix in the entries of /proc/kallsyms, with vmlinux matches first,
-> and optionally in a single module with module_filter, or all modules by
-> default. Each call returns one match and its position; pos + 1 continues
-> the search, until -ENOENT. The output returns the address, the size, and
-> optional name and module buffers. A buffer that is too small gives
-> -ENAMETOOLONG and the required size.
+> diff --git a/fs/proc/base.c b/fs/proc/base.c
+> index e6d54193b9f5..42e4645899fe 100644
+> --- a/fs/proc/base.c
+> +++ b/fs/proc/base.c
+> @@ -1099,7 +1099,8 @@ static int __set_oom_adj(struct file *file, int oom_adj, bool legacy)
+>  	mutex_lock(&oom_adj_mutex);
+>  	if (legacy) {
+>  		if (oom_adj < task->signal->oom_score_adj &&
+> -				!capable(CAP_SYS_RESOURCE)) {
+> +				(!file_ns_capable(file, &init_user_ns, CAP_SYS_RESOURCE) ||
+> +				 !capable(CAP_SYS_RESOURCE))) {
+>  			err = -EACCES;
+>  			goto err_unlock;
+>  		}
+> @@ -1112,7 +1113,8 @@ static int __set_oom_adj(struct file *file, int oom_adj, bool legacy)
+>  			  task_pid_nr(task));
+>  	} else {
+>  		if ((short)oom_adj < task->signal->oom_score_adj_min &&
+> -				!capable(CAP_SYS_RESOURCE)) {
+> +				(!file_ns_capable(file, &init_user_ns, CAP_SYS_RESOURCE) ||
+> +				 !capable(CAP_SYS_RESOURCE))) {
+>  			err = -EACCES;
+>  			goto err_unlock;
+>  		}
+> 
+> base-commit: 9437046953b2fb3bf55b36582450ea0267df82a7
+> -- 
+> 2.43.0
+> 
+> 
 
-The kallsyms data in the kernel can change between two
-KALLSYMS_QUERY_BY_NAME calls, for instance, when a new module is loaded.
-Should the mechanism provide a way to detect such changes, likely by
-tracking and exposing some kind of generation number, or is it
-unnecessary?
-
--- 
-Thanks,
-Petr
