@@ -1,93 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.175
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795715673;
-	b=sdEi9zoTfU0KMDQ8hppZjp5kKXlbqbJG44DQH0Mkl+mlizfIgtrZZFBwp05UkTQIsYRi
-	 JQ8HXxhmg0ckg+ur7pC1SV+qNCZc8SM1DfmHbuSZv8bRmvCVh5KmuIWF4u16tUKyvz5B0
-	 C53CknCC5R6MXp5qeATPu8hiCm9h+LmpKpOofMyaQdniVMZNlVrIaZd5SLqM0/3zMyokI
-	 +yxjAhNI3seasvJzIE/GX1WsYQHa8AW1GAff+y0J/yq7NdNG0ikMiHxc1TdfApTJMQmvZ
-	 bwZHHWAIX/qgNEXMKipLVgDnnvKoqiUgeHn/AqAovvVDg/E4zm22fH/ultCCS5BNebQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795715673;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.231.201
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795716535;
+	b=gOC/nDhGP3mZbDr2b6VbKYZ7C5A0liitlKK4vj5ic1iMBfDVSGISSM5r0JTc2U1KV5rQ
+	 RHKvvK6p0ej272P8C1xSWInw0K9GYun4xW3GTiVvseVgFywrTlxnFoWJN0zTD6NF2RvQS
+	 i6BQG1kWmz4KjxOlcpVPXxTujr2Woi92TnIB5J+koNetH081eRn4y8jWL8itWB4oh48Ii
+	 Hz4REVi5DjULDaYVz6X3VWK0RPlYFRv1F2OQQqSE2Rw8kn92BaS1H7z6hDg4ZDU1cHmAb
+	 1CDZBWJl/gjHtskmx7IBtTVNLYcAqyTxPsnfam+2zq6dPlpg69t222nO+inostw5AkA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795716535;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=6pT4BOJ1u+pEQkim3pAQgfIOTjhMx/55ctOIhC3tiy4=;
-	b=DmCnh20mqETmd5MkhwzPBiwP36TcZdIKmKT1ois8cxdCK00k6O8l7veVgAhA4QL3ApHW
-	 i2vGuXBnP9f2c9jrVbwvsj34tD70j+pNwuAMhFjBU6ukpsBjpHAmV0MezNuuPKLdUf96t
-	 jm+mHpVszv4KmEDSmn3LCHNfwYSS6Voo8sem2QrKkx6V2dDfWrLCD6fceSYC04MTOxaal
-	 dfrhreRWk1aijXNmXs2wfESvjGw36eASas3C+O04OYF797hoiq0DIcYm2CHN+QjQp/04+
-	 MbsF6jVaZWv515cG2CJk9lNZMh0R6G5wrUfaBY1JGxeCJr8FS7/vXk/sIk3BNXieQVw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=GPDH5iymDD1XKiojTuDMjg7ZZbxBabRJM2yU5TRq6AU=;
+	b=ysOJIjoWQskXuQkcODigYYkeZSwINijEABcOGRtexfmK8DNy7N+aAQRQbwlIE7vCQT27
+	 eVUklME946HxpXcMD6YZMR6bR3PXXY/f6pBQvdQIsJnDB0D/Ai2gGRkoQwz7ejidDm/md
+	 aale0z9cD2IQGa3+T82nL0O1kpumWPOQqb7I8pqGFIY6pNDjFXq6pY7AGfyvhB4dCt8J4
+	 IN3hB6R/zlhXiur3t/xRrA999SgLhqaxhdmgMWNBGi7ocm621f7adLR77saeRcEhR7Bvp
+	 7N+ZaAzNkpK7MH02hfg5WXIGuggs2P3r7kQD6ra408iKUsprJ67l/3wfKDsA4Kr2PJA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fr1j5NRI;
-	arc=none smtp.remote-ip=209.85.128.175
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=M5y2t0eW;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.231.201
+Received: from mail-oi2-f9.google.com (mail-oi2-f9.google.com [74.125.231.201])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E11606A31E
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 17:54:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99E11606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D300F606A31E
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 18:08:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D300F606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fr1j5NRI
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-8b4c685c751so63686717b3.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 09:54:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=M5y2t0eW
+Received: by mail-oi2-f9.google.com with SMTP id 5614622812f47-4f61e12e8e0so946869b6e.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 10:08:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795716533; cv=none;
+        d=google.com; s=arc-20260327;
+        b=UpC05mkY8aFk7TnXYfAfWVRSeRpgflCcnocYEB8wlrlBbkhNdGLFpR0c9Oi+tksm5Y
+         4WgLDG1pv6afmMhZFuonn62jkcJla9IlmrGMgDhUSX4H/vYIDDxp/Pqut9jUzaQ2oP2E
+         TfYth/VwSvRLJ8lBOaYD+d1acN/hVq0wVmhr4yK6gBMYmgDLlYQNeYoQquLM+ZOTeyBB
+         tJ/h4KPNEKqDMnulfzs+jbu57AuKkj+mcpvRtD+XWQMugVW8XCHTTWW8FPjh0AciY5CW
+         quB1K6lqgnO4p3UXoYg3aHQLOgUPyHEMtY0xpGgma1uDklCEqB5GX5lB40ydwKQGfjuE
+         ar+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=GPDH5iymDD1XKiojTuDMjg7ZZbxBabRJM2yU5TRq6AU=;
+        fh=Xm1AzT4X/MUJWR+6HeQMik8NB31SuVAhcse1OilJ0W0=;
+        b=kIYEsa5LC05G9+CHQeEacRnhh0fMoTlER1opkOD7q9U+oq74XF0vk3z5CmChDV66/w
+         XH/kH9wa0yPATAOViyKhVQzsSTaMlz89hFpRlKiTjOTi6kow8FW/sIy32Epn1wpU2lXh
+         voBmaQU5FAJAF47KfvCo8ByMPwccSwkfDc8KvAPbLu2afDa2kSv/lMp9JlWGUReNdkqF
+         SDE8tri6ADH1hTXXvs2nRNjnIo0dMPpiJxXbz4XnPehbhvmw7PosWUZUKasU2RNuK9ht
+         DYCkm35eqZLS4XT6Ee+s/T2IYFaIBzeSGRnZoXHYwea2ooc1Nibti8BkZhNrKWXj9WHo
+         zzyw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795715671; x=1796320471; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6pT4BOJ1u+pEQkim3pAQgfIOTjhMx/55ctOIhC3tiy4=;
-        b=fr1j5NRIQLgDHbr5rSu8Vulgm/o3PP/Hp2+3/XBrHWa5BEvP3RLRTRiUnvTuocq9ag
-         ua1CTGWdOIXrotXj+h09sOBvU3SagDDsEE1z1RFn99takf6jjMchaBxyqBVl9URXcoXM
-         K3btSwjENPB2rkHNx0kaRg/gmjAZwtxtPSY7CLT69a6NVocRSsuWySD7XrSUUBBsLLPv
-         Rdwv9h82hWiIm8PY47rL1WorkpD/r2fmWm9fwyJ9vFPn1us4XKj+Aw5qYfveiHhMDNgz
-         Cni0TBoAoz8dEqH4t+Ke70E9W2j2KXK3y90XYYwDnwfHYVg/Kx1vpRBX9ZdhyZygQg2N
-         J0vg==
+        d=gmail.com; s=20260707; t=1795716533; x=1796321333; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GPDH5iymDD1XKiojTuDMjg7ZZbxBabRJM2yU5TRq6AU=;
+        b=M5y2t0eW699s8skqtUYN0i50s4bbAZ/h5qrTZoU0S3m81uLm32Ezh8TD3xFGtlERN4
+         Lrx8DZkcjPtPC7qYdoBmulkkS9yTt6kKgp1sx7xxUdEU4BXb+rOYD+u6leFPG2WFIGJ6
+         MFlKpGiFojNKsRS/MXkZs3J7nxs4RbI59qRdJ8yMwCCt7vj3ZE8sYKQxW+CIZMAfgyCJ
+         AwnvyRu5lig0WXf9/QiPpD5sgmOaIia1PTW4UIpsx6hl4beFTdQBiLvaM6aHQ3YIOLQY
+         ZMKlDbNbCJ7E9K2cvPbLYmPHh4l7b7Yvl82BmQAVbuQJZJUn5wVBm1nHK7cwRWdE1NeI
+         Z0rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795715671; x=1796320471;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6pT4BOJ1u+pEQkim3pAQgfIOTjhMx/55ctOIhC3tiy4=;
-        b=A3uEhJ2YSs1cKGk0djYWtwxZBqff1wR6oDi+PGTji7OAD73EVYixE+lnsad0CZE9CR
-         BdEMCeEUj09z4/FY4VOTbkj/pCgcXbqtHedPc48OuYh9Y1CRkD/NIfYJaA1v9xs6ubRh
-         OiodiQeORN5xs9kE2PExSOpYKHGAwwxnpkfXfxiOjqojuPCm5uPxkcZnbXwc2ln348Zt
-         i3yV3Kj0xQHzHgsoKESLqi/2gF7f6lNHit0mQuhyD9J28ITMWD+rSXyZ1HbXL7gjPwKh
-         MrN4QHU9LkALMdxxZFZHAWrZr8TxtducEXn+Z7G3Cum+vzwo8Q9LogAfl9NbjjJQZZRH
-         3U8Q==
-X-Forwarded-Encrypted: i=1; AL+hErEyxsfAiyn+xWM2d1vlsbAE0volpP7o2dNcfjqu3tbnVp5LhSLjERZhgvASEcLlSGa+wfo5Waa7y9iyV7zw@vger.kernel.org
-X-Gm-Message-State: APuU4Z/KdAmcUtf6xyjCHtM+58shUzZ4bZ+3KguCR9hMQaeqnx2PrcX+
-	IvuBjmkZZjosRUFxeKiOXjoh3xt+wINSqXlS3FOKaIfzAT/MVV9/2p0=
-X-Gm-Gg: AZFdTZdrfspPwz1VSOU+ztGeChLPcxhFcvrmI4QZ7uHLOGpjqpfidqJrJJ9VbQw87uH
-	Xfq2I0PzclFvc1/0tJX4U4Xi3ImupyIjKEIGTsizOOgdHm/C3XTlH/E8BbTHBZp7ZsNrRr8Eq5j
-	f28yj5RfNUp3YqaVzg+LbU/Yv9V4tP9eBHmMfGO+CqJVL5WeE5p0Y2SYVC1/o3B/WN83qbjTD2m
-	wzKlCkYaLM8GKwVYv6R5TrD4P6lIhzZCqzNBJyJBVo+2stueuTg6mkTAhJSI60bX9I6lmfUFE70
-	wTIKPFWAFN3QrFugXKwycOLNOPb3+G++gE0ggfe6r+hErt3DuV1rOtvpKPtxjYQK5e1LqyLx/v2
-	JQDufIcENjYhKUN2+8jC90l4K/7wenL1reiEjcHyFBgvH9OwZtHwLLHZFWJ0qhtBV2Cc4V+a5VL
-	4YQgEtDqyeLIrEc9IKoWR5E7j7HdOW8qPLz4clpmcKhDQl2/ts2//TJyvijeEXrB3PYe5oSNLP8
-	UK9Qo+0YQ1Ou+mjcoAC+ClADTkTLnY0XHIQ02cps/XlI5Xkf2+krM4KaLjk0ii3Qf8fwIu3rDmW
-	EXfLIx7FKOVoSg==
-X-Received: by 2002:a05:690c:9b09:b0:8b4:a39e:48a2 with SMTP id 00721157ae682-8b520436896mr80575217b3.21.1795715670603;
-        Thu, 26 Nov 2026 09:54:30 -0800 (PST)
-Received: from 3511.attlocal.net ([2600:1702:7a3e:17b0::c])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b520354770sm88243017b3.42.2026.11.26.09.54.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 09:54:30 -0800 (PST)
-From: Arav Verma <svav2021@gmail.com>
-To: brauner@kernel.org,
-	viro@zeniv.linux.org.uk
-Cc: jack@suse.cz,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Arav Verma <svav2021@gmail.com>
-Subject: [PATCH] ramfs: drop unused includes from inode.c
-Date: Thu, 26 Nov 2026 11:54:29 -0600
-Message-ID: <20261126175429.1035841-1-svav2021@gmail.com>
-X-Mailer: git-send-email 2.47.3
+        d=1e100.net; s=20260707; t=1795716533; x=1796321333;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=GPDH5iymDD1XKiojTuDMjg7ZZbxBabRJM2yU5TRq6AU=;
+        b=qZMtR6PAOwL57j8srGKLhRSh5fZaRhgLF34jolvXprVU4nCmQ69CaOlJ6zsw2mFjuV
+         ykHOfQniK8tUBNB+Qat2IN1gH+P+YRCANQcaktFZ8ZAqvK9jQCZMPqW7tShksJyyD9+O
+         85wIzoQ1OD7x3/6UcIhdxmJ4YKpKFCHMtPrLtKK2mjhGHd46O4HOk37zVCKS9pzab+d3
+         beMklB9PoixQ+tADHvko7JRsujT24SD+S0X82BcQZZh7elnem9RfxPc4V4hCCTCLktsK
+         VLrPBzna2EORiSvKjBaKtGh63bQZSXKLtJDopngJPzX7hTs+8jvYS7gkozETDMDiIxk8
+         5U3g==
+X-Forwarded-Encrypted: i=1; AL+hErEitWFi7mc1UFWYsT7qdy1dOdzr+I+pGYxyaLUMuHAJI1FzeMsM5urtrNDfr3bQpbRibH3JexKHI0xdJzgW@vger.kernel.org
+X-Gm-Message-State: APuU4Z+mRrzWos6a/yVWPglr3J1LV9cuFwymjiLzwdDUQV5ZxUqrTFZo
+	Yz8rRoSXA0v8iX2PncWhEqtbJyID6r702pu+eiuFlaSZvb+0gc+dYep+PJefT+2VQquca0UFWXI
+	w/q6TYx0tEZ6uLaPMqa9MkAQX5mIFzDk=
+X-Gm-Gg: AZFdTZeG7jHU2M9JQTp+QC6mlGNoOmrnJNVghwc4Hq+ASvw0bEb7W82ueLczWPqFUin
+	cwut7X+oQ8XIwrZCxKOk/LMaCkfhJPFWJQ3cG+0GksRVS0n3dvI+urKsnjtiqOUWh15baJ2T9ro
+	6KgBuETsPbqtsoZftgnKOsq5E0UFFzoDcYfrueV2MI4ifsdTbeF8hm+YySwQsf9Jcf+o8xpMD9a
+	aItFAl50poZsiEokeCMIM+eFHRiOc60SvyehSke/RSh2Mauhi8Cl90qYKaVcfoW8l8ZJnZ/TDIu
+	zQFl5xqI9dSw40g9oGry9TEYgvNUqz/GHakp5cK2uaYvzrFq3T32APp5fQFoMn7P+ykm8L53WM2
+	33vZ7AOCNbkqqHrGtzTG4kWp4FCrkCSdkaFiiUa1dkJMHl6y8+6QseCuWNM89LQgRoG8RC73Nu+
+	1ZVTVO5wFWSxnxJficn8RpM5OU9lrs6JmJoiI70KxA3/YK+bFLrDS+
+X-Received: by 2002:a05:6808:16a7:b0:567:c40e:c79e with SMTP id
+ 5614622812f47-57a0a7199a1mr21127806b6e.24.1795716533448; Thu, 26 Nov 2026
+ 10:08:53 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -97,40 +104,35 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261126045222.20770-1-dennylin0707@gmail.com> <awgPDmEbGpJsT_iS@redhat.com>
+In-Reply-To: <awgPDmEbGpJsT_iS@redhat.com>
+From: Hungyu Lin <dennylin0707@gmail.com>
+Date: Thu, 26 Nov 2026 10:08:42 -0800
+X-Gm-Features: Aa3M54o_0peM6H-aXQD7e8ntI65htstUEnHPSULUoro50ukRn0p_g-FggU8niJE
+Message-ID: <CAGEkeHcK2rSWyQOp5a6Ub2SJ4wi8qK_Wz5uKH0WN+pLksL9jLw@mail.gmail.com>
+Subject: Re: [PATCH] proc: also check the opener's capability for
+ oom_score_adj and oom_adj
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: akpm@linux-foundation.org, brauner@kernel.org, adobriyan@gmail.com, 
+	jannh@google.com, jack@suse.cz, sforshee@kernel.org, me@black-desk.cn, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-inode.c includes <linux/highmem.h>, <linux/time.h>,
-<linux/backing-dev.h>, <linux/sched.h>, <linux/parser.h> and
-<linux/uaccess.h>, but it does not directly use any of the symbols
-they provide. Drop them.
+On Thu, Nov 26, 2026 at 11:50:54AM +0100, Oleg Nesterov wrote:
+> do we really need to keep the old capable(CAP_SYS_RESOURCE) check?
+>
+> If a privileged opener of /proc/<pid>/oom_score_adj passes fd to
+> to unprivileged writer, we probably don't care?
 
-Signed-off-by: Arav Verma <svav2021@gmail.com>
----
- fs/ramfs/inode.c | 6 ------
- 1 file changed, 6 deletions(-)
+A write that needs CAP_SYS_RESOURCE still needs it from the writer,
+even if the opener was privileged. For example, a task can open its
+own oom_score_adj with CAP_SYS_RESOURCE and still have the fd after
+dropping that capability and calling execve(). If we only check the
+opener, it could then lower its value down to OOM_SCORE_ADJ_MIN, and
+any children it creates afterward would inherit that.
 
-diff --git a/fs/ramfs/inode.c b/fs/ramfs/inode.c
-index ef91b933d4e61..a8c14fca06561 100644
---- a/fs/ramfs/inode.c
-+++ b/fs/ramfs/inode.c
-@@ -25,17 +25,11 @@
- 
- #include <linux/fs.h>
- #include <linux/pagemap.h>
--#include <linux/highmem.h>
--#include <linux/time.h>
- #include <linux/init.h>
- #include <linux/string.h>
--#include <linux/backing-dev.h>
- #include <linux/ramfs.h>
--#include <linux/sched.h>
--#include <linux/parser.h>
- #include <linux/magic.h>
- #include <linux/slab.h>
--#include <linux/uaccess.h>
- #include <linux/fs_context.h>
- #include <linux/fs_parser.h>
- #include <linux/seq_file.h>
--- 
-2.47.3
+I kept capable() so that a fix for stable doesn't relax anything. Or do
+you think the opener check alone is enough?
 
+Thanks,
+Hungyu
