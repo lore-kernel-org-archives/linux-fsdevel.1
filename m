@@ -1,79 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795657957;
-	b=1NFrTYdaWcxFthrnPcpk52nPCtRPFUDgq9f/W08TXmGm1VkDwPTv+HF2I+rxHlj2D3Eo
-	 HTSDUBl15W1+OKpY6WBhxr9SeK/NOU+tPdis47RFqN1RZAej4AjjpXnJOz+yGT/6PRsp8
-	 PX9y00pVmNMDqphZKFq+0Pai6Nj5vMvzD/ab7y/RCx8ovSDFAyRH//PdChYzE7wdb0kCb
-	 kbUCqiokTcgMb9TMG+uwQ4ULYOjlrYKBteoFzl6KzFcGGFbDdkz6utyiDrI9+v5NlE13L
-	 8C26dEeLbYsW4nTNzV8GlnZ+g4pLmWGNRKxq+7FYM/t/n+9vudGZYWdKTYKSzGOw6AA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795657957;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=1yoIUwYWhqjlN6t0gQedmFZEIMpnAUsaX179I9QPFvY=;
-	b=ctbskvcC/zTUrJpjB2INmC/mIUtZHpzaDf8nfBic2fOaiur/6X9fGktBTnSmZNfiVNAv
-	 qnVnN8BTWKbAi7RpuPtyxrIUOiTZFPGYhKrhFJ+J5ozKhfUgvfFigK+xkR9ATOFMDG/0V
-	 r7Ab/TAZqeZzAODQEpueW9yBh9o8LB0QdaXlCoJY+dXNW2ezquLwAvr2sq45HfD4qyCHp
-	 wOoCXMxKF3fOjTo61SZA2zmDeD0aWxou3ZQj8P5PujwPKBwqXjegM1QMxBhO8LFXSxkrX
-	 B95n5XsSJpXCU4rZ/sY+znY92oYTIaBkxpholyfy5UgkkrywTfm3axO5a/wa616HQNQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="nm+5/QDA";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE764606A336;
-	Thu, 26 Nov 2026 01:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nm+5/QDA
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795657957;
-	b=PcBKCT3ylLveErmbkqKL6RF5bDvLhfweQ9qpLEhwNM8pO3mqmeeeb6Fkwn8a+feV/B7U
-	 P8QYMx8U7uLWnHJXl/DlL5zEYwN6/JT6sBzvv2Njshpalt1OA/bSSw7NkibtC+sAzq4V/
-	 u9VbHhHp3HmjA8PB1ENRadE8mvfhk4HRE/xZNQ7MRiZfYTIzN+Pcj7GuEQmYNfFHcwuyp
-	 7NtdFCF8D89m9T4HmuSkLPVmwkEr/pPNBpIczhuhxx8TxokgX6Btad4S5tS0SKO5kN7v+
-	 iBIMfUgtRh5BtLw5C1x/9R5wQ7XcGcGO+uB2XleFTS6sTyhJl5GriRZW5nGkotbdGQA==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795657957;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=1yoIUwYWhqjlN6t0gQedmFZEIMpnAUsaX179I9QPFvY=;
-	b=f+elTvpSt8PzSu+wJKtSqeu4kTfIyjHhjUchlDt8Vy02f+zo9EvXQYbeJ+CgY5vOoIxi
-	 j86+Crnf4xtvO0EIj/gATkNvpnJ6qpA51zAgvvKO+kpnT09jVzqCNKKKr8OxY1NsXrFB/
-	 ulYUhCcAQTOHAxhq62dX+lwAIuhl3d3FTqqRAn/UV6NvufnoBK5BWphLlo7E74vlqKtCu
-	 zfxhiSHvO9vbkNHrcntSKQK9fBQJeMXV7R/Ujw2RMCNPiD57gz3SFFlUUGKL7tOIfq4o8
-	 dReTaUc7JayTkTZ2zREGsNPNwCCVRGiPSi2FB76jTxwuLegmWAphQpoEN8CkLZb8bVA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.54
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795658471;
+	b=I4QUxVELJjSX2/bDKkwzdo9+e6ZsEuYgnrzWQAGXoVW4fAu3H9/7tsSw5oSNQQtC5UZW
+	 mksqksveMW0n2cf9ZuHhL2+xkbTUULEYJGmEfsPZu368zFWoxeLFSGZ8K3W6igAa3qeeZ
+	 OZFatQh3QO9pxWoGsz3uDspL25UMVfttGd71tcyWkDiAoSr6un6QOr74pflIvmv7QjoyA
+	 uOoUQsTiTsq7KWOuzM/YPB7XtMQPyGr2p37+J2Y9Iles7jHFmKKSlUq+vX24kVxHk8EKZ
+	 NPKVY2MI5ErZapZVQNE/j5EVBWIJbonFO8FrJWgbhPCMtW0CubkpzqsPiAbu0H7Kuvw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795658471;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=znZpPMg7ooF6+R+ZrmeprHnl4R4cuXcKWPuk6CPDlBY=;
+	b=ZdTctBpoaOM7YcAg8E/tmY3yR0OVWRFkm6BB2REPnKYS5WHRmYdkMSeMGKftEqBjMPI2
+	 7gSEtyQF1pjfX5fifSaeu5w7MIYSQQ9i+R6nR6jdzerF/3TG3XIOO7izJJbvOnb8qKkp/
+	 pPJoKF6SUqubovv/IYGnoU5x6c6QnxJnuRyHIsPYjRNBZOGwA82jzDnjoJM8LIBfh1SHT
+	 LgTo5pj9MRirRgroqi6gsYfldMP5iyXTiUcwyUbdBCG4ZwssnUkD2JI1DQvMiiYNrzqDN
+	 bK6QvMjdwcxi+mUJwrSOuvtZ0hPhVlXe9eCGZ+AfXqjtt8kTTBF2nA3XL8yhczIus4w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uHpbrxkV;
+	arc=none smtp.remote-ip=209.85.216.54
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id CB3681F000C4;
-	Thu, 26 Nov 2026 01:52:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795657957;
-	bh=1yoIUwYWhqjlN6t0gQedmFZEIMpnAUsaX179I9QPFvY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=nm+5/QDAJqsq5dlDVDSyA5f0zY3vgxpNxmG7qYnH4AViwM7LTUZVewv6Qk9fzToH9
-	 Zrtct+wx/XOSn4lXsqIMmma7aFIufX1KiTbNIjSBI89WHuovP0S4bKqS1OKIEsiggv
-	 moEh6kAPBlAfxOx1OR9C0Q6+3hPUA7vdTQ3LM+VpNByrGfCYz23Z4/lnI90tHse3wp
-	 BbSau4c3l5ZEVWmNBfWup32D1Ez+M2AApu6wuDKzNJoNN1Ept4XDWmrzY3uCqC89JM
-	 KdENUoiTzCb/UVPpyHC68gBYysPLSE9wbOlsbRoPS6f6PtyhRh1+VrHaDj2uMqS5Os
-	 AmMD1MmTkv+Zw==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 566314D178;
-	Thu, 26 Nov 2026 01:52:25 +0000 (UTC)
-From: Daejun Park via B4 Relay <devnull+daejun7.park.samsung.com@kernel.org>
-Date: Thu, 26 Nov 2026 10:52:26 +0900
-Subject: [PATCH v2 2/2] exportfs, xfs, nfsd: map a whole pNFS block layout
- in one ->map_blocks call
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC393606A333
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 02:01:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC393606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uHpbrxkV
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3ae1da332bcso3376665a91.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 18:01:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795658470; x=1796263270; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=znZpPMg7ooF6+R+ZrmeprHnl4R4cuXcKWPuk6CPDlBY=;
+        b=uHpbrxkV5mu346yeO2eEeutpMuZUMufGBrpF+ekNF6qVjJYbXQ/M0+hECOvjc2ydLr
+         6scqFrRXYZEISd0rIspxUXV/dJUVPGGfHzAzGaFEEl8IGRRFXQk8/CcyLUY35DcxYcz6
+         nwsZ0we98nABM+5cP+f2NWZdK/amgIqMJvUlUtvLtfQcKXGzIMnTl1EQv0gO+k45ttt4
+         QG/Y3i5XvP6vJXxFdvA8yOYns37+bOuv6TtYiF/xRjoiPswMYvzYIV71MAztjXKp8njU
+         1Y6JCVIB1RnhIzHmRtyfNAyhihulxVmFn2eogPAZV0QXXmBHBO1H3J1IqqaX5GgBhYdz
+         Ki8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795658470; x=1796263270;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=znZpPMg7ooF6+R+ZrmeprHnl4R4cuXcKWPuk6CPDlBY=;
+        b=y4loEP8uQ0VYNsDckq8n1yaTmaPeXz7OHi15ZZe7DrwJTFttRPRyDOfkp9VT6w9rT+
+         5XRyzMS34VJYVKFSSpx+vMiGSlQBROvjMCQE0u8dQZoQCVADbpdKq7XoFfVdjVBQ0F/i
+         4mdHFrBlbjc550seXs9zjF0FkQ5Fsebf1YK7VO7BZ3q570iZP0xau0PvkrcymhD1EqmV
+         eHRoJ4KnpLyTKl0AK6c8ce/WxoCSaqlOSg8jghiPXb776kF1FBFaEwOcU5hdTfQcUJre
+         /htmWBcp1sdEJaHsJGUazSIcn6WqWGE/BvRWQfH/PruLl8dVEupL782E5I7/IKqpNR2Z
+         Ty0Q==
+X-Forwarded-Encrypted: i=1; AL+hErF5DIcEgUH45nnT7FJgo1nBNL2mR1ualJy+L5QM40G2A3NKzZvln+QwYqjS+CYLnYH4Fpbz1nqAVm4A6FH8@vger.kernel.org
+X-Gm-Message-State: APuU4Z9yEjO1TRRuP06iUTvG5j/RsqgB+YocHbpR4LzXjUwYipRDIze2
+	IGcIVVHpN1wHh5u3zT4/kp6IdSRV/K3Vxlm4bNsE2RdQ+o62WGAb3fqD
+X-Gm-Gg: AZFdTZcd/8mc3Mg7SJ0Zi/fcj3gHg1MT/U1tpWAO5S2Eq3c8TiVls2qsYbvVIODo9rm
+	+tcggV2zHk4WQV3S0x0+30LgIRHOuE+FR46vMY14yTVobeeFNms3JLmPClSPlSEGziVFVLCT0E2
+	FLyWSGemikSXnt8o9cih6lrzPsMoKe72rAwA7bGGSgGK7Ld8U5Txa9GHoAu3Ud9Xx/DqAzVgX0z
+	8WYiJw+tBdn1SJjeKicTa4jnnxTeApXTl0+i5ASPHwRUucebzfB+CN7nNgtMx+TtCZlhNW3dYOl
+	mboL0AwIYoPaQ12C9PevORPWJmgmTpyM3mLQTlp0xGRIOwfAtcVfPzt1rga9rF4+0uEhJVdGixT
+	pKGp4vWEOAPUFKsKgLx8cw6waBazrIsZOI3FzwDbd7KyeJtXGmcEhPfIcWtVQZ8h5oRW0KV/oDX
+	nkGMw3s+Y69TyQyXEFxXa+6zmuKpg6ZYHl1A8f12k/+FonlpJxJHFib1K29yE9YTYJt0faX8DOp
+	tEpQXY39w0De3ToqbGFw1kCxCQex6HDrsLbXT0x/PhvIyqFVIW+o61tJ3R272l7tibTEc53sWOh
+	7HeNyX3Yp/ZlugcomcWtg8QWGBwn5nUYNpOegtNx
+X-Received: by 2002:a17:90b:3b49:b0:3ac:b048:fa13 with SMTP id 98e67ed59e1d1-3b41c9beaefmr19757865a91.67.1795658469904;
+        Wed, 25 Nov 2026 18:01:09 -0800 (PST)
+Received: from localhost ([27.122.242.71])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b405d63728sm35245361a91.8.2026.11.25.18.01.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 18:01:09 -0800 (PST)
+Date: Thu, 26 Nov 2026 11:01:06 +0900
+From: Hyunchul Lee <hyc.lee@gmail.com>
+To: Showta Ishizaki <zakinko@snowrabbit.org>
+Cc: Namjae Jeon <linkinjeon@kernel.org>, ntfs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ntfs: keep i_size of a directory equal to its index root
+Message-ID: <aweS4uqvdtATt2gm@hyunchul-PC02>
+References: <20261125-ntfs-01-v1@snowrabbit.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -83,427 +96,45 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261126-xfs-nfsd-map-blocks-v2-2-6d85b1388739@samsung.com>
-References: <20261126-xfs-nfsd-map-blocks-v2-0-6d85b1388739@samsung.com>
-In-Reply-To: <20261126-xfs-nfsd-map-blocks-v2-0-6d85b1388739@samsung.com>
-To: Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
- NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
- Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
- Christoph Hellwig <hch@lst.de>, Carlos Maiolino <cem@kernel.org>, 
- Amir Goldstein <amir73il@gmail.com>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, Dave Chinner <dgc@kernel.org>, 
- Sergey Bashirov <sergeybashirov@gmail.com>, 
- Christian Brauner <brauner@kernel.org>, linux-nfs@vger.kernel.org, 
- linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Daejun Park <daejun7.park@samsung.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795657944; l=14545;
- i=daejun7.park@samsung.com; s=20261006; h=from:subject:message-id;
- bh=3mIptkgus8B8uDyWKD1+PQcXAn4sV2xVThBPvIOqiFU=;
- b=SFtju4fZSdCcbnvFQNul6zcG+rBkqUASlcbCbY1G0kQJ3ftQPGEKPES/u2RZ4adM8AlWJwNFs
- caobjpkcK4HD75L5q1lfEf3rXZAwViwsvx3QOu/jlxT1+wQFggB7gpW
-X-Developer-Key: i=daejun7.park@samsung.com; a=ed25519;
- pk=4yUfDqGRZTIj0Ik43z1GoMZRWCNm/rgX6uJuM9dtNIg=
-X-Endpoint-Received: by B4 Relay for daejun7.park@samsung.com/20261006 with
- auth_id=1122
-X-Original-From: Daejun Park <daejun7.park@samsung.com>
-Reply-To: daejun7.park@samsung.com
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261125-ntfs-01-v1@snowrabbit.org>
 
-From: Daejun Park <daejun7.park@samsung.com>
+Hi Showta,
 
-nfsd calls ->map_blocks once per extent of a block layout. Each call
-takes the XFS locks, writes back the page cache and can force the log.
-The mapping can change between the calls.
+> diff --git a/fs/ntfs/index.c b/fs/ntfs/index.c
+> index fe2a79b..73c8e6f 100644
+> --- a/fs/ntfs/index.c
+> +++ b/fs/ntfs/index.c
+> @@ -1434,6 +1434,8 @@ retry:
+>  		icx->idx_ni->data_size = ix_root_size;
+>  		icx->idx_ni->initialized_size = ix_root_size;
+>  		icx->idx_ni->allocated_size = (ix_root_size + 7) & ~7;
+> +		/* As ntfs_ir_truncate() does; i_size kept the old length. */
 
-Let ->map_blocks fill an array. XFS fills it under one hold of the
-iolock and the invalidate lock and forces the log at most once. It
-stops at the maximum file size, where nfsd stopped. If a mapping fails,
-the blocks allocated before it get neither the inode update nor the log
-force. The LAYOUTGET fails.
+Could you remove this comment?
 
-The times are medians of LAYOUTGETs for 256 KiB, timed in
-nfsd4_block_proc_layoutget() (QEMU, XFS on NVMe/TCP, pynfs, no KASAN or
-lockdep). The gapped files have 32 blocks of 4 KiB written with
-O_DIRECT, 8 KiB apart:
+> @@ -611,6 +611,13 @@ static struct ntfs_inode *__ntfs_create(const struct mnt_idmap *idmap, struct in
+>  		err = ntfs_attr_open(ni, AT_INDEX_ROOT, I30, 4);
+>  		if (err)
+>  			goto err_out;
+> +		/*
+> +		 * ntfs_attr_open() sets data_size to the length of the new
+> +		 * $INDEX_ROOT, as ntfs_read_locked_inode() does with i_size
+> +		 * too.  i_size stayed at the 0 set above, so stat() gave 0
+> +		 * until the directory was read back from disk.
+> +		 */
 
-    READ, gapped:      64 calls -> 1, 6.7 -> 4.9 us
-    RW, gapped:        32 log forces -> 1, 46.7 -> 1.8 ms
-    READ, one extent:  1 call -> 1, no change (1.9 and 2.1 us)
+Please remove this one as well.
 
-Suggested-by: Darrick J. Wong <djwong@kernel.org>
-Suggested-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Daejun Park <daejun7.park@samsung.com>
----
-The medians are over 60 LAYOUTGETs from three boots per kernel, and 160
-from eight boots for one extent. The median of one boot for one extent
-is 0.5 to 2.4 us over both kernels. pynfs block tests over the block
-layout and fstests generic/075, 091 and 263 over the block and SCSI
-layouts give the same results as without this series, with KASAN and
-lockdep. With XFS_DEBUG, generic/013, 075, 091, 112, 127 and 263 run,
-and 075, 112 and 127 fail with fsx errors as without this series.
----
- fs/nfsd/blocklayout.c          | 137 ++++++++++++++++++++++-------------------
- fs/xfs/xfs_pnfs.c              |  54 ++++++++++------
- include/linux/exportfs_block.h |  17 +++--
- 3 files changed, 121 insertions(+), 87 deletions(-)
-
-diff --git a/fs/nfsd/blocklayout.c b/fs/nfsd/blocklayout.c
-index c8942191b5f..90ed1cacf00 100644
---- a/fs/nfsd/blocklayout.c
-+++ b/fs/nfsd/blocklayout.c
-@@ -20,48 +20,19 @@
- 
- 
- /*
-- * Get an extent from the file system that contains offset. It may start
-- * below offset and may end before or after offset + length.
-+ * Turn a mapping from the filesystem into an extent of the layout.
-  */
- static __be32
--nfsd4_block_map_extent(struct inode *inode, const struct svc_fh *fhp,
--		u64 offset, u64 length, u32 iomode, u64 minlength,
--		struct pnfs_block_extent *bex)
-+nfsd4_block_iomap_to_extent(const struct iomap *iomap, u32 iomode,
-+		u64 minlength, struct pnfs_block_extent *bex)
- {
--	struct super_block *sb = inode->i_sb;
--	struct iomap iomap;
--	u32 device_generation = 0;
--	bool write;
--	int error;
--
--	/*
--	 * An RW layout with a minlength of zero only gets extents that can
--	 * be returned as READ_WRITE_DATA (RFC 5663, section 2.3.1), so do
--	 * not have the filesystem allocate blocks that would be refused.
--	 */
--	write = iomode != IOMODE_READ && minlength != 0;
--	error = sb->s_export_op->block_ops->map_blocks(inode, offset, length,
--			&iomap, write, &device_generation);
--	if (error) {
--		if (error == -ENXIO)
--			return nfserr_layoutunavailable;
--		return nfserrno(error);
--	}
--
--	if (WARN_ONCE(iomap.offset > offset ||
--		      offset - iomap.offset >= iomap.length,
--		      "pnfsd: %s ino %llu: filesystem returned extent %lld+%llu for offset %llu\n",
--		      sb->s_id, inode->i_ino, iomap.offset, iomap.length,
--		      offset))
--		return nfserr_layoutunavailable;
--
--	switch (iomap.type) {
-+	switch (iomap->type) {
- 	case IOMAP_MAPPED:
- 		if (iomode == IOMODE_READ)
- 			bex->es = PNFS_BLOCK_READ_DATA;
- 		else
- 			bex->es = PNFS_BLOCK_READWRITE_DATA;
--		bex->soff = iomap.addr;
-+		bex->soff = iomap->addr;
- 		break;
- 	case IOMAP_UNWRITTEN:
- 		if (iomode & IOMODE_RW) {
-@@ -74,7 +45,7 @@ nfsd4_block_map_extent(struct inode *inode, const struct svc_fh *fhp,
- 			}
- 
- 			bex->es = PNFS_BLOCK_INVALID_DATA;
--			bex->soff = iomap.addr;
-+			bex->soff = iomap->addr;
- 			break;
- 		}
- 		fallthrough;
-@@ -83,22 +54,18 @@ nfsd4_block_map_extent(struct inode *inode, const struct svc_fh *fhp,
- 			bex->es = PNFS_BLOCK_NONE_DATA;
- 			break;
- 		}
--		/* Not allocated for a minlength of zero, see above. */
-+		/* Not allocated for a minlength of zero, see the caller. */
- 		if (minlength == 0)
- 			return nfserr_layoutunavailable;
- 		fallthrough;
- 	case IOMAP_DELALLOC:
- 	default:
--		WARN(1, "pnfsd: filesystem returned %d extent\n", iomap.type);
-+		WARN(1, "pnfsd: filesystem returned %d extent\n", iomap->type);
- 		return nfserr_layoutunavailable;
- 	}
- 
--	error = nfsd4_set_deviceid(&bex->vol_id, fhp, device_generation);
--	if (error)
--		return nfserrno(error);
--
--	bex->foff = iomap.offset;
--	bex->len = iomap.length;
-+	bex->foff = iomap->offset;
-+	bex->len = iomap->length;
- 	return nfs_ok;
- }
- 
-@@ -111,7 +78,14 @@ nfsd4_block_proc_layoutget(struct svc_rqst *rqstp, struct inode *inode,
- 	struct pnfs_block_extent *first_bex, *last_bex;
- 	u64 offset = seg->offset, length = seg->length;
- 	u32 i, nr_extents_max, block_size = i_blocksize(inode);
-+	struct super_block *sb = inode->i_sb;
-+	struct nfsd4_deviceid vol_id;
-+	struct iomap *iomaps = NULL;
-+	u32 device_generation = 0;
-+	unsigned int nr_iomaps;
- 	__be32 nfserr;
-+	bool write;
-+	int error;
- 
- 	if (locks_in_grace(SVC_NET(rqstp)))
- 		return nfserr_grace;
-@@ -154,23 +128,66 @@ nfsd4_block_proc_layoutget(struct svc_rqst *rqstp, struct inode *inode,
- 		goto out_error;
- 	bl->nr_extents = nr_extents_max;
- 	args->lg_content = bl;
-+	iomaps = kvmalloc_objs(*iomaps, nr_extents_max);
-+	if (!iomaps)
-+		goto out_error;
- 
--	for (i = 0; i < bl->nr_extents; i++) {
-+	/*
-+	 * Get all extents in one call, so that the filesystem maps them in
-+	 * one go and each one follows the one before it. An RW layout with a
-+	 * minlength of zero only gets extents that can be returned as
-+	 * READ_WRITE_DATA (RFC 5663, section 2.3.1), so do not have the
-+	 * filesystem allocate blocks that would be refused.
-+	 */
-+	nr_iomaps = nr_extents_max;
-+	write = seg->iomode != IOMODE_READ && args->lg_minlength != 0;
-+	error = sb->s_export_op->block_ops->map_blocks(inode, offset, length,
-+			iomaps, &nr_iomaps, write, &device_generation);
-+	if (error) {
-+		if (error == -ENXIO)
-+			nfserr = nfserr_layoutunavailable;
-+		else
-+			nfserr = nfserrno(error);
-+		goto out_error;
-+	}
-+
-+	nfserr = nfserr_layoutunavailable;
-+	if (WARN_ONCE(!nr_iomaps || nr_iomaps > nr_extents_max,
-+		      "pnfsd: %s ino %llu: filesystem returned %u extents for %u\n",
-+		      sb->s_id, inode->i_ino, nr_iomaps, nr_extents_max))
-+		goto out_error;
-+
-+	error = nfsd4_set_deviceid(&vol_id, fhp, device_generation);
-+	if (error) {
-+		nfserr = nfserrno(error);
-+		goto out_error;
-+	}
-+
-+	for (i = 0; i < nr_iomaps; i++) {
-+		const struct iomap *iomap = iomaps + i;
- 		struct pnfs_block_extent *bex = bl->extents + i;
--		u64 bex_length;
- 
--		nfserr = nfsd4_block_map_extent(inode, fhp, offset, length,
--				seg->iomode, args->lg_minlength, bex);
-+		nfserr = nfserr_layoutunavailable;
-+		if (WARN_ONCE(iomap->offset > offset ||
-+			      offset - iomap->offset >= iomap->length,
-+			      "pnfsd: %s ino %llu: filesystem returned extent %lld+%llu for offset %llu\n",
-+			      sb->s_id, inode->i_ino, iomap->offset,
-+			      iomap->length, offset))
-+			goto out_error;
-+
-+		nfserr = nfsd4_block_iomap_to_extent(iomap, seg->iomode,
-+				args->lg_minlength, bex);
- 		if (nfserr != nfs_ok)
- 			goto out_error;
-+		bex->vol_id = vol_id;
- 
- 		/*
--		 * Each extent after the first was mapped for the range that
--		 * starts where the previous extent ends, but the filesystem
--		 * may return a mapping that starts below that point. Trim
--		 * it, as RFC 5663 section 2.3.1 does not allow extents to
--		 * overlap. nfsd4_block_map_extent() made sure the mapping
--		 * contains offset. NONE_DATA extents have no volume offset.
-+		 * Each mapping after the first should start where the previous
-+		 * extent ends, but the filesystem may return a mapping that
-+		 * starts below that point. Trim it, as RFC 5663 section 2.3.1
-+		 * does not allow extents to overlap. The check above made sure
-+		 * the mapping contains offset. NONE_DATA extents have no volume
-+		 * offset.
- 		 */
- 		if (i > 0 && bex->foff < offset) {
- 			u64 skip = offset - bex->foff;
-@@ -180,18 +197,11 @@ nfsd4_block_proc_layoutget(struct svc_rqst *rqstp, struct inode *inode,
- 			if (bex->es != PNFS_BLOCK_NONE_DATA)
- 				bex->soff += skip;
- 		}
--
--		bex_length = bex->len - (offset - bex->foff);
--		/* There is nothing to map past the maximum file size. */
--		if (bex_length >= length ||
--		    bex->foff + bex->len >= inode->i_sb->s_maxbytes) {
--			bl->nr_extents = i + 1;
--			break;
--		}
--
- 		offset = bex->foff + bex->len;
--		length -= bex_length;
- 	}
-+	bl->nr_extents = nr_iomaps;
-+	kvfree(iomaps);
-+	iomaps = NULL;
- 
- 	first_bex = bl->extents;
- 	last_bex = bl->extents + bl->nr_extents - 1;
-@@ -208,6 +218,7 @@ nfsd4_block_proc_layoutget(struct svc_rqst *rqstp, struct inode *inode,
- 	return nfs_ok;
- 
- out_error:
-+	kvfree(iomaps);
- 	seg->length = 0;
- 	return nfserr;
- }
-diff --git a/fs/xfs/xfs_pnfs.c b/fs/xfs/xfs_pnfs.c
-index 39d1c5271a7..93764071804 100644
---- a/fs/xfs/xfs_pnfs.c
-+++ b/fs/xfs/xfs_pnfs.c
-@@ -148,13 +148,13 @@ xfs_fs_map_extent(
- 	/*
- 	 * Map to the end of the extent that covers the start of the range,
- 	 * so that a client doing I/O in pieces gets a layout it can use for
--	 * the pieces that follow.  Never map anything before the start of
--	 * the range: nfsd calls in here once per extent of a LAYOUTGET, for
--	 * the range that is left after the previous extent, and the mapping
--	 * can change in between, so a mapping that reaches back can overlap
--	 * one already in the layout.  Don't extend the mapping past EOF
--	 * beyond the range either: xfs_free_eofblocks() can free blocks past
--	 * EOF without breaking the layout.
-+	 * the pieces that follow. Never map anything before @offset_fsb:
-+	 * the extent there can have merged with the one before it, by the
-+	 * allocation of a hole for this layout or by the completion of a
-+	 * direct write, and a mapping that reaches back would overlap the
-+	 * previous one. Don't extend the mapping past EOF beyond the range
-+	 * either: xfs_free_eofblocks() can free blocks past EOF without
-+	 * breaking the layout.
- 	 */
- 	error = xfs_bmapi_read(ip, offset_fsb, end_fsb - offset_fsb,
- 				imap, &nimaps, XFS_BMAPI_ENTIRE);
-@@ -192,23 +192,29 @@ xfs_fs_map_extent(
- 
- /*
-  * Get a layout for the pNFS client.
-+ *
-+ * Map the range, or as much of it as fits into @iomaps, one extent after the
-+ * other, each starting where the one before it ends. Holding the iolock and
-+ * the invalidate lock across the loop keeps other I/O and page faults from
-+ * starting in between.
-  */
- static int
- xfs_fs_map_blocks(
- 	struct inode		*inode,
- 	loff_t			offset,
- 	u64			length,
--	struct iomap		*iomap,
-+	struct iomap		*iomaps,
-+	unsigned int		*nr_iomaps,
- 	bool			write,
- 	u32			*device_generation)
- {
- 	struct xfs_inode	*ip = XFS_I(inode);
- 	struct xfs_mount	*mp = ip->i_mount;
--	struct xfs_bmbt_irec	imap;
--	loff_t			limit;
-+	unsigned int		nr = 0;
- 	int			error = 0;
--	u64			seq;
- 	bool			update_inode = false;
-+	xfs_fileoff_t		offset_fsb, end_fsb;
-+	loff_t			limit;
- 
- 	if (xfs_is_shutdown(mp))
- 		return -EIO;
-@@ -270,10 +276,21 @@ xfs_fs_map_blocks(
- 				round_up(XFS_ISIZE(ip), mp->m_sb.sb_blocksize),
- 				LLONG_MAX, NULL);
- 
--	error = xfs_fs_map_extent(ip, XFS_B_TO_FSBT(mp, offset),
--			offset + length, write, &imap, &seq, &update_inode);
--	if (error)
--		goto out_unlock;
-+	offset_fsb = XFS_B_TO_FSBT(mp, offset);
-+	end_fsb = XFS_B_TO_FSB(mp, (xfs_ufsize_t)offset + length);
-+	while (nr < *nr_iomaps && offset_fsb < end_fsb) {
-+		struct xfs_bmbt_irec	imap;
-+		u64			seq;
-+
-+		error = xfs_fs_map_extent(ip, offset_fsb, offset + length,
-+				write, &imap, &seq, &update_inode);
-+		if (error)
-+			goto out_unlock;
-+		error = xfs_bmbt_to_iomap(ip, &iomaps[nr++], &imap, 0, 0, seq);
-+		if (error)
-+			goto out_unlock;
-+		offset_fsb = imap.br_startoff + imap.br_blockcount;
-+	}
- 
- 	/*
- 	 * Blocks past EOF that were allocated for buffered writes, such as
-@@ -283,8 +300,7 @@ xfs_fs_map_blocks(
- 	 * blocks allocated above.
- 	 */
- 	if (write && !(ip->i_diflags & XFS_DIFLAG_PREALLOC) &&
--	    imap.br_startoff + imap.br_blockcount >
--	    XFS_B_TO_FSB(mp, XFS_ISIZE(ip)))
-+	    offset_fsb > XFS_B_TO_FSB(mp, XFS_ISIZE(ip)))
- 		update_inode = true;
- 
- 	if (update_inode) {
-@@ -294,9 +310,9 @@ xfs_fs_map_blocks(
- 	}
- 	xfs_iunlock(ip, XFS_IOLOCK_EXCL | XFS_MMAPLOCK_EXCL);
- 
--	error = xfs_bmbt_to_iomap(ip, iomap, &imap, 0, 0, seq);
-+	*nr_iomaps = nr;
- 	*device_generation = mp->m_generation;
--	return error;
-+	return 0;
- out_unlock:
- 	xfs_iunlock(ip, XFS_IOLOCK_EXCL | XFS_MMAPLOCK_EXCL);
- 	return error;
-diff --git a/include/linux/exportfs_block.h b/include/linux/exportfs_block.h
-index 21e61fc0124..f85ce1a67e3 100644
---- a/include/linux/exportfs_block.h
-+++ b/include/linux/exportfs_block.h
-@@ -43,13 +43,20 @@ struct exportfs_block_ops {
- 
- 	/*
- 	 * Map blocks for direct block access.
--	 * If @write is %true, also allocate the blocks for the range if needed.
--	 * The mapping returned must contain @offset. It may start before
--	 * @offset and may end before or after @offset + @len.
-+	 * If @write is %true, allocate any hole in the range mapped, so that no
-+	 * mapping is a hole. No mapping may be IOMAP_DELALLOC. @len and
-+	 * *@nr_iomaps are at least one. Return no mapping that starts at or
-+	 * past the maximum file size. @offset may be negative or past it, and
-+	 * @offset + @len may lie past it or wrap. On success, fill in between
-+	 * one and *@nr_iomaps mappings and set *@nr_iomaps to their number. On
-+	 * error, the mappings and *@nr_iomaps are undefined. The first mapping
-+	 * must contain @offset, and each further one the offset at which the
-+	 * one before it ends. A mapping may start before that offset. Only the
-+	 * last one may reach @offset + @len, and it may end before or after it.
- 	 */
- 	int (*map_blocks)(struct inode *inode, loff_t offset, u64 len,
--			struct iomap *iomap, bool write,
--			u32 *device_generation);
-+			struct iomap *iomaps, unsigned int *nr_iomaps,
-+			bool write, u32 *device_generation);
- 
- 	/*
- 	 * Commit blocks previously handed out by ->map_blocks and written to by
+> +		i_size_write(vi, ni->data_size);
+>  	} else {
+>  		/* Add DATA attribute to inode. */
+>  		err = ntfs_attr_add(ni, AT_DATA, AT_UNNAMED, 0, NULL, 0);
+> -- 
+> 2.54.0 (Apple Git-157)
+> 
 
 -- 
-2.43.0
-
-
+Thanks,
+Hyunchul
