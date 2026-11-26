@@ -1,78 +1,80 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795693677;
-	b=Vl2JARYJWo7iHZDmGc1vKqiUep1E/hebBeSCiQysmg90PjYY//C3uVElU1oD/msF0Svb
-	 HDmjJTMp5Xgli3OdpG9AOZKW48ZiebXr70rNv0pRjDxpyhYqxqr5FimAALabHEIGws3Gl
-	 7SiwXQHXJLhzu4F77aHzQ2HDWN7AQV7sgQwp3VS/Edb8xvLaFPQ0DRpzBYa5bni4a0Pkm
-	 yxjZXda0M0KRsnRuKtjgWlgiotN3TOnEJaa3K8mO7xqku/q91BnhmpKTyfZBRdbIIFuGg
-	 1wgNkn0fb5Hxg1U1oNTEQBbbAKPonE2LHr/uV67nhYIiPl/XH/qL9drNqf4JB6XmZ7g==
+	t=1795693684;
+	b=CBC7Bx/KN/21z48PM3anNo9rYZ1cwyenPZt+FRWxdC7cftmwzo+vH8m29ccmfvOezQuB
+	 W0fz3vb3i3u5h56WEzhtwxg2L+zubnb5A9gvoaV1viqudbHnqjUZ7fD3tgl7JinEtfwqJ
+	 vz918Ovw9IYQ+KKcHFpGhZQxbGoB9di4LOK0rEceKpZkuWSdmOtc98FfOmYrkxjHjYdsX
+	 VT4LY2+kaUOBUDVJsVb0g+MXNdZtcRT++uHeU2yGtioRutaOeO821wtOBxJmQYRRD3g8E
+	 rNXjAiafBYRdoM4SrJEwDB/LyEWW3AZj38bPUn6msDMqGdvQ25ehb9USIRTyIEllKKg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795693677;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795693684;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
 	 X-Endpoint-Received;
-	bh=UffTJQ4pVfY0kHZkIsYzlAQzKQyZDyqriHCb2vsf00I=;
-	b=XoZeKtvkDgyx2D5NwdZI7WQgOuq0xUuwc+/yL5sXbx/wgfbMEj7vLxrK5oCjdA26WBZB
-	 vVqVIRhjklc5oVJQZEqglVcByCSkvdgYo9iqqsxYY8V0KbIt9o1sIdrnWwy2yvt3+nlTR
-	 zabwqnXhq3OWJdhFwZH6i5urFGIv2nxfR2gOBjLs76c6a4kRi0BKWxF9ATe1D8G3hfF+U
-	 p7DFC0aiOTOgxNXRGz8bw/e+JslnsaOcDgKGpCbNxivonI/M3qBqqnetpPTbarj65QMwI
-	 UDjabQoBEkOvbZCU413bZezr8sLe9HbXo5zGDNExzS+uGe9rkj7Wt9bsitwwPG+ffnA==
+	bh=NCFWquB3oe28SyWKZ8/NdjliT0erKh0Fas52jbJwLlY=;
+	b=GNYErj4meFoPHev6alHkifM4C0m7/8ft2IVFtS4bJ08vQWTn8gGBQ/2Q7mYB0PovvxP5
+	 dyW6z8LJjX9ki0zJfkKrq3ObaqRI7j6l96YB4bVI2xxXrWxYj2hReeSlfgoqMDSSruoXB
+	 ix3wbYVBGe3xlaBS5caC1sT7fmR1jpxbYgVOqDK5/cmiTH6QsntnwLw5+sJ6sKoWk4HMF
+	 g7gDHETZbYdcSutcAIAkRRAvSIFwsaJvT4pLdWK/L9UwE647SOjXyHGwFewtztdVtqp3E
+	 W7fTKQ4VVhLk3R3BL8nqYrChz5n5zabbS5CW31UHP8ewNAKyCfBhCGCdG4DrVLNHlPw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PA3XooGe;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YEBrxnQK;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18FF9606A31C;
-	Thu, 26 Nov 2026 11:47:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC22A606A33F;
+	Thu, 26 Nov 2026 11:48:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PA3XooGe
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YEBrxnQK
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795693676;
-	b=AsbelUTebOk6jd8HRT/6rfjcfcXhebZcXzC6TipW5dQobWDYZ4PO6Spm8+BeBJBpd7Te
-	 64TzXDdU0dAb3zIivmY/x+RtA1PvNUEibZjalL3dBoyq9IUGaUum0kETc9Qy8FuNao91F
-	 MPRziFTdUAWW5bS8fbF7feW3AiMAaq9oilJXvtahj/+CwytY3N3XMX9hoMJCXZDGi/F45
-	 yMAOLuL+/vEkROckeJU1o/1XNN3Q7O5W0Yg5ph/DJesF5yIX26HlkeK/O4zMIhGDvg0+Q
-	 CrAUEZtc3xmX2TB8s+1FCZLbhPWASSDq/NF9XrXPgva3e4/VbXlJEQAWs2sBvOZqoRQ==
+	t=1795693684;
+	b=F6DsejplA/5DwSVk2L6JAYbgOBdcoIIPue9dtzmcB9t2FGRjSR5GRZhukfSkPpzUa+SM
+	 vhCEk5TNNLa2x3xsq5PN5NgbX7sN7lNHKUloEAq3Z8OI8+JKbg4rbOi04L6ImO/eBA7Y5
+	 xC/W6EEpMPl8cUbvB5LIMSqk4fs6C28S4xPZWu7Pgj3gFjMLhB0Cfuba/g5BfOW5CO62E
+	 Gv6nT3IW+dHYY09mb4dlvUbxyD7DfpuuUKRG9H3S5zSsrutA0f9ZmBB1W5T8yQIGjbhU1
+	 9KtNFem+I8gFqivQlca7NnkWmabXvtucOMVWz5PxmWLKefaeBjRWFR8qy4C2QFyHM2Q==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795693676;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received;
-	bh=UffTJQ4pVfY0kHZkIsYzlAQzKQyZDyqriHCb2vsf00I=;
-	b=A6C1HyTBhsbCDZkIzrhvMd+ncFEg6OanS10lFBzzoszbFRex3rdqwemqQA6n2JOnrIan
-	 WqhvdGEGCwQWJqJqLenK2Knn95FJcNqVVYUJtC8G/n16+77zfy8BkB5AIOEen0lRr6pqw
-	 mqIchnYuLenqVLZ1nrOAQxyKwvef6ZZXsDaOOVJ8GPE9QwKyzcrRxxl4StfyvE1IeOzPB
-	 HAVDq1GPBKxhSfNqW7RWA7/jrT3tsakY07db7br5xFOZFx+NRZB0zfTOO2r22IlprMBwh
-	 OU3Mow0yp0HHu+zJO80yh9VNibFTReWarZ7kPbpc8uX2EeDRa5ajmx+9ziJxeXb5Gsw==
+	c=relaxed/relaxed; t=1795693684;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received;
+	bh=NCFWquB3oe28SyWKZ8/NdjliT0erKh0Fas52jbJwLlY=;
+	b=NItHbANAKy9P/3nLQrz4hUvVxk1jovkDH4cuSpW6Fyl2AypqLEMla6QXwZ1e/vG3oQVX
+	 GcHL8mZ781l57V5Xs25plaoRcEWMyDyQbTL9qMsP/U0Qz7mlLUtqX0Clo60sSBfSHKgV0
+	 Qi9SdOOrzUtILDnZ4dvjb5cPvSMG0nSOHu3u10tMfHuGe4KEHb33hF5S0+Wwkbr4ciUjC
+	 ncrkbZt6eLDVWS6lLMZPFdBoZmAnMkSYIaqpH5yYMuXj/8KaxD4pqy8OSMBbXGDMzFy8C
+	 B18ZjWrr6btlmkHWYaviHOO5BPW+4zbXLGJrIf9w5WCEd+HLFCyozGlZ0vm4F1dd08g==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 447151F000C6;
+	by smtp.kernel.org (Postfix) with ESMTPS id 448EB1F000CA;
 	Thu, 26 Nov 2026 11:47:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795693676;
-	bh=UffTJQ4pVfY0kHZkIsYzlAQzKQyZDyqriHCb2vsf00I=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=PA3XooGepInrNw+/4KDUMJGCakfWpHVwQAj/VT1ciJaOQSqKPVKcB22AaRbYV+zFR
-	 XBH17mQEH7fFETaIn7aifJAh/oL2bLqYA+A7hU15lUzPF94cTACGqqf6CN3/crrFB8
-	 ELr/Yf1H6y4caq8MI72PEyy/FYd5UVDLw5p3kUUcQwirjnC30MO/KvCNlSYX/pOJCA
-	 ai1Y0aLVvBES33Ws4IEasICwewYZURU1QSSE0ntXKYrTnnaQI3A+hZUoyb+iLlTOPw
-	 kOpG165jMDY4DA64m3Gmysdher7Tous+/UavPcSEvP1Y+kFZC8vKjdyTrVdFLTt+K1
-	 B6GXI2e/yT9og==
+	s=k20260515; t=1795693684;
+	bh=NCFWquB3oe28SyWKZ8/NdjliT0erKh0Fas52jbJwLlY=;
+	h=From:Subject:Date:To:Cc;
+	b=YEBrxnQKGw/NY/C3imLhcoBS9MTlvODdI5nNSLc9hkHHj181F2CcsskSexD/h6yTs
+	 Ywu8uqzI15RoiOnixY3+L5WC5PvR0vJVSOcwQSPaZtth5qEy9VzRe5GLJtAwCgnWie
+	 VMzGVrKNNbOkpGyKdS+aobftSatMWjWDNTUlfD2G2sdspxWIuGirxkpFu1prZUQ1aH
+	 A2xdYdhqtuktZZzMfVlgVXi+659GmYB85ImW98pEKyWEPEbxnLNtrvipqhwwpHfDkv
+	 8SDN5DfoDY7Ci5uL0L0S05OqcAVS7jAO10gjfeNxmXPgc57RPSUals8G429Lyao6Ut
+	 kjIDvDMEFofSw==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id BDDA54D47D;
+	by lkml.kernel.org (Postfix) with ESMTP id 96B884D445;
 	Thu, 26 Nov 2026 11:47:52 +0000 (UTC)
 From: Joel Granados <joel.granados@kernel.org>
-Date: Thu, 26 Nov 2026 12:47:41 +0100
-Subject: [PATCH RFC 1/9] sysctl: Add struct ctl_table_tmpl as a distinct
- template type
+Subject: [PATCH RFC 0/9] sysctl: Replace ARRAY kmemdup with overlay
+ mechanism for NS registration
+Date: Thu, 26 Nov 2026 12:47:40 +0100
+Message-Id: <20261126-lklm-sysctl-ctx-flatarray-v1-0-d7fc9cc9b03e@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,9 +86,10 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261126-lklm-sysctl-ctx-flatarray-v1-1-d7fc9cc9b03e@kernel.org>
-References: <20261126-lklm-sysctl-ctx-flatarray-v1-0-d7fc9cc9b03e@kernel.org>
-In-Reply-To: <20261126-lklm-sysctl-ctx-flatarray-v1-0-d7fc9cc9b03e@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAFwcCGsC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDQyNj3ZzsnFzd4sri5JIc3eSSCt20nMSSxKKixErdZJMkk9REQwPDFEt
+ jJaD+gqLUtMwKsNnRSkFuzkqxtbUAwslstXAAAAA=
+X-Change-ID: 20261123-lklm-sysctl-ctx-flatarray-c4b4ea101d93
 To: Kees Cook <kees@kernel.org>, Alexey Gladkov <legion@kernel.org>, 
  David Laight <david.laight.linux@gmail.com>, Wen Yang <wen.yang@linux.dev>
 Cc: Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
@@ -95,67 +98,141 @@ Cc: Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  netdev@vger.kernel.org, Joel Granados <joel.granados@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1440;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4810;
  i=joel.granados@kernel.org; h=from:subject:message-id;
- bh=v6PmrMVI1lqvodBG+IMqrzbyXbDvVWx1Hl4IK0D+2nc=;
- b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGsIHGKO/2REFmXrRGqL8fZBwAqa21X/ylmBF
- ZdZBdkv08eRiokBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJrCBxiAAoJELqXzVK3
- lkFPnEoL+wcw0+nJhpUcbftz6p0mnR8zBhZSfpXQu1SxDQBSaU5bV4mo7EXSfNbWD7HGNyS8WoG
- fHLImOARrNYoDr6zS1fgadhLfKoH5vQlmu0l3TweZLiLU6h1/lrPitRxLLkT1Nz70Oz0vb9P4C1
- Y8yviFC57jOIzbPHzgnHcmHKy4SGzY613y5wcnJCllNNt5eiAZ1bSDTXHxiYgDAcFakOV9ZkMPb
- IzyvzJnQhRiySvmarVtY3eWQqFK71IacIgVdBj8gOba/LurjuEFzlmP9fTC1L3w9FAC7bAZ2zZY
- ipAus0EpjUeVmUN29eyrjSo3jtzrIiNKr5L3ptiaOnORJJXyLPdNId2bCnPu56GCP2Eu2etu0Fe
- Gm1w66cfl5MDLrRYFh1G0fiWqbBhzrMtqg3X5XWCMUjPnTUEjvlvAU0Dw56ANqnLNOFFIDnIuIb
- ZBWPntRxqeNE4HgXaRcwGJ+CxR0/ByuWoVYH2IC/MBEnJa4q1HLVT3Sp45Yv1Vk+2TybiK9Up95
- /A=
+ bh=mlvLsVvr0QRLxxbIuMbsgLJ4Mle2Giu4L61BJM4CqCA=;
+ b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGsIHGEmaQha3UXAh2NNj5bfqquUZkpFgUQba
+ m83hmkTRWoB4YkBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJrCBxhAAoJELqXzVK3
+ lkFPz+QL/2ckQwSLe5QM0rIhD7IFmw6aOc37PQNbPQmez2tzYXRNARNFp9vxXTTNdXIyt8g1WE9
+ tG4OhSp950k5JK4twRXeqYAv/MoIaA+y52ERpyAWf6s8m2UlcI6Go2pVfWYEQ35aZ4eubYMubyI
+ itYXaN/PipqIS5pAGznYaNt3lOJjm4U52rM32yCgjAUYjkk/YCphjMebs67LfzXUYLipTemPHDL
+ t2xKF6WvqrXjadp39tIIdPYr5wyEc1UBZAPjbFVic9nKyfNsaZZd/yvbvtGmVDkT/oTM94q+9b9
+ LUc/UU/iA4FA7YD9ZnUvfH8WcmFz3A2Gqn5mk7DVZoWb+hYI5g5SKdZKxvehlkp3U1BavI2Gs5w
+ vsJ/h4pZ36kYZaRmXX6GfEmPzwLavSYWoH1eYr3BzKEXfaEButg5LqjBPFlaQftCh6COikKR4M2
+ nIb0K5NaHPvhl2rKfjjAl787HjNtEgCMuWvs3wKORuCQDY0ZOgsP1mKcMDZ1q3dWTqCJ4W4HXS5
+ /Q=
 X-Developer-Key: i=joel.granados@kernel.org; a=openpgp;
  fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
 X-Endpoint-Received: by B4 Relay for joel.granados@kernel.org/default with
  auth_id=239
 
-Introduce a new ctl_table template type identical to ctl_table for when
-the table caries several different versions/values of the same path
-(think namespaces).
+This is meant to replace the sysctl array duplication mechanism used by
+callers that register sysctls for individual namespaces.
 
-This is a prep commit introducing the struct, no functional change
-expected. Sysctl core expects these two to be identical except for the
-name; ensure this with a build assert.
+Instead of duplicating a sysctl array and keeping it in memory for the
+life of a namespace, use it (the array) as a template and keep only the
+necessary delta in a sysctl_context struct inside ctl_table_header. The
+sysctl_context can then be used to overlay the ctl_table just before
+calling its proc_handler.
+
+The last 5 commits are just examples of how the conversions at the call
+sites would look. The idea is to upstream the core first and then merge
+each individual calling site through its own subsystem tree.
+
+Motivation
+==========
+
+* Reducing memory footprint for namespace registrations
+  On a 64 bit ARCH, memory consumption is reduced by at least 53% (this
+  is a back-of-envelope approximation): from (56 * ARRAY_SIZE *
+  count(namespaces)) bytes to (26 * ARRAY_SIZE * count(namespaces))
+  bytes [2]; we save more, if a subset of the context is used.
+
+* ctl_table const qualification
+  Namespace ctl_table arrays that are currently modified during
+  registration can be const qualified (moved to .rodata) as they no
+  longer require pre-registration changes.
+
+What was done
+=============
+
+* struct sysctl_context:
+  Embedded in struct ctl_table_header, holds flat arrays indexed by
+  entry position: void **data, **extra1, **extra2; umode_t
+  *mode. They point to what should be overlaid.
+
+* overlay flags:
+  struct ctl_table gets a u8 flags member in an existing hole (no size
+  change) with SYSCTL_OVERLAY_{DATA,EXTRA1,EXTRA2,MODE}. They control
+  what gets overlaid
+
+* sysctl template overlay:
+  Add a template registration function to initialize the sysctl
+  context. Overlay data from context before calling any proc_handler.
+  Template registration can only be done with a ctl_table_tmpl type.
+
+Comment on void*
+================
+The sysctl_context uses 3 void** because it reflects struct ctl_table.
+Yes, we should get rid of these untyped pointers. No, this is not the
+series that will remove them. Yes, there are already proposals out there
+that are working towards this [1]. Yes, the plan is for sysctl_context's
+void pointers to change once struct ctl_table's do. I thought that
+resolving the pointers had to go first, but I think these two efforts
+can coexist if handled separately.
+
+Recent approaches
+=================
+* Alexey Gladkov's "sysctl_field" descriptors:
+  cover.1787770053.git.legion@kernel.org, cover.1790439358.git.legion@kernel.org
+  Which build a temp ctl_table from typed accessors before calling the
+  proc_handler
+
+* My own header-context RFC:
+  20260924-lklm-sysctl-headerctx-template-v1-0-b25e51c66ba7@kernel.org
+  computed .data as base + delta in the core.
+
+This series takes the idea of building a temp ctl_table entry before
+calling proc_handler, which is a commonality in these two, and drops
+everything else: no network types in sysctl core, no namespace specific
+enum in sysctl core, no delta arithmetic.
+
+To and Cc
+=========
+I always find it challenging to know who wants to receive these e-mails.
+I added you here because you have recently commented on the issue or
+are in the maintainer path. Let me know if you don't want to be included
+in the future.
+
+Any comments are greatly appreciated
+
+Best
+
+Based on v7.4-rc2
+
+[1] https://lore.kernel.org/all/cover.1794844686.git.wen.yang@linux.dev
+    https://lore.kernel.org/all/cover.1793204511.git.wen.yang@linux.dev
+[2] sizeof(struct ctl_table) -> 56 bytes
+    3*sizeof(void*) + sizeof(umode_t) -> 26 bytes
 
 Signed-off-by: Joel Granados <joel.granados@kernel.org>
 ---
- include/linux/sysctl.h | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Joel Granados (9):
+      sysctl: Add struct ctl_table_tmpl as a distinct template type
+      sysctl: Add flags to struct ctl_table
+      sysctl: Add overlay mechanism for flagged ctl_table members
+      sysctl: Add sysctl template registration
+      net: sysctl: Add sysctl registration to networking
+      ipv4: Register ipv4_net_table as a template
+      ipc: Register ipc_sysctls as a template
+      ipc: Register mq_sysctls as a template
+      ucount: Register user_table as a template
 
-diff --git a/include/linux/sysctl.h b/include/linux/sysctl.h
-index e5d7226ab6f5af34a33829883ad5d1b405e19c86..4faa3bc189e7afbc270f4ba14b04b32a3f2d1413 100644
---- a/include/linux/sysctl.h
-+++ b/include/linux/sysctl.h
-@@ -22,6 +22,7 @@
- #ifndef _LINUX_SYSCTL_H
- #define _LINUX_SYSCTL_H
- 
-+#include <linux/build_bug.h>
- #include <linux/list.h>
- #include <linux/rcupdate.h>
- #include <linux/wait.h>
-@@ -230,6 +231,15 @@ struct ctl_table {
- 	void *extra2;
- } __randomize_layout;
- 
-+/* Template version of struct ctl_table. Used for registering ctl_table templates */
-+struct ctl_table_tmpl {
-+	struct ctl_table t;
-+};
-+
-+static_assert(sizeof(struct ctl_table_tmpl) == sizeof(struct ctl_table));
-+static_assert(__alignof__(struct ctl_table_tmpl) == __alignof__(struct ctl_table));
-+static_assert(offsetof(struct ctl_table_tmpl, t) == 0);
-+
- struct ctl_node {
- 	struct rb_node node;
- 	struct ctl_table_header *header;
+ fs/proc/proc_sysctl.c       | 362 ++++++++++++++++++++++++++++++++++++++------
+ include/linux/sysctl.h      |  66 ++++++++
+ include/net/net_namespace.h |  14 ++
+ ipc/ipc_sysctl.c            |  24 ++-
+ ipc/mq_sysctl.c             |  20 +--
+ kernel/ucount.c             |  14 +-
+ net/ipv4/sysctl_net_ipv4.c  | 163 +++++++++++++++++---
+ net/sysctl_net.c            |  25 +++
+ 8 files changed, 594 insertions(+), 94 deletions(-)
+---
+base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
+change-id: 20261123-lklm-sysctl-ctx-flatarray-c4b4ea101d93
 
+Best regards,
 -- 
-2.50.1
+Joel Granados <joel.granados@kernel.org>
 
 
