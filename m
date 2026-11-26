@@ -1,47 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795710551;
-	b=UMdUV77GqQHb3/qSxeQyIghZvKHm9nOle3WSGB6yY3jxgxD1Sl+2WkxJsNUJx7A1ibTH
-	 uTKANCrhn4wBLFNeMYM+iFnDq7NsP6tyf8vG23XP5GxfOtuNcBtGYaAVL/4yU3ZWv71ru
-	 R14fa9kP9aujFTsnVI/svuEW6ftv/3raqcEgdcKyiimrvJmuF6oGnUL9LG+s3yBC+Dxrj
-	 mQ/nDXbVycKJcex85dgMg1tv03hacXdmgSve7Lrbhziid2QrXNfNFTMpfFD1VmK8olJMO
-	 PlgCW+OAFLkjVUlTWscAPjawxAvyBgDUcgZJMbs7XfW6FJX1HWdwOvEjXRCs7Di2Iag==
+	t=1795710706;
+	b=ZSOzjbndLGN5SzjGkwI7u7KV8NHekUfqUzeRacEqWcG329kLrUXn5GIbAMoUmXZggdDF
+	 0JtLkk5VlGtWPQzhLDS2TJUpAeo4BLEeu1hL+zKemkGyU1Mo+e52uWaXmxOtZE3JoXLwV
+	 7riSAOvCP0C8q0zcEUiTHZ2iYIWl3BlbdEQ9/u3geXihLBFUyH7guh+8KSfoI3mksSYkx
+	 /kDn2bHo18P0lOgXKKNehY01VeBJIPBXUd2yQC0gipr4GKpRbr9Lh8j8GX/dH8z3vwiPD
+	 40I6SeTzXdUc1e/AT23FLPm497Qfl6PPKx30iPV8lR0+uuMEt+kL7h08l7UgT+z1RTw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795710551;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=WGmEidvvehaJScFEq1xdQHoioXcnhe32ej9jHAQch0c=;
-	b=FYPk1tXDo4Ny6vQOB1YWN11pYTLnT9BfxidrZaVWQCG/zjOmturL0qYonsl5i+W9G8aZ
-	 mzZRQixNI8XA6o3QbwKlxsVkG6jyoXEJEmYEToqwXI8Ep2tGofSl1CRVJrxW8xyqSloZ8
-	 J4wv5H916RYCRElS7oaNWlaj+UElmQQf1PL33OG4wfhRx9NU+Y0+RhMGBhYfn/4QjFpkx
-	 kP8dm+JfuflerJgUuuSHYC55dyfUqZ2wWqKy1bin4W/OlnB2z7NvAogEbJ5T6ZtTOUkH1
-	 9ZLFV0k7HkIs1rfO7kg4WwodeucmsWm/PRlNKestl2g/R1mQlp9BAILFszAAtBIZX/A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795710706;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=OPwcu3THbOq+3XWyQQ+nL5e2PeyQBnz7B0EEXV1jfaY=;
+	b=QltoI+XQiI6n9FPSa3Z+AXOxuDV1Btzlt+ubNC6F/GJ+PPq3vJR4AEUsFJFn+WTsXZFm
+	 djf1dvsy0OA9bMNbwT9vxnPjMwNSl4VLIlpBZHJu+owhD3DgvngaBSjcwjs+I0cVztOZI
+	 jipD+oGbvRRBBZnkTblENRv2f780qbinOQXRwSNcvbgeegwuwJKJyEUnlNr5Oh1SE/zXI
+	 ESnkwq54k0TFmZOumLM6iOZsJY1fdmpGE6x791ZW7raYLamuYx6kl7zHv/EJ79hPEbyfZ
+	 LKaTweBwNCyTK/lyhK2iA7XW7gnZ2BL06u4LDzSnsqdlb5ZWmwnuzkJOT+21aoU4NYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gSw4txl+;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fhVaPyMJ;
+	arc=none smtp.remote-ip=209.85.128.51
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90097606A31C;
-	Thu, 26 Nov 2026 16:29:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F69606A333
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 16:31:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93F69606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gSw4txl+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A5161F000CF;
-	Thu, 26 Nov 2026 16:29:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795710551;
-	bh=WGmEidvvehaJScFEq1xdQHoioXcnhe32ej9jHAQch0c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=gSw4txl+iuw4H5rZj8WPEf4SBYiu9DB3ztjOF5v+Vk42UKSVNFruGF/SeI8dzy1iO
-	 ApOd4Wh/plF0BOKvI6wi7apjnYeItra1nCAy32L3hqiLslojZac0jaNGu3m/KMvQXg
-	 3kHk7AvNTT9NQ2g8KPxM+jXJ/Vv63NC7myfnO4A03r15C5205bE8SSu1IYsUnT5JlL
-	 K0mkPVjbvnqHlvGciqTjtmriHmLi8Gt31lx63Djwh1LCGFxrodm+nQUKS5D/yzoWHM
-	 /sruyTWBwQUHbF0xYinYTYSntWJF4G+uzwHiNX5MQUC7c54/8bzi5C6LDUPn8YkXPF
-	 TGRXS0MDxF16Q==
-Message-ID: <9d506473-4844-4ed2-ac58-e72cd72b5c9e@kernel.org>
-Date: Thu, 26 Nov 2026 17:29:00 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fhVaPyMJ
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a35a60499eso56545125e9.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 08:31:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795710705; x=1796315505; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OPwcu3THbOq+3XWyQQ+nL5e2PeyQBnz7B0EEXV1jfaY=;
+        b=fhVaPyMJ7OSZKu+EfBR8QJPG6D2mMYRvOGv38yu4nUA1P3yn1DsfxVBQ0+khtEVapy
+         2rKHvWryXzuJCGetU24K/q5+tTgl94BktvfxWS7UUR9ERY0H5ej9eALqz0Z7fm5Siyzf
+         drLCOM2QaTY7MOaVp63tDZ5jzY++BxDTn5lvjce9YocznzQfBG8TrunqO8kaO6QQnsUc
+         4ekYKo9SBTD5k4eki8wffLdGPthgAHLz/xhj9Mo8JcNXzyg9DLuv9xKijzMCOMwJpGo0
+         QYNd650J94JGcDVe1VKHNp4Vf/D/0OF5wYOa7E0Wy73fqCr6hk8/4dQ+XovV2YKaVfFb
+         60pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795710705; x=1796315505;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OPwcu3THbOq+3XWyQQ+nL5e2PeyQBnz7B0EEXV1jfaY=;
+        b=rQHeAKnngTkZ3867BTllI2UwRzARkTNRvERi1CLutbaxcP+DoviynxYVlY4KhmYWpP
+         MAWzBcjj8p2fEyXMK8yauvy16ziKAXejpawad9z0MSgPZQNZfPDxnh1hAEizOzKjrho4
+         0H5A/FpDTJXoIhuAsedAYXacV633qagmdcdYFIhAsNqShYreWiJ1IpQoMbTWGEYYxDeU
+         I1vRJqq09GLt+JVgEQlJS1te/EwAJc4ml1/JN3ZOkXDcGLeKsg/FaI2dUtU3QVV6vr2U
+         jFOV7S8TMdqIaTTBmrkZLFsFF/8Iu6/jVWoffYxirLMU/yUN89k+Hr96dQwNESdjNhQM
+         mT0g==
+X-Forwarded-Encrypted: i=1; AL+hErH97ZkvuX2mS4e3xxZYq6lWJZEoYcsYnqZB31xKMpFUFMru68f9o2amEj+A/Vq7spgXP473tROkZzLJl4sb@vger.kernel.org
+X-Gm-Message-State: APuU4Z8vCJvT4lVxp1yEn8Fr22LcS9uDnxUjq5StjcQzIKEZfVEuWbV+
+	VwzfE4hcVuSdSoyovwMbQhedfKFqKjIoDouGyGh7yjKU6YHBeaRhNgsN
+X-Gm-Gg: AZFdTZepACxL+zLlYHZmCLl/2woiIlHf2smFlb9YbcgET7xUyQuqFzU2zDX9YuGJpv1
+	y/v776MvfoXzDnQUrU5d10xLy6bufd4Zw/9sdXEWwyTN546iMlbrZXyA6nU5pOF87HyzQ7tp2y3
+	GtrnPJDv5wL8UvYjvxzo9gxgCMtMG5fERz48KQns0mUtaZYyV4pX0DRosASGVhkfUD4FoVVNC4i
+	q0nka9Yi/tXIRYKR1TsbmsVIWZyrGB4Tg3qNJXt3zkvHa2B5JgCrPNxMoBQV+rdrQ+teMYJRko1
+	xh1DwTDq3V/+WCard68P+K6NhKy1pu2KOA6hLI4kQwcrZVjKrDUjzsx3wRzk7h5Jr4lkPINnLkf
+	3gbEKyHQ+1KBCV8iZRIPX3QDLk/PylYoYMgSAZmAMQkwds0DyH4IAnSUHtK3HiJ7nHpxh7NX3Yw
+	uA5h3QyehFGCH1WMrMtKth8Ee6h22HWQHR+Ea+8LarQgQC4c9uNXslL2E5qta5eYjENXSGNuiAW
+	tdd8HDpp4I0I0avXZSt1VqfR3gj9sS7FRJHa+ZR8IV9bpN4780U+NFKbMOD4YbTSXX1Xm1J65wy
+	nBYIARGVp7X9J/2H9Cuqxhph
+X-Received: by 2002:a05:600c:820d:b0:4bb:5de1:e912 with SMTP id 5b1f17b1804b1-4bb887c3ae7mr436997625e9.1.1795710704643;
+        Thu, 26 Nov 2026 08:31:44 -0800 (PST)
+Received: from infinity ([2001:b07:5d26:7a6a:365a:60ff:fe0d:cfc6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853a9846sm721964995e9.11.2026.11.26.08.31.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Nov 2026 08:31:44 -0800 (PST)
+From: koraynilay <koray.fra@gmail.com>
+To: Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y . Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Chuck Lever <cel@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Alexander Aring <alex.aring@gmail.com>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Andrey Albershteyn <aalbersh@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	=?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
+	Lauri Gates <lauri.gates@gmail.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	Dave Chinner <dgc@kernel.org>,
+	linux-btrfs@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	ntfs@lists.linux.dev,
+	linux-nfs@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	koraynilay <koray.fra@gmail.com>
+Subject: [PATCH v2 0/4] Add f*_xflags_{rw,ro}_mask flags to the fileattr API
+Date: Thu, 26 Nov 2026 17:31:10 +0100
+Message-ID: <20261126163114.403846-1-koray.fra@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -51,134 +117,98 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] mm/memory: don't allocate in finish_fault() with the
- folio locked
-To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
- Zach O'Keefe <zokeefe@google.com>, Lorenzo Stoakes <ljs@kernel.org>,
- Dev Jain <dev.jain@arm.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Hugh Dickins <hughd@google.com>, Kiryl Shutsemau <kas@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Rik van Riel <riel@surriel.com>,
- Song Liu <songliubraving@fb.com>
-Cc: "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Michal Hocko <mhocko@suse.com>, Nico Pache <nico.pache@linux.dev>,
- Ryan Roberts <ryan.roberts@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
-References: <20261125100058.15200-1-azpijr@gmail.com>
- <20261125100058.15200-3-azpijr@gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20261125100058.15200-3-azpijr@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/25/26 10:59, Jose A. Perez de Azpillaga wrote:
-> __do_fault() preallocates a page table only when the PMD is empty, so
-> that finish_fault() does not have to allocate one with the folio locked.
-> 
-> Since retract_page_tables() no longer takes the mmap and VMA locks, the
-> page table can be removed while the fault waits in ->fault().
-> finish_fault() then finds an empty PMD without a preallocated table, and
-> calls pte_alloc() with the folio locked. On ppc64 with the hash MMU,
-> do_set_pmd() allocates the page table to deposit in the same case.
-> 
-> Allocating with __GFP_FS while holding a folio lock can deadlock in
-> reclaim, for example the memcg reclaim deadlock on cgroup v1 described
-> in commit 63f3655f9501 ("mm, memcg: fix reclaim deadlock with
-> writeback").
-> 
-> Return VM_FAULT_NOPAGE instead, as we already do when
-> pte_offset_map_lock() fails. The retried fault preallocates the page
-> table before locking the folio.
-> 
-> Fixes: 1d65b771bc08 ("mm/khugepaged: retract_page_tables() without mmap or vma lock")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
-> ---
->  mm/memory.c | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
-> 
-> diff --git a/mm/memory.c b/mm/memory.c
-> index 11cc4039b853..b7e53d7cf6e5 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -5986,16 +5986,21 @@ vm_fault_t finish_fault(struct vm_fault *vmf)
->  	}
->  
->  	if (pmd_none(*vmf->pmd)) {
-> +		/*
-> +		 * The page table was removed after __do_fault() found it, so
-> +		 * nothing was preallocated. Allocating with the folio locked
-> +		 * can deadlock in reclaim, so retry the fault instead.
-> +		 */
-> +		if (!vmf->prealloc_pte)
-> +			return VM_FAULT_NOPAGE;
+This is a follow up patch series stemmed from [1] and [2], splitting the
+_mask change for the fileattr API into its own separate patch.
 
-Hm, but do_set_pmd() really only needs one for ppc64. Assuming we allocate it as
-NOFS in there for that corner cases ...
+The first patch is a preparatory cleanup so that the code in the later
+patches can be formatted better.
 
-> +
->  		if (!needs_fallback && folio_test_pmd_mappable(folio)) {
->  			ret = do_set_pmd(vmf, folio, page, /* may_alloc= */ true);
->  			if (ret != VM_FAULT_FALLBACK)
->  				return ret;
->  		}
->  
-> -		if (vmf->prealloc_pte)
-> -			pmd_install(vma->vm_mm, vmf->pmd, &vmf->prealloc_pte);
-> -		else if (unlikely(pte_alloc(vma->vm_mm, vmf->pmd)))
-> -			return VM_FAULT_OOM;
-Could we instead fallback here, after we tried to install the PMD ?
+The second patch updates fscrypt_prepare_setflags() to take FS_XFLAG_*
+xflags instead of legacy FS_*_FL flags.
 
+The third patch is the actual implementation, which introduces:
+- fa_xflags_{rw,ro}_mask fields to struct file_attr
+- fsx_xflags_{rw,ro}_mask fields and has_masks selector to struct file_kattr
+- AT_FILE_ATTR_MASKS at_flag for file_[gs]etattr()
+
+These masks have the following semantics:
+- rw_mask:
+  * for filesystems: advertise which xflags they support changing
+  * for userspace: specify which xflags it wants to modify
+- ro_mask:
+  * for filesystems: advertise which xflags they support only reading
+  * for userspace: ignored
+
+This allows userspace to not have to do a RMW cycle when using the
+file_[gs]etattr() syscalls, avoiding possible race conditions and
+simplifying their usage.
+
+Patch 3/4 also introduces the missing FS_XFLAG_PROJID flag so that
+programs like chattr can leverage the new mask API.
+FS_XFLAG_PROJID is kept out of the legacy FS_XFLAGS_MASK and so it's
+defined as part of a new FS_FILE_ATTR_XFLAGS_MASK group of xflags that
+will be used moving forward for any new xflag (like the one proposed in [2]).
+
+Patch 4/4 converts fs/ntfs to this new API, to show how it can benefit
+filesystem drivers too, and for this purpose adds FS_XFLAG_COMPR and
+FS_XFLAG_ENCRYPT from their FS_COMPR_FL and FS_ENCRYPT_FL counterparts.
+
+The series has been tested with custom xfstests [3] (generic/816-835,
+xfs/611, xfs/673) across NTFS, ext4 (project quotas), XFS (project
+quotas and extent size hints), Btrfs, and F2FS.
+Note: these tests were written by gemini and not manually checked,
+before sending them upstream (if needed) I'll have to review/rewrite
+them manually.
+
+Note 2: there are apparently quite a few bugs with overlayfs and a few
+other issues, but I wanted to get the final API design out first.
+
+v2 changes:
+- make fa_xflags_{rw,ro}_mask in struct file_attr __u64;
+- add AT_FILE_ATTR_MASKS to opt in to mask semantics instead of needing
+  unreliable heuristics on usize and mask values;
+- reject intermediate sizes between VER0 and VER1;
+- reject non-zero masks on SET without AT_FILE_ATTR_MASKS;
+- add patch 2/4 for fscrypt_prepare_setflags;
+- add xflags_to_flags() / flags_to_xflags() and
+  fileattr_set_{legacy_to_mask,mask_to_legacy}() to translate between
+  legacy RMW callers/filesystems and _mask callers/filesystems;
+- clamp fa->fsx_xflags to rw_user_mask in file_attr_to_fileattr();
+- update fileattr_set_prepare() to validate capabilities and projid
+  changes against rw_user_mask / xflags;
+- move the rw_mask == 0 early-return no-op from file_setattr() into
+  vfs_fileattr_set();
+- put FS_XFLAG_COMPR in FS_XFLAG_RDONLY_MASK only (keep FS_XFLAG_ENCRYPT
+  in both FS_XFLAG_COMMON and FS_XFLAG_RDONLY_MASK);
+- update ntfs_fileattr_set() to apply only bits selected in
+  fsx_xflags_rw_mask;
+
+Thanks,
+koraynilay
+
+[1]: https://lore.kernel.org/CAOQ4uxg8aVcWyNiFDk8djdn-M3xJcu_7-kRxVq9jjFsbcGp1ew@mail.gmail.com/
+[2]: https://lore.kernel.org/CAOQ4uxjVQ9cjV=_jBjQtNg9zCuWUEJT9KNYMKV+1jwBkHen5OA@mail.gmail.com/
+[3]: https://github.com/koraynilay/xfstests/tree/patches-in-queue
+
+koraynilay (4):
+  vfs: use goto out on error in vfs_fileattr_set()
+  fscrypt: update fscrypt_prepare_setflags() to use xflags
+  vfs: add xflags mask to fileattr API
+  ntfs: switch to the new xflags fileattr API
+
+ fs/crypto/hooks.c          |  10 +-
+ fs/file_attr.c             | 357 +++++++++++++++++++++++++++++++++----
+ fs/ntfs/file.c             | 109 +++++------
+ include/linux/fileattr.h   |  14 +-
+ include/linux/fscrypt.h    |   6 +-
+ include/uapi/linux/fcntl.h |   6 +
+ include/uapi/linux/fs.h    |   9 +-
+ 7 files changed, 409 insertions(+), 102 deletions(-)
+
+
+base-commit: 3857587d9d6fa44d40d1c73bde6a39f6f7a5216c
 -- 
-Cheers,
+2.56.0
 
-David
