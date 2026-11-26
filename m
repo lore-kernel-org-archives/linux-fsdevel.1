@@ -1,51 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.90
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.23
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795658610;
-	b=K+/utymJqEggW1ryyFIuF7im/AqqkVozGvpg4EOXd7xM/qiNcswxF7S6vQ2LrrQjltn6
-	 upv3YtAnWWS9O9uj1f7dS0EyrtMy8or6TWHGLBcW6hi1OZhiRtcS+UdgX7VEUGfsMaxqy
-	 i7AAAGR/p58aXwaGa4jzRY0r+Inmu+y/7jDEasIder+FsJVj0NZg/S2STHPXwRh7mEv5t
-	 uR6ipy3jIFLu3jS5i2Y6mMx4JaHokwD+Pr5Yu55uXmJPVtm5kB3xZa63zBAHcs4QW1Zt0
-	 cZH1yvx1uWNtGdJFLZnqkavFPQyzciXq8rBWZ3P0bvkaSj8IAuyApcP5FJfTVb2/BJQ==
+	t=1795658720;
+	b=cP2yPBzRIN8BHnSivXQ5pwDXqWxFr08+/W4Y9V3ibwgoS2RZKk6mf3OKkWC+ZqDq1fSw
+	 ShAef4ycoCqu1GRaySdvXeluIKoAnmq4if6b6DnBkE8xU5+QAcMPDOvUqKU3sueb5vqQk
+	 JLpSe4u3qfqI1CcPZYl3giD95jeGwup4LCGlTQSk0rPlBZElI2JfCyPGqycFYq/zr2JkO
+	 GilIX/B5N8gQ266Vm2Iqhr22QpHdbbX+9eN6TMaOFuvfSL+n4CRaWRAHREee0Xh3Xod2+
+	 RR9yCm6tYkyH6kuFTtfRfMd92brRD23TVotcoZqbRVVGqbVGbl976907yaHflJcIk9Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795658610;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795658720;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:Content-Type:Mime-Version:Subject:From:
 	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:
 	 To:X-Mailer;
-	bh=mDPdURnq3OYJxD9FHhva4DbPjq66mRuiBiRc8sZ8u50=;
-	b=isVQxDlgVfQ/zPvnirhWh+PyNg9gRZsUAEadF31g/1nGOGKEI/Wqh3hXpVB6Muh0p8/d
-	 ikFI1BLPOnSimS3uzc5Lnb618/iO1VaIgoyiMtZKYUXeTw6EyGS+ofs4CitXWWH9AOU8S
-	 l6HBOT6dJtd8qwLR8vFzxz80XOIHujAt7NSjlkrvIUJPZfd1TMhocu5FEFyX7QY6fGI7X
-	 T5RKcoYLbQxGnbTwo+QtjY7b821Z99uIYA9cvRc9FZJyfytBYQ1RwOUcyahaFmudB2Z1G
-	 EirSuMNjhuza4qYnvaZtGn0WLltEjT/2htj6tE6WdyD/b/Bs8Ti2sDRfjRB16tZ4+mg==
+	bh=5f8HopAilRekX4oDmbEUHNnRptZx1Qep0LVLshbVfgc=;
+	b=cVWGGco6EZ9H5gc3vkr1AgipXQjhX+z6Lw8ZoRJv8ZxsgMNw0n4RC1OTVj92M7W3TtuE
+	 Ta0Cwn+//80h5nJtbzF8hpzyE4mce/9RH60LkItAfCgPgsByzf5B1RRWuCKY7oSU7xnSu
+	 /aBOEZrQRpLqg+mLwZbOE5Abw4vGXSkRpK/Qn7wVVPQBVWDgFX+B+BnOLQ6hNEngZN1UP
+	 IscrXtg5y+9k9tM9vWD6gd49q5Hx5SAofiset8S0DCHfODDxVeuJUXe+TZNkZ6wJm2Y/N
+	 /IWJl6VX60aoZixWUxY2D5a/kdHmSAfxXgxWtdAe9kJwEAPXNsBm1Z2FnIYRxhLTmOA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ZErz2gHT;
-	arc=none smtp.remote-ip=95.215.58.90
-Received: from mta1.migadu.com (out-90.mta1.migadu.com [95.215.58.90])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ZQnT2Dwd;
+	arc=none smtp.remote-ip=91.218.175.23
+Received: from mta0.migadu.com (out-23.mta0.migadu.com [91.218.175.23])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB0E606A321
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 02:03:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2CB0E606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CDFC606A323
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 02:05:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5CDFC606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ZErz2gHT
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ZQnT2Dwd
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=mDPdURnq3OYJxD9FHhva4DbPjq66mRuiBiRc8sZ8u50=;
+DKIM-Signature: a=rsa-sha256; bh=5f8HopAilRekX4oDmbEUHNnRptZx1Qep0LVLshbVfgc=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795658606; v=1; x=1796263406;
- b=ZErz2gHTqsz8fab7qlaB/35lX5tzDF84D27Q3qVrATZPxzLDk9sBcv4U0VvjoYWHWc+zcj5b
- idNoA3INzUORoNAmYbOeoHPnn/zi9Dd5M+b2ckpPS5++szpfnoFxQwlFB23r4OEYO3rZlqvMBnC
- p5DjSxP24y7eMF6a17IEFdZE=
+ t=1795658717; v=1; x=1796263517;
+ b=ZQnT2Dwd4OZHvVTwdB+ZOAhxiIQZ514z1N2rUUTvnQYjr9MULJRHrTUmxrahjznEPZqNmMoL
+ ZtAM01J4woT4VYWvbM5HSERLVNGHbKspuEhx7A1r0J6qgn8KEjr+GtZJxZGqD0ZyCRiyDIbBUB7
+ stJckE0FmD73ku1/3AZAocCg=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 99fa385bc754693e;
-	Thu, 26 Nov 2026 02:03:26 +0000
-X-Mizu-Trace-ID: 99fa385bc754693e
+Received: by smtp.migadu.com with ESMTPS id 4765b56b99f04d54;
+	Thu, 26 Nov 2026 02:05:10 +0000
+X-Mizu-Trace-ID: 4765b56b99f04d54
 X-Migadu-Flow: FLOW_OUT
 Content-Type: text/plain;
 	charset=us-ascii
@@ -58,11 +58,10 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.200.71.1.16\))
-Subject: Re: [PATCH 02/21] mm/hugetlb: fix truncated copy result in
- UFFDIO_COPY
+Subject: Re: [PATCH 04/21] mm/memfd: mark new hugetlb folios migratable
 From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20261125-hugetlb_fixes_2-v1-2-db27fd2f71a8@kernel.org>
-Date: Thu, 26 Nov 2026 10:03:04 +0800
+In-Reply-To: <20261125-hugetlb_fixes_2-v1-4-db27fd2f71a8@kernel.org>
+Date: Thu, 26 Nov 2026 10:04:48 +0800
 Cc: Muchun Song <muchun.song@linux.dev>,
  Oscar Salvador <osalvador@suse.de>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -124,12 +123,11 @@ Cc: Muchun Song <muchun.song@linux.dev>,
  linux-fsdevel@vger.kernel.org,
  Andrew Morton <akpm@osdl.org>,
  linux-doc@vger.kernel.org,
- Chris Mason <mason@kernel.org>,
  stable@vger.kernel.org
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <36B2540E-D15B-4A56-88B3-2283A26B40BA@linux.dev>
+Message-Id: <98C27A06-0FE2-428A-9B13-63E9CB0C648E@linux.dev>
 References: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
- <20261125-hugetlb_fixes_2-v1-2-db27fd2f71a8@kernel.org>
+ <20261125-hugetlb_fixes_2-v1-4-db27fd2f71a8@kernel.org>
 To: "David Hildenbrand (Arm)" <david@kernel.org>
 X-Mailer: Apple Mail (2.3901.200.71.1.16)
 
@@ -138,31 +136,26 @@ X-Mailer: Apple Mail (2.3901.200.71.1.16)
 > On Nov 26, 2026, at 06:33, David Hildenbrand (Arm) <david@kernel.org> =
 wrote:
 >=20
-> From: Chris Mason <mason@kernel.org>
+> memfd_alloc_folio() adds a new hugetlb folio to the page cache, but
+> never sets it migratable, unlike hugetlb_no_page() and
+> hugetlbfs_fallocate().
 >=20
-> Folios that span more bytes than can fit into an unsigned integer =
-(e.g.,
-> 16 GiB folios on arm64) are problematic with UFFDIO_COPY: the result
-> from copy_folio_from_user() can be truncated, possibly indicating
-> success instead of an error.
+> Later faults will find it as an existing folio and never set the
+> migratable flag.
 >=20
-> We will then continue with the folio that has stale data, and make it
-> accessible to user space.
+> Such a folio can never be isolated for migration, even once it is no
+> longer pinned, which breaks memory offlining, alloc_contig_range() and
+> memory failure handling.
 >=20
-> For example, if copy_folio_from_user() fails such that the number of
-> bytes not copied is a multiple of 4 GiB, we'll get an effective ret =3D=3D=
-
-> 0.
+> Let's fix it by setting the new folio migratable after adding it to =
+the
+> page cache, like hugetlbfs_fallocate() already does.
 >=20
-> Let's fix it by simply testing the return value directly.
+> This has low urgency.
 >=20
-> This has medium urgency, as it's an information leak.
->=20
-> Fixes: 8fb5debc5fcd ("userfaultfd: hugetlbfs: add =
-hugetlb_mcopy_atomic_pte for userfaultfd support")
+> Fixes: 89c1905d9c14 ("mm/gup: introduce memfd_pin_folios() for pinning =
+memfd folios")
 > Cc: <stable@vger.kernel.org>
-> Signed-off-by: Chris Mason <mason@kernel.org>
-> [ david: cleanup code and description ]
 > Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
 Reviewed-by: Muchun Song (ByteDance) <muchun.song@linux.dev>
