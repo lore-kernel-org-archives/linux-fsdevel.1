@@ -1,73 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=182.48.54.220
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795708089;
-	b=4PPou/RAZ77YxDZJnR6KiPLr98xbtS5rOOTq4fH5nxk5ar7BPsBxMQbdGv3cr+F/DjTT
-	 uFhB4GeuFRpqzAPIqM2FyG3csYnz0AARaqasK5XODhOQd96I45LGHsBkBwGRHdky6O74I
-	 9HZTCxOXZ96gux83rnZCsfQnMljGwuck6tw+1svXshulVWWjExnJTuWJW1Yi/1MYrsPBS
-	 r1guK09nHk+lJcHdIXPW5kYZbP+ZwbDZ3ba6czjgLntOA1gvPglr6R2eKf4oqtmXtwYKq
-	 jqApbXmnM1yUSH9VeCRz2NLarSAxdKcLj1KpZ8/i9soYzA42Go1I84n/iM/susfZVZQ==
+	t=1795708234;
+	b=Wy8wk8fIY0MJ/p0Pp1HBo7zV69s/xpqvjUHy4zkoi8dimoDn0SO0vaNj6MVQUIDXu7yw
+	 gf7BEFmnzflBpKcaiGmvquM13nyiUm3B+zvqTtuuO3HpdwlYaImHSDUrHx80kFP8gVGr/
+	 dXTTniou+CBluM669xzNnLHuITb4BD8S7BNLi6CHz5q6tVV8BioHZpbtIiEsZgy6R4Ea+
+	 2z/4PKEDmCJJZBtJ5A1iwfEx8yGG9vsaaGzT2LQH1gByWw0hEphrlrqQacokVRxlr9fE8
+	 MoAZiPV/sr+QdS5Fe9/bOH34bFgJapUISPBJBCVbguKb6+9py9AtzRyztONQzLqt+8g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795708089;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=ih8tzc09CooWgckjqEd6PhiYBuj8ZOLowYuFuY6jsT4=;
-	b=W9fDEzgWxzaL1tn3XkP83CR1tUKKV/2qYYNKdDRMQHqz7CKpoWU0eSwNw6uHcOIWwVkZ
-	 b25KBDRKkVBX4UuqhHe+zKqBR3AI9hJLWIZK5/pppAYD84hfSn4bn6HeLMbcaDwtlvSTC
-	 A0ScJ8nGQ/n2lOvttlUEyd9CmHYn0zVHjIAbQwZdUQEDzAeXoj/P8JoPBGQiubFAa/eeZ
-	 X7jyzY+6S2c6dQY8rKezxh8O6w1yXuNtzuheJrbrQjlZDol8f5wfnsV2M2yzK/Q/Br9Jd
-	 w4tuR43tunmh7z+oW4R6Et0o9ZyuzpjuCEjX3o0C5aBrNRahHXyZAwF1PkPFCKaVpBg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795708234;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Message-ID:In-Reply-To:
+	 References:Date;
+	bh=Ldk9f4ENy6ZI26hgamdhXAYUlh4Ac8KnZ+Q2k4rh0WU=;
+	b=vh7gqX+sqBnfCd9COhgj1qRhTzmH/DyCB6yd+tlXDCeAs+nPtNQ/K/bXV/dsLVhZ5HYl
+	 EtUNlmS6DaatZ81XWUTT8PT0EmCCkmbTqA+8uBBwcCmbhxT9WDm43foONYx61J/Zir0zH
+	 YJiyWs15dNXRFs6i1Nn6BXjYONkhbNukSBn6eLKP2zMSo3X5+m3GabXfBcciTQ1E/CuLs
+	 PIm323OOL4CXuLyKx9gcPqzwkfMxUdYi2FjNQGB8MsKzvKsTzglGj8cPeNxNsw/bSCcNH
+	 Os49UnK8t3XNnYixRUqhQgm9E9f2JppNwMYzHva0k1Bkk6Th0LOuURf2Q7MJLx1EzcA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=CZuc94Lx;
-	arc=none smtp.remote-ip=90.155.92.199
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCAD606A31C;
-	Thu, 26 Nov 2026 15:48:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8DCAD606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=CZuc94Lx
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=ih8tzc09CooWgckjqEd6PhiYBuj8ZOLowYuFuY6jsT4=; b=CZuc94LxPGCIcwUtE7XLmnQHPJ
-	T0hnaVTlz8rWvJfIVlqGpaoDPa1A2VbCUby39FEXpAqvwnvKXR1iQDXnL1Fr9QDx0kpoX0FHB9bCi
-	InIvchiEdbUJRhTQqpyWsWgQTB1PNpqv+fzhkcI9INz3PA4acZpDNLr8uxsXEHB7wRypWboVe/J7s
-	cD0nlzioGgOt9Zvmfyi3JeNV0mGsN2etcNEreo3I0MnSRVVm+56Ec5d+a6DNdlyF/L/32zMtFBFwG
-	BN/qgJaGU8q8QbTGLo8xhPRaeOATgaaloQiKxB/VFfK7d9+xV31axp2Sol7/AVHzWOnXgsi9hfoaK
-	aY1Wl0sw==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWbhd-00000006pCp-2nHy;
-	Thu, 26 Nov 2026 15:48:05 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 9CAEF302186; Thu, 26 Nov 2026 16:48:04 +0100 (CET)
-Date: Thu, 26 Nov 2026 16:48:04 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Oleg Nesterov <oleg@redhat.com>, mt4022@columbia.edu,
-	Jens Axboe <axboe@kernel.dk>, Ingo Molnar <mingo@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Michal Nazarewicz <mina86@mina86.com>,
-	Wen Yang <wen.yang@linux.dev>, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, tz2294@columbia.edu,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 5/7] sched/wait: always queue new waiters at the tail
-Message-ID: <20261126154804.GK49833@noisy.programming.kicks-ass.net>
-References: <20261122-b4-sched-wait-intr-head-v2-0-4a764b64e8ce@columbia.edu>
- <20261122-b4-sched-wait-intr-head-v2-1-4a764b64e8ce@columbia.edu>
- <CAHk-=wj_eqNh+gNhCQh3exrL5Pmo5hbZBcL0W-4Ah_Nw0Kegzw@mail.gmail.com>
- <awWSwmvaTwBxfU-r@redhat.com>
- <CAHk-=wj3GCXZohdFWWPAOkC_LHno4X0oQW+0sQFJzRMvjpODUg@mail.gmail.com>
- <CAHk-=wgYc9vFEmyV0Ch_e49j6GOhUCMQMnMV4f1FLLvumZOmRw@mail.gmail.com>
- <CAHk-=wgNZfCN5qW-0pOK_TFBscqTu6an7fK5pEkxewg-Aif1Fg@mail.gmail.com>
+	dmarc=none header.from=snowrabbit.org;
+	spf=pass smtp.mailfrom=snowrabbit.org;
+	arc=none smtp.remote-ip=182.48.54.220
+Received: from bambi.snowrabbit.org (bambi.snowrabbit.org [182.48.54.220])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D54A606A327;
+	Thu, 26 Nov 2026 15:50:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1D54A606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=snowrabbit.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snowrabbit.org
+Received: by bambi.snowrabbit.org (Postfix, from userid 3001)
+	id D36B0C92FC; Fri, 27 Nov 2026 00:50:25 +0900 (JST)
+From: Showta Ishizaki <zakinko@snowrabbit.org>
+To: Namjae Jeon <linkinjeon@kernel.org>,
+    Hyunchul Lee <hyc.lee@gmail.com>
+Cc: ntfs@lists.linux.dev,
+    linux-fsdevel@vger.kernel.org,
+    linux-kernel@vger.kernel.org,
+    Showta Ishizaki <zakinko@snowrabbit.org>
+Subject: [PATCH v2] ntfs: keep i_size of a directory equal to its index root
+Message-ID: <20261127-ntfs-01-v2@snowrabbit.org>
+In-Reply-To: <awePnaRhBQLahPpz@hyunchul-PC02>
+References: <20261125-ntfs-01-v1@snowrabbit.org>
+Date: Fri, 27 Nov 2026 00:50:25 +0900 (JST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -76,46 +48,65 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wgNZfCN5qW-0pOK_TFBscqTu6an7fK5pEkxewg-Aif1Fg@mail.gmail.com>
 
-On Tue, Nov 24, 2026 at 12:46:30PM -0500, Linus Torvalds wrote:
-> From: Linus Torvalds <torvalds@linux-foundation.org>
-> Date: Mon, 23 Nov 2026 16:48:44 -0800
-> Subject: [PATCH 5/7] sched/wait: always queue new waiters at the tail
-> 
-> Non-exclusive waiters have been added at the head and exclusive ones at
-> the tail, so that an exclusive wakeup stopping early still woke every
-> non-exclusive waiter.
-> 
-> That only matters for waiters that mix both kinds on one queue like
-> read() and poll() on a pipe - and even then it doesn't actually buy
-> anything but complexity and fragility of the code.
-> 
-> An exclusive reader consumes the event, the poller had nothing to see,
-> so there's no real point in keeping the two ordered.
-> 
-> The pointless ordering results in a special rule for everybody adding
-> themselves to the wait queue, and that rule has not been consistently
-> followed anyway (see for example do_wait_intr() and do_wait_intr_irq())
-> 
-> So just queue everyone in FIFO order.  LIFO might be better for
-> throughput, but every time we've ever tried that optimization in real
-> life, it has caused fairness issues, so let's just do the obvious thing
-> and add new waiters at the end of the list.
-> 
-> Priority entries (used by the hypervisor code - questionable special
-> case) are still placed at the head by add_wait_queue_priority*().
-> 
-> And because epoll is a pile of stinking manure that I am afraid to touch
-> this leaves __add_wait_queue_exclusive() alone and it adds its entry at
-> the head for epoll's ep->wq so its own wakeup order doesn't change.
-> 
-> Now that it isn't a "real" exclusive wake event, its ordering thankfully
-> doesn't actually matter for anybody else.  It should be fixed, but it's
-> now basically just an internal epoll thing (and that will be made more
-> obvious in following patches).
+After mkdir, stat() gives a size of 0 for the directory until it is read
+back from disk, where it gives the length of $INDEX_ROOT.
+__ntfs_create() opens the index root but does not set i_size from it.
 
-I like this :-)
+When the index root is moved out to an index block,
+ntfs_ir_reparent() updates data_size but not i_size, which keeps the
+length the root had before.
+
+Set i_size in both, as ntfs_ir_truncate() does.
+
+Without the patch a new directory was 0 bytes and became 48 after a
+remount, and one with 300 files was 248 and became 56.  With it the sizes
+are the same before and after.
+
+Fixes: af0db57d4293 ("ntfs: update inode operations")
+Fixes: 0a8ac0c1fa0b ("ntfs: update directory operations")
+Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
+Reviewed-by: Baolin Liu <liubaolin@kylinos.cn>
+Signed-off-by: Showta Ishizaki <zakinko@snowrabbit.org>
+---
+v2: removed the two comments, as Hyunchul Lee asked.
+
+ fs/ntfs/index.c | 2 ++
+ fs/ntfs/namei.c | 1 +
+ 2 files changed, 3 insertions(+)
+
+diff --git a/fs/ntfs/index.c b/fs/ntfs/index.c
+index fe2a79b..73c8e6f 100644
+--- a/fs/ntfs/index.c
++++ b/fs/ntfs/index.c
+@@ -1434,6 +1434,7 @@ retry:
+ 		icx->idx_ni->data_size = ix_root_size;
+ 		icx->idx_ni->initialized_size = ix_root_size;
+ 		icx->idx_ni->allocated_size = (ix_root_size + 7) & ~7;
++		i_size_write(VFS_I(icx->idx_ni), ix_root_size);
+ 	}
+ 
+ 	ntfs_ir_nill(ir);
+@@ -1455,6 +1456,7 @@ retry:
+ 		icx->idx_ni->data_size = ix_root_size;
+ 		icx->idx_ni->initialized_size = ix_root_size;
+ 		icx->idx_ni->allocated_size = (ix_root_size + 7) & ~7;
++		i_size_write(VFS_I(icx->idx_ni), ix_root_size);
+ 	}
+ 	ntfs_ie_set_vcn(ie, new_ib_vcn);
+ 	goto err_out;
+diff --git a/fs/ntfs/namei.c b/fs/ntfs/namei.c
+index 29f1bf5..e4b0fc4 100644
+--- a/fs/ntfs/namei.c
++++ b/fs/ntfs/namei.c
+@@ -611,6 +611,7 @@ static struct ntfs_inode *__ntfs_create(const struct mnt_idmap *idmap, struct in
+ 		err = ntfs_attr_open(ni, AT_INDEX_ROOT, I30, 4);
+ 		if (err)
+ 			goto err_out;
++		i_size_write(vi, ni->data_size);
+ 	} else {
+ 		/* Add DATA attribute to inode. */
+ 		err = ntfs_attr_add(ni, AT_DATA, AT_UNNAMED, 0, NULL, 0);
+-- 
+2.54.0 (Apple Git-157)
+
