@@ -1,100 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795657796;
-	b=caQIgHkWNtSmnfyxh2vjhMQJw8wecSYIdfStHdkHfBJunKxaV2XjlgGF4LC68GlaGu0B
-	 IznkdCAUhR7mFzl6mfyip0Z8diwprFBz4eOK+mxqwGru3EfKQPPMDyXI3FnNowwFtaLwt
-	 WCI0WR1xlj9qk6FQWKMOknBFZSRHC3plEkud9zA2ZL5i1TCCyFBUqu5i0K8xLsatoRLe3
-	 kxz5vvmf6EyEPcy+JY7ZZsz5MepJ73EEU7IERMPwIRoNS3MYic+gYb+gqHjX0CrMeoqN4
-	 nLjJQYwhVFcyZFY+X0lj6npJE6UvaeC9lT3JOxv9si67LAmqt+p6lZgt6twu9E/wl8Q==
+	t=1795657936;
+	b=EC3Xd/eEDkJDdHYFVAdtiwSPBkNuuvJ5c4CotTUCGVYHZEAC673WotcSwMqfwO0QXIy+
+	 iBge3PRPymds1XxhN3iCLIWxC5241L8h9LKcKApZPcfsjCSc/5d552SeEQxkgsaSIR9fB
+	 3Eo9Lcpe/Zw9x//NkNASrfSQG7EAeHG02SE9Y+7J+Xp5tbyoVip5s7yv4jkP25qQQxPGA
+	 hvWRKRDGcM9/Chz6bcDs2Z7Z+8i5TtLyO1S/Uht0Bm9XgAxUFs0klZUWZNm37dG6097a8
+	 TAV6sdtf+CowQCEYaaUX68Idfh2qdgF8W3XLTc/cQED6RfohgjBPgZjIg7altR4XErA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795657796;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=Cw/ZCD9ESmIvPuVt31//P6WCFhiNU7mYCdD+27sv2XY=;
-	b=d0Boa6F/uxmXrrhFcl9xoi5GGBE8RJxM+qgRfWYrjaaao2tV1aTg2L9Iq0/h9LnCiZoc
-	 9Wwst7EEvr/Z7D7Oa8UEXZilXlQhQfAm5ODtx1ZGYP+yhTIJstzTlva5yZn7kiTqDtbXh
-	 K0/ncQtbHjInxGBEUPYmV0WY6t+Zciu1tsYynkVTSlPgodyolDDuiRYV/d7b94GCo5Jhg
-	 uyjzmYuGamO5ULroKgZE02/nV5RKOB0tfrcg4JQg+6nJVHlSayc2vkxllAcrVmn4We6B1
-	 hM7A61SFwq1NW1nu9ee4rlUMoWSNTofgSJ5cp+RHYv4WvOGos6hHLE7hb9DLozBevEw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795657936;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-CM-TRANSID:
+	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
+	bh=InslSophhZR8ptLxuH18WsVK3o/vxwbo+9Lc8i/W61k=;
+	b=New86yAfBiXDStXBivC6rrGeqSHsbrbXC9UjGcuWTYP0TIldX3yC4AZUNM8LGb6U0SjT
+	 VhUYO0fY6PW7esYEhFXkfJ9TT/2YV7RapdP2fCWJ1O/E5FY9OAGzD7n2XRyxHJrkqJEe5
+	 eVaDyKrFhouwBR310pKDh37NV3QutOxhxS2t1friDiinEgsxShNO8YOSAZi8b2OTZrZkO
+	 d3YXOEKu3aIgqu5RuCCE+IDN6PAUvxRZQNDbisOCDoKunOXoaYekPBru0XL5QDOAD2JP5
+	 ClcmBQvWcxIL7EDlcuzJbswqHoPnPxOiCo0VL6A4uksFLHDZFmeg6giikUJKDmlch6w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dv0WJtS1;
-	arc=none smtp.remote-ip=209.85.221.51
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=hFGnDDdL;
+	arc=none smtp.remote-ip=117.135.210.5
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7E7606A321
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 01:49:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B7E7606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D14606A31E;
+	Thu, 26 Nov 2026 01:52:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6D14606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dv0WJtS1
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4a32576da88so3687910f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 17:49:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795657795; x=1796262595; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Cw/ZCD9ESmIvPuVt31//P6WCFhiNU7mYCdD+27sv2XY=;
-        b=dv0WJtS1Oa9bALH4bZIZ0/4+htuV4Fr0HVoUrStZVtHMceAIIV/Qb9myaksaqW9s0f
-         hr7kGd04KNkBN3Q/lVUO1pwX/xicdGKjOu5pB3ioQPFf7aXCOOH2pED0xkmEKcs62YFW
-         +XQylm1QUYKTjN4oEICBYMcxlRal6V3FXHghSw4ECDk4TQtlPsas5T+bJiThoG77wfu5
-         WF7QAaNUAzGVQGtyRpwxp2ytlkjycH+cFRxHOU1BX+r2xKlTQDhTda7XqOf2sr3Q9hiC
-         mOjtz01RU4xnvcoMUR9dATR7R9GacXtIlmrKvzmSgDmI1kNYr1/CPRaXUiLnHDhcZQ6d
-         /+Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795657795; x=1796262595;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Cw/ZCD9ESmIvPuVt31//P6WCFhiNU7mYCdD+27sv2XY=;
-        b=t5qoL24c8DrPxeMY+mtqiGmEVMTieZ+SUfJ1UTGBpkC1311HjcbJTg0zsAVSpyqqFS
-         gocXwZ9qTkCDDI/6ztR8KiRFl3gaKncqr2YANw6GRrSWCLM2ITVHKqH4pfOn2WiNmamD
-         wiQV/cOEhMw/89ZujiknuSUCLmYznoRWTZakPkPGwA+/KVvtg0igsnf5J/xx+A4MVKsh
-         KRaWZoFQSeUmJOedMIIveS/rYaN0ZoU9sMNsWqCJj67VjuxNhaDuJIzRCbo7QqbHyhK7
-         J4hkBozBhFvDI14cLuo7cgSM0CfY7QJzzHPQ0HLM6GhN7cSKniCeCPaS2g8lpaFCiAmf
-         JlnQ==
-X-Forwarded-Encrypted: i=1; AL+hErFHXMMcscj/okqo09LFq4BEhCsHE1eWQIgUEat3R3Fr44fa4InL1zUxJ23pZ9My0TPYV+DGNVYgs8qBV7Y+@vger.kernel.org
-X-Gm-Message-State: APuU4Z9Yjwjbrmn48RN32KQdtitdtjV3vyvJ2Pnl5JrwSrxn39QsgF1m
-	j+aDqIcWrmcJhaR0kFzKF3rqEp7j9Pa792CxanlCgN1HacELDJ3Val2fAMq2eeFq
-X-Gm-Gg: AZFdTZenirsTTRxY/liKiEZFBaUndtXgMDwD+MQWwGc+fg0vGe2VlWO4Rj+lnA1wCUy
-	Ogt1dACDkRdoSrKhW9+9XtfLCWoucUVqyKxyPu7OcAyY1YZfiPc8B462mmU6i9Bul4gU+uZClUh
-	TtaC+9UwcMe6D3SBlCZoySSS1N6uWsswJpgBAADYcW36KVAwFQ3QyjSPggkebjLcF4s3fnLSbjj
-	0HPFgeGe478YcMpI6i3gYBEQMUttwPfXFdtrEOiaokmm2pU/o4/MbKoy7LMY652LEiQp6qV7fCl
-	7esZVFjh0RwEW6M/lSRkFmqJg0jSMb+QBG6orSUT4UMjRb7pUCDSJDcT2TiUckZ2Ai2Z6hfHGfv
-	rkXT2YXd+c7spMRWPyQ1NQ5/g0tWZXHvNQl6yQUuNQGuiEEpdBnlbKc8u3Ie1AMhLDg8N8Mu25W
-	GgSnA8YkDGwSerHrdjCZ371sYEE5raXX6GbewzeSMVUsVMJRvWzEDGSFyf/WmnsoQyk9GVWyHUK
-	+tlOYvxd5z2JU2LbUI84YDVhyqFwnLou8XSUUpNzuJB11h3mzTDcONP9XbF7nFBZYmMIFNTM/QI
-	LctXC+Ic0G0v2d9FhL5GXORzIJ60whG/5vSKqyQyxexqwRk=
-X-Received: by 2002:a5d:5f91:0:b0:48d:f9dd:e3df with SMTP id ffacd0b85a97d-4abb386134bmr34709391f8f.18.1795657794701;
-        Wed, 25 Nov 2026 17:49:54 -0800 (PST)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4b34e9c3ffesm21483408f8f.19.2026.11.25.17.49.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Nov 2026 17:49:54 -0800 (PST)
-From: Askar Safin <safinaskar@gmail.com>
-To: josef@toxicpanda.com
-Cc: James.Bottomley@HansenPartnership.com,
-	andrew@amutable.com,
-	brauner@kernel.org,
-	jbingham@gmail.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	sergeh@kernel.org,
-	taherafahimi@linux.microsoft.com,
-	Andy Lutomirski <luto@amacapital.net>
-Subject: Re: [PATCH RFC v3 00/90] cells: a container as one kernel object
-Date: Thu, 26 Nov 2026 04:49:19 +0300
-Message-ID: <20261126014919.2135815-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
-References: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=hFGnDDdL
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
+	Content-Type; bh=InslSophhZR8ptLxuH18WsVK3o/vxwbo+9Lc8i/W61k=;
+	b=hFGnDDdLUt9A9KsPTLxHoUp8iLp4RHw62Xt0sKKHqdi1EklnCggyFfR44UkMXO
+	yL3WVoeoMiU7ptqe/QlsGKpG/V2rHjLV5RnkHY7ClIMsf0r2e7iGoCZbkall7s3A
+	KzjinljwqwX/40ig38rrk+OzOSOylqTpeEAlbRCF6xbX8=
+Received: from [IPV6:2409:8900:1fda:c14d:483b:2970:cae3:221a] (unknown [])
+	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wDXf0+rkAdrvRQPKA--.54445S2;
+	Thu, 26 Nov 2026 09:51:41 +0800 (CST)
+Message-ID: <d2887b0e-a852-490e-bb07-e4b17d979622@163.com>
+Date: Thu, 26 Nov 2026 09:51:38 +0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,36 +54,92 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ntfs: keep i_size of a directory equal to its index root
+To: Showta Ishizaki <zakinko@snowrabbit.org>,
+ Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>
+Cc: ntfs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261125-ntfs-01-v1@snowrabbit.org>
+Content-Language: en-US
+From: liubaolin <liubaolin12138@163.com>
+In-Reply-To: <20261125-ntfs-01-v1@snowrabbit.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDXf0+rkAdrvRQPKA--.54445S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7tFWkZF1fAr4kKryUAFyxKrg_yoW5JF15pr
+	ZFkr4fK3ykX34UCrna9F98Ga1UurW09rZ0grW5Aw4293s5tw1SgF1jy3y0g3yIvrZ5J34U
+	XF4DArW8Xry3Zr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U24iUUUUUU=
+X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6g3rtmsHkK3MyAAA3v
 
-Josef Bacik <josef@toxicpanda.com>:
-> - File capabilities are ignored in a cell, and a cell can drop from its
->   bounding set without CAP_SETPCAP.
 
-This is useful thing on its own. Don't require CAP_SETPCAP if no_new_privs
-is set, even outside of cells. Similarly, a lot of other useful things here
-can be applied not only to cells.
 
-> - The host runs no usermode helper for a task of a cell, so no modprobe
->   and no request-key, and a core dump doesn't go to a pipe or a socket.
+在 2026/11/25 22:18, Showta Ishizaki 写道:
+> After mkdir, stat() gives a size of 0 for the directory until it is read
+> back from disk, where it gives the length of $INDEX_ROOT.
+> __ntfs_create() opens the index root but does not set i_size from it.
+> 
+> When the index root is moved out to an index block,
+> ntfs_ir_reparent() updates data_size but not i_size, which keeps the
+> length the root had before.
+> 
+> Set i_size in both, as ntfs_ir_truncate() does.
+> 
+> Without the patch a new directory was 0 bytes and became 48 after a
+> remount, and one with 300 files was 248 and became 56.  With it the sizes
+> are the same before and after.
+> 
+> Fixes: af0db57d4293 ("ntfs: update inode operations")
+> Fixes: 0a8ac0c1fa0b ("ntfs: update directory operations")
+> Signed-off-by: Showta Ishizaki <zakinko@snowrabbit.org>
+> ---
+>   fs/ntfs/index.c | 3 +++
+>   fs/ntfs/namei.c | 7 +++++++
+>   2 files changed, 10 insertions(+)
+> 
+> diff --git a/fs/ntfs/index.c b/fs/ntfs/index.c
+> index fe2a79b..73c8e6f 100644
+> --- a/fs/ntfs/index.c
+> +++ b/fs/ntfs/index.c
+> @@ -1434,6 +1434,8 @@ retry:
+>   		icx->idx_ni->data_size = ix_root_size;
+>   		icx->idx_ni->initialized_size = ix_root_size;
+>   		icx->idx_ni->allocated_size = (ix_root_size + 7) & ~7;
+> +		/* As ntfs_ir_truncate() does; i_size kept the old length. */
+> +		i_size_write(VFS_I(icx->idx_ni), ix_root_size);
+>   	}
+>   
+>   	ntfs_ir_nill(ir);
+> @@ -1455,6 +1457,7 @@ retry:
+>   		icx->idx_ni->data_size = ix_root_size;
+>   		icx->idx_ni->initialized_size = ix_root_size;
+>   		icx->idx_ni->allocated_size = (ix_root_size + 7) & ~7;
+> +		i_size_write(VFS_I(icx->idx_ni), ix_root_size);
+>   	}
+>   	ntfs_ie_set_vcn(ie, new_ib_vcn);
+>   	goto err_out;
+> diff --git a/fs/ntfs/namei.c b/fs/ntfs/namei.c
+> index 29f1bf5..e4b0fc4 100644
+> --- a/fs/ntfs/namei.c
+> +++ b/fs/ntfs/namei.c
+> @@ -611,6 +611,13 @@ static struct ntfs_inode *__ntfs_create(const struct mnt_idmap *idmap, struct in
+>   		err = ntfs_attr_open(ni, AT_INDEX_ROOT, I30, 4);
+>   		if (err)
+>   			goto err_out;
+> +		/*
+> +		 * ntfs_attr_open() sets data_size to the length of the new
+> +		 * $INDEX_ROOT, as ntfs_read_locked_inode() does with i_size
+> +		 * too.  i_size stayed at the 0 set above, so stat() gave 0
+> +		 * until the directory was read back from disk.
+> +		 */
+> +		i_size_write(vi, ni->data_size);
+>   	} else {
+>   		/* Add DATA attribute to inode. */
+>   		err = ntfs_attr_add(ni, AT_DATA, AT_UNNAMED, 0, NULL, 0);
 
-Again, very useful thing. Consider to add it to all non-initial
-user namespaces.
 
-> - CLONE_NEW* being EPERM in a cell is written down as a position and not
->   as something that is missing. (Andrew)
+Looks good to me.
 
-Note: it seems Andy Lutomirski (CC'd) wants something opposite
-( https://lore.kernel.org/all/CALCETrUD4vh_iSHV7G0bprUFU8=c+ECo701-tXcbQ3UXBWC1ig@mail.gmail.com/ ).
+Reviewed-by: Baolin Liu <liubaolin@kylinos.cn>
 
-> 8. procfs, sysfs, devtmpfs and cgroupfs. There are no per-cell instances
->    yet, the builder assembles those with what exists today and can get
->    it wrong the same way a runtime can today. Where I want to go is each
->    of the four taking the cell as a mount parameter and showing only
->    what the cell holds. That's a lot of work and I wanted this out
->    first, but I would like to know if anybody hates the direction.
-
-Again: consider taking userns as a mount parameter.
-
--- 
-Askar Safin
