@@ -1,51 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.109
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795658876;
-	b=AgDYdEXs6fO4wGbF4pdySXuf4bIc2Bsmu/vcuLqeuKfLSY6b2QM1ZpnwZ2A8asyZxmdI
-	 uTXIS+fJpyW65YbldRtaJQA3wqy1OBo6ADkjJpZLLqLqdJq8cW+rKSwVfZlrahA+5UA1V
-	 Hguvdqzvt1A3Bc8Es7NCyVfVAq0Ljzs1zZtmZSxDoVM6ZvkjcVB25k36YLLEl0QXSZZJr
-	 h9SDl+HHXTMACLG4Y1QqNNxQBF/DLp0iiJmz8EABu3nAU2o12rz1S/mIx/RtFqZ+EdQgA
-	 hj77D9PMLYVSV6nSmGJTh5OejvYTesM5lTDY0xYmuvHFInb41Jz8dsNitADs4u2J9Aw==
+	t=1795658959;
+	b=QnxgR7U4LB3vmvpbT3ghyel50Hu5uhnq9AikB3/p2z8pVnHbFXAUrPoWI927Kqfg08Rs
+	 cf1qK4SYmSAttaZLOtZLmaRFZVQvwsz8haWUZxiE0Tk1axp2XOAP4rL+d32P4s0bq2vRw
+	 gD0bo/H9ynyyqKajk8Ea4YDz0q1uHELBkqta10Oadi7Uc9z55wf0QXOw8GSoyfXr4sc7l
+	 6joQw/crIE+AoBTMFWiKMTA2JVuM8kXnNLdWdGa6OEf+uLdr2IWyWGOh4/O9ijI/kxwR7
+	 LNHXgJ8qtOYcuoTiGXWoE0vJxNQ4jNR4e/SwtLvkEnE1yRQHFTZEPdGaiWkLoMjB6tw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795658876;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795658959;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:Content-Type:Mime-Version:Subject:From:
 	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:
 	 To:X-Mailer;
-	bh=0QLSDXfx2Y3U/9u0/2RkJvZIPOqyHoT/oK2W5AWt4wc=;
-	b=js6wIt0D564qTolJTisL/EC4YVJI3jTZaP0WEiTyqRda+KXj+K/Q9qSIO9gbKcj0gGZn
-	 Rmw03viX7PCc3QCip94/dCitpkAOCyolbbc0ZWcwu5kGlR9CARNMs0FodQU0HFefGyJWe
-	 +kgcWRH8wtrJ8yCQ8zlnANndiliV8qaR5Ba1fM0zdhF2j6W4CnTelzZchBsHt/dyaKD9h
-	 r51a5w+dQ3L67mCMbETNx94SFI2Lb6THs3rcn4Q5CWjFmigxxTwPyhnd3lAzIYdQkL5lB
-	 SOJRLrBSqSXTwSEI51U9ijmXyIrby4ayjue8360ZXkQZkLxSyx2DGqIudV586yONU9Q==
+	bh=CcruErW631cRyNVYcZhaTd+ooyBSWxhrtfIr60h9UBg=;
+	b=GUthOY9tLw/pfwLUa8HQFpyWa7uLrC7itsuWxBpf5IsNAPxhf0vQ2Yw5INjnINGuMeGD
+	 5klweySaxFrsS0HPLm08R2OKh4U9p1kJOjEB0KLR1VYJnVjl5NWX/yevcYE2ZRp8nwWkV
+	 HP0h6MQ5lEEXdQDH44HcUqcgJY4u/BZEJYGTeaRqz3A+rtkBqbkbfwiWqNCLCeT2Qx9UO
+	 XxULptCLEFm+z0XCmzfN+0+0PbEIsjaAYz0mw3FGZmGtEdcVRHnWkZgqCTqtLzAJt62jq
+	 ZNFTXECjVN3YRyczl93j14V2NLf9esHpYGlHHC3F9UOLyDwtqJMgMUnkBMiELzrGyPQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b="uz/N4q9K";
-	arc=none smtp.remote-ip=95.215.58.42
-Received: from mta1.migadu.com (out-42.mta1.migadu.com [95.215.58.42])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=iHiygrY4;
+	arc=none smtp.remote-ip=95.215.58.109
+Received: from mta1.migadu.com (out-109.mta1.migadu.com [95.215.58.109])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10429606A327
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 02:07:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 10429606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D38606A31E
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 02:09:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 09D38606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=uz/N4q9K
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=iHiygrY4
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=0QLSDXfx2Y3U/9u0/2RkJvZIPOqyHoT/oK2W5AWt4wc=;
+DKIM-Signature: a=rsa-sha256; bh=CcruErW631cRyNVYcZhaTd+ooyBSWxhrtfIr60h9UBg=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795658874; v=1; x=1796263674;
- b=uz/N4q9Kwga3uQDEn7wsrBLEvVTVGwzWV+3DruxjQzETN2986gyEE43cDVb2BkQwJkbSvXIN
- uonW8NthD0JSPBUdyUrCViplVAUM7P7pBf6jUnSXJm96cqllpr5OcZPeilUsO1rsv9lAFWMjSsr
- cnOWpqJudhSWSehEhZ/GUGAU=
+ t=1795658957; v=1; x=1796263757;
+ b=iHiygrY4YdMMVg2PiVGi7WPUsuMeCiRWM6CpkTSUqvsjiB8j+BahxwGM+iwWHTN8s2d4ECK+
+ rD2PKTT8rm58DkMPRcCSgEq+SLUBU5EijXFnr1RTqgFh4CWIK7gmgjY5Ho7W6XPV0ubECqn0KyG
+ WbO2danQxz4doYswc8WhOKrQ=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 648b555ab3881891;
-	Thu, 26 Nov 2026 02:07:53 +0000
-X-Mizu-Trace-ID: 648b555ab3881891
+Received: by smtp.migadu.com with ESMTPS id e1cc9e9085ce54e2;
+	Thu, 26 Nov 2026 02:09:16 +0000
+X-Mizu-Trace-ID: e1cc9e9085ce54e2
 X-Migadu-Flow: FLOW_OUT
 Content-Type: text/plain;
 	charset=us-ascii
@@ -58,11 +58,11 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.200.71.1.16\))
-Subject: Re: [PATCH 09/21] mm/hugetlb: don't zap non-present entries when
- unmapping a folio
+Subject: Re: [PATCH 10/21] mm/hugetlb: only check PMD table sharing for
+ PMD-sized folios
 From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20261125-hugetlb_fixes_2-v1-9-db27fd2f71a8@kernel.org>
-Date: Thu, 26 Nov 2026 10:07:31 +0800
+In-Reply-To: <20261125-hugetlb_fixes_2-v1-10-db27fd2f71a8@kernel.org>
+Date: Thu, 26 Nov 2026 10:08:45 +0800
 Cc: Muchun Song <muchun.song@linux.dev>,
  Oscar Salvador <osalvador@suse.de>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -124,11 +124,12 @@ Cc: Muchun Song <muchun.song@linux.dev>,
  linux-fsdevel@vger.kernel.org,
  Andrew Morton <akpm@osdl.org>,
  linux-doc@vger.kernel.org,
+ stable@vger.kernel.org,
  Chris Mason <mason@kernel.org>
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <3FBE1B4F-DD8A-49FC-844C-8E073C5B7623@linux.dev>
+Message-Id: <7348490D-C5B9-4471-AFE9-CDE68FDBAFF1@linux.dev>
 References: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
- <20261125-hugetlb_fixes_2-v1-9-db27fd2f71a8@kernel.org>
+ <20261125-hugetlb_fixes_2-v1-10-db27fd2f71a8@kernel.org>
 To: "David Hildenbrand (Arm)" <david@kernel.org>
 X-Mailer: Apple Mail (2.3901.200.71.1.16)
 
@@ -137,35 +138,31 @@ X-Mailer: Apple Mail (2.3901.200.71.1.16)
 > On Nov 26, 2026, at 06:33, David Hildenbrand (Arm) <david@kernel.org> =
 wrote:
 >=20
-> From: Chris Mason <mason@kernel.org>
+> hugetlb_pmd_shared() reads "pt_share_count" from the ptdesc of the =
+page
+> table that maps a hugetlb folio, independent of the folio size, to =
+tell
+> whether that page table is shared. Only PMD tables have a valid
+> "pt_share_count"; for other folio sizes, such as 1 GiB folios on x86
+> that are mapped by a PUD table, we read whatever another user of the
+> union left behind.
 >=20
-> When the owner of a private hugetlb mapping fails to allocate a folio
-> for COW, unmap_ref_private() unmaps the old folio from the forked
-> children, and marks them with HPAGE_RESV_UNMAPPED, so they get a =
-SIGBUS
-> on their next access.
+> As a result, such folios might be reported as shared in smaps and as =
+not
+> exclusively mapped in pagemap, and mbind(MPOL_MF_MOVE) and
+> migrate_pages() might skip them.
 >=20
-> hugetlb_unmap_range() is supposed to only unmap that folio, but it
-> clears non-present page table entries unconditionally.
+> Let's fix it by adding hugetlb_folio_maybe_mapped_shared(), which
+> combines folio_maybe_mapped_shared(), documented to not care about =
+page
+> table sharing, with a check for PMD table sharing only for PMD-sized
+> folios, and using it in the affected callers.
 >=20
-> A child can silently lose its COWed folio while it is getting =
-migrated,
-> or a hwpoison entry or uffd poison marker, without HPAGE_RESV_UNMAPPED
-> getting set. Consequently, it would not SIGBUS on the next access.
+> This has low urgency.
 >=20
-> Let's fix it by ignoring non-present entries when unmapping a folio. =
-As
-> the folio is locked, migration entries of that folio do not apply.
->=20
-> This has low urgency, as it requires a failing COW allocation in the
-> owner racing with migration or memory failure in the child. Let's not =
-CC
-> stable.
->=20
-> Fixes: 8c4894c6bc79 ("hwpoison, hugetlbfs: fix "bad pmd" warning in =
-unmapping hwpoisoned hugepage")
-> Signed-off-by: Chris Mason <mason@kernel.org>
-> [ david: adjust comment and description ]
+> Fixes: ca1a47cd3f5f ("mm/hugetlb: fix hugetlb_pmd_shared()")
+> Cc: <stable@vger.kernel.org>
+> Reported-by: Chris Mason <mason@kernel.org>
 > Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
 Reviewed-by: Muchun Song (ByteDance) <muchun.song@linux.dev>
