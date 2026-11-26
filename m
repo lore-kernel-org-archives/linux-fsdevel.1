@@ -1,63 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795720103;
-	b=fqhd108pmPB7kezaoS512U/hmNpZAKVQk1PVffRYTdUtnXOx+sV9rrFEUdYjdy/P/BMX
-	 j3MAZQ3eK5pPKoTdswiwACKKN4lbiX/oBMW8wL3kPPpCafYTovEapq9CWrfb2t10dtIyC
-	 zR0bi7dC9GrQ2tow7376BZeL4iq+pYwfQNTxaa8eLm1mt7BsmBF6yp2+s2lDDTyG+91CC
-	 NZVED67xonbBd1CVhRwE5+UsRHZm7sXRoaI/8cQbCjjqLb0QpNpISZWYD0ycTxMpw0L7p
-	 2cbj5UxfMZL9yC84B7ZC+6Yj/N4ZTwX0X2bkEU8rgN/UMl7PiqyuFBotkQjOy3HERJA==
+	t=1795720132;
+	b=fWqfOVX5CC/lzvNlTJDk7z43yNyCYIkU2MOFp96hm4/3sINpxJk0V2TWPl8d+/fnmAbz
+	 vJZQpzXq7KagyQdqpwXt88cOnPD7yPLRJdmDR/ZAxAEDiFItBChxaG9RGANdBa8Q5aqKA
+	 R0ZYK0EJJ8by4etVvrQ0CrrTILDhFL+y1qW/o0o7aFLW/K6X+ZggOzYF2zWO9QEc1Tgnc
+	 O3d18r8pAq5S5JEqPw6ArSKgYW5S/izk7m5JQPQiDROfCZIWfiw5BGBsSVIJitjIiuLRG
+	 KRoTZELOsrBzQ8+GTDl+DGxcBcRNDddRX0hk0XMDlxsAfBpvVcMEVZMhb0VCAQhJVLA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795720103;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=cv1PjWbliwWDxpQYP6jMCVTrYQljEwKTbdBA+qxv+VA=;
-	b=r1AbKc01hvAsAp9PTx3xAn2qCIuMHRlCpVreKBZmVSlNdPNISLEWWohWgKFSdqpFTNd0
-	 x+/2uMAUurGs+oJBudVypIIaeR8L9gBLrm6fYDo+QToA0d+RxZsWfSJ3MZPbTpz12Bf7V
-	 V0D4DQu5tMWNtyxp2dR/JV+eRFg0si2tQDLEpq/ifWgH3jpoQQM+fW07brAJysw23oi8+
-	 ee0sV6I+wcLY+BxJ/ThYA9gjv9EtiJkxMUNDBGv4oauMjIKDT5ALxco9HZVYAevlX6d9l
-	 OM4MTvw/QDekvytT1hOV4dboJs4ude0brN8A78oqUvVFk7ICgZwbhSpw01/QybvqnYg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795720132;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=9ewvhhUgD+3DTi6q55eZEV6TlKSbwabUrukp4E4TfKM=;
+	b=e5BmYamq7GfZVpxDgWI+u931ExIevsLD7+SyCiIDNbeae0FtKclDPnXfd1Zo1uTQrxKN
+	 HlFdHd2I0NVwz5ibymHRCm6hgbUnr6MzUqGolQEo+GKBx3ccYjI/tAwVKQPOtJEe7tbBH
+	 v5sZPJFA0mpx7kgQRLL+9RnqV3fSfA7lL9t0Jt6fS/wJnOkvxwE6G61/qKi5OEP/doGgC
+	 fbjtNLJmRnutSKTEiwFgHEUMucO5kALqIsjjIVR+xQdnesBoJuVUgf7fy7YvUdss1yHa5
+	 vbYiCxEyJl6d6qY9LQtdtEDvUktTDS2b5fvMt4/SNWCK4hgWO9js6Q30foGbtomAJqA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=cze8X9ZU;
-	arc=none smtp.remote-ip=220.197.31.3
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FMtz5P7g;
+	arc=none smtp.remote-ip=74.125.82.174
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA74606A31C;
-	Thu, 26 Nov 2026 19:08:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2FA74606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EED2606A31C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 19:08:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2EED2606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=cze8X9ZU
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=cv
-	1PjWbliwWDxpQYP6jMCVTrYQljEwKTbdBA+qxv+VA=; b=cze8X9ZU5xnY8h0Lyb
-	+kZr/53Q6NHE26jc9TSstipQi1a0FIPYSJeyeNk1It3qwl3KZhsWyDV7GXCWME2w
-	RdXbBG/1G5pScX8SYzz+WJ+luD5HOBFhp6qGPoOR9pLoCK4VBbi/yu71N8DCWnJb
-	j1iL1NXoJL2wq9LtdEMBiMYDU=
-Received: from ubuntu (unknown [])
-	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wD3H0ZagwhrZ21_Kg--.8439S2;
-	Fri, 27 Nov 2026 03:07:21 +0800 (CST)
-From: Shaopei Zhu <shaopei_1012@163.com>
-To: David Timber <dxdt@dev.snart.me>
-Cc: Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>,
-	exfat@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FMtz5P7g
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-386c336eab8so3796534eec.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 11:08:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795720130; x=1796324930; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=9ewvhhUgD+3DTi6q55eZEV6TlKSbwabUrukp4E4TfKM=;
+        b=FMtz5P7gW1yWAgiHcO+m9wAmRu39FXEGTwaJzDQSrTabauU4A5Bet4h6aqkgnZ9rBr
+         5V+h1ti3PJ5Vziee3vny2oJwFoPIUuPMtBz5nmX6TVrnCxn1VpQ5Wg2uiTTLB2RO1Yaa
+         OYt2bacIJYfJXi9z1vF4L7lnn8bN/kVgEycT90U9C8kQa04GbM14xfIHAKriIbqLErAO
+         Uc72c2aW68zxPLbJtPqYA0EPrfJaniQYN1h+8iQtmt04opz+1t/UUKcUAtcEi6hftZyf
+         tzBDcAifd2nAWB4zxkPZf1EJJYRa3CfBcFCLk91jPTm/75cTaOcLA+SQ3QrCS/wHJzD4
+         97Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795720130; x=1796324930;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=9ewvhhUgD+3DTi6q55eZEV6TlKSbwabUrukp4E4TfKM=;
+        b=Xh6tCw6fg+Gd5+2TB0zoJ/+Dr/NRPESWOjO7q0dSvdxkV/rhx5f2L5Ro8M4maY2afu
+         +wELyOY613alNt//YxYFzdlSRxsUfuZyTUFs+xNQEjMGf4+L7yQfLiOFoZ+2wkNqZ5jk
+         OogKbGXJrJhnct3NYdNDgmZ7LEzXaP7Ut3eRRJTrWDQoIqEwUGE1tR1qJPbZmH445FgB
+         gzrTlihNuFA775rP72RYRLmDOHbrbdfMorXsW96Tey1mHvpKhe8VR/9Mey1CgrW+cfjY
+         rlhRxpyhhCeAD3dHtmXxfCbKOrNLwfkLcMMffUu0e20HZljd5cJQf+1Gtet3eKE7k59u
+         zfUw==
+X-Gm-Message-State: APuU4Z8dhevKRjTINQkshUhTmtRY13dzeAbSVL2jDTtAE8NfZOwPsnNd
+	/dTMdQyn3b/0XY6kDw4uXDJtY9ZmBQAOSO7BTbsoWkNfGIPsXpgQIITIeFfgWjx+
+X-Gm-Gg: AZFdTZcbefVALjRQYgcYJC/UwuPBUTwrwo+fR/X8G2ouGEhVG5prbaPdhuZ1CxO8Vhy
+	+2LVVfmTK9DMK4jr1tE9W4EHB8tAXCwuL24LGsltemLgNBIUexbXNE5lCiD3LbQkhX5SL/6lj3q
+	XAAounYmLmkYruQzPs0YjnOBV+Rt6NC3xPw+nKy1i8JILBxc8n2tvAINisZMln2LiCoyVIWdGFW
+	YJwDwElsD1LOo3dYr/MurO16/kQA7xM45pMYknmmRmOxgL+tJnsLkHnVw+gSZ7X4P4ZTNONOf5P
+	OP5cKlZ6EBxu8+Ip8f9JBqEyYJDLpHyDebjYw4i5cTO4Eba1QtrqBtRnFhLF2E/z3eLdnmxur9Y
+	9AlgCvF5r1YEmg89MoIgnbYzf9tQ8wWK3xyYFT2y89wvXY50PM0bC+0JWfYrq71vn/Z95gT2EEO
+	0NltJeS9i0wwnP8lyIS7a1MbgZsESisbCZwbR84SQNiYh8aFoo7apS3V60Uj5w9tOkBVDHdo5xQ
+	7SjCRtSwJjU0qYiVxYOXinEPsN0+hjlAA8yWsnXM42NFd9M7Ayeti0owTtlRDZ/1haslwEHl06C
+	IV9giRkvf+fAWekxpiHxulEKXj2OYkAVn1suFcKM31jd7TLu8WCxH0BfXynWSV0AhFlTQJm+hLw
+	GgZ7eMftHEnY=
+X-Received: by 2002:a05:693c:20ce:20b0:381:761b:f335 with SMTP id 5a478bee46e88-3856f94eda0mr23029896eec.6.1795720130090;
+        Thu, 26 Nov 2026 11:08:50 -0800 (PST)
+Received: from dev-oss-0.tail8d7c7c.ts.net (c-73-70-201-200.hsd1.ca.comcast.net. [73.70.201.200])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-38566cd46c5sm81307145eec.11.2026.11.26.11.08.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Nov 2026 11:08:49 -0800 (PST)
+From: Qian Xiao <heyheyco@gmail.com>
+To: Matthew Wilcox <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v7] exfat: add EXFAT_IOC_COMBINE to append a file's clusters to another
-Date: Fri, 27 Nov 2026 03:07:04 +0800
-Message-ID: <20261126190704.935716-1-shaopei_1012@163.com>
+	Krystian Kaniewski <krystianmkaniewski@gmail.com>,
+	Qian Xiao <heyheyco@gmail.com>
+Subject: [PATCH v2] xarray: fix index jumping backwards in xas_find_marked()
+Date: Thu, 26 Nov 2026 11:08:47 -0800
+Message-ID: <20261126190847.3064508-1-heyheyco@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <dcd27d38-60a2-4c1a-81ff-4a82e99520ab@dev.snart.me>
-References: <20261124230746.850528-1-shaopei_1012@163.com> <CAKYAXd_ap120uprmarov-GuO0fb1eXEgw-U8G08L1xRJ9bv18A@mail.gmail.com> <20261126075247.850895-1-shaopei_1012@163.com> <dcd27d38-60a2-4c1a-81ff-4a82e99520ab@dev.snart.me>
+In-Reply-To: <20261124213424.2224554-1-heyheyco@gmail.com>
+References: <20261124213424.2224554-1-heyheyco@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,154 +102,307 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3H0ZagwhrZ21_Kg--.8439S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3JF45Zr1fJw1rGrW8CrWfKrg_yoWxuw4rpa
-	y5trsxt3WDJ347Cw1kZw48XFy5CrZ3JFW3Jrn0gry0yws0gr4Syry7Kws8ua47Cw4rAa1Y
-	yr4jg347urZ8AaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UHMKtUUUUU=
-X-CM-SenderInfo: pvkd01phlbiiirs6il2tof0z/xtbC6grXZmsIg2o2igAA3n
 
-Hi Davo,
+xas_find() keeps xa_index when a lookup starts inside a multi-index
+entry stored in a non-leaf node, and aligns xa_offset with that index
+before advancing. xas_find_marked() still does neither.
 
-Thanks for taking a look, both here and at the exfatprogs pull request.
+Walking from a sibling slot to the canonical slot calls
+xas_move_index(), so a start index such as 127 becomes 0. After the
+cursor has been walked, xa_offset can also stay on the canonical slot
+while xa_index is inside a later slot of the same entry. The next
+xas_find_marked() then recomputes xa_index from the stale offset. If
+the entry is split, the call returns a marked entry below the index
+already reached. xas_find() returns the following entry in the same
+situation.
 
-On 11/26/26 14:26, David Timber wrote:
->> A sidecar file is lost in practice: users copy, share or import only
->> the video file, and matching the two by name breaks once either is
->> renamed or moved.
-> I think I understand the the problem being addressed here, but adding
-> something to the kernel to solve that particular user error sounds like
-> a lot of trouble to go through...
+Resolve the sibling without moving xa_index. Before advancing a cursor
+that has already been walked, set xa_offset from xa_index the same way
+xas_find() does. xas_next_marked() uses that path when the offset and
+index disagree, as xas_next_entry() already does. xas_pause() aligns
+xa_offset before its existing calculation, so the resume index stays at
+the end of the entry.
 
-The remark about sidecar files in my previous mail gave the wrong
-impression, so let me explain the case properly.  It was meant to say
-why the data has to end up in the video file rather than next to it,
-not to have the kernel make up for a user error.
+If the tree changes while a sibling is being resolved, do not descend
+into a node that does not contain xa_index, and do not let
+xas_move_index() decrease xa_index. Return XA_RETRY_ENTRY instead.
+Callers that use xas_retry() restart from the same index.
 
-The camera records more than the video: custom data such as GPS and
-per-frame exposure data, which is used in post-processing.  While
-recording, that data comes from other writers than the muxer and is
-written to separate files; when recording stops, these files are merged
-into the main MP4 file.  They grow with the length of the recording,
-from tens to hundreds of MiB.
+The userspace XArray test suite passed. The kernel was not built.
 
-Keeping the recording as a single file is part of the product
-definition: the companion app that plays and edits the recordings, and
-the later processing, all work on that one file.  That lets the product
-define its own data alongside the video; it is more robust, as there is
-no second file that can get out of step with the video; and the custom
-data stays inside the recording rather than lying around as separate
-files.  Whether to have one file is the product's decision, not the
-ioctl's; the ioctl is for the merge that follows from it.
+Fixes: b803b42823d0 ("xarray: Add XArray iterators")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Qian Xiao <heyheyco@gmail.com>
+---
+v2:
+- Use the slow path in xas_next_marked() when the offset and index disagree.
+- Align xa_offset in xas_pause() so the resume index stays at the end of
+  the entry.
+- Return XA_RETRY_ENTRY when a concurrent change would descend into the
+  wrong node or decrease xa_index.
 
-That merge is where the cost lies.  Copying the data takes time
-proportional to its size, and on an SD card, whose write speed drops to
-around 10 MB/s under jitter, a few hundred MiB take tens of seconds,
-during which the user waits for the camera.  Relinking the clusters
-instead makes the time depend on the length of the FAT chain rather
-than on the amount of data.  Measured on a disk throttled to SD card
-speeds (30 MiB/s write), appending to a 300 MiB file with 128 KiB
-clusters:
+ include/linux/xarray.h |   3 +-
+ lib/test_xarray.c      | 165 +++++++++++++++++++++++++++++++++++++++++
+ lib/xarray.c           |  23 +++++-
+ 3 files changed, 187 insertions(+), 4 deletions(-)
 
-  source     EXFAT_IOC_COMBINE   copy_file_range() + fsync()
-  50 MiB          12.3 ms                 2.2 s
-  500 MiB         13.3 ms                22.3 s
-  1 GiB           13.0 ms                45.7 s
-
-The ioctl stays at 12 to 16 ms whatever the size; building a FAT chain
-for a contiguous file takes time that grows with its number of
-clusters, but far less than copying the data.
-
-The time matters for more than the wait.  A camera runs on a battery
-and records to a removable card, so a copy that takes tens of seconds
-is also a window in which the card can be pulled or the battery can run
-out, leaving the video file with a partial trailer.  The ioctl takes a
-few milliseconds, and its updates are written in an order that leaves
-all data reachable from one of the two files if it is interrupted at
-any point.
-
-> Also, there's issue of block alignment: Windows formats exfat volumes up
-> to 32MB cluster size(I myself unsure of this MS's decision, but it is
-> what it is). The release of 4TB SDUC cards are just around the corner.
-> At most 2MB of space lost just to padding, just to append a few MB of
-> metadata to a monolithic file to idiotproof the product.
-
-On the padding: it does not take any extra space on the volume, but it
-is worth explaining why it is there at all.
-
-Clusters can only be moved whole.  The data of the source starts at the
-beginning of its first cluster on disk, so once that cluster is linked
-after the last cluster of the destination, the appended data starts at
-the next cluster boundary of the destination, i.e. at
-round_up(old size, cluster size).  If the size of the destination is
-not a multiple of the cluster size, the unused tail of its last cluster
-ends up in the middle of the combined file.
-
-That tail has never been written by the destination and may still hold
-stale data, e.g. from a file deleted earlier, so it must not become
-readable.  exFAT can only mark a range as uninitialized at the end of a
-file: each file has a single valid_size, and everything below it is
-read from the disk.  A gap in the middle cannot be described, so the
-only way to keep the stale data out is to write zeroes into it.  For
-the same reason, any range of the destination below its size that was
-never written, e.g. after fallocate(), is zeroed as well before the
-clusters are appended.
-
-The zeroes go into the tail of the last cluster, which is already
-allocated to the destination.  No cluster is allocated or freed, so the
-combined file occupies exactly the clusters the two files occupied
-before, whatever the cluster size.
-
-What the padding does cost is that the gap becomes part of the file: up
-to one cluster less one byte of zeroes is written, and the file format
-has to skip it.  A trailer located from the end of the file is not
-affected.  A writer that prefers its own padding, e.g. an MP4 'free'
-box, can pad the destination up to the cluster boundary itself before
-the call, and then nothing is zeroed.  The cluster size is reported in
-st_blksize.
-
-> I think most of the products on the market today just use multiple files
-> for multiple streams at different rate(LRV and WAV - fs/exfat have long
-> supported preallocation to alleviate the classical fragmentation issue
-> inherent in linked-list based filesystems).
-[...]
-> However,
-> if you don't mind elaborating, I'd like to see some actual
-> implementations in the wild that may benefit from the ioctl.
-
-On implementations in the wild: a similar implementation, though not
-this version, is already used in mature camera products.  I would
-rather not name the vendor for now, as that involves other matters, but
-the use is real.  The open source user is exfatcombine in the
-exfatprogs pull request.
-
-Products that deliver several files, like LRV proxies or separate
-audio, do not need this, and preallocation already serves them well.
-The ioctl is for the case where data written to separate files during
-recording has to end up in one file, and where it is too large to copy
-quickly, as described above.
-
-> I also have
-> a bunch of ideas I'd share with the kernel devs, but I just keep them
-> all to myself because the kernel development is hard and the ideas are,
-> most of the times, not worth the trouble of maintaining it in the long
-> run. I don't think it's not fair for the maintainers who have to stay
-> behind for years to maintain things.
-
-On the maintenance burden: that is a fair concern, and it is the
-maintainers' call to make.  To keep it small, the change is
-self-contained in fs/exfat/file.c: it touches neither the VFS nor the
-on-disk format, and only uses structures exFAT already has.  The
-interface is a single ioctl with an 8-byte argument, whose flags field
-is reserved for later extensions.  v8 [1] dropped the unlink from the
-kernel, as Namjae suggested, which removed about 170 lines.  It is
-covered by a test for fstests (exfat/002), and exfatcombine exercises
-it from user space.
-
-Thanks for taking the time to write this; the feedback is welcome, and
-I don't take it personally.
-
-Shaopei
-
-[1] https://lore.kernel.org/all/20261126125216.927053-1-shaopei_1012@163.com/
+diff --git a/include/linux/xarray.h b/include/linux/xarray.h
+index be850174e802..8c42d899d94c 100644
+--- a/include/linux/xarray.h
++++ b/include/linux/xarray.h
+@@ -1778,7 +1778,8 @@ static inline void *xas_next_marked(struct xa_state *xas, unsigned long max,
+ 	void *entry;
+ 	unsigned int offset;
+ 
+-	if (unlikely(xas_not_node(node) || node->shift))
++	if (unlikely(xas_not_node(node) || node->shift ||
++			xas->xa_offset != (xas->xa_index & XA_CHUNK_MASK)))
+ 		return xas_find_marked(xas, max, mark);
+ 	offset = xas_find_chunk(xas, true, mark);
+ 	xas->xa_offset = offset;
+diff --git a/lib/test_xarray.c b/lib/test_xarray.c
+index 615f7730a5bd..02e6843d0227 100644
+--- a/lib/test_xarray.c
++++ b/lib/test_xarray.c
+@@ -1316,6 +1316,170 @@ static noinline void check_multi_find_4(struct xarray *xa)
+ #endif
+ }
+ 
++static noinline void check_multi_find_marked_nonleaf(struct xarray *xa)
++{
++#ifdef CONFIG_XARRAY_MULTI
++	unsigned int order = XA_CHUNK_SHIFT + 1;
++	unsigned long next = 1UL << order;
++	unsigned long start = next - 1;
++	XA_STATE(xas, xa, start);
++	XA_STATE_ORDER(split, xa, 0, 0);
++	void *entry;
++	unsigned long i;
++
++	/* Multi-index entry in two slots of a non-leaf node, both marked. */
++	xa_store_order(xa, 0, order, xa_mk_index(0), GFP_KERNEL);
++	xa_set_mark(xa, 0, XA_MARK_0);
++	XA_BUG_ON(xa, xa_store_index(xa, next, GFP_KERNEL) != NULL);
++	xa_set_mark(xa, next, XA_MARK_0);
++
++	rcu_read_lock();
++	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
++	XA_BUG_ON(xa, entry != xa_mk_index(0));
++	XA_BUG_ON(xa, xas.xa_index != start);
++
++	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
++	XA_BUG_ON(xa, entry != xa_mk_index(next));
++	XA_BUG_ON(xa, xas.xa_index != next);
++
++	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
++	XA_BUG_ON(xa, entry != NULL);
++	rcu_read_unlock();
++
++	xa_destroy(xa);
++	XA_BUG_ON(xa, !xa_empty(xa));
++
++	/* Split the multi-index entry after a lookup begins inside it. */
++	xa_store_order(xa, 0, order, xa_mk_index(0), GFP_KERNEL);
++	xa_set_mark(xa, 0, XA_MARK_0);
++	XA_BUG_ON(xa, xa_store_index(xa, next, GFP_KERNEL) != NULL);
++	xa_set_mark(xa, next, XA_MARK_0);
++
++	xas_set(&xas, start);
++	rcu_read_lock();
++	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
++	XA_BUG_ON(xa, entry != xa_mk_index(0));
++	XA_BUG_ON(xa, xas.xa_index != start);
++	rcu_read_unlock();
++
++	xas_split_alloc(&split, xa_mk_index(0), order, GFP_KERNEL);
++	if (xas_error(&split)) {
++		XA_BUG_ON(xa, true);
++		goto out;
++	}
++	xas_lock(&split);
++	xas_split(&split, xa_mk_index(0), order);
++	for (i = 0; i < next; i++)
++		__xa_store(xa, i, xa_mk_index(i), 0);
++	xas_unlock(&split);
++
++	rcu_read_lock();
++	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
++	XA_BUG_ON(xa, entry != xa_mk_index(next));
++	XA_BUG_ON(xa, xas.xa_index != next);
++
++	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
++	XA_BUG_ON(xa, entry != NULL);
++	rcu_read_unlock();
++
++	xa_destroy(xa);
++
++	/* Nothing marked past the index already walked. */
++	xa_store_order(xa, 0, order, xa_mk_index(0), GFP_KERNEL);
++	xa_set_mark(xa, 0, XA_MARK_0);
++	XA_BUG_ON(xa, xa_store_index(xa, next, GFP_KERNEL) != NULL);
++
++	xas_set(&xas, start);
++	rcu_read_lock();
++	entry = xas_load(&xas);
++	XA_BUG_ON(xa, entry != xa_mk_index(0));
++	XA_BUG_ON(xa, xas.xa_index != start);
++	rcu_read_unlock();
++
++	xas_set(&split, 0);
++	xas_split_alloc(&split, xa_mk_index(0), order, GFP_KERNEL);
++	if (xas_error(&split)) {
++		XA_BUG_ON(xa, true);
++		goto out;
++	}
++	xas_lock(&split);
++	xas_split(&split, xa_mk_index(0), order);
++	for (i = 0; i < next; i++)
++		__xa_store(xa, i, xa_mk_index(i), 0);
++	xas_unlock(&split);
++
++	rcu_read_lock();
++	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
++	XA_BUG_ON(xa, entry != NULL);
++	rcu_read_unlock();
++
++	xa_destroy(xa);
++
++	/* Pausing resumes at the next marked entry, without repeating. */
++	xa_store_order(xa, 0, order, xa_mk_index(0), GFP_KERNEL);
++	xa_set_mark(xa, 0, XA_MARK_0);
++	XA_BUG_ON(xa, xa_store_index(xa, next, GFP_KERNEL) != NULL);
++	xa_set_mark(xa, next, XA_MARK_0);
++	xas_set(&xas, start);
++	rcu_read_lock();
++	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
++	XA_BUG_ON(xa, entry != xa_mk_index(0));
++	XA_BUG_ON(xa, xas.xa_index != start);
++	xas_pause(&xas);
++	XA_BUG_ON(xa, xas.xa_index != next);
++	entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
++	XA_BUG_ON(xa, entry != xa_mk_index(next));
++	XA_BUG_ON(xa, xas.xa_index != next);
++	rcu_read_unlock();
++
++	xa_destroy(xa);
++
++	/*
++	 * A leaf multi-index entry.  The next step must not use a canonical
++	 * slot left behind by the first lookup.
++	 */
++	if (XA_CHUNK_SHIFT > 2) {
++		unsigned int leaf_order = 2;
++		unsigned long leaf_next = 1UL << leaf_order;
++		unsigned long leaf_start = leaf_next - 1;
++
++		xa_store_order(xa, 0, leaf_order, xa_mk_index(0), GFP_KERNEL);
++		xa_set_mark(xa, 0, XA_MARK_0);
++		XA_BUG_ON(xa, xa_store_index(xa, leaf_next, GFP_KERNEL) != NULL);
++		xa_set_mark(xa, leaf_next, XA_MARK_0);
++
++		xas_set(&xas, leaf_start);
++		rcu_read_lock();
++		entry = xas_find_marked(&xas, ULONG_MAX, XA_MARK_0);
++		XA_BUG_ON(xa, entry != xa_mk_index(0));
++		XA_BUG_ON(xa, xas.xa_index != leaf_start);
++		rcu_read_unlock();
++
++		xas_set(&split, 0);
++		xas_split_alloc(&split, xa_mk_index(0), leaf_order, GFP_KERNEL);
++		if (xas_error(&split)) {
++			XA_BUG_ON(xa, true);
++			goto out;
++		}
++		xas_lock(&split);
++		xas_split(&split, xa_mk_index(0), leaf_order);
++		for (i = 0; i < leaf_next; i++)
++			__xa_store(xa, i, xa_mk_index(i), 0);
++		xas_unlock(&split);
++
++		rcu_read_lock();
++		entry = xas_next_marked(&xas, ULONG_MAX, XA_MARK_0);
++		XA_BUG_ON(xa, entry != xa_mk_index(leaf_next));
++		XA_BUG_ON(xa, xas.xa_index != leaf_next);
++		rcu_read_unlock();
++	}
++
++out:
++	xa_destroy(xa);
++	XA_BUG_ON(xa, !xa_empty(xa));
++#endif
++}
++
+ static noinline void check_find_1(struct xarray *xa)
+ {
+ 	unsigned long i, j, k;
+@@ -1440,6 +1604,7 @@ static noinline void check_find(struct xarray *xa)
+ 	check_multi_find_2(xa);
+ 	check_multi_find_3(xa);
+ 	check_multi_find_4(xa);
++	check_multi_find_marked_nonleaf(xa);
+ }
+ 
+ /* See find_swap_entry() in mm/shmem.c */
+diff --git a/lib/xarray.c b/lib/xarray.c
+index 48f440d114e1..eadb39894913 100644
+--- a/lib/xarray.c
++++ b/lib/xarray.c
+@@ -1283,6 +1283,9 @@ void xas_pause(struct xa_state *xas)
+ 	if (xas_invalid(xas))
+ 		return;
+ 
++	if (node && xas->xa_offset != get_offset(xas->xa_index, node))
++		xas->xa_offset = get_offset(xas->xa_index, node);
++
+ 	xas->xa_node = XAS_RESTART;
+ 	if (node) {
+ 		unsigned long offset = xas->xa_offset;
+@@ -1495,6 +1498,14 @@ void *xas_find_marked(struct xa_state *xas, unsigned long max, xa_mark_t mark)
+ 		xas->xa_offset = xas->xa_index >> xas->xa_node->shift;
+ 	}
+ 
++	if (advance &&
++	    xas->xa_offset != get_offset(xas->xa_index, xas->xa_node)) {
++		if (!xas->xa_node->shift)
++			xas->xa_offset = ((xas->xa_index - 1) & XA_CHUNK_MASK) + 1;
++		else
++			xas->xa_offset = get_offset(xas->xa_index, xas->xa_node);
++	}
++
+ 	while (xas->xa_index <= max) {
+ 		if (unlikely(xas->xa_offset == XA_CHUNK_SIZE)) {
+ 			xas->xa_offset = xas->xa_node->offset + 1;
+@@ -1507,14 +1518,18 @@ void *xas_find_marked(struct xa_state *xas, unsigned long max, xa_mark_t mark)
+ 
+ 		if (!advance) {
+ 			entry = xa_entry(xas->xa, xas->xa_node, xas->xa_offset);
+-			if (xa_is_sibling(entry)) {
++			if (xa_is_sibling(entry))
+ 				xas->xa_offset = xa_to_sibling(entry);
+-				xas_move_index(xas, xas->xa_offset);
+-			}
+ 		}
+ 
+ 		offset = xas_find_chunk(xas, advance, mark);
+ 		if (offset > xas->xa_offset) {
++			unsigned long index = xas->xa_index;
++
++			index &= ~XA_CHUNK_MASK << xas->xa_node->shift;
++			index += offset << xas->xa_node->shift;
++			if (index < xas->xa_index)
++				return XA_RETRY_ENTRY;
+ 			advance = false;
+ 			xas_move_index(xas, offset);
+ 			/* Mind the wrap */
+@@ -1532,6 +1547,8 @@ void *xas_find_marked(struct xa_state *xas, unsigned long max, xa_mark_t mark)
+ 			continue;
+ 		if (!xa_is_node(entry))
+ 			return entry;
++		if (xas->xa_offset != get_offset(xas->xa_index, xas->xa_node))
++			return XA_RETRY_ENTRY;
+ 		xas->xa_node = xa_to_node(entry);
+ 		xas_set_offset(xas);
+ 	}
+-- 
+2.53.0
 
