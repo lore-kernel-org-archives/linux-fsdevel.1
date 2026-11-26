@@ -1,48 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795693559;
-	b=BKP1LTAZyDOkj/W2ql546553+VeyzBfI0aUTxvRsdS7gatI2JS1rArzWmQHZyAAFfUi4
-	 fbauywvT3NHZvn9mgyOTPvA6Q9eh47WJXhu6u4ZOCId2R4QlWhDj3wEKPlyjUpufGzsvE
-	 FNo3xsT+eTvtVsk3yVre3kyuOTnaaodEAgsI1Wh+QaIQzxRSrMgccVAMIACWprt021t7+
-	 uWjmdfaKSBDEtBzdfLokL6rQ4w4VllOM9asy9pueTPr08TR39RihpqYK3HzLzwCXfxCcO
-	 YUglyJ164wXCBfoJoE1ktmsTMMe8WwY8RdMJ8Mhzqlb5VLmZUvEav3kH7l100oY0aug==
+	t=1795693554;
+	b=szTMBNYXEoTjLW0LU0jV90ci7z0wHG8TTPYdqI0Eyt+FGrlHze4GXUfYeJkmd2ukjOvH
+	 Nyse5fNYHfyMPh9CfgJo5E6Q+te85LVrxFnRuqjVHFd8wMFteACJIJKGgmxzORUkz6S41
+	 E/VxiBxF4gGwTCk0LS44oogAZgb8YvY8UiEbTdP5Znizzhtc2zWoXk5VFaO9ikG3XuQbU
+	 CugjLZGhThcnLU5iPLOsS14ocipsHUJn5XkJA1rZaxoAK1U4Z6PGyxhwT2j4pwzmbzHmn
+	 g081AJA2WqQMA6haFZxq4pA/si+gixheqHHKx6XTx43vuhWsKi8p//90PZPYLVWGn9Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795693559;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=oCVKkm4f9Obj7XlSywE0ap8ndEiiATh44eN7085wCzk=;
-	b=AkGN5ovxsovMfJUD2p+hPpZlAJxPcbzIKXtD7DD8P9QHXCAGGBUvYVc3oi0m43yVji1O
-	 QiNvDKWynclvLNdTkArJlM+vQ3UgxYDZRy/v3mKjaHqOo/KD/1g2cde8WrEuGJ0M9WrZs
-	 dJ8LvECFjbf7KQI1WIW7hZ13ZFoe92AMQXYD6w+gLrowQ3FupxAscszjhNovEth/Arwyk
-	 yfOqVlMOnhdC8q3crqUJp7BltLrGw98G3EFr2YxLCsa7OsoILBkgnZWRjRWOa2L/HkTxk
-	 q6tJaI5n7qfoWhRRPcaYZD6d+qb5iqoz+BloSuVNzQ9nK1RRNGQqvzNttSqGXN8515Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795693554;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=b9g9ERtPsqpdKcGPaNpKk9eILy9YT2kx2AVKQ0CLRhU=;
+	b=uRCSOg3+1LU4+aOjBPM3dqTQqCtKlbLQi9JJI1qk9k8zDjUVIg7WbRHObdiAD4bucsLH
+	 NagyMHNvMzluVgYozV3uimWOXJA5sb5mXqGc7oN4K+PoOj6KUneHk/+CCeAgT9a5FjB9o
+	 BI5UHDe+rydayIVmbU9QTdVHv4gd8DhtDCQ0kqgNYfY/pn/T0GjKpzrZxeHY3cv2hZkjE
+	 oAJhilmXDIdqZJ41/T8f9Mnc1CWezs80rzDs7rHrZq85D0gYSYGQq4kFLRuVErqDgONUY
+	 kbpw3wj+2rtZ0Y7ex51d4etGduX3TAQ56nYAOuZLJHUwxPRSjWI5nVFnXcYa5b7Hcqg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eV9snUd7;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=a6xkPRB6;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D12D606A683;
-	Thu, 26 Nov 2026 11:45:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0EF1606A31C;
+	Thu, 26 Nov 2026 11:45:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eV9snUd7
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E4D11F000D3;
-	Thu, 26 Nov 2026 11:45:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=a6xkPRB6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EED91F000C6;
+	Thu, 26 Nov 2026 11:45:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795693559;
-	bh=oCVKkm4f9Obj7XlSywE0ap8ndEiiATh44eN7085wCzk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=eV9snUd7w6kHtqORv8OiDNahUVQnAn2zxYU1i+xbeDGfaejjxmCqHBXMXW25oEzzS
-	 jYL2RvC+AZe2jtyZVLPJ4uaDRRh78AepoKZZMJ4zohhj0p+c6JiDDviEsTiWmzgqAe
-	 zzf0/GC2f8C7mWsHrIWV+NHWj7mJjmn9bjRHzzqFZOveig8T2j2n5Feq+W1amweFTO
-	 ZprdQQQtK0Oh1TlWbgrCKD/U4RsVLKygQwSDfX4AjhGv1hFzDTrYGrxYHhBf6DEIdw
-	 4Fh2PJQZyAZ6fDhGnuSjQHaafaM7m5Fj4HE7wtG71qtNoL58U3ucY8PR7CRX3JnEpo
-	 PtzkhCwB5ZL6g==
+	s=k20260515; t=1795693554;
+	bh=b9g9ERtPsqpdKcGPaNpKk9eILy9YT2kx2AVKQ0CLRhU=;
+	h=From:Subject:Date:To:Cc;
+	b=a6xkPRB6cQrCH5e6BaEUzx/+0t8DOB8mDnrLe/BSLzBbpca0djP+gjPz0pxKgWFBI
+	 aOsxs5Qjv7RZnnT9QWVIt6BBzMRiNPRfKuXoxiSO/vQcoDSQQi4ngnmhpg4tpLFbPS
+	 b6Gv/v0E2HvCr2j/V7jystut6JFT07iSOXCE0EkaIwJCZLDdXPMYGv3omkuIXE7EaS
+	 kMR6ZlP1CxbD786wqmI/78JV9EeNSl1N7dhdaqKAnQYHq4QwRJS2lqKgKBUMyuLrk2
+	 jDKYCfomlcNbYoVzeHZipSAk6ugWgrsWg5nKEL+toiAgwqVcYBQZddLaV0QPhzujTn
+	 zLR/j0qtRIV5A==
 From: Christian Brauner <brauner@kernel.org>
-Date: Thu, 26 Nov 2026 12:45:38 +0100
-Subject: [PATCH 2/2] proc: call task_vsize() without exec_update_lock held
+Subject: [PATCH 0/2] exec: two more sleepers in the way of exec
+Date: Thu, 26 Nov 2026 12:45:36 +0100
+Message-Id: <20261126-work-exec-update_lock-leftovers-v1-0-1024b26792bc@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,94 +55,53 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261126-work-exec-update_lock-leftovers-v1-2-1024b26792bc@kernel.org>
-References: <20261126-work-exec-update_lock-leftovers-v1-0-1024b26792bc@kernel.org>
-In-Reply-To: <20261126-work-exec-update_lock-leftovers-v1-0-1024b26792bc@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/02NWwqDMBQFtyL3uzeo1AfdSiklxmNNFSNJtIK49
+ yYtlH7O4TCzk4PVcHRJdrJYtdNmCpCdElK9nB5g3QamPM3LLMsLfhk7MDYoXuZWetxHowYe0Xm
+ zwjouq6qu6gJtepYULLNFp7dP4Xr7sluaJ5SP2vhopAM3Vk6qj1MMiBgQfwHxC4h4p+N4A/zME
+ ai6AAAA
+X-Change-ID: 20261125-work-exec-update_lock-leftovers-6778785ed04a
 To: linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org
 Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
  Arnaldo Carvalho de Melo <acme@kernel.org>, Jann Horn <jannh@google.com>, 
  linux-kernel@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
 X-Mailer: b4 0.17-dev-04696
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2785; i=brauner@kernel.org;
- h=from:subject:message-id; bh=ZLfIS/MvPu3e7kPlZkdOosmk2kMkrxHknsWGHGztnvE=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRzSL895pG1s7Wkvri6gjmo+ktT+BPWL6smCEqZ+n5oC
- HUqsk/tKGVhEONikBVTZHFoNwmXW85TsdkoUwNmDisTyBAGLk4BmIhnHiPDr4/c+kef741cMmlb
- mc4E3nO+f+VfHnWKEN53y01izredMxn+2e5R7+9dUX+Gacft07XL3s2Z53NpeZjfMwuW3lvNp1u
- qeAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1272; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=njczhrZp/bP2L0rmvaDHQkMbC7BtYSOzATdbUKj/00M=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRzSL/a8PlCUfA/x6kfGZ4LvnlxcJ+ddiTjjzO8K082R
+ N5deIYzu6OUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAinxYwMrzo3HPO8I7GkuPL
+ jp2V1s/uuOp8Tf8Um+GCuIoviio3q4UYGW7Mllp6Z2NuoqlglVPqkj0rDj9do2QWfieliZfn30r
+ WbZwA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Since commit 6650527444da ("proc: protect ptrace_may_access() with
-exec_update_lock (part 1)") do_task_stat() holds the exec_update_lock of
-the task from the access check until the last field is printed. In
-between it calls task_vsize() and without an MMU that takes the mmap
-lock to add up the vmas:
+This fixes two more places where a task sleeps on something userspace
+controls with a lock held that exec needs:
 
-  locks held by stat-reader/46:
-   #0: (&p->lock){+.+.}-{4:4}, at: seq_read_iter+0x38/0x32a
-   #1: (&sig->exec_update_lock){++++}-{4:4}, at: do_task_stat+0x50/0xd04
-   #2: (&mm->mmap_lock){++++}-{4:4}, at: task_vsize+0x5e/0xd2
+* PERF_EVENT_IOC_SET_FILTER looks up the files of address filters with
+  the mutex of the perf context held and perf_event_exec() takes that
+  mutex with exec_update_lock held. With a file like /proc/<pid>/exe the
+  lookup takes exec_update_lock itself and deadlocks with exec.
 
-So a read of /proc/<pid>/stat waits for the mmap lock with
-exec_update_lock held. And without an MMU the mmap lock can be held for
-a long time. A private mapping of a file is read into memory with it
-held for writing:
+* Without an MMU a read of /proc/<pid>/stat waits for the mmap lock with
+  exec_update_lock held.
 
-  locks held by holder/47:
-   #0: (&mm->mmap_lock){++++}-{4:4}, at: vm_mmap_pgoff+0x56/0x136
-   #1: (nommu_region_sem){+.+.}-{4:4}, at: do_mmap+0x21e/0xb02
-   #2: (&sb->s_type->i_mutex_key#7){.+.+}-{4:4}, at: blkdev_read_iter+0xa6/0x1c0
+I don't have a machine with intel_pt at hand. The perf patch was tested
+with a hack that gives the task clock address filters.
 
-The lock is only needed for the access check and for what is read from
-the task depending on it. The mm is pinned and everything else is shown
-to everyone anyway. So drop the lock once that is done and call
-task_vsize() afterwards.
+What's left in that ioctl is that it takes the mmap lock of the task
+with the mutex held to find the mappings of the files.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/proc/array.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+Christian Brauner (2):
+      perf: look up address filter files without ctx->mutex held
+      proc: call task_vsize() without exec_update_lock held
 
-diff --git a/fs/proc/array.c b/fs/proc/array.c
-index f6f75d206762a..3ff6f2455e5e4 100644
---- a/fs/proc/array.c
-+++ b/fs/proc/array.c
-@@ -493,7 +493,6 @@ static int do_task_stat(struct seq_file *m, struct pid_namespace *ns,
- 	permitted = ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS | PTRACE_MODE_NOAUDIT);
- 	mm = get_task_mm(task);
- 	if (mm) {
--		vsize = task_vsize(mm);
- 		/*
- 		 * esp and eip are intentionally zeroed out.  There is no
- 		 * non-racy way to read them without freezing the task.
-@@ -543,6 +542,17 @@ static int do_task_stat(struct seq_file *m, struct pid_namespace *ns,
- 	if (permitted && (!whole || num_threads < 2))
- 		wchan = !task_is_running(task);
- 
-+	/*
-+	 * What depends on the access check has been read from the task or
-+	 * comes from the mm that was pinned along with it. Don't hold
-+	 * exec_update_lock for the rest, task_vsize() takes the mmap lock
-+	 * without an MMU.
-+	 */
-+	up_read(&task->signal->exec_update_lock);
-+
-+	if (mm)
-+		vsize = task_vsize(mm);
-+
- 	scoped_guard(rcu) {
- 		scoped_seqlock_read (&sig->stats_lock, ss_lock_irqsave) {
- 			cmin_flt = sig->cmin_flt;
-@@ -662,7 +672,6 @@ static int do_task_stat(struct seq_file *m, struct pid_namespace *ns,
- 		seq_puts(m, " 0");
- 
- 	seq_putc(m, '\n');
--	up_read(&task->signal->exec_update_lock);
- 	if (mm)
- 		mmput(mm);
- 	return 0;
-
--- 
-2.53.0
+ fs/proc/array.c      | 13 +++++++++++--
+ kernel/events/core.c | 36 ++++++++++++++++++++++++++----------
+ 2 files changed, 37 insertions(+), 12 deletions(-)
+---
+base-commit: 666539eecdf4db623f5e3c3e55cf9f2dfad24aa4
+change-id: 20261125-work-exec-update_lock-leftovers-6778785ed04a
 
