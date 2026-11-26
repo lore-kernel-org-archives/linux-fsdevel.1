@@ -1,64 +1,131 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.133.104.62
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795683607;
-	b=q3j04OOeKLYk1/9fOBjDwlagt++9R+A0xrviTQuza56QIhNSFAciVFJE7RJmWqtRJ8jx
-	 kSXAKpxtASJdb44E6dkBYV9T4WsU3WKwiCJTuiL59UyNqTAIFpLF1YHKLvxCr5hd0yrFX
-	 dJYXp1L0ZjuFbTy747DOmlN9jAYakvGNVsRLhImsf6iCyW369+3AC1RnCN/yOyzyyh6xB
-	 aCPR2i4bRI7pWlcLMq1OwIMTwnzn0VEBr8D/KnD91Q9v6hlA3jzjodsh4PjiioXiAuZR1
-	 DFNxlHQBUxXnm7uXMa//1fG1SeDlNL4VjQ37yMw/zpfmUTIKuDlXWz0IazvJSIwiSbw==
+	t=1795683945;
+	b=SeAdvMxZsUHgyeGW69bhd0JSOk47m7w/8zesQZUKD1taeFt9A749NC6A1t+KKUP7QseY
+	 uyKYsr6YArmyRlxoCCA7bafKrZ2wZFgpo166Roa4b51hQS9GkWCbQsM5b1R6fPyZAr6cH
+	 FEjZzJonO51YqxtoGuSasUC47cA7NQ5hhiX7B7y7tjR2hLTrhqMzgEtGuebAxHbtD1yRR
+	 XUWQmJ2bhRPXtXIIRSCvup9jSusxHXT9Qf2PXYSsQr9izSZzng+bFpZ2YddEi3LA+1kKa
+	 FkGsOxYfoQ3fcYXH6G3Lso5SXOUPAlv83s3rU7pkaXb4FeLj5aHK9dce2wSSoW+ABBQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795683607;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-Virus-Scanned;
-	bh=XWc9l/n/H7bJbx3lHtPUl0s9E8oVNwjrUifrHkjo15w=;
-	b=BYuX6leynWyPEguUqNURZVZJrSoZagqo9zLfCFydJTQV0suGdirbWENUM0h8j1piArXE
-	 8iaECzqlbpSK+EP0foo5gWbpzDgZ237w8elRRaFH0sobQluowo+ZKaZBi2grE5mKwzJyl
-	 hLlf80stfJavOWuTsMyGV2NMLJJ9V1eXE6Ipo7WTvOf7329U3xfCN+N3tjVnvF1ZKjy8H
-	 oCa0rya1uXvl4EgRmuRgiMus/g3X9x1BSt6gizttxkyTQjyafjxzOHqFQ/veNUpHZ4bbQ
-	 /LJnmGqi/Qrg7CJSi416js81lQBe8btQw44QGBf8VqYCzighv5DIZldIoO0wQc3v+tA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795683945;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=e5FM9vVnkaYr5oiSZF4qGOvuP/i123ZW74JzPvuX6pg=;
+	b=klSnt5/4bCucfrqxssMYsig50aJrmmqE5VmAOChXwHq3Rc2w0YP+/TiBzZd0yT+Dp1HV
+	 BVz5RdVpPUVzwTz2iMf7awM5cMZRhJYAGacLDRr2XPsEdw9NMIAZJAetET/iz0DdxN7cm
+	 TvzHBv0jkIiVu4Ur4cjfYJtVkQK/uR+cqSuRRvkR0NVGUQsv7de0lO41/l5r1fDFR1AUZ
+	 bOlitl6ot+yS9j3VqnjAKf+zy+ozbeaGu0sNn+8Ewy47WW+zwzNQEZn8pLnjVJA4HFSPk
+	 xMUE39qu0D5rloa64ooaEnIRAUOCN+PpZQUeVAIS/M+omdsUViC9f9hmV9TDm1OfUTQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=iogearbox.net;
-	spf=pass smtp.mailfrom=iogearbox.net;
-	dkim=pass header.d=iogearbox.net header.i=@iogearbox.net header.a=rsa-sha256 header.s=default2302 header.b=M2L5KZsd;
-	arc=none smtp.remote-ip=213.133.104.62
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=2Aj1MXJl;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=aKDUHDex;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=2Aj1MXJl;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=aKDUHDex;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B6F606A33F;
-	Thu, 26 Nov 2026 09:00:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40B6F606A33F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iogearbox.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75616606A31E;
+	Thu, 26 Nov 2026 09:05:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75616606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=iogearbox.net header.i=@iogearbox.net header.a=rsa-sha256 header.s=default2302 header.b=M2L5KZsd
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=XWc9l/n/H7bJbx3lHtPUl0s9E8oVNwjrUifrHkjo15w=; b=M2L5KZsdrnmfbRl80iyvgmxeWb
-	U3LQxUY91LKVsYI29qjR1fqJkA9krQhZPbEAdCOHkkYN2I2Yn6vr92ia8k+d95w4hKvIELtdJLqPJ
-	Z2XrXoZZqUTf7KubU1cQ+3EmU0yO41Ecg2FnhdjEAxNtPQdPcBEpg/AwMK5SP8iyY3DKCMspU+QMq
-	5dTpllo+qB9z48OPBxZsPyLjqBSBMjLCPPVu6NZNG78wNMG1KLdASVjagdKQH9RlQ6vXYlItDR0aO
-	5Q5fOF3/BTQSWt2XNvDkaUJ6GzwmogvY51ymg+bmur5TFAvhmS4DUFMItaRa0kA1u06jPYMrJWhQ6
-	NlXEkbCw==;
-Received: from sslproxy01.your-server.de ([78.46.139.224])
-	by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <daniel@iogearbox.net>)
-	id 1xWVKa-000KWE-0N;
-	Thu, 26 Nov 2026 09:59:52 +0100
-Received: from localhost ([127.0.0.1])
-	by sslproxy01.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <daniel@iogearbox.net>)
-	id 1xWVKZ-000ID5-2L;
-	Thu, 26 Nov 2026 09:59:51 +0100
-Message-ID: <365029b9-785b-411d-859b-1f06c2b51367@iogearbox.net>
-Date: Thu, 26 Nov 2026 09:59:50 +0100
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=2Aj1MXJl;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=aKDUHDex;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=2Aj1MXJl;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=aKDUHDex
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A246D21D8F;
+	Thu, 26 Nov 2026 09:05:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795683936; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e5FM9vVnkaYr5oiSZF4qGOvuP/i123ZW74JzPvuX6pg=;
+	b=2Aj1MXJlIYpqdmjnsQ0sPyQux4kSV5g4Dsvpn6MzW7FExaq2EkvverSLjQXcNc+6bKKtoy
+	XxcllSyZ+V7edM65UBTv09Yhg3V1KYx1lxcmjqqR+CDO5ZEFQHWH+N1a/+UGiHumsuLmTt
+	ctIrIlDk/wLwqOwjhdBQgfX+DCCOWFs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795683936;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e5FM9vVnkaYr5oiSZF4qGOvuP/i123ZW74JzPvuX6pg=;
+	b=aKDUHDexsKNu7mk1FQDN4+wzC9n5YJr8g3hfI3/jNWMmzqqRUZXH69IyO/q+qyDg6RgAIb
+	u9PtFijfU1TL7JCg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=2Aj1MXJl;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=aKDUHDex
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795683936; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e5FM9vVnkaYr5oiSZF4qGOvuP/i123ZW74JzPvuX6pg=;
+	b=2Aj1MXJlIYpqdmjnsQ0sPyQux4kSV5g4Dsvpn6MzW7FExaq2EkvverSLjQXcNc+6bKKtoy
+	XxcllSyZ+V7edM65UBTv09Yhg3V1KYx1lxcmjqqR+CDO5ZEFQHWH+N1a/+UGiHumsuLmTt
+	ctIrIlDk/wLwqOwjhdBQgfX+DCCOWFs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795683936;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e5FM9vVnkaYr5oiSZF4qGOvuP/i123ZW74JzPvuX6pg=;
+	b=aKDUHDexsKNu7mk1FQDN4+wzC9n5YJr8g3hfI3/jNWMmzqqRUZXH69IyO/q+qyDg6RgAIb
+	u9PtFijfU1TL7JCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 73C03134C3;
+	Thu, 26 Nov 2026 09:05:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id /qoxFGD2B2ufTAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 26 Nov 2026 09:05:36 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id F321627D9A; Thu, 26 Nov 2026 10:05:35 +0100 (CET)
+Date: Thu, 26 Nov 2026 10:05:35 +0100
+From: Jan Kara <jack@suse.cz>
+To: "Harry Yoo (Meta)" <harry@kernel.org>
+Cc: Vlastimil Babka <vbabka@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, 
+	David Rientjes <rientjes@google.com>, Muchun Song <muchun.song@linux.dev>, Hao Ge <hao.ge@linux.dev>, 
+	Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	kernel-team@meta.com, "Liam R. Howlett" <liam@infradead.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Andrew Ballance <andrewjballance@gmail.com>, 
+	Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Jiayuan Chen <jiayuan.chen@linux.dev>, netdev@vger.kernel.org, 
+	Kees Cook <kees@kernel.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Robin Murphy <robin.murphy@arm.com>, 
+	"Joerg Roedel (AMD)" <joro@8bytes.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Casey Schaufler <casey@schaufler-ca.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	linux-security-module@vger.kernel.org, Richard Weinberger <richard@nod.at>, 
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	Eric Dumazet <edumazet@kernel.org>
+Subject: Re: [PATCH slab/for-next v2 04/14] fs/buffer: specify
+ SLAB_MAY_ACCOUNT for buffer_head cache
+Message-ID: <gmnosp2u47xewnszzrx4asmldxsyjtejyrbrng2ckrcfedymeu@evhwupv3iwhf>
+References: <20261125-memalloc-prof-dont-waste-slabobj-ext-metadata-v2-0-7c680f02a734@kernel.org>
+ <20261125-memalloc-prof-dont-waste-slabobj-ext-metadata-v2-4-7c680f02a734@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,32 +135,88 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH vfs.bpf] bpf: Read security.bpf xattrs without caller's
- permission
-To: bot+bpf-ci@kernel.org, brauner@kernel.org
-Cc: ast@kernel.org, kpsingh@kernel.org, dwindsor@gmail.com,
- bpf@vger.kernel.org, linux-fsdevel@vger.kernel.org, song@kernel.org,
- andrii@kernel.org, martin.lau@kernel.org, eddyz87@gmail.com,
- yonghong.song@linux.dev, mason@kernel.org, ihor.solodrai@linux.dev
-References: <20261125211928.3481451-1-daniel@iogearbox.net>
- <6262e5090a78f9ff8760d62be7c78067f4daa988ab01fc6659c5f60ece1d7d1c@mail.kernel.org>
-Content-Language: en-US
-From: Daniel Borkmann <daniel@iogearbox.net>
-In-Reply-To: <6262e5090a78f9ff8760d62be7c78067f4daa988ab01fc6659c5f60ece1d7d1c@mail.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: Clear (ClamAV 1.4.6/28194/Wed Nov 25 07:26:59 2026)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261125-memalloc-prof-dont-waste-slabobj-ext-metadata-v2-4-7c680f02a734@kernel.org>
+X-Spamd-Result: default: False [-13.01 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_CC(0.00)[kernel.org,linux-foundation.org,google.com,cmpxchg.org,linux.dev,gentwo.org,suse.de,kvack.org,vger.kernel.org,meta.com,infradead.org,gmail.com,zeniv.linux.org.uk,suse.cz,davemloft.net,linutronix.de,arm.com,linux.ibm.com,ellerman.id.au,8bytes.org,schaufler-ca.com,paul-moore.com,namei.org,hallyn.com,nod.at,cambridgegreys.com,sipsolutions.net];
+	R_RATELIMIT(0.00)[to_ip_from(RLpgg91yox7uqmadgh65wjkwtw)];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	RCPT_COUNT_GT_50(0.00)[51];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim,suse.com:email]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -13.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: A246D21D8F
 
-On 11/25/26 10:58 PM, bot+bpf-ci@kernel.org wrote:
->> bpf: Read security.bpf xattrs without caller's permission
+On Wed 25-11-26 21:37:05, Harry Yoo (Meta) wrote:
+> Buffer heads are allocated with __GFP_ACCOUNT to charge them to the
+> memcg of the folio they are attached to. Specify SLAB_MAY_ACCOUNT when
+> the object may be charged to a memcg. __GFP_ACCOUNT without
+> SLAB_MAY_ACCOUNT will not be allowed.
 > 
-> TL;DR: Skipping inode_permission() for security.bpf. xattrs may let a
-> sleepable BPF LSM program send FUSE_GETXATTR to an untrusted server for
-> disallowed tasks, possibly hanging root's statfs in D state. Should FUSE still
-> be refused?
-Hm, fuse was not on my radar, I'll take a look how this could potentially
-be solved.
+> Path: ext4_getblk() -> folio_alloc_buffers(GFP_NOFS | __GFP_ACCOUNT)
+>   -> alloc_buffer_head() -> kmem_cache_zalloc(bh_cachep)
+> 
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: linux-fsdevel@vger.kernel.org
+> Signed-off-by: Harry Yoo (Meta) <harry@kernel.org>
 
-Thanks,
-Daniel
+Looks good. Feel free to add:
+
+Acked-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  fs/buffer.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/buffer.c b/fs/buffer.c
+> index f951559e7d32..4c24f4546106 100644
+> --- a/fs/buffer.c
+> +++ b/fs/buffer.c
+> @@ -3006,7 +3006,7 @@ void __init buffer_init(void)
+>  	int ret;
+>  
+>  	bh_cachep = KMEM_CACHE(buffer_head,
+> -				SLAB_RECLAIM_ACCOUNT|SLAB_PANIC);
+> +				SLAB_RECLAIM_ACCOUNT|SLAB_PANIC|SLAB_MAY_ACCOUNT);
+>  	/*
+>  	 * Limit the bh occupancy to 10% of ZONE_NORMAL
+>  	 */
+> 
+> -- 
+> 2.54.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
