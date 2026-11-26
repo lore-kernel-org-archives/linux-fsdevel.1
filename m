@@ -1,100 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.231.201
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795716535;
-	b=gOC/nDhGP3mZbDr2b6VbKYZ7C5A0liitlKK4vj5ic1iMBfDVSGISSM5r0JTc2U1KV5rQ
-	 RHKvvK6p0ej272P8C1xSWInw0K9GYun4xW3GTiVvseVgFywrTlxnFoWJN0zTD6NF2RvQS
-	 i6BQG1kWmz4KjxOlcpVPXxTujr2Woi92TnIB5J+koNetH081eRn4y8jWL8itWB4oh48Ii
-	 Hz4REVi5DjULDaYVz6X3VWK0RPlYFRv1F2OQQqSE2Rw8kn92BaS1H7z6hDg4ZDU1cHmAb
-	 1CDZBWJl/gjHtskmx7IBtTVNLYcAqyTxPsnfam+2zq6dPlpg69t222nO+inostw5AkA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795716535;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=GPDH5iymDD1XKiojTuDMjg7ZZbxBabRJM2yU5TRq6AU=;
-	b=ysOJIjoWQskXuQkcODigYYkeZSwINijEABcOGRtexfmK8DNy7N+aAQRQbwlIE7vCQT27
-	 eVUklME946HxpXcMD6YZMR6bR3PXXY/f6pBQvdQIsJnDB0D/Ai2gGRkoQwz7ejidDm/md
-	 aale0z9cD2IQGa3+T82nL0O1kpumWPOQqb7I8pqGFIY6pNDjFXq6pY7AGfyvhB4dCt8J4
-	 IN3hB6R/zlhXiur3t/xRrA999SgLhqaxhdmgMWNBGi7ocm621f7adLR77saeRcEhR7Bvp
-	 7N+ZaAzNkpK7MH02hfg5WXIGuggs2P3r7kQD6ra408iKUsprJ67l/3wfKDsA4Kr2PJA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=M5y2t0eW;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.231.201
-Received: from mail-oi2-f9.google.com (mail-oi2-f9.google.com [74.125.231.201])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795719821;
+	b=AyM9ndSR786/BvzfIiQQEYQHSGRDH675xEKXJsAbCftWnRwT9vSOWe+vtwyeg8+YwB0V
+	 wc+HylZxBnM9VNC3t4hm8AF0n4rsRxDGA6UIj59QuPdoafuHTjbCdUCLVvUPpk7nJa+h8
+	 YJH7gTmk1QXocFL09PNDWjCykvTK6iPMSrFL2B2yj7Y+15kiUMdCrY+6oniQU0o9qh3GV
+	 /XYsr5N8RpPPtILrq53T/LH5fSqq/4B187eX7pop9nXtIlYbKzpToEczfMS2xUV+ZuL87
+	 aBv38q+jUU97J8gC+ASjXeUcZkST48K9TJEHxcpx05CF+1Wd9KAM1zyNSzvdW1wVcxg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795719821;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Scanned-By;
+	bh=1NLmpkwpRGemCjNAmExXJ2Jf4+Gcuw2/4O4W0/7nAKA=;
+	b=eIgOTruGX5NdZijyRqV4BRcSRPxMvJUp0goYy2otS+ooRMoyYdBTSsIqRREKptVtiPAd
+	 T8yIu9OaekHExq83+0PC6Am7HyeG8o+73oNHWoxInpu+2hyU/2x0OP4N/dsep6ifhqvo9
+	 BcF5KczruVdhKvBD184XrOjjat/0WmM4GxTvbi3xOtqsSrw9ovaBMf01HqoH8BRaT3Adv
+	 eZeYSKjRInlpjF3JoeGexYHO7zo6rIF6Ug9mIa+C0nrbiUc0j8K21Ic27DHg89lRuAiH/
+	 4hP03HEkSUe9q+ny6ipoStRbZoYpJcvt0LGptMQxXnyZMItzrZsYD5lgzNxufrkjXMw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=b23KqZE+;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D300F606A31E
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 18:08:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D300F606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36045606A31C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 19:03:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36045606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=M5y2t0eW
-Received: by mail-oi2-f9.google.com with SMTP id 5614622812f47-4f61e12e8e0so946869b6e.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 10:08:54 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795716533; cv=none;
-        d=google.com; s=arc-20260327;
-        b=UpC05mkY8aFk7TnXYfAfWVRSeRpgflCcnocYEB8wlrlBbkhNdGLFpR0c9Oi+tksm5Y
-         4WgLDG1pv6afmMhZFuonn62jkcJla9IlmrGMgDhUSX4H/vYIDDxp/Pqut9jUzaQ2oP2E
-         TfYth/VwSvRLJ8lBOaYD+d1acN/hVq0wVmhr4yK6gBMYmgDLlYQNeYoQquLM+ZOTeyBB
-         tJ/h4KPNEKqDMnulfzs+jbu57AuKkj+mcpvRtD+XWQMugVW8XCHTTWW8FPjh0AciY5CW
-         quB1K6lqgnO4p3UXoYg3aHQLOgUPyHEMtY0xpGgma1uDklCEqB5GX5lB40ydwKQGfjuE
-         ar+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=GPDH5iymDD1XKiojTuDMjg7ZZbxBabRJM2yU5TRq6AU=;
-        fh=Xm1AzT4X/MUJWR+6HeQMik8NB31SuVAhcse1OilJ0W0=;
-        b=kIYEsa5LC05G9+CHQeEacRnhh0fMoTlER1opkOD7q9U+oq74XF0vk3z5CmChDV66/w
-         XH/kH9wa0yPATAOViyKhVQzsSTaMlz89hFpRlKiTjOTi6kow8FW/sIy32Epn1wpU2lXh
-         voBmaQU5FAJAF47KfvCo8ByMPwccSwkfDc8KvAPbLu2afDa2kSv/lMp9JlWGUReNdkqF
-         SDE8tri6ADH1hTXXvs2nRNjnIo0dMPpiJxXbz4XnPehbhvmw7PosWUZUKasU2RNuK9ht
-         DYCkm35eqZLS4XT6Ee+s/T2IYFaIBzeSGRnZoXHYwea2ooc1Nibti8BkZhNrKWXj9WHo
-         zzyw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795716533; x=1796321333; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GPDH5iymDD1XKiojTuDMjg7ZZbxBabRJM2yU5TRq6AU=;
-        b=M5y2t0eW699s8skqtUYN0i50s4bbAZ/h5qrTZoU0S3m81uLm32Ezh8TD3xFGtlERN4
-         Lrx8DZkcjPtPC7qYdoBmulkkS9yTt6kKgp1sx7xxUdEU4BXb+rOYD+u6leFPG2WFIGJ6
-         MFlKpGiFojNKsRS/MXkZs3J7nxs4RbI59qRdJ8yMwCCt7vj3ZE8sYKQxW+CIZMAfgyCJ
-         AwnvyRu5lig0WXf9/QiPpD5sgmOaIia1PTW4UIpsx6hl4beFTdQBiLvaM6aHQ3YIOLQY
-         ZMKlDbNbCJ7E9K2cvPbLYmPHh4l7b7Yvl82BmQAVbuQJZJUn5wVBm1nHK7cwRWdE1NeI
-         Z0rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795716533; x=1796321333;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=GPDH5iymDD1XKiojTuDMjg7ZZbxBabRJM2yU5TRq6AU=;
-        b=qZMtR6PAOwL57j8srGKLhRSh5fZaRhgLF34jolvXprVU4nCmQ69CaOlJ6zsw2mFjuV
-         ykHOfQniK8tUBNB+Qat2IN1gH+P+YRCANQcaktFZ8ZAqvK9jQCZMPqW7tShksJyyD9+O
-         85wIzoQ1OD7x3/6UcIhdxmJ4YKpKFCHMtPrLtKK2mjhGHd46O4HOk37zVCKS9pzab+d3
-         beMklB9PoixQ+tADHvko7JRsujT24SD+S0X82BcQZZh7elnem9RfxPc4V4hCCTCLktsK
-         VLrPBzna2EORiSvKjBaKtGh63bQZSXKLtJDopngJPzX7hTs+8jvYS7gkozETDMDiIxk8
-         5U3g==
-X-Forwarded-Encrypted: i=1; AL+hErEitWFi7mc1UFWYsT7qdy1dOdzr+I+pGYxyaLUMuHAJI1FzeMsM5urtrNDfr3bQpbRibH3JexKHI0xdJzgW@vger.kernel.org
-X-Gm-Message-State: APuU4Z+mRrzWos6a/yVWPglr3J1LV9cuFwymjiLzwdDUQV5ZxUqrTFZo
-	Yz8rRoSXA0v8iX2PncWhEqtbJyID6r702pu+eiuFlaSZvb+0gc+dYep+PJefT+2VQquca0UFWXI
-	w/q6TYx0tEZ6uLaPMqa9MkAQX5mIFzDk=
-X-Gm-Gg: AZFdTZeG7jHU2M9JQTp+QC6mlGNoOmrnJNVghwc4Hq+ASvw0bEb7W82ueLczWPqFUin
-	cwut7X+oQ8XIwrZCxKOk/LMaCkfhJPFWJQ3cG+0GksRVS0n3dvI+urKsnjtiqOUWh15baJ2T9ro
-	6KgBuETsPbqtsoZftgnKOsq5E0UFFzoDcYfrueV2MI4ifsdTbeF8hm+YySwQsf9Jcf+o8xpMD9a
-	aItFAl50poZsiEokeCMIM+eFHRiOc60SvyehSke/RSh2Mauhi8Cl90qYKaVcfoW8l8ZJnZ/TDIu
-	zQFl5xqI9dSw40g9oGry9TEYgvNUqz/GHakp5cK2uaYvzrFq3T32APp5fQFoMn7P+ykm8L53WM2
-	33vZ7AOCNbkqqHrGtzTG4kWp4FCrkCSdkaFiiUa1dkJMHl6y8+6QseCuWNM89LQgRoG8RC73Nu+
-	1ZVTVO5wFWSxnxJficn8RpM5OU9lrs6JmJoiI70KxA3/YK+bFLrDS+
-X-Received: by 2002:a05:6808:16a7:b0:567:c40e:c79e with SMTP id
- 5614622812f47-57a0a7199a1mr21127806b6e.24.1795716533448; Thu, 26 Nov 2026
- 10:08:53 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=b23KqZE+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1795719820;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1NLmpkwpRGemCjNAmExXJ2Jf4+Gcuw2/4O4W0/7nAKA=;
+	b=b23KqZE+U+uxh8dYiPa/vdvn9DKRv/7z8KBCwTcRjWR0/fRIq0OStF6km5L9+bDNvo32L2
+	I9KB54OX2XCW+T2mcGFvHtJXU5OQe+D+pwOIL54hpG63E++G/UMYErW1KZ4BMFlW/sk8Je
+	0RXMxObDqN/0OaRKGDoUP5RO0CBC2T0=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-114-bEqfSAbqPkqa_ZW734XZPw-1; Thu,
+ 26 Nov 2026 19:03:35 +0000
+X-MC-Unique: bEqfSAbqPkqa_ZW734XZPw-1
+X-Mimecast-MFC-AGG-ID: bEqfSAbqPkqa_ZW734XZPw_1795719814
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A7D7B1800557;
+	Thu, 26 Nov 2026 19:03:33 +0000 (UTC)
+Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 6A7D618011E3;
+	Thu, 26 Nov 2026 19:03:30 +0000 (UTC)
+Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
+	oleg@redhat.com; Thu, 26 Nov 2026 20:03:33 +0100 (CET)
+Date: Thu, 26 Nov 2026 20:03:29 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: akpm@linux-foundation.org, brauner@kernel.org, adobriyan@gmail.com,
+	jannh@google.com, jack@suse.cz, sforshee@kernel.org,
+	me@black-desk.cn, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] proc: also check the opener's capability for
+ oom_score_adj and oom_adj
+Message-ID: <awiCgZ3cOW7BaIET@redhat.com>
+References: <20261126045222.20770-1-dennylin0707@gmail.com>
+ <awgPDmEbGpJsT_iS@redhat.com>
+ <CAGEkeHcK2rSWyQOp5a6Ub2SJ4wi8qK_Wz5uKH0WN+pLksL9jLw@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,35 +83,41 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261126045222.20770-1-dennylin0707@gmail.com> <awgPDmEbGpJsT_iS@redhat.com>
-In-Reply-To: <awgPDmEbGpJsT_iS@redhat.com>
-From: Hungyu Lin <dennylin0707@gmail.com>
-Date: Thu, 26 Nov 2026 10:08:42 -0800
-X-Gm-Features: Aa3M54o_0peM6H-aXQD7e8ntI65htstUEnHPSULUoro50ukRn0p_g-FggU8niJE
-Message-ID: <CAGEkeHcK2rSWyQOp5a6Ub2SJ4wi8qK_Wz5uKH0WN+pLksL9jLw@mail.gmail.com>
-Subject: Re: [PATCH] proc: also check the opener's capability for
- oom_score_adj and oom_adj
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: akpm@linux-foundation.org, brauner@kernel.org, adobriyan@gmail.com, 
-	jannh@google.com, jack@suse.cz, sforshee@kernel.org, me@black-desk.cn, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGEkeHcK2rSWyQOp5a6Ub2SJ4wi8qK_Wz5uKH0WN+pLksL9jLw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Thu, Nov 26, 2026 at 11:50:54AM +0100, Oleg Nesterov wrote:
-> do we really need to keep the old capable(CAP_SYS_RESOURCE) check?
+On 11/26, Hungyu Lin wrote:
 >
-> If a privileged opener of /proc/<pid>/oom_score_adj passes fd to
-> to unprivileged writer, we probably don't care?
+> On Thu, Nov 26, 2026 at 11:50:54AM +0100, Oleg Nesterov wrote:
+> > do we really need to keep the old capable(CAP_SYS_RESOURCE) check?
+> >
+> > If a privileged opener of /proc/<pid>/oom_score_adj passes fd to
+> > to unprivileged writer, we probably don't care?
+>
+> A write that needs CAP_SYS_RESOURCE still needs it from the writer,
+> even if the opener was privileged. For example, a task can open its
+> own oom_score_adj with CAP_SYS_RESOURCE and still have the fd after
+> dropping that capability and calling execve(). If we only check the
+> opener, it could then lower its value down to OOM_SCORE_ADJ_MIN, and
+> any children it creates afterward would inherit that.
 
-A write that needs CAP_SYS_RESOURCE still needs it from the writer,
-even if the opener was privileged. For example, a task can open its
-own oom_score_adj with CAP_SYS_RESOURCE and still have the fd after
-dropping that capability and calling execve(). If we only check the
-opener, it could then lower its value down to OOM_SCORE_ADJ_MIN, and
-any children it creates afterward would inherit that.
+And my question was: do we really care about this case?
 
-I kept capable() so that a fix for stable doesn't relax anything. Or do
-you think the opener check alone is enough?
+> I kept capable() so that a fix for stable doesn't relax anything.
 
-Thanks,
-Hungyu
+OK,
+
+> Or do
+> you think the opener check alone is enough?
+
+Well, let me quote the part of my email you have removed:
+
+	Just in case, I am not saying that the old check should be removed,
+	I am trying to understand.
+
+So no, I am not sure the opener check alone is enough.
+
+Oleg.
+
