@@ -1,59 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795691097;
-	b=RunnG10CjVuJrd2v8852JW2UdtWH0xxAn4gS0AJPwEWbmJFI90tEMlVvdzNgfHMbcyeh
-	 z9EWpbH8As+K+EZBW6Nl7sySvs4petp8twGt3CvCYqRxZoHEuLn8foXDAC80VzpJfyZfO
-	 CxZmt+muVaVoJDVWeOz4/6ur4U/5RvzREmpqiogiayK4fBGcM/oYQFpRDk9TaIKZos/uG
-	 YFbDbooq+RcoT8aw2YoWzvNi9HAGyTAZkEQFe1rX8Yp2L40htC/Vpqzv1Hz8dDczSO1IY
-	 A4r+JJwx0h8TYlQAAiWyNa5a2HrHxd2zaJJWcMKDXAIuyTtypdrFqnAERHCMzxmx2ew==
+	t=1795691833;
+	b=TUXPAcd8dwuj4nKeXhEwq9VZuLDgm+whqtHPBd2RzIhurXG1lg80ulBLSqP9uFDHIigW
+	 YWQi6xsUF1jtXgj8Q8XZGPdNEHbYnPQQg3LxzzPW5ykFZDYmNHun/7QqhmBrLg9aXZ6Az
+	 NsUXFCTa6ZedYLFcoBfieV0ug8oncesD3dd0deEK8mbuLC1mXL/hNxzqySyFfurAf6XlW
+	 n34IywEUFRCIL3vXMpwSjoC31M0ic7aNz1IlU5fHE/4GphVth3RiV5nKALA5zDwMFlO2V
+	 MsS4DLN8oaHjPz5CD3bhSELNLAa7R11b2c6tUg+fX+pegg5J03kE8UWHrVDaalhBvYA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795691097;
-	h=DMARC-Filter:Received:Received:X-Originating-IP:Date:
-	 X-CM-HeaderCharset:From:To:Cc:Subject:X-Priority:X-Mailer:In-Reply-To:
-	 References:Content-Transfer-Encoding:X-CM-CTRLDATA:Content-Type:
-	 MIME-Version:Message-ID:X-Coremail-Locale:X-CM-TRANSID:
-	 X-CM-SenderInfo:X-Coremail-Antispam;
-	bh=7WZrC5amErdAZUKH3zA00f9ty+dy4dlRNgU1aieOoRU=;
-	b=EV0EsMFzZGuwkK83jHawFIj/tiA+X1LzGmzTOdOcePtAkP+q0U7avZBKWvtrwv8esfqj
-	 B9S/GC3X38c1sXKhT6BKKfFWJ5K+6oWCTI9/g0qDL60LoSZncpM8/elDhdd/iSN9VFD0c
-	 C+gvkpSKcTwt+n419l9oFurKK4lOw+Q62N1BozBEfYcLcnIMIGqd4IHuI4Zzu51cwFR4Q
-	 54t2XDfuZkaGKI6UpcmxGIy5Ddd5jYbCXX7SHiVLTmr82gC6W+q50HsTEnKIusMiA37uy
-	 sBFBTllNdFVEJGfzYl4MMEnUznUvvTdGqEdDP38zMtTRqpWQ9ov96Lh6ZApD5AQWvrg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795691833;
+	h=DMARC-Filter:X-UUID:X-CTIC-Tags:X-CID-P-RULE:X-CID-O-INFO:X-CID-INFO:
+	 X-CID-META:X-CID-BVR:X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=yvpFVPS5nHjAd98a7zI89o00MRQ9zkYpBpD7SEFfFdo=;
+	b=Qupk+GPP31nEKR3g1ZQ+93JgQkzyASRv0hXORxqMF8ZQAetS4QTn4Zud51UYOJSQD2s/
+	 jpP19+DVAHZjTlb5dIZdJEFNEJR/s1JS1NOpyy7GNyhTZRa9avMY4OMqY3aJf06KAevHs
+	 wujP+a5mySzmTdwqaFTfgopP6GHO8a3yjLRGGi6JnqBwvZbH0HydXbew94jPmLE96ghQn
+	 ad4M66VLetZHGcbyLm++CuiAypiB7xiAwJIPtdRSzXY+C/FLn0DjPo/ME98AnZXE8UuOV
+	 Y2yeDOg3N4CXrehdjdPmCU4L/v+VgULN50WRACYu/ileP/GoCCDFDE5Hp4UlIbmwOjg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=phytium.com.cn;
-	spf=pass smtp.mailfrom=phytium.com.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60C1D606A31C;
-	Thu, 26 Nov 2026 11:04:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60C1D606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=phytium.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=phytium.com.cn
-Received: from prodtpl.icoremail.net (unknown [10.12.1.20])
-	by hzbj-icmmx-7 (Coremail) with UTF8SMTP id AQAAfwBXXqZTEghrctX5Bg--.11306S2;
-	Thu, 26 Nov 2026 19:04:51 +0800 (CST)
-Received: from yangyizhen3198$phytium.com.cn ( [218.76.62.144] ) by
- ajax-webmail-mail (Coremail) ; Thu, 26 Nov 2026 19:04:50 +0800 (GMT+08:00)
-Date: Thu, 26 Nov 2026 19:04:50 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: =?UTF-8?B?5p2o6L2255SE?= <yangyizhen3198@phytium.com.cn>
-To: "Christian Brauner" <brauner@kernel.org>
-Cc: "Jens Axboe" <axboe@kernel.dk>,
-	"Alexander Viro" <viro@zeniv.linux.org.uk>,
-	"Jan Kara" <jack@suse.cz>, linux-block@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: Re: [RFC PATCH 0/1] block: long udev open waits during cache
- teardown
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2024.3-cmXT6 build
- 20250512(e7b47ee3) Copyright (c) 2002-2026 www.mailtech.cn OP_ICM_ICMVM
-In-Reply-To: <20261120-hassliebe-arena-kaufvertrag-3ac58fd0483a@brauner>
-References: <20261117105107.14236-1-yangyizhen3198@phytium.com.cn>
- <20261120-hassliebe-arena-kaufvertrag-3ac58fd0483a@brauner>
-Content-Transfer-Encoding: base64
-X-CM-CTRLDATA: Lc7SY2Zvb3Rlcl90eHQ9MTM4NzozODM=
-Content-Type: text/plain; charset=UTF-8
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC043606A329;
+	Thu, 26 Nov 2026 11:17:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC043606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: e71d7726e98a11f19a56ed5b684f684d-20261126
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_TXT, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_MAILER_MTBG, HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER
+	HR_SJ_NOR_SYM, HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_PRE_RE, HR_SJ_WS
+	HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NAME, IP_UNTRUSTED, SRC_UNTRUSTED
+	IP_UNFAMILIAR, SRC_UNFAMILIAR, SA_TRUSTED, SA_EXISTED, SN_TRUSTED
+	SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_BAD
+	CIE_GOOD_SPF, CIE_UNKNOWN, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU
+	AMN_GOOD, ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:7452ed6e-7e81-4150-93e8-1cd97ed03b34,IP:10,
+	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:10
+X-CID-INFO: VERSION:1.3.19,REQID:7452ed6e-7e81-4150-93e8-1cd97ed03b34,IP:10,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:10
+X-CID-META: VersionHash:7db8b62,CLOUDID:ecac7c148939b6f01b1df28134bf306d,BulkI
+	D:261126094937PW693UOR,BulkQuantity:4,SF:10|38|64|66|78|80|81|82|83|102|12
+	7|136|153|841|865|898,TC:nil,Content:0|15|52|99,EDM:-3|-100,IP:-2,URL:0,Fi
+	le:nil,RT:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,D
+	KR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: e71d7726e98a11f19a56ed5b684f684d-20261126
+X-User: lihongfu@kylinos.cn
+Received: from [192.168.43.7] [(114.246.238.190)] by mailgw.kylinos.cn
+	(envelope-from <lihongfu@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 1496325343; Thu, 26 Nov 2026 19:17:01 +0800
+Message-ID: <5dc5ea66-ba09-48d3-8c72-bcc5c141b6d9@kylinos.cn>
+Date: Thu, 26 Nov 2026 19:16:54 +0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,51 +75,135 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Message-ID: <4effe3b8.6085.1a217879319.Coremail.yangyizhen3198@phytium.com.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:AQAAf8Dw8nVSEghrOBUAAQ--.52298W
-X-CM-SenderInfo: 51dqw5pl2kv0atrzmqxsk13x1xpou0fpof0/1tbiAQALDWsHN0wEe
-	QABss
-Authentication-Results: hzbj-icmmx-7; spf=neutral smtp.mail=yangyizhen
-	3198@phytium.com.cn;
-X-Coremail-Antispam: 1Uk129KBjvJXoWxZw4xXr18Zr4rAF1xtrWkWFg_yoWrXryUp3
-	W8t3W8Aw1UGw17G3ySgw18ZryUC3yUGr47Ja10y3sFywnrJrnIqrnxKFW8J3WjgFyYyrWD
-	tw17Z398Xr1UtrUanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-	DUYxn0WfASr-VFAU7a7-sFnT9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUU
-	UUUUU
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/21] mm/hugetlb: charge the copy made at fork to the
+ parent
+To: "David Hildenbrand (Arm)" <david@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jinmeng Zhou <jinmengzhou22@gmail.com>, Hongfu Li <lihongfu@kylinos.cn>,
+ Andrea Arcangeli <aarcange@redhat.com>,
+ Mike Kravetz <mike.kravetz@oracle.com>,
+ Naoya Horiguchi <nao.horiguchi@gmail.com>, Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Dave Airlie
+ <airlied@redhat.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Mike Rapoport <rppt@kernel.org>,
+ Mel Gorman <mel@csn.ul.ie>, Dave McCracken <dave.mccracken@oracle.com>,
+ Andy Whitcroft <apw@shadowen.org>, Adam Litke <agl@us.ibm.com>,
+ Lorenzo Stoakes <ljs@kernel.org>, Rik van Riel <riel@surriel.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>,
+ Lance Yang <lance.yang@linux.dev>, James Houghton <jthoughton@google.com>,
+ Yang Shi <shy828301@gmail.com>, Suren Baghdasaryan <surenb@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Pedro Falcato <pfalcato@suse.de>,
+ Gregory Price <gourry@gourry.net>, Zi Yan <ziy@nvidia.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Matthew Brost <matthew.brost@intel.com>, Byungchul Park <byungchul@sk.com>,
+ Alistair Popple <apopple@nvidia.com>, Wanpeng Li
+ <liwanp@linux.vnet.ibm.com>, Andi Kleen <ak@linux.intel.com>,
+ Kenneth W Chen <kenneth.w.chen@intel.com>, Hugh Dickins <hugh@veritas.com>,
+ Michal Hocko <mhocko@suse.com>, David Rientjes <rientjes@google.com>,
+ Joern Engel <joern@logfs.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Michal Hocko <mhocko@suse.cz>,
+ "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>,
+ KAMEZAWA Hiroyuki <kamezawa.hiroyu@jp.fujitsu.com>,
+ "Kirill A. Shutemov" <kirill@shutemov.name>,
+ Sasha Levin <sasha.levin@oracle.com>, Guillaume Morin
+ <guillaume@morinfr.org>, Wanpeng Li <liwp.linux@gmail.com>
+Cc: linux-mm@kvack.org, Jason Gunthorpe <jgg@ziepe.ca>,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@osdl.org>, linux-doc@vger.kernel.org,
+ Chris Mason <mason@kernel.org>, Hongfu Li <hongfu.li@linux.dev>
+References: <20261125-hugetlb_fixes_2-v1-0-db27fd2f71a8@kernel.org>
+ <20261125-hugetlb_fixes_2-v1-1-db27fd2f71a8@kernel.org>
+From: Hongfu Li <lihongfu@kylinos.cn>
+In-Reply-To: <20261125-hugetlb_fixes_2-v1-1-db27fd2f71a8@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-SGkgQ2hyaXN0aWFuLAoKPiBJZiB0aGF0IHN0aWxsIHJlcHJvZHVjZXMgb24gbWFpbmxpbmUgaXQn
-cyBhIHF1ZXN0aW9uCj4gYWJvdXQgdGhlIGJkZXYgcmVsZWFzZSBsb2NraW5nLgoKSSByZXByb2R1
-Y2VkIHRoZSBsb25nIHVkZXYgb3BlbiB3YWl0IG9uIHVwc3RyZWFtIExpbnV4IHY2LjYgYW5kIG9u
-CkxpbnV4IHY3LjAuMTQuIE9uIGJvdGgga2VybmVscywgdWRldiBibG9ja2VkIHdoaWxlIHRyeWlu
-ZyB0byBvcGVuIHRoZQpkZXZpY2UgYXMgbWtmcy5udGZzIHdhcyBjbG9zaW5nIGl0IGFmdGVyIGEg
-ZnVsbCBmb3JtYXQuCgpUaGFua3MgZm9yIHBvaW50aW5nIG91dCB0aGUgaW1wYWN0IG9uIG90aGVy
-IG9wZW5lcnMuIEkgYWdyZWUgdGhhdCBhCnVkZXYgcHJvYmUgY2xvc2luZyBpdHMgb3duIGZpbGUg
-Y291bGQgdHJpZ2dlciB3cml0ZWJhY2sgYW5kIGV2aWN0CmNhY2hlIHRoYXQgYW5vdGhlciBvcGVu
-ZXIgaXMgc3RpbGwgdXNpbmcuIEknbGwgZHJvcCB0aGUgX19mcHV0KCkKcHJvcG9zYWwuCgpJJ2Qg
-bGlrZSB0byB1bmRlcnN0YW5kIHRoZSBsb2NraW5nIHJlcXVpcmVtZW50cyBpbiB0aGUgYmxvY2sg
-ZGV2aWNlCmxhc3QtY2xvc2UgcGF0aC4gSW4gcGFydGljdWxhciwgd2h5IGRvZXMga2lsbF9iZGV2
-KCkgbmVlZCB0byBjb21wbGV0ZQp3aGlsZSBvcGVuX211dGV4IGlzIGhlbGQ/IFdoYXQgc3RhdGUg
-YW5kIG9yZGVyaW5nIHJlcXVpcmVtZW50cyBkb2VzCnRoZSBsb2NrIHByb3RlY3QgZHVyaW5nIHRo
-aXMgY2xlYW51cD8KCkknbSBhc2tpbmcgYmVjYXVzZSB0aGUgZGV2aWNlIG1hcHBpbmcgY2FuIHN0
-aWxsIGNvbnRhaW4gYSBsYXJnZQphbW91bnQgb2YgY2xlYW4gcGFnZSBjYWNoZSBhZnRlciB0aGUg
-ZWFybHkgc3luYy4gSW4gbXkgdGVzdHMgb24gdGhlCnZlbmRvciA2LjYga2VybmVsLCBhYm91dCA4
-MDUgR2lCIHJlbWFpbmVkIGF0IGZpbmFsIHRlYXJkb3duLCBhbmQKdGhlIHRydW5jYXRlIHRvb2sg
-cm91Z2hseSBzZXZlbiBtaW51dGVzIHdoaWxlIHVkZXYgd2FzIHdhaXRpbmcuCkNvdWxkIHRoZSBy
-ZWxlYXNlIHBhdGggYmUgY2hhbmdlZCB0byByZWR1Y2UgdGhlIHRpbWUgb3Blbl9tdXRleCBpcwpo
-ZWxkIHdoaWxlIHByZXNlcnZpbmcgdGhvc2UgcmVxdWlyZW1lbnRzPwoKPiBBbmQgbWtmcyBjYW4g
-anVzdCBmc3luYygpIGFuZCBQT1NJWF9GQURWX0RPTlRORUVEIHRoZSBkZXZpY2UgaXRzZWxmCj4g
-YmVmb3JlIGl0IGNsb3NlcyBpdC4KCkkndmUgc3VibWl0dGVkIGEgcGF0Y2ggdG8gdGhlIG50ZnMt
-M2cgcHJvamVjdCB0aGF0IGNhbGxzIGZzeW5jKCkKYW5kIHRoZW4gcG9zaXhfZmFkdmlzZSguLi4s
-IFBPU0lYX0ZBRFZfRE9OVE5FRUQpIGluIHVzZXJzcGFjZQpiZWZvcmUgY2xvc2luZyB0aGUgZGV2
-aWNlLgoKVGhhbmtzLApFdGhhbg0KDQrkv6Hmga/lronlhajlo7DmmI7vvJrmnKzpgq7ku7bljIXl
-kKvkv6Hmga/lvZLlj5Hku7bkurrmiYDlnKjnu4Tnu4fmiYDmnIks5Y+R5Lu25Lq65omA5Zyo57uE
-57uH5a+56K+l6YKu5Lu25oul5pyJ5omA5pyJ5p2D5Yip44CC6K+35o6l5pS26ICF5rOo5oSP5L+d
-5a+GLOacque7j+WPkeS7tuS6uuS5pumdouiuuOWPryzkuI3lvpflkJHku7vkvZXnrKzkuInmlrnn
-u4Tnu4flkozkuKrkurrpgI/pnLLmnKzpgq7ku7bmiYDlkKvkv6Hmga/jgIINCkluZm9ybWF0aW9u
-IFNlY3VyaXR5IE5vdGljZTogVGhlIGluZm9ybWF0aW9uIGNvbnRhaW5lZCBpbiB0aGlzIG1haWwg
-aXMgc29sZWx5IHByb3BlcnR5IG9mIHRoZSBzZW5kZXIncyBvcmdhbml6YXRpb24uVGhpcyBtYWls
-IGNvbW11bmljYXRpb24gaXMgY29uZmlkZW50aWFsLlJlY2lwaWVudHMgbmFtZWQgYWJvdmUgYXJl
-IG9ibGlnYXRlZCB0byBtYWludGFpbiBzZWNyZWN5IGFuZCBhcmUgbm90IHBlcm1pdHRlZCB0byBk
-aXNjbG9zZSB0aGUgY29udGVudHMgb2YgdGhpcyBjb21tdW5pY2F0aW9uIHRvIG90aGVycy4=
 
+在 11/26/26 06:32, David Hildenbrand (Arm) 写道:
+> When copying page tables during fork(), the child is not yet assigned to
+> the right memcg. When copying possibly pinned anon hugetlb folios, we
+> must charge them to the parent's memcg, otherwise we can end up
+> allocating more hugetlb folios than allowed.
+>
+> Let's fix it by charging the copy to the parent's mm, like we do when
+> copying small folios in copy_present_page(), introducing a new helper
+> function alloc_hugetlb_folio_for_fork().
+>
+> This is a hotfix for v7.4.
+>
+> Fixes: c2deb1356d82 ("mm/hugetlb: charge folios to the target mm's memcg")
+> Reported-by: Chris Mason <mason@kernel.org>
+> Acked-by: Michal Hocko <mhocko@suse.com>
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+
+Tested-by: Hongfu Li <lihongfu@kylinos.cn>
+Reviewed-by: Hongfu Li <lihongfu@kylinos.cn>
+
+> ---
+>   mm/hugetlb.c | 26 ++++++++++++++++++++++----
+>   1 file changed, 22 insertions(+), 4 deletions(-)
+>
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index d0e66fb306221..f46c85fc0cd0b 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -3103,8 +3103,9 @@ typedef enum {
+>    * allocation).  New call sites should (probably) never set it to true!!
+>    * When it's set, the allocation will bypass all vma level reservations.
+>    */
+> -struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+> -				    unsigned long addr, bool cow_from_owner)
+> +static struct folio *__alloc_hugetlb_folio(struct vm_area_struct *vma,
+> +		unsigned long addr, bool cow_from_owner,
+> +		struct mm_struct *memcg_mm)
+>   {
+>   	struct hugepage_subpool *spool = subpool_vma(vma);
+>   	struct hstate *h = hstate_vma(vma);
+> @@ -3187,7 +3188,7 @@ struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+>   		.nodemask = nodemask,
+>   	};
+>   
+> -	folio = hugetlb_alloc_folio(h, &mpoli, vma->vm_mm, alloc_flags);
+> +	folio = hugetlb_alloc_folio(h, &mpoli, memcg_mm, alloc_flags);
+>   
+>   	mpol_cond_put(mpol);
+>   
+> @@ -3249,6 +3250,23 @@ struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+>   	return ERR_PTR(ret);
+>   }
+>   
+> +struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+> +		unsigned long addr, bool cow_from_owner)
+> +{
+> +	return __alloc_hugetlb_folio(vma, addr, cow_from_owner, vma->vm_mm);
+> +}
+> +
+> +/*
+> + * Allocate a folio for a copy in the child VMA during fork(), charged to the
+> + * parent's mm: the child is not in its memory cgroup yet.
+> + */
+> +static struct folio *alloc_hugetlb_folio_for_fork(struct vm_area_struct *dst_vma,
+> +		unsigned long addr, struct mm_struct *src_mm)
+> +{
+> +	return __alloc_hugetlb_folio(dst_vma, addr, /* cow_from_owner = */ false,
+> +				     src_mm);
+> +}
+> +
+>   static __init void *alloc_bootmem(struct hstate *h, int nid, bool node_exact)
+>   {
+>   	if (hugetlb_early_cma(h))
+> @@ -5110,7 +5128,7 @@ int copy_hugetlb_page_range(struct mm_struct *dst, struct mm_struct *src,
+>   				spin_unlock(src_ptl);
+>   				spin_unlock(dst_ptl);
+>   				/* Do not use reserve as it's private owned */
+> -				new_folio = alloc_hugetlb_folio(dst_vma, addr, false);
+> +				new_folio = alloc_hugetlb_folio_for_fork(dst_vma, addr, src);
+>   				if (IS_ERR(new_folio)) {
+>   					folio_put(pte_folio);
+>   					ret = PTR_ERR(new_folio);
+>
