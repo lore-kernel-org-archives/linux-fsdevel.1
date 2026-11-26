@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795731385;
-	b=0ls+PZRgC12zVV8eNlg/DEN03NI6BsV0um2Max7IZ7GXzG3momXYwLySih6a/WED4ivm
-	 PBpuuhR3N+ZbbR0IH+i+MnhzdF2L7I9WJX+5olkn+tRxHso0shUFekM8vDY6NMkf2rZpQ
-	 DG+NBFnhqiXYfFCiNl3kuiOXf3KDLCZbeyv/45KjhroKnJlzoCS9HF/L3pVylyL2GJnZL
-	 2cipqbRf1NJDXcZTVMmgw8def6AS7F1jbBnlVvLJ/BLNGNCxBaqRGYO659kv3yc7Gr7kU
-	 fbp+2/XtlP6l1LANaF4m0n8enFfENTDjb6W2Yn+yDoGYpfoaoAKM1XrKvyUm229bshg==
+	t=1795731386;
+	b=CE/w8iABU8DkVGdrY7F7nGsx4nuPukHc36CoyNFNVDniK39B+8qdZz1nvDJsRL774kx6
+	 0yTVVvMKgBxApXHxXKxc0/BtfKkRt69k3/xH4Z5zLB6rj9NwTRJZFxqhyA2fKhgSlTNln
+	 9N35WbPMgue3qWkZWkxZIt/C+l3P7NBjUrweqfTpBV4P0d+W3B3CMYM4WW8XEah8RxDl7
+	 4NktGbmu0NnSRCroo9VA64foNhdnZ7LJx/JU6RRTN+HRoRG3fkM87Xeoq8aC/J63aW42c
+	 p8EyrWvAe+OzN/Anim2CBNikt97QiRIjumR3uvAV1U7puvwF4fECY+zHh2oh3SZKumw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795731385;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795731386;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=ErbeD08bs4Z3UNugQ3Z8mBrOAvtRPq5qN/kakvJPnyw=;
-	b=ApUJwsVnKAf60SuLL0jct+vYAJ5AJ3nXOFtcYNk0D5QZBT+uNnDuWco063LsESJEDlFE
-	 Hn7jYR8SDldESnb1Ry/3o7oeqOJPpFFGc276YrLjeUjaiDko5R4F+2xPjnh/BidH/TE3V
-	 LpLvy5wtMrNutQnODVgo97ONy144HVtmNh4DJJckjYi5zZDnapQ3w72p2BdR43iW7gdy+
-	 NJsmVaC0s5OonRw4YErxKvLzhOBMQerWY2DdslLSZgo/FYcbnkYUOo1l2QPwe6ayN5MD4
-	 TlZTOHM0d0kK2md6NOlA46Pl4I05jjJ2SMkxPSovshXd/3sFDxs5qKIBiYe+WobgJCg==
+	bh=MtSVervo5/JHlDjB6bg5lOqeG0sDu+F/unUEYfN8lBk=;
+	b=Ziy94zjBhV0BI4Bx8M87D8Lf0rRZB/SF/1YsYPrEMQkI6G8zr0w2MU3CWd6AyffVeUTv
+	 pNZQAP1HsGmNbMF05PEC3nJOfejZp/Kp6/dNH26JCZK4sJzGP0wvs/vImkDTOrgdYtOsY
+	 tz9V2I3VO+n5NkFaA77LI7x286lZ8M/eAgyy0Fw+9YIfMZ3V82IXsrvhML6MSzExw2buK
+	 CBv3hYlCYEkxgZ6bCkL8sZ4dLEFEaVRT3DFZkWZtUBiWu01Z8FwVllnJahAAno6WXzKlB
+	 w/dFgtlNu5zWpXccffiq/GDqrY3i+BvGsLdNJfRQib5vgfpPRJIeysO2dweVDvPAeaA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eJTylhTO;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="GK/3jCC9";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F07D5606A31E;
-	Thu, 26 Nov 2026 22:16:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8F8606A335;
+	Thu, 26 Nov 2026 22:16:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eJTylhTO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 697A71F000C1;
-	Thu, 26 Nov 2026 22:16:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GK/3jCC9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13DD41F00893;
+	Thu, 26 Nov 2026 22:16:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795731384;
-	bh=ErbeD08bs4Z3UNugQ3Z8mBrOAvtRPq5qN/kakvJPnyw=;
+	s=k20260515; t=1795731386;
+	bh=MtSVervo5/JHlDjB6bg5lOqeG0sDu+F/unUEYfN8lBk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=eJTylhTO77uVmqweW9jeEH0CGedAWV81UB+7rnKgkODoSrTJi+kZMm3Em3Qz6mtrr
-	 3LeCudNBEeAygpLrhTcy0kpNYdT9LxUkYsqEw9CACZ8yjwbKJBJBZsYDQJkh9E1gzU
-	 k2k6yNtgEVjshTMqqu82U3nyrukF8EYLVpMJU91dGXhazGICjF9J/NaU7CWbJ/dfnF
-	 xQbNzXregjpkI6iJ5RUGu9hBK6MloWKqw264yw+7Ishw8Hh8SorRkzuYfeQn7N2atd
-	 0DcDYE4//DTPATzuKEPE3HEDexeM2ojVSYQhBJ+v7tt5gxGHhU3R+9TT5ByTAa3DoB
-	 UQUSlxWSzP4vA==
+	b=GK/3jCC92/+wLKZzqqGg5cAhFLS7rSTlWDT/gO0CtydFtdAN52fSqLW2103n6m+v4
+	 Ye9+ncLPimKnroqLr8ccIF+N4Hlhzsh/o/TXFNpJcepqBdmkdqxBEn6L2e//1P2Zok
+	 tKjcWK7DC9xVYlU+Fs/IC2jIGAFWsrqsG4A4MDa4+Q9hvY2Upw/TLJHpD/6s4dkF4O
+	 yiiqIXSXwXG8OfbqnvSPC0tGjiWLG4IPHgqy+pPlF9PEScN+8VrRE1XRIQ0TJ+Mtbt
+	 ECLj9fL3vdxyyi9WatojTwHDZVYeJv6m2od4/zZ71wY2ChtGGpCUUFTjvLQBrvbaEN
+	 4Y01EKOd6snfQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Thu, 26 Nov 2026 23:15:31 +0100
-Subject: [PATCH 1/4] fat: add fat_tmpfile()
+Date: Thu, 26 Nov 2026 23:15:32 +0100
+Subject: [PATCH 2/4] fat: support O_TMPFILE on vfat
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,101 +54,120 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261126-work-fat-tmpfile-v1-1-3bca7b2dbc20@kernel.org>
+Message-Id: <20261126-work-fat-tmpfile-v1-2-3bca7b2dbc20@kernel.org>
 References: <20261126-work-fat-tmpfile-v1-0-3bca7b2dbc20@kernel.org>
 In-Reply-To: <20261126-work-fat-tmpfile-v1-0-3bca7b2dbc20@kernel.org>
 To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
 Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-04696
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3010; i=brauner@kernel.org;
- h=from:subject:message-id; bh=+mMC9T7onXw87sBt6Lva92sikXQ9wG/iIHjOv5zVhG0=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRzrF+/RHRG0sLAXlXOuYXhSYeC5l79p7ln/rVCn4xYm
- e631nccOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYiO52RYc1suelLgnQ9lGNY
- 2vf/9RD/4ZYVPkfjecb+59cip4jfTmNk6JVt3fHc5OSPmNz6Ctcy4+jLx1RNj8uEhnrv3HFl6aQ
- 5bAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3568; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=J77JDwswhFlCLchQF/DL8MWhpzoh/IdIkAG2j78+VpQ=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRzrN+Q8iQl+P6D2ryCSXkihy6mVn46Kxz78t7zhRPSC
+ qYsvv7bv6OUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAi//0Y/gcERlg/uNn2W0o0
+ yLMkOu9n5PeXOxWTNN3Pnpq3ZULRiyCGP1wf/rk/vDCxak1Df9zr2UGa/o21RQ8uJ8u4Hny24s2
+ Fz/wA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-FAT already knows how to deal with a file that is open but has no
-directory entry. When an open file is unlinked fat_detach() resets
-i_pos to 0. From then on __fat_write_inode() has nothing to write, the
-data still goes to the file's cluster chain, and fat_evict_inode()
-frees the chain when the last reference is put.
+Currently, vfat doesn't implement ->link() since FAT has no hard links
+and link(2) fails with EPERM. But O_TMPFILE is only half a feature
+without linkat(). Worse, implementing just ->tmpfile() would break
+userspace that works fine right now. systemd's
+open_tmpfile_linkable_at() only falls back to a named temporary file if
+opening with O_TMPFILE fails. If the open succeeds link_tmpfile_at()
+calls linkat() and gives up if that fails. bootctl writes loader.conf,
+entries.srel and the boot loader binaries to the ESP like that.
 
-An O_TMPFILE is a file that starts out in that state. So build the
-inode like fat_build_inode() does, from a directory entry that only
-exists in memory, but don't attach it. fat_build_inode() itself can't
-be used for this. It would attach the inode at i_pos 0 and the next
-O_TMPFILE would find it through fat_iget().
+So add a ->link() that only gives an O_TMPFILE its first name.
+vfs_link() refuses to link an inode without links unless it is
+I_LINKABLE and it checks that under the inode lock. So an inode without
+links that makes it into vfat_link() is an O_TMPFILE that may be
+linked. Everything else still gets EPERM.
 
-The mode is ignored, just like in vfat_create() and msdos_create(). On
-FAT it's derived from the mount options.
+Linking does what vfat_rename() does for a new name: add the directory
+entry, attach the inode at its position and let the inode write fill in
+the start cluster and the size.
 
-Nothing uses fat_tmpfile() yet. vfat and msdos need a ->link() method
-first and wire it up in the following patches.
+If the system crashes while an O_TMPFILE is open its clusters stay
+allocated but no directory entry refers to them. The same thing happens
+to an open file that was unlinked. fsck.fat finds them as lost
+clusters, with -a it saves them to FSCKnnnn.REC files. ext2, minix and
+udf implement O_TMPFILE without orphan handling as well.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/fat/fat.h   |  2 ++
- fs/fat/inode.c | 31 +++++++++++++++++++++++++++++++
- 2 files changed, 33 insertions(+)
+ fs/fat/namei_vfat.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
-diff --git a/fs/fat/fat.h b/fs/fat/fat.h
-index a8a3ca4f465bf..cc706d89d1b96 100644
---- a/fs/fat/fat.h
-+++ b/fs/fat/fat.h
-@@ -423,6 +423,8 @@ extern void fat_detach(struct inode *inode);
- extern struct inode *fat_iget(struct super_block *sb, loff_t i_pos);
- extern struct inode *fat_build_inode(struct super_block *sb,
- 			struct msdos_dir_entry *de, loff_t i_pos);
-+int fat_tmpfile(const struct mnt_idmap *idmap, struct inode *dir,
-+		struct file *file, umode_t mode);
- extern int fat_fill_super(struct super_block *sb, struct fs_context *fc,
- 			  void (*setup)(struct super_block *));
- extern int fat_fill_inode(struct inode *inode, struct msdos_dir_entry *de);
-diff --git a/fs/fat/inode.c b/fs/fat/inode.c
-index 642e690632d83..1481ef1a3efac 100644
---- a/fs/fat/inode.c
-+++ b/fs/fat/inode.c
-@@ -626,6 +626,37 @@ struct inode *fat_build_inode(struct super_block *sb,
+diff --git a/fs/fat/namei_vfat.c b/fs/fat/namei_vfat.c
+index 791f2d7b85092..31b4a293c0493 100644
+--- a/fs/fat/namei_vfat.c
++++ b/fs/fat/namei_vfat.c
+@@ -938,6 +938,50 @@ static void vfat_update_dir_metadata(struct inode *dir, struct timespec64 *ts)
+ 		(void)sync_inode_metadata(dir, 1);
+ }
  
- EXPORT_SYMBOL_GPL(fat_build_inode);
- 
-+/* Like an open file that got unlinked: no directory entry, i_pos is 0. */
-+int fat_tmpfile(const struct mnt_idmap *idmap, struct inode *dir,
-+		struct file *file, umode_t mode)
++static int vfat_link(struct dentry *old_dentry, struct inode *dir,
++		     struct dentry *dentry)
 +{
++	struct inode *inode = d_inode(old_dentry);
 +	struct super_block *sb = dir->i_sb;
-+	struct msdos_dir_entry de = { .attr = ATTR_ARCH };
-+	struct timespec64 ts = current_time(dir);
-+	struct inode *inode;
-+	int err;
++	struct fat_slot_info sinfo;
++	struct timespec64 ts;
++	int err, err2;
 +
-+	fat_time_unix2fat(MSDOS_SB(sb), &ts, &de.time, &de.date, &de.ctime_cs);
-+	de.ctime = de.time;
-+	de.cdate = de.date;
-+	de.adate = de.date;
++	/* No hard links on FAT, only give an O_TMPFILE its first name. */
++	if (inode->i_nlink)
++		return -EPERM;
 +
-+	inode = new_inode(sb);
-+	if (!inode)
-+		return -ENOMEM;
-+	inode->i_ino = iunique(sb, MSDOS_ROOT_INO);
-+	inode_set_iversion(inode, 1);
-+	err = fat_fill_inode(inode, &de);
-+	if (err) {
-+		iput(inode);
-+		return err;
-+	}
-+	insert_inode_hash(inode);
-+	d_tmpfile(file, inode);
-+	return finish_open_simple(file, 0);
++	mutex_lock(&MSDOS_SB(sb)->s_lock);
++
++	ts = current_time(dir);
++	err = vfat_add_entry(dir, &dentry->d_name, 0, 0, &ts, &sinfo);
++	if (err)
++		goto out;
++	inode_inc_iversion(dir);
++
++	fat_attach(inode, sinfo.i_pos);
++	err = vfat_sync_ipos(dir, inode);
++	if (err)
++		goto out_detach;
++	brelse(sinfo.bh);
++
++	inc_nlink(inode);
++	ihold(inode);
++	d_instantiate(dentry, inode);
++	mutex_unlock(&MSDOS_SB(sb)->s_lock);
++	return 0;
++
++out_detach:
++	fat_detach(inode);
++	err2 = fat_remove_entries(dir, &sinfo);	/* and releases bh */
++	if (err2)
++		fat_msg(sb, KERN_WARNING,
++			"failed to roll back new entry (%d)", err2);
++out:
++	mutex_unlock(&MSDOS_SB(sb)->s_lock);
++	return err;
 +}
-+EXPORT_SYMBOL_GPL(fat_tmpfile);
 +
- static int __fat_write_inode(struct inode *inode);
- 
- static int fat_sync_inode_metadata(struct inode *inode,
+ static int vfat_rename(struct inode *old_dir, struct dentry *old_dentry,
+ 		       struct inode *new_dir, struct dentry *new_dentry)
+ {
+@@ -1190,10 +1234,12 @@ static int vfat_rename2(const struct mnt_idmap *idmap, struct inode *old_dir,
+ static const struct inode_operations vfat_dir_inode_operations = {
+ 	.create		= vfat_create,
+ 	.lookup		= vfat_lookup,
++	.link		= vfat_link,
+ 	.unlink		= vfat_unlink,
+ 	.mkdir		= vfat_mkdir,
+ 	.rmdir		= vfat_rmdir,
+ 	.rename		= vfat_rename2,
++	.tmpfile	= fat_tmpfile,
+ 	.setattr	= fat_setattr,
+ 	.getattr	= fat_getattr,
+ 	.fileattr_get	= fat_fileattr_get,
 
 -- 
 2.53.0
