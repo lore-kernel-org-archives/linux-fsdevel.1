@@ -1,65 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.25
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795657110;
-	b=mjyeBIVP9k8KGXV3Dck97Nh8xdDyPLQHjNgvp/hLVIRSrBl4kl51bim5U0JdOq00eORx
-	 VWE+UhLhZGFc3jYJMg02CaMflXupTzy8mt+IvlgLq0hWIhd0916w5lF7YBFRRCWbY3Jdq
-	 sq5wNFHAFvNiQL1LJyEnQTd8CqA1Kic2LtyeMpGh/611lZZm8nxr8w0WoEwkFaPxYn+T6
-	 bXEmb0+7hO2MejrZ9CbVDOnf23GnU8TevTQCBI+uvMH5TvClGVp6rZs2IP2lMMZTcgcyP
-	 rikSsg6cQ4qXtI2vddzobIAKFdo9Jwlxc55pr/s0aztitSiqXFCfXQnXA7swGKBlkYQ==
+	t=1795657633;
+	b=qX+woegSg2euab5Y0wB6ClkbZawn0PJbCyfa4hyneMvrcfjJaxJO1HGZtfuLkRZJCZk0
+	 BFNiaTME/eqkOn6tm8fIC0mXlpT/08IVCsr9loxRj7h7uaIlxxeGyYXr8AFxjY+qwfnT0
+	 cwjC7cZw4hJu4qCq+lM4iDNRHnZvhMprKZp/Uji/JzE51gGZwo9F6QIhq8AE+UWSuuxSj
+	 wwjzjOWibmpZcxAhXS/CTDWvyW4lU34EmR4cghV46UuP/eyJugpA0CnoC/6f3fFwD9T/D
+	 HDwMHR49Rp9RP9ZW+P3xVru4ZHSTrmm7tzUXBt92elQ8rM7x3mr6FCMjuu2hoQiGdQg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795657110;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding:X-CM-TRANSID:
-	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=GxW/rflHfiQTyXh6SuOErrXibGTX0Pbxp+1B3z4FF3k=;
-	b=AeWzs/InQfZAHBE3Og/n24h15p7iQuWauLm69dG38KYf4asnQLzngmWViaPw5CDx8NYK
-	 gz0d66EqKq9DC/bG0w2AZWjNBztiI7ehF9e/r4I625aBlF9z4KZwhgND3kRbY0/p9GXOi
-	 o5dC/Nq0wL1x4tLil3Ic7Vo0npMQA9mB21oCzc1PFGCl4XxYM9912MTq9zvCH3qcaw3XX
-	 Qq6OQsjzvCCnpYG5TXaP5b5V0ZLCXxgIXJ9lv4ZmVV4XV4YTswYv8ASeCVPksh7VbLuDT
-	 NmcA3LHZizFOOdK7Vr439KeVboAGTwzcMAJc16leiNwTQ1Rq+PCEodKTY5CqSEvDW6Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795657633;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=C90z5eRMPRz7rm9tSvRsEhi09vVmUDZ/4/9fcRwxuPA=;
+	b=3Vtjo/medrtxQcfWrtg08I29OLLLSz0rogf/PCmTP3bGlZqlrkcIXfDA+mYbgDUVRsAI
+	 CTEh0+Q9vgq5IsB6Dai6RTNkUvyp+6ZykKsBAmVj0Erbkp/AjAZ0k66rWhy7gxThxNrMT
+	 XF7FOWK0U43BUA+O43RWCjrkTRbmskl0Uk6U29jg83eI2wrWOj/OrqvOJVSsYx6WEN7SX
+	 43C8PaDTKE2KQdYZ5C+3ziavqKq4zdNN3ktuShID6lM3VNu4mNQHDzuel7nS434BdOkG6
+	 B+f7IORXdCYPT4PnVf+lQOVxHzjCYIPX/l7/N3UrXkqh+Rctuyr75h7OmtGAez9x4DA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=mails.ucas.ac.cn;
-	spf=pass smtp.mailfrom=mails.ucas.ac.cn;
-	arc=none smtp.remote-ip=159.226.251.25
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oiiwp6KB;
+	arc=none smtp.remote-ip=209.85.216.53
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98D7606A31E;
-	Thu, 26 Nov 2026 01:38:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E98D7606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mails.ucas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mails.ucas.ac.cn
-Received: from k3-03 (unknown [159.226.43.8])
-	by APP-05 (Coremail) with SMTP id zQCowACXLrRqjQdrOdr2AQ--.256S2;
-	Thu, 26 Nov 2026 09:37:50 +0800 (CST)
-From: Tan Chi <tanchi25@mails.ucas.ac.cn>
-To: anup@brainfault.org
-Cc: atish.patra@linux.dev,
-	pjw@kernel.org,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu,
-	alex@ghiti.fr,
-	tj@kernel.org,
-	hannes@cmpxchg.org,
-	mkoutny@suse.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	yosry@kernel.org,
-	kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org,
-	linux-riscv@lists.infradead.org,
-	cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	tanchi25@mails.ucas.ac.cn,
-	lkp@intel.com
-Subject: [PATCH v2] RISC-V: KVM: Account G-stage page table memory
-Date: Thu, 26 Nov 2026 09:37:23 +0800
-Message-ID: <20261126013724.2533363-1-tanchi25@mails.ucas.ac.cn>
-X-Mailer: git-send-email 2.53.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21568606A329
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 01:47:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21568606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oiiwp6KB
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3b41188c8b9so4573889a91.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 17:47:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795657632; x=1796262432; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=C90z5eRMPRz7rm9tSvRsEhi09vVmUDZ/4/9fcRwxuPA=;
+        b=oiiwp6KB2jn07gDx/FeG7aU1f+cY9kbOBZNdBq5aYpcBYZ78xSSKR/mxWqZO/r73hw
+         yq7Kdk7Dg/qQoOJ+jqaJdo0XtVvNtAqdDsOMvoGExjRRMGcuuPZXMTME17hBDF1dOoXl
+         dEg3TW4UL83EdVZNI6v8h+XR6Rld0UB2hE51BmauDmP0myrykmjoFLeUScN7xKnqV+jA
+         RfLak4V+WPIlZt7qyeNJM4zAsOj9RUl611Jr0Wz/Z3Ezp8VcTbxMLcWTIKFJdoHw9uep
+         mWYnJ1RKv4MmMB7hX60Sms/d/Sh+w+K5aJJwGzdU2OIKxyt6x5V6XkrJcGilmJKrFzhE
+         kSpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795657632; x=1796262432;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=C90z5eRMPRz7rm9tSvRsEhi09vVmUDZ/4/9fcRwxuPA=;
+        b=ynAUmxmpzl8ZcGcVstg5nGaukFs7qnYNvGk44nRPo/7dYP3fZIbJxrQBDNFp3N9XTx
+         xrrUMsXMglp91OnZe0wgp4NTMAJLyUorQhBTxaFwckgHH7V6snmKZu0FEsf2uzXeYA1e
+         kokmQNMENB1Vtw+tK/9fbJjWTgIKM7ooiBQS/cm9oBbKCi9q1/4d9KKXl5TyLeSe37lH
+         HZKCKybL+hjKO7ErF0yAng5JlojQfCfthcKeGpk0E7soG5jGT6UIXM8CqbuhHM80g3QX
+         Rzo2wVbmVNZph5zfDvs7Y69N0yEGSCpW64w45F19pCNJ6WM26up2DLfYCj02iSID1gTP
+         GV9Q==
+X-Forwarded-Encrypted: i=1; AL+hErGziGcIGBc33EEJO8IFLFMIUCCgdu44vQNe13hr+tsgelRBkEC9DnVEJUZmoUl30y8HFVNi2h4205kDxY1X@vger.kernel.org
+X-Gm-Message-State: APuU4Z/8QkWBis7mh1k65/g14Mrv6VMhYGUqob72p3jLiqPPgN2fNyd4
+	9r3+xgL6/qUzHjGe/bg5OGU2TPTCKtS4ZeblRAqk3FsvFO/g9/MzP5GJhvEQhmmB
+X-Gm-Gg: AZFdTZfOBHZowMZtl+0iD9SPHIjHXie0rjpQPqmUJhNLcdHacoHa7LmzxCxGTyMsxEs
+	vF7b1QBFJAbZY4l5BYVUd1jW4YezSplRAz4RMBO6L4NSwylovKVdodUlCPltQoULXsBnl+NAdD5
+	78WYmPevE4Edvfhp4ymPqE/MK2otOQXv6rE0zpFNP71q2A9Freh0nfxdk43MSi9vcv6ebn0+uj9
+	111gb9Oo33c4Q4NRgYTFK0/FzX/DKHUe+IOQ9jqgJ6Imvj8qIyO4hbOlmu7gFFeUonfYBZvhw4V
+	/9LFcV1YRtFkt2nyuiZH6xIOxFBAiqREB5ezhzsxDAjTL95vOrRhPUA7zNAeAG8Jdy+4FEHCEVl
+	/tt7HtQTnWN2zzG9jNE67kwJUgcOvvAzyY39qgraiOt8gKmjJNgwujEpi9/IO35/cUy9FlPtuyt
+	X1CGbIixfcCC4LhnVqvQqu8ZifxPzRdw9l+4DN1kR7WBBaaWuLYGrS9mksxOSGXUutWY9KR3J/U
+	Zx5vZAJ2pjzh6y412l2nKS5YNYvP1E3qB0c6esQAkFam/7YVSRkMk4Pt7se+mMn0SW29UC6ZctF
+	ux1OWm1XoEwgHa6fjaEqc/5lwRULcOfThcz34Rwt
+X-Received: by 2002:a17:90b:2c86:b0:3b0:a9de:9886 with SMTP id 98e67ed59e1d1-3b41c8d9179mr18731494a91.12.1795657632334;
+        Wed, 25 Nov 2026 17:47:12 -0800 (PST)
+Received: from localhost ([27.122.242.71])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cde6cfc6130sm10007818a12.7.2026.11.25.17.47.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 17:47:11 -0800 (PST)
+Date: Thu, 26 Nov 2026 10:47:09 +0900
+From: Hyunchul Lee <hyc.lee@gmail.com>
+To: Showta Ishizaki <zakinko@snowrabbit.org>
+Cc: Namjae Jeon <linkinjeon@kernel.org>, ntfs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ntfs: keep i_size of a directory equal to its index root
+Message-ID: <awePnaRhBQLahPpz@hyunchul-PC02>
+References: <20261125-ntfs-01-v1@snowrabbit.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -69,179 +96,33 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowACXLrRqjQdrOdr2AQ--.256S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxuFW5Xry7Kw13Cw4fJF4Utwb_yoW7uw13pF
-	WkC34S9w1rtr93Cr13JwnF9r13Ga95Gr45Ary29a45ZFsxtr9aywnYq342vF15Xr95Zayf
-	XrZIgFyYvr4vywUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUPF14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxV
-	WxJr0_GcWlnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG
-	64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r
-	1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAq
-	YI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wrylc2xSY4
-	AK67AK6w4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
-	67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MI
-	IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
-	14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJV
-	W8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjTRK38n
-	DUUUU
-X-CM-SenderInfo: pwdquxrlsvqzpdlo2hpxfd2hldfou0/
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261125-ntfs-01-v1@snowrabbit.org>
 
-RISC-V KVM currently does not account G-stage page table memory
-in NR_SECONDARY_PAGETABLE.
+On Wed, Nov 25, 2026 at 11:18:20PM +0900, Showta Ishizaki wrote:
+> After mkdir, stat() gives a size of 0 for the directory until it is read
+> back from disk, where it gives the length of $INDEX_ROOT.
+> __ntfs_create() opens the index root but does not set i_size from it.
+> 
+> When the index root is moved out to an index block,
+> ntfs_ir_reparent() updates data_size but not i_size, which keeps the
+> length the root had before.
+> 
+> Set i_size in both, as ntfs_ir_truncate() does.
+> 
+> Without the patch a new directory was 0 bytes and became 48 after a
+> remount, and one with 300 files was 248 and became 56.  With it the sizes
+> are the same before and after.
+> 
+> Fixes: af0db57d4293 ("ntfs: update inode operations")
+> Fixes: 0a8ac0c1fa0b ("ntfs: update directory operations")
+> Signed-off-by: Showta Ishizaki <zakinko@snowrabbit.org>
 
-Use kvm_account_pgtable_pages() to account for the allocation and
-freeing of the root and lower-level page tables, including those
-allocated when splitting huge page mappings.
+Looks good to me.
 
-This makes G-stage page table memory usage visible through
-SecPageTables in /proc/meminfo and sec_pagetables in the cgroup
-memory.stat interface.
+Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
 
-Update the documentation accordingly.
-
-Tested on a RISC-V KVM host running under QEMU TCG with Sv57x4.
-The observed G-stage page table memory usage was:
-
-  100 empty VMs:                         1600 KiB
-  8 GiB sparsely mapped with 4 KiB pages: 16448 KiB
-  256 MiB mapped with 2 MiB pages:          36 KiB
-  After enabling dirty logging:           548 KiB
-
-The accounting in /proc/meminfo, /proc/vmstat and cgroup
-memory.stat matched the expected values and returned to zero
-after destroying the VMs.
-
-This reimplements the work originally proposed by Yosry Ahmed
-in 2022, adapted to the current G-stage MMU code.
-
-Link: https://lore.kernel.org/r/20220426053904.3684293-6-yosryahmed@google.com
-
-Signed-off-by: Tan Chi <tanchi25@mails.ucas.ac.cn>
----
-Changes in v2:
-- Use the allocation order to calculate the number of root page
-  table pages, fixing a Clang warning reported by the kernel test
-  robot.
-  https://lore.kernel.org/oe-kbuild-all/20261126015340.s7bzBtEB-lkp@intel.com/
-
- Documentation/admin-guide/cgroup-v2.rst |  4 ++--
- Documentation/filesystems/proc.rst      |  2 +-
- arch/riscv/kvm/gstage.c                 |  6 +++++-
- arch/riscv/kvm/mmu.c                    | 12 ++++++++----
- 4 files changed, 16 insertions(+), 8 deletions(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 9e3c67b02ae2..c79d6432ecc3 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1591,8 +1591,8 @@ The following nested keys are defined.
- 
- 	  sec_pagetables
- 		Amount of memory allocated for secondary page tables,
--		this currently includes KVM mmu allocations on x86
--		and arm64 and IOMMU page tables.
-+		this currently includes KVM mmu allocations on x86,
-+		arm64 and riscv and IOMMU page tables.
- 
- 	  percpu (npn)
- 		Amount of memory used for storing per-cpu kernel
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index fa7a468e8edf..cd1a74da287c 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -1208,7 +1208,7 @@ PageTables
-               Memory consumed by userspace page tables
- SecPageTables
-               Memory consumed by secondary page tables, this currently includes
--              KVM mmu and IOMMU allocations on x86 and arm64.
-+              KVM mmu and IOMMU allocations on x86, arm64 and riscv.
- NFS_Unstable
-               Always zero. Previously counted pages which had been written to
-               the server, but has not been committed to stable storage.
-diff --git a/arch/riscv/kvm/gstage.c b/arch/riscv/kvm/gstage.c
-index 0aace3215d3e..f8841136d852 100644
---- a/arch/riscv/kvm/gstage.c
-+++ b/arch/riscv/kvm/gstage.c
-@@ -162,6 +162,7 @@ int kvm_riscv_gstage_set_pte(struct kvm_gstage *gstage,
- 				return -ENOMEM;
- 			set_pte(ptep, pfn_pte(PFN_DOWN(__pa(next_ptep)),
- 					      __pgprot(_PAGE_TABLE)));
-+			kvm_account_pgtable_pages(next_ptep, 1);
- 		} else {
- 			if (gstage_pte_leaf(ptep))
- 				return -EEXIST;
-@@ -357,6 +358,7 @@ bool kvm_riscv_gstage_split_huge(struct kvm_gstage *gstage,
- 
- 		set_pte(ptep, pfn_pte(PFN_DOWN(__pa(next_ptep)),
- 				__pgprot(_PAGE_TABLE)));
-+		kvm_account_pgtable_pages(next_ptep, 1);
- 
- 		if (flush)
- 			gstage_tlb_flush(gstage, current_level, addr);
-@@ -399,8 +401,10 @@ bool kvm_riscv_gstage_op_pte(struct kvm_gstage *gstage, gpa_t addr,
- 		for (i = 0; i < PTRS_PER_PTE; i++)
- 			flush |= kvm_riscv_gstage_op_pte(gstage, addr + i * next_page_size,
- 							 &next_ptep[i], next_ptep_level, op);
--		if (op == GSTAGE_OP_CLEAR)
-+		if (op == GSTAGE_OP_CLEAR) {
-+			kvm_account_pgtable_pages(next_ptep, -1);
- 			put_page(virt_to_page(next_ptep));
-+		}
- 	} else {
- 		old_pte = *ptep;
- 		if (op == GSTAGE_OP_CLEAR)
-diff --git a/arch/riscv/kvm/mmu.c b/arch/riscv/kvm/mmu.c
-index 6861c0e2728d..ab8d8c94a866 100644
---- a/arch/riscv/kvm/mmu.c
-+++ b/arch/riscv/kvm/mmu.c
-@@ -805,17 +805,18 @@ long kvm_arch_vcpu_pre_fault_memory(struct kvm_vcpu *vcpu,
- int kvm_riscv_mmu_alloc_pgd(struct kvm *kvm)
- {
- 	struct page *pgd_page;
-+	int order = get_order(kvm_riscv_gstage_pgd_size);
- 
- 	if (kvm->arch.pgd != NULL) {
- 		kvm_err("kvm_arch already initialized?\n");
- 		return -EINVAL;
- 	}
- 
--	pgd_page = alloc_pages(GFP_KERNEL_ACCOUNT | __GFP_ZERO,
--			       get_order(kvm_riscv_gstage_pgd_size));
-+	pgd_page = alloc_pages(GFP_KERNEL_ACCOUNT | __GFP_ZERO, order);
- 	if (!pgd_page)
- 		return -ENOMEM;
- 	kvm->arch.pgd = page_to_virt(pgd_page);
-+	kvm_account_pgtable_pages(kvm->arch.pgd, 1 << order);
- 	kvm->arch.pgd_phys = page_to_phys(pgd_page);
- 	kvm->arch.pgd_levels = kvm_riscv_gstage_max_pgd_levels;
- 	kvm->arch.pgd_split_page_cache.gfp_zero = __GFP_ZERO;
-@@ -828,6 +829,7 @@ void kvm_riscv_mmu_free_pgd(struct kvm *kvm)
- 	struct kvm_gstage gstage;
- 	void *pgd = NULL;
- 	bool flush = false;
-+	int order = get_order(kvm_riscv_gstage_pgd_size);
- 
- 	write_lock(&kvm->mmu_lock);
- 	if (kvm->arch.pgd) {
-@@ -843,8 +845,10 @@ void kvm_riscv_mmu_free_pgd(struct kvm *kvm)
- 	if (flush)
- 		kvm_flush_remote_tlbs(kvm);
- 
--	if (pgd)
--		free_pages((unsigned long)pgd, get_order(kvm_riscv_gstage_pgd_size));
-+	if (pgd) {
-+		kvm_account_pgtable_pages(pgd, -(1 << order));
-+		free_pages((unsigned long)pgd, order);
-+	}
- }
- 
- void kvm_riscv_mmu_update_hgatp(struct kvm_vcpu *vcpu)
-
-base-commit: 4dce97c6c265544342e716e62fd24bbb232590c5
 -- 
-2.53.0
-
+Thanks,
+Hyunchul
