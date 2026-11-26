@@ -1,77 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.252.183.203
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795703020;
-	b=b9iAA7HKUGof7rkBR+1wjrTiAL5Dyf7nA14fql+m0WGfWZJJk+KEyKJnaFcQQmTU2XvX
-	 VNqowhsjyGPfwuhc7zwxj+GrcfsLqUCura637aVfm3xBpfdbS8yjBgytEU966xmZjbHFk
-	 GETQ/eDMBtIQcuQ6jnzYcnP1OiJBd6q7aW0+UCU7UyD/ZmyPK7zNg4RQkjrGVvDcBe7ZY
-	 GrRm7BF00bswSaHRklOJJnwdZcXAXWJQilB5D6LCfle6dVbNFdFtU1uQHTqBfVd/OjKFh
-	 hP/UJ54VY8/COEzgpMEEHpFpOH1XuqdsPDX3ynUMViclcFbK79rHZXTFrYrYJc+c9HA==
+	t=1795703211;
+	b=dtsHVjXSIJOh7w1K5gRJ5qdwMV1PE8P/xxb9wJ9F0UR1T+EZ9yVA2Uara8GXuZPvqUc/
+	 qwsa484kVKe9LVecBOw2hIrq/JIfaj81URkOLcJJP0zYsheoN9daNEZdSat0KZyd2s3he
+	 9MYS33NmOPa49e45JOrlt+6dwbg/PbxSJu1+H7kNlVJCpGbv54R4Twjpgtv0HoNpMWddr
+	 BFftTZ8oToMclj0BJWV4QQz+HVFoTUDpszJDyIFhH8c5QFD1qKCpZfjbhsXTxCEiy033J
+	 3hz4//hgfDN760jrU4lMX+/JvCM1eDTrlm5ufx/iHMisuDwgAg6et/4QkDpQxid4jQA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795703020;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=TM3nSQU4U49T6GuNdT3oigc7kZQ4pNCPYHhbPmQrcTg=;
-	b=DvyUu9OvwW4+KqMUCQPvIf5+quKQ/cSpVEsuPyefEp92mGudhRF/6xpl0WQfBJ+0X0bW
-	 NWvnSOlpPAd23F2X6O4SHhjUXFcQvZi0XuiJvX5pYocVitRI8GEebN11C08kffnAfEHdh
-	 P1LExnHKcr6tLjQOH5YuYx/XbZS2LJPOBYtx4W+qfphutBH+3w/2a/6bMEycrLgoX5o4e
-	 kn0lqZbpWE8DYtFIIAOo8I/iUfsf2HlF+QqDlReMUUXNUz0AMsUh2WbXPhtPXXmdtHsID
-	 luumCDcETE5IK8e6QET+lg++BFKGOKURh2ZvXFprgTbjCqtmEhnqoc+JIfAVelrF5QQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795703211;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=u6DOltPP0RVDz7PGdTyvk/45WxVfduZA0K1xLTMF/Qg=;
+	b=hzkuzoxwDfPss7GXUQgv/CGNM09mzBUTD4A/M1heTVF+Nof4bNP8Agd+cySEHHTNvPtJ
+	 KUWO5AL4lZ2XGQ5TZa101rRTDH5zsEiIHdpjHCwc1x7VLZwhb/A1k4S4NVvypfgW0aqem
+	 aYyhgm1R3tjoVR5hVPs0OdQ3HhopnjjYAFB0rT0d4SZFaFEvZWRd/xMGK+60+vo05CMVL
+	 sCpvHaofLAVZP/rfZTlXr12hUYJOQSNXE1Y0ImbF09pUpJEr4266RtU3y+VXFvojNR5+i
+	 3R6AtM2Ikziwc9+ncd20iDN86/nK3iit1Vi1Ytv/3Rfs3SGiK77G6ETmVLXu/JXOJ3A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cLtgzE2m;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=dev.snart.me;
+	spf=pass smtp.mailfrom=dev.snart.me;
+	dkim=pass header.d=dev.snart.me header.i=@dev.snart.me header.a=rsa-sha256 header.s=00 header.b=o7VAhE8N;
+	arc=none smtp.remote-ip=54.252.183.203
+Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D412606A31C;
-	Thu, 26 Nov 2026 14:23:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 345DF606A31C;
+	Thu, 26 Nov 2026 14:26:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 345DF606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cLtgzE2m
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E2CE1F000C6;
-	Thu, 26 Nov 2026 14:23:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795703019;
-	bh=TM3nSQU4U49T6GuNdT3oigc7kZQ4pNCPYHhbPmQrcTg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=cLtgzE2m1YoJXGpueRMJ0WG9tvSKfNQlB02h6sqo7+CT8SIX7diyIjeNQZEBq+Rmt
-	 c3wVUQBaScWcqNmdizx9oeZqhcQnvwkubrAnPGao9ZHg/pRNuxscJLtGFEwWhyKHZe
-	 nD/eW4RvR6/G4RIOLr/J3D0i1W1bfaIVV4gV6Xo1o3NxvrDYmUXGUKIoxb5lrWYo0q
-	 Xm3lS0pcjZzeAgfeDD994mnwvbbJ6Bb4w8QRSJ88kkDhfkdRtNyJf6tq4OTMhrIQma
-	 cQteoWOcf297BZrDLqN31mAQGOYddmIaQKOZUGDlnYAJ1X9HJwRkWGecY/FtSID7JT
-	 LyLKLX3iIqGPg==
-Date: Thu, 26 Nov 2026 14:23:37 +0000
-From: Harry Yoo <harry@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Vlastimil Babka <vbabka@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, 
-	David Rientjes <rientjes@google.com>, Muchun Song <muchun.song@linux.dev>, Hao Ge <hao.ge@linux.dev>, 
-	Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	kernel-team@meta.com, "Liam R. Howlett" <liam@infradead.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Andrew Ballance <andrewjballance@gmail.com>, 
-	Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Jiayuan Chen <jiayuan.chen@linux.dev>, netdev@vger.kernel.org, 
-	Kees Cook <kees@kernel.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Robin Murphy <robin.murphy@arm.com>, 
-	"Joerg Roedel (AMD)" <joro@8bytes.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Casey Schaufler <casey@schaufler-ca.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	linux-security-module@vger.kernel.org, Richard Weinberger <richard@nod.at>, 
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	Eric Dumazet <edumazet@kernel.org>
-Subject: Re: [PATCH slab/for-next v2 04/14] fs/buffer: specify
- SLAB_MAY_ACCOUNT for buffer_head cache
-Message-ID: <awhA1sW94lviTsgT@thinkstation>
-References: <20261125-memalloc-prof-dont-waste-slabobj-ext-metadata-v2-0-7c680f02a734@kernel.org>
- <20261125-memalloc-prof-dont-waste-slabobj-ext-metadata-v2-4-7c680f02a734@kernel.org>
- <gmnosp2u47xewnszzrx4asmldxsyjtejyrbrng2ckrcfedymeu@evhwupv3iwhf>
+	dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.a=rsa-sha256 header.s=00 header.b=o7VAhE8N
+Received: from embla.dev.snart.me (localhost [IPv6:::1])
+	by embla.dev.snart.me (Postfix) with ESMTP id 3AE001D4A2;
+	Thu, 26 Nov 2026 14:26:42 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 embla.dev.snart.me 3AE001D4A2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dev.snart.me; s=00;
+	t=1795703204; bh=9uBNsJ22+ox7vUCGd4FMmwz4iA922GLuuEcn/apNnV4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=o7VAhE8Njs7DGmqLeaWzKEKCZINuK5QmM57azcqdjP91g4GDTDpJj9KZbHEkcazp+
+	 V7ZShRFx3BEmlcUK2kOWE+gq9297NhhHCqInbYAnyNQbptA4Vy7ZLnVJNnvk1JxynE
+	 sBGQZ3tAZlpI3NYDo2Uz7vZ7cNYxrPXsbpEFE3c4=
+Received: from [192.168.1.18] ([182.226.25.243])
+	by embla.dev.snart.me with ESMTPSA
+	id wlgWMKFBCGur7QIA8KYfjw
+	(envelope-from <dxdt@dev.snart.me>); Thu, 26 Nov 2026 14:26:42 +0000
+Message-ID: <dcd27d38-60a2-4c1a-81ff-4a82e99520ab@dev.snart.me>
+Date: Thu, 26 Nov 2026 14:26:38 +0000
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -81,32 +59,89 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <gmnosp2u47xewnszzrx4asmldxsyjtejyrbrng2ckrcfedymeu@evhwupv3iwhf>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7] exfat: add EXFAT_IOC_COMBINE to append a file's
+ clusters to another
+To: Shaopei Zhu <shaopei_1012@163.com>, Namjae Jeon <linkinjeon@kernel.org>
+Cc: Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo
+ <yuezhang.mo@sony.com>, exfat@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Matthew Wilcox <willy@infradead.org>
+References: <20261124230746.850528-1-shaopei_1012@163.com>
+ <CAKYAXd_ap120uprmarov-GuO0fb1eXEgw-U8G08L1xRJ9bv18A@mail.gmail.com>
+ <20261126075247.850895-1-shaopei_1012@163.com>
+From: David Timber <dxdt@dev.snart.me>
+Content-Language: en-US, ko
+Autocrypt: addr=dxdt@dev.snart.me; keydata=
+ xjMEYmJg1hYJKwYBBAHaRw8BAQdAf5E+ri1XLtjqYbZdHOyc8oS+1/XJ5bSlbx5WHXmVBZzN
+ IERhdmlkIFRpbWJlciA8ZHhkdEBkZXYuc25hcnQubWU+wpQEExYKADwWIQQn/Jn96EMUaIoF
+ X+T/ldyyrZpWaAUCYmJg1gIbAwULCQgHAgMiAgEGFQoJCAsCBBYCAwECHgcCF4AACgkQ/5Xc
+ sq2aVmjJZwD8COjPlUwccrlRvbNQ6f87DWchtYO0o8W2DNRM3RLps0EA/jEhIbRV6AsyC8jr
+ 30Ut3aJ3/mO/6G4sLj7OvkEEBH0MzjgEYmJg1hIKKwYBBAGXVQEFAQEHQFpgtIgaByv9lIEY
+ EmpavMO0pYjtu7TMJynwdnGYkN9LAwEIB8J4BBgWCgAgFiEEJ/yZ/ehDFGiKBV/k/5Xcsq2a
+ VmgFAmJiYNYCGwwACgkQ/5Xcsq2aVmhFCwEA0kM9VyYB4bLCM7+SuXUUH+5Ec99Nj4RXxFad
+ Key9GuwA/2BZK6bNyrLSfEk2JDRoskqf7OIL0wa6JOD5SrBnMe8E
+In-Reply-To: <20261126075247.850895-1-shaopei_1012@163.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 26, 2026 at 10:05:35AM +0100, Jan Kara wrote:
-> On Wed 25-11-26 21:37:05, Harry Yoo (Meta) wrote:
-> > Buffer heads are allocated with __GFP_ACCOUNT to charge them to the
-> > memcg of the folio they are attached to. Specify SLAB_MAY_ACCOUNT when
-> > the object may be charged to a memcg. __GFP_ACCOUNT without
-> > SLAB_MAY_ACCOUNT will not be allowed.
-> > 
-> > Path: ext4_getblk() -> folio_alloc_buffers(GFP_NOFS | __GFP_ACCOUNT)
-> >   -> alloc_buffer_head() -> kmem_cache_zalloc(bh_cachep)
-> > 
-> > Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> > Cc: Christian Brauner <brauner@kernel.org>
-> > Cc: Jan Kara <jack@suse.cz>
-> > Cc: linux-fsdevel@vger.kernel.org
-> > Signed-off-by: Harry Yoo (Meta) <harry@kernel.org>
-> 
-> Looks good. Feel free to add:
+Hello,
 
-Thank you for reviewing them, Jan!
+This is Davo coming from exfatprogs. I noticed the PR in GH which
+brought me here.
 
-> Acked-by: Jan Kara <jack@suse.cz>
+On 11/26/26 07:52, Shaopei Zhu wrote:
+[...]
+> The workflow: cameras and dashcams keep motion or position data with
+> the video, e.g. gyroscope and accelerometer samples for stabilization,
+> or GPS.
+>
+> The products on the market keep that data in one of three ways:
+>
+> - as a timed metadata track inside the MP4, e.g. GoPro's GPMF, muxed
+>   while recording, so that the samples are interleaved with the video
+>   in the mdat box and indexed in the moov box;
+> - as a separate sidecar file next to the video, e.g. the GPS logs of
+>   dashcams;
+> - as a trailer appended after the MP4 boxes when recording stops,
+>   which players ignore and stabilization tools read.
+>
+> A sidecar file is lost in practice: users copy, share or import only
+> the video file, and matching the two by name breaks once either is
+> renamed or moved. 
+I think I understand the the problem being addressed here, but adding
+something to the kernel to solve that particular user error sounds like
+a lot of trouble to go through...
 
--- 
-Cheers,
-Harry / Hyeonggon
+Also, there's issue of block alignment: Windows formats exfat volumes up
+to 32MB cluster size(I myself unsure of this MS's decision, but it is
+what it is). The release of 4TB SDUC cards are just around the corner.
+At most 2MB of space lost just to padding, just to append a few MB of
+metadata to a monolithic file to idiotproof the product.
+
+I think most of the products on the market today just use multiple files
+for multiple streams at different rate(LRV and WAV - fs/exfat have long
+supported preallocation to alleviate the classical fragmentation issue
+inherent in linked-list based filesystems). GPX and gyro data is
+certainly not that big - most implementations including Gopros just
+interleave that in a single MP4 file with audio and video streams. But
+sensor data in industrial use may see a huge amount of data, but then
+again, not a consumer product. Something you don't really need to
+idiotproof. I think, if the metadata stream gets that big, we're no
+longer in the realm of consumer products.
+
+I have no share in the in-kernel fs/exfat implementaion so you don't
+have to sell it to me. I'm just a dude curious about all this. However,
+if you don't mind elaborating, I'd like to see some actual
+implementations in the wild that may benefit from the ioctl. I also have
+a bunch of ideas I'd share with the kernel devs, but I just keep them
+all to myself because the kernel development is hard and the ideas are,
+most of the times, not worth the trouble of maintaining it in the long
+run. I don't think it's not fair for the maintainers who have to stay
+behind for years to maintain things.
+
+And, tbh with you, fs/exfat is not really the coolest part of the Linux
+kernel so expect more push backs :) Just speaking from my experience.
+Nothing personal. Thank you for reading my unsolicited two cents.
+
+Davo
