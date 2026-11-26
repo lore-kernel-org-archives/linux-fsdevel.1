@@ -1,102 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.6.134.125
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795660487;
-	b=yNt8f7r+nE+VNWAsNzMh7i0Qw2Sc7iC4iA2v/+zUlxysG2XWpNHfXXdK55GsfsAAWX+6
-	 DTD9xjXuUHYzQWa1Ri2NY4dv5OFwJPMjLcLQgE9kfLM4k9KWlYfioXZ86RjvIYwFRxure
-	 lslK+E1BwvSD5axCz5IslDX9g+yZ2rnj68AN4QxjakqLciTi3wRK+RkJQmd3D0ohEDF0B
-	 1GuTFcFe1vO7avRbUlMzCI2RUlnilSmPzKPHVa8SYjxsQcM61/UYjBExuf4uPzcRFIWXQ
-	 TJ2/Ax/I6nGV097gpRlThW9MTkt3NY3kfiHHxAnKX5L7bO/hKF2uvtwNHaXYSsEYHoA==
+	t=1795664015;
+	b=nsG1RWTLjtPL5U3v2nWpXXc1ykUP/36412s10/ZHbiUfV9+ki1Q0oAkluxhXdFCQq4De
+	 TfJM9/f5pGXHpD79cNRf9excGdWDrxIGfMcPWTojL7oTxLXsm9be5ZY/fnl9P4WFnSzuj
+	 B9tt5lIQyPJ4spiNFibHpPzw8DuRvSofKDYwn+aV+vuKUOBpFbeAAzbkmHwr8L6qFJNnr
+	 l0oX9neLH1442eQ1vURKUbZHHKy5/yoeBHMdLTSUkQRgiD0fYwfHCd/b/lMz10/w34Ce2
+	 5Dd1HWUbK6BbsmtFy5Am9uRoggO1sgORDQi7PIf5zpEkeNzBpa41pkCAmTzIilC+QOA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795660487;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type:Content-Disposition:User-Agent;
-	bh=o8J9LgNaOdUC46WHWDlfzHDnkRTN/ql1qdkuGk8pFsc=;
-	b=ZzA0Y6zy9JBAA4B0ZsKIevMH9O3lQ/iEV/fOLUgv2uqLDLqw0CehfCxqXIWtWvLGs5mo
-	 jLk4o8UNehcgbo2Gkca0r3MN3kIdCRZ/DY6lBwI9+C4xKcnp0AN5G50FRXvB7Gzlb+hme
-	 xg/miM30B3xKfV+ICNDX1Vflmd+3MHoiq1HYR62HorrtAQMsLGPdIgWIWq5VLAaFg5CV+
-	 +SBOxKN2vHssZTzufoHR9+OtRg3wTtdOBBUKRDqD1kiBOW8shYFx50+B9iZKv7MBh1sOf
-	 8/LBFqLsWw0HfmlcTdJF19I2Sw3gHAizYWWZIbH0xNGcZgeqaArdTIp+gr5+/793brw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795664015;
+	h=DMARC-Filter:DKIM-Signature:X-SONIC-DKIM-SIGN:X-YMail-OSG:X-Sonic-MF:
+	 X-Sonic-ID:Received:Received:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=YcM9NeytmDEp3ZHnhl05h0wZi5zVcYRHE8yN3GpV/uk=;
+	b=jkcfLoDPQK0+L3LB7izulfu+w0JyYu7pjTyNtcaexXUVjkuheCLdqC/1mUgsysRPkHzE
+	 rbe39MmK8Unljr5jTIWW4XV5R8aEiRcz2Xgxeuic2j7hyZ4rhv+ATdO48VQpg3rSXlcZR
+	 zs6fDuuJ1P2nGJOZkpsgT21R1TdcGsisxMadtFRgeaG9WeIlRjUDOLIV8oJm7t1Xu4pa2
+	 H3Icgwb7lAF7g6XtXjc9KDu/FXnGBhQN4Neim+PlXALd8s5k0W3oF7bbKo4Y4JhyA58gr
+	 +OX+8DxMQnKCZpBmqus+zOQrzOhaAWY6zF3JQ4XF+FnnMgqn6j45xTT0l1oa2dajzVQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chrisdown.name;
-	spf=pass smtp.mailfrom=chrisdown.name;
-	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=DKieMBUw;
-	arc=none smtp.remote-ip=74.125.224.42
-Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+	dmarc=pass header.from=yahoo.com;
+	spf=pass smtp.mailfrom=yahoo.com;
+	dkim=pass header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=o8rJxBu4;
+	arc=none smtp.remote-ip=74.6.134.125
+Received: from sonic315-15.consmr.mail.bf2.yahoo.com (sonic315-15.consmr.mail.bf2.yahoo.com [74.6.134.125])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41717606A323
-	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 02:34:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41717606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B15F606A33C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 03:33:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2B15F606A33C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=DKieMBUw
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-67dc7eb1442so7254777d50.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 25 Nov 2026 18:34:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1795660486; x=1796265286; darn=vger.kernel.org;
-        h=user-agent:content-disposition:content-type:mime-version:message-id
-         :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=o8J9LgNaOdUC46WHWDlfzHDnkRTN/ql1qdkuGk8pFsc=;
-        b=DKieMBUwIXK1Du7nNws3K1cWBDItLe9blorA2CHh+HazEu+PARsK+BsD9aOAlUs9Bn
-         s5RYV0OAi/qfVnljTPHwhemFInICn7zykTUXCnOU0Y6d5pFh1qRC8FHhrxT0KBeW+rgK
-         y6vrpALNJ+E1cqgUHzbBP9EMA1lDXkBPpsJbk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795660486; x=1796265286;
-        h=user-agent:content-disposition:content-type:mime-version:message-id
-         :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=o8J9LgNaOdUC46WHWDlfzHDnkRTN/ql1qdkuGk8pFsc=;
-        b=fZr2W/e1gyicSazyCDxqD6+TI6rD4CLUlYlP2g/a9YIH/gNgjt37xq0Tn7i/D4DjyJ
-         Y5bmDy1tmHlZ65jcLfdu1sbq6h6/kYVN+i3qKnvo8c5wpjoXlfpqMY8lmgRHqP276P4m
-         q4CUL/bI0Xb1giLryV6A5maQfVXSxhst9xOY23GziVoC5CNrA3Mi1XFG/z/AKyW24IWI
-         6j0w4dCR1ZJCt9+6P+CwgLbveMm1nl/YMBmJkeG/nAYs4DtCXZyP7c2TkRrIVSgYHkCE
-         HmiCZZQqp0gqt/v4Mgatl0HSD7Rk5dGluiti6AKVygXIUE001seDjVvOn4nZxpQvprRQ
-         JTOQ==
-X-Forwarded-Encrypted: i=1; AL+hErFCaqHTkuRAgkurOHNYH7+FzQYLNEn7+my7VVnumUHysA074b8latk6XIJQOkPR7VP1/CnTxp6+/Iz9nPiv@vger.kernel.org
-X-Gm-Message-State: APuU4Z/jnRZzjF3VBbBUcOCVTIY2pdSJaqFVJRKHtB/wrpoB4Xt4D2WO
-	6VXy9PAx45GCy5JWpcxnXH7ORTzfGXQxpvWt9Ak2G5r1viZzQaiGhSotwvJ0DGBl2oc=
-X-Gm-Gg: AZFdTZckStweXiKUbT9qveTtwOTjF5Kn3jz/o3vM1FUZ/HmcYrBkdWVPNJNi6X2BzJv
-	/1SVwcp1ExDcR3uTf5rzKQFmO/a/WokDsvF4qsKexUQo+GgJZ3Bjv5alZJp1fDkQU+scPcNUpQb
-	w18eaku7684DctfSBDbcjPVZikQgPoZqWn6upQZg/tKK5r1rKih+IEXdxW7BY6nSNfTr/cxJBe5
-	usPkKh2o2bjj6IHcWATof3jReDGwAtimvVgMoNZfVskNwbNr//+VOO3aSD+43LT5VF9BDMX0ZF5
-	kcZIy+4iM/Lx8hGh2ageVDhip2Ea2OTe4HSIwUegE3dhW/m7sJiSlc4tjtgT+Zz0ByuaRkiS4TA
-	3FvWmODfQVwMAbX7q5bIZDl1l0P9XElePD5+sMI49v6tE/A1ps/ly00QcHqU45WZm9LKIVQQSZi
-	Q5d9XNc8Di78gPbrrlnmgD1fC+JBIYPQAQ3xCehNzhulDjugokopIg2ofHI79S835sufb3lAPcE
-	MEo2xqSnZJT1xrH4/YCpWEnqVtG00jp0AQVvHBah699xG3h5NRdLAHRcgBUApJL6YesQWjRI1+h
-	UL/FKfcCmaoio3sjdhC0j8fQ4sDfjme4SH3LSYDDxp6+WiNIYMrMJfls/Inrb/hrjm1WOnDhVqN
-	nmm0/ze6WBpOT8+pDDbeC0Egdvv2t9HnxGWc5m9/tHxa8F1h3dLGOteos8mJmVz0DY0f0mGJ8fI
-	XI4pugP+9YF6ZLx+04fc5lTd4zD7yRjg1yc3Yi6vsci56qBQXQ6OfZFg18WtmhaEq+kam3VL8wC
-	AeV3apoBiwkHKmuULqpVPo=
-X-Received: by 2002:a05:690e:4188:b0:67d:ba77:6ef8 with SMTP id 956f58d0204a3-67df441dadbmr6760137d50.43.1795660486244;
-        Wed, 25 Nov 2026 18:34:46 -0800 (PST)
-Received: from [172.20.0.2] (c-73-207-185-9.hsd1.ga.comcast.net. [73.207.185.9])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67df3354415sm9646045d50.11.2026.11.25.18.34.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 18:34:45 -0800 (PST)
-Date: Wed, 25 Nov 2026 18:34:42 -0800
-From: Chris Down <chris@chrisdown.name>
-To: Usama Arif <usama.arif@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>, apopple@nvidia.com,
-	byungchul@sk.com, david@kernel.org, gourry@gourry.net, jannh@google.com,
-	joshua.hahnjy@gmail.com, liam@infradead.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, ljs@kernel.org,
-	matthew.brost@intel.com, mhocko@suse.com, pfalcato@suse.de, rppt@kernel.org,
-	surenb@google.com, vbabka@kernel.org, ying.huang@linux.alibaba.com,
-	ziy@nvidia.com, kas@kernel.org, hannes@cmpxchg.org, riel@surriel.com,
-	shakeel.butt@linux.dev, kernel-team@meta.com, baolin.wang@linux.alibaba.com,
-	Nico Pache <nico.pache@linux.dev>, ryan.roberts@arm.com, dev.jain@arm.com,
-	baohua@kernel.org, lance.yang@linux.dev
-Subject: Re: [PATCH v3 0/5] mm: fixes for THP migration, swap-in and
-	device-private smaps
-In-Reply-To: <20261123163301.1568240-1-usama.arif@linux.dev>
-References: <20261123163301.1568240-1-usama.arif@linux.dev>
-Message-ID: <aweawqOejY8Jyrbb@chrisdown.name>
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=o8rJxBu4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1795664014; bh=YcM9NeytmDEp3ZHnhl05h0wZi5zVcYRHE8yN3GpV/uk=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To:Content-Type; b=o8rJxBu4ne1hHkdEfFFiMFwmWQ6R1ylvamcmZW9MQBZlRRdt+SmIgJ3Rp/0pzH3sPruKsyQKVg4LeyhjfxR0dc14XYX1hL/IzojXfg1iUCibMa0RTRPn8y2UGw1YOrME/KOV/ET2+O9EZcj7hyWboCsofxWmSmKk/uWpl2+yj6Q55mLndl985lTe2iUTgK0a2hMJFZS8SDqHohR3iiAuqJKUUMDHzKBWW/djteHwD42Bl5yaMjMMlFumX4Uymb+aEt5RmK5QKU87l62MIWVvgN7PgKH8HP4ltXiMwlUomK8CzAjvj+8KZ4ZEdFXckp6T9uD6itIo3tGB/AVmJDP9SQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1795664014; bh=/2Tlz5ND402ydS4wmF0R/ar/qtdz/i2oGCpEaZnYDZ5=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=Dg6+ljCRiE/2w9KXXZ8Lsivx32O2Xto0K217sQEXMCB929R8gw9YdXhYOf4Pb6HkcZ5AVPdaBKzCivm1gEvqi9IKocJqWVu1diI5CscKaiJmGqklkq1wUz1o4qPdv4vClxfxIyDYin0gU1E0AgPrh5mCSf8O81GGeqwdRl5wORJ8Bhh4Kk9RFVpHzpN6H3vjgYXEH54dODQY1RONiGxDqzbrwI8eYPJd/dukc8SijUfavp31vv/idt0pqeihxaiFSTxqzPK613DVKe+OtdbzSkux7QTQ4MBDc/WwJEw+2IoDUl1Bjhn1rFwhYeKLpG0pziAhXzUimgN9UiE9EKoxpg==
+X-YMail-OSG: CP1AjuIVM1ltWqCiIJXJ_jVj5a0za5zPAFcSWULMECVOwF3fXdsBlPO24_0jDlR
+ NiGJdU2.T.sVjVaVnkzx6p.AtKDPsKUO_G2P_kgn2Z994nAr.7bW9i2cF9Sp9T8XmuFG8Fch3DPx
+ 2zO8JmAEqpgeQAvmMjMMKjcSq8WBLIw9nVMWucCr_8O8H8k2lxmj6FO6UFY92JNpXecgdh7z5wBS
+ R7clQ7FSlKzSwP1EbvoHHvwt1mg1lbDc.nGT480c2enbzsMsXbSQBB56sYOJiVKHPTkuEioflBNG
+ KW_7qw1MI8BdLPIkO9jqApxsntjQTNpc8bF.4GCJeDxtX8K__atPk.YNxuxI52H4Q31C5K2VEcww
+ 72fQAMi88C18lsb1e6gRj4TsdvJkFqG5rJ1VQVockeLIBe5HZgPKCCUTBTIiDMAzixWbpAbxDYcB
+ XxA_Jk6PKR4.6toggNOdATGBacXP0U6zrOfGCbPHONhKmSI3Yug1CPsWgKQi8EtZwaxAZZuCodT6
+ ILQzkRkuS42T32iIXmV6QAg1GmarezR_4.bc78luGRuLf67ejEmE0xBbGn4bNJ6TcaAfXpxvrzrx
+ rL8vj6dBEhfnRVp92qwyzJ9CsTICt2JV2zWyXp2OHHv9P8o3DbeDihXnv9nuoJrreI94bL8WuZ7d
+ 9DxUxrnrv_TpD1AAw4K22mENQJBK7gL6H9gBiS8fPeblpnJxYOt0foGAOm4G4sW_t9sv._Qb7rQU
+ nsVH8gGi4jJbSnRDv2J2k_LsHrE4iWgIRRODaZTv7X.F_Qfb5kmKPyeu2fC6k7sWuTOSfcCLDN97
+ JfUGY.Zi5w84HqIi_OCmLMKLB8TLuODrD3POMWV07zX44dbW0deE7gdv0MzQLMlDABzu8kSKvcX5
+ Ma9G88FX3XUvcG1V0OHKUBp9wOiXUTfpOsxaEcRdr0_svU8kLISG8Lc3thJf6fjdL6LQPIFjritd
+ gAoX4ycfhq53ZsYBaLXSgev2WuKh7iQ_YpqArgj_z1aFRI7fG77u8ToVNCyqRqYISB3u0dBFQ4Ja
+ uD2tdPPQgGKwf0.PKDUJWMeHXH1M2doKgTQVuCjgNAO4Bzyi0iD_ZO6OZLmP_7i6yT4ZhsdK_t73
+ komPcy0TnTR64fg6wLugpGoY3POnElLhB5IFCaA.DaNid5t26noiWm8eWl9sHsL1lsVChyzJtwbq
+ bMzP9M6kDg8s3QT6LeTvro_AjsuSAerIGExppMrldUJHwhGa5K1Tuc_9iUcqQ4yFz0DQhtB5jiwR
+ EQfsDHExSlLAOwOYc4e1b2f8Pq38afZlhaKUNIKOtoYh1xz3KbQ1.iv2xHLFPpfgx44mezkBhD4a
+ pg87NC7_cTt7g1NuEi7jsQ5r1PuEM4Ej6wn_SG213f3gEB5RM0RSEXrxFyZorMArUjrNOi4OyVBY
+ _BsEXK5tubGtjhW_zRCvVc.Mj7QcLanSVYWfmj_UKMXQKqY5phQ0pQU5upOxQCh3s1ur_7k3fasq
+ sjz62Ky4_2A4kZuQGIUTmdWjJRoFiRMbTiHPYVS3OeIzwK.I7ijRf8lYgSo5_tSG3tk9GcynmRO_
+ P76HcX7IiEMWQ_yhf6cgiJtU.uvoS1Og.G8YTFW3.BEkziRvtZg88MM2ICqAx2jVlOhGeewwsTQV
+ nMv4aoljAf1216rN819muqIe109Ynl8z3u7QC5tmIvxyBewS0ATp_.OJzwX0MhwFUk8T6XZ1GoBE
+ tJHOUZwjTacQnGT.lAQVRo5fnkQ581CHZ6fPdvDvjdYpVDzls8iv8BBS0HFkuTLjO2BFkkbEwcgq
+ Gr4IYl8lOJ4mdaohYSIWaV.y60OCccq3RWikLymRGTCV5IBaDhWsmOsR2lzycj5XkTBnncexgcCu
+ rIwEG3SmzoYUpsCBgz7VsNhDl3RNkTXXmNDd4nrKCpyhN5vdIARjHElXA4ygLZfIIloIqb4tP8eT
+ xU2jRpi_PLNJkncvjzTzCi2z9KQC3xCw4lWgf2zoaSIpgigCjPrZSakerfcH9sow.uX2s07y.ZBY
+ QCC2TjVO_HGfD4OCfXZI6AmSsSzUKspWDIlZNdYBsLrXzBC8pv8Qs5O5pCIEB1OLwkT0EWC8ZwNu
+ PBuFHiAwPRKCFniup0IRx9zPy_43TagBhDNdFPnZC.dBrVHkWGhkXJggsdmIjLV4Hee_bkqO1srM
+ lt_IPPWcmtkMfzxqNnfiEseUa4FZi7cU9fE2NX0xqSwMO8LJQmDeuNGFxkYwFPvVQF9oeB4_FRyg
+ M4MiSgvDs5ZheEEydnUG0y5H_YytPyl7jqQonB.bfzH.mMB7KAA--
+X-Sonic-MF: <deaner92@yahoo.com>
+X-Sonic-ID: 0b7a824f-7bf0-4139-a5b5-2ff63710ff0d
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic315.consmr.mail.bf2.yahoo.com with HTTP; Thu, 26 Nov 2026 03:33:34 +0000
+Received: by hermes--production-bf1-8768df57c-64qn4 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 28e7f0a650024974c67d26ee33943d03;
+          Thu, 26 Nov 2026 03:33:29 +0000 (UTC)
+From: Jeremy Dean Clifton <deaner92@yahoo.com>
+To: syzbot+4507914ec56d21bb39ed@syzkaller.appspotmail.com
+Cc: brauner@kernel.org,
+	clm@fb.com,
+	dsterba@suse.com,
+	jack@suse.cz,
+	josef@toxicpanda.com,
+	viro@zeniv.linux.org.uk,
+	hdanton@sina.com,
+	linux-block@vger.kernel.org,
+	linux-btrfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [block?] [ext4?] [btrfs?] INFO: rcu detected stall in sys_mount (8)
+Date: Thu, 26 Nov 2026 03:33:27 +0000
+Message-ID: <20261126033327.416414-1-deaner92@yahoo.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <68af0313.a70a0220.3cafd4.0020.GAE@google.com>
+References: <68af0313.a70a0220.3cafd4.0020.GAE@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -106,16 +102,19 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
+Content-Transfer-Encoding: 8bit
 
-Hi Usama,
+#syz fix: fix the softlockups in attach_recursive_mnt()
 
-Thanks, these all look good to me. I reproduced each of the problems on
-7.4-rc4 and have verified that the series fixes them.
+The original arm64 report (soft lockup in skip_mnt_tree() via
+commit_tree()/attach_recursive_mnt()) is fixed by commit 0ddfb62f5d01
+("fix the softlockups in attach_recursive_mnt()"). Hillf's test of the
+vfs fixes branch on 2025-08-27 already showed the reproducer no longer
+triggers.
 
-As such:
-
-Reviewed-by: Chris Down <chris@chrisdown.name>
-Tested-by: Chris Down <chris@chrisdown.name>
+I also ran that reproducer on current mainline (7.4-rc4, arm64 QEMU,
+2 vCPUs, KASAN + lockdep), with a debug print timing the mount_lock
+section of attach_recursive_mnt(). The largest attach (32768 copies)
+held mount_lock for 16-19 ms, and no soft lockup or RCU stall
+appeared in 300 s, including after killing the reproducer to tear the
+namespace down.
