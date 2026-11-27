@@ -1,48 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795770346;
-	b=I01usJ2zsPk/DAwcoUw0rr5h8N24vBJhe9NamIPHOaas2KOUDmym0fGII8ANaWmW66bG
-	 zZOAcaRsvHpsiXoyJXMpMN2b3buqi+TSSURu6XA5BAxV4rv/+Y6/MEMurg6ls36HCLItv
-	 hXk8NyT0h2kF4VCmqcESrV+buxJUhX/9pBiEgAg3IFzxIjAkvAl4BjSDiULKdmFR03CSd
-	 fydK3hUy1YLF7o1WxaiFeL0YUBv2StPJ4RdHYZOZdTfMfTVJOh6TiUGt1fTtsGkWwbu1u
-	 fth6tLglUD/QRKU+W7JaHjp8P/gk78ZtfZH5NxtKzeb9mr86E+zD0gqZ+h9dZWvaoEQ==
+	t=1795770832;
+	b=NHkXJQUaPnwQ7OC+DABVcD2dMIKO8uSfYFBC95R19hOATVCmJx+NCKZqL+tXDTNbXmPX
+	 5A0bzoTv4rrxbowICN8ya/aK0KHrAJLbk4px5wST5xPZzHk45atDSfqddeS3CPsvqQifv
+	 vzAOcpTkWrG0Zi++i/A6aOXoRn8Nx9+zvsZcRT8QfetiU0HKFfr3aygnt8j33mLemmHsQ
+	 OjK/dRQjrRY08p1WodiRJlPXANmp+zRTDHR3eX4QSAUK8c+ieqVJTKK+g/S4FsRUhHKFq
+	 KNPaJZLoaVE7NFL1xXZOP3+io8Dkq8/w4H0B4FfLAmN7X913DyDYzHMPEVc6ldkFrhQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795770346;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding:X-CM-TRANSID:
-	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=xTFTy5wSUzYE6jj+9jBvqGj4csiaNGqAOGzqnLd4EFs=;
-	b=sFNCXWyrsXiLVpZFyi0JoG5D9K0M4vvsavn6wh6es3RbzdcWghUMl51AsYPOfr19/W/C
-	 INriuSx/pk/ZNcCM5oVy41MM65h5TWdjKgN2GEGwx/WtmXTuFi7uRfFJWO6/9N4PJMWGo
-	 2Z8rYnDtCk089eKmEWkStvV0cXRJ6jSoR6kSkjcqj1ideuA4joHBXv/aM48gTr5E/4A1J
-	 l4pF/BmjOBiBezXVNDoBMjQtNO52h2oexaDRpoJQuTvcUxJke1mREX43ELGR78ef4mXbr
-	 l/UdSV2n+ekO0i0fyQlkgwU5mS5FjpxrWzRN07Mavxn4CKjDG04RcQRFuelEKKXumKg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795770832;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=vD1ugKwXo8nRYXQGOzPiAdALB08fy8jaef2dV+QSIRM=;
+	b=xX4tjXKl8oODuXowSjbnm7UT0DFt7vWlPtZQkxxSAjUumB09MphTfKHtSyLFwl9dOHb0
+	 TXw/OeTTuPXefJN3D9kMyoda+zXDun8m56lmkkiJWy7P8Mg2LFPezvnrm8QIXDw/HI/ji
+	 KAQIf7NfDV33f+Tus/VZ4c3f0D2h8sKSWQI+0FSgyU0f5uHjO/dna4a0Dxo7Bc0cOnTMI
+	 AXMgmr2toECz1J0JYLExscbcPu+F+OTMtokeegBxIPwHkvuANZIIP2Q74eN6Zh/ZNPFeY
+	 VysyKAKO61+ku6h15skQS7yqFDQM9Ymnnp6c5wLd5HKdL36r+oaEftJVQUi/ItL9U6w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=mails.ucas.ac.cn;
-	spf=pass smtp.mailfrom=mails.ucas.ac.cn;
-	arc=none smtp.remote-ip=159.226.251.81
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ITw+8YBu;
+	arc=none smtp.remote-ip=209.85.128.46
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7861A606A32E;
-	Fri, 27 Nov 2026 09:05:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7861A606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mails.ucas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mails.ucas.ac.cn
-Received: from localhost.localdomain (unknown [159.226.43.6])
-	by APP-03 (Coremail) with SMTP id rQCowADXqZrURwlrfPLsAQ--.62564S2;
-	Fri, 27 Nov 2026 17:05:24 +0800 (CST)
-From: Xinyuan Zhao <zhaoxinyuan24@mails.ucas.ac.cn>
-To: Andreas Gruenbacher <agruenba@redhat.com>
-Cc: gfs2@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDB7606A31C
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 09:13:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AFDB7606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ITw+8YBu
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4bb64ef5a14so77251795e9.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 01:13:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795770830; x=1796375630; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vD1ugKwXo8nRYXQGOzPiAdALB08fy8jaef2dV+QSIRM=;
+        b=ITw+8YBuj39GwzsaYyGanLqd23OBglD+IbI4ISyWLDaIcWi5s8ZNpMPEpCavgOqFSK
+         Z3OoYpJAQh5O8XPKPMp5jKd6rJ32kMzcLac43eeDchocbMoK04/giw4puKx+ZfjlURVX
+         iW24afzaHFOYaMWAFRKMKsYe3SDa7oCTUIAx7p89KxT384MZ/dqnFsAwdNFAohjoo/3H
+         n+Lnbh49u6LK+lpxntMc76i0Qu7CA1p/S+DFuJqkjkYNmzu4lcKWginABnucyYcqDdRI
+         zXMuLr+8Poa98NnzwKSifB1MRJ6LNDb7ulsMg0jl+Gp2Iv08+y3PNbB0w6aPy/EpbVVk
+         nG8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795770830; x=1796375630;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vD1ugKwXo8nRYXQGOzPiAdALB08fy8jaef2dV+QSIRM=;
+        b=LzgAo6c6QO9FJjeSaZYjm3NL/X20UmbUcpzqzFbOxGNtcX4moXUG+/0LbWlDFe3eLe
+         enhZX9qxMvCOH5mvoixZxGidkScAlQz0SV3vHnyWMFQfcOzl6giTA6GGLRdG2qucQPYU
+         MtPRz6+snqCNFVtI8wXJVa/Ah0k2owj5kKd/F/+zhn3+lA6I5DEyTxDsV/ybnlITF7KH
+         o6z6KY29CNuTyXGPeu1gFuajxbsBoZ3oSzG5tqpEQjEozp5lAalxmrqSEqM0MdXAG6NU
+         Fy9w2cEe3FCdGUKGqN8VUFiaI8rHmeRW8wejYRX6OuylU3foAV/jtDRw0nJNs4N55dgr
+         FQvw==
+X-Forwarded-Encrypted: i=1; AL+hErGFWEsoictS3FmHbuxDgI1d0f29R0dE995pOHiyV9//RMqjSGJw/ToOuC6lk7+1SYrv3jNAw2YNegceK7sx@vger.kernel.org
+X-Gm-Message-State: APuU4Z/ZvFSFkdHynOHjBuXbMJpM54m4Jg11QL+SAen7Dc1mmNwnqDQc
+	aH8dlK8US/O9f0B5qgLvxQCCcdt7adkyAq9+ywrmSdx6oB8XOS6ltdzK
+X-Gm-Gg: AZFdTZczf/WoGFYOsx98pdcY/lXR90bYd7jplZCRDZjAe8pw7UN/PxcTiMM6iit09bv
+	VtmHvUIoTf8KEpiKDqn76ar5sb+yZwhlZgUPdP/bLJY/GuEkeETyc78YrOssI5nXpt46VrTx22p
+	ruAJAK798nmUk5poziUAIiXYOJ2D6gLoxHvKYIlqP610SkBaNHHqEZplLfUFRGzmbdXytU34ye9
+	eIDSSrCXptw7Rk/goSACocK1be8YVVgoG9K8CfxFt47HlzkiEscRP4iFs8W7pjXOaEke1OeZhyS
+	x2auLEkfuA2/Ay4vlvJrywEP0qZ2G2oPV+8iQkUqwykqZ1jsdJKe9xbL0eUFSKdfTKzUEUwTd69
+	mD7Rf8Hf3+d1gOdzsVxDiZdZr/DYh+1h0nE1tSm2JmS1bgm/tHJn4xUufXVxiJU8aNGeN8eQ6Xs
+	TecP8SFWIIC7H4Y3P7XUhIDPPc26ku3L8ZZJOBXl/Q7G9aUUHDqxTb4qSrDYixL7oFa0WHtAIkK
+	DiW4rUFYp+UowA79MBTxnGtWzChnPIcfJX/bQZVqM0Fk/6fdaP6ciClZANWWMfYdB3pQO6u4j/2
+	xVzqK80vSLv3NQ==
+X-Received: by 2002:a05:600c:4585:b0:4a1:83f0:7c91 with SMTP id 5b1f17b1804b1-4bb8882948dmr487962385e9.18.1795770829350;
+        Fri, 27 Nov 2026 01:13:49 -0800 (PST)
+Received: from nobara ([83.231.69.9])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4b1ed8b6a05sm26067087f8f.43.2026.11.27.01.13.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Nov 2026 01:13:48 -0800 (PST)
+From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+To: David Hildenbrand <david@kernel.org>,
+	Zi Yan <ziy@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Zach O'Keefe" <zokeefe@google.com>,
+	Hugh Dickins <hughd@google.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Kiryl Shutsemau <kas@kernel.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Dev Jain <dev.jain@arm.com>
+Cc: "Liam R. Howlett" <liam@infradead.org>,
+	Nico Pache <nico.pache@linux.dev>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	linux-mm@kvack.org,
+	Matthew Wilcox <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Rik van Riel <riel@surriel.com>,
+	Song Liu <songliubraving@fb.com>,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Xinyuan Zhao <zhaoxinyuan24@mails.ucas.ac.cn>
-Subject: [BUG] gfs2: slab-use-after-free in gfs2_release_folio due to premature free_sbd() in gfs2_fill_super()
-Date: Fri, 27 Nov 2026 17:05:18 +0800
-Message-ID: <20261127090518.29089-1-zhaoxinyuan24@mails.ucas.ac.cn>
-X-Mailer: git-send-email 2.54.0
+	"Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+Subject: [PATCH v2 0/3] mm: don't allocate page tables with the folio locked
+Date: Fri, 27 Nov 2026 10:12:13 +0100
+Message-ID: <20261127091344.113688-1-azpijr@gmail.com>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -53,208 +118,41 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowADXqZrURwlrfPLsAQ--.62564S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3WFW8tF1rXr1DCF4xCw43trb_yoWfWF1DpF
-	9ak3s7Xr4kW34UWr4xGF4rtFy8Xa9IyF17Gr1fWr13AF13Ww17Ga9F9rsrXa1UCF1kC34x
-	Z3WUJrW7Wr1UJF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9m14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
-	0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr
-	1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IE
-	rcIFxwCY1x0262kKe7AKxVWUAVWUtwCY02Avz4vE14v_GFWl42xK82IYc2Ij64vIr41l4I
-	8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AK
-	xVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcV
-	AFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8I
-	cIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r
-	1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JU1byNUUUUU=
-X-CM-SenderInfo: p2kd055lq13trqsuqzpdlo2hpxfd2hldfou0/
 
-Hi Andreas and GFS2 maintainers,
+David asked for the remaining places that allocate with __GFP_FS while
+holding a folio lock [1]. The fault path and khugepaged still allocate
+page tables that way.
 
-While fuzzing Linux 7.4.0-rc3 (upstream commit 4405c18) on x86_64 with
-syzkaller, we encountered a KASAN slab-use-after-free in
-gfs2_release_folio() triggered by kswapd0 racing with a failing
-gfs2_fill_super() mount path. We verified both the latest torvalds/linux
-master (7.4.0-rc4) and linux-next branches, and the error cleanup path in
-gfs2_fill_super() (fs/gfs2/ops_fstype.c:1286-1316) remains unchanged.
+Patch 1 allocates the deposit table in do_set_pmd() in a NOFS scope.
+Patch 2 does the same for the tables set_huge_pmd() allocates.
+Patch 3 makes finish_fault() retry the fault instead of allocating when
+the page table went away after __do_fault() checked the PMD.
 
-Summary / Root Cause Analysis
-=============================
+Tested on x86_64 and on ppc64le with the hash MMU in QEMU.
 
-During a failing mount, gfs2_fill_super() frees struct gfs2_sbd (sdp)
-before VFS tears down the superblock and evicts cached inodes/folios:
+[1] https://lore.kernel.org/66e5f9e3-17d4-4635-8919-c67ed562f9f0@kernel.org
 
-1. gfs2_fill_super() allocates sdp via init_sbd() (fs/gfs2/ops_fstype.c:79,
-   1121) and sets sb->s_fs_info = sdp. During mount initialization, GFS2
-   reads metadata/system inodes and populates folios with buffer_heads
-   backed by gfs2_release_folio() onto the LRU lists.
+Changes in v2:
+- use NOFS in do_set_pmd() and set_huge_pmd() instead of preallocating
+  in khugepaged and dropping the allocation from do_set_pmd() (David)
+- finish_fault(): return VM_FAULT_NOPAGE after trying do_set_pmd()
+  (David)
+- drop patch 4
+- rebase on mm/core.git for-next
 
-2. If mount fails later in gfs2_fill_super() (in this case, during
-   gfs2_jdesc_check() with "my journal (0) is bad: -5"), execution falls
-   through fail_per_node..fail_free (fs/gfs2/ops_fstype.c:1286-1316) and
-   calls free_sbd(sdp) at line 1315:
+v1: https://lore.kernel.org/20261125100058.15200-1-azpijr@gmail.com
 
-     void free_sbd(struct gfs2_sbd *sdp)
-     {
-         struct super_block *sb = sdp->sd_vfs;
+Jose A. Perez de Azpillaga (3):
+  mm/memory: allocate the deposit page table with NOFS in do_set_pmd()
+  mm/khugepaged: allocate page tables with NOFS in set_huge_pmd()
+  mm/memory: don't allocate in finish_fault() with the folio locked
 
-         free_percpu(sdp->sd_lkstats);
-         sb->s_fs_info = NULL;
-         kfree(sdp);
-     }
+ mm/khugepaged.c | 16 ++++++++++------
+ mm/memory.c     | 20 ++++++++++++++++----
+ 2 files changed, 26 insertions(+), 10 deletions(-)
 
-   At this point, gfs2_fill_super() has not yet returned to VFS, so
-   deactivate_locked_super() -> gfs2_kill_sb() -> kill_block_super() ->
-   generic_shutdown_super() -> evict_inodes() has not yet run to evict
-   remaining cached inodes and truncate their page cache folios (unlike
-   normal unmount in gfs2_kill_sb(), which calls shrink_dcache_sb(),
-   gfs2_evict_inodes(), and kill_block_super() before freeing sdp).
 
-3. Concurrently, kswapd0 reclaims a folio belonging to this superblock via
-   shrink_folio_list() -> filemap_release_folio() -> gfs2_release_folio()
-   (fs/gfs2/aops.c:649-671):
-
-     struct gfs2_sbd *sdp = gfs2_mapping2sbd(mapping);
-     ...
-     spin_lock(&sdp->sd_log_lock);
-
-   If kswapd0 reads sdp before free_sbd() clears sb->s_fs_info and frees
-   sdp, spin_lock(&sdp->sd_log_lock) at fs/gfs2/aops.c:671 triggers a
-   slab-use-after-free (offset 3168 inside the freed 8192-byte struct
-   gfs2_sbd). Conversely, if kswapd0 reads sb->s_fs_info after
-   free_sbd() sets it to NULL, it would hit a NULL pointer dereference.
-
-Possible Fix
-============
-
-Ensure all cached dentries, inodes, and their page cache folios are
-evicted/truncated before freeing sdp on the gfs2_fill_super() failure
-path (for example, by calling shrink_dcache_sb(sb) and
-gfs2_evict_inodes(sb) before free_sbd(sdp), or deferring free_sbd(sdp)
-until after generic_shutdown_super() has evicted all inodes).
-
-Reproducer
-==========
-
-The crash was triggered by mounting a corrupted GFS2 image (failing in
-gfs2_jdesc_check()) concurrently with memory reclaim pressure (kswapd0).
-The extracted syzkaller program and C reproducer (with proactive compaction
-disabled and a concurrent memory.reclaim / drop_caches worker) are available
-at:
-
-  https://gist.github.com/ilidanZtormrage/75671cc20d086f632e5c047fb166e32b
-
-Note: on the same gfs2_fill_super() failure cleanup path, leftover folios on
-the LRU can trigger two distinct UAFs during kswapd0 reclaim in evict_folios():
-first on a freed struct gfs2_glock in isolate_folios() -> folio_evictable(),
-and then on the freed struct gfs2_sbd (sdp) in shrink_folio_list() ->
-gfs2_release_folio(). With panic_on_warn=1, kswapd0 may panic on
-folio_evictable() first (~10s); running with panic_on_warn=0 allows
-gfs2_release_folio() on the freed sdp to surface as well.
-
-Crash Report
-============
-
-gfs2: fsid=..0: fatal: filesystem consistency error - inode = 1 19, function = gfs2_jdesc_check, file = fs/gfs2/super.c, line = 119
-gfs2: fsid=..0: my journal (0) is bad: -5
-==================================================================
-BUG: KASAN: slab-use-after-free in __raw_spin_lock include/linux/spinlock_api_smp.h:190 [inline]
-BUG: KASAN: slab-use-after-free in _raw_spin_lock+0x2e/0x40 kernel/locking/spinlock.c:173
-Read of size 1 at addr ffff8880297ccc60 by task kswapd0/99
-Tainted: [L]=SOFTLOCKUP
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0xf4/0x600 mm/kasan/report.c:482
- kasan_report+0xe0/0x110 mm/kasan/report.c:595
- __kasan_check_byte+0x36/0x50 mm/kasan/common.c:588
- kasan_check_byte include/linux/kasan.h:406 [inline]
- lock_acquire kernel/locking/lockdep.c:5916 [inline]
- lock_acquire+0x126/0x370 kernel/locking/lockdep.c:5899
- __raw_spin_lock include/linux/spinlock_api_smp.h:190 [inline]
- _raw_spin_lock+0x2e/0x40 kernel/locking/spinlock.c:173
- spin_lock include/linux/spinlock.h:347 [inline]
- gfs2_release_folio+0x140/0x720 fs/gfs2/aops.c:671
- filemap_release_folio+0x22d/0x390 mm/filemap.c:4587
- shrink_folio_list+0x177c/0x45b0 mm/vmscan.c:1569
- evict_folios+0x352/0x13d0 mm/vmscan.c:5097
- try_to_shrink_lruvec+0x301/0x7e0 mm/vmscan.c:5271
- shrink_one+0x33e/0x710 mm/vmscan.c:5318
- shrink_many mm/vmscan.c:5381 [inline]
- lru_gen_shrink_node mm/vmscan.c:5459 [inline]
- shrink_node+0x2906/0x4230 mm/vmscan.c:6465
- kswapd_shrink_node mm/vmscan.c:7258 [inline]
- balance_pgdat+0xa6b/0x1da0 mm/vmscan.c:7429
- kswapd+0x590/0xbd0 mm/vmscan.c:7705
- kthread+0x385/0x490 kernel/kthread.c:436
- ret_from_fork+0xb2a/0xdd0 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-
-Allocated by task 38319:
- kasan_save_stack+0x33/0x60 mm/kasan/common.c:57
- kasan_save_track+0x14/0x40 mm/kasan/common.c:79
- poison_kmalloc_redzone mm/kasan/common.c:412 [inline]
- __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:429
- kasan_kmalloc include/linux/kasan.h:267 [inline]
- __kmalloc_cache_noprof+0x2e4/0x710 mm/slub.c:5680
- _kmalloc_noprof include/linux/slab.h:991 [inline]
- _kzalloc_noprof include/linux/slab.h:1312 [inline]
- init_sbd fs/gfs2/ops_fstype.c:79 [inline]
- gfs2_fill_super+0x148/0x2f80 fs/gfs2/ops_fstype.c:1121
- get_tree_bdev_flags+0x392/0x630 fs/super.c:1821
- gfs2_get_tree+0x4e/0x280 fs/gfs2/ops_fstype.c:1331
- vfs_get_tree+0x8e/0x330 fs/super.c:1881
- fc_mount fs/namespace.c:1282 [inline]
- do_new_mount_fc fs/namespace.c:3910 [inline]
- do_new_mount fs/namespace.c:3986 [inline]
- path_mount+0x7bf/0x25c0 fs/namespace.c:4337
- do_mount fs/namespace.c:4350 [inline]
- __do_sys_mount fs/namespace.c:4563 [inline]
- __se_sys_mount fs/namespace.c:4540 [inline]
- __x64_sys_mount+0x293/0x310 fs/namespace.c:4540
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x12e/0x800 arch/x86/entry/syscall_64.c:89
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Freed by task 38319:
- kasan_save_stack+0x33/0x60 mm/kasan/common.c:57
- kasan_save_track+0x14/0x40 mm/kasan/common.c:79
- kasan_save_free_info+0x3b/0x60 mm/kasan/generic.c:599
- poison_slab_object mm/kasan/common.c:267 [inline]
- __kasan_slab_free+0x73/0x90 mm/kasan/common.c:299
- kasan_slab_free include/linux/kasan.h:239 [inline]
- slab_free_hook mm/slub.c:2780 [inline]
- slab_free mm/slub.c:6637 [inline]
- kfree+0x160/0x720 mm/slub.c:6930
- free_sbd fs/gfs2/ops_fstype.c:72 [inline]
- gfs2_fill_super+0x15a9/0x2f80 fs/gfs2/ops_fstype.c:1315
- get_tree_bdev_flags+0x392/0x630 fs/super.c:1821
- gfs2_get_tree+0x4e/0x280 fs/gfs2/ops_fstype.c:1331
- vfs_get_tree+0x8e/0x330 fs/super.c:1881
- fc_mount fs/namespace.c:1282 [inline]
- do_new_mount_fc fs/namespace.c:3910 [inline]
- do_new_mount fs/namespace.c:3986 [inline]
- path_mount+0x7bf/0x25c0 fs/namespace.c:4337
- do_mount fs/namespace.c:4350 [inline]
- __do_sys_mount fs/namespace.c:4563 [inline]
- __se_sys_mount fs/namespace.c:4540 [inline]
- __x64_sys_mount+0x293/0x310 fs/namespace.c:4540
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x12e/0x800 arch/x86/entry/syscall_64.c:89
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-The buggy address belongs to the object at ffff8880297cc000
- which belongs to the cache kmalloc-8k of size 8192
-The buggy address is located 3168 bytes inside of
- freed 8192-byte region [ffff8880297cc000, ffff8880297ce000)
-
-Best regards,
-Xinyuan Zhao
+base-commit: c6f53520f32302ea64cbcfd7cc25a31081e34548
+--
+2.56.1
 
