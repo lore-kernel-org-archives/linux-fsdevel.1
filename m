@@ -1,132 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795801991;
-	b=og02SH9LgQRFsRim0PhkEIPz3ZIkYJrRAnYgXTm3PPpqs3CFEdRpjOoERqsP7zKiJ/BO
-	 P84NJxL3zMO2CthFEzchJoKGZ5B3JmqtCdi+lgRFlw/uJT8FzDVkcbylwOHQxp0TPkqzw
-	 sDcSUmy/1B9rdL4UOrzhckBqyXK+NRNyTgWO1why4lgwVhky6Y+0WTonH/ZTirlqhAmv8
-	 S4xR4OIIWd0DtDmrnMoaaJurcGl0c+91yGS3QGq+80fZ6xBbVKT6xcWP/VZpxfEVHUGrN
-	 WmvfEjhCfAZVFvuAblu8xhGX2xYtV0UBS3fZaA7yrhzlvI9wFPpKTy5ieQ4e6oJtRNA==
+	t=1795802797;
+	b=HV3LG0Krz3qZ0VUcvHr+o3hGz+JliCTYg3qnslJi3S4iKgYBCw38jQdMmDUdcR5s6NR8
+	 dh27nCWf2lwfg4XLf1MW+n80limuMz8TLt4kv3r99eLjNV7nu7pzZVOi9KTVKaOwCY5wE
+	 lepoRwpqKYv0RgPrnQE1h18FPQlUpMmb2LGV3viCV5wBoNcP70d/govngkGHnxfexSxqc
+	 PIOyDKqOoAMsWG673IvOBby4oWV5HNg+u37vK07VfcqmyN9Y4RWhgozz0OrNtNP7k70F2
+	 6c1ouLLmNbT+Wyr5pgR1NB5yAEq2LlJBt64150qjxU0Ns4VZL8m/X3FuYMHR+GrEuew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795801991;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795802797;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Autocrypt:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=YbrJuZEMhARstEupCVWU0DhIXaBmHViQoAYzcKNfsOM=;
-	b=YvMrf1GaVPjw/N6DoGYQuJUVcnFQc9DmTKjp6Uvox69ieaN56pSSCcDIJ0MOp0oXa2FL
-	 ujfFrmR4W7iNwAax9fH2e9/neTjJOz/8Jr1iC6/fZbazXHFzPP01k/RyZtOizo4e8TbmE
-	 TLiBi21ss6r8gzH3WA7RTfiSKvxQZokwyAtqRGhi2xvD3WyeTDkyFp2N91vsK8UQ3t3iq
-	 qpPLGNLnT62ir5FFWIew3D9OkVsg3gOPjF8vYqe3LIrmVUKoBMjzqy+xP80yn5y/LIag0
-	 GAZPo1m5eZAfT1nRnKJIs5FsfjZC+WJsltOfjSzqdKjtsjRo70D+yUpnAPlOZZrqM1Q==
+	 Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:X-Mailer:
+	 References:In-Reply-To;
+	bh=31lkBKO8oQ3sa6c4sPU8C1+DntgMuazBHbo8HSmfOrA=;
+	b=kLzF6CEbpc3wEngeDrbmKtjIUJQ6HzkiX68W3vqPLCwELEh/2XZ+4UTVsXK15crUwR/O
+	 0/jrWrSBOEjVmw+NZo+2ERwJ17aEhOO96SK5D2ln1lVfboFbquNOqlUB+3ik4QyXCksz8
+	 oV3BT8BN4ESU/tt8uFR3YN3h4rkMbwHbZoY/ZW5C91jnDKm0l0OX5yseYrGgR/J4mzyYv
+	 MYaGw72mzmIwXWqiZ9KgEwCeBt6X+WTbZAEP897tmK86zQkkJAOhXyqGvhoWzh5nZIpTO
+	 ek5T/ikrqUNshYH+NwEi9jOkBjZ1QrBOBTo4gUekeehIhAfNms3K3D3csMcskUdgmYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=dubeyko.com;
-	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=XqGwfLa1;
-	arc=none smtp.remote-ip=209.85.128.176
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gtOjgV7k;
+	arc=none smtp.remote-ip=209.85.128.46
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76BE4606A31F
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 17:53:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76BE4606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05941606A323
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 18:06:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 05941606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=XqGwfLa1
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-8b4cc793704so65811197b3.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 09:53:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gtOjgV7k
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4bb85e07aadso102663675e9.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 10:06:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1795801990; x=1796406790; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YbrJuZEMhARstEupCVWU0DhIXaBmHViQoAYzcKNfsOM=;
-        b=XqGwfLa1x+D87QuNjXc3STVXQCwlI7b+ALlghhoR3qaGiEkDu1IkGQTVxwYicKtg5z
-         jb3/okLuFgV9l6E0R+AAblNKirURaT/8Fj9JUDQVwvSg3oGNPx65akzDFpXkihlcVDkz
-         ic3vZLPSLhmmcrVd52wdVqWUKt/YoLKEywbcq67LahocCVlHdEMei6mYJxScrqKyR/p1
-         B8ntmHtneZYepStIZ2kif3ddAiRQL3+LkP8vjbaeYShA6eS7nnXj4u3W8QwYwwDHFaVD
-         CZI3YD2MLcv2o/+wWJnV4WCqny9of4SzQQBHUAth0YfgA6UIJR1eB5+m5YLyQcqDNA3m
-         Yh3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795801990; x=1796406790;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20260707; t=1795802795; x=1796407595; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:mime-version:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=YbrJuZEMhARstEupCVWU0DhIXaBmHViQoAYzcKNfsOM=;
-        b=iR4mYbcf71mrwBalsoY3EXKypTkr4+ZghFS8dOwc4KsGg29Moy7dlmEchHXEJ55Rue
-         S22Mmnio2govqutG5KRpfp/TpkW7eSCFGO9Lxql0SCV5ZAEbCxcriwTZg/OOsVG4Fn4K
-         CgtOa1W3yqxS0uwTE4ae4RGwHMECnVhIbAHkCtQu6nS51XhinLc36+UrrILvMPPs5XY/
-         4AK1UPHhr5TFV+v1x49+iVorKtcBmyZp4LbzrXrBYVw0EiqPTyY+haavE5bP+EWXSFrN
-         vyCl54rwnUd6LVZcoWzIOobqmN2qIkr7CE9m4ZYyefxBYX4xrC7IRxJPjqGWgQMXQN+G
-         vnoA==
-X-Forwarded-Encrypted: i=1; AL+hErGkUPAP77OCbkTGGjcHqxHMYQ1nCLdig2TPSXSqQuzgZHLFgsCGzTAhypKgjmMEhrsy9TicJ17dleW2OJPl@vger.kernel.org
-X-Gm-Message-State: APuU4Z/bwUyFSBTtDo9la8W68z49y5k3dCFBBTdlPf/2OrtJSJo6VdjZ
-	NLqIjlQghxaSMU3zmVGIwWSuSTE2VoyicDwBMBU6MRpGBModO9mvCD+cnxkyC9e/Aqs=
-X-Gm-Gg: AZFdTZcuw+pI4Z0oS2lIPPoC5AcY3Fi0m1DFRgAD3wyHPBNf3fAueNTgJh7TriZ6C/V
-	wJQhqdWTam1P90IM80j+RnL/WIILKUgaWKkesIGMBb86ke9jYO6avApO2pq6BUx751ve2Yd28cS
-	qiVQXYCMfaWSKAKMzauFyblIQRo9P8oxJDIxzxDZw1xUdeGvbr95SvxvVMoELRxiI2yZdLINSPD
-	jbK+jDPnsWyLYSSqWCIcZgdE1nWvi5kiRyMVISOOi21ezmD0K7C+/Q0e/9DfZhvpQInA+uzD7i1
-	XCPdqyuzjxYE/YA0UavLVGAt7B2HJjoSforsYGf75zfjzSayjZEBUupZQkud473is9DgkQNConC
-	pv2oGEXtrlWHhLDxlFq5WMwO0VqUpPZbL6kuKKnTW0Fb0FrM04hQBPNMyy6Qaxq67EkGL5hVB9V
-	pS2fKAl72oa75DUhNs0anC6vpVc+zcJE6pJaGpG+mT9Wx5bW5Esftd0iT7Tx4HUy/pQ+e2voa/L
-	biTFGz1khnB4wzZNL6D31bdDd2maf4BfLlXWGAz4et/EMUIwQoth5q3NK/5zYzuL3xcMGn3RkFt
-	RoJ/BK0m0TVG9R5w6YHLh95OoEyRiKoZ4lBSyChU2tdPzTbRgsKVsFLil2a0aDPQQz3Tmng3Sv3
-	cvBrPH4dKkOPdurum1IVSnXSD5XUqdfpOrtWHlhFG2Xb5TjuUuRU5B/u4VTMD4ULencOySrbY
-X-Received: by 2002:a05:690c:dc1:b0:8b3:23f3:134d with SMTP id 00721157ae682-8b5204ba154mr89112077b3.42.1795801990329;
-        Fri, 27 Nov 2026 09:53:10 -0800 (PST)
-Received: from system76-laptop.attlocal.net ([2600:1700:6476:1430:1a5a:d5f7:70f5:514b])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b56fc6131fsm35622287b3.34.2026.11.27.09.53.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 09:53:09 -0800 (PST)
-Message-ID: <0e5898598e12940f4b33aebccabb6bd3a42565f2.camel@dubeyko.com>
-Subject: Re: [PATCH] hfsplus: reorder complete combining runs for dentry keys
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: kernel test robot <lkp@intel.com>, shaos <shawnq1@163.com>, 
-	glaubitz@physik.fu-berlin.de, frank.li@vivo.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Fri, 27 Nov 2026 09:53:08 -0800
-In-Reply-To: <20261127114353.IlT3o2gb-lkp@intel.com>
-References: <20261126160720.3007837-1-shawnq1@163.com>
-	 <20261127114353.IlT3o2gb-lkp@intel.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
- NFdvziOa4FgUBC4X71upsZIoZJeii2V/Jtc3B4g==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        bh=31lkBKO8oQ3sa6c4sPU8C1+DntgMuazBHbo8HSmfOrA=;
+        b=gtOjgV7kQRPDJZxzHD5ysYcKBIp1wluCgKbD4A8k17RCVgasxJdU1GV+jVyh0WPzUT
+         +Q/ve92Tzv2/ub7GIYZe70pSbaTvhdI8kA8AMDz2HtS/Ry+MFm4UiGxsHcahVRg75WMT
+         t/wSSU4K80PUANTU3YB4OPbnzq8Uy+S1zPuebou8cJqYR7NMskfeUqdR+r443eHCjrqV
+         WeaBY0njy3dxba1R8lmilwhLmhtZ5jVA63UUIjbFv+yVIhLNhr5WzHLp8OUXgWWeq7RM
+         ru2IOyoe73DlDU6K+SF3IPEyUrje5RVMGeJ3rfVKiDOQv6iNyTD/kE1Lr76k2brIPhQq
+         q3jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795802795; x=1796407595;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=31lkBKO8oQ3sa6c4sPU8C1+DntgMuazBHbo8HSmfOrA=;
+        b=ApLk4VxaUPxh0aOdDzrjSMebwF4gwwXgfQYIjA4DBjmfI920hzcizwq46H/680eeJs
+         WsZR/f7vHBRGQRamsUd7Htxk1xaVB+kLKq5GhorgxCO5remuholbKOYQJOe8tPecoQdI
+         2cDTNkwnQL1uhDYihgQc4i/hz6AY6uyAJeSzOs8Wi7ymyb1Dh2kCV87SXkGdn7Fho+iK
+         jjlTHu/xlQAwF3JyNB5rqT1Ez2NVuR3gDFj2pWrPCPJWR9qDf6zURdTtw4p3H3Tz+ZY9
+         gdoAL3ueF3BLUMWNn7x5YdCmkdhjkMeiRM9D3aLuwUzx5jjhDJmfbmvx0yhexdd+gI+6
+         yLTQ==
+X-Forwarded-Encrypted: i=1; AL+hErEKiNz00Kwwfgl+p1yo44VznSGcdHf3WzYPjC+dD73xsg6kqDrYwqLjnF+WdnbAECkDCohoRORkyY/Ec/EM@vger.kernel.org
+X-Gm-Message-State: APuU4Z+RmC7Zz6LysnZOpksJ1/pyye0mMx5w+dz6C/5Qy9EufA5xpOjS
+	K+/+eoqS9WIc3/nbQWEykmhnSCI9ymCBnBWT/K4iLQWPPxgBAzLWqSQf
+X-Gm-Gg: AZFdTZdNIEn9VcLr9qhJFqj8DrPLSKpeL3Plyk4wrVvwK4v46AAG7AHwQbEiK2fYtHh
+	g7RrdpW1hobuh7l/AUiRTQNXeFjVXyI6bWJYD96vcbKuzO0aO7uGfgR7vnPbvQ3mJ1NHMoQqxjx
+	coYlOZrRozrnVkFmmh+H44VkyQIMbYVoLrotox7UrjbKr5BweKKoXKUFfR/8zOeFQGlBCEL687X
+	oAJg0JmvXwZSJ5WPlrVE/lqojqjlwWCKRto88u3ux8lk1tKGym9K8n3NRGhUz3xq82RBzLeoWpH
+	CBpkIDVgAw0CbRMgwuNo1QnLKNVGTF8cvaxkAcNkeGUmFvY1Lyy1ZUZ7p3keGMfgSP8J2SkBA3B
+	zs8PPHA8Whw4YFXNiMYyuZKCGFc+hhX+ao3AJwyRO4BCireysoEhSKPqpPClUiM6CwwNdQJP3fU
+	Bk5qSXMfI/UT2DImDgoSNAzzZvcZ+IyiHU3eETMi9djkpcjfTr1bNW7TDNcYm0ZtrdI0e2Xqlr0
+	bpW86HYbUV3e2onahqARjAJqhwRbphOxUEXuN4HeZ3NQUvb/jRBsh2gh9Z2xN/NFiaUOFOP4mCa
+	xZuBOPnNyvqYAO/Lb/n7sjWioA==
+X-Received: by 2002:a05:600d:a:b0:4bb:aa4f:c01d with SMTP id 5b1f17b1804b1-4bbaa4fc151mr135668155e9.1.1795802795080;
+        Fri, 27 Nov 2026 10:06:35 -0800 (PST)
+Received: from localhost ([2001:b07:5d26:7a6a:365a:60ff:fe0d:cfc6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8538b3a7sm791527715e9.3.2026.11.27.10.06.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Nov 2026 10:06:34 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -135,130 +86,334 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=5a3f61e607b661bce23953d8b2acf29cca7bc4b24c3dca1ea3d419584a61;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Fri, 27 Nov 2026 19:06:30 +0100
+Message-Id: <DN66YKVRVRU7.1062V6NCL4LUW@gmail.com>
+Cc: "Namjae Jeon" <linkinjeon@kernel.org>, "Hyunchul Lee"
+ <hyc.lee@gmail.com>, "Eric Biggers" <ebiggers@kernel.org>, "Theodore Y .
+ Ts'o" <tytso@mit.edu>, "Jaegeuk Kim" <jaegeuk@kernel.org>, "Alexander Viro"
+ <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>, "Chuck
+ Lever" <cel@kernel.org>, "Jeff Layton" <jlayton@kernel.org>, "Jan Kara"
+ <jack@suse.cz>, "Alexander Aring" <alex.aring@gmail.com>, "Darrick J .
+ Wong" <djwong@kernel.org>, "Andrey Albershteyn" <aalbersh@kernel.org>,
+ =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, "Lauri Gates"
+ <lauri.gates@gmail.com>, "Christoph Hellwig" <hch@infradead.org>, "Dave
+ Chinner" <dgc@kernel.org>, <linux-btrfs@vger.kernel.org>,
+ <linux-xfs@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-fsdevel@vger.kernel.org>, <ntfs@lists.linux.dev>,
+ <linux-nfs@vger.kernel.org>, <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v2 3/4] vfs: add xflags mask to fileattr API
+From: "koraynilay" <koray.fra@gmail.com>
+To: "Amir Goldstein" <amir73il@gmail.com>, "koraynilay"
+ <koray.fra@gmail.com>
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+References: <20261126163114.403846-1-koray.fra@gmail.com>
+ <20261126163114.403846-4-koray.fra@gmail.com>
+ <CAOQ4uxhA+93bo5WseLxe7cAvJHJ8eQodoQHLwh=iToyEVkeXEA@mail.gmail.com>
+In-Reply-To: <CAOQ4uxhA+93bo5WseLxe7cAvJHJ8eQodoQHLwh=iToyEVkeXEA@mail.gmail.com>
 
-Somehow, I don't see this patch in my email client. Please, fix the
-issues and resend the patch. And, please, double check that you are
-sending the patch in plain text.
+--5a3f61e607b661bce23953d8b2acf29cca7bc4b24c3dca1ea3d419584a61
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+
+On Fri Nov 27, 2026 at 6:48 PM CET, Amir Goldstein wrote:
+> On Thu, Nov 26, 2026 at 5:31=E2=80=AFPM koraynilay <koray.fra@gmail.com> =
+wrote:
+>>
+>> Add fa_xflags_rw_mask and fa_xflags_ro_mask to struct file_attr, both
+>> __u64 to match fa_xflags' size, and bump FILE_ATTR_SIZE_LATEST to
+>> FILE_ATTR_SIZE_VER1, which is now 40 bytes.
+>>
+>> Add equivalent masks and a has_masks selector to struct file_kattr, so
+>> we can know when a user of this API (userspace or filesystem) supports
+>> them.
+>>
+>> This lets filesystems advertise their support for specific xflags, like
+>> statx.stx_attributes_mask does, and userspace can specify only which
+>> xflags it wants to change without needing a RMW cycle.
+>>
+>> These masks have the following semantics:
+>> - fsx_xflags_rw_mask:
+>>   * for filesystems: advertise which xflags they support changing
+>>   * for userspace:   specify which xflags it wants to modify
+>> - fsx_xflags_ro_mask:
+>>   * for filesystems: advertise which xflags they support only reading
+>>   * for userspace:   ignored
+>>
+>> And they should be filled according to the following:
+>> - GET:
+>>   each filesystem that wants to implement this new API fills the masks
+>>   according to its supported read-write and read-only xflags,
+>>   then:
+>>   * for boolean xflags: it fills fsx_xflags with the current on-disk val=
+ue;
+>>   * for value xflags: it sets the xflag bit to 1 in fsx_xflags and the
+>>     xflag value in the struct field;
+>> - SET:
+>>   userspace fills the rw_mask with the bits of the xflags it wants to
+>>   change, then:
+>>   * for boolean xflags: it provides the xflag value as a bit in fa_xflag=
+s;
+>>   * for value xflags: it sets the xflag bit to 1 in fa_xflags and then
+>>     provides the value in the struct field; if the xflag bit is set to 0
+>>     instead, this informs the kernel to unset/clear that value.
+>>
+>> Add AT_FILE_ATTR_MASKS at_flags option that userspace needs to pass
+>> (with usize >=3D FILE_ATTR_SIZE_VER1) in order to be able to use masks,
+>> otherwise legacy RMW semantics are used.
+>>
+>> If AT_FILE_ATTR_MASKS is not specified:
+>> - on GET, zero fa_xflags_rw_mask and fa_xflags_ro_mask and strip new
+>>   xflags added in or after VER1, so older programs doing RMW don't pass
+>>   them back;
+>> - on SET, reject non-zero fa_xflags_{rw,ro}_mask with -EINVAL.
+>>
+>> If AT_FILE_ATTR_MASKS is specified on SET with fa_xflags_rw_mask =3D 0,
+>> return early as a no-op after permission and support checks.
+>>
+>> To make both legacy and new programs interact correctly with both legacy
+>> and new/upgraded filesystems, add:
+>> - xflags_to_flags() / flags_to_xflags(): use fileattr_fill_*() to
+>>   convert xflags to their flags counterpart and vice-versa;
+>> - fileattr_set_mask_to_legacy() / fileattr_set_legacy_to_mask(): convert
+>>   between legacy read-modify-write API and modern rw_mask/ro_mask API.
+>>
+>> Also add the missing FS_XFLAG_PROJID xflag, to allow userspace to set
+>> the projid using file_[gs]etattr() by leveraging the new masks.
+>> In order to prevent the legacy FS_IOC_FSSETXATTR from accepting
+>> FS_XFLAG_PROJID, add a FS_FILE_ATTR_XFLAGS_MASK to support new xflags
+>> and use it to validate/clamp both the _xflags fields and the masks.
+>>
+>> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.11
+>> Signed-off-by: koraynilay <koray.fra@gmail.com>
+>> ---
+>>  fs/file_attr.c             | 332 +++++++++++++++++++++++++++++++++----
+>>  include/linux/fileattr.h   |   7 +
+>>  include/uapi/linux/fcntl.h |   6 +
+>>  include/uapi/linux/fs.h    |   7 +-
+>>  4 files changed, 320 insertions(+), 32 deletions(-)
+>>
+>> diff --git a/fs/file_attr.c b/fs/file_attr.c
+> ...
+>
+>> +/*
+>> + * Convert legacy RMW input format without masks, coming from userspace=
+, to new
+>> + * input format with masks, for filesystems that already support masks.
+>> + */
+>
+> The term "legacy" is always a bit ambiguous so best to avoid if possible
+>
+> So maybe something more explicit like v0_to_v1
+> ...
+
+Ah ok.
+
+>> @@ -283,20 +485,62 @@ int vfs_fileattr_set(const struct mnt_idmap *idmap=
+, struct dentry *dentry,
+>>         if (!inode_owner_or_capable(idmap, inode))
+>>                 return -EPERM;
+>>
+>> +       if (fa->has_masks && !fa->fsx_xflags_rw_mask)
+>> +               return 0;
+>> +
+>>         inode_lock(inode);
+>>         err =3D vfs_fileattr_get(dentry, &old_ma);
+>>         if (err)
+>>                 goto out;
+>>
+>> -       /* initialize missing bits from old_ma */
+>> +       if (old_ma.has_masks) {
+>> +               old_ma.fsx_xflags_rw_mask &=3D FS_FILE_ATTR_XFLAGS_MASK;
+>> +               old_ma.fsx_xflags_ro_mask &=3D FS_FILE_ATTR_XFLAGS_MASK;
+>> +       }
+>> +       old_ma.fsx_xflags &=3D FS_FILE_ATTR_XFLAGS_MASK;
+>> +
+>> +       /* Convert between formats and initialize missing bits from old_=
+ma */
+>>         if (fa->flags_valid) {
+>> -               fa->fsx_xflags |=3D old_ma.fsx_xflags & ~FS_XFLAG_COMMON=
+;
+>> -               fa->fsx_extsize =3D old_ma.fsx_extsize;
+>> -               fa->fsx_nextents =3D old_ma.fsx_nextents;
+>> -               fa->fsx_projid =3D old_ma.fsx_projid;
+>> -               fa->fsx_cowextsize =3D old_ma.fsx_cowextsize;
+>> +               if (!old_ma.has_masks) {
+>> +                       /* FS_IOC_SETFLAGS */
+>> +                       fa->fsx_xflags_rw_mask =3D 0;
+>> +                       fa->fsx_xflags |=3D old_ma.fsx_xflags & ~FS_XFLA=
+G_COMMON;
+>> +                       fa->fsx_extsize =3D old_ma.fsx_extsize;
+>> +                       fa->fsx_nextents =3D old_ma.fsx_nextents;
+>> +                       fa->fsx_projid =3D old_ma.fsx_projid;
+>> +                       fa->fsx_cowextsize =3D old_ma.fsx_cowextsize;
+>> +               } else {
+>> +                       err =3D fileattr_set_legacy_to_mask(fa, &old_ma)=
+;
+>> +                       if (err)
+>> +                               goto out;
+>> +               }
+>> +       } else if (!fa->has_masks) {
+>> +               if (!old_ma.has_masks) {
+>> +                       /* FS_IOC_FSSETXATTR / file_attr VER0 */
+>> +                       fa->flags |=3D old_ma.flags & ~FS_COMMON_FL;
+>> +               } else {
+>> +                       err =3D fileattr_set_legacy_to_mask(fa, &old_ma)=
+;
+>> +                       if (err)
+>> +                               goto out;
+>> +               }
+>>         } else {
+>> -               fa->flags |=3D old_ma.flags & ~FS_COMMON_FL;
+>> +               /* file_attr VER1 */
+>> +               if (old_ma.has_masks) {
+>> +                       /*
+>> +                        * Don't preserve non-common flags since filesys=
+tems
+>> +                        * with masks only use xflags
+>> +                        */
+>> +               } else {
+>> +                       /*
+>> +                        * Filesystem doesn't support _mask API yet, swi=
+tch to
+>> +                        * old rmw format.
+>> +                        * PROJID is supported like the legacy masks, bu=
+t will
+>> +                        * be stripped during conversion.
+>> +                        */
+>> +                       err =3D fileattr_set_mask_to_legacy(fa, &old_ma)=
+;
+>> +                       if (err)
+>> +                               goto out;
+>> +               }
+>
+> I stand behind my earlier comment - this is too much for open coding
+> here. I won't suggest a better factoring I am sure you will figure out
+> one by yourself. focus on readability and reviewability please.
+
+Hmm, ok, I'll try.
+Can I keep the comments though? (changing them a little maybe)
+I think it's important to have them since we're dealing with bitwise
+operations and a not so easy to understand logic.
+
+>>         }
+>>
+>>         err =3D fileattr_set_prepare(inode, &old_ma, fa);
+>> @@ -390,7 +634,8 @@ SYSCALL_DEFINE5(file_getattr, int, dfd, const char _=
+_user *, filename,
+>>         BUILD_BUG_ON(sizeof(struct file_attr) < FILE_ATTR_SIZE_VER0);
+>>         BUILD_BUG_ON(sizeof(struct file_attr) !=3D FILE_ATTR_SIZE_LATEST=
+);
+>>
+>> -       if ((at_flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH)) !=3D 0)
+>> +       if ((at_flags &
+>> +            ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH | AT_FILE_ATTR_MASKS)=
+) !=3D 0)
+>>                 return -EINVAL;
+...
+>>  int copy_fsxattr_to_user(const struct file_kattr *fa, struct fsxattr __=
+user *ufa);
+>> diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+>> index e43e3de3e9ee..a6ecca6f5e63 100644
+>> --- a/include/uapi/linux/fcntl.h
+>> +++ b/include/uapi/linux/fcntl.h
+>> @@ -191,4 +191,10 @@ struct delegation {
+>>  #define AT_EXECVE_CHECK                0x10000 /* Only perform a check =
+if execution
+>>                                            would be allowed. */
+>>
+>> +/* Flags for file_getattr(2) / file_setattr(2). */
+>> +#define AT_FILE_ATTR_MASKS     0x001   /* Advertise knowing and being a=
+ble to
+>> +                                          handle the struct file_attr f=
+ields
+>> +                                          fa_xflags_rw_mask and
+>> +                                          fa_xflags_ro_mask */
+>> +
+>
+> I prefer AT_FILEATTR_
+> This is consistent with other AT_<SYSCALL> using a single word.
+> And there is no risk of misunderstanding what FILEATTR refers to.
+
+Ah ok, I used FILE_ATTR because all UAPI references to fileattr are
+with _: struct file_attr, file_([gs]et)attr.
+
+>
+>>  #endif /* _UAPI_LINUX_FCNTL_H */
+>> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+>> index a13c7b32a1bd..63d88ebe3420 100644
+>> --- a/include/uapi/linux/fs.h
+>> +++ b/include/uapi/linux/fs.h
+>> @@ -238,10 +238,13 @@ struct file_attr {
+>>         __u32 fa_nextents;      /* nextents field value (get)   */
+>>         __u32 fa_projid;        /* project identifier (get/set) */
+>>         __u32 fa_cowextsize;    /* CoW extsize field value (get/set) */
+>> +       __u64 fa_xflags_rw_mask;/* supported writeable xflags (get) / fl=
+ags to set (set) */
+>> +       __u64 fa_xflags_ro_mask;/* supported read-only xflags (get) */
+>>  };
+>>
+>>  #define FILE_ATTR_SIZE_VER0 24
+>> -#define FILE_ATTR_SIZE_LATEST FILE_ATTR_SIZE_VER0
+>> +#define FILE_ATTR_SIZE_VER1 40
+>> +#define FILE_ATTR_SIZE_LATEST FILE_ATTR_SIZE_VER1
+>>
+>
+> Man... we really need a bot to review all UAPI changes
+> Please someone tell the bot to check
+> NO LATEST/LAST/ALL constants in UAPI headers!!!
+>
+> Your patch does not introduce this constant in UAPI but if we change
+> it we risk spreading different versions in installed headers.
+
+You mean someone having different versions of the header, each with a
+different FILE_ATTR_SIZE_LATEST?
+
+> Honestly I see no reason for FILE_ATTR_SIZE_VER* to be in UAPI
+> either. For other UAPIs those constants are not in the UAPI header:
+>
+> ~/src/linux$ git grep SIZE_LATEST include/linux/
+> include/linux/fcntl.h:#define OPEN_HOW_SIZE_LATEST      OPEN_HOW_SIZE_VER=
+0
+> include/linux/seccomp.h:#define SECCOMP_NOTIFY_ADDFD_SIZE_LATEST
+> SECCOMP_NOTIFY_ADDFD_SIZE_VER0
+> include/linux/xattr.h:#define XATTR_ARGS_SIZE_LATEST    XATTR_ARGS_SIZE_V=
+ER0
+>
+> So please move those contacts before adding/changing them
+> (can be in the same patch IMO).
+
+Should I move them to fs/linux/fileattr.h?
+If so, all of them or only VER1/LATEST? (since they're maybe used by
+some userspace program already (?))
+
+> This is a high level review.
+> I did not look at the details of the conversions and validations
+> Will do that for v3.
+
+No problem, there are already many issues to fix before looking at the
+actual implementation.
 
 Thanks,
-Slava.
+koraynilay
 
-On Fri, 2026-11-27 at 11:52 +0800, kernel test robot wrote:
-> Hi shaos,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> [auto build test WARNING on brauner-vfs/vfs.all]
-> [also build test WARNING on linus/master v7.4-rc4 next-20261126]
-> [If your patch is applied to the wrong git tree, kindly drop us a
-> note.
-> And when submitting patch, we suggest to use '--base' as documented
-> in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-> url:=C2=A0=C2=A0=C2=A0
-> https://github.com/intel-lab-lkp/linux/commits/shaos/hfsplus-reorder-comp=
-lete-combining-runs-for-dentry-keys/20261126-160720
-> base:=C2=A0=C2=A0
-> https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git=C2=A0vfs.all
-> patch link:=C2=A0=C2=A0=C2=A0
-> https://lore.kernel.org/r/20261126160720.3007837-1-shawnq1%40163.com
-> patch subject: [PATCH] hfsplus: reorder complete combining runs for
-> dentry keys
-> config: arm-allyesconfig
-> (https://download.01.org/0day-ci/archive/20261127/20261127114353.IlT3
-> o2gb-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 16.2.0
-> reproduce (this is a W=3D1 build):
-> (https://download.01.org/0day-ci/archive/20261127/20261127114353.IlT3
-> o2gb-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new
-> version of
-> the same patch/commit), kindly add following tags
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes:
-> > https://lore.kernel.org/oe-kbuild-all/20261127114353.IlT3o2gb-lkp@intel=
-.com/
->=20
-> All warnings (new ones prefixed by >>):
->=20
-> =C2=A0=C2=A0 fs/hfsplus/unicode.c: In function 'hfsplus_compare_dentry':
-> > > fs/hfsplus/unicode.c:747:1: warning: the frame size of 1456 bytes
-> > > is larger than 1280 bytes [-Wframe-larger-than=3D]
-> =C2=A0=C2=A0=C2=A0=C2=A0 747 | }
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | ^
-> --
-> =C2=A0=C2=A0 fs/hfsplus/unicode_test.c: In function
-> 'hfsplus_dentry_combining_reorder_long_test':
-> > > fs/hfsplus/unicode_test.c:1547:1: warning: the frame size of 1680
-> > > bytes is larger than 1280 bytes [-Wframe-larger-than=3D]
-> =C2=A0=C2=A0=C2=A0 1547 | }
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | ^
->=20
->=20
-> vim +747 fs/hfsplus/unicode.c
->=20
-> d45bce8faf5551 Duane Griffin=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2007-07-15=C2=
-=A0 721=C2=A0=20
-> d45bce8faf5551 Duane Griffin=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2007-07-15=C2=
-=A0 722=C2=A0 /*
-> d45bce8faf5551 Duane Griffin=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2007-07-15=C2=
-=A0 723=C2=A0=C2=A0 * Compare strings
-> with HFS+ filename ordering.
-> d45bce8faf5551 Duane Griffin=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2007-07-15=C2=
-=A0 724=C2=A0=C2=A0 * Composed
-> unicode characters are decomposed and case-folding is performed
-> d45bce8faf5551 Duane Griffin=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2007-07-15=C2=
-=A0 725=C2=A0=C2=A0 * if the
-> appropriate bits are (un)set on the superblock.
-> d45bce8faf5551 Duane Griffin=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2007-07-15=C2=
-=A0 726=C2=A0=C2=A0 */
-> 6fa67e70755930 Al Viro=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 2016-07-31=C2=A0 727=C2=A0 int
-> hfsplus_compare_dentry(const struct dentry *dentry,
-> 621e155a359196 Nicholas Piggin=C2=A0=C2=A0=C2=A0 2011-01-07=C2=A0
-> 728=C2=A0=C2=A0		unsigned int len, const char *str, const struct qstr *na=
-me)
-> d45bce8faf5551 Duane Griffin=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2007-07-15=C2=
-=A0 729=C2=A0 {
-> d3fe19852e96aa Al Viro=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 2016-07-29=C2=A0 730=C2=A0=C2=A0	struct
-> super_block *sb =3D dentry->d_sb;
-> bbe5ebcbc006ac Viacheslav Dubeyko 2026-09-18=C2=A0 731=C2=A0=C2=A0	int ca=
-sefold
-> =3D test_bit(HFSPLUS_SB_CASEFOLD, &HFSPLUS_SB(sb)->flags);
-> bbe5ebcbc006ac Viacheslav Dubeyko 2026-09-18=C2=A0 732=C2=A0=C2=A0	struct
-> hfsplus_decompose_iter it1, it2;
-> d45bce8faf5551 Duane Griffin=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2007-07-15=C2=
-=A0 733=C2=A0=20
-> bbe5ebcbc006ac Viacheslav Dubeyko 2026-09-18=C2=A0
-> 734=C2=A0=C2=A0	hfsplus_decompose_iter_init(&it1, sb, str, len, HFS_REGUL=
-AR_NAME);
-> bbe5ebcbc006ac Viacheslav Dubeyko 2026-09-18=C2=A0
-> 735=C2=A0=C2=A0	hfsplus_decompose_iter_init(&it2, sb, name->name, name->l=
-en,
-> 897c2beb4a7799 Viacheslav Dubeyko 2026-03-23=C2=A0
-> 736=C2=A0=C2=A0				=C2=A0=C2=A0=C2=A0 HFS_REGULAR_NAME);
-> d45bce8faf5551 Duane Griffin=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2007-07-15=C2=
-=A0 737=C2=A0=20
-> bbe5ebcbc006ac Viacheslav Dubeyko 2026-09-18=C2=A0 738=C2=A0=C2=A0	while =
-(1) {
-> bbe5ebcbc006ac Viacheslav Dubeyko 2026-09-18=C2=A0 739=C2=A0=C2=A0		int
-> c1 =3D hfsplus_decompose_iter_next_folded(&it1, casefold);
-> bbe5ebcbc006ac Viacheslav Dubeyko 2026-09-18=C2=A0 740=C2=A0=C2=A0		int
-> c2 =3D hfsplus_decompose_iter_next_folded(&it2, casefold);
-> d45bce8faf5551 Duane Griffin=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2007-07-15=C2=
-=A0 741=C2=A0=20
-> bbe5ebcbc006ac Viacheslav Dubeyko 2026-09-18=C2=A0 742=C2=A0=C2=A0		if
-> (c1 < 0 || c2 < 0)
-> bbe5ebcbc006ac Viacheslav Dubeyko 2026-09-18=C2=A0
-> 743=C2=A0=C2=A0			return c1 =3D=3D c2 ? 0 : (c1 < 0 ? -1 : 1);
-> bbe5ebcbc006ac Viacheslav Dubeyko 2026-09-18=C2=A0 744=C2=A0=C2=A0		if
-> (c1 !=3D c2)
-> bbe5ebcbc006ac Viacheslav Dubeyko 2026-09-18=C2=A0
-> 745=C2=A0=C2=A0			return c1 < c2 ? -1 : 1;
-> bbe5ebcbc006ac Viacheslav Dubeyko 2026-09-18=C2=A0 746=C2=A0=C2=A0	}
-> d45bce8faf5551 Duane Griffin=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2007-07-15 @74=
-7=C2=A0 }
+> Thanks,
+> Amir.
+
+
+
+--5a3f61e607b661bce23953d8b2acf29cca7bc4b24c3dca1ea3d419584a61
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSgVimKafU5DQMcjcDmj22qf5IGXAUCawnGpgAKCRDmj22qf5IG
+XJC+AQD6rT0x9Y4hNSrZsuWrnS6U/9AJpmN8qD+WhFPWqpdK6AEAvcMy7n9UkdCP
+E9IT921CF76ZCCOLHHb0fYGaVgrMHwg=
+=30Fr
+-----END PGP SIGNATURE-----
+
+--5a3f61e607b661bce23953d8b2acf29cca7bc4b24c3dca1ea3d419584a61--
