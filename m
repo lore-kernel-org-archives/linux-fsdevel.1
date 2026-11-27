@@ -1,74 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795780671;
-	b=SR/AFwDOiuratPstDfypXTdzO4yZeMXKgAS/fDfiPhhLpvv4/qMvZf6UPpJmlLLIQXcd
-	 tM2uSdpXmTZQ82n9upMkcEy9CFpE5BjXo3UDvTRW1iXczrRpAaShElnfLzQF9iNbXD/1h
-	 9exzEJDTEQHdZK0D+IQf0MQGY2BqvvBdQTxieXj3ZWKGisv8ywXim0Xp8OxgQ7C9ojoJp
-	 PAmrty+N3Q9pHRLRZOxFT8rr1VuxB26lc/AgqHIhXQ24jxy31Y6BZBsU/dSMGVkhOjXlq
-	 T9gZjNxDF668iQ48dYwWDDBz3LRfRQnpQErlEC7q2ejVzMztFBMdnM6nYzhEcfsLe4g==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795780671;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=lYh1X6gu3bEoP46ZRo2CKjE7Ru+ghnrATHznTlKdHL4=;
-	b=kbFtHpKmDu++PXJhhT2uq7bjZuUg1r3tf32FkG2YWcLZUt+E+fYfgIsRVQgFR5gYr5Hl
-	 bgvj2APdse4pz1rf2hkWcdHhzN+HAFvHqb/Q9NZ+9mHbfhOBJfmD6D69jkAwF6nrnA3bS
-	 AR/Uh8X9hAIJ3u3DKR5qjHYdXN1jM12HtinqsHEVN152/G7dJIr/woYFYtePj8On6un8z
-	 0dXSN0w2KZhQ+K3+URsXOY+7O7kMu2Mzqf2eiHYkACjmu2vs6Ed3n3u8Uh7xugJ5Q4MHa
-	 QHnb2TtOMDyJiPgXB4fdITXASGHzcwlSnwYEbQhjHfxLPXy4kJFmy7Zr1EIcj5jCshA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b="Rk/83KGr";
-	arc=none smtp.remote-ip=90.155.50.34
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.167.52
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1795780980;
+	b=0ucn9YJs3ETL6bCdXRspS2LUrH2jNYvVCtpA6lulvkBI2Ey0FjP8mXUyzUbf2EF08S4B
+	 tL4teA3vK0OsABZUSBkqC37+2e5FNRCnIJ07Wocj4ktFWWPKbvmEvcRh+qQsDMccglxps
+	 3VIniX8L/5SXNvyoAtq1Jsc7RGbANNc8Mc4PYQIER7X6AlL5N7xQ6dO6QkLROdHvG/zeL
+	 SgIkV7/9hAXYJ86qJscDZERE82uTASiAYRvLpB2vC2WwoB4J72ezaV0zHNOjjCX1eqjzQ
+	 HnvHOEHp2FucnVpkBV5uERn6opYm2erM+c6zaQaf50k6gIe+voUx7wfTloM8ZqSYkiQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795780980;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=sKBAqoHb6dKCB8lGd+jVvxodjbVVN2AMGRa9Yq/Mby4=;
+	b=dGL9Q3Fk8mlCYUC8DSwc518MS3Qe/BgBnL1R9fjRbN2k1P/pm0UZGVjnWK8p0Y2Gu0YJ
+	 oXezojorHJBpkSWYUF7OE3Z4vDtGrtYBYTXVkDewJ1ONgPtjZqejU40m1YpUJRVk9zzo2
+	 qHsIouCaQnSNsevOFmnlGSCXpYLW3aO/nktq5pq/lRlSFICYLvylPImKUqPB19JJbtDM9
+	 25YzJe+xTGbxK+uAz6VYiYjlzGQd98mrAVFJGXmFsd4/pCGbdGs3oiu/u3D4TbpDTHL4e
+	 qLocO02NoqjgjLFMf70dVU4Sgk3NPwqOXR+lhW+2h6pA2dE/rq2wtN0EHEVIsErgeAA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SnFA07cx;
+	arc=fail smtp.remote-ip=209.85.167.52
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446CC606A31E;
-	Fri, 27 Nov 2026 11:57:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 446CC606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C82E9606A323
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 12:02:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C82E9606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=Rk/83KGr
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=lYh1X6gu3bEoP46ZRo2CKjE7Ru+ghnrATHznTlKdHL4=; b=Rk/83KGraaBTfzF4MfaRTlvEZm
-	8ybOmvlau3oTGuJUOzEHc/VNvlHXS4VVgzoE7IqQ7/5enq9PE6hephpIAGNDSgZFCQaBM+cKWC0lZ
-	QiuMRd8mzBa354QpthZIOsDVSSwt+0g+OtNVgjDiPJbhh0tsiwG8imhJP1ONg0A25f0EhZ1j1l2k1
-	AR3Trg/rcUnTaFrhOJEmcuHijwnp9M0D9z/Hoezdwx5F+Ji/FRM3qwaN7pgET6aiNJaBvqbs+IuQg
-	XY3a4DTxxHQjX5ahvGDNr83Ioqgr55mQmoSqkLybgWTBq/VAUryzJecM9WVvExMKE+p/9cTdZLjFO
-	ZEQOS9ng==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWuaJ-0000000C3hu-0A3I;
-	Fri, 27 Nov 2026 11:57:47 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id DE34830027B; Fri, 27 Nov 2026 12:57:45 +0100 (CET)
-Date: Fri, 27 Nov 2026 12:57:45 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Jann Horn <jannh@google.com>, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, adrian.hunter@intel.com,
-	alexander.shishkin@linux.intel.com, dapeng1.mi@linux.intel.com
-Subject: Re: [PATCH 1/2] perf: look up address filter files without
- ctx->mutex held
-Message-ID: <20261127115745.GA2883950@noisy.programming.kicks-ass.net>
-References: <20261126-work-exec-update_lock-leftovers-v1-0-1024b26792bc@kernel.org>
- <20261126-work-exec-update_lock-leftovers-v1-1-1024b26792bc@kernel.org>
- <20261126152414.GH49833@noisy.programming.kicks-ass.net>
- <20261126-gedruckt-gastarbeiter-vorsorgen-5fea7cea1877@brauner>
- <20261126-erlogen-bedrucken-dementieren-5de5e5460481@brauner>
- <20261127081303.GN49833@noisy.programming.kicks-ass.net>
- <20261127091852.GD83911@noisy.programming.kicks-ass.net>
- <20261127-tonlage-pilze-demolieren-5948f82f401c@brauner>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SnFA07cx
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5be53e5fce1so7366708e87.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 04:02:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795780978; cv=none;
+        d=google.com; s=arc-20260327;
+        b=E8lSY4LL9D5xiw7ftv0M9Og/G1s6EBIsqAUniTIiZ1ptDZ1Pd+kqTOWSexUf1WYgey
+         7SwY8aHkfVpfJEJ9Q2g3Q5ezEVTqgHP1Ka/Qt1X15PratGX5yL3+QtzWGXAnpzLmfE8B
+         nMxVAnFSwHtAXGSRt1c0Ujz1FZLR9IP5YY7VySSTzSPSGMtXg2WGWDzVIyLjWUAJ8fWd
+         CgKJIWvKdNKlGXSwpnXQ/NzNUWAyBVgUENFMu9SbbDfrdxyCkSuYjgLP6J963FEM64Bd
+         WykM+sKuyk0JpT82xyUEfd66jfDzbOIY8se/8FibX1iLR/2EHrZMnCtulZBJU1cOKKJQ
+         C2fg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=sKBAqoHb6dKCB8lGd+jVvxodjbVVN2AMGRa9Yq/Mby4=;
+        fh=m3cJdtf+Ox+LV6rUYDX0Q6zkenLX6/jGDKEL2+YQM/A=;
+        b=qrkQ2dSBJUJ/5PjGJ7sfqiRotsLALZegcSQaa4Ob/zytBX5MJiXG/cGATdXfQfy0gX
+         6Qw07orSiGGTJ5ySTlcX68ousurhD9gbwEz9UNwPQFlafYRbQC6r1duo+pNzV7YhKXrf
+         KT1bXi9p4sGeC+I4x5Kd46fzjdJbhPYFhc7ZRG3gcT8OJ4KwaIoLlrpzhrl5F/k71ErH
+         3WLzvIHZRFbTA1wmYDEZ6jEnd1AJGrWEbIwkYGrMNdbCaOpKqrdDG5KfG5P6RzblxtXS
+         SXVv1hI0h5FJIr+KzWdAHAwTx8DXUG6+6SfbqRRpt0b61DWChHt/aFoQGA6D2VooZNyy
+         55Dg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795780978; x=1796385778; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=sKBAqoHb6dKCB8lGd+jVvxodjbVVN2AMGRa9Yq/Mby4=;
+        b=SnFA07cxVyuwSSQ2WlqVldYscrENhFj8PVisFe6EUr/u+zjaGcOlyf+NO4/VeKXXX7
+         4E5nqOC+Z3I662UCySIHIiaMwrjJK+ZjK9X5FK/V848T+A65ClvPxk5bvJvrsV+MWdo/
+         JIM89r7vSI7FFB67/tWpYnfwZs9/cVksgSfXEE4llKDhqleU1ZWfSy+N4AE/zsZMEKkf
+         FXtLBubySwAUA91pvO8XAdbubi6E7QFc7BDt/+z27xlpQGmIW0sbpzCnfaiUYkOVUtJK
+         S6zwuiZQCA+1rzhAC+jCChTTNWgaEmMmc18deOG2Q+9ze1ubEHLrjAXDP7U1S018fipI
+         jn7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795780978; x=1796385778;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=sKBAqoHb6dKCB8lGd+jVvxodjbVVN2AMGRa9Yq/Mby4=;
+        b=tKXCJzt0xP4MwRYG7a1RhipamJpGFtFZuDHKVRr+0Lcg6KQqYj2Tw6zOlUR2BgDlAP
+         fF3vMd/JworFb0FnI0SUQNBapnY4MJPPy7LQw0Vz9viJP0KuhD2zH1m1tAXt6le14Zlh
+         4jk1KqXUYN6jvKuNvGOLPJxM+0BWvaabafbyNX5nhQDfrPvjuzI9v3KYBEjPyPEY95+E
+         q5yMjtiqTRCDc+yDi88tg+HoysKjrBg195ymIa8mLJHxzDUe5AgPDst/vAoqr+k+QMBD
+         MFfLSJMm9wQmQH1iiEd1fvod8zTOlU+z+wgnr/h1UFEb9CopWADCbrCRlhVxSJ6AHBv5
+         38oA==
+X-Forwarded-Encrypted: i=1; AL+hErGPrUBj2gm2xxfHqNf49ZCHBc9tafVwk19b0ENkkW0IVTa5DI/M+ExEJDkmuTT/kZoeq5TOxrzF/2MZmIq9@vger.kernel.org
+X-Gm-Message-State: APuU4Z+CJoji8XnFRaadyYR04v5NsZEaQD5hId3BtfsqrP1t5xuZQiiO
+	TaT/5Nv3BGNWBZ50TAcK6tjQ4BQarByI+j61nCxvjpdeKy7/RMP7RFZmHms04Be9OOl3R0W0yxD
+	+X7W3uLC+gZegya5LtE0CDXtZ3ATiG+s=
+X-Gm-Gg: AZFdTZemQ22cjdZ6SCDDkY5ZwH8TmmuXp/4zVExzT20aq+e7PuhM5sBWipMPqXJ491t
+	sZZ3iPqOdXQm3uFIF9eCzeJj3m6wZyltOlDKM3AKpQ5HG2FMv21iEtAX8jdRd275IpMT9TcbsC3
+	JSlcJBW6vS7w8qBF7nx9ZlESbJ/imAM1+FyF3GkvN/nSiVm5CJ+2lH10EWFsefyCDT4akmtxqUF
+	RBTWWJ01AErWcIkVgbJipgMY11EOE4rlxr1Av+p2d5b55xCMJyuBzlkoqAVz6Zs4ZmazLq8yuHe
+	VpLKFcVFBVumHn9CI/uvsdDOSMWOY1PRywLrGT31py75HPLa49SYUkHc3oNc1S3oz3zb0k3i7Nx
+	vdNDOhy2rRPWczNZhxRytw4bfQt/zjlBaI8DPCKfjVc2odfk57BDknujrTRF5gZVwQshZmg==
+X-Received: by 2002:a05:6512:1148:b0:5bc:cc46:1849 with SMTP id
+ 2adb3069b0e04-5c1bc874b3cmr6981033e87.54.1795780976912; Fri, 27 Nov 2026
+ 04:02:56 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -78,111 +104,97 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261127-tonlage-pilze-demolieren-5948f82f401c@brauner>
+References: <20261126163114.403846-1-koray.fra@gmail.com> <20261126163114.403846-3-koray.fra@gmail.com>
+ <CAOQ4uxjGLfuZMFABCwMvdXwnU+P24G_aTJLudWbjeSmWwyDF6Q@mail.gmail.com> <DN5YPR39J7QI.1S1LCFLNUCZNL@gmail.com>
+In-Reply-To: <DN5YPR39J7QI.1S1LCFLNUCZNL@gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 27 Nov 2026 13:02:44 +0100
+X-Gm-Features: Aa3M54ohq34732gC99y698hjwvA-0NF3EsaW7G0zij4KAugMs04c_-FFLASygdQ
+Message-ID: <CAOQ4uxgzmB0dEpQCVGKOc8reJ6OFV=BxDMgRW81aKiCMwDSn_Q@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] fscrypt: update fscrypt_prepare_setflags() to use xflags
+To: koraynilay <koray.fra@gmail.com>
+Cc: Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>, 
+	Eric Biggers <ebiggers@kernel.org>, "Theodore Y . Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Aring <alex.aring@gmail.com>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Andrey Albershteyn <aalbersh@kernel.org>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+	Lauri Gates <lauri.gates@gmail.com>, Christoph Hellwig <hch@infradead.org>, Dave Chinner <dgc@kernel.org>, 
+	linux-btrfs@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	ntfs@lists.linux.dev, linux-nfs@vger.kernel.org, linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 27, 2026 at 10:45:28AM +0100, Christian Brauner wrote:
+On Fri, Nov 27, 2026 at 12:38=E2=80=AFPM koraynilay <koray.fra@gmail.com> w=
+rote:
+>
+> On Fri Nov 27, 2026 at 12:35 PM CET, Amir Goldstein wrote:
+> > On Thu, Nov 26, 2026 at 5:31=E2=80=AFPM koraynilay <koray.fra@gmail.com=
+> wrote:
+> >>
+> >> Update fscrypt_prepare_setflags() to use FS_XFLAG_* xflags instead of
+> >> legacy FS_*_FL flags.
+> >>
+> >> Signed-off-by: koraynilay <koray.fra@gmail.com>
+> >> ---
+> >>  fs/crypto/hooks.c       | 10 +++++-----
+> >>  fs/file_attr.c          |  2 +-
+> >>  include/linux/fscrypt.h |  6 +++---
+> >>  3 files changed, 9 insertions(+), 9 deletions(-)
+> >>
+> >> diff --git a/fs/crypto/hooks.c b/fs/crypto/hooks.c
+> >> index 149498bdab94..52d6a33fc9e9 100644
+> >> --- a/fs/crypto/hooks.c
+> >> +++ b/fs/crypto/hooks.c
+> >> @@ -182,10 +182,10 @@ int __fscrypt_prepare_setattr(struct dentry *den=
+try, struct iattr *attr)
+> >>  EXPORT_SYMBOL_GPL(__fscrypt_prepare_setattr);
+> >>
+> >>  /**
+> >> - * fscrypt_prepare_setflags() - prepare to change flags with FS_IOC_S=
+ETFLAGS
+> >> + * fscrypt_prepare_setflags() - prepare to change xflags
+> >
+> > prepare to change the file attributes with file_setattr() or one of
+> > the legacy ioctls
+>
+> Ah yes.
+>
+> >>   * @inode: the inode on which flags are being changed
+> >> - * @oldflags: the old flags
+> >> - * @flags: the new flags
+> >> + * @oldxflags: the old xflags
+> >> + * @xflags: the new xflags
+> >>   *
+> >>   * The caller should be holding i_rwsem for write.
+> >>   *
+> >> @@ -193,7 +193,7 @@ EXPORT_SYMBOL_GPL(__fscrypt_prepare_setattr);
+> >>   *        another error occurs.
+> >>   */
+> >>  int fscrypt_prepare_setflags(struct inode *inode,
+> >> -                            unsigned int oldflags, unsigned int flags=
+)
+> >> +                            unsigned int oldxflags, unsigned int xfla=
+gs)
+> >
+> > This here is a backporting landmine -
+> >
+> > Changing the semantics drastically without changing the helper name
+> > or signature.
+> >
+> > Please rename the helper something like fscrypt_prepare_fileattr_set()
+> > so that backporting mistakes will be caught at build time.
+>
+> Yes, though, would it maybe be better to just use xflags_to_flags() in
+> the vfs patch instead of changing the fscrypt function at all?
 
-> > @@ -12310,11 +12361,8 @@ perf_event_parse_addr_filter(struct perf_event *event, char *fstr,
-> >  
-> >  				ret = -EINVAL;
-> >  				if (!filter->path.dentry ||
-> > -				    !S_ISREG(d_inode(filter->path.dentry)
-> > -					     ->i_mode))
-> > +				    !S_ISREG(d_inode(filter->path.dentry)->i_mode))
-> >  					goto fail;
-> 
-> Just a thought on this. In vfs-7.5.lookup I have:
-> 
-> file_check_backing() which is the new default way to figure out whether
-> something can be a backing file for a given subsystem. Its checks are:
-> 
-> int file_check_backing(const struct file *file, fmode_t mode, umode_t type)
-> {
-> 	fmode_t io = mode & (FMODE_READ | FMODE_WRITE);
-> 	/* Drivers may point ->f_mapping at something else. */
-> 	umode_t fmt = file_inode(file)->i_mode & S_IFMT;
-> 	struct inode *real_inode;
-> 
-> 	/* O_PATH files are only fine for callers that just use the path. */
-> 	if ((file->f_mode & FMODE_PATH) && !(mode & FMODE_PATH))
-> 		return -EBADF;
-> 
-> 	if ((file->f_mode & io) != io)
-> 		return -EBADF;
-> 
-> 	if (fmt != S_IFREG && !(type == S_IFBLK && fmt == S_IFBLK))
-> 		return -EINVAL;
-> 
-> 	/* Look through stacking filesystems at the inode with the data. */
-> 	real_inode = d_real_data_inode(file->f_path.dentry);
-> 	if (IS_ERR(real_inode))
-> 		return PTR_ERR(real_inode);
-> 	if (real_inode->i_sb->s_iflags & SB_I_PSEUDO)
-> 		return -EINVAL;
-> 
-> 	if ((mode & FMODE_READ) &&
-> 	    (!(file->f_mode & FMODE_CAN_READ) || !file->f_op->read_iter))
-> 		return -EINVAL;
-> 
-> 	if ((mode & FMODE_WRITE) &&
-> 	    (!(file->f_mode & FMODE_CAN_WRITE) || !file->f_op->write_iter))
-> 		return -EINVAL;
-> 
-> 	return 0;
-> }
-> 
-> It excludes anything that is a pseudo filesystem:
-> 
-> arch/powerpc/platforms/cell/spufs/inode.c:      fc_init_pseudo(fc);
-> arch/s390/hypfs/inode.c:        fc_init_pseudo(fc);
-> drivers/android/binder/rust_binderfs.c: fc_init_pseudo(fc);
-> drivers/usb/gadget/function/f_fs.c:     fc_init_pseudo(fc);
-> drivers/usb/gadget/legacy/inode.c:      fc_init_pseudo(fc);
-> drivers/xen/xenfs/super.c:      fc_init_pseudo(fc);
-> fs/binfmt_misc.c:       fc_init_pseudo(fc);
-> fs/configfs/mount.c:    fc_init_pseudo(fc);
-> fs/debugfs/inode.c:     fc_init_pseudo(fc);
-> fs/devpts/inode.c:      fc_init_pseudo(fc);
-> fs/efivarfs/super.c:    fc_init_pseudo(fc);
-> fs/failfs.c:    fc_init_pseudo(fc);
-> fs/fuse/control.c:      fc_init_pseudo(fsc);
-> fs/kernfs/mount.c:      fc_init_pseudo(fc);
-> fs/libfs.c:             fc_init_pseudo(fc);
-> fs/nfsd/nfsctl.c:       fc_init_pseudo(fc);
-> fs/nullfs.c:    fc_init_pseudo(fc);
-> fs/ocfs2/dlmfs/dlmfs.c: fc_init_pseudo(fc);
-> fs/openpromfs/inode.c:  fc_init_pseudo(fc);
-> fs/proc/root.c: fc_init_pseudo(fc);
-> fs/pstore/inode.c:      fc_init_pseudo(fc);
-> fs/tracefs/inode.c:     fc_init_pseudo(fc);
-> include/linux/pseudo_fs.h:static inline void fc_init_pseudo(struct fs_context *fc)
-> ipc/mqueue.c:   fc_init_pseudo(fc);
-> kernel/bpf/inode.c:     fc_init_pseudo(fc);
-> net/sunrpc/rpc_pipe.c:  fc_init_pseudo(fc);
-> security/apparmor/apparmorfs.c: fc_init_pseudo(fc);
-> security/inode.c:       fc_init_pseudo(fc);
-> security/selinux/selinuxfs.c:   fc_init_pseudo(fc);
-> security/smack/smackfs.c:       fc_init_pseudo(fc);
-> 
-> I don't think anything on this list is something that you would ever
-> want to use as an object file?
+Yes, much better. I agree.
 
-Very very possibly people would like /proc/kcore to self reference or
-something, but I'm not sure that's a thing. Adrian?
+Now looking at the /* initialize missing bits from old_ma */
+hunk my reaction is to look away its huge and it should be
+using helpers probably called from within fileattr_set_prepare()
+itself - because if this is de-facto preparing for a set.
 
-> I think we should do an O_PATH open of the target file and then you
-> call:
-> 
-> file = filp_open(filename, O_PATH | O_REGULAR, 0)
-> 
-> if (file_check_backing(file, FMODE_PATH, 0))
-> 	return -EINVAL;
-
-We must close file, or does it have __free(file) on or something?
-
-> We had a whole bug class where various subsystems that used backing
-> files just allowed arbitrary files to be used.
-
-This seems fine to me and can go in independent of this locking stuff.
+Thanks,
+Amir.
