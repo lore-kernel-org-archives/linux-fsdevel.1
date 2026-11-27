@@ -1,108 +1,106 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795790480;
-	b=4/lAIdydhn2j2tTGqqmMWfFat/pkAFSg/3majpLrjSBL+wVwwQqsIESJ2bJdgEBVFYbF
-	 mK/cXE1mErmKvjIU6I6UZAHH4dNTFb1CQqzuNyQR0Ewj1ikHvp/gCS/KcH3CSdS3A5u0s
-	 lT/ZeD7eCDogW710D216NyIK+GkwO76yWJDKk9jrp6Cj68eSmuZc6/FuCUNV0FuulauGF
-	 20KJ6reSks0YpHXvB77rzLGex2AVxbtqY//lMgHJnTM/bSzjlclo414Q8eY2JhUCl5yr8
-	 2ZlK0+tH/FGbjHAgVvAa8mWhMDFhsq+huPmzgtkmPpm1jYEsw/kzP6pur/8XmJ/nyFw==
+	t=1795793105;
+	b=CeWiGJf1pEJQAbeMVd6zHuo7HSDRfjFZUgZpTKFv1XdOR4RDLjQ54Sb3q7SAoJhU8eBE
+	 1CGqHz09txBLtlSaDKHhu/AU+k0BhVcTNHhnVNB6sTVKOK1pMtQEwAKLwekSDNotqgPnl
+	 cLbU/6j94yffEr+pbUfB+M16TjH59nv+ukX5bvbsfOB/Hjm6iKUkZq7ePrru2DRfZOa4H
+	 NdD28bKkf9vYeik1LAoHIlzWFuzZzeCcXrTtpCFbzDYn5xijb7EtoM1dkiwbhoNTafiSB
+	 6+d9vlygLUqHlsohvkWO9WfrF/ovJeaGnV9bHMnqnw0Lax9oyh+yLIPAMQneRMKgnXg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795790480;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795793105;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
 	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=5OiMqB0HFqHTXQ26F6nnKmMgWEH3gjayAZHzMcMj1aU=;
-	b=w4DcHihZz2xRtqF6prcGXJsI/nTQR5igJDe82MRBqZfXtYIsf2AhWZpvFWsnm1xt4iAr
-	 zLUgX49c2FmMATjP9CeNqFJbvvs05bKEzUtzYbz0SdphopGWwXedbsLQlE6gydfRr3xj8
-	 s5dkotKMSqbAo4VqjtbVEgLMRtj5gPU+wK9+n2o+ioObe7k48U8S8GNUtkIAMdzoY2g4+
-	 QoHxFjKGybTPMZm5I1RmlaWY+CgkPqN1IqZpQa3+cROC1ICla3l5B3I+De5SRz3EDT1gb
-	 WLO9MvkneqlfWuw1+RAvp7kReq5XlElKw+FITCUW94pYxqXVjUSFDeaYvpNjTLFTabQ==
+	bh=dlrSvZxnt9L7DCoQZv1lSkNntIY7QMoIW4ZKYt9T9n8=;
+	b=zqaeaIJ3xR/gB0VmFvxbL8BcufUyud088wEPPwGsT8x0a6w8/JSoomSiZr5bQYSK9VlS
+	 E4k8cBwKczc5c2Yd9TBWE3bCZVUsxMdbOQ9thI6y2tU/z44pCuymlo9BocmC6YjFlANW7
+	 UVWOAAg+1jBQ2wnNtzVimNdgUX400hY6RUq39jEYcm1deEIXAP/ormF54/KFQrVUJbjqG
+	 jQaWmWoXlZj+OeuIQSf4jjlrhncQteBG6xglO5nNZoio+aHnXj5ILr/PrI4tTRQrcINg6
+	 nyBtnTKhpaR30p9mFuj02oKZlr3DIdxuS87lZJg2wXu+JCVX4QLtSKh2gP9OVIONXzQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=suse.cz;
 	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=V18JV07i;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=V3WqNeUg;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=V18JV07i;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=V3WqNeUg;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=gW2GXdok;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=jDhguXsi;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=gW2GXdok;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=jDhguXsi;
 	arc=none smtp.remote-ip=195.135.223.130
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83915606A327;
-	Fri, 27 Nov 2026 14:41:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 83915606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0217B606A31C;
+	Fri, 27 Nov 2026 15:25:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0217B606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=V18JV07i;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=V3WqNeUg;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=V18JV07i;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=V3WqNeUg
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=gW2GXdok;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=jDhguXsi;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=gW2GXdok;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=jDhguXsi
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id ABDEB22936;
-	Fri, 27 Nov 2026 14:41:17 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D3D24229AB;
+	Fri, 27 Nov 2026 15:25:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795790477; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795793102; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5OiMqB0HFqHTXQ26F6nnKmMgWEH3gjayAZHzMcMj1aU=;
-	b=V18JV07iazluiBay10fP/4fd0aBvpx12c6oF3mwpxHXAz2019+WnkVqDSmKZaSvTDlMhPF
-	+XNcC7x/9xS53FynRM9dvfhEdVgtRrrJQHH2ACw69rokKv+FHXTcm7PNCnE8tEKcZQmeJF
-	hnt16LEz+mQWdpgZEpYRwU0z+1jzExc=
+	bh=dlrSvZxnt9L7DCoQZv1lSkNntIY7QMoIW4ZKYt9T9n8=;
+	b=gW2GXdokvVeHwG4LTPWqprKeL9wZDFxUeZ0DR3mpeg3eWcC5bbz8BP6x2fNYGMIKTzSFjS
+	dZFYKS2wafilbVuEomZoPnR18O/+OeR0ZCTNKdUvsyNqSvMqvKUzs5w+ljoLPOK4zxgGDE
+	zrbyQ7TeB6RIu8HHbMFpyf+BlcZ7Cfg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795790477;
+	s=susede2_ed25519; t=1795793102;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5OiMqB0HFqHTXQ26F6nnKmMgWEH3gjayAZHzMcMj1aU=;
-	b=V3WqNeUgkgQSxLbxSxJo8uXWKoVfkUXxcp5ohyGehBBEEMBEjZJ+8bwnYcECcgLBCveJmp
-	KHVJE0UjiSqIGoCA==
+	bh=dlrSvZxnt9L7DCoQZv1lSkNntIY7QMoIW4ZKYt9T9n8=;
+	b=jDhguXsiJBcUIrj15Ky2dXBgvsXWkMzVKgSBYhiEb88P7X42oosSCW8QoNSEKoEqfVZ/uo
+	yM+7YY3Q2Mbg3OCA==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795790477; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795793102; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5OiMqB0HFqHTXQ26F6nnKmMgWEH3gjayAZHzMcMj1aU=;
-	b=V18JV07iazluiBay10fP/4fd0aBvpx12c6oF3mwpxHXAz2019+WnkVqDSmKZaSvTDlMhPF
-	+XNcC7x/9xS53FynRM9dvfhEdVgtRrrJQHH2ACw69rokKv+FHXTcm7PNCnE8tEKcZQmeJF
-	hnt16LEz+mQWdpgZEpYRwU0z+1jzExc=
+	bh=dlrSvZxnt9L7DCoQZv1lSkNntIY7QMoIW4ZKYt9T9n8=;
+	b=gW2GXdokvVeHwG4LTPWqprKeL9wZDFxUeZ0DR3mpeg3eWcC5bbz8BP6x2fNYGMIKTzSFjS
+	dZFYKS2wafilbVuEomZoPnR18O/+OeR0ZCTNKdUvsyNqSvMqvKUzs5w+ljoLPOK4zxgGDE
+	zrbyQ7TeB6RIu8HHbMFpyf+BlcZ7Cfg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795790477;
+	s=susede2_ed25519; t=1795793102;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5OiMqB0HFqHTXQ26F6nnKmMgWEH3gjayAZHzMcMj1aU=;
-	b=V3WqNeUgkgQSxLbxSxJo8uXWKoVfkUXxcp5ohyGehBBEEMBEjZJ+8bwnYcECcgLBCveJmp
-	KHVJE0UjiSqIGoCA==
+	bh=dlrSvZxnt9L7DCoQZv1lSkNntIY7QMoIW4ZKYt9T9n8=;
+	b=jDhguXsiJBcUIrj15Ky2dXBgvsXWkMzVKgSBYhiEb88P7X42oosSCW8QoNSEKoEqfVZ/uo
+	yM+7YY3Q2Mbg3OCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7ECF013432;
-	Fri, 27 Nov 2026 14:41:17 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AC0B813432;
+	Fri, 27 Nov 2026 15:25:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id w90gF42WCWvcXwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 27 Nov 2026 14:41:17 +0000
+	id 75ERIM6gCWstDwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 27 Nov 2026 15:25:02 +0000
 Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 13DF251056; Fri, 27 Nov 2026 15:41:13 +0100 (CET)
-Date: Fri, 27 Nov 2026 15:41:13 +0100
+	id 2D7F65107A; Fri, 27 Nov 2026 16:25:02 +0100 (CET)
+Date: Fri, 27 Nov 2026 16:25:02 +0100
 From: Jan Kara <jack@suse.cz>
-To: Zhao Gongyi <zhaogongyi@bytedance.com>
-Cc: Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>, 
-	Jinchao Wang <wangjinchao600@gmail.com>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] mm/readahead: read folio order limits under the
- invalidate lock
-Message-ID: <pmv77fehocb557wy6vtcu2fank4uf54k42n22owpyuxxzxfgkj@46pvovh3r7jg>
-References: <20261127072340.73758-1-zhaogongyi@bytedance.com>
+To: Junyoung Jang <graypanda.inzag@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Gwanhyun Lee <gwanhyunlee@gmail.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] udf: validate logical volume partition map lengths
+ before parsing
+Message-ID: <vgjprugp7234s6s3wdlusb5udtwyyslu7ytc7vucdr2fubobsf@gimosgcpenka>
+References: <20261125155608.282719-1-graypanda.inzag@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -114,7 +112,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261127072340.73758-1-zhaogongyi@bytedance.com>
+In-Reply-To: <20261125155608.282719-1-graypanda.inzag@gmail.com>
 X-Spam-Flag: NO
 X-Spam-Level: 
 X-Spamd-Result: default: False [-12.80 / 50.00];
@@ -124,99 +122,122 @@ X-Spamd-Result: default: False [-12.80 / 50.00];
 	MID_RHS_NOT_FQDN(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
 	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[infradead.org,suse.cz,linux-foundation.org,kernel.dk,gmail.com,kvack.org,vger.kernel.org];
 	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,gmail.com,vger.kernel.org];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,bytedance.com:email,imap1.dmz-prg2.suse.org:helo]
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
 X-Spam-Score: -12.80
 
-On Fri 27-11-26 15:23:40, Zhao Gongyi wrote:
-> Block device mmap readahead can race with set_blocksize(), which updates
-> the block size and minimum folio order under the exclusive invalidate
-> lock. page_cache_ra_order() reads the minimum before taking the shared
-> lock and can allocate a folio smaller than the new block size. On the
-> buffer-head path this can cause a NULL dereference in guard_bio_eod().
+On Thu 26-11-26 00:56:07, Junyoung Jang wrote:
+> udf_load_logicalvol() checks the aggregate partition map table length,
+> but uses each entry's unvalidated partitionMapLength to walk the table.
+> A truncated type-2 map near the end of a Logical Volume Descriptor can
+> contain the sparable partition identifier while its packetLength field
+> lies past the descriptor buffer. This causes a two-byte out-of-bounds
+> read in udf_load_sparable_map(), reported by KASAN in
+> udf_process_sequence().
 > 
-> Take the existing shared invalidate lock before computing the folio order
-> limits so they stay valid through allocation and I/O submission.
+> Check that each map header fits in the remaining table and that its
+> declared length fits in the table and covers the fields for its type.
+> The 64-byte generic type-2 size covers the virtual, sparable, and
+> metadata partition map layouts. Report and reject truncated headers
+> and invalid map lengths before accessing type-specific fields. The
+> unchecked walk is present in the initial imported tree.
 > 
-> Fixes: 47dd67532303 ("block/bdev: lift block size restrictions to 64k")
-> Cc: stable@vger.kernel.org # 7.3+
-> Signed-off-by: Zhao Gongyi <zhaogongyi@bytedance.com>
+> A custom LLM agent assisted with discovery and reproducer setup.
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Co-developed-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
+> Signed-off-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
+> Signed-off-by: Junyoung Jang <graypanda.inzag@gmail.com>
 
-Ups, this is hairy. The fix looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
+Thanks, I've added the patch to my tree.
 
 								Honza
 
 > ---
-> Earlier proposals:
->   https://lkml.iu.edu/hypermail/linux/kernel/2511.3/04090.html
->   https://lore.kernel.org/r/aUN9BFdxHQj8ThMS@ndev
+> The malformed image uses a 4096-byte Logical Volume Descriptor with a
+> 3656-byte partition map table and 16 maps. The last map begins at table
+> offset 3626 and declares a 30-byte type-2 sparable map. Its
+> packetLength field lies at descriptor byte 4106, past the end of the
+> 4096-byte buffer. A second image declares a 3627-byte table, leaving
+> only one byte of the last map header inside the table.
 > 
-> The earlier syzbot retest hit a bug in the fallback path. Since
-> b244c89a70b3, the caller holds invalidate_lock before the fallback reads
-> min_nrpages. This patch covers the remaining mmap readahead path.
+> On unmodified mainline 4dce97c6c265 with UDF and KASAN enabled, the
+> first image produced:
 > 
-> A/B testing on arm64/QEMU at the declared base commit gave 10/10
-> baseline hits via madvise and 6/10 via MAP_POPULATE. Both paths had
-> 0/10 hits with this patch. The 20 patched serial logs showed no kernel
-> warnings or crashes.
+>   BUG: KASAN: use-after-free in udf_process_sequence+0x3cfe/0x3f60
+>   Read of size 2 at addr ffff88807ffc000a by task busybox/57
+>   Call Trace:
+>     udf_process_sequence+0x3cfe/0x3f60
+>     udf_check_anchor_block+0x270/0x460
+>     udf_load_vrs+0x67b/0xde0
+>     udf_fill_super+0x778/0x19d0
 > 
->  mm/readahead.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
+> The read crossed the descriptor boundary into an adjacent freed page;
+> that is why KASAN classified it as use-after-free. The mount failed
+> with EIO after the invalid packetLength was read. On patched mainline,
+> three boots rejected map length 30 at offset 3626 before that read;
+> three boots of the second image rejected the truncated header at the
+> same offset. Neither patched case produced a KASAN report. Valid UDF
+> and sparable UDF images mounted before and after the patch.
 > 
-> diff --git a/mm/readahead.c b/mm/readahead.c
-> index 6e5563290..80f3e141d 100644
-> --- a/mm/readahead.c
-> +++ b/mm/readahead.c
-> @@ -484,7 +484,7 @@ void page_cache_ra_order(struct readahead_control *ractl,
->  	struct address_space *mapping = ractl->mapping;
->  	pgoff_t start = readahead_index(ractl);
->  	pgoff_t index = start;
-> -	unsigned int min_order = mapping_min_folio_order(mapping);
-> +	unsigned int min_order;
->  	pgoff_t limit = (i_size_read(mapping->host) - 1) >> PAGE_SHIFT;
->  	pgoff_t mark;
->  	unsigned int nofs;
-> @@ -506,15 +506,17 @@ void page_cache_ra_order(struct readahead_control *ractl,
->  		mark = ULONG_MAX;
->  	}
->  
-> +	/* See comment in page_cache_ra_unbounded() */
-> +	nofs = memalloc_nofs_save();
-> +	filemap_invalidate_lock_shared(mapping);
+>  fs/udf/super.c | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
+> diff --git a/fs/udf/super.c b/fs/udf/super.c
+> index a81a8509524a..41988a07b86b 100644
+> --- a/fs/udf/super.c
+> +++ b/fs/udf/super.c
+> @@ -1580,9 +1580,29 @@ static int udf_load_logicalvol(struct super_block *sb, sector_t block,
+>  	     i < sbi->s_partitions && offset < table_len;
+>  	     i++, offset += gpm->partitionMapLength) {
+>  		struct udf_part_map *map = &sbi->s_partmaps[i];
+> +		unsigned int min_len;
 > +
-> +	/* Serialize with set_blocksize() updating the minimum folio order. */
-> +	min_order = mapping_min_folio_order(mapping);
->  	new_order = min(mapping_max_folio_order(mapping), new_order);
->  	new_order = min_t(unsigned int, new_order, ilog2(ra->size));
->  	new_order = max(new_order, min_order);
-> -
->  	ra->order = new_order;
->  
-> -	/* See comment in page_cache_ra_unbounded() */
-> -	nofs = memalloc_nofs_save();
-> -	filemap_invalidate_lock_shared(mapping);
->  	/*
->  	 * If the new_order is greater than min_order and index is
->  	 * already aligned to new_order, then this will be noop as index
+> +		if (table_len - offset < sizeof(*gpm)) {
+> +			udf_err(sb, "Truncated partition map header at offset %d\n",
+> +				offset);
+> +			ret = -EIO;
+> +			goto out_bh;
+> +		}
+>  		gpm = (struct genericPartitionMap *)
+>  				&(lvd->partitionMaps[offset]);
+>  		type = gpm->partitionMapType;
+> +		min_len = sizeof(*gpm);
+> +		if (type == 1)
+> +			min_len = sizeof(struct genericPartitionMap1);
+> +		else if (type == 2)
+> +			min_len = sizeof(struct genericPartitionMap2);
+> +		if (gpm->partitionMapLength < min_len ||
+> +		    gpm->partitionMapLength > table_len - offset) {
+> +			udf_err(sb, "Invalid partition map length %u at offset %d\n",
+> +				gpm->partitionMapLength, offset);
+> +			ret = -EIO;
+> +			goto out_bh;
+> +		}
+>  		if (type == 1) {
+>  			struct genericPartitionMap1 *gpm1 =
+>  				(struct genericPartitionMap1 *)gpm;
 > 
-> base-commit: 29378f5cd79a27718ead9717fe7b094b651a8e1e
+> base-commit: 4dce97c6c265544342e716e62fd24bbb232590c5
 > -- 
-> 2.39.5 (Apple Git-154)
+> 2.43.0
+> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
