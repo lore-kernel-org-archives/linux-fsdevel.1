@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795808769;
-	b=XTCeOGoWO719aWHs2Mj+EwMpcxpIg0XjZKKC1q2hASBXtPtRvbImws63tG842sUJtxKt
-	 vVuMReApFGg2m2fr4Skt46gdRGBMrS/ZuWcTJdFLV5bRPvFw03hwy6adnDctpA5VNYpxj
-	 Qsfz4cEJP0mkUlToX8zosAIkbI097b+jXSxqDUh+hrYRyPu1K7+sbW8PW0WA72C2y3qCt
-	 lvdpXPQYG9bsIbwt+zRw+MNR4tyKkwN6/J2l5kZ6TSlhfAbnkuQJyjcjWUWV3/xrJFzoX
-	 +O/RMbVTfbrmonovAZn60A9747yv62zzdeBVNt/zYDk2wxFhk+9sPAV46CGJQ39zFdQ==
+	t=1795808776;
+	b=FIP9G1jDkl0sucOQ2Cyf9qAglQgg8KCGwXSwqlndwpSqCPFRC3S964gevj2M3Fe0ncby
+	 lben88xH7Y7dGyTSTnaSrdrmbhdqc3WQ4TTBFq8NVdfTW4hIa8eFSQmvxJyTna0o2ASAP
+	 vhIo2LIJ8irNgIRfDPfxV5Loomo1EoHvm7qMUXz5WMLQjEtMoWw02I+MgWz9Vbb8lZB5+
+	 1on5L1wRPy4Y7Z0ImKWpxII18J53i379YoCgMXrkFE98VL9hcuJY5KtMbhA3nGZbl2vb8
+	 18lRP2fb0UvvLqUolz9JRfesCoLI3+jMxuRskML62Rb7iCTqi4Wsun22Zzrumk7GEhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795808769;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795808776;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=3Hwpku+LaQUx6JE9I+VbAYIc8Bnjhvc4+sIsQUi+qxE=;
-	b=VTgevS8OLcOk1qF+Pc/V4X0+DaBk3yPDkMJ0qMnE40uiyzFkOOvL/e/GSXmTUSR4wIm9
-	 c5DIP9LiJm7i2ct0/it6YGWXIDt7X6auA4ZlXzRWD97vc+bMbRDLHzOm/Gt6kSKOFm+5f
-	 rWKyveDr+gapGAgLxhL06BX5AwQWW5IaefJu6Vk4goRF7N8Fc6/VSwBuiWs42+KtjPgiS
-	 +AI1bV1qjmVxB8DnCzjy9e8jL1YRkk9xib1Buhi+YIt3CFckHac4+/EMc37jd37302sSm
-	 lL9SI/4uoxkY+i3WdCUmD2c/Nwxtqn3UPJnLZAFo35P0npPnj9T/5UDgN2Gt1yh5Dqg==
+	bh=NovJGN266ut6F/KwSsg/fm2bkFyGHYseOOEgSUk+sW4=;
+	b=swhYU3/I2bYItPSDO4MQ1ZEyTfu8kAKxtvqvwI1CPhaoHIdpRh47NsnXiB5VoEnTsLY/
+	 xygC869csD6oS4j/OLeppm+6vUY0GZ5l9oglHmCTyd7N+GHWM3JP90XTpo/vfEy0Hls08
+	 ZSomgrbybWEhn2t/tV0kjF4joXYS/2UwBeFbdjtH9tFmCua4N7XHknFZA8IhKQFEuCxFI
+	 c7y+qUzIh7rSdoG5sONN16zSGCuLbr/E0OfjdHTi+kyIwVFp1of7PdnLuC5li2fYoYT/k
+	 rCDBKD0Hc87xm/yMXPkiLQKeLT+pTuWgAi+STuCcYolWnjQ1e/DqjCESYAaUVkdlYvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NEU0kyU8;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lg7sNeNI;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C3E606A323;
-	Fri, 27 Nov 2026 19:46:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4E4606A333;
+	Fri, 27 Nov 2026 19:46:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NEU0kyU8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CAEB1F0092B;
-	Fri, 27 Nov 2026 19:46:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lg7sNeNI
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89F3E1F0092A;
+	Fri, 27 Nov 2026 19:46:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795808768;
-	bh=3Hwpku+LaQUx6JE9I+VbAYIc8Bnjhvc4+sIsQUi+qxE=;
+	s=k20260515; t=1795808776;
+	bh=NovJGN266ut6F/KwSsg/fm2bkFyGHYseOOEgSUk+sW4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=NEU0kyU8trWrBW/upvnTB8ftnM4V+QLSmk44qqfny0x+HmBIQycOEoHCCScJkm9o8
-	 0dYU9BRIKPet10jCO8AlBcRws0tNdzEO+ZtXzzFR3XJYyD0VSd5DCrraS/Twsk9+bI
-	 7J2BZmBI19JHNQHLLYA7sd9+MgdGD7qziZC+sc1UICkB+X8zYI2U0IAB61BSGXJ8o9
-	 gHzHcykr5voC5QkziAx3FZGYvNVROZgmT53h8I6gOfYi1xgIKEkz44DOdGJG52jUso
-	 h91n7RrWkLTU/5Vdd7vS/3qDuu4aCgLLR38qfeSQz3QQZBNLND7E+Ecbl8nMkvmyZ1
-	 zvD9eTHcGeMFA==
+	b=lg7sNeNIUPTLyrjv0EQC1PBspEKQpD6mwCDWSe0TIl8OUTaKxrQvTa9oZn8m0lEPt
+	 LG7WqcGDK7P76nO6qXoIpjrAV9Wu8GQD9UOzldNpMNdbQgvnhiL/D9vsQ4KOxJU4VO
+	 sdjsmG9WORMUEVCJmPdXPr5PYReDHbOeZxsdHZqYJ0VdrnY3fabVPkHuD5vbsT///r
+	 NIQUxNbxj0aW36HlFkBkXp0ehzOYK7F3HVaDu1VYXQ6QQszr4GLlktKdl2AFALoL/l
+	 GJPoG6h1d1ImoSzzaBOpvl5bPS53BnGEfQMMgQw7W15ijNUqU/Fnh042AV0kWlVHUE
+	 3kpW9Ym3iSoUw==
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Fri, 27 Nov 2026 19:45:41 +0000
-Subject: [PATCH 2/4] mm/madvise: don't declare OOM for MADV_WILLNEED swapin
+Date: Fri, 27 Nov 2026 19:45:42 +0000
+Subject: [PATCH 3/4] mm/mprotect: fix unpaired notifier start at address 0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,7 +54,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261127-mlock-madvise-mprotect-ai-fixes-v1-2-e46b2b1eb435@kernel.org>
+Message-Id: <20261127-mlock-madvise-mprotect-ai-fixes-v1-3-e46b2b1eb435@kernel.org>
 References: <20261127-mlock-madvise-mprotect-ai-fixes-v1-0-e46b2b1eb435@kernel.org>
 In-Reply-To: <20261127-mlock-madvise-mprotect-ai-fixes-v1-0-e46b2b1eb435@kernel.org>
 To: Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
@@ -76,96 +76,67 @@ Cc: codalist@coda.cs.cmu.edu, linux-mm@kvack.org,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Chris Mason <mason@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2951; i=ljs@kernel.org;
- h=from:subject:message-id; bh=zISF9slmgFgn0hlNBHComrSnoxHsfcZ4I7sJ6aGObbk=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLI5777MnK0etsLl5Pe7T4syZTuvvZJeuKpK6rn/RffPP
- z9lrf6xqqOUhUGMi0FWTJHl+Rfx/UEiYfM6L/i7wcxhZQIZwsDFKQATyeBh+GeVyDXl2PWz0/kn
- fxErfXJWcLvIzgDFK8leCk+anjJufujL8D8/UEn2a1l9r+vhz8peBTtZO7OVdK8wh9z/9/Vdae2
- LfUwA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1583; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=hFazDhUle6ZFh0ivxxT92eZdFw5uAZSRMAka/e6BWSg=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLI57758919GLy626I2RXH9E5e29tXOMJRsnuL3coLEl6
+ +qUWSZfOkpZGMS4GGTFFFmefxHfHyQSNq/zgr8bzBxWJpAhDFycAjCRtNMM/2uy/9Tt3HfOrNvH
+ XCOF437Wm9SnbhqfI3nTtde1XhH7sIThn74pb+xRjcsX9oVf5NhvmvrgzMEVbvOXz9iwi1Pi+5u
+ iNAYA
 X-Developer-Key: i=ljs@kernel.org; a=openpgp;
  fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
 From: Chris Mason <mason@kernel.org>
 
-MADV_WILLNEED on memory in swap can OOM kill a task when the memcg that
-the swap entries are charged to is at its limit.
+A protection change on a VMA that starts at address 0 can leave an MMU
+notifier invalidation open forever.
 
-The hint is only a prefetch, so it has to give up on a page when memory
-is short. But swapin_walk_pmd_entry() and shmem_swapin_range() call
-read_swap_cache_async() with GFP_HIGHUSER_MOVABLE and with the gfp mask
-of the mapping, so the allocation and the memcg charge can both go as
-far as the OOM killer.
+Waiters for its end, such as kvm_swap_active_memslots() and
+mmu_interval_read_begin(), then sleep uninterruptibly and never wake up.
 
-The charge goes to the memcg of the swap entry, which need not be the
-caller's.
+Fix by using a boolean value to track this instead of the start address of
+the range.
 
-The fix used here is to allocate with the gfp mask of readahead, and to
-flush the block plug when a page fails. madvise_do_behavior() plugs the
-whole walk, so the swap writes of reclaim can sit in that plug. Their
-folios stay under writeback, and with no retries the rest of the range
-can fail as well.
-
-The hint can now skip pages when memory is short, whether in a memcg at
-its limit or on the system as a whole, since neither the allocation nor
-the memcg charge is retried any longer.
-
-This applies in particular where reclaim has to write to swap to make
-room. Skipped pages stay in swap until a fault reads them.
-
-Fixes: 4c6355b25e8b ("mm: memcontrol: charge swapin pages on instantiation")
+Fixes: a5338093bfb4 ("mm: move mmu notifier call from change_protection to change_pmd_range")
 Signed-off-by: Chris Mason <mason@kernel.org>
-[ ljs: commit message tweak ]
+[ ljs: commit msg tweak ]
 Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 ---
- mm/madvise.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ mm/mprotect.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/mm/madvise.c b/mm/madvise.c
-index ebb4ce7daf6c..8b56f7aea935 100644
---- a/mm/madvise.c
-+++ b/mm/madvise.c
-@@ -196,6 +196,8 @@ static int madvise_update_vma(vm_flags_t new_flags,
- static int swapin_walk_pmd_entry(pmd_t *pmd, unsigned long start,
- 		unsigned long end, struct mm_walk *walk)
- {
-+	/* Only a prefetch, as in readahead_gfp_mask() */
-+	const gfp_t gfp = GFP_HIGHUSER_MOVABLE | __GFP_NORETRY | __GFP_NOWARN;
- 	struct vm_area_struct *vma = walk->private;
- 	struct swap_io_ctx ctx = {};
- 	pte_t *ptep = NULL;
-@@ -221,10 +223,13 @@ static int swapin_walk_pmd_entry(pmd_t *pmd, unsigned long start,
- 		pte_unmap_unlock(ptep, ptl);
- 		ptep = NULL;
+diff --git a/mm/mprotect.c b/mm/mprotect.c
+index e18d4e12fc34..0f94b0287895 100644
+--- a/mm/mprotect.c
++++ b/mm/mprotect.c
+@@ -579,8 +579,7 @@ static inline long change_pud_range(struct mmu_gather *tlb,
+ 	pud_t *pudp, pud;
+ 	unsigned long next;
+ 	long pages = 0, ret;
+-
+-	range.start = 0;
++	bool notified = false;
  
--		folio = read_swap_cache_async(&ctx, entry, GFP_HIGHUSER_MOVABLE,
--					vma, addr);
--		if (folio)
-+		folio = read_swap_cache_async(&ctx, entry, gfp, vma, addr);
-+		if (folio) {
- 			folio_put(folio);
-+		} else {
-+			/* Reclaim queues its swap writes in our plug */
-+			blk_flush_plug(current->plug, false);
-+		}
- 	}
+ 	pudp = pud_offset(p4d, addr);
+ 	do {
+@@ -596,7 +595,8 @@ static inline long change_pud_range(struct mmu_gather *tlb,
+ 		if (pud_none(pud))
+ 			continue;
  
- 	if (ptep)
-@@ -267,9 +272,13 @@ static void shmem_swapin_range(struct vm_area_struct *vma,
- 		rcu_read_unlock();
+-		if (!range.start) {
++		if (!notified) {
++			notified = true;
+ 			mmu_notifier_range_init(&range,
+ 						MMU_NOTIFY_PROTECTION_VMA, 0,
+ 						vma->vm_mm, addr, end);
+@@ -624,7 +624,7 @@ static inline long change_pud_range(struct mmu_gather *tlb,
+ 					  cp_flags);
+ 	} while (pudp++, addr = next, addr != end);
  
- 		folio = read_swap_cache_async(&ctx, entry,
--				mapping_gfp_mask(mapping), vma, addr);
--		if (folio)
-+				readahead_gfp_mask(mapping), vma, addr);
-+		if (folio) {
- 			folio_put(folio);
-+		} else {
-+			/* Reclaim queues its swap writes in our plug */
-+			blk_flush_plug(current->plug, false);
-+		}
+-	if (range.start)
++	if (notified)
+ 		mmu_notifier_invalidate_range_end(&range);
  
- 		rcu_read_lock();
- 	}
+ 	return pages;
 
 -- 
 2.56.1
