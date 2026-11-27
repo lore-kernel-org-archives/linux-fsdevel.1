@@ -1,82 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795770832;
-	b=NHkXJQUaPnwQ7OC+DABVcD2dMIKO8uSfYFBC95R19hOATVCmJx+NCKZqL+tXDTNbXmPX
-	 5A0bzoTv4rrxbowICN8ya/aK0KHrAJLbk4px5wST5xPZzHk45atDSfqddeS3CPsvqQifv
-	 vzAOcpTkWrG0Zi++i/A6aOXoRn8Nx9+zvsZcRT8QfetiU0HKFfr3aygnt8j33mLemmHsQ
-	 OjK/dRQjrRY08p1WodiRJlPXANmp+zRTDHR3eX4QSAUK8c+ieqVJTKK+g/S4FsRUhHKFq
-	 KNPaJZLoaVE7NFL1xXZOP3+io8Dkq8/w4H0B4FfLAmN7X913DyDYzHMPEVc6ldkFrhQ==
+	t=1795770834;
+	b=0dgQApWumfir1wEV3TlyL0x+Zw+aJ2dkBk7NZbQIbjjkRtL8mSuZ8BhIyYDFXo0qy2dj
+	 4gBqFgVO90vQyhGFPH9Lc26UCojDFQDO0qA9SfmOgFgH+s6v2FSDgeECpKvO9SzJ2Rw4V
+	 tg6cD11/ErurD8FLUuIyoePQKoRjYAy6QZw1fwhU3+VrzMpNanmHyBm/lvw5vJCD/uJlM
+	 3iytBldu1N10MhxrxloCBijjgYBUX/dM6Dy3AIVz10D4Sv8YqcU34qy2vsYTy/feZV9zi
+	 lXHlQrrDEIKJzb6Kkoo2sLtmv9a5WVNLSqzSreNcrqjDjdYBcnzhlEbqeLCpYpyD19Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795770832;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795770834;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=vD1ugKwXo8nRYXQGOzPiAdALB08fy8jaef2dV+QSIRM=;
-	b=xX4tjXKl8oODuXowSjbnm7UT0DFt7vWlPtZQkxxSAjUumB09MphTfKHtSyLFwl9dOHb0
-	 TXw/OeTTuPXefJN3D9kMyoda+zXDun8m56lmkkiJWy7P8Mg2LFPezvnrm8QIXDw/HI/ji
-	 KAQIf7NfDV33f+Tus/VZ4c3f0D2h8sKSWQI+0FSgyU0f5uHjO/dna4a0Dxo7Bc0cOnTMI
-	 AXMgmr2toECz1J0JYLExscbcPu+F+OTMtokeegBxIPwHkvuANZIIP2Q74eN6Zh/ZNPFeY
-	 VysyKAKO61+ku6h15skQS7yqFDQM9Ymnnp6c5wLd5HKdL36r+oaEftJVQUi/ItL9U6w==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=v9lbr4TFxiuuucypBBOqCbJsUUDeJTCLXV6XHKdyrTE=;
+	b=WqwEVUxf68xPGDCQyRbPFcockm3VaNIHKLdoAwbSrcnLz5LarI3TAhZJZlVx/V30rUXw
+	 3GbhgB3xL21r/qlheSqyKGMDUOhg4tugj55DkYSiCyZyt3Y4gM3okQTumXWCBrkw/IFGq
+	 Rp0NK3lX4Wysy3QD7NKwqZQtcdHNvnnpto6AEmMcBuqOPh280c4Cljw33f8kQAGOSfpk3
+	 ivT/i1quoKGYWVc/zmUOC6/oSKwG146qeThQILMjRRfln5H49x18pCx2s77iw2PBcnhfR
+	 7GvozB7wMxoEedf+TB13NKJGY1C/jjIApQ5TJLYVl+g9uO3VTu5QktSLyJ5SNxX6H5w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ITw+8YBu;
-	arc=none smtp.remote-ip=209.85.128.46
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mkJ9aTNJ;
+	arc=none smtp.remote-ip=209.85.221.43
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDB7606A31C
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 09:13:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AFDB7606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D227606A31C
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 09:13:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D227606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ITw+8YBu
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4bb64ef5a14so77251795e9.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 01:13:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mkJ9aTNJ
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-491971ac844so6958277f8f.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 01:13:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795770830; x=1796375630; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vD1ugKwXo8nRYXQGOzPiAdALB08fy8jaef2dV+QSIRM=;
-        b=ITw+8YBuj39GwzsaYyGanLqd23OBglD+IbI4ISyWLDaIcWi5s8ZNpMPEpCavgOqFSK
-         Z3OoYpJAQh5O8XPKPMp5jKd6rJ32kMzcLac43eeDchocbMoK04/giw4puKx+ZfjlURVX
-         iW24afzaHFOYaMWAFRKMKsYe3SDa7oCTUIAx7p89KxT384MZ/dqnFsAwdNFAohjoo/3H
-         n+Lnbh49u6LK+lpxntMc76i0Qu7CA1p/S+DFuJqkjkYNmzu4lcKWginABnucyYcqDdRI
-         zXMuLr+8Poa98NnzwKSifB1MRJ6LNDb7ulsMg0jl+Gp2Iv08+y3PNbB0w6aPy/EpbVVk
-         nG8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795770830; x=1796375630;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1795770833; x=1796375633; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=vD1ugKwXo8nRYXQGOzPiAdALB08fy8jaef2dV+QSIRM=;
-        b=LzgAo6c6QO9FJjeSaZYjm3NL/X20UmbUcpzqzFbOxGNtcX4moXUG+/0LbWlDFe3eLe
-         enhZX9qxMvCOH5mvoixZxGidkScAlQz0SV3vHnyWMFQfcOzl6giTA6GGLRdG2qucQPYU
-         MtPRz6+snqCNFVtI8wXJVa/Ah0k2owj5kKd/F/+zhn3+lA6I5DEyTxDsV/ybnlITF7KH
-         o6z6KY29CNuTyXGPeu1gFuajxbsBoZ3oSzG5tqpEQjEozp5lAalxmrqSEqM0MdXAG6NU
-         Fy9w2cEe3FCdGUKGqN8VUFiaI8rHmeRW8wejYRX6OuylU3foAV/jtDRw0nJNs4N55dgr
-         FQvw==
-X-Forwarded-Encrypted: i=1; AL+hErGFWEsoictS3FmHbuxDgI1d0f29R0dE995pOHiyV9//RMqjSGJw/ToOuC6lk7+1SYrv3jNAw2YNegceK7sx@vger.kernel.org
-X-Gm-Message-State: APuU4Z/ZvFSFkdHynOHjBuXbMJpM54m4Jg11QL+SAen7Dc1mmNwnqDQc
-	aH8dlK8US/O9f0B5qgLvxQCCcdt7adkyAq9+ywrmSdx6oB8XOS6ltdzK
-X-Gm-Gg: AZFdTZczf/WoGFYOsx98pdcY/lXR90bYd7jplZCRDZjAe8pw7UN/PxcTiMM6iit09bv
-	VtmHvUIoTf8KEpiKDqn76ar5sb+yZwhlZgUPdP/bLJY/GuEkeETyc78YrOssI5nXpt46VrTx22p
-	ruAJAK798nmUk5poziUAIiXYOJ2D6gLoxHvKYIlqP610SkBaNHHqEZplLfUFRGzmbdXytU34ye9
-	eIDSSrCXptw7Rk/goSACocK1be8YVVgoG9K8CfxFt47HlzkiEscRP4iFs8W7pjXOaEke1OeZhyS
-	x2auLEkfuA2/Ay4vlvJrywEP0qZ2G2oPV+8iQkUqwykqZ1jsdJKe9xbL0eUFSKdfTKzUEUwTd69
-	mD7Rf8Hf3+d1gOdzsVxDiZdZr/DYh+1h0nE1tSm2JmS1bgm/tHJn4xUufXVxiJU8aNGeN8eQ6Xs
-	TecP8SFWIIC7H4Y3P7XUhIDPPc26ku3L8ZZJOBXl/Q7G9aUUHDqxTb4qSrDYixL7oFa0WHtAIkK
-	DiW4rUFYp+UowA79MBTxnGtWzChnPIcfJX/bQZVqM0Fk/6fdaP6ciClZANWWMfYdB3pQO6u4j/2
-	xVzqK80vSLv3NQ==
-X-Received: by 2002:a05:600c:4585:b0:4a1:83f0:7c91 with SMTP id 5b1f17b1804b1-4bb8882948dmr487962385e9.18.1795770829350;
-        Fri, 27 Nov 2026 01:13:49 -0800 (PST)
+        bh=v9lbr4TFxiuuucypBBOqCbJsUUDeJTCLXV6XHKdyrTE=;
+        b=mkJ9aTNJ0BoYHPiFyUJ7deP/ehR5ZFMHYEhr6Y1uxGN9DL/TAvf1Wgg5pfJZAQhamg
+         Zfp99owmJjBOThHinbfT/rLf9OJfjYLSHj0ml6eCQrEu2DyOHST/AQXwEnjS9Bw9Jhph
+         WiggT5e5sutI5LTtyki8TAVxI2FiHoqkoSQQQBfz2AN5IfBpe3WMz/twfn8P6b4cxOki
+         noBIoHREG9/SSWUuGFNfIypgViVyejqE2p27AzHcbT+KE03Ps/QEcjdnNIm5p9moxMRS
+         FhM/Nw2MirNSrExJjQ9JHb9e3U08/sHEAtFGF0huyA2N6I76UfIFYBndgS99lwHGN0Dw
+         nwrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795770833; x=1796375633;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=v9lbr4TFxiuuucypBBOqCbJsUUDeJTCLXV6XHKdyrTE=;
+        b=ojV5CktxMeCtDYZQn1za9mUt877e3hERPmWHWLeW6b4Ebjxql1GZcNS6dzLykgiqSs
+         0rP/4EOc+t4QuKicuOhKFQl1C3ZGgpXQ4ZHBhkMlLlNLLNHNeuN4e31qnFnGY1AT+D6b
+         FFeXaM0UB/BcaGGCYkKUWlHef+6RS3G1OjMD03qGdzJvN0UfrKIQb80mmEPWIf164ynb
+         B1zT4ic1fFqg6Paj0Sr4usz5Kh154lobzsvAN/8VdZIslVMToWPLJi+DQXHkrl76fFu8
+         omwmdT5NXZJfV7W2N65xZmoqY6amTIEhfhPKlKSdyUygwS4QkoKdrhz4Vjfo7TO5Qils
+         rzlw==
+X-Forwarded-Encrypted: i=1; AL+hErE8e0TGTdw3qw8XlGBGaMZuJm6MVliFfTwsz2/YjKR9LEpmtyHPn/oTYRub8rxfOn957WqChNF3o+YtIRBt@vger.kernel.org
+X-Gm-Message-State: APuU4Z8P0KFSgz4xjzF7O/IXyRbuCB6ySa6lrE1RrBJn1S4BdnJ+0fLr
+	q0jby1hs/wEEctj3TgMiBfMsTBbokh3Kc/j0zrnD9DOctYj/dpRjvkZd
+X-Gm-Gg: AZFdTZcMOeVz70ZVoQrHwZTmr47bYb6jcVrpioYi3pbUoEsEwDqWKmqsI6aYty226E2
+	yi1inigQiiKTHfXoLA2g219jA8ht1rIjbTBU2M79CwqN0wSapUziCwIaTxILQB8dMKfJTqaaizc
+	KlPl1Np5Lb9dtWU2cwPb8zNRhQUN4WX4Fs4HqjMlQqzeZHk4UsI/qB73QmT6G9+uz485qccXa2o
+	ShqNE9f6Dl9J3ekbr3B9KBaUkRdjzHjUZuhR+mAmtSSy61TmwnsFNeeSJlWF3Xco3y17vxt+lqe
+	4aMI1Mfqv0FT91XeHlE1SM5ffgr1zlryWwMw1rhu3NKa+a3oZn3a7hRQ8sXuQexUjNm/1rfAxYo
+	6e9RBzRkbYBw+7Njh/J9pTOQBYbZsachN9GWWg4EfTgKJ3FcXHZlrJOsBDxZ03DFk0fy2oZ8dl0
+	W9Fa72yuBfMqc1ghxOvQiEUSBFaXXr56addR9RxiYja7/y6Qyiqke46qpK4YPcbRVi5Kqq4TBAf
+	7OyfXZVBsI/xM2aqKJC2D+VWUkRc+6bNpCw7OLKUBN6zayOrweRSRcSa7m4XxEQLZzPspHwsPiL
+	lCIkqbxOTmSwoEoUW146XcPPQsbfbCGXk1w=
+X-Received: by 2002:a05:6000:4211:b0:4a6:4862:28fc with SMTP id ffacd0b85a97d-4abaa9764b7mr46243092f8f.7.1795770832771;
+        Fri, 27 Nov 2026 01:13:52 -0800 (PST)
 Received: from nobara ([83.231.69.9])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4b1ed8b6a05sm26067087f8f.43.2026.11.27.01.13.47
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4b1ed8b6a05sm26067087f8f.43.2026.11.27.01.13.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 01:13:48 -0800 (PST)
+        Fri, 27 Nov 2026 01:13:52 -0800 (PST)
 From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
 To: David Hildenbrand <david@kernel.org>,
 	Zi Yan <ziy@nvidia.com>,
@@ -103,11 +104,14 @@ Cc: "Liam R. Howlett" <liam@infradead.org>,
 	Rik van Riel <riel@surriel.com>,
 	Song Liu <songliubraving@fb.com>,
 	linux-fsdevel@vger.kernel.org,
-	"Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-Subject: [PATCH v2 0/3] mm: don't allocate page tables with the folio locked
-Date: Fri, 27 Nov 2026 10:12:13 +0100
-Message-ID: <20261127091344.113688-1-azpijr@gmail.com>
+	"Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v2 1/3] mm/memory: allocate the deposit page table with NOFS in do_set_pmd()
+Date: Fri, 27 Nov 2026 10:12:14 +0100
+Message-ID: <20261127091344.113688-2-azpijr@gmail.com>
 X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261127091344.113688-1-azpijr@gmail.com>
+References: <20261127091344.113688-1-azpijr@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -119,40 +123,56 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-David asked for the remaining places that allocate with __GFP_FS while
-holding a folio lock [1]. The fault path and khugepaged still allocate
-page tables that way.
+On ppc64 with the hash MMU, do_set_pmd() allocates the page table to
+deposit when the caller did not preallocate one. Both callers that let
+it allocate hold the folio lock: set_huge_pmd() in khugepaged never
+preallocates, and finish_fault() has no preallocated table when the
+page table was removed after __do_fault() checked the PMD.
 
-Patch 1 allocates the deposit table in do_set_pmd() in a NOFS scope.
-Patch 2 does the same for the tables set_huge_pmd() allocates.
-Patch 3 makes finish_fault() retry the fault instead of allocating when
-the page table went away after __do_fault() checked the PMD.
+Allocating with __GFP_FS while holding a folio lock can deadlock in
+reclaim, for example the memcg reclaim deadlock on cgroup v1 described
+in commit 63f3655f9501 ("mm, memcg: fix reclaim deadlock with
+writeback").
 
-Tested on x86_64 and on ppc64le with the hash MMU in QEMU.
+pte_alloc_one() takes no gfp flags, so allocate the table in a NOFS
+scope.
 
-[1] https://lore.kernel.org/66e5f9e3-17d4-4635-8919-c67ed562f9f0@kernel.org
-
+Fixes: 34488399fa08 ("mm/madvise: add file and shmem support to MADV_COLLAPSE")
+Fixes: 1d65b771bc08 ("mm/khugepaged: retract_page_tables() without mmap or vma lock")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
+---
 Changes in v2:
-- use NOFS in do_set_pmd() and set_huge_pmd() instead of preallocating
-  in khugepaged and dropping the allocation from do_set_pmd() (David)
-- finish_fault(): return VM_FAULT_NOPAGE after trying do_set_pmd()
-  (David)
-- drop patch 4
-- rebase on mm/core.git for-next
+- new, replaces v1 3/4 "mm/memory: never allocate a page table in
+  do_set_pmd()" (David)
 
-v1: https://lore.kernel.org/20261125100058.15200-1-azpijr@gmail.com
+v1: https://lore.kernel.org/20261125100058.15200-4-azpijr@gmail.com
 
-Jose A. Perez de Azpillaga (3):
-  mm/memory: allocate the deposit page table with NOFS in do_set_pmd()
-  mm/khugepaged: allocate page tables with NOFS in set_huge_pmd()
-  mm/memory: don't allocate in finish_fault() with the folio locked
+ mm/memory.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
- mm/khugepaged.c | 16 ++++++++++------
- mm/memory.c     | 20 ++++++++++++++++----
- 2 files changed, 26 insertions(+), 10 deletions(-)
-
-
-base-commit: c6f53520f32302ea64cbcfd7cc25a31081e34548
---
+diff --git a/mm/memory.c b/mm/memory.c
+index dfa307a9228c..05d03b32ce52 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -5806,9 +5806,17 @@ vm_fault_t do_set_pmd(struct vm_fault *vmf, struct folio *folio, struct page *pa
+ 	 * related to pte entry. Use the preallocated table for that.
+ 	 */
+ 	if (arch_needs_pgtable_deposit() && !vmf->prealloc_pte) {
++		unsigned int nofs_flags;
++
+ 		if (!may_alloc)
+ 			return VM_FAULT_FALLBACK;
++		/*
++		 * The folio is locked, and reclaim or compaction with __GFP_FS
++		 * could deadlock on it. pte_alloc_one() takes no gfp flags.
++		 */
++		nofs_flags = memalloc_nofs_save();
+ 		vmf->prealloc_pte = pte_alloc_one(vma->vm_mm);
++		memalloc_nofs_restore(nofs_flags);
+ 		if (!vmf->prealloc_pte)
+ 			return VM_FAULT_OOM;
+ 		pgtable_allocated = true;
+-- 
 2.56.1
 
