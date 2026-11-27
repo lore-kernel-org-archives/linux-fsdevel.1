@@ -1,49 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795808761;
-	b=R1GjaYrPYbRpaqhVLAGPBDKkveOQRKI/34+lW78NBHIEqziURTg64/oImPMX+pT3zxhB
-	 HP6JaZDSmyAiYAGOrf5Tiq9PDC3wiEH8cKCz/zBufBSDIFGh8UxpJ1QSakoaoID8qdMpm
-	 vbBmbTScNMPKijqBqS3/AlRwakWRo+a8mVuVyRfq7SASz3dD8eiYYKJM68MnRNjRhzNtp
-	 tRDIkfm4ehjLRyIhz48Y7E6jadDkeTkEQySRtEw5FGa7vtCR+m2nWVUSG3zWP+s7q64Lr
-	 wHqXOth3unHmex5MrAJkVOUhKNqw9/PjYu9fl1Jb8MA0mZxqOVEmswQGJd1vNzxvF+w==
+	t=1795808769;
+	b=XTCeOGoWO719aWHs2Mj+EwMpcxpIg0XjZKKC1q2hASBXtPtRvbImws63tG842sUJtxKt
+	 vVuMReApFGg2m2fr4Skt46gdRGBMrS/ZuWcTJdFLV5bRPvFw03hwy6adnDctpA5VNYpxj
+	 Qsfz4cEJP0mkUlToX8zosAIkbI097b+jXSxqDUh+hrYRyPu1K7+sbW8PW0WA72C2y3qCt
+	 lvdpXPQYG9bsIbwt+zRw+MNR4tyKkwN6/J2l5kZ6TSlhfAbnkuQJyjcjWUWV3/xrJFzoX
+	 +O/RMbVTfbrmonovAZn60A9747yv62zzdeBVNt/zYDk2wxFhk+9sPAV46CGJQ39zFdQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795808761;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795808769;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=kcerf0Wz9rGhyM09///5+pAbtctI2kJUca9cu+C4P4w=;
-	b=RLnrdHotsXX87hEWjHyAJxLifduj5oLulLQba9sLSfC4jM5osrWr9cFJ3QvK/OZEizJE
-	 WRVg6+PUW+MRKarmwhyuza67cSEevDsqgCzo1dI+j8m3VfpWzj19S/j9mKGQ99pSrDWpH
-	 PBu5bikpISKYRvbwLo7bQvvK/lIFzW01CHWrLKgK7Sw+lIcuo4/PeNhbZfVIQxxCEfWwr
-	 Z7xFj2l/KoFUDe661EKXKD3qV1zjUMbdDtqI6BgX3JK0X3pXlgaT4jb7g7CDlUEa5Xfzl
-	 ASlqDZQaY1OhsWvrhR0vVhWfNOLPThMbkojoiDUegA1p74RxRo5LSWMJu1jrBXN93Vg==
+	bh=3Hwpku+LaQUx6JE9I+VbAYIc8Bnjhvc4+sIsQUi+qxE=;
+	b=VTgevS8OLcOk1qF+Pc/V4X0+DaBk3yPDkMJ0qMnE40uiyzFkOOvL/e/GSXmTUSR4wIm9
+	 c5DIP9LiJm7i2ct0/it6YGWXIDt7X6auA4ZlXzRWD97vc+bMbRDLHzOm/Gt6kSKOFm+5f
+	 rWKyveDr+gapGAgLxhL06BX5AwQWW5IaefJu6Vk4goRF7N8Fc6/VSwBuiWs42+KtjPgiS
+	 +AI1bV1qjmVxB8DnCzjy9e8jL1YRkk9xib1Buhi+YIt3CFckHac4+/EMc37jd37302sSm
+	 lL9SI/4uoxkY+i3WdCUmD2c/Nwxtqn3UPJnLZAFo35P0npPnj9T/5UDgN2Gt1yh5Dqg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HTgAYAyW;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NEU0kyU8;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C57606A335;
-	Fri, 27 Nov 2026 19:46:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C3E606A323;
+	Fri, 27 Nov 2026 19:46:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HTgAYAyW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBE111F00929;
-	Fri, 27 Nov 2026 19:45:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NEU0kyU8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CAEB1F0092B;
+	Fri, 27 Nov 2026 19:46:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795808760;
-	bh=kcerf0Wz9rGhyM09///5+pAbtctI2kJUca9cu+C4P4w=;
+	s=k20260515; t=1795808768;
+	bh=3Hwpku+LaQUx6JE9I+VbAYIc8Bnjhvc4+sIsQUi+qxE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=HTgAYAyW3IajlcDL8qw1eFE1wl5vm/PzjZDHxWlJjufp1QLj16mSEPhQK9WYrz9MF
-	 rT0VJiqS0FOdTVTaVa88eay+IjxG08jhYC6tqhhDfB7DvaPrbXdavJRFsuvMvxNtFg
-	 Yn1O2tBwXIMVeQeliX/2ygQAQIr50/F5La5TLMd9PPDN2GjEPsYKs/v7Pu/9hLnxhP
-	 ntTZOU+KwsNEyO5EuOmYORVTXaDRsOI2LEqGH2JKd21PmoW/wD9zUo3/1PSVTepzEg
-	 iNae8zT+l4JvwzYkjMfKp2GaalCHALsAcDUVuvD0vgTX/xZDMAyJ2Z1LbNCh4I+46A
-	 cheTThDHMrtlg==
+	b=NEU0kyU8trWrBW/upvnTB8ftnM4V+QLSmk44qqfny0x+HmBIQycOEoHCCScJkm9o8
+	 0dYU9BRIKPet10jCO8AlBcRws0tNdzEO+ZtXzzFR3XJYyD0VSd5DCrraS/Twsk9+bI
+	 7J2BZmBI19JHNQHLLYA7sd9+MgdGD7qziZC+sc1UICkB+X8zYI2U0IAB61BSGXJ8o9
+	 gHzHcykr5voC5QkziAx3FZGYvNVROZgmT53h8I6gOfYi1xgIKEkz44DOdGJG52jUso
+	 h91n7RrWkLTU/5Vdd7vS/3qDuu4aCgLLR38qfeSQz3QQZBNLND7E+Ecbl8nMkvmyZ1
+	 zvD9eTHcGeMFA==
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Fri, 27 Nov 2026 19:45:40 +0000
-Subject: [PATCH 1/4] coda: never point a file's f_mapping at a container's
- mapping
+Date: Fri, 27 Nov 2026 19:45:41 +0000
+Subject: [PATCH 2/4] mm/madvise: don't declare OOM for MADV_WILLNEED swapin
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,7 +54,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261127-mlock-madvise-mprotect-ai-fixes-v1-1-e46b2b1eb435@kernel.org>
+Message-Id: <20261127-mlock-madvise-mprotect-ai-fixes-v1-2-e46b2b1eb435@kernel.org>
 References: <20261127-mlock-madvise-mprotect-ai-fixes-v1-0-e46b2b1eb435@kernel.org>
 In-Reply-To: <20261127-mlock-madvise-mprotect-ai-fixes-v1-0-e46b2b1eb435@kernel.org>
 To: Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
@@ -75,122 +74,98 @@ To: Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu,
 Cc: codalist@coda.cs.cmu.edu, linux-mm@kvack.org, 
  Andrei Vagin <avagin@gmail.com>, linux-doc@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Chris Mason <mason@kernel.org>, 
- stable@vger.kernel.org
+ "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Chris Mason <mason@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4327; i=ljs@kernel.org;
- h=from:subject:message-id; bh=QVu7fb0kBPNVCyTuJn+VTrXPJuL+aUkLVFY1Ydjy6Xw=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLI577707/3+rru83v/RwiMc3hITPB3nRWid2nnsXnH9w
- 0W1Lc+mdJSyMIhxMciKKbI8/yK+P0gkbF7nBX83mDmsTCBDGLg4BWAiAr2MDO8r79aIsLUfPfH/
- eR1X/12eXR8kzL3Dayum+m5Xv/k6w4/hf5765ufqr64apv4sEH5wwutwRqu24qJWGZs3TAdqv+/
- 8zQUA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2951; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=zISF9slmgFgn0hlNBHComrSnoxHsfcZ4I7sJ6aGObbk=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLI5777MnK0etsLl5Pe7T4syZTuvvZJeuKpK6rn/RffPP
+ z9lrf6xqqOUhUGMi0FWTJHl+Rfx/UEiYfM6L/i7wcxhZQIZwsDFKQATyeBh+GeVyDXl2PWz0/kn
+ fxErfXJWcLvIzgDFK8leCk+anjJufujL8D8/UEn2a1l9r+vhz8peBTtZO7OVdK8wh9z/9/Vdae2
+ LfUwA
 X-Developer-Key: i=ljs@kernel.org; a=openpgp;
  fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
-Coda file systems stack differently from other stacked file systems.
+From: Chris Mason <mason@kernel.org>
 
-On mmap(), coda_file_mmap() switches both the Coda inode's i_mapping and
-the Coda file's f_mapping for the mapping of the container file. This
-causes two problems.
+MADV_WILLNEED on memory in swap can OOM kill a task when the memcg that
+the swap entries are charged to is at its limit.
 
-Firstly, the container file may not remain pinned, at which point this may
-result in a dangling reference in coda_file->f_mapping, and so a
-use-after-free in mmap() or lseek().
+The hint is only a prefetch, so it has to give up on a page when memory
+is short. But swapin_walk_pmd_entry() and shmem_swapin_range() call
+read_swap_cache_async() with GFP_HIGHUSER_MOVABLE and with the gfp mask
+of the mapping, so the allocation and the memcg charge can both go as
+far as the OOM killer.
 
-This can happen when you open the same inode across two files, mmap()'ing
-in one, which assigns the i_mapping, and open()'ing another, which assigns
-that i_mapping to the file's f_mapping, if the cache manager gave the two
-files different containers. Each file pins only its own container.
+The charge goes to the memcg of the swap entry, which need not be the
+caller's.
 
-Consider (A, B = separate open files of the same inode):
+The fix used here is to allocate with the gfp mask of readahead, and to
+flush the block plug when a page fails. madvise_do_behavior() plugs the
+whole walk, so the swap writes of reclaim can sit in that plug. Their
+folios stay under writeback, and with no retries the rest of the range
+can fail as well.
 
-    A, with container C1            B, with container C2
-    ====================            ====================
-    mmap()
-      coda_file_mmap()
-        i_mapping = C1's mapping
-                                    open()
-                                      do_dentry_open()
-                                        f_mapping = i_mapping
-                                        coda_open()
-                                          cfi_container = C2
-    munmap()
-    close()
-      coda_release()
-        i_mapping = &i_data
-        fput(C1), the last one
-                                    mmap()
-                                      mmap_region()
-                                        mapping_map_writable(f_mapping)
+The hint can now skip pages when memory is short, whether in a memcg at
+its limit or on the system as a whole, since neither the allocation nor
+the memcg charge is retried any longer.
 
-Secondly, mmap_region() takes a temporary i_mmap_writable count on
-file->f_mapping ahead of the mmap hook, and drops it on file->f_mapping
-afterwards. As the hook changes f_mapping in between, the count is dropped
-on the container's mapping rather than on the mapping it was taken on:
+This applies in particular where reclaim has to write to swap to make
+room. Skipped pages stay in swap until a fault reads them.
 
-    i_mmap_writable of                          Coda  container
-    mmap_region()
-      mapping_map_writable(file->f_mapping)       1       0
-      __mmap_region()
-        coda_file_mmap()
-          coda_file->f_mapping = host_file->f_mapping
-          vma->vm_file = get_file(host_file)
-        vma_link_file()
-          mapping_allow_writable()                1       1
-      mapping_unmap_writable(file->f_mapping)     1       0
-    munmap()
-      mapping_unmap_writable()                    1      -1
-
-The container's count is negative after munmap(), so the next shared
-mapping of that Coda file, if it is open for writing, fails with -EPERM.
-
-Fix both issues by no longer updating coda_file->f_mapping in
-coda_file_mmap(), and by having coda_open() always assign the canonical
-mapping of the inode, as do_dentry_open() may have propagated an i_mapping
-which coda_file_mmap() redirected.
-
-Reported-by: Chris Mason <mason@kernel.org>
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Fixes: 4bb5f5d9395b ("mm: allow drivers to prevent new writable mappings")
-Fixes: 5de195060b2e ("mm: resolve faulty mmap_region() error path behaviour")
-Cc: <stable@vger.kernel.org> # 5.3.x
+Fixes: 4c6355b25e8b ("mm: memcontrol: charge swapin pages on instantiation")
+Signed-off-by: Chris Mason <mason@kernel.org>
+[ ljs: commit message tweak ]
 Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 ---
- fs/coda/file.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ mm/madvise.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/fs/coda/file.c b/fs/coda/file.c
-index c9fba41f7cea..64f05f2fc4b3 100644
---- a/fs/coda/file.c
-+++ b/fs/coda/file.c
-@@ -182,7 +182,6 @@ coda_file_mmap(struct file *coda_file, struct vm_area_struct *vma)
+diff --git a/mm/madvise.c b/mm/madvise.c
+index ebb4ce7daf6c..8b56f7aea935 100644
+--- a/mm/madvise.c
++++ b/mm/madvise.c
+@@ -196,6 +196,8 @@ static int madvise_update_vma(vm_flags_t new_flags,
+ static int swapin_walk_pmd_entry(pmd_t *pmd, unsigned long start,
+ 		unsigned long end, struct mm_walk *walk)
+ {
++	/* Only a prefetch, as in readahead_gfp_mask() */
++	const gfp_t gfp = GFP_HIGHUSER_MOVABLE | __GFP_NORETRY | __GFP_NOWARN;
+ 	struct vm_area_struct *vma = walk->private;
+ 	struct swap_io_ctx ctx = {};
+ 	pte_t *ptep = NULL;
+@@ -221,10 +223,13 @@ static int swapin_walk_pmd_entry(pmd_t *pmd, unsigned long start,
+ 		pte_unmap_unlock(ptep, ptl);
+ 		ptep = NULL;
  
- 	cii = ITOC(coda_inode);
- 	spin_lock(&cii->c_lock);
--	coda_file->f_mapping = host_file->f_mapping;
- 	if (coda_inode->i_mapping == &coda_inode->i_data)
- 		coda_inode->i_mapping = host_inode->i_mapping;
+-		folio = read_swap_cache_async(&ctx, entry, GFP_HIGHUSER_MOVABLE,
+-					vma, addr);
+-		if (folio)
++		folio = read_swap_cache_async(&ctx, entry, gfp, vma, addr);
++		if (folio) {
+ 			folio_put(folio);
++		} else {
++			/* Reclaim queues its swap writes in our plug */
++			blk_flush_plug(current->plug, false);
++		}
+ 	}
  
-@@ -248,6 +247,19 @@ int coda_open(struct inode *coda_inode, struct file *coda_file)
+ 	if (ptep)
+@@ -267,9 +272,13 @@ static void shmem_swapin_range(struct vm_area_struct *vma,
+ 		rcu_read_unlock();
  
- 	host_file->f_flags |= coda_file->f_flags & (O_APPEND | O_SYNC);
+ 		folio = read_swap_cache_async(&ctx, entry,
+-				mapping_gfp_mask(mapping), vma, addr);
+-		if (folio)
++				readahead_gfp_mask(mapping), vma, addr);
++		if (folio) {
+ 			folio_put(folio);
++		} else {
++			/* Reclaim queues its swap writes in our plug */
++			blk_flush_plug(current->plug, false);
++		}
  
-+	/*
-+	 * On mmap coda_inode->i_mapping is updated to point at the mapping of
-+	 * the mmap()'d file's container, and do_dentry_open() propagates that
-+	 * to coda_file->f_mapping.
-+	 *
-+	 * However coda_file's container may differ, in which case the lifetime
-+	 * of that mapping may not match that of coda_file.
-+	 *
-+	 * To avoid a dangling pointer, reassign the mapping to the canonical
-+	 * one.
-+	 */
-+	coda_file->f_mapping = &coda_inode->i_data;
-+
- 	cfi->cfi_magic = CODA_MAGIC;
- 	cfi->cfi_mapcount = 0;
- 	cfi->cfi_container = host_file;
+ 		rcu_read_lock();
+ 	}
 
 -- 
 2.56.1
