@@ -1,68 +1,126 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795812270;
-	b=CieU7NUkTPnGT9rEX3HxuR92trpoOOEDvl4nL6vTt8Ducvmawn0lhPSh8gu8O6ITYV7R
-	 4cUHqf60Ax1PlnX1thhJYuYgUFRLr7V6JTUwLUP74l9k8Hr1tDCSH/13R7U7R79+h/6Tb
-	 9TrXHOk9UsCkexgBIA7YkJ8PS22k1BG2hjNeI3889ZV6m8dPFAbFzGzqf9ZgGsB1FXCLa
-	 99KY1n7pIdAW8yCetL06PRr++0DgF01Q2l+H0a/ltI/tK5Pa/sF9OII3ajpie7bZl48Og
-	 cfbBa539V1JEVuIAberEyr0ok8jebxmRcvT40JKj6C/Q8jGHqKAEdLeT0xhqGrUi9gw==
+	t=1795815676;
+	b=xcCEOuMab1NvYcn6ANALGL5XKrLfzd3v13xKA7YlgbmYfobYEMvTxff1qpKxaZXynKUA
+	 VP5jibTlmEslpnIkGve3JCUBKNutAfe5HDyJdCmIFJXXW9WrqI/DhpV8J5Y6z+5nV7f2/
+	 9citlTqOTtnL7gU6vKOne4JQzui7h47e3wLfIVZlDx6YpBvXRjn7N0dhlHGdhUx+EHYCk
+	 aRqwbSAwGX8DayQY9fbNJ0NzgCyfwy/blWbc7xsIHsL+TSd+n3VbGhlOwaWDE4W0wLVwY
+	 Fy7WmyMN6NLkbn+rEAyXDOcFptF2mzvIJENj2C6LhmOs46hYc9B38xJQUr8GRkoHDVA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795812270;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
-	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=o/swzqNGNmYuC5KRwnzcnyJMdoU0gvWeuJZ2tEFBhOE=;
-	b=aZ67WVVUCqDjBbUarAiJweWVaEBk5Ut8lCei7sY67YFTCbe8VrN7UOwRzt1yMenDCkyJ
-	 2UOCgjUnCuBS5MCovC/sxP9YJjdoGgZ9D4kgkPoByg7ppgngWLpQWwDZl8m4MhTudEi8h
-	 tTDcrQlSnLWE/MnFpyTSWkzkp4qV09Sr1vIgTPHoTkkuqRFAwRtewTbneNPIIr7EK7r+Q
-	 qePRWeKqrT4Sk6WtigHOdPD4Z5lMVL1Q53EtpZnFZSIR0NaColLdlygogrCBVzbteVmj2
-	 GIBK52MUYDYfLok8osZ7ndrjjaHtZFKQJj463Jm0q5pxJgCf2ov1jysuOwV0eAdiURg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795815676;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=GNjJtSmgBzeJqa75AyMuB1FfpMIGeExfgQrDDeRI15s=;
+	b=yxk+6M9QB5rfYEN2SwcRVoGb+e0x4wwTQwLw9PQTROp8uikiWl9zpYb+pAYQlsArlJr6
+	 tHhrwGwNRSVLtUolZZMdX4YzvzKGoFjcOq/fe5mX2fNzWdbLaYYwDpRUK3Lbi81DE4ytt
+	 B8dnzphCKnJnalTp6JgGU47ctyGT97pZD3HawLAVqX3u+4V0ywc6P8LaJrlBvw5s+1BBo
+	 nGJMCzNmKzP25q9xcs+GLJ9J9SR53oYYcXVklU3fUQywpABB2YsnD5Jk4Bo0ylmgiiAJj
+	 tMt2tBoEI1t1y1ZbokJvSg5ZkbpDZWfhvjCq0UJG/KBYNzYFNt4VWfwa8oSJuoF8Fhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=eERIy1vE;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rlJzjc+L;
+	arc=none smtp.remote-ip=209.85.128.52
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4E4606A31C;
-	Fri, 27 Nov 2026 20:44:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD07606A31F
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 21:41:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FD07606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=eERIy1vE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7726B1F00897;
-	Fri, 27 Nov 2026 20:44:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rlJzjc+L
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a9a8d6cea8so109121095e9.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 13:41:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1795812269;
-	bh=o/swzqNGNmYuC5KRwnzcnyJMdoU0gvWeuJZ2tEFBhOE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=eERIy1vEAuHl7drCdBRsEp5kZq16eNRHi1Znb68bBftcZHzAw3uhQEIJObhIhPoKg
-	 ViohHCGLbOKq8ealKgmimbgzfyTgnn0ujE6pn3m+JFgudk6oiJxdc6iuNzdAUjb1kM
-	 VcSsHAxTsSDD/x54/W9vByspOjC8tmnC+uPdrwFc=
-Date: Fri, 27 Nov 2026 12:44:28 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, David Rheinsberg
- <david@readahead.eu>, Hugh Dickins <hughd@google.com>, Vlastimil Babka
- <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, David
- Hildenbrand <david@kernel.org>, Jann Horn <jannh@google.com>, Alex Shi
- <alexs@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, Pedro Falcato
- <pfalcato@suse.de>, David Rientjes <rientjes@google.com>, Rik van Riel
- <riel@redhat.com>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
- <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, =?UTF-8?Q?Micha=C5=82_Miros=C5=82aw?=
- <mirq-linux@rere.qmqm.pl>, Arnd Bergmann <arnd@arndb.de>, Stephen Rothwell
- <sfr@canb.auug.org.au>, Muhammad Usama Anjum <usama.anjum@arm.com>,
- codalist@coda.cs.cmu.edu, linux-mm@kvack.org, Andrei Vagin
- <avagin@gmail.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, Chris Mason
- <mason@kernel.org>, stable@vger.kernel.org
-Subject: Re: [PATCH 1/4] coda: never point a file's f_mapping at a
- container's mapping
-Message-Id: <20261127124428.f1f66c6244d3e5c2811f56de@linux-foundation.org>
-In-Reply-To: <20261127-mlock-madvise-mprotect-ai-fixes-v1-1-e46b2b1eb435@kernel.org>
-References: <20261127-mlock-madvise-mprotect-ai-fixes-v1-0-e46b2b1eb435@kernel.org>
-	<20261127-mlock-madvise-mprotect-ai-fixes-v1-1-e46b2b1eb435@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        d=gmail.com; s=20260707; t=1795815674; x=1796420474; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GNjJtSmgBzeJqa75AyMuB1FfpMIGeExfgQrDDeRI15s=;
+        b=rlJzjc+LyIk9Bk0QS6P/I8TDEexyuBC3YqrMNuS8l9ecZxXqzecIXHrsa2+jjLCIkd
+         AvdgA+lDcovhfWDGGXxDDTraLo/z7WixYN6CS0WFtDPjvWLKrdb2LmuL8SVsyVcmcUAE
+         w7uKvqNGQ6fgCtW1/YqXftDsvKWqzLc/etNTUBIImSolgJ458EFpxfvonhxlMSH2he0w
+         gpZYXR2cdjzW3qoLBTUFALao2MhHDceARIdwR8T5fNHKRhO5CZKehhou/RRtD33QzCTW
+         J9VxQgQTSkBjmppRZyAfVgxgVnOD9jDbF3HW5K6gfIlLPnr/76nWxRQFxdk3GCbefAfK
+         3+gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795815674; x=1796420474;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GNjJtSmgBzeJqa75AyMuB1FfpMIGeExfgQrDDeRI15s=;
+        b=m9veHP2rDtVoHcCI83Joj2ZsVk/JuCsA/Fprp+JZFZfF8HujyvQn+RqylHN+wAU1PK
+         HS8RN9aeID8wBce39XZL9V+5GQ+ks5KTmw/JSxbm6FaX4/+JL/sseNc4RS5gSV3/8VB0
+         m7TShmEowhps2hpDv6rtIbpWWWtPgWXAawKWP6C3NKUwb5BiDSAbGPu5JcEqX8uK3/Uv
+         2VGo38Y648R1k5/qfASxhUiYs32mX4tqgxAKmvxykBQ+MOLPktu276BWrJDGrf2UIEIi
+         n3YJYDKZnLg4Gu5Lvzjsb35wdSpwySb8OavaI96T8fKorh5of3Y6k9lVcOO/G6RVyMMl
+         giFw==
+X-Forwarded-Encrypted: i=1; AL+hErHkrWbcakT5na8wQb76lTPoTbaTj3GDlAJU8lu5Ilz2cwzkwpXVC+852go2JTOqm7floNJHur0T03lrFkEW@vger.kernel.org
+X-Gm-Message-State: APuU4Z88jZnM2crrwfAW/geuTnXFiq8NzymFajLJ03eDotiZuaIGZWmu
+	SFJDkPw9OfxJz5PuskUT2dBhZ/1oDeTQu7iB3lIT6kP4HkLGpaWIYYQN
+X-Gm-Gg: AZFdTZdM5IAHoxUVJ2vfos/aMX6EvO4dEzOQXwcl5hNkW86Z/7nWgoguA1LjnpyUjqK
+	nBC7pmUYSbdrSnduUpT7b4hB0pt8KzIbM74SYHIhqT4Q8eQcR/OFbdYhegp8dEyMTs3+ePtODpZ
+	buZGqulCOoJrA2EPVdkfRt3c7x7Yapp681lUiE+llZqu5tDvblMSRX9oqnUax/XA7dzc2Trd4Kv
+	dLyzSIScrRhc7eQqH1FGnOJTYQKKQ3bVbFWTClKaY5N+r4U+XzRKMsGaiQSrGiA2+ZR5dgwcnw5
+	8gH80tOLTlrehw01cuR9EG8a/w89VuIn/O5qrUZlAAhrAOiArJDLwjlm1jGLls83To+3RoSLeSW
+	WlF9cjdQ0tnfh7kNNENWBospe0DFe/IlfrVCxA+qJVf3qtr3uVGDOnuY43RUKFzyBLPhUYEq5Pd
+	A8OZpnIjQ0ppHE5zHYHufJLNIWAUzxClDga0fZw2XRVBSAgToqLm+PYgXmuwsI3/b4ObxmYxINy
+	90qS1Tq8i2j55Bk1VurJ1UnZfqJj2f+ma+89lnTBpChU9yoQ1Y/zjI+E3tALIA1QEIz9vA7AiFS
+	WTYuyMEoQIEn/11jNbVji8qEtg==
+X-Received: by 2002:a05:600c:a085:b0:4bb:85d9:156e with SMTP id 5b1f17b1804b1-4bb8880fe46mr518939935e9.11.1795815674386;
+        Fri, 27 Nov 2026 13:41:14 -0800 (PST)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4bbb97e5356sm37714445e9.4.2026.11.27.13.41.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Nov 2026 13:41:13 -0800 (PST)
+From: Askar Safin <safinaskar@gmail.com>
+To: jarkko@kernel.org
+Cc: aleksa@amutable.com,
+	alex@amutable.com,
+	alexei.starovoitov@gmail.com,
+	arnd@arndb.de,
+	bpf@vger.kernel.org,
+	brauner@kernel.org,
+	containers@lists.linux.dev,
+	corbet@lwn.net,
+	dhowells@redhat.com,
+	ebiggers@kernel.org,
+	giuseppe@scrivano.org,
+	hughd@google.com,
+	jack@suse.cz,
+	jlayton@kernel.org,
+	josef@toxicpanda.com,
+	kees@kernel.org,
+	kpsingh@kernel.org,
+	lennart@poettering.net,
+	linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-security-module@vger.kernel.org,
+	luto@amacapital.net,
+	neal@gompa.dev,
+	oleg@redhat.com,
+	paul@paul-moore.com,
+	ptikhomirov@virtuozzo.com,
+	sergeh@kernel.org,
+	skhan@linuxfoundation.org,
+	viro@zeniv.linux.org.uk,
+	zygmunt.krynicki@canonical.com
+Subject: Re: [RFC PATCH v7 00/26] userland: Userland containers
+Date: Sat, 28 Nov 2026 00:41:03 +0300
+Message-ID: <20261127214103.542291-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <awOQDOel_72Xwjm7@kernel.org>
+References: <awOQDOel_72Xwjm7@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -71,76 +129,25 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 27 Nov 2026 19:45:40 +0000 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+Jarkko Sakkinen <jarkko@kernel.org>:
+> I personally think that "getting in" should not be a goal in the first
+> place. I care more about that whaever gets in has a high bar of
+> quality enough. It can be something different than this but
+> when I read the LWN article about Cells I was alarmed enough
+> so that I had to do this and prove my point.
 
-> Coda file systems stack differently from other stacked file systems.
-> 
-> On mmap(), coda_file_mmap() switches both the Coda inode's i_mapping and
-> the Coda file's f_mapping for the mapping of the container file. This
-> causes two problems.
-> 
-> Firstly, the container file may not remain pinned, at which point this may
-> result in a dangling reference in coda_file->f_mapping, and so a
-> use-after-free in mmap() or lseek().
-> 
-> This can happen when you open the same inode across two files, mmap()'ing
-> in one, which assigns the i_mapping, and open()'ing another, which assigns
-> that i_mapping to the file's f_mapping, if the cache manager gave the two
-> files different containers. Each file pins only its own container.
+I think that Bacik's patchset has better chances than yours.
+I think so, because (as Bacik said) it was tested in Anthropic, and also
+because Brauner reacted positively:
+https://lore.kernel.org/all/20261021-zeitig-niemals-clubmitglieder-b3973fcebd38@brauner/ .
 
-Yeah, I hit this while getting
-tools/testing/selftests/mm/memory-failure.c to work on all Linux
-filesystems.
+So I suggest reading Bacik's patchset and say what you don't like about it.
+You will have chance to influence Bacik's proposal before it will be merged.
 
-> --- a/fs/coda/file.c
-> +++ b/fs/coda/file.c
-> @@ -182,7 +182,6 @@ coda_file_mmap(struct file *coda_file, struct vm_area_struct *vma)
->  
->  	cii = ITOC(coda_inode);
->  	spin_lock(&cii->c_lock);
-> -	coda_file->f_mapping = host_file->f_mapping;
->  	if (coda_inode->i_mapping == &coda_inode->i_data)
->  		coda_inode->i_mapping = host_inode->i_mapping;
->  
+(Note: I am not kernel developer.)
 
-I had this change.
-
-> @@ -248,6 +247,19 @@ int coda_open(struct inode *coda_inode, struct file *coda_file)
->  
->  	host_file->f_flags |= coda_file->f_flags & (O_APPEND | O_SYNC);
->  
-> +	/*
-> +	 * On mmap coda_inode->i_mapping is updated to point at the mapping of
-> +	 * the mmap()'d file's container, and do_dentry_open() propagates that
-> +	 * to coda_file->f_mapping.
-> +	 *
-> +	 * However coda_file's container may differ, in which case the lifetime
-> +	 * of that mapping may not match that of coda_file.
-> +	 *
-> +	 * To avoid a dangling pointer, reassign the mapping to the canonical
-> +	 * one.
-> +	 */
-> +	coda_file->f_mapping = &coda_inode->i_data;
-> +
->  	cfi->cfi_magic = CODA_MAGIC;
->  	cfi->cfi_mapcount = 0;
->  	cfi->cfi_container = host_file;
-
-But not this one.
-
-Is it truly needed, or is it a future-safe defensive thing?
-
-If the latter, Tested-by-me:.  If the former, Mostly-tested-by:me. 
-Either way, Acked-by:me.
-
-
-It's always seemed a big wart that file->f_mapping even exists.  We
-should get that via file->f_inode->i_mapping!  But you-know-what tells
-me that "/dev/mem sets the opened file's f_mapping to the shared
-I/O-memory mapping; /proc/bus/pci does the same.  Their f_inode still
-identifies the device or proc entry" so sigh.
-
+-- 
+Askar Safin
