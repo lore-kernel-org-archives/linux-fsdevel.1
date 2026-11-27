@@ -1,99 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.2
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795757596;
-	b=Ele2KmkSg+DV/SayuR6oooo9zKMHsCu6en13zVyXkzFmVDIPr+LsRq5LB5w6amFN/759
-	 K4pAMvOeHywTGZAY4VdXVnMBF9/O2bcWXwIMYC9tXa43RqNzDF3F9XRIhnu/TjCQjGefz
-	 A5rUSjN9rwjUF+AO1MZI5ge7jduR/QwV3v+POCVGpQWiIAU6wn4cRBNVPzwmgeCQpvjJd
-	 fjx4+9jmtyDjk18Dvd8kZWPP2q2a1I/XR9GtLjrqocq7W/15XsqfrxfJFihwMlZYDJDq7
-	 qYFEK+4MusfBwAc6yzfkw/k5QOsBTMSTfg9//wAhHyyF8dBmhr8rUUk2gsBumG11F5A==
+	t=1795759797;
+	b=KGf9BBCIurL81i3y8VEypKcbF58pbUrLxbp7P1GmPDVvIAahS+WEiw13YL2ay8Up3bGT
+	 w3PHsZeGsuNCm8WganHWZmsSfTBm7GcfYK+/8uhigmlmD49Kp1dax0hVtO9/fOO29pQbf
+	 cE3BBGQhXIKwSbeKRigLUuG11qvI4xjOJxY2S6JMZ/s9WY99YrUgXToIuSmzX+U6+RkF1
+	 ynStb3w4SdMPggm5Ubc+nfSmeT1TNeeKDMsXgTJFm+PIoWUlWkGqs50Z6mKE1087pXts1
+	 YXTnxsB+U5VxgxioF5hunFtipJqycguyxRxwutLsobejR1kEJQhXuYKHpJmqt+SnRXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795757596;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=9SSLJDkhxBZi21kj3K+IK+QTqg+ejmmv97gXCsdfGk8=;
-	b=tgGMvh7pfQmZz28HPEw78ZziFaT9gbzGabwm+RmWPQT4j82UyaGwR+h1Nd71km7Z2neQ
-	 tVGYhp9N9N00XW1Hz8FHyNT8/G1j7KCZFY9NvfET6DAWJzusFIoMt0d15M1R4XQV+0KuJ
-	 ZvkWRjZgEw5hVZNh8wShSq4j/QkPCEwNXOuHJjh0wEbWdehUmAxJ5A5Lszx7MkWAdFKHt
-	 LaBGSQcwguGtz0ZlQq9a9RFXMz9uQRjxf3HMXtgZ212+i38VB6qT4+njRJnyldIkHql2E
-	 7EBUhpEx7MBXKrLzUeEaBvlPSEtWcQiwD7ebObtdip+spzgvthYysJZzh6lwE3R2mRg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795759797;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=rylJ4EnxKNIcixfDOljd+e6hXXj/Ks5EE/NnudM1ajo=;
+	b=FaHRS1KFn+Q5pXDY5xxTWTbI0n/Uzv2kzXDUX8BODDbIZTL3Db63DIlcWNgfDuhKAxJ8
+	 /28nRNgsqwZDwa8Ge3unLIkaCVp1cvke4u2zdVbCBvFvf57N7NWcl/rSXbJjuNbKw4fmj
+	 mfsbanyixxBBxeoyE7avSsR3ZNoVoKFb5cGpp33gnP1UwzPJYsUz5B4smjd5aSrXbGGIe
+	 pgBCqD38HoqU5HyPvSvuZZyPZH23WoSOuB3kn/bJdLcVKWl3iMu2gKvFUQvYYxVHAr/V9
+	 UzdLJPcLD5BIvm1tyLzQMzujwvPJdw0avtWwm+BmkYrEFAjjSz93/Dp8kwbxrnoaVOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="MLoN/EqR";
-	arc=none smtp.remote-ip=209.85.128.42
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=m8FLExAR;
+	arc=none smtp.remote-ip=220.197.31.2
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B95E606A321
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 05:33:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3B95E606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70752606A31C;
+	Fri, 27 Nov 2026 06:09:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70752606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MLoN/EqR
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4bb64ef5a14so75848485e9.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 21:33:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795757594; x=1796362394; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=9SSLJDkhxBZi21kj3K+IK+QTqg+ejmmv97gXCsdfGk8=;
-        b=MLoN/EqRwHMu23duF2BjJaiM8H6girNIxtPhW8PvRoXWQvHIvc3lR55gc5yD51sjB0
-         PF6s9XaTVdLma5z/zABtdSUQa1cN5Ugq43mz7Ay3uiNTTNYAxfLwaTXM/KCaUUsqCjt0
-         v3NGJIruuatK8eXgMAH+Wjj5cMD2pzN2XduwVuTwQ+hW2p6+q7nYkfrAMY0Nb9KFXnnO
-         7KWxvtkBHUJnrn0d25jp9C1hrmbHJ322F5OQjtGd+dRRhUQmC3zsjhDSY9GoUMEyovzz
-         bY6fgClqEKAFAbOTGgOZCqTgwPn24I/37SPIIuBqZiwi5UZiQgVuSrIZrJPdtsZ4BJTS
-         n9aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795757594; x=1796362394;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9SSLJDkhxBZi21kj3K+IK+QTqg+ejmmv97gXCsdfGk8=;
-        b=bb/9d74wpxwlbkqgdeMmRL/tW4v5Qcqe4GmfZcXrvxYcQqvmoIzoGHt9Skobp2ikm2
-         5xKL6t2S3dD9RiE9+zD0e7kztp8OtsHCQFTyzH2mqCYOhX1nCPZkRwq6JdeJaw9Ot9vz
-         5oS0B9tMxr1Q66XYm/kxUn908mzeNznkERelYKjbxlCmf6+JkQCThve8onCESdNhabMD
-         dW7ZGPqJlH8brcQS8/8LbPwlaw6EiwFRyvW+2ftbw+k+SFVc5SxMeCOnaEb0rE6+N2pR
-         1vTrFTfPRGsWH7vDuGZgNguuDjWV5LifTkL6u2CKHVI0E3B9+vcjYll7pxtgydvDVFYT
-         9PEQ==
-X-Forwarded-Encrypted: i=1; AL+hErFAbjFbfykb42FX/Am6r3GebC55lzAb2I2ZorrIVpJIvEkl5IxueEOZbyWzo6XYL4ttNedyyvbgGhjBn/mG@vger.kernel.org
-X-Gm-Message-State: APuU4Z9bNS6jT8eKtTRer/Tox92BjXyrHRRlVsW6cz/g/YzD9QKXvfJ9
-	0dw0yD4VbFqvWKUV+JwEnflK20oqiW5fyOjcoD0qeemb9fFamzo6x3m/
-X-Gm-Gg: AZFdTZcgLKoGaBqf5CgZJce5Z5hUWOCPWof1xm+QgkI7Di3Z9Qgz1E4J6q2Xuynce8j
-	unJOYhE2nfEqK8Ac6wpk3fDDMXfUcQpfFwPVif8oT30j7HwMtRj/CEzmRtom8PiyvVHI5n38Od6
-	UItoJcl8PR7TJj0/Y+AxHQvCHg4guZtlKdat9M2tthu8vnC5lmFrbF47YYyCB/LqY5X47WEurah
-	Sdfd0TCip9NcpGAyib6aHrC+EOg2rbZ/a1VsG3JnbV7RJeOQ5TbNQ/rMGlcXauHqL7k8frgMC8O
-	Ej8NBtAyguYiuj1xnKrZOqLiRERpcMgO7ajrkwMy6SQR6BSs4Ej3hdAAhLq2wlbxJCx9mO324mF
-	0nvW9L1U7eT/SKk1cvzHv7QbfO1gwW3oC5yyK5STGgVD4xUvG9v+rhLoW9TeW+Zjv/XxDG8XZpm
-	ZHJAS5+Ue0Mmk5JPeCVCjfUrFa52HjO97wK/caV9nb5yw8fXyH3fw7bEgFUtso3O8AnKq3RfFWS
-	eqfprrEw1YqDz8tagvQYHxaXO8UAQ5A1lM8frspWK9F16MudkqefoZSWHKwP2pRSPsGEhsA1dIj
-	ynB2mdRSdXP6WRqX+FyqoDxKmw==
-X-Received: by 2002:a05:600c:4f15:b0:4bb:6861:657d with SMTP id 5b1f17b1804b1-4bb88923954mr544645045e9.21.1795757594268;
-        Thu, 26 Nov 2026 21:33:14 -0800 (PST)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4bb8538b3a7sm735501395e9.3.2026.11.26.21.33.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Nov 2026 21:33:13 -0800 (PST)
-From: Askar Safin <safinaskar@gmail.com>
-To: josef@toxicpanda.com
-Cc: James.Bottomley@HansenPartnership.com,
-	andrew@amutable.com,
-	brauner@kernel.org,
-	jbingham@gmail.com,
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=m8FLExAR
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=ry
+	lJ4EnxKNIcixfDOljd+e6hXXj/Ks5EE/NnudM1ajo=; b=m8FLExARKIB4aPMSQC
+	J8kBJZWZJFdvRxNIPKbUTBLMaQy7moE/YP6qql5TJFqbzYleirmF1bNBNTXkxAbJ
+	cGgeRU5sAy54BR2byhEeLVSKp79mQ6vTdbnRgZIqXAanDRy8RkOxCJ+gPVX/h1lC
+	tMS/f81cb6s4gOIVqdFBngUyU=
+Received: from ubuntu (unknown [])
+	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wD3f91fHglrpiWBKA--.777S2;
+	Fri, 27 Nov 2026 14:08:40 +0800 (CST)
+From: Shaopei Zhu <shaopei_1012@163.com>
+To: David Timber <dxdt@dev.snart.me>
+Cc: Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Yuezhang Mo <yuezhang.mo@sony.com>,
+	exfat@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	sergeh@kernel.org,
-	taherafahimi@linux.microsoft.com
-Subject: Re: [PATCH RFC v3 41/90] pidfd: add pidfd_configure()
-Date: Fri, 27 Nov 2026 08:33:06 +0300
-Message-ID: <20261127053306.3979858-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261105-b4-cells-v3-41-bc9095937a84@toxicpanda.com>
-References: <20261105-b4-cells-v3-41-bc9095937a84@toxicpanda.com>
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v7] exfat: add EXFAT_IOC_COMBINE to append a file's clusters to another
+Date: Fri, 27 Nov 2026 14:08:29 +0800
+Message-ID: <20261127060829.940607-1-shaopei_1012@163.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <059a0b05-2993-4e98-a640-c7c8364c7c69@dev.snart.me>
+References: <20261124230746.850528-1-shaopei_1012@163.com> <CAKYAXd_ap120uprmarov-GuO0fb1eXEgw-U8G08L1xRJ9bv18A@mail.gmail.com> <20261126075247.850895-1-shaopei_1012@163.com> <dcd27d38-60a2-4c1a-81ff-4a82e99520ab@dev.snart.me> <20261126190704.935716-1-shaopei_1012@163.com> <059a0b05-2993-4e98-a640-c7c8364c7c69@dev.snart.me>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,31 +68,25 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3f91fHglrpiWBKA--.777S2
+X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxU5zuWDUUUU
+X-CM-SenderInfo: pvkd01phlbiiirs6il2tof0z/xtbC6gi+TWsJHmgYXAAA3B
 
-(I just found that waitid doesn't work with CLONE_AUTOREAP processes.
-And exit code should be get using ioctl instead. My mistake, I am sorry.)
+Hi David,
 
-> +		.flags		= CLONE_VM | CLONE_UNTRACED | CLONE_AUTOREAP |
-> +				  CLONE_INTO_CGROUP | CLONE_NNP | CLONE_CLEAR_SIGHAND,
-> +		.fn		= embryo_main,
-> +		.fn_arg		= e,
-> +		.name		= "embryo",
+You are right, and I am sorry.
 
-Does this mean that string "embryo" is exposed to userspace? (I. e. "ps" output.)
-Option is named PIDFD_EMPTY as opposed to PIDFD_EMBRYO, thus, I think
-user-exposed task name should be "empty", too.
+I do take your time and your comments seriously.  My English is not
+good, so I used a tool to turn my answers into English, and the result
+was much too long.  The facts and the decisions in them are my own.
 
+I am a developer and much of my work is on exfat, which is why I would
+like to contribute some of my ideas to it.  Your comments, and those
+of the other kernel developers, matter a lot to me.  I will think more
+carefully about my replies, and I am sorry for the trouble.
 
+Thanks for telling me directly.
 
-Also, I noticed that you reset all signals.
-As well as I remember, all systemd services start by default with
-SIGPIPE set to IGN. So, if you start a cell within systemd service,
-then SIGPIPE will be set to DFL, which is probably unexpected.
-I don't mean that this should be changed, just make sure to document this.
+Shaopei
 
-
-(I am not expert. So take everything I say with grain of salt.)
-
-
--- 
-Askar Safin
