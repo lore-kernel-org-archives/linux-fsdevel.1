@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795752544;
-	b=cvtsbwZlKVLTXXOfH8jqrzojgGxNG1DCXDofPxshv9JUFSU99+nDIJhzyTU+7DLwAuPP
-	 Coi2BQAL9oyUMaLaLRR9StJRdclIqIFYKojwLD8ndECmQRI88PdRqjeLAMyU1ijmEtZQ2
-	 P3lzf7vqmr0ZvWrpdFLXQlq/WuLJE1gvghDIvOZQwyYabrT5zm2zv/5QlGbDZRYgezKm5
-	 Qlx4nasT8KMmW+nSJpP9PK9LzWoUKW0efDoKQ3m/mDYPiC/Y+KJ2Yg2ypzz9TS4yh63T1
-	 74Qkx1VYFfcmIuSy5sZLZBs6FpYK7LkSX0zEwZREsl8a0ls56hwXY6+oSvWofjV9ejQ==
+	t=1795752549;
+	b=q7ITvdcO+BmCLWcG4/wpV/nGCd5H0sQKa+H3SGEeKqfMf+uA93tZrJg6qhLK1/pg+eao
+	 fp2lfXZAIqTr7SdsWjkF/h5nFA+VaaSK07K0darsC0OcGlxBJ4S13zcbCgdeToJwD4Kev
+	 HQCzii5lMOxHcS1UsdRt1laME/9rashOmT7YyLFoyFamvmi65qDyiVPgArvmxVVIXqytE
+	 1jLp84RFSBGuRu0l3SsJqgXI9uu+iHTkQfS4CPyaedRLhKDrZJUn4HJmgkXgHpUbk59bw
+	 Ya/Fd1IRF5O5qFAzbfrJwYEvKLM9re5yNAmaQ0f8JNE4PY6z+RtD+yVWkr1i5OvBe3Q==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795752544;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795752549;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=jaMTV5zX0PIAiuhK706pc5SSpEkmxr31qNU70BT6xS0=;
-	b=rAZqkKWGUmshTBifc+XXDc9pgRoMWgUq0jKK1QNJXOrhEZR1HNg72tGw8+o9nLVCOyfb
-	 jXO7bnFlv/A8Ua47bf+RGMQOzQcUp9zl0oVS1N4qhrt1qVFiNtin+BOMEXkeWTSylokkA
-	 qnv+SFGXcDFX9gr2+tgS+VB5uWUUfi7PRdmbu6lPMsd9pEW/4HlTFHLeJ7nNm/JAMUNrk
-	 AKzxNuokaRguT/n9U/3B/to3Vc0DlufgP5aVQeQMeEFItqogMEKhSL6fLYOwiyQo4ZRBN
-	 /XrRZNMDB44vs4bqWkCKgo5yY2xnbBHqyaODskI8XPK7qsQ/iUEUv1rXbHkYOpkt4ug==
+	bh=HjpF0P5UyQ9nLom4QODoSUXMxsk2mmPrm0eKHuDGnBg=;
+	b=QigB+ZwvXtBJbK63wzFOhAsygYg7Euhz5Gbdbt0/yKxcxNgKjfEDABQgppz8O4YhdMRg
+	 Fz9WelDRysYuKe1AjrQB9i03DMo9vWFjPtgdHuI1Ya5mtiToYLt38Rmdf941xYTc7YBKJ
+	 HtI6gD6QKodINyS5Cr1Dt+DhElIQ0p7aFk0YR14UYoojtZKMxVyrzL0/+498qQS1Pp9e7
+	 13iUGt5fHOYSFRcgT0Nil5CD5rJPEnXy/qq9uQ4Y7tEAqshk4ldiKYTJ1MRTLhNjAgNTw
+	 SyaTMhKY0RzoW3U2FUoIHAPiCPqqqR67i3ZZKlp25dv5sbYGCEA3rnFK60CAOpqMv0Q==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N60RVhpa;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jZViEjrH;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48EA7606A327;
-	Fri, 27 Nov 2026 04:09:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442B3606A323;
+	Fri, 27 Nov 2026 04:09:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N60RVhpa
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jZViEjrH
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795752543;
-	b=c0PE9QQDZ2qMLUjhzUFb26M3mmZk9UyzniIFIviIljfAW70AW2fm3YvKWvWuPyK4Bdt5
-	 eEtiEiW6sjhhTnp31k06DnGCxywz2Ooa197ZI/etnWQGR2kJtlbxGmZL7sxuZuEzZ71t7
-	 /NvQonsl+tg9dM92i9orQ8jab+npNBwbbr/A33XNyY6tkWGClIzedmKbEZn49nswmTeY4
-	 oXp/n87fgc6J2LHpAsZYwRtxV7VYdAXuu5atrCOgA0PoYNXhvoCuN5BHPw/v4y+H5rywI
-	 QmAh8c8XxhbpLrZuzI1nmbqp5SJydPqpy+hBvpwkInvmM4VLEGaKqImvny5qpSjM/ww==
+	t=1795752548;
+	b=F8gkl5dz2zeGG5mwBRtAPBVa85fTWVoyJRHI6/kjMN2mRFJGSOr1eln+qVxZt94pT2cr
+	 6XtgMgTy5ofpH152BbruRV+M8S4Ek3Hk9xoe6sO55xtG/859P8u7h1JQCpyeI32rKjhum
+	 v33kRSGCxNHsI+xaeWm5zfZqyCyuqOSf6ZxtTOfMc7qqI9hLNQfIBF9Oo5aq1AdY9ji2F
+	 bex3OtMDKFH8NgW4OyYsrWLr9DtDnI4ORXKHjh1YHdh4pVrma0ZGWryohNtLqiCvqqDTO
+	 CSva5i5UUd07eqOgKx7DbDwE4ap7MiDbINwY36RFfbrA4+LWjVIWW/g0cwMgdDuzMEA==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795752543;
+	c=relaxed/relaxed; t=1795752548;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=jaMTV5zX0PIAiuhK706pc5SSpEkmxr31qNU70BT6xS0=;
-	b=BaYFGX25JvJZfMSjYtuNfo1iV6a+zsKJc26orkWOSujI/wKU3ZZ6SuGcI01DZwZgGtWK
-	 QqzimrtlrxqzlqARiqEJ6/Tb5egwCoUIlPPIYxNs7qqUDTzIhx7e3HdUmHCHzGvqmGwpM
-	 3fKXdO08p7ADlDFZd4SPKfhBNCqqrPRXb6OBfBeTVW0nfoXsaU4fk0ARYzp02D8TwidDV
-	 XT5qP6brdDBwyx7qch+MwW881VoRstTJxvwMY9qb6Y+QoPZUQlCK3NeT7C4gebmLol6K4
-	 3PxoR79PPUqmOyr70fhyMU16wUjs5j5J7inHQ/MjsCWFnJCWUQx7m4wiwQb+mlHyK6g==
+	bh=HjpF0P5UyQ9nLom4QODoSUXMxsk2mmPrm0eKHuDGnBg=;
+	b=GMwVXg7wlL4Eks+yB+NQdw+OnNiSVw/T2CgJp3hzGK+F8dOAhgmxINHZEtjxZOAdR04m
+	 kSx+TOkCWTZjeA5mkvmdKTbJavxKy/p61zfNd+8j45htAeGqMFkGJ8D88E2sCYB6/Mid1
+	 uUUNqncOjkVfkbcRx2pPu1pHOY936TG7kU0xLa9ZL0+l5iYCXMXz3CEJ7JAY+Facv6wf0
+	 EHwFct42tpeEt0F6aN/eMXpwSXV0yRT9bQNh1hpmkHXf5nJtJF/6EaJalhjeRkCk69YMo
+	 II1q7aFNlqVIg701BfSb+cksKDOW3vxUewi1kgZqdt/AB0FLS3/YnWJco8K9Djhdagg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 6BFF11F00927;
+	by smtp.kernel.org (Postfix) with ESMTPS id 4A2AB1F00924;
 	Fri, 27 Nov 2026 04:08:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795752543;
-	bh=jaMTV5zX0PIAiuhK706pc5SSpEkmxr31qNU70BT6xS0=;
+	s=k20260515; t=1795752548;
+	bh=HjpF0P5UyQ9nLom4QODoSUXMxsk2mmPrm0eKHuDGnBg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=N60RVhpaxVwtfJbr3N85ArsZvVd0MIyxBg9Ol+Yx3rGAuASbAJq1Tn7phhu+RzsYC
-	 C2BZ9C22Io78jT1iunZz0VPLBAqwFQh9NpRlBdTjxAbPPy41xSv1gSXLKWyPkksp/U
-	 UyGC/2ha3T6RX683lzs0qQD/5kjar5/fH9sgaoisLn3NyhaNVUL+dLz9yHAzOWMEdz
-	 eJbBna2aEkg8onWbA+f5E9BSls9JXasEAFwfo52Ft4XWdLvxd3Lyv8IK20a4aMso6v
-	 xnJTkCneNpx4TsbHd56x5ux7n+1cPGpj1NIuXXmG5Nk7olLDIT+JPJKw3j0pYl+JS9
-	 yClV7kZd1rddA==
+	b=jZViEjrHv7dvOmMePsATDqUzpBYEctt0Ldy+QMYHQPLrNh83CcrUuaKNva7rTo50Z
+	 ENdNGgZUwuetP2UKbzMBfyJGieqgzrjbGr/eHme5t/DydC4YaONuKfELSI+HbaGCNQ
+	 yrQjOHtYew5wmW1jQyTmv6xHFg+Lxl1fEuD8EoC42AxS8x1uYlfg0SMdSQQn79EXky
+	 RU+Rc1G/2uJhJ2BqKYPFc+8oi88yHm8E1mIDFwBt2WNfzK1CTnG79B50FZQgtaiQsx
+	 wupuDgJw7nvmEmcpvf1SwEQrToINvLy15Eh1q0uP6epiEEpwrKteIBUpvqiYDXFEuV
+	 KYO/V5A546rjg==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id EF6994B561;
+	by lkml.kernel.org (Postfix) with ESMTP id D081C4B558;
 	Fri, 27 Nov 2026 04:08:51 +0000 (UTC)
 From: David Crawshaw via B4 Relay <devnull+david.exe.dev@kernel.org>
-Date: Fri, 27 Nov 2026 04:08:40 +0000
-Subject: [PATCH 2/2] selftests/fuse: test a write extending the file beside
- writeback of the EOF page
+Date: Fri, 27 Nov 2026 04:08:39 +0000
+Subject: [PATCH 1/2] fuse: update i_size before unlocking the EOF folio in
+ write-through writes
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261127-b4-fuse-wt-eof-v1-2-e055e2af652d@exe.dev>
+Message-Id: <20261127-b4-fuse-wt-eof-v1-1-e055e2af652d@exe.dev>
 References: <20261127-b4-fuse-wt-eof-v1-0-e055e2af652d@exe.dev>
 In-Reply-To: <20261127-b4-fuse-wt-eof-v1-0-e055e2af652d@exe.dev>
 To: Miklos Szeredi <miklos@szeredi.hu>, 
@@ -93,13 +93,13 @@ To: Miklos Szeredi <miklos@szeredi.hu>,
  Joanne Koong <joannelkoong@gmail.com>, Shuah Khan <shuah@kernel.org>
 Cc: fuse-devel@lists.linux.dev, linux-kselftest@vger.kernel.org, 
  linux-fsdevel@vger.kernel.org, regressions@lists.linux.dev, 
- David Crawshaw <david@exe.dev>
+ David Crawshaw <david@exe.dev>, stable@vger.kernel.org
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795752531; l=3427;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795752531; l=3912;
  i=david@exe.dev; s=20261127; h=from:subject:message-id;
- bh=qOOaxwLFrTNcXJw6jwuVCpa0ioptdiRJjfw7LoJ36Lo=;
- b=lUPu83Z510dHQTNWuk9cevLfzHjsmK7gaY92o0YHNjiKjFxSVcDPgRoVktzevq2e/LUTUP+vs
- Kw2OR1BGXmUCM+tFUal4usiKBneN/Kx+87y6ynTAS0uu/Ysqp7RYc4G
+ bh=aneCOpdxoK+BoX+KlAWJghFJrKt6ILqgZAIYQqmiW0I=;
+ b=pZh3gDBUojjRGzwL5hg+aYbb26zpqEM71Wd+/shQt6BrHzKj9HuOjKvTby6mb6BA9RCczfdJ0
+ lSNoakYmogFAEnBL4QI0J56eiQi7rzmRlhRFMuxLCktZNcYpBh3J7L4
 X-Developer-Key: i=david@exe.dev; a=ed25519;
  pk=eQfKiR9S2peqiHuuNGCAaWlxwP+RerhKT2wVxakCrjQ=
 X-Endpoint-Received: by B4 Relay for david@exe.dev/20261127 with
@@ -110,112 +110,99 @@ Content-Transfer-Encoding: 7bit
 
 From: David Crawshaw <david@exe.dev>
 
-Add a case to write_extend_eof_test: while a pwrite() that extends the
-file inside its mmap-dirtied EOF page is held by the server, write that
-page back with sync_file_range().  The written data must be in the page
-cache afterwards, and on the server after fsync().
+Since FUSE writeback was converted to iomap, a write-through write
+that extends the file within the folio holding the current EOF can
+lose its data if writeback of that folio starts while the FUSE_WRITE
+request is in flight.
 
-Written with an AI coding assistant (Shelley using Opus 5.5).
+fuse_perform_write() copies the data into the page cache folio, unlocks
+it in fuse_fill_write_pages(), sends FUSE_WRITE, and only updates
+i_size after the reply has arrived.  If the folio is dirty, writeback
+can lock it in between, and iomap_writeback_handle_eof() zeroes the
+folio from the old i_size to its end.
 
+Depending on timing:
+
+ - the page cache is left with zeroes where the write's data should be,
+ - the FUSE_WRITE request itself carries zeroes, as its pages are the
+   page cache folios and are only copied when the server reads the
+   request, so the server stores zeroes,
+ - a later writeback of the zeroed folio overwrites the server data.
+
+In each case the write returns success.  Before iomap, FUSE writeback
+never modified the folio and cropped the request to i_size at send time,
+so this window was harmless.  iomap, on the other hand, expects i_size
+to cover the data in a folio before the folio is unlocked, as
+iomap_write_iter() does for the writeback cache path.
+
+Fix it the same way for write-through writes: keep a folio that
+straddles i_size locked over the request when the write extends the
+file within it and update i_size from fuse_send_write_pages() before
+the folios are unlocked.
+
+Reproducer: a thread repeatedly stores into the EOF page through a
+shared mapping and calls sync_file_range(SYNC_FILE_RANGE_WRITE) on it,
+while another thread pwrite()s a few bytes past EOF within that page;
+with a server that delays FUSE_WRITE by 200us the data was lost in
+493/500 runs (the selftest added in the next patch fails reliably), and in
+0/3000 runs with this patch.
+
+This patch written with an AI coding assistant (Shelley using Opus 5.5).
+I reviewed and tested it.
+
+Fixes: ef7e7cbb323f ("fuse: use iomap for writeback")
+Cc: stable@vger.kernel.org # v6.17+
 Signed-off-by: David Crawshaw <david@exe.dev>
 ---
- .../filesystems/fuse/write_extend_eof_test.c       | 71 ++++++++++++++++++++++
- 1 file changed, 71 insertions(+)
+ fs/fuse/file.c | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/filesystems/fuse/write_extend_eof_test.c b/tools/testing/selftests/filesystems/fuse/write_extend_eof_test.c
-index d6d5de8dac2..cdefe459359 100644
---- a/tools/testing/selftests/filesystems/fuse/write_extend_eof_test.c
-+++ b/tools/testing/selftests/filesystems/fuse/write_extend_eof_test.c
-@@ -57,6 +57,8 @@ struct backing_file {
- struct server {
- 	int fd;
- 	unsigned int copy_ops;			/* FUSE_COPY_FILE_RANGE* seen */
-+	uint64_t hold_off;			/* delay the WRITE at this offset */
-+	int held;				/* ... and set this when it came */
- 	struct backing_file file[2];		/* FILE_INO, SRC_INO */
- };
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index 993a1d2b315..ee3bdc3cb04 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -1287,6 +1287,15 @@ static ssize_t fuse_send_write_pages(struct fuse_io_args *ia,
+ 	if (!err && ia->write.out.size > count)
+ 		err = -EIO;
  
-@@ -179,6 +181,13 @@ static void *server_thread(void *arg)
- 			uint64_t off = in->offset;
- 			uint32_t size = in->size;
++	/*
++	 * Extend i_size before unlocking the last folio, so that writeback
++	 * cannot see the newly written data beyond i_size and zero it.  See
++	 * fuse_fill_write_pages().
++	 */
++	if (!err)
++		fuse_write_update_attr(inode, pos + ia->write.out.size,
++				       ia->write.out.size);
++
+ 	for (i = 0; i < ap->num_folios; i++) {
+ 		struct folio *folio = ap->folios[i];
  
-+			/* Leave time for writeback while the write is pending. */
-+			if (s->hold_off && off == s->hold_off &&
-+			    !(in->write_flags & FUSE_WRITE_CACHE)) {
-+				__atomic_store_n(&s->held, 1, __ATOMIC_SEQ_CST);
-+				usleep(200 * 1000);
-+			}
-+
- 			if (off < BACKING_SIZE) {
- 				uint32_t c = size;
+@@ -1305,6 +1314,7 @@ static ssize_t fuse_fill_write_pages(struct fuse_io_args *ia,
+ {
+ 	struct fuse_args_pages *ap = &ia->ap;
+ 	struct fuse_conn *fc = get_fuse_conn(mapping->host);
++	loff_t isize = i_size_read(mapping->host);
+ 	size_t count = 0;
+ 	unsigned int num;
+ 	int err = 0;
+@@ -1366,7 +1376,16 @@ static ssize_t fuse_fill_write_pages(struct fuse_io_args *ia,
+ 		if (tmp == folio_size(folio))
+ 			iomap_folio_mark_uptodate(folio);
  
-@@ -472,4 +481,66 @@ TEST_F(fuse, extend_into_eof_page_preserves_data)
- 	free(rd);
- }
- 
-+struct writeback_args {
-+	struct server *srv;
-+	char *map;
-+	int fd;
-+	off_t base;
-+	long page;
-+};
-+
-+/* Once the extending WRITE is pending, dirty the EOF page and write it back. */
-+static void *writeback_thread(void *arg)
-+{
-+	struct writeback_args *a = arg;
-+	int i;
-+
-+	for (i = 0; i < 5000; i++) {
-+		if (__atomic_load_n(&a->srv->held, __ATOMIC_SEQ_CST))
-+			break;
-+		usleep(1000);
-+	}
-+	a->map[a->page - 1] = 1;
-+	sync_file_range(a->fd, a->base, a->page, SYNC_FILE_RANGE_WRITE);
-+	return NULL;
-+}
-+
-+/*
-+ * Writeback of the mmap-dirtied EOF page that starts while a write extending
-+ * the file within that page is in flight must not zero the written data:
-+ * the write has copied it into the page cache, but i_size is only updated
-+ * once the server has replied, and writeback zeroes the page past i_size.
-+ */
-+TEST_F(fuse, extend_beside_writeback)
-+{
-+	struct writeback_args a;
-+	pthread_t t;
-+	off_t base, wr;
-+	char rd[4];
-+
-+	pollute_eof_tail(_metadata, self);
-+	base = self->eof & ~(self->page - 1);
-+	wr = self->eof + 100;			/* in the EOF page, past EOF */
-+	ASSERT_LT(wr + 4, base + self->page);
-+
-+	a.srv = self->srv;
-+	a.map = self->map;
-+	a.fd = self->fd;
-+	a.base = base;
-+	a.page = self->page;
-+	self->srv->hold_off = wr;
-+	ASSERT_EQ(0, pthread_create(&t, NULL, writeback_thread, &a));
-+
-+	ASSERT_EQ(4, pwrite(self->fd, "data", 4, wr));
-+	pthread_join(t, NULL);
-+	ASSERT_EQ(1, self->srv->held);
-+
-+	ASSERT_EQ(4, pread(self->fd, rd, 4, wr));
-+	ASSERT_EQ(0, memcmp(rd, "data", 4));
-+
-+	ASSERT_EQ(0, fsync(self->fd));
-+	ASSERT_EQ(wr + 4, self->srv->file[0].size);
-+	ASSERT_EQ(0, memcmp(self->srv->file[0].data + wr, "data", 4));
-+}
-+
- TEST_HARNESS_MAIN
+-		if (folio_test_uptodate(folio)) {
++		/*
++		 * Keep the folio locked until the reply if it is not uptodate,
++		 * or if it straddles i_size and this write extends the file
++		 * within it: writeback zeroes a folio beyond i_size
++		 * (iomap_writeback_handle_eof()), which would wipe the data
++		 * just copied, both in the page cache and in the request,
++		 * while i_size has not yet been updated.
++		 */
++		if (folio_test_uptodate(folio) &&
++		    !(folio_pos(folio) < isize && pos > isize)) {
+ 			folio_unlock(folio);
+ 		} else {
+ 			ia->write.folio_locked = true;
 
 -- 
 2.43.0
