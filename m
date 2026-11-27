@@ -1,61 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795772734;
-	b=lYC2ZsxabBap6z7AW3CyYr8mZZ/oX6BIGZ2usps/ye92dB8ZPN+oA0hH+eIvyna0uKoO
-	 skkNCnd9pK6CYDxmcFtSWWDdVXm7UUOMB17BwOS9BKD/ONMPRPdWGb6PGWN5DrX4Zv9zy
-	 /d/ZYMUPY189m7/LSJ2MzlSqwB64rRoijOAI+ir7FJq4c9vmU37C2MjQOpw6J6nJwaBOW
-	 Y+QPrstHIsMTxN+afWPTXuA7topKQsFoq+OwatByjbExKB3so5LKjDLLxxjhl2aczti3O
-	 G8zMVRLr5riSa4REGg7tRuQgiDoKP7zccqZ74uIDlNNRjtQCqe7RNEyfCp1B0T1CmMA==
+	t=1795773459;
+	b=SK3jZ0XJrVQtzLOMMQg7puwcFgxzGKkw5LwUC0oJT1x77vYWsN2H8C9VchC2GvOMJNia
+	 nKawCjpUk6NnU2es5Wlb1zTfJ78ukWknJ+KDms15mVUhJkiwJ69ofQNPRMrGCqAAueSyO
+	 03s0sjGrc6J7ywbGorg17lGFKmYiQKtIrpj1xR3ZoBB/SbmTYHWzvOl2mkEnr9/QRNTiq
+	 zXqK5byzlBN8GbioHa6tID0bcXYGduHmkLoHcuLfy4Xdm2a6ugut3GmhVcu8C+eyIw/w1
+	 FNoLh8iF8YYyY02oWKrlpnFC1BnLdz2/02IuTb6mVFG+rjeoVy0dR4XlVLzH6UpXwUA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795772734;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=RczoZg2Epk8iTLi3BcJGcft1wIDv/G28fsZ43jaIlC8=;
-	b=WeX8FxXPFiY6wn5LGs4dywZT4/ZhdEzJNB4nv1FiluZbsjEfRMuSSA+azFOiJeywxxNu
-	 ZREY1vRdXGiuiNkbQO82zCVJnWdynHVTtkfNP59gbYkANQoo1s7oyB98GBXuggv3PooJ1
-	 vExVMBuCqPGZQ/VzD3247zK467YfJy2JDR/53rzH9egm/EeyDH/SvWtrUy7i3fsonjfE/
-	 Dq/VdHqC+d7px44AOfrV5szhnpEAr/18ilbRqHjTgUq7NkrwQVmwdoIEFW5PCm9yZoPxn
-	 O7dSjNNSsV3qtXngHvde5NAdTi3sdZViIOplLkIdm0gi/cl5oCCznrStyhUuRRapo1g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795773459;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=69+4bHVY7J3UMA/5+KV1w/FUHDxIBD0PWF/YGVpWFJc=;
+	b=NAbVlsdZXukTB8+3tyWES6ek4f38ApDCRQzTHrZIYabqpOEroyZCnzH5R8C0/SIYDwFl
+	 qB8IsQZBmE9EWPW1QzSIeTXIzjWrvPidThaaplNsLx25mbK46YqnTEyBTBNAbJac5Q6Gj
+	 cKqWEEVDE13yPxSFXIGGFDONi2BC9KFFdoG1oOq7egvIWrti95r8fQujBYwRZG5fVUHOo
+	 ucNFX+8HNc7ooNyN6nUTsiwESki9MduVcD2ycUTnr0VLprxq6e+SZ4EgglOqRR/ct44JR
+	 LLmc4MBKhFCTeJzJLbSeUG+PZ4TSZqXkymayO9xlbgHcFA6D211xComHE2fYof4aQHQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g+Jybfkf;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=GmRyzO0+;
+	arc=none smtp.remote-ip=117.135.210.5
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E5B606A31E;
-	Fri, 27 Nov 2026 09:45:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2CC606A31C;
+	Fri, 27 Nov 2026 09:57:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D2CC606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g+Jybfkf
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45A231F000C1;
-	Fri, 27 Nov 2026 09:45:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795772734;
-	bh=RczoZg2Epk8iTLi3BcJGcft1wIDv/G28fsZ43jaIlC8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=g+Jybfkf+uM2Z4Bz7gFkrAEcGEmsYF6TNblOKK2JEe0WjTZxM52r/8xMXxHMyrl13
-	 WbvM4gLObGcyluRttsE8TrMm1k0fOFCvc6SwUmmNL91SIx2Tjd9JiBkRj3zOyQxztH
-	 XHSbf08rhGb4NJFAjZKXKjy8lle7uzN3/JYV6DWv2arg+rdYHeASta7eOofoXNOsUX
-	 y1FJxtxQSxf7aaVLX0lYo+KIRP7GQYDOGMH0vbMC7GU88U5Ua8P49syEi7XLrTjHGb
-	 yZs4k9bDrqSm8vi1Z4ehGHm7xScKJv/4Kyiyl+6tC3sZJwzbMG//kbYhwbLiKOMGYd
-	 9BZ7xA21VRt8w==
-Date: Fri, 27 Nov 2026 10:45:28 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Jann Horn <jannh@google.com>, linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
-	adrian.hunter@intel.com, alexander.shishkin@linux.intel.com, dapeng1.mi@linux.intel.com
-Subject: Re: [PATCH 1/2] perf: look up address filter files without
- ctx->mutex held
-Message-ID: <20261127-tonlage-pilze-demolieren-5948f82f401c@brauner>
-References: <20261126-work-exec-update_lock-leftovers-v1-0-1024b26792bc@kernel.org>
- <20261126-work-exec-update_lock-leftovers-v1-1-1024b26792bc@kernel.org>
- <20261126152414.GH49833@noisy.programming.kicks-ass.net>
- <20261126-gedruckt-gastarbeiter-vorsorgen-5fea7cea1877@brauner>
- <20261126-erlogen-bedrucken-dementieren-5de5e5460481@brauner>
- <20261127081303.GN49833@noisy.programming.kicks-ass.net>
- <20261127091852.GD83911@noisy.programming.kicks-ass.net>
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=GmRyzO0+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=69
+	+4bHVY7J3UMA/5+KV1w/FUHDxIBD0PWF/YGVpWFJc=; b=GmRyzO0+tN4zGIMIzb
+	j+AT0kEkxcFLa4T5yIXw9h8inFXk0/9VmTjUI23Ips60frSGxQ6MpEvXY4DLcfAO
+	U3hxV3KGb7dBVhrTDrjYxADI2bCqcfnvSHKMcrncJU3WX7352YzsvAngFuruCaRC
+	1XeMZqyPkwhNUzR8sjvknbPkU=
+Received: from shaos.localdomain (unknown [])
+	by gzsmtp2 (Coremail) with SMTP id PSgvCgCXagrcUwlrG+rhHw--.25255S2;
+	Fri, 27 Nov 2026 17:56:45 +0800 (CST)
+From: shaos <shawnq1@163.com>
+To: shaggy@kernel.org
+Cc: Yun Zhou <yun.zhou@windriver.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	jfs-discussion@lists.sourceforge.net,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] jfs: reject self-linked directory tree pages
+Date: Fri, 27 Nov 2026 09:56:44 +0000
+Message-Id: <20261127095644.1193523-1-shawnq1@163.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -65,293 +64,195 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261127091852.GD83911@noisy.programming.kicks-ass.net>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PSgvCgCXagrcUwlrG+rhHw--.25255S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3Xw4fCrW8Xry7Xw47WrWrAFb_yoW3JF17pw
+	1fCF1ftr4kKr4UAw1xGF4kZayfC3ykJrWYy3Z7Gw4xCasYqw17urySyr13Z3W2qrWkW3ya
+	9r4jgr129ayUKaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jOtxhUUUUU=
+X-CM-SenderInfo: pvkd40jtr6il2tof0z/xtbC8h0pN2sJU90TYAAA3u
 
-On Fri, Nov 27, 2026 at 10:18:52AM +0100, Peter Zijlstra wrote:
-> On Fri, Nov 27, 2026 at 09:13:03AM +0100, Peter Zijlstra wrote:
-> > On Thu, Nov 26, 2026 at 10:26:02PM +0100, Christian Brauner wrote:
-> > > So ok, if we can't drop ctx->mutex in the middle of the ioctl then how
-> > > about we don't hold ctx->mutex during parsing to begin with?
-> > > We let perf_ioctl() hand PERF_EVENT_IOC_SET_FILTER off before it takes
-> > > the mutex:
-> > > 
-> > > ioctl(PERF_EVENT_IOC_SET_FILTER)
-> > > -> perf_ioctl()
-> > >    -> perf_event_set_filter()                // no ctx->mutex
-> > >       -> perf_event_set_addr_filter()
-> > >          -> perf_event_parse_addr_filter()   // kern_path(), own list
-> > >          -> perf_event_ctx_lock()
-> > >             // revoked? has_addr_filter()? ->addr_filters_validate()
-> > >             -> perf_addr_filters_splice()
-> > >             -> perf_event_addr_filters_apply() on each child
-> > >          -> perf_event_ctx_unlock()
-> > > 
-> > > The parser fills its own list and counts the file filters in locals.
-> > > Everything that needs ctx->mutex then happens in one go under
-> > > perf_event_ctx_lock().
-> > > 
-> > > So ctx->mutex is never dropped in the middle of an ioctl, a migrated
-> > > event is handled by perf_event_ctx_lock() like everywhere else and no
-> > > ctx is carried across the lookup?
-> > 
-> > Let me try this.
-> 
-> Compile tested only; Alexander, Adrian; could any of you take a hard
-> look at this and actually test?
-> 
-> ---
->  kernel/events/core.c | 135 +++++++++++++++++++++++++--------------------------
->  1 file changed, 67 insertions(+), 68 deletions(-)
-> 
-> diff --git a/kernel/events/core.c b/kernel/events/core.c
-> index 77c501005143..c019e4faf655 100644
-> --- a/kernel/events/core.c
-> +++ b/kernel/events/core.c
-> @@ -6632,16 +6632,24 @@ static inline bool is_perf_file(struct fd f)
->  
->  static int perf_event_set_output(struct perf_event *event,
->  				 struct perf_event *output_event);
-> -static int perf_event_set_filter(struct perf_event *event, void __user *arg);
-> +static int perf_event_set_filter(struct perf_event *event, struct list_head *filters);
->  static int perf_copy_attr(struct perf_event_attr __user *uattr,
->  			  struct perf_event_attr *attr);
->  static int __perf_event_set_bpf_prog(struct perf_event *event,
->  				     struct bpf_prog *prog,
->  				     u64 bpf_cookie);
->  
-> -static long _perf_ioctl(struct perf_event *event, unsigned int cmd, unsigned long arg)
-> +struct perf_ioctl_ctx {
-> +	unsigned int cmd;
-> +	unsigned long arg;
-> +	struct list_head filters;
-> +};
-> +
-> +static long _perf_ioctl(struct perf_event *event, struct perf_ioctl_ctx *ctx)
->  {
->  	void (*func)(struct perf_event *);
-> +	unsigned long arg = ctx->arg;
-> +	unsigned int cmd = ctx->cmd;
->  	u32 flags = arg;
->  
->  	if (event->state <= PERF_EVENT_STATE_REVOKED)
-> @@ -6692,7 +6700,7 @@ static long _perf_ioctl(struct perf_event *event, unsigned int cmd, unsigned lon
->  	}
->  
->  	case PERF_EVENT_IOC_SET_FILTER:
-> -		return perf_event_set_filter(event, (void __user *)arg);
-> +		return perf_event_set_filter(event, &ctx->filters);
->  
->  	case PERF_EVENT_IOC_SET_BPF:
->  	{
-> @@ -6751,10 +6759,21 @@ static long _perf_ioctl(struct perf_event *event, unsigned int cmd, unsigned lon
->  	return 0;
->  }
->  
-> +static inline bool perf_event_is_tracing(struct perf_event *event);
-> +static void free_filters_list(struct list_head *filters);
-> +static int
-> +perf_event_parse_addr_filter(int event_node, bool event_task, char *fstr,
-> +			     struct list_head *filters);
-> +
->  static long perf_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
->  {
->  	struct perf_event *event = file->private_data;
->  	struct perf_event_context *ctx;
-> +	struct perf_ioctl_ctx ic = {
-> +		.cmd = cmd,
-> +		.arg = arg,
-> +		.filters = LIST_HEAD_INIT(ic.filters),
-> +	};
->  	long ret;
->  
->  	/* Treat ioctl like writes as it is likely a mutating operation. */
-> @@ -6762,10 +6781,34 @@ static long perf_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
->  	if (ret)
->  		return ret;
->  
-> +	if (cmd == PERF_EVENT_IOC_SET_FILTER) {
-> +		int cpu = READ_ONCE(event->cpu);
-> +		int node = cpu == -1 ? NUMA_NO_NODE : cpu_to_node(cpu);
-> +		bool task = event->attach_state & PERF_ATTACH_TASK;
-> +		char *filter_str __free(kfree) =
-> +			strndup_user((void __user *)arg, PAGE_SIZE);
-> +
-> +		if (IS_ERR(filter_str))
-> +			return PTR_ERR(filter_str);
-> +
-> +#ifdef CONFIG_EVENT_TRACING
-> +		if (perf_event_is_tracing(event)) {
-> +			return ftrace_profile_set_filter(event, event->attr.config,
-> +							filter_str);
-> +		}
-> +#endif
-> +		ret = perf_event_parse_addr_filter(node, task, filter_str,
-> +						   &ic.filters);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->  	ctx = perf_event_ctx_lock(event);
-> -	ret = _perf_ioctl(event, cmd, arg);
-> +	ret = _perf_ioctl(event, &ic);
->  	perf_event_ctx_unlock(event, ctx);
->  
-> +	free_filters_list(&ic.filters);
-> +
->  	return ret;
->  }
->  
-> @@ -11990,9 +12033,8 @@ void perf_bp_event(struct perf_event *bp, void *data)
->   * Allocate a new address filter
->   */
->  static struct perf_addr_filter *
-> -perf_addr_filter_new(struct perf_event *event, struct list_head *filters)
-> +perf_addr_filter_new(int node, struct list_head *filters)
->  {
-> -	int node = cpu_to_node(event->cpu == -1 ? 0 : event->cpu);
->  	struct perf_addr_filter *filter;
->  
->  	filter = kzalloc_node(sizeof(*filter), GFP_KERNEL, node);
-> @@ -12035,8 +12077,17 @@ static void perf_addr_filters_splice(struct perf_event *event,
->  	raw_spin_lock_irqsave(&event->addr_filters.lock, flags);
->  
->  	list_splice_init(&event->addr_filters.list, &list);
-> -	if (head)
-> +	event->addr_filters.nr_file_filters = 0;
-> +
-> +	if (head) {
-> +		struct perf_addr_filter *filter;
-> +
->  		list_splice(head, &event->addr_filters.list);
-> +		list_for_each_entry(filter, &event->addr_filters.list, entry) {
-> +			if (filter->path.dentry)
-> +				event->addr_filters.nr_file_filters++;
-> +		}
-> +	}
->  
->  	raw_spin_unlock_irqrestore(&event->addr_filters.lock, flags);
->  
-> @@ -12186,7 +12237,7 @@ static const match_table_t if_tokens = {
->   * Address filter string parser
->   */
->  static int
-> -perf_event_parse_addr_filter(struct perf_event *event, char *fstr,
-> +perf_event_parse_addr_filter(int event_node, bool event_task, char *fstr,
->  			     struct list_head *filters)
->  {
->  	struct perf_addr_filter *filter = NULL;
-> @@ -12213,7 +12264,7 @@ perf_event_parse_addr_filter(struct perf_event *event, char *fstr,
->  
->  		/* filter definition begins */
->  		if (state == IF_STATE_ACTION) {
-> -			filter = perf_addr_filter_new(event, filters);
-> +			filter = perf_addr_filter_new(event_node, filters);
->  			if (!filter)
->  				goto fail;
->  		}
-> @@ -12299,7 +12350,7 @@ perf_event_parse_addr_filter(struct perf_event *event, char *fstr,
->  				 * different processes.
->  				 */
->  				ret = -EOPNOTSUPP;
-> -				if (!event->ctx->task)
-> +				if (!event_task)
->  					goto fail;
->  
->  				/* look up the path and grab its inode */
-> @@ -12310,11 +12361,8 @@ perf_event_parse_addr_filter(struct perf_event *event, char *fstr,
->  
->  				ret = -EINVAL;
->  				if (!filter->path.dentry ||
-> -				    !S_ISREG(d_inode(filter->path.dentry)
-> -					     ->i_mode))
-> +				    !S_ISREG(d_inode(filter->path.dentry)->i_mode))
->  					goto fail;
+A malformed JFS directory leaf can point its next or previous
+sibling link back to its own block.  check_dtpage() validates the
+page's slot metadata but accepts either self-link.
 
-Just a thought on this. In vfs-7.5.lookup I have:
+For an empty leftmost leaf, jfs_readdir() emits no entries from the
+page and follows header.next without making progress.  A single
+getdents64() then loops in kernel context.  A crafted image reproduces
+this on a read-only JFS mount.
 
-file_check_backing() which is the new default way to figure out whether
-something can be a backing file for a given subsystem. Its checks are:
+Reject a non-root directory page whose sibling link names its own
+block.  Save the requested block number before BT_GETPAGE() so the
+validator can compare the page links with the block that was read.  If
+the leftmost page is rejected, leave the directory position at EOF so
+a later getdents64() does not retry the corrupt page after returning
+the already emitted dot entries.
 
-int file_check_backing(const struct file *file, fmode_t mode, umode_t type)
-{
-	fmode_t io = mode & (FMODE_READ | FMODE_WRITE);
-	/* Drivers may point ->f_mapping at something else. */
-	umode_t fmt = file_inode(file)->i_mode & S_IFMT;
-	struct inode *real_inode;
+The reproducer uses a 16 MiB JFS image with one valid empty leaf at
+block 112.  The trigger has header.next=112; the control changes only
+that field to zero.
 
-	/* O_PATH files are only fine for callers that just use the path. */
-	if ((file->f_mode & FMODE_PATH) && !(mode & FMODE_PATH))
-		return -EBADF;
+HEAD commit:    8d7fe9885c62fc9a95bf55d9db244d9672a8aadc
+git tree:       fe970b05333fb8e41da21e9e289f652abcc7cba7
+source version: Linux 7.4.0-rc4
+compiler:       gcc 11.4.0, GNU ld 2.38
 
-	if ((file->f_mode & io) != io)
-		return -EBADF;
+Console output:
+https://gist.githubusercontent.com/shaos26/111949c00d3d0b42fe7a11e90f0f47fb/raw/dde677d84dbf51c6bc82fc81535aefae86370afd/console-output.txt
+Kernel config:
+https://gist.githubusercontent.com/shaos26/111949c00d3d0b42fe7a11e90f0f47fb/raw/dde677d84dbf51c6bc82fc81535aefae86370afd/kernel-config.txt
+PoC:
+https://gist.githubusercontent.com/shaos26/111949c00d3d0b42fe7a11e90f0f47fb/raw/dde677d84dbf51c6bc82fc81535aefae86370afd/poc.c
+JFS image builder:
+https://gist.githubusercontent.com/shaos26/111949c00d3d0b42fe7a11e90f0f47fb/raw/dde677d84dbf51c6bc82fc81535aefae86370afd/mkjfs_cycle.py
 
-	if (fmt != S_IFREG && !(type == S_IFBLK && fmt == S_IFBLK))
-		return -EINVAL;
+Build the test kernel from the specified commit and config.  Required
+tools are gcc, make, cpio, gzip, Python 3 and QEMU.  Run these
+commands to download the files, build the kernel and create both
+images and the initramfs:
 
-	/* Look through stacking filesystems at the inode with the data. */
-	real_inode = d_real_data_inode(file->f_path.dentry);
-	if (IS_ERR(real_inode))
-		return PTR_ERR(real_inode);
-	if (real_inode->i_sb->s_iflags & SB_I_PSEUDO)
-		return -EINVAL;
+    work=$(mktemp -d /tmp/jfs-readdir.XXXXXX)
+    cd "$work"
+    gist_id=111949c00d3d0b42fe7a11e90f0f47fb
+    gist_revision=dde677d84dbf51c6bc82fc81535aefae86370afd
+    gist_base=https://gist.githubusercontent.com/shaos26
+    gist=$gist_base/$gist_id/raw/$gist_revision
+    for file in console-output.txt kernel-config.txt poc.c \
+        mkjfs_cycle.py; do
+        curl -fL "$gist/$file" -o "$file"
+    done
+    git clone \
+        https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+    cd linux
+    git checkout 8d7fe9885c62fc9a95bf55d9db244d9672a8aadc
+    mkdir build
+    cp ../kernel-config.txt build/.config
+    make O=build olddefconfig
+    make O=build -j"$(nproc)" bzImage
+    cd ..
+    python3 mkjfs_cycle.py trigger trigger.img
+    python3 mkjfs_cycle.py control control.img
+    mkdir -p rootfs/dev rootfs/proc rootfs/mnt
+    gcc -O2 -static -Wall -Wextra -Werror -o rootfs/init poc.c
+    chmod 0755 rootfs/init
+    (cd rootfs && find . -print0 |
+        cpio --null -o -H newc --owner=0:0 |
+        gzip -9) > initramfs.cpio.gz
 
-	if ((mode & FMODE_READ) &&
-	    (!(file->f_mode & FMODE_CAN_READ) || !file->f_op->read_iter))
-		return -EINVAL;
+Run the vulnerable kernel with the trigger image and then the
+one-field control:
 
-	if ((mode & FMODE_WRITE) &&
-	    (!(file->f_mode & FMODE_CAN_WRITE) || !file->f_op->write_iter))
-		return -EINVAL;
+    kernel_cmdline='console=ttyS0 earlyprintk=serial nokaslr'
+    kernel_cmdline="$kernel_cmdline panic=1 oops=panic"
+    qemu-system-x86_64 -machine pc -cpu qemu64 -m 1024 -smp 2 \
+        -kernel linux/build/arch/x86/boot/bzImage \
+        -initrd initramfs.cpio.gz \
+        -drive file=trigger.img,format=raw,if=virtio,readonly=on \
+        -append "$kernel_cmdline" \
+        -nographic -no-reboot
+    qemu-system-x86_64 -machine pc -cpu qemu64 -m 1024 -smp 2 \
+        -kernel linux/build/arch/x86/boot/bzImage \
+        -initrd initramfs.cpio.gz \
+        -drive file=control.img,format=raw,if=virtio,readonly=on \
+        -append "$kernel_cmdline" \
+        -nographic -no-reboot
 
-	return 0;
-}
+The trigger kernel stays in state R, with CPU ticks advancing from
+100 to 142.  Its stack includes check_dtpage() and jfs_readdir();
+it remains in state R at tick 206 after SIGKILL.  With the patch
+below, the trigger logs the rejected self-link and getdents64()
+returns the dot entries followed by EOF.  The control also completes
+normally.  The console file contains all three runs.  To build and
+check the patched kernel, save the diff below as fix.patch in the
+Linux source directory, then run:
 
-It excludes anything that is a pseudo filesystem:
+    git apply --check fix.patch
+    git apply fix.patch
+    make O=build -j"$(nproc)" bzImage
 
-arch/powerpc/platforms/cell/spufs/inode.c:      fc_init_pseudo(fc);
-arch/s390/hypfs/inode.c:        fc_init_pseudo(fc);
-drivers/android/binder/rust_binderfs.c: fc_init_pseudo(fc);
-drivers/usb/gadget/function/f_fs.c:     fc_init_pseudo(fc);
-drivers/usb/gadget/legacy/inode.c:      fc_init_pseudo(fc);
-drivers/xen/xenfs/super.c:      fc_init_pseudo(fc);
-fs/binfmt_misc.c:       fc_init_pseudo(fc);
-fs/configfs/mount.c:    fc_init_pseudo(fc);
-fs/debugfs/inode.c:     fc_init_pseudo(fc);
-fs/devpts/inode.c:      fc_init_pseudo(fc);
-fs/efivarfs/super.c:    fc_init_pseudo(fc);
-fs/failfs.c:    fc_init_pseudo(fc);
-fs/fuse/control.c:      fc_init_pseudo(fsc);
-fs/kernfs/mount.c:      fc_init_pseudo(fc);
-fs/libfs.c:             fc_init_pseudo(fc);
-fs/nfsd/nfsctl.c:       fc_init_pseudo(fc);
-fs/nullfs.c:    fc_init_pseudo(fc);
-fs/ocfs2/dlmfs/dlmfs.c: fc_init_pseudo(fc);
-fs/openpromfs/inode.c:  fc_init_pseudo(fc);
-fs/proc/root.c: fc_init_pseudo(fc);
-fs/pstore/inode.c:      fc_init_pseudo(fc);
-fs/tracefs/inode.c:     fc_init_pseudo(fc);
-include/linux/pseudo_fs.h:static inline void fc_init_pseudo(struct fs_context *fc)
-ipc/mqueue.c:   fc_init_pseudo(fc);
-kernel/bpf/inode.c:     fc_init_pseudo(fc);
-net/sunrpc/rpc_pipe.c:  fc_init_pseudo(fc);
-security/apparmor/apparmorfs.c: fc_init_pseudo(fc);
-security/inode.c:       fc_init_pseudo(fc);
-security/selinux/selinuxfs.c:   fc_init_pseudo(fc);
-security/smack/smackfs.c:       fc_init_pseudo(fc);
+Run the same two QEMU commands with the rebuilt kernel to check both
+images again.
 
-I don't think anything on this list is something that you would ever
-want to use as an object file?
+This is a local denial of service when a crafted JFS image is mounted.
+The test used a read-only mount.  It demonstrates no memory
+corruption, information disclosure or privilege escalation.
 
-I think we should do an O_PATH open of the target file and then you
-call:
+The patch was built against the same source tree and config.  The
+positive and control images were both tested with it.  The PoC builds
+with -Wall -Wextra -Werror.  The patch passes
+scripts/checkpatch.pl --no-tree --strict and git apply --check.
 
-file = filp_open(filename, O_PATH | O_REGULAR, 0)
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Signed-off-by: shaos <shawnq1@163.com>
+---
+ fs/jfs/jfs_dtree.c | 21 +++++++++++++++++----
+ fs/jfs/jfs_dtree.h |  2 +-
+ 2 files changed, 18 insertions(+), 5 deletions(-)
 
-if (file_check_backing(file, FMODE_PATH, 0))
-	return -EINVAL;
+diff --git a/fs/jfs/jfs_dtree.c b/fs/jfs/jfs_dtree.c
+index 8ce6e4458cc256a88c596748f5b0dc611a85a184..3058c56c758994ff35a9c6e26dfd6a00e9bb2678 100644
+--- a/fs/jfs/jfs_dtree.c
++++ b/fs/jfs/jfs_dtree.c
+@@ -113,9 +113,10 @@ struct dtsplit {
+ /* get page buffer for specified block address */
+ #define DT_GETPAGE(IP, BN, MP, SIZE, P, RC)				\
+ do {									\
+-	BT_GETPAGE(IP, BN, MP, dtpage_t, SIZE, P, RC, i_dtroot);	\
++	s64 dt_bn = (BN);						\
++	BT_GETPAGE(IP, dt_bn, MP, dtpage_t, SIZE, P, RC, i_dtroot);	\
+ 	if (!(RC)) {							\
+-		if ((BN) && !check_dtpage(P)) {				\
++		if (dt_bn && !check_dtpage(P, dt_bn)) {				\
+ 			BT_PUTPAGE(MP);					\
+ 			jfs_error((IP)->i_sb,				\
+ 				  "DT_GETPAGE: dtree page corrupt\n");	\
+@@ -2826,8 +2827,12 @@ int jfs_readdir(struct file *file, struct dir_context *ctx)
+ 				return 0;
+ 			}
+ 
+-			if ((rc = dtReadFirst(ip, &btstack)))
++			rc = dtReadFirst(ip, &btstack);
++			if (rc) {
++				/* Avoid retrying a corrupt first page on the next call. */
++				ctx->pos = DIREND;
+ 				return rc;
++			}
+ 
+ 			DT_GETSEARCH(ip, btstack.top, bn, mp, p, index);
+ 		}
+@@ -4381,12 +4386,20 @@ bool check_dtroot(dtroot_t *p)
+ 	return true;
+ }
+ 
+-bool check_dtpage(dtpage_t *p)
++bool check_dtpage(dtpage_t *p, s64 bn)
+ {
+ 	DECLARE_BITMAP(bitmap, DTPAGEMAXSLOT) = {0};
+ 	const int stblsize = ((PSIZE >> L2DTSLOTSIZE) + 31) >> L2DTSLOTSIZE;
+ 	int i;
+ 
++	/* A directory page cannot be its own sibling. */
++	if (unlikely(le64_to_cpu(p->header.next) == bn ||
++		     le64_to_cpu(p->header.prev) == bn)) {
++		jfs_err("Self-referential sibling link in dtpage %lld\n",
++			(long long)bn);
++		return false;
++	}
++
+ 	/* Validate maxslot (maximum number of slots in the page)
+ 	 * dtpage_t slot array is defined to hold up to DTPAGEMAXSLOT (128) slots
+ 	 */
+diff --git a/fs/jfs/jfs_dtree.h b/fs/jfs/jfs_dtree.h
+index dfc87b6690a9a8e9f4e080a7f28abb7bd89f0e85..c62e3b8b5441a9c5bca93c646656deeb3f0246c7 100644
+--- a/fs/jfs/jfs_dtree.h
++++ b/fs/jfs/jfs_dtree.h
+@@ -256,5 +256,5 @@ extern int jfs_readdir(struct file *file, struct dir_context *ctx);
+ 
+ extern bool check_dtroot(dtroot_t *p);
+ 
+-extern bool check_dtpage(dtpage_t *p);
++bool check_dtpage(dtpage_t *p, s64 bn);
+ #endif				/* !_H_JFS_DTREE */
+-- 
+2.43.0
 
-We had a whole bug class where various subsystems that used backing
-files just allowed arbitrary files to be used.
