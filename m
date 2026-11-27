@@ -1,122 +1,122 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795787974;
-	b=3ZGt9so1a9I7KYazX++tuwhbTohtD9l0QmE9TfVUEvnOtHF5Wk3ikDTNRMCJpntTT5u8
-	 qr2lHFmYtTjzNJm3HjEcn7Q7Pafw0UppHNfiOKRp4nSj83eY1EAiQIWhyx21LNPA/jF4Y
-	 WS8+LrGApVr38u38ZAHQLKVDmnnxPCr+LM0AVhKhAGRqhxOwBZmh88KSKXWGfPTSvoqst
-	 GxqxfJg1wL8FX3Lf7hR09tDrg1Ip3bv9+aEOyCF8eKbV2FuiKqRQzVhPzjOHSM/7wJ1yJ
-	 FR5hbt1YNbMnEnCUAicJvisPKYPhj63MO/pER+lB6HXlyyqgcW4eFYfXfMoA59i3Aug==
+	t=1795788238;
+	b=2ouNtIJXBuWuEMe2ZfCsnrlirvLJE6qM4yBO4dFhwZKFvrV+okI1pYFeqBuxV9qT+6dd
+	 gvkYnComwnvwDhemnwCaQUf68bLWUulBytgRDTEPs9f+Dz8FZolH1rXGISZ3ofnUdWvHA
+	 HLw1m5dDvfLRzj44nuieokTHzEcBp0e5/xO1ECA7KVuL7xRX68tID7OOUWaxTytQzXxN6
+	 RsXTwf8XAt+a+jiNga6dG3l4vfoQhpdk8AUfHHERrgiYlhFXJ6dmGeqR1rsB03UH+jK0F
+	 sI0uMvupuJQ+d2HIVXQTzz5xspq800alt/ggz3hguhV46QARIU9rIi0/R/6DHe5n2Uw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795787974;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795788238;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=hSAGX0PlcKV7hxoSKihFcCP5vot5vWKykmT5/I1Rotw=;
-	b=ZaVTkkkKwJBKXTFz93EX0GuYzZ9AGTc2RKolhad6C/sZpD2MfUjph3dQza1XYA+/aiKi
-	 awZOEhth+7jhM5gTXE99vVYXIY530uMKRawyyAKsmqIIyMB9ui61+GEaOk3otp2js5ufR
-	 9R0CvJQGgxajjVHgCwmvcd0N0BVWpbcj/ZqBZZh3INOkQoHEDZ3z/aj8OPHz39GD5cYKq
-	 I6CdjSz25t/ihYOf7KzjkLFI5kLFcqXApAyjyEFVAZQsFS2R6P1ophplNLj3ekGkp0ntT
-	 GvMG/WTb972bpMFVW/vf+e03fSeT2dLcX100zW83BmxhQM/ctfHCQzTS8MQEC1pOKVA==
+	 Content-Transfer-Encoding:In-Reply-To:X-Spamd-Result:X-Rspamd-Server:
+	 X-Rspamd-Action:X-Spam-Flag:X-Spam-Score:X-Spam-Level:
+	 X-Rspamd-Queue-Id;
+	bh=0OW9ZyYKCZqKZl7q7CogLU0g5vabU4+IWXGGAbZVYHU=;
+	b=vZzYYg1VI+gucvPiTKR6qG8BD9KcPPZfddA814ZFUJBnDLdpxWAytHzcfgywARskEHL8
+	 9R4qj+xg3iQa7jQPbQYu6dadk1LSM/EjoQUNwPxqMhFUuKcaVxzLhxhbsBciWckLrMQ+x
+	 SY7O00cyG0ZxEvNGmX1ghKgl0YREfsd+PsCfpVDUqEgY6MvmdXnK0xggg1d6uD+MVclRH
+	 dRUembXILpVnl6mGz/GJ0hBu5mJOXuBLsgcIBgs4vIdGNo0Hoan+Ol+EGO6yPX1vT88NI
+	 b0b11bX9yBcSiWluEXDK+lsACo5HjDvIhp5o4WSqBwjFsdC1jtdRuvgQ1JXe5JnbeRQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=suse.cz;
 	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=n8Sp1N6y;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pODgPDhA;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ptBQgtrQ;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=m5UC2tpx;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=YYuncEyD;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=v5uXmNcI;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=YYuncEyD;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=v5uXmNcI;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED422606A323;
-	Fri, 27 Nov 2026 13:59:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED422606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8A5606A31C;
+	Fri, 27 Nov 2026 14:03:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A8A5606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=n8Sp1N6y;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pODgPDhA;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ptBQgtrQ;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=m5UC2tpx
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=YYuncEyD;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=v5uXmNcI;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=YYuncEyD;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=v5uXmNcI
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D311D1FBB0;
-	Fri, 27 Nov 2026 13:59:31 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0E32722961;
+	Fri, 27 Nov 2026 14:03:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795787972; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795788235; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hSAGX0PlcKV7hxoSKihFcCP5vot5vWKykmT5/I1Rotw=;
-	b=n8Sp1N6y9Vm45Mgr7D/4hXr+E6kdClBXxiVKkx/q5AGVMNOvdcYnHgM8wgmleWTbydX/QG
-	uuMm1BMVGIR3YVzyXvB4zzhU52UBrN334F0BC6VptBLw3q8doluBTW8UzBHcb/ROoal/RZ
-	hB5Wy4ULuPz9NrLd64ks0FgbhAS6apQ=
+	bh=0OW9ZyYKCZqKZl7q7CogLU0g5vabU4+IWXGGAbZVYHU=;
+	b=YYuncEyDn1wtqVyok+7Q59Z450F1SQyTK3SDOw2ooP5SYrqg2sgNf0AHuNTHSfTmWFDOWn
+	u1/eRz4SU3L3WjQN/kes1KlLSSvf9kvxM6nivptijw84XVi/6tSu2IP/jMGkl7n1ZTi9cJ
+	6/tCDmiN+KHXxCiKBGw9TOf1t372gA4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795787972;
+	s=susede2_ed25519; t=1795788235;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hSAGX0PlcKV7hxoSKihFcCP5vot5vWKykmT5/I1Rotw=;
-	b=pODgPDhAIxp656pvlxUrpRSk4HSBAnk2OPd6F0EmkVWwkXolg1gbpxsCUHwBLlENz3fTy+
-	vyjKYebOVwYrdiBA==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=0OW9ZyYKCZqKZl7q7CogLU0g5vabU4+IWXGGAbZVYHU=;
+	b=v5uXmNcIicdyrsxm/th/Y76Tj3lI7oFbLoLU0bqg8g8bsX9Q0uvMtoH5t/NIgkWcbLv5G6
+	VZ4RlipNmWYAvOAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=YYuncEyD;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=v5uXmNcI
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795787971; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795788235; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hSAGX0PlcKV7hxoSKihFcCP5vot5vWKykmT5/I1Rotw=;
-	b=ptBQgtrQ1GwX/wj0pA4/omtbuqgeHt/5dbnW0NE7ZSZb/rshDm92HW7IAbncmzCNomGHrq
-	llRGEkndrmeio+ki1sR4C5SAO30en9k2MiDmH37kCNezcAXR3p3iE8ShjAucopDXxQKZ0z
-	B+O3si4tKsoKxWqd++oRS8jajx2WrV8=
+	bh=0OW9ZyYKCZqKZl7q7CogLU0g5vabU4+IWXGGAbZVYHU=;
+	b=YYuncEyDn1wtqVyok+7Q59Z450F1SQyTK3SDOw2ooP5SYrqg2sgNf0AHuNTHSfTmWFDOWn
+	u1/eRz4SU3L3WjQN/kes1KlLSSvf9kvxM6nivptijw84XVi/6tSu2IP/jMGkl7n1ZTi9cJ
+	6/tCDmiN+KHXxCiKBGw9TOf1t372gA4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795787971;
+	s=susede2_ed25519; t=1795788235;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hSAGX0PlcKV7hxoSKihFcCP5vot5vWKykmT5/I1Rotw=;
-	b=m5UC2tpxZO9Yf2DSATt0pN8be86yEfoSuqxihq+0TXlJbrK4CsSDNWDf2F2CDIHK7o9gTL
-	+NVHKwwbqHEZ7dCQ==
+	bh=0OW9ZyYKCZqKZl7q7CogLU0g5vabU4+IWXGGAbZVYHU=;
+	b=v5uXmNcIicdyrsxm/th/Y76Tj3lI7oFbLoLU0bqg8g8bsX9Q0uvMtoH5t/NIgkWcbLv5G6
+	VZ4RlipNmWYAvOAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A703013432;
-	Fri, 27 Nov 2026 13:59:31 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DF5B013432;
+	Fri, 27 Nov 2026 14:03:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id QDmCIMOMCWsgNQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 27 Nov 2026 13:59:31 +0000
+	id XMIiLsqNCWs0OgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 27 Nov 2026 14:03:54 +0000
 Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 2B5DF5103B; Fri, 27 Nov 2026 14:59:31 +0100 (CET)
-Date: Fri, 27 Nov 2026 14:59:31 +0100
+	id 719225103D; Fri, 27 Nov 2026 15:03:50 +0100 (CET)
+Date: Fri, 27 Nov 2026 15:03:50 +0100
 From: Jan Kara <jack@suse.cz>
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, linux-ext4@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Michal Hocko <mhocko@kernel.org>, linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH RFC 4/5] mm/vmscan: be more careful when releasing FS
- metadata if buffer_heads_over_limit
-Message-ID: <mlu22apiuzcim6icjolifdr6wgsk5u6dpo4kwn4ppkcdgfudn7@t6sp7ck7qafd>
-References: <20261119-gup-dirty-what-v1-0-236d69f25c24@suse.de>
- <20261119-gup-dirty-what-v1-4-236d69f25c24@suse.de>
- <wm57zjtvdpexvbfygmdggw2ytsazelyds4rt3mtx6oy6u72mke@rhviuzp26rt6>
- <awmGDyR4WUJrwqn1@pedro-suse.tail5790ac.ts.net>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Ian Kent <raven@themaw.net>, 
+	Jake Edge <jake@lwn.net>
+Subject: Re: [PATCH v6 0/5] Fix easy bits of the negative dentry problem
+Message-ID: <64zxzak73c7rm7kog2wd3akdgpuksyayz5ncl4rbc3h4epo5pi@ujzmtg5c5245>
+References: <20261123221410.3328780-1-neilb@ownmail.net>
+ <179550252639.1728055.4014817916838632741@noble.neil.brown.name>
+ <CAOQ4uxgF6=QoD9RoAOPmxtvkq1jWf+gG1AsJzR=Kt3ROMA=X0g@mail.gmail.com>
+ <aau5z6kck6a2efcjvzrt6gno6ljs4eioncgizeh7vfbc6ipkr3@hjxzdk5pvgmt>
+ <CAOQ4uxjXP4Zegb2Vgsv-yBeFmhvc8FT2bDKDcaM_t0=oJ5KpXQ@mail.gmail.com>
+ <sc6xnwguimy23dexr3eosbe64xmmewn5ml5gso4m5xozw6fqlt@2hji64vi7eaw>
+ <CAOQ4uxisP8YTUaexsXw4-Fxg0vand236cg5eDKirLm=kuDwSQQ@mail.gmail.com>
+ <dy726gpfomckyt3se66pkdfj7qlsvmu4ysr666h3w5hxkay3l3@ibdy5kcibpjn>
+ <CAOQ4uxiZtxa75j8+wSSfYZFrAvwDuo8ZfYh5+07n+mZfSsa2mA@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -126,63 +126,132 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <awmGDyR4WUJrwqn1@pedro-suse.tail5790ac.ts.net>
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-16.80 / 50.00];
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOQ4uxiZtxa75j8+wSSfYZFrAvwDuo8ZfYh5+07n+mZfSsa2mA@mail.gmail.com>
+X-Spamd-Result: default: False [-13.01 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
-	REPLY(-4.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[37];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	R_RATELIMIT(0.00)[to_ip_from(RLc5chj8mdhigtayhgqted7wkp)];
-	FROM_EQ_ENVFROM(0.00)[];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -16.80
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -13.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 0E32722961
 
-On Fri 27-11-26 13:37:15, Pedro Falcato wrote:
-> On Wed, Nov 25, 2026 at 09:45:01AM +0100, Jan Kara wrote:
-> > Just given buffer_heads_over_limit is a HIGHMEM thing and given how much we
-> > care (not) about HIGHMEM, maybe just completely ripping out the whole
-> > buffer_heads_over_limit logic is a better "solution"? I mean it's a crude
-> > heuristic anyway and for struct buffer_head to occupy significant portion
-> > of ZONE_NORMAL, you'd have to have several GB of pagecache with buffers
-> > which means the machine has to have quite some highmem which makes the
-> > setup even more dubious...
+On Thu 26-11-26 13:24:42, Amir Goldstein wrote:
+> On Thu, Nov 26, 2026 at 11:57 AM Jan Kara <jack@suse.cz> wrote:
+> > So I guess we'll have to use the sequence counter in the end and we'll need
+> > to be careful. Something like:
+> >
+> >         spin_lock(&conn->lock);
+> >         gen = conn->scan_seqcount;
+> >         update_children = conn->flags & FSNOTIFY_CONN_FLAG_UPDATE_CHILDREN;
+> >         /* Scan in progress? */
+> >         if (gen & 1) {
+> >                 /*
+> >                  * We need to wait for scan to complete even if
+> >                  * UPDATE_CHILDREN is not set as somebody might have
+> >                  * started a scan for us.
+> >                  */
+> >                 gen++;
+> >                 wait_var_event_spinlock(&conn->scan_seqcount,
+> >                                         conn->scan_seqcount >= gen,
+> >                                         &conn->lock);
+> >                 /*
+> >                  * Somebody started the scan we need while we waited? Just
+> >                  * wait for it to complete.
+> >                  */
+> >                 if (conn->scan_seqcount == gen + 1) {
+> >                         update_children = false;
+> >                         wait_var_event_spinlock(&conn->scan_seqcount,
+> >                                                 conn->scan_seqcount >= gen + 2,
+> >                                                 &conn->lock);
+> >                 }
+> >         }
+> >         /* Scan we needed is guaranteed to be complete */
+> >         if (!update_children || conn->scan_seqcount >= gen + 2) {
+> >                 spin_unlock(&conn->lock);
+> >                 return;
+> >         }
+> >         /* We will do the scan */
+> >         conn->scan_seqcount++;
+> >         conn->flags &= ~FSNOTIFY_CONN_FLAG_UPDATE_CHILDREN;
+> >         spin_unlock(&conn->lock);
+> >
+> >         fsnotify_set_children_dentry_flags(fsnotify_conn_inode(conn));
+> >
+> >         spin_lock(&conn->lock);
+> >         conn->scan_seqcount++;
+> >         wake_up_var_locked(&conn->scan_seqcount, &conn->lock);
+> >         spin_unlock(&conn->lock);
+> >
+> > > > > Only the completion of the most recent walk can guarantee
+> > > > > that all the children dentries are watched.
+> > > >
+> > > > So I don't think that's an issue. Look, if someone places a mark which
+> > > > watches children of an inode, we either end up updating the children flags
+> > > > or we wait for _UPDATE_CHIDREN_RUNNING to clear. So any mark update from
+> > > > userspace blocks, until the children walk is done and then they all return.
+> > > > We hold the group lock during the wait so the mark that makes the parent
+> > > > watch children is guaranteed to stay attached to the inode and subsequent
+> > > > mask updates on the inode all result in the conclusion that children are
+> > > > watched (so fsnotify_parent() doesn't clear the children flags while we are
+> > > > still walking).
+> > > >
+> > > > One catch in the above argument are oneshot marks for inotify & dnotify.
+> > > > Inotify is actually fine since it grabs group lock when removing mark after
+> > > > the event was sent (so the above argument holds). Dnotify doesn't grab group
+> > > > lock when removing oneshot mark and so breaks the argument. I think we
+> > > > should just make dnotify grab that lock to make our life simpler.
+> > > >
+> > > > Thoughts? Counter examples?
+> > > >
+> > >
+> > > My thought is that this makes my head explode..
+> > > I rather have a simpler mental model if possible, which is less
+> > > dependent on all the callers and other locks.
+> >
+> > I understand. Not sure if the above satisfies your wishes but I couldn't
+> > make it simpler...
 > 
-> Is it _just_ a HIGHMEM thing? I had the impression it had some effect as
-> a general buffer_head shrinker. Either way, I do think we can remove it,
-> but I chose not to do it for stable; also, I don't have technical arguments
-> as to why it's useless, I just assume it is.
+> It satisfies my concerns in that the logic is local and easy to follow.
+> 
+> Maybe it will be easier to read with a helper target variable and aim for
+> conn->scan_seqcount >= target, because the gen+2 arithmetics is a bit hard
+> to follow for all the cases, but not sure if the end result will be better.
+> 
+> Anyway, this is fine as far as I am concerned.
+> I assume that you will send a patch following Neil's patches.
 
-I don't believe it can ever activate without HIGHMEM - each bh points to
-actual data in the folio it is attached to which, usless you have 512-byte
-blocks, is more than 10x larger than struct buffer_head. So buffer heads
-can never occupy more than 10% of total memory unless you are really trying
-to screw up your system... And AFAIK this mechanism was introduced as
-a HIGHMEM thing many years ago.
-
-> Other filesystems (iomap, XFS, btrfs) don't participate in this scheme and
-> they turn out just fine. So, unless you find something I'm missing, I will
-> probably send a (separate) patch removing this whole mechanism for next.
-
-Yes, that would be great.
+Yeah, once Neil's patches get to VFS tree, I can do these changes and send
+a patch.
 
 								Honza
 -- 
