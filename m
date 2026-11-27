@@ -1,106 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795793105;
-	b=CeWiGJf1pEJQAbeMVd6zHuo7HSDRfjFZUgZpTKFv1XdOR4RDLjQ54Sb3q7SAoJhU8eBE
-	 1CGqHz09txBLtlSaDKHhu/AU+k0BhVcTNHhnVNB6sTVKOK1pMtQEwAKLwekSDNotqgPnl
-	 cLbU/6j94yffEr+pbUfB+M16TjH59nv+ukX5bvbsfOB/Hjm6iKUkZq7ePrru2DRfZOa4H
-	 NdD28bKkf9vYeik1LAoHIlzWFuzZzeCcXrTtpCFbzDYn5xijb7EtoM1dkiwbhoNTafiSB
-	 6+d9vlygLUqHlsohvkWO9WfrF/ovJeaGnV9bHMnqnw0Lax9oyh+yLIPAMQneRMKgnXg==
+	t=1795793230;
+	b=0hKb69z7qyyMwAj2mhcYbWaPIERlOA5ODCrBFNMY8YV/o00+H8TSj99mEKbobf1OQlls
+	 tzdE4ZSzgjgwbNII2Wt6b59p6DLHw49v/gS9YT+5pz5SfLPS2/CKTln01vKHebdg05Ftg
+	 st5WgCt8WtMjHzvy4Xac0IvuBOUCaWdboVcPeDxPB8iOqC1+OWeVgfRN0ZwCwsX7YNHVu
+	 7lUDXl+JMNwV3OagwWej01zo/jXj3AJFjYP8u0F5oy1WGFBLWoj9YiQz74PMIEkLwD+Hc
+	 VN+IwIs2V/LGEEXcniYPRkPC86kP9qAi16kXkIB0I0jiPh1vSPG7XxbXZZghF+y/Iqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795793105;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795793230;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=dlrSvZxnt9L7DCoQZv1lSkNntIY7QMoIW4ZKYt9T9n8=;
-	b=zqaeaIJ3xR/gB0VmFvxbL8BcufUyud088wEPPwGsT8x0a6w8/JSoomSiZr5bQYSK9VlS
-	 E4k8cBwKczc5c2Yd9TBWE3bCZVUsxMdbOQ9thI6y2tU/z44pCuymlo9BocmC6YjFlANW7
-	 UVWOAAg+1jBQ2wnNtzVimNdgUX400hY6RUq39jEYcm1deEIXAP/ormF54/KFQrVUJbjqG
-	 jQaWmWoXlZj+OeuIQSf4jjlrhncQteBG6xglO5nNZoio+aHnXj5ILr/PrI4tTRQrcINg6
-	 nyBtnTKhpaR30p9mFuj02oKZlr3DIdxuS87lZJg2wXu+JCVX4QLtSKh2gP9OVIONXzQ==
+	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=XViuky4maevRglLQ+Gw3+zRrHlRCYabT6ch8Ipi46xU=;
+	b=wF3AeZEPRytt/Of5GqvILdn9VFEh3G9vILOtKrBS6zHQ8gFb0XgEFeUo/hEeh3Wko5RW
+	 5wX9IMgs2fabriOi8YXZVXBdG0+wNaLYutBfquwLpOj8Zz1CXzW96KxH8+Q5nJUmBT3U/
+	 SKFHE7WI2YGDVtly8zrbmIYFFik2l6oE+yvWWG20ExpsTaSbV1P95xo9/YPcTEJ0a7f80
+	 8QBG9gJqK7BGnCVfYy8Py0pksO5fimw5drC7ud5d4yTF4mGbsPFjbgnwXBri1M6ajWGdk
+	 Hvy5yJ3iScTgRLa4iAmXyT6/02XPLUXkyjBFjf/JRD3g5qLAcm68lrd5jubg3LpBXnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=suse.cz;
 	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=gW2GXdok;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=jDhguXsi;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=gW2GXdok;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=jDhguXsi;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=H7F4mp6T;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=95rfp8bY;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=zN8ScRQl;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vex8oINC;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0217B606A31C;
-	Fri, 27 Nov 2026 15:25:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0217B606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E37606A31C;
+	Fri, 27 Nov 2026 15:27:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0E37606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=gW2GXdok;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=jDhguXsi;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=gW2GXdok;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=jDhguXsi
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=H7F4mp6T;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=95rfp8bY;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=zN8ScRQl;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vex8oINC
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D3D24229AB;
-	Fri, 27 Nov 2026 15:25:02 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CE5C81FBA2;
+	Fri, 27 Nov 2026 15:27:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795793102; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795793228; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dlrSvZxnt9L7DCoQZv1lSkNntIY7QMoIW4ZKYt9T9n8=;
-	b=gW2GXdokvVeHwG4LTPWqprKeL9wZDFxUeZ0DR3mpeg3eWcC5bbz8BP6x2fNYGMIKTzSFjS
-	dZFYKS2wafilbVuEomZoPnR18O/+OeR0ZCTNKdUvsyNqSvMqvKUzs5w+ljoLPOK4zxgGDE
-	zrbyQ7TeB6RIu8HHbMFpyf+BlcZ7Cfg=
+	bh=XViuky4maevRglLQ+Gw3+zRrHlRCYabT6ch8Ipi46xU=;
+	b=H7F4mp6Ta/MyK6bTBkpc64QYzoTIYIuRrwWUYSeNz2smVCiyVxmyDGwG3yUAxsA8ZJVJly
+	8C8iIMZMHfl7qywLbAqiF7AQTAgnKNU8s66BVNQM5N7UjUsJ7T6OSwrh8kQcSWlnfgNyyY
+	X8sp7LT/tSCO4hzhVdKIGBKn8TKwX4Q=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795793102;
+	s=susede2_ed25519; t=1795793228;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dlrSvZxnt9L7DCoQZv1lSkNntIY7QMoIW4ZKYt9T9n8=;
-	b=jDhguXsiJBcUIrj15Ky2dXBgvsXWkMzVKgSBYhiEb88P7X42oosSCW8QoNSEKoEqfVZ/uo
-	yM+7YY3Q2Mbg3OCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=XViuky4maevRglLQ+Gw3+zRrHlRCYabT6ch8Ipi46xU=;
+	b=95rfp8bYHCDkaHcKMxZdDI2hXLSduVotclGPEHBZJ3qcFTwdjhM02hvHW5xQlmQI9Tow5u
+	KcbuLvryesctldAQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=zN8ScRQl;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=vex8oINC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795793102; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795793226; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dlrSvZxnt9L7DCoQZv1lSkNntIY7QMoIW4ZKYt9T9n8=;
-	b=gW2GXdokvVeHwG4LTPWqprKeL9wZDFxUeZ0DR3mpeg3eWcC5bbz8BP6x2fNYGMIKTzSFjS
-	dZFYKS2wafilbVuEomZoPnR18O/+OeR0ZCTNKdUvsyNqSvMqvKUzs5w+ljoLPOK4zxgGDE
-	zrbyQ7TeB6RIu8HHbMFpyf+BlcZ7Cfg=
+	bh=XViuky4maevRglLQ+Gw3+zRrHlRCYabT6ch8Ipi46xU=;
+	b=zN8ScRQlO3iAx6+DNXl2RSSItWGa1druMxHzKW+9kRxuGFBC+bRXZHoAR9R5EjnfeTZKZA
+	yECgJpG15RjasEUatKsVR6GhLKCKD73Zt0Cb5ApqcQXnVyeKi/hd9zfmgnyLBDTss2iQuo
+	sLmh5CMnAujvYz7wzQweAoI4R5C4FWY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795793102;
+	s=susede2_ed25519; t=1795793226;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dlrSvZxnt9L7DCoQZv1lSkNntIY7QMoIW4ZKYt9T9n8=;
-	b=jDhguXsiJBcUIrj15Ky2dXBgvsXWkMzVKgSBYhiEb88P7X42oosSCW8QoNSEKoEqfVZ/uo
-	yM+7YY3Q2Mbg3OCA==
+	bh=XViuky4maevRglLQ+Gw3+zRrHlRCYabT6ch8Ipi46xU=;
+	b=vex8oINCrIJq+7xb6KqmvWq6TRsTp1X+MD61jS0XHAW5KwxBFG26ou0tdjYzdv0XiPmQjY
+	pEo9FsL2ALgagICw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AC0B813432;
-	Fri, 27 Nov 2026 15:25:02 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9837713432;
+	Fri, 27 Nov 2026 15:27:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 75ERIM6gCWstDwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 27 Nov 2026 15:25:02 +0000
+	id uvZyHEqhCWvlEAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 27 Nov 2026 15:27:06 +0000
 Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 2D7F65107A; Fri, 27 Nov 2026 16:25:02 +0100 (CET)
-Date: Fri, 27 Nov 2026 16:25:02 +0100
+	id CAD605107C; Fri, 27 Nov 2026 16:27:01 +0100 (CET)
+Date: Fri, 27 Nov 2026 16:27:01 +0100
 From: Jan Kara <jack@suse.cz>
-To: Junyoung Jang <graypanda.inzag@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, Gwanhyun Lee <gwanhyunlee@gmail.com>, 
+To: Ding Feng <dingf3ng@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Ian Kent <raven@themaw.net>, 
+	Jeff Layton <jlayton@kernel.org>, Kyuwon Cho <kyuwoncho18@gmail.com>, 
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] udf: validate logical volume partition map lengths
- before parsing
-Message-ID: <vgjprugp7234s6s3wdlusb5udtwyyslu7ytc7vucdr2fubobsf@gimosgcpenka>
-References: <20261125155608.282719-1-graypanda.inzag@gmail.com>
+Subject: Re: [PATCH v2] statmount: retry an overflowed seq buffer before any
+ other check
+Message-ID: <xecensago4k4423jzchvvo7laiauaxvtpjpowxsuab3iu27zbd@zxco3d3jenkl>
+References: <20261125-statmount-retry-v2-1-dingf3ng@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -112,131 +116,138 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261125155608.282719-1-graypanda.inzag@gmail.com>
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-12.80 / 50.00];
+In-Reply-To: <20261125-statmount-retry-v2-1-dingf3ng@gmail.com>
+X-Spamd-Result: default: False [-13.01 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,vger.kernel.org];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MX_GOOD(-0.01)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Spam-Score: -12.80
+	RCVD_COUNT_THREE(0.00)[3];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,zeniv.linux.org.uk,suse.cz,themaw.net,gmail.com,vger.kernel.org];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -13.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: CE5C81FBA2
 
-On Thu 26-11-26 00:56:07, Junyoung Jang wrote:
-> udf_load_logicalvol() checks the aggregate partition map table length,
-> but uses each entry's unvalidated partitionMapLength to walk the table.
-> A truncated type-2 map near the end of a Logical Volume Descriptor can
-> contain the sparable partition identifier while its packetLength field
-> lies past the descriptor buffer. This causes a two-byte out-of-bounds
-> read in udf_load_sparable_map(), reported by KASAN in
-> udf_process_sequence().
+On Thu 26-11-26 01:13:48, Ding Feng wrote:
+> statmount_string() checks whether the seq_file overflowed only after
+> two earlier returns, and both can hide the overflow.
 > 
-> Check that each map header fits in the remaining table and that its
-> declared length fits in the table and covers the fields for its type.
-> The 64-byte generic type-2 size covers the virtual, sparable, and
-> metadata partition map layouts. Report and reject truncated headers
-> and invalid map lengths before accessing type-specific fields. The
-> unchecked walk is present in the initial imported tree.
+> The size check runs first. After an overflow, seq->count equals
+> seq->size, so every buffer of up to sizeof(struct statmount) +
+> seq->size bytes gets -EOVERFLOW, and the retry with a larger seq buffer
+> never runs. The result can still fit in such a buffer.
+> statmount_mnt_root() and statmount_sb_source() write escaped strings
+> and unescape them in place, so the escaped form can overflow the
+> 3 * PATH_MAX seq buffer while the final string is much shorter. A bind
+> mount whose root is a 3765-byte path of spaces needs a 4.3 KiB buffer,
+> but STATMOUNT_MNT_ROOT fails with -EOVERFLOW for every buffer up to
+> 12800 bytes and succeeds from 12801.
 > 
-> A custom LLM agent assisted with discovery and reproducer setup.
+> The early return for a string that emits nothing runs before both. The
+> NUL written after a string that ends one byte before the end of the seq
+> buffer leaves seq->count == seq->size. The next string then emits
+> nothing, and the early return drops it with no error and no retry. With
+> a tmpfs mounted on a 12278-byte path, statmount() for
+> STATMOUNT_FS_TYPE | STATMOUNT_MNT_ROOT | STATMOUNT_MNT_POINT |
+> STATMOUNT_SB_SOURCE returns 0 without STATMOUNT_SB_SOURCE.
 > 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Co-developed-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
-> Signed-off-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
-> Signed-off-by: Junyoung Jang <graypanda.inzag@gmail.com>
+> Check for the overflow before both, so the string is regenerated in a
+> larger seq buffer.
+> 
+> Fixes: 68385d77c05b ("statmount: simplify string option retrieval")
+> Fixes: 75ead69a7173 ("fs: don't let statmount return empty strings")
+> Reported-by: Kyuwon Cho <kyuwoncho18@gmail.com>
+> Closes: https://lore.kernel.org/all/179552693473.1490262.10477620788152048784@gmail.com/
+> Suggested-by: Kyuwon Cho <kyuwoncho18@gmail.com>
+> Assisted-by: Claude:claude-opus-5-5 Frama-C
+> Signed-off-by: Ding Feng <dingf3ng@gmail.com>
 
-Thanks, I've added the patch to my tree.
+Looks good to me. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
 
 > ---
-> The malformed image uses a 4096-byte Logical Volume Descriptor with a
-> 3656-byte partition map table and 16 maps. The last map begins at table
-> offset 3626 and declares a 30-byte type-2 sparable map. Its
-> packetLength field lies at descriptor byte 4106, past the end of the
-> 4096-byte buffer. A second image declares a 3627-byte table, leaving
-> only one byte of the last map header inside the table.
 > 
-> On unmodified mainline 4dce97c6c265 with UDF and KASAN enabled, the
-> first image produced:
+> Notes:
+>     v2: move the check above the "seq->count == start" return as well,
+>     which also fixes the dropped string Kyuwon found.
+>     
+>     v1: https://lore.kernel.org/all/20261120033644.99834-1-dingf3ng@gmail.com/
+>     
+>     Tested on v7.4-rc3 (65e4fd942), arm64 tinyconfig in QEMU:
+>     
+>       case                                          v7.4-rc3   v1         v2
+>       STATMOUNT_MNT_ROOT, 3765-byte root of spaces,
+>         bufsize 8192 or 12800                       EOVERFLOW  ok         ok
+>         bufsize 4096                                EOVERFLOW  EOVERFLOW  EOVERFLOW
+>       tmpfs on a 12278-byte path, SB_SOURCE         missing    missing    tmpfs
+>       tmpfs on a 12276, 12277, 12279 or 12280-byte
+>         path, SB_SOURCE                             tmpfs      tmpfs      tmpfs
+>     
+>     A plain bind mount gives the same results on all three (1024 ok, 512
+>     EOVERFLOW).
+>     
+>     A string that legitimately emits nothing after a full seq buffer now
+>     costs one retry, and a buffer too small for a string longer than the
+>     seq buffer costs one or more retries before -EOVERFLOW.
 > 
->   BUG: KASAN: use-after-free in udf_process_sequence+0x3cfe/0x3f60
->   Read of size 2 at addr ffff88807ffc000a by task busybox/57
->   Call Trace:
->     udf_process_sequence+0x3cfe/0x3f60
->     udf_check_anchor_block+0x270/0x460
->     udf_load_vrs+0x67b/0xde0
->     udf_fill_super+0x778/0x19d0
+>  fs/namespace.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> The read crossed the descriptor boundary into an adjacent freed page;
-> that is why KASAN classified it as use-after-free. The mount failed
-> with EIO after the invalid packetLength was read. On patched mainline,
-> three boots rejected map length 30 at offset 3626 before that read;
-> three boots of the second image rejected the truncated header at the
-> same offset. Neither patched case produced a KASAN report. Valid UDF
-> and sparable UDF images mounted before and after the patch.
-> 
->  fs/udf/super.c | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
-> 
-> diff --git a/fs/udf/super.c b/fs/udf/super.c
-> index a81a8509524a..41988a07b86b 100644
-> --- a/fs/udf/super.c
-> +++ b/fs/udf/super.c
-> @@ -1580,9 +1580,29 @@ static int udf_load_logicalvol(struct super_block *sb, sector_t block,
->  	     i < sbi->s_partitions && offset < table_len;
->  	     i++, offset += gpm->partitionMapLength) {
->  		struct udf_part_map *map = &sbi->s_partmaps[i];
-> +		unsigned int min_len;
+> diff --git a/fs/namespace.c b/fs/namespace.c
+> index aecd05ac0..3c41fd42c 100644
+> --- a/fs/namespace.c
+> +++ b/fs/namespace.c
+> @@ -5807,6 +5807,10 @@ static int statmount_string(struct kstatmount *s, u64 flag)
+>  		return -EINVAL;
+>  	}
+>  
+> +	/* signal a retry */
+> +	if (unlikely(seq_has_overflowed(seq)))
+> +		return -EAGAIN;
 > +
-> +		if (table_len - offset < sizeof(*gpm)) {
-> +			udf_err(sb, "Truncated partition map header at offset %d\n",
-> +				offset);
-> +			ret = -EIO;
-> +			goto out_bh;
-> +		}
->  		gpm = (struct genericPartitionMap *)
->  				&(lvd->partitionMaps[offset]);
->  		type = gpm->partitionMapType;
-> +		min_len = sizeof(*gpm);
-> +		if (type == 1)
-> +			min_len = sizeof(struct genericPartitionMap1);
-> +		else if (type == 2)
-> +			min_len = sizeof(struct genericPartitionMap2);
-> +		if (gpm->partitionMapLength < min_len ||
-> +		    gpm->partitionMapLength > table_len - offset) {
-> +			udf_err(sb, "Invalid partition map length %u at offset %d\n",
-> +				gpm->partitionMapLength, offset);
-> +			ret = -EIO;
-> +			goto out_bh;
-> +		}
->  		if (type == 1) {
->  			struct genericPartitionMap1 *gpm1 =
->  				(struct genericPartitionMap1 *)gpm;
-> 
-> base-commit: 4dce97c6c265544342e716e62fd24bbb232590c5
+>  	/*
+>  	 * If nothing was emitted, return to avoid setting the flag
+>  	 * and terminating the buffer.
+> @@ -5818,10 +5822,6 @@ static int statmount_string(struct kstatmount *s, u64 flag)
+>  	if (kbufsize >= s->bufsize)
+>  		return -EOVERFLOW;
+>  
+> -	/* signal a retry */
+> -	if (unlikely(seq_has_overflowed(seq)))
+> -		return -EAGAIN;
+> -
+>  	if (ret)
+>  		return ret;
+>  
 > -- 
-> 2.43.0
+> 2.47.3
 > 
 -- 
 Jan Kara <jack@suse.com>
