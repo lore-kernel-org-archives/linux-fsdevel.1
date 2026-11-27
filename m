@@ -1,63 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=101.204.27.37
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795744950;
-	b=KdBF4oBDJPrqqCWwEHNppLwcTF+iAO1rnbhfyQ/R3uGL0x84G6tn/ZzaE3UCs/U/1Q1N
-	 5IJYTNX+qYomtze7/Kdy9bXk9vt8nWRr8r5fHLaWe5hJnr4pRioyYNovdvfH0IbGLv3Eh
-	 mJighkq1Dcz9Wwxud58+w77zbeMkC0E5dmTbiiiKgTGCPmX8Zi7S/9qmKScmKtm/4Pycx
-	 gAqyCgTjyc8x8tDEQjsYzutkA7TUX3CqOgCRjAF2vx1vfCN95wxKB+2rHCVOZAT2RMBrZ
-	 nm5aTlKPEjxhPdUOiOJGk9Z9P9ZtJFGwIO087S5KlNqBdxqg2URgRRQgwTOq1XsMCOw==
+	t=1795745120;
+	b=s5w2gqIa2as+wnLHUkYe0//mKq/DbgcVIQi7Lb3FAPigLZ6ZmRuDRYHseKi+hADaoufi
+	 5IbG9O3DCSbYlfTl5wD8MQ58qFaEY1WxbUrDT9BXCq9lmZi414t/590+eu2pQFURCpMtI
+	 7PxPInVmM/9gU47vkwkTYCFdaNIO0qMjfaWMEO/WLJFuE79Av+CWynERrT2Ccch2TAcrk
+	 bN7wRT0KdbbOId1NWaA8FWNvoGJeF+oJVMRaIjpmoydMiZDCIxHhxe1lN1FEfy+sIAcuO
+	 L6wl1peV3h7lqC//PSHlXoWW8d7x1Iq6e8oLxLaMp3n+AoePhiBJQhk7fGshgPzKSlg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795744950;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
-	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=4HqrvdCaoRLWQfr32Eh+EaYearFMhIXj3DWUunR1Bq4=;
-	b=Zq9glLADhccVq6T9sEs88f/hR6jf+qJMbcwU3rQrSSuimEwSrxX7noCYHG3jAf0pqHLy
-	 SPHtMhWFDsPk8kByHQIbrIvY5G6c59OVxXmYZ3325WLI+Hkt5l+LeC+jsJB09yO9mLDSb
-	 /EqS+i06AT/ol0TaVclJzkpm0kbCZVVF3rk9CzUgF0psU1GMF3Y1G5fCrZbFGiYMfocTD
-	 XqnoqKdXfpOSPAKxR4QbJB7N5pPus2/aOaTp08Qnm0Lr4aCD5wcmPLCEfMO1EAw7s5Luy
-	 9s5cCk7BXiN91q91MfFNPbdoAe1kynXU5Mq6CNNIuG/MR8a0wBUyXJeL+b9EHnaFoig==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795745120;
+	h=DMARC-Filter:Received:Received:Received:Received:Date:From:To:CC:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
+	 X-Originating-IP:X-ClientProxiedBy;
+	bh=Vt8/L4ecYvwNmeRLxuD0Q0YLKG91gPCwqmvKaWbtGcE=;
+	b=Yf3ExdkJ8piBUjEKEaQ8z1b1ivPavd1GqHy4KCPqJPDYpLsUJFp1dQ2ObdR44kJ4G/G/
+	 Kd3PtYKGMhjVOvsQ7YeDECLlzguieosCQq6MFIBJMruUz5CT0dEwke7A7py57hTFMxpMP
+	 s7Apk1Wy16Et6Ke3Gw0Ln4G3eqsqTpY7CR8c2ThD15UF/7yT+OXJlYIvioszOZQAYd6mT
+	 5CcwQVbmP3TFW3gzZSjSAXsEyWcuA/QIfcPWCCmvOGiTBIEVsP27bl0mjQ1ygObPk7TM6
+	 /3erUebAj7KTuidgaPqqQxnpMnuyQbuqpfXhyaZluaHkprla8dcRznZlkUfQ43rpV5g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=DwP8tvtq;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5854E606A31C;
-	Fri, 27 Nov 2026 02:02:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=DwP8tvtq
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 281741F00899;
-	Fri, 27 Nov 2026 02:02:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1795744949;
-	bh=4HqrvdCaoRLWQfr32Eh+EaYearFMhIXj3DWUunR1Bq4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=DwP8tvtqN9/NfnynhYi9TNTQ7JpsRb3uLgBeM7RjC9RvUdUGjAwVqZxiZzAovza84
-	 PfmJlad3Eu1JV4b7jDvr2yUDFCoYWsuZ014SJvZHMmryyh8rgBlQe0nMgj0+mJX3C5
-	 /4ZhtPZULIphwef5B+qmUtWgogyOIGuGFhv34/JQ=
-Date: Thu, 26 Nov 2026 18:02:28 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Tejun Heo <tj@kernel.org>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
- Shakeel Butt <shakeel.butt@linux.dev>, Roman Gushchin
- <roman.gushchin@linux.dev>, Muchun Song <muchun.song@linux.dev>, David
- Hildenbrand <david@kernel.org>, Qi Zheng <qi.zheng@linux.dev>, Lorenzo
- Stoakes <ljs@kernel.org>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Greg Thelen <gthelen@google.com>, Greg KH
- <greg@kroah.com>, Ming Lei <tom.leiming@gmail.com>, linux-mm@kvack.org,
- cgroups@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND] mm/vmscan: Fix legacy memcg reclaim deadlock
- against filesystem freeze
-Message-Id: <20261126180228.9b672a945d480e3d3f301985@linux-foundation.org>
-In-Reply-To: <f188775aea9580f9ab2b477788503434@kernel.org>
-References: <17d0d1395c0237d201a1abb2473d51f5@kernel.org>
-	<f188775aea9580f9ab2b477788503434@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dmarc=pass header.from=hygon.cn;
+	spf=pass smtp.mailfrom=hygon.cn;
+	arc=none smtp.remote-ip=101.204.27.37
+Received: from spam01.hygon.cn (unknown [101.204.27.37])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EE55606A31E;
+	Fri, 27 Nov 2026 02:05:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6EE55606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
+Received: from maildlp2.hygon.cn (unknown [127.0.0.1])
+	by spam01.hygon.cn (Postfix) with ESMTP id 4jbGvf4vHdzg1cV;
+	Fri, 27 Nov 2026 10:05:02 +0800 (CST)
+Received: from maildlp2.hygon.cn (unknown [172.23.18.61])
+	by spam01.hygon.cn (Postfix) with ESMTP id 4jbGvd6sBVzg1cV;
+	Fri, 27 Nov 2026 10:05:01 +0800 (CST)
+Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
+	by maildlp2.hygon.cn (Postfix) with ESMTPS id 40151300B6ED;
+	Fri, 27 Nov 2026 10:03:47 +0800 (CST)
+Received: from hsj-2U-Workstation (172.19.24.226) by cncheex04.Hygon.cn
+ (172.23.18.114) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Fri, 27 Nov
+ 2026 10:05:00 +0800
+Date: Fri, 27 Nov 2026 10:04:58 +0800
+From: Huang Shijie <huangsj@hygon.cn>
+To: Andreas Gruenbacher <agruenba@redhat.com>
+CC: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <jack@suse.cz>,
+	<hch@infradead.org>, <mic@digikod.net>, <axboe@kernel.dk>,
+	<gnoack@google.com>, <paul@paul-moore.com>, <jmorris@namei.org>,
+	<serge@hallyn.com>, <legion@kernel.org>, <aleksa@amutable.com>,
+	<libaokun@linux.alibaba.com>, <ebiggers@kernel.org>, <djwong@kernel.org>,
+	<sandeen@redhat.com>, <zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>,
+	<yingzhiwei@hygon.cn>, <wujianyong@hygon.cn>, <shijie8@gmail.com>,
+	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-block@vger.kernel.org>, <gfs2@lists.linux.dev>,
+	<linux-security-module@vger.kernel.org>
+Subject: Re: [PATCH v4 00/11] vfs: add inode iteration methods
+Message-ID: <awjlSpzDdAXAt2-k@hsj-2U-Workstation>
+References: <20261125091157.1822521-1-huangsj@hygon.cn>
+ <CAHc6FU4h-FRvLkO_0ouTey9MbX=n61t3abt4hPNFOthsRGG9mQ@mail.gmail.com>
+ <awgi6a0Hayug7RJH@hsj-2U-Workstation>
+ <CAHc6FU4KLxzoQ6NJQUnFfcbKufqwqdhfcGhva9V44K=J7HCXRg@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -66,171 +68,166 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHc6FU4KLxzoQ6NJQUnFfcbKufqwqdhfcGhva9V44K=J7HCXRg@mail.gmail.com>
+X-ClientProxiedBy: cncheex06.Hygon.cn (172.23.18.116) To cncheex04.Hygon.cn
+ (172.23.18.114)
 
-On Thu, 26 Nov 2026 02:17:38 -1000 Tejun Heo <tj@kernel.org> wrote:
-
-> Hello, Andrew.
+在 Thu, Nov 26, 2026 at 03:32:08PM +0100，Andreas Gruenbacher 写道：
+> On Thu, 26 Nov 2026 at 13:20, Huang Shijie <huangsj@hygon.cn> wrote:
+> > 在 Wed, Nov 25, 2026 at 11:25:12PM +0100，Andreas Gruenbacher 写道：
+> > > Huang,
+> > >
+> > > I have some thoughts ...
+> > >
+> > > On Wed, 25 Nov 2026 at 10:18, Huang Shijie <huangsj@hygon.cn> wrote:
+> > > > This series adds a superblock inode iterator and converts the open-coded
+> > > > sb->s_inodes walks in the VFS to it.  The design follows the cursor-based
+> > > > construct proposed by Christian Brauner:
+> > > >
+> > > >   https://lore.kernel.org/all/20261120-mitverantwortlich-drehbaren-kantholz-241300d20168@brauner/
+> > > >
+> > > > and is the same direction as Dave Chinner's patch set:
+> > > >
+> > > >   "vfs: improving inode cache iteration scalability"
+> > > >   https://lore.kernel.org/all/20241002014017.3801899-1-david@fromorbit.com/
+> > > >
+> > > > The caller owns the iterator state and drives the walk itself:
+> > > >
+> > > >   CLASS(sb_inode_iter, iter)(sb, eligible, priv, flags);
+> > > >   while ((inode = sb_inode_iter_next(&iter)))
+> > > >           /* do stuff */;
+> > >
+> > > The pattern should be:
+> > >
+> > >   for (CLASS(...); ...; ...) {
+> > >       /* ... */
+> > >       if (/* end iteration early */)
+> > >           break;
+> > >       /* ... */
+> > >   }
+> > >
+> > > so that the iterator goes out of scope immediately when the loop ends.
+> > > Hide the details of the loop header in a macro and that this becomes:
+> > >
+> > >   for_each_inode(inode, sb) {
+> >
+> > The fs/jffs2/build.c has used this for_each_inode.
+> > Maybe change to for_each_sb_inode?
 > 
-> Your follow-up, "mm/vmscan: scope freeze writeback skip to the reclaim
-> target", applies on top of this patch and tests fine here.
+> That's the least of all problems; just rename the jfs macro.
+> 
+> > >       /* inode is referenced and unlocked here */
+> > >   }
+> > >
+> > > Use that to convert the simple cases.
+> > >
+> > > And then we've got preconditions that are checked while the inode is
+> > > locked. Those can probably go in an expression:
+> > >
+> > >   for_each_inode(inode, sb, expression) {
+> > We still need add flags here.
+> >
+> > In evict_inodes() and hook_sb_delete(), only the expression is not enough.
+> 
+> I know, these are the two cases that check i_count before the inode is
+> even locked. Leave them as they are for now; we can get back to that
+> later.
+okay.
 
-Cool, thanks.  I'd forgotten about that ;) It was a hastily slop-coded
-"maybe you'd like to include something like this in your patch" thing.
+> 
+> > How about add a raw code like this:
+> >
+> >     for_each_inode_raw(inode, sb, expression, flags) {
+> >     }
+> >
+> > And add a macro for_each_inode:
+> >   #define for_each_inode(inode, sb, expression)  for_each_inode_raw(inode, sb, expression, 0)
+> >
+> > Most of the cases, we can use the for_each_inode.
+> >
+> > But in the evict_inodes() and hook_sb_delete() we can use the for_each_inode_raw.
+> 
+> No. Convert the simple cases first, with iterator constructs that are
+> as simple as possible. Later, worry about the more complicated cases.
+Got it.
 
-Can people please take a look and suggest whether it should be a
-standalone patch, or just fold it into this patch, "mm/vmscan: Fix
-legacy memcg reclaim deadlock against filesystem freeze"?
+> 
+> > >       /* expression was true */
+> > >       /* inode is referenced and unlocked here */
+> > >   }
+> > >
+> > > This unfortunately cannot be implemented on top of the
+> > > sb_inode_iter_next() pattern, at least not in a reasonable way, so we
+> > > actually shouldn't use that pattern.
+> > >
+> > > The locked iterator would look like this:
+> > >
+> > >   for_each_inode_locked(inode, sb) {
+> >
+> > I tried this way today.
+> >
+> > The macro for_each_inode_locked is complicated.
+> > When I tried to add more hooks to super_operations to implement the
+> > procfs issue, the for_each_inode_locked becomes more complicated.
+> >
+> > BTW: the procfs issue see the link:
+> >   https://lore.kernel.org/all/20260920072811.2064247-1-huangsj@hygon.cn/
+> 
+> Introducing reasonable inode iteration constructs is a completely
+> separate problem from introducing per-super block inode iterators.
+> Please keep those issues apart.
+okay.
 
+> 
+> > >       /* inode is locked here */
+> > >   }
+> > >
+> > > This doesn't cover all existing cases, but that's okay. Don't force
+> > > things into this pattern that are not a match.
+> > >
+> > > We can always extend things further if it makes sense.
+> > >
+> > > > The lock does not span iterations.  sb_inode_iter_next() takes
+> > > > sb->s_inode_list_lock, takes a reference on the next inode, drops the lock
+> > > > again and hands the inode out; the reference is what keeps the cursor on
+> > > > sb->s_inodes so that the next call can resume from it.  As the iterator
+> > > > is a cleanup class, a caller that breaks out early does not have to call
+> > > > sb_inode_iter_end() explicitly.
+> > > >
+> > > > Two optional channels let a caller keep its own state instead of filling in
+> > > > a shared context:
+> > > >
+> > > >   - iter->eligible is called with inode->i_lock held, so that a caller can
+> > > >     reject an inode before a reference is paid for.
+> > > >
+> > > >   - iter->status carries an error out of the walk.  Setting it to a
+> > > >     negative value makes sb_inode_iter_next() return NULL.
+> > >
+> > > Nobody needs that. Just break out of the loop.
+> > >
+> > > > Most callers just want a referenced inode and use no flags at all.  Three
+> > > > flags cover the walks that need something else:
+> > > >
+> > > >   - %INO_ITER_F_REFERENCED restricts the walk to inodes that still have a
+> > > >     reference, preserving the "only handle referenced inodes" rule of
+> > > >     landlock's sb-delete walk.
+> > > >
+> > > >   - %INO_ITER_F_NOREF hands out only inodes whose reference count has
+> > > >     already reached zero, and %INO_ITER_F_NOIGET suppresses the reference.
+> > > >     Neither keeps the inode alive, so the caller has to make the inode
+> > > >     unclaimable itself.
+> > >
+> > > No flags.
+> > If we do not add flags, we cannot convert the evict_inodes() and hook_sb_delete().
+> 
+> No flags.
 
-(That's mem_cgroup's fifth bool - maybe scrunch them all into an
-atomic_t and do atomic bitops on it?)
+Okay. I will start the V5 right now.
 
-(I am told that moving wb_wait_skip to just after oom_group would avoid
-increasing sizeof(mem_cgroup), but that puts wb_wait_skip into the
-read-mostly section. wdyt?) 
-
-
-From: Andrew Morton <akpm@linux-foundation.org>
-Subject: mm/vmscan: scope freeze writeback skip to the reclaim target
-Date: Tue, 17 Nov 2026 14:04:43 -0800
-
-The freeze workaround sets memcg_wb_wait_skip globally when a memcg's
-writeback wait times out.  While any superblock freeze is pending, this
-makes reclaimers in unrelated memcgs bypass their writeback waits and can
-drive an otherwise recoverable cgroup to OOM.
-
-Store the flag in the reclaim target memcg instead.  Use
-sc->target_mem_cgroup, not the folio's memcg: reclaim against a parent
-limit scans descendants.  This also keeps the skip across successive
-try_to_free_mem_cgroup_pages() calls in try_charge_memcg(), each of which
-creates a new scan_control.  Reclaim against a different target must first
-time out on its own writeback.
-
-Reclaimers sharing the target can still OOM early during a freeze.
-
-Reclaimers of the same target can run concurrently, without a lock
-protecting this flag.  Keep READ_ONCE() and WRITE_ONCE() for its lockless
-loads and stores.  The flag does not publish any other data.  As with the
-global flag, a clear racing with a new timeout may cost another 15-second
-wait; the timeout path can set the flag again.
-
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Cc: Tejun Heo <tj@kernel.org>
-
- include/linux/memcontrol.h |    2 +
- mm/vmscan.c                |   52 ++++++++++++++++++++---------------
- 2 files changed, 33 insertions(+), 21 deletions(-)
-
---- a/include/linux/memcontrol.h~mm-vmscan-scope-freeze-writeback-skip-to-the-reclaim-target
-+++ a/include/linux/memcontrol.h
-@@ -248,6 +248,8 @@ struct mem_cgroup {
- 	struct list_head memory_peaks;
- 	struct list_head swap_peaks;
- 	spinlock_t	 peaks_lock;
-+	/* Legacy writeback wait timed out during a filesystem freeze. */
-+	bool wb_wait_skip;
- 
- 	/* memory.events and memory.events.local */
- 	struct cgroup_file events_file;
---- a/mm/vmscan.c~mm-vmscan-scope-freeze-writeback-skip-to-the-reclaim-target
-+++ a/mm/vmscan.c
-@@ -1171,39 +1171,49 @@ static bool may_enter_fs(struct folio *f
-  *
-  * Reclaim can't tell which filesystem a writeback depends on. As a crude
-  * workaround, memcg_wait_writeback() times out and, if any filesystem is being
-- * frozen at that point, sets memcg_wb_wait_skip. While it is set, legacy memcg
-- * reclaim neither waits for nor throttles on writeback, so that the task a
-- * freeze may be waiting for isn't held up in reclaim and can drop its freeze
-- * protection. This can cause premature memcg OOM kills.
-+ * frozen at that point, sets a skip flag on the reclaim target memcg. While
-+ * it is set, reclaim against that target neither waits for nor throttles on
-+ * writeback, so that the task a freeze may be waiting for isn't held up in
-+ * reclaim and can drop its freeze protection. This can cause premature memcg
-+ * OOM kills in that reclaim target.
-  */
--static bool memcg_wb_wait_skip;
--
--/*
-- * Test memcg_wb_wait_skip. It takes effect only while a filesystem is being
-- * frozen and is cleared here once none is. A freeze that starts before it is
-- * cleared inherits the skip.
-- */
--static bool memcg_skip_wb_wait(void)
-+#ifdef CONFIG_MEMCG
-+/* Retain the skip across separate reclaim attempts against the same limit. */
-+static bool memcg_skip_wb_wait(struct scan_control *sc)
- {
--	if (!READ_ONCE(memcg_wb_wait_skip))
-+	struct mem_cgroup *memcg = sc->target_mem_cgroup;
-+
-+	if (!memcg || !READ_ONCE(memcg->wb_wait_skip))
- 		return false;
- 	if (atomic_read(&sb_nr_freezing))
- 		return true;
--	WRITE_ONCE(memcg_wb_wait_skip, false);
-+	WRITE_ONCE(memcg->wb_wait_skip, false);
- 	return false;
- }
- 
--/* wait for writeback of @folio, see memcg_wb_wait_skip for the timeout */
--static void memcg_wait_writeback(struct folio *folio)
-+/* Wait for writeback, unless a freeze stalls this reclaim target. */
-+static void memcg_wait_writeback(struct folio *folio, struct scan_control *sc)
- {
- 	while (!folio_wait_bit_timeout(folio, PG_writeback, 15 * HZ)) {
- 		if (atomic_read(&sb_nr_freezing)) {
--			WRITE_ONCE(memcg_wb_wait_skip, true);
--			pr_warn("memcg1 writeback wait timed out during fs freeze, skipping waits, may OOM early\n");
-+			WRITE_ONCE(sc->target_mem_cgroup->wb_wait_skip, true);
-+			pr_warn("memcg writeback wait timed out during fs freeze; "
-+				"skipping waits for reclaim target, may OOM early\n");
- 			return;
- 		}
- 	}
- }
-+#else
-+static bool memcg_skip_wb_wait(struct scan_control *sc)
-+{
-+	return false;
-+}
-+
-+static void memcg_wait_writeback(struct folio *folio, struct scan_control *sc)
-+{
-+	folio_wait_writeback(folio);
-+}
-+#endif
- 
- /*
-  * shrink_folio_list() returns the number of reclaimed pages
-@@ -1351,7 +1361,7 @@ retry:
- 
- 			/* Case 2 above */
- 			} else if (writeback_throttling_sane(sc) ||
--			    memcg_skip_wb_wait() ||
-+			    memcg_skip_wb_wait(sc) ||
- 			    !folio_test_reclaim(folio) ||
- 			    !may_enter_fs(folio, sc->gfp_mask) ||
- 			    (mapping &&
-@@ -1377,7 +1387,7 @@ retry:
- 			/* Case 3 above */
- 			} else {
- 				folio_unlock(folio);
--				memcg_wait_writeback(folio);
-+				memcg_wait_writeback(folio, sc);
- 				/* then go back and try same folio again */
- 				list_add_tail(&folio->lru, folio_list);
- 				continue;
-@@ -2138,7 +2148,7 @@ static void handle_reclaim_writeback(uns
- 		 * enough for cgroupv1 writeback throttling to work
- 		 * on a large system.
- 		 */
--		if (!writeback_throttling_sane(sc) && !memcg_skip_wb_wait())
-+		if (!writeback_throttling_sane(sc) && !memcg_skip_wb_wait(sc))
- 			reclaim_throttle(pgdat, VMSCAN_THROTTLE_WRITEBACK);
- 	}
- 
-_
+Thanks
+Huang Shijie
 
