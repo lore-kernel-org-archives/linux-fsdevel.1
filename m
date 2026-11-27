@@ -1,96 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795768987;
-	b=DN+6vmLDZfMUrI1lqQO7OSfF8pyd/u7pn0fTETNnymnTXUX2EK8Iis90fJKUkNN0o+/T
-	 8njF4jY59yK6RpmjKvvflsxnFaNwYdE66jp4lqRZpPDoqfS0e5ipFmk8kv4rnCK/8v7Bk
-	 EXKtiCVQbtiI/5CcwoDVKrXO14WCvjXKircbEP+UP1GYpSdssCKR4TXZwqIHCXYSiocCs
-	 mriVOwiN5yzalr3IcOijr0LJypq2vaYZAaoopSv3MGRcAZ2JIudxWQZd0WJ2yu16IzmSe
-	 wIlqpzkjkADbqumg3mCa+F4TkFqmSyCRFVy70ZL7gUs+nJi+zXG57TKWjr04jY0bFQQ==
+	t=1795769327;
+	b=WKXEpuP14lp294jK/lEbuJrad5TTyraoSwV6DRbK6E0IDkKzXtSOa5Zwz/2c0KlLphEA
+	 8py0paNuQFoB5L/SYAEJ0QA/wFnGSLyZhwnEfGWL6jqL4jvESumnibyZvojblEQvFhXFf
+	 vHxeI5ZRFEqdW8fezA8nM6Cmw29xVIpGVnUbu1kb9gi7NmTJXmAt8E0foQmtrBrvhEiAK
+	 HldnLAqAv+YEchsCcb7sqlnxlCgkbDVNnqlDoK2C3hAIr4W2pzsgIqUSHxzRDaJgNvwND
+	 bqqruc5fFpzovx62msw8WTZ8qFvpRRwIHoWpUTNffZeUvtQ2/xBnUm+BDO9fc+tomUQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795768987;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795769327;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=q/a49TQEtxVoc/uj7/LlLfKe4HzfqdTDH8dyZw93gQQ=;
-	b=pEltzwFvsR7WtZK/5UGRa8Z6gQai4r+IutfhxDFXG9JQ4QeL+tl3YA8AlP+8zU5Id2Xj
-	 sA4O6oa/3RxqJ4HnV4KxiDk9FceIUyN6jJ2EdUJXJMjD0cghnpeCamw5UAlmd09xhSpZO
-	 WB53JRfWCgljzJNZLJN+cBsnksnSJyxEWY5PkxV5yjQavoYv4FN+LF1P3fUiPRIn0Vweg
-	 6voWW7AsVlfBk2b94ncdF1Tlimpm+miVmqzijbuycRXpdo9ClkiD85byL76hDQ6w832ME
-	 qtmfMptPMbKmCRrzXmEH3gqODTzcCS3yJunIAFzLlbVyCw5e6PlhUK3zljfduDivuIw==
+	 Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:X-Mailer:
+	 References:In-Reply-To;
+	bh=IDez9NqT7Tj1QDvV6FYEN7zWNFn2T031QM3aseBOhj8=;
+	b=J/fjT2uJGelWr3n9yVhdBTzYdIVi70VYxiheXNdLHwAInc2/Wd0BKIC1tanurifaV4gA
+	 EMjagTwGcdh15koF83ooChuEJcDCGl2xX36NFtIs49q3dxI6grXYHPRrB5ExiuPle7yg0
+	 9HySXHsj44Esr7j4nFVe+ybNUU73/P8ghwt9LLPYOSl3ve3ZX0Q1Nm2lq7k8f2G37/Ikd
+	 NHLM27vSwCM1tjCv6WCrmNxHal6w2ceuZXr195doZ9vbPLca+iHU7hyrMowQPP/7iYtjz
+	 3Hqm7IQ1QA19Ybevch1FhgcIAoEmsjt3CpGug6NYYS4kZabEp+J19T9LDxFOgXy3t4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amutable.com;
-	spf=pass smtp.mailfrom=amutable.com;
-	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=sYHW4TbX;
-	arc=none smtp.remote-ip=209.85.218.47
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dbJOZn5M;
+	arc=none smtp.remote-ip=209.85.128.48
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3267E606A31E
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 08:43:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3267E606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90DF0606A323
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 08:48:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 90DF0606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=sYHW4TbX
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c5127c7abd5so1197781866b.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 00:43:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dbJOZn5M
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4bb77a462c6so63442735e9.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 00:48:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1795768985; x=1796373785; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=q/a49TQEtxVoc/uj7/LlLfKe4HzfqdTDH8dyZw93gQQ=;
-        b=sYHW4TbXNzzMddM3SvLwgM4OjqhF60h5M0aoctPt/EUH8XuFKxYNDux3nEmlnY0YKn
-         9ApYguSt21yJeEzHwFz9e54UPhphwadDBvgG80W4FF+/lukiTwYzJnXeUhyfyrdjckup
-         2M+Xql4myEPbPAv9BvyyaOQa8aLOeXROtpM/eAXX/+Xlxpl49KhkE3elOgA7JCr+cK10
-         vmbgSWCE/KrcYP/ZvNHf0gjHY/dZKBdRnF+Hr/FWrjrLIT4i8GKCFH8TapaEIjJiLlK5
-         IO5FgJEjJ0XTwQG3gjNtEALfISczuyEbAbIJ13UenAS1vQ0/xqQSw1omU/ZCQXXYENj3
-         angg==
+        d=gmail.com; s=20260707; t=1795769324; x=1796374124; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:mime-version:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=IDez9NqT7Tj1QDvV6FYEN7zWNFn2T031QM3aseBOhj8=;
+        b=dbJOZn5M3rCgRLPPOUJ++VnJKMJQm3Ohn3x6VlLjqOyC2bNT9/mOFF1yxLOyrzF1bl
+         C+Kj5lfk/G5v+Ibl6kXxQpP75b5N2GOnPrygQfOpb+hL8pJdLWW2ruCSdOPWljpoOom9
+         3k2U5q90CgtKcvQNVpmkgFpbHw4JRD8hnkpuKZMsHjBoE3LC1jnUEnzmSEuovDxk9r9t
+         Wtqp53MEml1QkDIqwqCWvYw2/rzLoJc4/KbtnJ3GcoNMKSCSq01qjbob847q1eNmgWQu
+         Cney17f61yibRSRiKAu1tIAGEODdNaIqbSZsxA3cV2i7XAT3GC/VSTY+hR3Urp47LrxJ
+         8cOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795768985; x=1796373785;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=q/a49TQEtxVoc/uj7/LlLfKe4HzfqdTDH8dyZw93gQQ=;
-        b=pH+D4XFcYrZL2ZjlZ/UK3bwc8ZzTFpX9FC+UpZjAwPnmWbqc+cmLBrJ83w72wR1n/Y
-         RC3EPn4BdLLw8LVxJER68D0iLpa63ZrhItpHvIEZlxZxdeT/klu8AA3e//Ck8nMdcsi0
-         rRlRwq0nrnYHeZdq/jL7kRLrEZHuChydwinCdUtCE11jVtYPXTSXx9/zOjNdDZ+sRm1B
-         7BbupKQ8Apu+BC+kKDGI8hd4Wz7u51WHbAGy5dsV5+CIFKOD6PKWSnbA8Y7PiYF/2elq
-         XBeH2PRp3sM/daWAOteeVvEbhUNPAW1tbCiCPz7O5o0nB+qddbaJiMbYfoFg1J7RZf8s
-         sriA==
-X-Forwarded-Encrypted: i=1; AL+hErGRhzp/WasJHJSV/nUmlw9jlEUI0yrIhTg6t0R61TJC6Mz5HDEGgEQE1Uo4ucaalE0fbdu804KMas8LO6WF@vger.kernel.org
-X-Gm-Message-State: APuU4Z/LWDr1wNcxDN/FQGzLpPp5XZbfTxI23qfn3B4+ZDWC5DZDD8TB
-	qwZqNZjRas/9WO7PIhu4qS1IvWwqtkVQEnfTioXyrBmeQ1ZENfeYbXxDyJagebSVbp1P
-X-Gm-Gg: AZFdTZelur7ZA36DU7GD82GGrPc/jUEvmtmgN3QqmM5K3mbrnsQ0+tzgL95sgAwcYlt
-	r3orpO0FgzlKVtbR/57pqffNWt4Qu3Or0LAL7bLH1nmGkP89D9l91r8Cgy5k0fsqTqa3LFBWGc8
-	b08AI1NUnIWE3+YysbOQgojKdlY27oUPE+0u7mWC+dXorOahLkAbo6vNR2UT24h48NO4tL+WoGK
-	Ft64YHJjpANjUsh1H0Oo45SF0fX0EpP2LSCTPfn4fj02hqlBCV2Q+rqSffa+Q6Geb/7tVSdvaj4
-	m+pOcFhRrqPCp2aLzF5ypxNHL3IkeOnEW9DkXqeejXdK0NmTHkWRnW/8zzKRGGZZw/LkaKtGh8k
-	sQWizJnMk5qm6BTNBKjgQORu284qW1gKkQl67qIQ9bauRjcwsV+KbY0ynNPoNCibC2fyKXDqRSj
-	5BEA4ST5sqoxbkydEgwS4K+2IyQCDMLASs58oXgKUM4y1Zc5Ijc2PCyGkK3qKdGjyX5N+EKC2CB
-	ypdCmSuGdE9PV625qDr+Zz8gSfrn/dsEotwLrdXjgTbQX9owuI/WdxlnKwhKJ57YyvHrqXWZAwO
-	Eq+OZAhAwG39YQBh11xEvjUixEkwBmtK1AyP/O3li2vxMuY2xvjpTArlTU9WcDdNmw==
-X-Received: by 2002:a17:906:eec9:b0:c51:5589:35a1 with SMTP id a640c23a62f3a-c515589d211mr1535450966b.5.1795768985487;
-        Fri, 27 Nov 2026 00:43:05 -0800 (PST)
-Received: from [10.0.0.233] (tmo-084-240.customers.d1-online.com. [80.187.84.240])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c513ad01b0bsm839818866b.10.2026.11.27.00.43.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 00:43:05 -0800 (PST)
-Message-ID: <ecba7d29cc3bfb0e18ad72d2a9690da41f66c832.camel@amutable.com>
-Subject: Re: [PATCH 0/4] fat: support O_TMPFILE
-From: Alexander Mikhalitsyn <alex@amutable.com>
-To: Christian Brauner <brauner@kernel.org>, OGAWA Hirofumi
-	 <hirofumi@mail.parknet.co.jp>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Date: Fri, 27 Nov 2026 09:43:03 +0100
-In-Reply-To: <20261126-work-fat-tmpfile-v1-0-3bca7b2dbc20@kernel.org>
-References: <20261126-work-fat-tmpfile-v1-0-3bca7b2dbc20@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+        d=1e100.net; s=20260707; t=1795769324; x=1796374124;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=IDez9NqT7Tj1QDvV6FYEN7zWNFn2T031QM3aseBOhj8=;
+        b=sgW6uxxy5H1+eJk7rY+Wbj4l4u9hW5pKDm2PIyM7B/EqoJDH9eqV16e9q/dFKjPh3u
+         cXsxT7kkmX9uuciOJNSqaIWjzUxwi4uMMfZQV8GMSlLaOZZWVa0rXMgx7kmrbmDG/mdN
+         hGN2jC2weOig7MzrMXKmTzS2TEtMm2HZRZZt3Bvm0YdhvouaMxBZumFHdKOqXalEyrCC
+         ijLwKa31lTa6Aaf9U89FuJTMt9Qfrry2G7gIHshVKEnzJZJ7ZpBUM4wp9j2JlH9raQLO
+         7MDImyP2iLqsJjNR6kMSWBNz5Ekl7FG0jbmhJ7/8qY1wZfDQQ0um06EJAZxG1lCPmoQ+
+         oDsw==
+X-Forwarded-Encrypted: i=1; AL+hErGua434JZFxDnscWB+KvOT19DQEvQ8ewmvbCj7il67hJcI12GqHtywOtvGUXoKWris3Wq0pNci+E4TZptId@vger.kernel.org
+X-Gm-Message-State: APuU4Z+JMf2x0HHD+AD0hvx7HjKBjHdw/meSmuu1YkzU0UNTlKa2fRHV
+	kBulMua0NQxGukqlW+Sg6S7Q77fthUJJXXblPO3n8Olx4yA1pe7vqmLv
+X-Gm-Gg: AZFdTZdHB3dXth7PlPXvpMWVv0NZ8hcW+ol8UF5U3CIFZC2Rw8Sl+MvxYn36m02OVt2
+	kOUqPmyMbjEkysFriPddWHNa3H2a1B2LOQ/F992zoS0jz1vH1ywnsq/2wxx0R3pi4a3qIHbG1kY
+	JwlsMX6Myv2sqEngZ3mWBSzCYMH+k+Yiok2I03/H2t9rdEw/CVuPy9+IUS1eeIFM/IQtjj1TUuy
+	UsUPPmqpd7bFCfg70bJSQTKJqZc8Ucfi+BSA+WMZO/V/ovjzC0DBkLePWbYn7swegSeq2XsJ1Ve
+	PaInqCSBOXhZE9gEeNSJlqa7GHq/fkWfAsBj+kT75zq9bG6Ip5bXbV/n14ntd77SKg3zo1HjYrI
+	L59BLGABu1WvWZG12ufA3Chyp/iryZra2LwiT/GFqy2OJJTYegIS8g5k22djVOj+SMbjtUJ3amP
+	tc5vVvNPEL3ilh/RFxx2uLSf77a8EAgXj3d2HIEVhpQNfo3RX72WMeTrX0ri87oJs1RChzuGnuX
+	EIkbMeWLzIfyLoskcyQuoRYGaVS5iDFu2O2tFKJ/yJ4IK9oZ37e1TjbRvPysyRorWh1LThKrq8g
+	s/TEaUoUXlMGrxXzpPUhEhF7j0fjqGC1t8Ju2FDFCK3emWL64x1k/mVvT5Z6X+gbBAxIwA==
+X-Received: by 2002:a05:600c:4f81:b0:4bb:5e8c:13bc with SMTP id 5b1f17b1804b1-4bb88805902mr454676765e9.7.1795769323802;
+        Fri, 27 Nov 2026 00:48:43 -0800 (PST)
+Received: from localhost ([130.192.98.149])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906635c7sm426511305e9.2.2026.11.27.00.48.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Nov 2026 00:48:43 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -99,77 +86,75 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=c6f8ca06bd0087fb130def184d18448cb7c766d554c063c5f32d1cf88680;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Fri, 27 Nov 2026 09:48:36 +0100
+Message-Id: <DN5V3F9BWZNC.ZIJY7Q6XMDOM@gmail.com>
+Cc: "Namjae Jeon" <linkinjeon@kernel.org>, "Hyunchul Lee"
+ <hyc.lee@gmail.com>, "Eric Biggers" <ebiggers@kernel.org>, "Theodore Y .
+ Ts'o" <tytso@mit.edu>, "Jaegeuk Kim" <jaegeuk@kernel.org>, "Alexander Viro"
+ <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>, "Chuck
+ Lever" <cel@kernel.org>, "Jeff Layton" <jlayton@kernel.org>, "Jan Kara"
+ <jack@suse.cz>, "Alexander Aring" <alex.aring@gmail.com>, "Darrick J .
+ Wong" <djwong@kernel.org>, "Andrey Albershteyn" <aalbersh@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>, =?utf-8?q?Pali_Roh=C3=A1r?=
+ <pali@kernel.org>, "Lauri Gates" <lauri.gates@gmail.com>, "Christoph
+ Hellwig" <hch@infradead.org>, "Dave Chinner" <dgc@kernel.org>,
+ <linux-btrfs@vger.kernel.org>, <linux-xfs@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <ntfs@lists.linux.dev>, <linux-nfs@vger.kernel.org>,
+ <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v2 1/4] vfs: use goto out on error in vfs_fileattr_set()
+From: "koraynilay" <koray.fra@gmail.com>
+To: "Greg KH" <gregkh@linuxfoundation.org>, "koraynilay"
+ <koray.fra@gmail.com>
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+References: <20261126163114.403846-1-koray.fra@gmail.com>
+ <20261126163114.403846-2-koray.fra@gmail.com>
+ <2026112647-earful-frosted-6ef3@gregkh>
+In-Reply-To: <2026112647-earful-frosted-6ef3@gregkh>
 
-On Thu, 2026-11-26 at 23:15 +0100, Christian Brauner wrote:
-> This adds O_TMPFILE support to vfat and msdos.
->=20
-> Currently, every O_TMPFILE open on FAT fails with EOPNOTSUPP and
-> userspace falls back to creating a named temporary file and renaming
-> it
-> into place. systemd does that in bootctl when it writes to the ESP.
->=20
-> FAT can do O_TMPFILE just fine. It already handles files without a
-> directory entry: when an open file is unlinked i_pos is reset to 0,
-> writing the inode does nothing and the clusters are freed when the
-> inode is evicted. An O_TMPFILE simply starts out in that state.
->=20
-> The only tricky part is linkat(). FAT has no hard links so I added a
-> ->link() that only gives an O_TMPFILE its first name. Everything else
-> still fails with EPERM. Adding just ->tmpfile() would've been a
-> regression. systemd only falls back to the named temporary file if
-> the
-> O_TMPFILE open fails. If the open succeeds it calls linkat() and
-> gives
-> up if that fails.
+--c6f8ca06bd0087fb130def184d18448cb7c766d554c063c5f32d1cf88680
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Hi Christian,
+On Thu Nov 26, 2026 at 8:05 PM CET, Greg KH wrote:
+> On Thu, Nov 26, 2026 at 05:31:11PM +0100, koraynilay wrote:
+>> Switch from using if (!err) { ... } to the cleaner if (err) goto out;
+>> in the main body of vfs_fileattr_set().
+>>=20
+>> Signed-off-by: koraynilay <koray.fra@gmail.com>
+>
+> Real name please.
 
->=20
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Hello, this is the handle I use for everything online, thus my "known
+identity", and even Linus himself in Commit d4563201f33a
+("Documentation: simplify and clarify DCO contribution example
+language") said
+> And despite the language, we've always accepted nicknames and
+> that language was never meant to be any kind of exclusionary wording.
 
-For the entire series:
+Also, I already have a few accepted commits (here[1] and elsewhere[2])
+with this DCO, so it shuold stay like this.
 
-Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
+Thanks,
+koraynilay
 
-Kind regards,
-Alex
+[1]: https://lore.kernel.org/linux-cifs/?q=3Dkoraynilay+%22Applied+it%22+f%=
+3Ajeon
+[2]: https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D29803ed3ce
 
-> ---
-> Christian Brauner (4):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fat: add fat_tmpfile()
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fat: support O_TMPFILE on vfat
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fat: support O_TMPFILE on msdos
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 selftests/filesystems: add FAT O_TMPFILE t=
-ests
->=20
-> =C2=A0fs/fat/fat.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
-> =C2=A0fs/fat/inode.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 31 ++
-> =C2=A0fs/fat/namei_msdos.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 70 +++=
-++
-> =C2=A0fs/fat/namei_vfat.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 46 =
-+++
-> =C2=A0tools/testing/selftests/filesystems/fat/.gitignore |=C2=A0=C2=A0 1 =
-+
-> =C2=A0tools/testing/selftests/filesystems/fat/Makefile=C2=A0=C2=A0 |=C2=
-=A0=C2=A0 2 +-
-> =C2=A0tools/testing/selftests/filesystems/fat/config=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0 1 +
-> =C2=A0.../selftests/filesystems/fat/run_fat_tests.sh=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 41 +++
-> =C2=A0tools/testing/selftests/filesystems/fat/tmpfile.c=C2=A0 | 324
-> +++++++++++++++++++++
-> =C2=A09 files changed, 517 insertions(+), 1 deletion(-)
-> ---
-> base-commit: 2dc60bd9975fc8666a13d58410499e06e6799ba9
-> change-id: 20261126-work-fat-tmpfile-0d0f49e95d8f
+--c6f8ca06bd0087fb130def184d18448cb7c766d554c063c5f32d1cf88680
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRJ2XvJtXGwULYEerQ0bnTtJTDoOAUCawlD5AAKCRA0bnTtJTDo
+OA8rAQDeEx1D2WxXRvyGunXEuOW+Cj+dElpy7MJchlEm/WMNBwD+JvucXkEupO3z
+6yiHSY99QVuCP3aqlN/orccezZlLGQ4=
+=mM8H
+-----END PGP SIGNATURE-----
+
+--c6f8ca06bd0087fb130def184d18448cb7c766d554c063c5f32d1cf88680--
