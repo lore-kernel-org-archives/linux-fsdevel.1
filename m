@@ -1,65 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=101.204.27.37
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795745120;
-	b=s5w2gqIa2as+wnLHUkYe0//mKq/DbgcVIQi7Lb3FAPigLZ6ZmRuDRYHseKi+hADaoufi
-	 5IbG9O3DCSbYlfTl5wD8MQ58qFaEY1WxbUrDT9BXCq9lmZi414t/590+eu2pQFURCpMtI
-	 7PxPInVmM/9gU47vkwkTYCFdaNIO0qMjfaWMEO/WLJFuE79Av+CWynERrT2Ccch2TAcrk
-	 bN7wRT0KdbbOId1NWaA8FWNvoGJeF+oJVMRaIjpmoydMiZDCIxHhxe1lN1FEfy+sIAcuO
-	 L6wl1peV3h7lqC//PSHlXoWW8d7x1Iq6e8oLxLaMp3n+AoePhiBJQhk7fGshgPzKSlg==
+	t=1795745352;
+	b=KlIJHzNZMUDmOIuBJogAY6F2F4c47EnxUvjYSsJ7ZmIXl7qGmLD5McTLCDxanDKtsXF8
+	 MS2fTWvlJ+FHQLQlYm0tmHAcpBXYInj/EEQSIcGZuEOH2oTXXTjIxSFWLKwtRkCWyGGG7
+	 PdyBkqUBQ+VF8oIJ6pnat6rPceg/SxVMVdf8/ImyLTFKiOYyn96eC4rt+2KshxJrbQZVX
+	 luvhQRsx7613IlMGEhLHzUJ3OMO71aSyVAzwKdRwH6jd0Hetfitj3xyheERmXhC36PLZI
+	 Gl9DB/SrRqkm5bG4SfrclFItkM+3vOC+sAijVx9ut1kMW7MMA+IafUEIyHBolx1Hq9w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795745120;
-	h=DMARC-Filter:Received:Received:Received:Received:Date:From:To:CC:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
-	 X-Originating-IP:X-ClientProxiedBy;
-	bh=Vt8/L4ecYvwNmeRLxuD0Q0YLKG91gPCwqmvKaWbtGcE=;
-	b=Yf3ExdkJ8piBUjEKEaQ8z1b1ivPavd1GqHy4KCPqJPDYpLsUJFp1dQ2ObdR44kJ4G/G/
-	 Kd3PtYKGMhjVOvsQ7YeDECLlzguieosCQq6MFIBJMruUz5CT0dEwke7A7py57hTFMxpMP
-	 s7Apk1Wy16Et6Ke3Gw0Ln4G3eqsqTpY7CR8c2ThD15UF/7yT+OXJlYIvioszOZQAYd6mT
-	 5CcwQVbmP3TFW3gzZSjSAXsEyWcuA/QIfcPWCCmvOGiTBIEVsP27bl0mjQ1ygObPk7TM6
-	 /3erUebAj7KTuidgaPqqQxnpMnuyQbuqpfXhyaZluaHkprla8dcRznZlkUfQ43rpV5g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795745352;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=TeoLwB/UDQ9Aq2ltKnBve8A7vn7QHHpVQfatBUUUiHM=;
+	b=LAuxroiybPi53kUAgIPaed6lntcHVhcoEokaJ07hZOOY/qd5aDYWYd+dLXeCenQ1w5a4
+	 4lOJSnnfeYxgVXnLGxHowQfVU2NNREND2FRP3wCcasnxaUIVVNKTjpkMsWcPzNhfj27Yg
+	 zyQRJaPm6IdPCN0hJLBfO/Ccp0H0LS5Mn3zagUtsrrvw7iwH0ECARu7f7uCOahRrbM3sS
+	 rkoOPaZKNZB3WOPexg4GM7CYru+1BgZPVcq43MoO+KxTVJ0eRfSYd64Te+RDGkL3tLdMf
+	 ngPecicJebb841Y8yBPwqKWE631sYzbcFzeyuqFJo7kU+Qp/7/eybf63VavYzIytICw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=hygon.cn;
-	spf=pass smtp.mailfrom=hygon.cn;
-	arc=none smtp.remote-ip=101.204.27.37
-Received: from spam01.hygon.cn (unknown [101.204.27.37])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EE55606A31E;
-	Fri, 27 Nov 2026 02:05:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6EE55606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
-Received: from maildlp2.hygon.cn (unknown [127.0.0.1])
-	by spam01.hygon.cn (Postfix) with ESMTP id 4jbGvf4vHdzg1cV;
-	Fri, 27 Nov 2026 10:05:02 +0800 (CST)
-Received: from maildlp2.hygon.cn (unknown [172.23.18.61])
-	by spam01.hygon.cn (Postfix) with ESMTP id 4jbGvd6sBVzg1cV;
-	Fri, 27 Nov 2026 10:05:01 +0800 (CST)
-Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
-	by maildlp2.hygon.cn (Postfix) with ESMTPS id 40151300B6ED;
-	Fri, 27 Nov 2026 10:03:47 +0800 (CST)
-Received: from hsj-2U-Workstation (172.19.24.226) by cncheex04.Hygon.cn
- (172.23.18.114) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Fri, 27 Nov
- 2026 10:05:00 +0800
-Date: Fri, 27 Nov 2026 10:04:58 +0800
-From: Huang Shijie <huangsj@hygon.cn>
-To: Andreas Gruenbacher <agruenba@redhat.com>
-CC: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <jack@suse.cz>,
-	<hch@infradead.org>, <mic@digikod.net>, <axboe@kernel.dk>,
-	<gnoack@google.com>, <paul@paul-moore.com>, <jmorris@namei.org>,
-	<serge@hallyn.com>, <legion@kernel.org>, <aleksa@amutable.com>,
-	<libaokun@linux.alibaba.com>, <ebiggers@kernel.org>, <djwong@kernel.org>,
-	<sandeen@redhat.com>, <zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>,
-	<yingzhiwei@hygon.cn>, <wujianyong@hygon.cn>, <shijie8@gmail.com>,
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-block@vger.kernel.org>, <gfs2@lists.linux.dev>,
-	<linux-security-module@vger.kernel.org>
-Subject: Re: [PATCH v4 00/11] vfs: add inode iteration methods
-Message-ID: <awjlSpzDdAXAt2-k@hsj-2U-Workstation>
-References: <20261125091157.1822521-1-huangsj@hygon.cn>
- <CAHc6FU4h-FRvLkO_0ouTey9MbX=n61t3abt4hPNFOthsRGG9mQ@mail.gmail.com>
- <awgi6a0Hayug7RJH@hsj-2U-Workstation>
- <CAHc6FU4KLxzoQ6NJQUnFfcbKufqwqdhfcGhva9V44K=J7HCXRg@mail.gmail.com>
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RNC4Ut4d;
+	arc=none smtp.remote-ip=209.85.128.52
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD6E606A31E
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 02:09:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7AD6E606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RNC4Ut4d
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4b79502c27aso76526085e9.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 18:09:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795745351; x=1796350151; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=TeoLwB/UDQ9Aq2ltKnBve8A7vn7QHHpVQfatBUUUiHM=;
+        b=RNC4Ut4dDjREk+tF0RF4bt027lPbbbviyWu8pyVI6heo0h3M9zRAXClBQ1jFW+UFlN
+         8b9YQvW6JtgYVkXQlYAr5gUS2zksACIBXb2DBk7sF3vaXnJynduqAatmZ6VTUNaiUYpT
+         pjRrbU+F4Zdf+LHRYxN+6fodFCSjC0dk7DZ4V/2NRBTFtuhVgcSqzgWnjt9bD2TMQyKU
+         7y+GbHBaW9wTnuXe3tO607XzJtIxD+0KSshxl/vMAL20/KZxN312/u6HNF+66prlRtl5
+         uilvkn5im6BWkhxVCptHOW4zTeiEWvdZeQM0LawBuTzpR8Pl2gJiU7fqIEGwdMRwpNui
+         dc9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795745351; x=1796350151;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=TeoLwB/UDQ9Aq2ltKnBve8A7vn7QHHpVQfatBUUUiHM=;
+        b=WdbzUNVQGxkTrFUkUw5t6K5wkZc0e+GyMSnlBRQYqCAvbKjykgB3qc+T9IeV1QtUgK
+         1HjLAXJii5tilSN4/mepXXdrwI7aICNgzLysxEr7ErKqg8RWbTHcKtD3AJ5vREM88K9I
+         827lQtFrQXCwYxtuSFubajsdl76nioGh80hGJtibE4LlbI+NAbWU+3ax5UnEKcigmo51
+         MmQSKgH+C+bGYPplTj32zyd2xjxB8jWl0FFeheBthVJv9FZmqS9+Cpwc6ja+oQkJCZXt
+         C38mBFp1Ke5IHjH5VRy+N7YeBaTyv2q0lDC0CUQmw9vT8cBYtmasFIs56IFgwAs9axJq
+         x3yQ==
+X-Forwarded-Encrypted: i=1; AL+hErFhUM+6wQudnz2LV2ZaD0lSIFP5VPrc/XaBUdHWGPaGNo6d7rHcSgVLcHg6UxqDT0mruNZs+kibs43CHStF@vger.kernel.org
+X-Gm-Message-State: APuU4Z93MgdQSK/4Qfu4o3RDqpKuWFitefnMRMTdiPuvy2qWhQN6isji
+	+F/81uLepbJAW37q06ycoLyao1Swh3+1o1eury9NsA2g2bkmaywlwGc9
+X-Gm-Gg: AZFdTZftBLsu80uCh3pu1L+yEk4kjCiz1xPffWUnU84fpIRDE+v5oRNHNSLYWcef9hu
+	xeC65+S+lvoU/qZ6/fGYeZUqfP/nxgvw5WRP/4RCZ5QgKaPSsvf2OgjfbuLaJspvGWNQrCvCewI
+	W1tGIj8olzfvveQzRP22SzzEgcHp0J+kbDNAZqGyBXWfU46iSSe8Iv526U5VBBTHd+yeK19CpBX
+	h0qZn54T2ATw474LPqWdDiDZhbchCX97HPpzUZ+GUudYhAQ40zkNmiJ2uqPkhs5G5Vbh70NtzaC
+	BAblzbgMw6/hil/XY6AtTB6tBWk4AbpFdF4ihM4BY2kWFGlNL7nfKj9pGFv1++2QfbvZl/h5LH9
+	kAkgtHjbXjpbuFajkttSUtu6bkwqRWGJANzXH9nKA9w/mYUisCfOFle2rYNRP166krR5vpp37Ss
+	HSY43F7HBHnUSnavmmsvh7PqXLvyCRYLe9k9uIdBBoWA0osmhE7xdbtBkL/cH6IeBM0iUTJXed4
+	/SkhmEKRCM+XTXSfX7KOTt+vIq8glfhGLBQ9A/b3J6ZbTluih2RrSYVhLheIv03c0Qf17CTAn5h
+	jtYQb/EoEBauMXiycN/7nWlGTg==
+X-Received: by 2002:a05:600c:3b1d:b0:4bb:6991:2330 with SMTP id 5b1f17b1804b1-4bb8881a890mr469097755e9.22.1795745350705;
+        Thu, 26 Nov 2026 18:09:10 -0800 (PST)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4ab6a680355sm36421131f8f.27.2026.11.26.18.09.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Nov 2026 18:09:10 -0800 (PST)
+From: Askar Safin <safinaskar@gmail.com>
+To: josef@toxicpanda.com
+Cc: James.Bottomley@HansenPartnership.com,
+	andrew@amutable.com,
+	brauner@kernel.org,
+	jbingham@gmail.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	sergeh@kernel.org,
+	taherafahimi@linux.microsoft.com
+Subject: Re: [PATCH RFC v3 24/90] cells: add the cell object and cell_create()
+Date: Fri, 27 Nov 2026 05:09:01 +0300
+Message-ID: <20261127020901.3649055-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261105-b4-cells-v3-24-bc9095937a84@toxicpanda.com>
+References: <20261105-b4-cells-v3-24-bc9095937a84@toxicpanda.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -69,165 +103,36 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHc6FU4KLxzoQ6NJQUnFfcbKufqwqdhfcGhva9V44K=J7HCXRg@mail.gmail.com>
-X-ClientProxiedBy: cncheex06.Hygon.cn (172.23.18.116) To cncheex04.Hygon.cn
- (172.23.18.114)
 
-在 Thu, Nov 26, 2026 at 03:32:08PM +0100，Andreas Gruenbacher 写道：
-> On Thu, 26 Nov 2026 at 13:20, Huang Shijie <huangsj@hygon.cn> wrote:
-> > 在 Wed, Nov 25, 2026 at 11:25:12PM +0100，Andreas Gruenbacher 写道：
-> > > Huang,
-> > >
-> > > I have some thoughts ...
-> > >
-> > > On Wed, 25 Nov 2026 at 10:18, Huang Shijie <huangsj@hygon.cn> wrote:
-> > > > This series adds a superblock inode iterator and converts the open-coded
-> > > > sb->s_inodes walks in the VFS to it.  The design follows the cursor-based
-> > > > construct proposed by Christian Brauner:
-> > > >
-> > > >   https://lore.kernel.org/all/20261120-mitverantwortlich-drehbaren-kantholz-241300d20168@brauner/
-> > > >
-> > > > and is the same direction as Dave Chinner's patch set:
-> > > >
-> > > >   "vfs: improving inode cache iteration scalability"
-> > > >   https://lore.kernel.org/all/20241002014017.3801899-1-david@fromorbit.com/
-> > > >
-> > > > The caller owns the iterator state and drives the walk itself:
-> > > >
-> > > >   CLASS(sb_inode_iter, iter)(sb, eligible, priv, flags);
-> > > >   while ((inode = sb_inode_iter_next(&iter)))
-> > > >           /* do stuff */;
-> > >
-> > > The pattern should be:
-> > >
-> > >   for (CLASS(...); ...; ...) {
-> > >       /* ... */
-> > >       if (/* end iteration early */)
-> > >           break;
-> > >       /* ... */
-> > >   }
-> > >
-> > > so that the iterator goes out of scope immediately when the loop ends.
-> > > Hide the details of the loop header in a macro and that this becomes:
-> > >
-> > >   for_each_inode(inode, sb) {
-> >
-> > The fs/jffs2/build.c has used this for_each_inode.
-> > Maybe change to for_each_sb_inode?
-> 
-> That's the least of all problems; just rename the jfs macro.
-> 
-> > >       /* inode is referenced and unlocked here */
-> > >   }
-> > >
-> > > Use that to convert the simple cases.
-> > >
-> > > And then we've got preconditions that are checked while the inode is
-> > > locked. Those can probably go in an expression:
-> > >
-> > >   for_each_inode(inode, sb, expression) {
-> > We still need add flags here.
-> >
-> > In evict_inodes() and hook_sb_delete(), only the expression is not enough.
-> 
-> I know, these are the two cases that check i_count before the inode is
-> even locked. Leave them as they are for now; we can get back to that
-> later.
-okay.
+Josef Bacik <josef@toxicpanda.com>:
+> +	char			hostname[__NEW_UTS_LEN + 1];
 
-> 
-> > How about add a raw code like this:
-> >
-> >     for_each_inode_raw(inode, sb, expression, flags) {
-> >     }
-> >
-> > And add a macro for_each_inode:
-> >   #define for_each_inode(inode, sb, expression)  for_each_inode_raw(inode, sb, expression, 0)
-> >
-> > Most of the cases, we can use the for_each_inode.
-> >
-> > But in the evict_inodes() and hook_sb_delete() we can use the for_each_inode_raw.
-> 
-> No. Convert the simple cases first, with iterator constructs that are
-> as simple as possible. Later, worry about the more complicated cases.
-Got it.
+Okay, so "hostname" is present in cell struct, and I don't like this.
 
-> 
-> > >       /* expression was true */
-> > >       /* inode is referenced and unlocked here */
-> > >   }
-> > >
-> > > This unfortunately cannot be implemented on top of the
-> > > sb_inode_iter_next() pattern, at least not in a reasonable way, so we
-> > > actually shouldn't use that pattern.
-> > >
-> > > The locked iterator would look like this:
-> > >
-> > >   for_each_inode_locked(inode, sb) {
-> >
-> > I tried this way today.
-> >
-> > The macro for_each_inode_locked is complicated.
-> > When I tried to add more hooks to super_operations to implement the
-> > procfs issue, the for_each_inode_locked becomes more complicated.
-> >
-> > BTW: the procfs issue see the link:
-> >   https://lore.kernel.org/all/20260920072811.2064247-1-huangsj@hygon.cn/
-> 
-> Introducing reasonable inode iteration constructs is a completely
-> separate problem from introducing per-super block inode iterators.
-> Please keep those issues apart.
-okay.
+As well as I understand, this field is only used during configuration phase.
+When cell actually running, hostname is present in both struct cell and
+in actual UTS namespace. This confuses both people and LLMs, and invites
+for bugs.
 
-> 
-> > >       /* inode is locked here */
-> > >   }
-> > >
-> > > This doesn't cover all existing cases, but that's okay. Don't force
-> > > things into this pattern that are not a match.
-> > >
-> > > We can always extend things further if it makes sense.
-> > >
-> > > > The lock does not span iterations.  sb_inode_iter_next() takes
-> > > > sb->s_inode_list_lock, takes a reference on the next inode, drops the lock
-> > > > again and hands the inode out; the reference is what keeps the cursor on
-> > > > sb->s_inodes so that the next call can resume from it.  As the iterator
-> > > > is a cleanup class, a caller that breaks out early does not have to call
-> > > > sb_inode_iter_end() explicitly.
-> > > >
-> > > > Two optional channels let a caller keep its own state instead of filling in
-> > > > a shared context:
-> > > >
-> > > >   - iter->eligible is called with inode->i_lock held, so that a caller can
-> > > >     reject an inode before a reference is paid for.
-> > > >
-> > > >   - iter->status carries an error out of the walk.  Setting it to a
-> > > >     negative value makes sb_inode_iter_next() return NULL.
-> > >
-> > > Nobody needs that. Just break out of the loop.
-> > >
-> > > > Most callers just want a referenced inode and use no flags at all.  Three
-> > > > flags cover the walks that need something else:
-> > > >
-> > > >   - %INO_ITER_F_REFERENCED restricts the walk to inodes that still have a
-> > > >     reference, preserving the "only handle referenced inodes" rule of
-> > > >     landlock's sb-delete walk.
-> > > >
-> > > >   - %INO_ITER_F_NOREF hands out only inodes whose reference count has
-> > > >     already reached zero, and %INO_ITER_F_NOIGET suppresses the reference.
-> > > >     Neither keeps the inode alive, so the caller has to make the inode
-> > > >     unclaimable itself.
-> > >
-> > > No flags.
-> > If we do not add flags, we cannot convert the evict_inodes() and hook_sb_delete().
-> 
-> No flags.
+It is possible there are other fields in cell struct with similar properties.
 
-Okay. I will start the V5 right now.
+So, I think we should do something similar to what we do in fsopen/fsmount:
+separate configuration context and actual cell. At least in kernel.
+And possibly even in UAPI. At very least, please, fill "hostname" with zeroes
+when cell is actually created.
 
-Thanks
-Huang Shijie
+It is possible that what I said applies to other fields in "Slots." section,
+too.
 
+I already said previously that "root" field can be recalculated-as-needed
+using topmost_overmount. Also I already said that "exit_status" should
+be delivered using usual "waitid" mechanism.
+
+So, it is quite possible that whole cell struct is not needed at all, and
+we should replace it with some kind of configuration context, and when
+cell actually starts, then that configuration context should be deleted
+and replaced by usual struct user_namespace.
+
+-- 
+Askar Safin
