@@ -1,60 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.5
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795773459;
-	b=SK3jZ0XJrVQtzLOMMQg7puwcFgxzGKkw5LwUC0oJT1x77vYWsN2H8C9VchC2GvOMJNia
-	 nKawCjpUk6NnU2es5Wlb1zTfJ78ukWknJ+KDms15mVUhJkiwJ69ofQNPRMrGCqAAueSyO
-	 03s0sjGrc6J7ywbGorg17lGFKmYiQKtIrpj1xR3ZoBB/SbmTYHWzvOl2mkEnr9/QRNTiq
-	 zXqK5byzlBN8GbioHa6tID0bcXYGduHmkLoHcuLfy4Xdm2a6ugut3GmhVcu8C+eyIw/w1
-	 FNoLh8iF8YYyY02oWKrlpnFC1BnLdz2/02IuTb6mVFG+rjeoVy0dR4XlVLzH6UpXwUA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795773459;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
-	bh=69+4bHVY7J3UMA/5+KV1w/FUHDxIBD0PWF/YGVpWFJc=;
-	b=NAbVlsdZXukTB8+3tyWES6ek4f38ApDCRQzTHrZIYabqpOEroyZCnzH5R8C0/SIYDwFl
-	 qB8IsQZBmE9EWPW1QzSIeTXIzjWrvPidThaaplNsLx25mbK46YqnTEyBTBNAbJac5Q6Gj
-	 cKqWEEVDE13yPxSFXIGGFDONi2BC9KFFdoG1oOq7egvIWrti95r8fQujBYwRZG5fVUHOo
-	 ucNFX+8HNc7ooNyN6nUTsiwESki9MduVcD2ycUTnr0VLprxq6e+SZ4EgglOqRR/ct44JR
-	 LLmc4MBKhFCTeJzJLbSeUG+PZ4TSZqXkymayO9xlbgHcFA6D211xComHE2fYof4aQHQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=GmRyzO0+;
-	arc=none smtp.remote-ip=117.135.210.5
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.50
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795774452;
+	b=ZXiAkXyaYj8HKqT6gNULCOCkcsjSWsvFsXolxbUp6cFNmIZlgN6hGO7guRNVBPZetDZ/
+	 o+rW2Nd/2Bz2IReZW1U12fJhpZBjYroIIjqcIB8g3kIL88cLc1ApKO/bgdzUEqvSa15Tw
+	 yxnpzii7P3l//VI8psUpPOCjwVMRatpOHrvzs5R45APoJNY23eadwPQLFKhiWupYn68hs
+	 LmXtqe6NCMlkHRQCK/NbXOH1Z6dgeuI4UM+xZ6sJxSLkFSEK7sTqUo4HjtTWd8E3HtoDJ
+	 TY3JyZuy0H9/PCwBfMuk7dF2Xcjlkpi1Dvcxvjg9Q/VkyKD+2naOE0xmZLYfuFBM1VQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795774452;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type;
+	bh=pnSZi82mVfZLS6PwIZVcWPzE7AlvW48La+q7lJF7NRc=;
+	b=4kUjt6oVcs6jc5DvJn005C7jKKAOYehL1aLrjdWyIlnfrX914YuvETKq/oMayPj1wGFU
+	 wlmKGvurQA8hxPXTZeefSv6KF8xHucivHTAUjzKL5BkvOOCHP6ZKZ1C8IdfZytOMoalf+
+	 T4QrCn2WcMof7Yi/8wm4ZrEHB9gxjFNLPlBRS1MK5lPZQ8XnqXJP2nAMiIXNzu+4vH09O
+	 LAkrMgMJrQGc7oIcRrlajv+QckH9DrJfqkpYRxfehtB6XbrJzlED24bEu7CU+fR1a790x
+	 fDfYZpfIHJLYEvkqv9dykxqFP0Zc7Rmy6elgcVMYY8ouR9atd1MYOyAVDz0n2QdMIiw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YDGzarso;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.50
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2CC606A31C;
-	Fri, 27 Nov 2026 09:57:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D2CC606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFE060A2617
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 10:14:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0BFE060A2617
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=GmRyzO0+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=69
-	+4bHVY7J3UMA/5+KV1w/FUHDxIBD0PWF/YGVpWFJc=; b=GmRyzO0+tN4zGIMIzb
-	j+AT0kEkxcFLa4T5yIXw9h8inFXk0/9VmTjUI23Ips60frSGxQ6MpEvXY4DLcfAO
-	U3hxV3KGb7dBVhrTDrjYxADI2bCqcfnvSHKMcrncJU3WX7352YzsvAngFuruCaRC
-	1XeMZqyPkwhNUzR8sjvknbPkU=
-Received: from shaos.localdomain (unknown [])
-	by gzsmtp2 (Coremail) with SMTP id PSgvCgCXagrcUwlrG+rhHw--.25255S2;
-	Fri, 27 Nov 2026 17:56:45 +0800 (CST)
-From: shaos <shawnq1@163.com>
-To: shaggy@kernel.org
-Cc: Yun Zhou <yun.zhou@windriver.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	jfs-discussion@lists.sourceforge.net,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] jfs: reject self-linked directory tree pages
-Date: Fri, 27 Nov 2026 09:56:44 +0000
-Message-Id: <20261127095644.1193523-1-shawnq1@163.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YDGzarso
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6b87408c797so2004767a12.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 02:14:11 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795774450; cv=none;
+        d=google.com; s=arc-20260327;
+        b=mLu4UFtDWEpKh7u8f2LxfhggUJpv2BiQWlYcAN9mqdVMNGqqzSAxf5AtopFWMCurGL
+         aHdoKfeRW7+F3EcVLb78SBlA5jiC9wWgMj3LpvbTD8vzomvMB8PEZiWKKnYGGQ+s6S75
+         SyiQOlVfdJn7sG3jq87KpXa+tlYHxns4Tf6l9tgbS9mYCEjMpvHxH+jBCvFOFlGa/WXn
+         Zep/iXakBW0JhPI8OAraHf/nPeMCz2Qz58IxBK0iSLC3ZTaYvrXTGkInj9x6By7bNY6K
+         ymAAa88e/DuYN1bUB0XXw6Cm3r70vapAW52gmwkhSX2ngzILFxkI4RttkrTR6FnAXFLi
+         0VqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=pnSZi82mVfZLS6PwIZVcWPzE7AlvW48La+q7lJF7NRc=;
+        fh=h7a3ieOCIfsDkewaschEgwVSAYTabpObQzyC49WCE4g=;
+        b=WbzCl1bbOD8JryzXZlfjOa2g2nQie4eOwrm3MyuASXVO08F3PVPX4gDT0V13r2eAKB
+         Xw5d3+xRFxn+Bnc+VhXvIMwruqtR0yhLZ3pbBfabpjO8omVWAAS9UMFZ1yuV3romVwnz
+         rLLXmr+YCQ9bX2JOHmLnVcFwhlvV48gKlQXeqqaMeyyJXUZEgS50bop3X7LyZSpuG5lz
+         FYdw0Yyl/RrBfy+xj4C+JW+3lxUmqZHKucvNy2WCegz0vlxsm8EF8ykQGc7yu91StjXP
+         3mmCCvtFpB0igqIW9JyFwiQiPsjCm82G/wtwEGEpw8wHLODrJRIqxGxoY7fQvE4BtJpC
+         TCYQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795774450; x=1796379250; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=pnSZi82mVfZLS6PwIZVcWPzE7AlvW48La+q7lJF7NRc=;
+        b=YDGzarsoRdrYESd0WQH9jBHguYTwQ4MWdevK+E8KmC2uyYZLyscJgJwBjwonhC0NwT
+         Bpl0R8s2k8kM3FuRv9FJf/wNwnI4Fc8/M8oqwnbMB+SuPWfh5FQpVSPenWXXWhy0LSkG
+         sihB80deO7zB26y3FM3Qxo63SaGHV4Hlk0xud2yxHvlJcFdpP2r7KfcKkQcS7J5mMOIk
+         yNq+7yigz9q0FaWoAyhrYX8dVr28Zsxpht995AvRZ0JNonpCR15863AMxYKEzaVj9BIN
+         ZE+9pctjIYTqfK5r0M9n6Op5Mo20Hpx0XYCb1SgrrnlTiDwGGAuSqSE2STS7RkRnUD6U
+         JwxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795774450; x=1796379250;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=pnSZi82mVfZLS6PwIZVcWPzE7AlvW48La+q7lJF7NRc=;
+        b=NWjivLBjWTK1JpOfD1XuGc/BjTAXz/TclcoU2BBF71ak4fc9azgcE40L+fD/GwTgT3
+         aFOmBRGwF2iXp20qiGI0lYiYF6dqu7wdMxwJtF3d/45ZlTPzNcwACGd0zdWcom71MvdC
+         3mFbFjDooH5n7UtFQKboIfBicKT19+7ndACO+Eeeo230/Q9bV/qf+ScxgSxdknZLN68z
+         x+oCztbt0PPoGb77ENibhi3MB5IIiqGeAtrYBshHijLWJTILee7TpGNPDc28b6k2AecU
+         Gnc0g1s+WHI215NsRLJxZ9PpLFkocr6VP4lSNQk0EaFYPrUJTNbSgokDMORylJLJR+mQ
+         zhug==
+X-Forwarded-Encrypted: i=1; AL+hErF6Al1zfpVjy2qw+3WQNsdpAIn3cupUR0fUqC2XfBuKJOMKboOoGgA6dvMbBkukl+9QUzgatFREQFg9S9mP@vger.kernel.org
+X-Gm-Message-State: APuU4Z88fuXdgn08UB+ZIjuAZHBpOclWHSfH5pYIeBfFmzAL/dr07lp3
+	kaKV0fpvNkysJF3vtnRBihopNIeHg82NnHHOkJkWxOIvqmsRNBNy2Sw67gDpAEC3UqXE7I1THbP
+	d350O5FczVZ+BvQFCn8W1dmO68cbu0wI=
+X-Gm-Gg: AZFdTZeDTLmEaJu2oHIOMm6VjpUYCAo79fASFgPR5sNl6i6Uctk8h+Wgf5qg3zop6g5
+	C2HSAK37r4iZFCjnkPA3c5bWb7KWvnR5gZ5WCKSFgow2bzt9tpo68fT7dDZZF1OwSoykYRK9FV/
+	4MWqLCiQ8Ls40wGpYi49mTg1He1g1E+mwZmIcXQVIYOXXIzmgoEaSu7rBhqS/Ut/10+VIKUKPyU
+	LIHxLhOWJylXhOi1Trqx77pHfo3eyObZ7hh8cktin/3txKO6730LZKKZjgEcXC7FDz3rLKrWNXE
+	jKtPrGF45Ft1t6tJbl8ZbaCA8ZMVOBfPUoAKNAOlKgfLs/nLT2p0A7ya0udr8EEnLvrNb/Ij6Kz
+	O+ctX3VcWR9tDSBlwCj3k/K3/8khzuUjeSbOPLQldbYy/Cj9JOGQMI+GDQuUf/GyMbATv5c5d+Z
+	sqbn/qkeOEDA6t72IG
+X-Received: by 2002:a05:6402:44d2:b0:6b4:5d8c:95e2 with SMTP id
+ 4fb4d7f45d1cf-6ba37c7a0dfmr13780450a12.4.1795774450046; Fri, 27 Nov 2026
+ 02:14:10 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -64,195 +102,36 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PSgvCgCXagrcUwlrG+rhHw--.25255S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3Xw4fCrW8Xry7Xw47WrWrAFb_yoW3JF17pw
-	1fCF1ftr4kKr4UAw1xGF4kZayfC3ykJrWYy3Z7Gw4xCasYqw17urySyr13Z3W2qrWkW3ya
-	9r4jgr129ayUKaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jOtxhUUUUU=
-X-CM-SenderInfo: pvkd40jtr6il2tof0z/xtbC8h0pN2sJU90TYAAA3u
+From: Abhishek Khade <abhishekkhade69@gmail.com>
+Date: Fri, 27 Nov 2026 15:43:32 +0530
+X-Gm-Features: Aa3M54oFJndZgHbtbGYTQ8JLkfWXcGRfcl4DQYm07uiwGxgi46GejzDgXxTGmzU
+Message-ID: <CANspbQrVUG8h5ZWBW6croG=+VnDoseeJvPwid=gYazA4aKRjOQ@mail.gmail.com>
+Subject: [RFC] bpf: Is an open-coded bpf_iter_mount kfunc wanted?
+To: bpf@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
+	brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-A malformed JFS directory leaf can point its next or previous
-sibling link back to its own block.  check_dtpage() validates the
-page's slot metadata but accepts either self-link.
+Hi all,
 
-For an empty leftmost leaf, jfs_readdir() emits no entries from the
-page and follows header.next without making progress.  A single
-getdents64() then loops in kernel context.  A crafted image reproduces
-this on a read-only JFS mount.
+Before writing any code, I wanted to check if there is interest in an
+open-coded BPF iterator for struct mnt_namespace mounts
+(bpf_iter_mount_{new,next,destroy}).
 
-Reject a non-root directory page whose sibling link names its own
-block.  Save the requested block number before BT_GETPAGE() so the
-validator can compare the page links with the block that was read.  If
-the leftmost page is rejected, leave the directory position at EOF so
-a later getdents64() does not retry the corrupt page after returning
-the already emitted dot entries.
+I tested doing this without a kfunc in a BPF program first:
+- Using bpf_probe_read_kernel() + bpf_for(), a BPF program can walk
+  ns->mounts (rb_node) and read scalar fields like mnt_id and
+  mnt_flags, though without namespace_sem protection.
+- However, pointers obtained via bpf_probe_read_kernel() become
+  untrusted scalars, so the verifier rejects passing them to VFS kfuncs
+  such as bpf_path_d_path() or bpf_get_dentry_xattr().
 
-The reproducer uses a 16 MiB JFS image with one valid empty leaf at
-block 112.  The trigger has header.next=112; the control changes only
-that field to zero.
+If an open-coded sleepable iterator (taking namespace_sem during step
+lookup and returning a trusted struct vfsmount * or struct path) would
+be useful for BPF LSM / tracing use cases, I would be happy to work on
+an RFC patch and selftests. If bpf_probe_read_kernel() or userspace
+listmount() is preferred instead, please let me know.
 
-HEAD commit:    8d7fe9885c62fc9a95bf55d9db244d9672a8aadc
-git tree:       fe970b05333fb8e41da21e9e289f652abcc7cba7
-source version: Linux 7.4.0-rc4
-compiler:       gcc 11.4.0, GNU ld 2.38
-
-Console output:
-https://gist.githubusercontent.com/shaos26/111949c00d3d0b42fe7a11e90f0f47fb/raw/dde677d84dbf51c6bc82fc81535aefae86370afd/console-output.txt
-Kernel config:
-https://gist.githubusercontent.com/shaos26/111949c00d3d0b42fe7a11e90f0f47fb/raw/dde677d84dbf51c6bc82fc81535aefae86370afd/kernel-config.txt
-PoC:
-https://gist.githubusercontent.com/shaos26/111949c00d3d0b42fe7a11e90f0f47fb/raw/dde677d84dbf51c6bc82fc81535aefae86370afd/poc.c
-JFS image builder:
-https://gist.githubusercontent.com/shaos26/111949c00d3d0b42fe7a11e90f0f47fb/raw/dde677d84dbf51c6bc82fc81535aefae86370afd/mkjfs_cycle.py
-
-Build the test kernel from the specified commit and config.  Required
-tools are gcc, make, cpio, gzip, Python 3 and QEMU.  Run these
-commands to download the files, build the kernel and create both
-images and the initramfs:
-
-    work=$(mktemp -d /tmp/jfs-readdir.XXXXXX)
-    cd "$work"
-    gist_id=111949c00d3d0b42fe7a11e90f0f47fb
-    gist_revision=dde677d84dbf51c6bc82fc81535aefae86370afd
-    gist_base=https://gist.githubusercontent.com/shaos26
-    gist=$gist_base/$gist_id/raw/$gist_revision
-    for file in console-output.txt kernel-config.txt poc.c \
-        mkjfs_cycle.py; do
-        curl -fL "$gist/$file" -o "$file"
-    done
-    git clone \
-        https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-    cd linux
-    git checkout 8d7fe9885c62fc9a95bf55d9db244d9672a8aadc
-    mkdir build
-    cp ../kernel-config.txt build/.config
-    make O=build olddefconfig
-    make O=build -j"$(nproc)" bzImage
-    cd ..
-    python3 mkjfs_cycle.py trigger trigger.img
-    python3 mkjfs_cycle.py control control.img
-    mkdir -p rootfs/dev rootfs/proc rootfs/mnt
-    gcc -O2 -static -Wall -Wextra -Werror -o rootfs/init poc.c
-    chmod 0755 rootfs/init
-    (cd rootfs && find . -print0 |
-        cpio --null -o -H newc --owner=0:0 |
-        gzip -9) > initramfs.cpio.gz
-
-Run the vulnerable kernel with the trigger image and then the
-one-field control:
-
-    kernel_cmdline='console=ttyS0 earlyprintk=serial nokaslr'
-    kernel_cmdline="$kernel_cmdline panic=1 oops=panic"
-    qemu-system-x86_64 -machine pc -cpu qemu64 -m 1024 -smp 2 \
-        -kernel linux/build/arch/x86/boot/bzImage \
-        -initrd initramfs.cpio.gz \
-        -drive file=trigger.img,format=raw,if=virtio,readonly=on \
-        -append "$kernel_cmdline" \
-        -nographic -no-reboot
-    qemu-system-x86_64 -machine pc -cpu qemu64 -m 1024 -smp 2 \
-        -kernel linux/build/arch/x86/boot/bzImage \
-        -initrd initramfs.cpio.gz \
-        -drive file=control.img,format=raw,if=virtio,readonly=on \
-        -append "$kernel_cmdline" \
-        -nographic -no-reboot
-
-The trigger kernel stays in state R, with CPU ticks advancing from
-100 to 142.  Its stack includes check_dtpage() and jfs_readdir();
-it remains in state R at tick 206 after SIGKILL.  With the patch
-below, the trigger logs the rejected self-link and getdents64()
-returns the dot entries followed by EOF.  The control also completes
-normally.  The console file contains all three runs.  To build and
-check the patched kernel, save the diff below as fix.patch in the
-Linux source directory, then run:
-
-    git apply --check fix.patch
-    git apply fix.patch
-    make O=build -j"$(nproc)" bzImage
-
-Run the same two QEMU commands with the rebuilt kernel to check both
-images again.
-
-This is a local denial of service when a crafted JFS image is mounted.
-The test used a read-only mount.  It demonstrates no memory
-corruption, information disclosure or privilege escalation.
-
-The patch was built against the same source tree and config.  The
-positive and control images were both tested with it.  The PoC builds
-with -Wall -Wextra -Werror.  The patch passes
-scripts/checkpatch.pl --no-tree --strict and git apply --check.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Signed-off-by: shaos <shawnq1@163.com>
----
- fs/jfs/jfs_dtree.c | 21 +++++++++++++++++----
- fs/jfs/jfs_dtree.h |  2 +-
- 2 files changed, 18 insertions(+), 5 deletions(-)
-
-diff --git a/fs/jfs/jfs_dtree.c b/fs/jfs/jfs_dtree.c
-index 8ce6e4458cc256a88c596748f5b0dc611a85a184..3058c56c758994ff35a9c6e26dfd6a00e9bb2678 100644
---- a/fs/jfs/jfs_dtree.c
-+++ b/fs/jfs/jfs_dtree.c
-@@ -113,9 +113,10 @@ struct dtsplit {
- /* get page buffer for specified block address */
- #define DT_GETPAGE(IP, BN, MP, SIZE, P, RC)				\
- do {									\
--	BT_GETPAGE(IP, BN, MP, dtpage_t, SIZE, P, RC, i_dtroot);	\
-+	s64 dt_bn = (BN);						\
-+	BT_GETPAGE(IP, dt_bn, MP, dtpage_t, SIZE, P, RC, i_dtroot);	\
- 	if (!(RC)) {							\
--		if ((BN) && !check_dtpage(P)) {				\
-+		if (dt_bn && !check_dtpage(P, dt_bn)) {				\
- 			BT_PUTPAGE(MP);					\
- 			jfs_error((IP)->i_sb,				\
- 				  "DT_GETPAGE: dtree page corrupt\n");	\
-@@ -2826,8 +2827,12 @@ int jfs_readdir(struct file *file, struct dir_context *ctx)
- 				return 0;
- 			}
- 
--			if ((rc = dtReadFirst(ip, &btstack)))
-+			rc = dtReadFirst(ip, &btstack);
-+			if (rc) {
-+				/* Avoid retrying a corrupt first page on the next call. */
-+				ctx->pos = DIREND;
- 				return rc;
-+			}
- 
- 			DT_GETSEARCH(ip, btstack.top, bn, mp, p, index);
- 		}
-@@ -4381,12 +4386,20 @@ bool check_dtroot(dtroot_t *p)
- 	return true;
- }
- 
--bool check_dtpage(dtpage_t *p)
-+bool check_dtpage(dtpage_t *p, s64 bn)
- {
- 	DECLARE_BITMAP(bitmap, DTPAGEMAXSLOT) = {0};
- 	const int stblsize = ((PSIZE >> L2DTSLOTSIZE) + 31) >> L2DTSLOTSIZE;
- 	int i;
- 
-+	/* A directory page cannot be its own sibling. */
-+	if (unlikely(le64_to_cpu(p->header.next) == bn ||
-+		     le64_to_cpu(p->header.prev) == bn)) {
-+		jfs_err("Self-referential sibling link in dtpage %lld\n",
-+			(long long)bn);
-+		return false;
-+	}
-+
- 	/* Validate maxslot (maximum number of slots in the page)
- 	 * dtpage_t slot array is defined to hold up to DTPAGEMAXSLOT (128) slots
- 	 */
-diff --git a/fs/jfs/jfs_dtree.h b/fs/jfs/jfs_dtree.h
-index dfc87b6690a9a8e9f4e080a7f28abb7bd89f0e85..c62e3b8b5441a9c5bca93c646656deeb3f0246c7 100644
---- a/fs/jfs/jfs_dtree.h
-+++ b/fs/jfs/jfs_dtree.h
-@@ -256,5 +256,5 @@ extern int jfs_readdir(struct file *file, struct dir_context *ctx);
- 
- extern bool check_dtroot(dtroot_t *p);
- 
--extern bool check_dtpage(dtpage_t *p);
-+bool check_dtpage(dtpage_t *p, s64 bn);
- #endif				/* !_H_JFS_DTREE */
--- 
-2.43.0
-
+Thanks,
+Abhishek Khade
