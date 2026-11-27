@@ -1,57 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795783487;
-	b=Uh7BVX9Ol+hzZ3vMhC66CVq/n7lzL9sIMMmIQ76f64SICGOus/1h+O3ZDl475m62dVaj
-	 UQ05ZSv4ee5ySsO1KhF6hg1KXq/JWiAogZbGgHNBq14LKM4jL51UZs12b8CT7QgK7E9UD
-	 7pJU5FxaCH3eZKmOQI4Rt6aXfotis87URvRJ9PzfSxvMjxBTsoDiJDEGIoNz2BJefkbBy
-	 gtCUi8eWikCxdZLhXkGZmE+CadgGdv0CCtm7QTlKKKpV4lozovC4kYA5d+1AypFwG5uFq
-	 6OQxs1hVy3JOvf0FgNrWBNaNzNTIUOXofvr4NUHpfa7PSkhlnIuxPLNPkFRhfD9G0qw==
+	t=1795784176;
+	b=I1VqfUaPWe5NjITbexboNKkwshlsv3ffBfDHJU+pV104Zd3ir676L968/MzVfI1/Y03e
+	 vO7kaP74fLcDpATVm5fr9kS6ibEyUPDW6akdpf03mgOKIhKFW0WdzH2n0E6DlzO23Hhoo
+	 bjlnyToWZWzl1Yo7uD8y2HGnDE1ZswP0R196mE2IYJ6MHRUPwydQQyuB864iYeCPm7lsg
+	 U/5QfUjwEvXlPsIxInYdqZXWRMOUUbRENf21WFBOMtLjj01ccvi6oi4ffgy0HF94gxdD5
+	 JH9/Ihn8t7I6u6DhqxlkKq4ohKLfGCE/wpF0a9CrlJFPZee9TabNpH2u4EOCjM1rG0Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795783487;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795784176;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=BxBd7ZrhVtgSV9+k4LOzKVE9A0u/94jVSEWlYBZhNK4=;
-	b=0v1g3VAbG6bTO8IXzjY+4douU/WKzrh7DQW1FnzvM2i8szAdiGPfFXwW4JNDUcsSXVgU
-	 Tbrfh/WrFRQI33y9y7cZrnXVpUpRwIVUxqfnbiQlS5zvsFYb/2sUk7DQMkjJUxNLyi051
-	 y+5FbEm+w43jgmlVH3OL4MGazn4GbofrjlCJ8ITajD3Il+jm7nXn14ncxq6WnFzeRUS+R
-	 iOtTNAWCWsW3U96z8KzI6k5QYl9E3MxuKR2TDy+ynuFNU52ws3YV+4NaveqvutiuUjUsU
-	 lJRslZgYjck7/ig7pk4I7m2tiZurfPiNKCFsbK1UVV9hJfuQcSIJJ5U5KNuYsmL66jQ==
+	bh=VCgU5Kg2KvKrAQHYH6tU0m/C/hUcvMv2qP9GBHYvr3o=;
+	b=G9MORe3B3wStWoM7Bov8p0/dHuc/tjrR4NBJHk/slek4r8+cWA2ebT8+xWhxeYslr64N
+	 smbfMwzuZNU59IKpUKVW9zLLdEDHO1LcGpu/ZeEfH9P1u5dH3+bk42tUj+sXa760ILFUn
+	 V62GEuzSEOmA917zd+eWlc2FDEl7uEJAyXUDM0C7ZyGfuOpDCOx1FkEpxQYZjT2FbnAPK
+	 2FxXrxNp6ZaJnu5beAmL1etXGBppas2W+pn7n+dZ2zCUETPVcUcLXsG2XQup62LQ9TMuh
+	 XY0C3tzRSFaoHKe/FueQh9JIl38mXyzDsddFJC3X/UoJdEQZSJwRjIVRKdygMxMsO1Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IIN3kDkI;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G1NP2Erz;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935EB606A31C;
-	Fri, 27 Nov 2026 12:44:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B1C606A31E;
+	Fri, 27 Nov 2026 12:56:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IIN3kDkI
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C6C51F00897;
-	Fri, 27 Nov 2026 12:44:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G1NP2Erz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF9CD1F00893;
+	Fri, 27 Nov 2026 12:56:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795783486;
-	bh=BxBd7ZrhVtgSV9+k4LOzKVE9A0u/94jVSEWlYBZhNK4=;
+	s=k20260515; t=1795784175;
+	bh=VCgU5Kg2KvKrAQHYH6tU0m/C/hUcvMv2qP9GBHYvr3o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IIN3kDkIZvfcdUUjkTclzJQgOCXPBj8GcRDz3oZpg97tHIFP5keNlhQqsG/7M4xwS
-	 TgZoUtsnN6ZM0D0eU04udfYMFst49UidgsBDxBWA7Ka0JCSseRkJ/GRlVEwDB4X/ZR
-	 TYXXHecJ55qh4bjJ1aFv3C3V20Qdx5xci0lqaz5qnZf2LRBdGMHOQi/mm0UqZXDiAb
-	 v4ckAA2PaBnE+lEStS8x+nUPCGZFL5yF51J32L273fMXmmZD99V3MD96oyCj1ULER3
-	 +LYDI2VVUqJFa/3k9Q3eEhENh4LJXORwQ/2InqL5B+e4NK7AqwdGy0Wtp7WQz5NetH
-	 yWKPuL5uzKjZw==
-Date: Fri, 27 Nov 2026 13:44:40 +0100
+	b=G1NP2ErzHAioaVQ+nq2m7ayY7YcxNVkVJBX390lHxNjRrXeEYuztB/tbo/rgHtCrQ
+	 CKJDVzC2jFZT+wf5yZOlgXfYlfA6XYXwaitYBHL7K6Yov5uLo1Mp/5mMAtMpVEp6J6
+	 o9VeU2wzc0cJcsUJDFY5B3x73p4j7tzuJaDKOJHBOrYbLhfwPmEsBn2enO26FBiPuu
+	 FKIHmIbV5+GeNCmnmebxxQgy1ag4A7ecdWd/y4JvGOHSwRvPCG7jCmOxiYTj8S7NmG
+	 +tS6HLUhsEpLfhtX3W27g8tiiCOODNEfUdkh9XOS3x7z/CUZOfbG3fPmaIBlz0RTIv
+	 qlctJuf5Q13BQ==
+Date: Fri, 27 Nov 2026 13:56:07 +0100
 From: Christian Brauner <brauner@kernel.org>
-To: Lauri Gates <lauri.gates@gmail.com>, koraynilay <koray.fra@gmail.com>
-Cc: Dave Chinner <dgc@kernel.org>, Christoph Hellwig <hch@infradead.org>, 
-	linux-xfs@vger.kernel.org, Carlos Maiolino <cem@kernel.org>, 
-	"Darrick J. Wong" <djwong@kernel.org>, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-btrfs@vger.kernel.org, ocfs2-devel@lists.linux.dev, linux-nfs@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>
-Subject: Re: Concurrent FIEMAP on reflinked files serialises on the AGF
- buffer lock
-Message-ID: <20261127-disput-nestbau-wahlparty-c189ad680243@brauner>
-References: <DMZ4VQ7SZ07T.29WMPQ0BQZGSS@gmail.com>
- <20261119153222.65195-1-lauri.gates@gmail.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: ackerleytng@google.com, Alexey Kardashevskiy <aik@amd.com>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, David Hildenbrand <david@kernel.org>, 
+	David Woodhouse <dwmw2@infradead.org>, Fred Griffoul <fgriffo@amazon.co.uk>, 
+	Jacob Pan <jacob.pan@linux.microsoft.com>, Jianxiong Gao <jxgao@google.com>, 
+	John Starks <John.Starks@microsoft.com>, Michael Roth <michael.roth@amd.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Samiullah Khawaja <skhawaja@google.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Tarun Sahu <tarunsahu@google.com>, 
+	Vishal Annapurve <vannapurve@google.com>, Xu Yilun <yilun.xu@linux.intel.com>, 
+	Fuad Tabba <fuad.tabba@linux.dev>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org
+Subject: Re: [PATCH RFC v3 03/88] mm: shmem: Implement guest_memfd provider
+ operations for tmpfs
+Message-ID: <20261127-plagiat-bergtour-einfrieren-b73600501aca@brauner>
+References: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
+ <20261106-gmem-alternative-providers-v3-3-8484dde66a7e@google.com>
+ <20261120-provokant-zyklisch-schutt-55d8eddf2ce4@brauner>
+ <awBaeiUw0i-uEQzM@seanjc-mac.roam.internal>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,23 +71,28 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261119153222.65195-1-lauri.gates@gmail.com>
+In-Reply-To: <awBaeiUw0i-uEQzM@seanjc-mac.roam.internal>
 
-On Thu, Nov 19, 2026 at 05:32:22PM +0200, Lauri Gates wrote:
-> One constraint for that case: the flag has to stay out of
-> FS_XFLAGS_MASK. As I read your fileattr_to_file_attr(), every bit in
-> FS_XFLAGS_MASK is reported as supported on every filesystem, so a
-> plain flag there would read as "supported, not shared" on btrfs.
+On Fri, Nov 20, 2026 at 06:34:34AM -0800, Sean Christopherson wrote:
+> Eww.  I really, really want to avoid having to update KVM just to recognize a
+> new provider, and I shudder to think of the potential module dependency hell we
+> could end up in.
 
-Right.
+I don't think you have to. LUO solves the same thing without file
+operations:
 
-> Christian, with this mask on the way, would you take a plain flag
-> (say FS_XFLAG_MAYSHARE, "may have extents shared with another file")
-> that filesystems advertise through fsx_xflags_mask? If so, I'll build
-> the RFC on top of koraynilay's series instead of using the inverted
-> FS_XFLAG_NOSHARED.
+* Providers register a handler with the core.
+* The core asks each registered handler whether it owns the file:
 
-Yes, a plain flag is fine. It's simply the stx_attributes_mask model.
-Filesystems that have support raise the flag in the mask and everyone
-else just doesn't. I see that Amir's busy discussing some details in v2
-so maybe base the RFC on that series, I guess.
+	liveupdate_register_file_handler(&memfd_luo_handler);
+
+	bool (*can_preserve)(struct liveupdate_file_handler *handler,
+			     struct file *file);
+
+You should just do the same here, I think. So put a small provider
+registry into core code that is always built in and not into kvm.ko.
+
+Providers register a handler with a ->can_connect(file) callback and kvm
+walks the handlers when it's handed a file. This way kvm never needs to
+know about individual providers and the providers only depend on the
+registry but neither on kvm noor on each other.
