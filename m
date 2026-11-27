@@ -1,83 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795805478;
-	b=ei9KDuyl/veQMEGq72D1KRlgjI0iUnQjzvsUYTSWen4l3/zcA9HKMc0mbpr5tbYRYWQ6
-	 pIpKyjnnK/+/CCsEZbeP/s6DziCJDTOvmntChOLSfz+FaQFwetRUKqiN8P01auNKMHOOM
-	 2UStAmamj0w7d9sr13vRHgVdbVnHJCCWDWJUfA3lXONL0OI3izLcvV9gY9bTon2nzhNQP
-	 YzuOJiUyYjeA/VX28gMLugzL9kbVAqmFnKqe9OuNmke87SVxLsvMGbTKBtMRF800b8dbe
-	 stoKVxgSb3waEBt8Q34clVWjFSJmcNpfJkXSwqtamRyt2vnOw9VVb6uNQSsUwZuI7Ag==
+	t=1795808753;
+	b=prLLv2cU7Uln7T5DLBzSxr+NihgrnWPtl3LiPM8Sg6DYBTTgznUCv6MyvPlfv8YUrwUP
+	 7V/m6GL6RrX70UfuYYiOBRyU+UqlXVMKPz97gPy2fGbh5I2Rfgzupx/yqv/Fz8NV6Pm9J
+	 SlbswK6b16/6hYidZthcQDpX+wI1JJ9cDLasRZ6AnBQ/s3Lgks3++ZTb7EQTyxFOX+JL7
+	 TgrxY/orIhDod99orbZh7RNkxZDKYwltcYRPfNaIsZHhRry2EaU1HT1ekIKcmKU1BaAlG
+	 yphlW/hdHmPkZtCb20NtKEWtRHJeKXus1Blv+j2opX8OVwq+GjDUDAugta0RTVvk9tw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795805478;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:X-Mailer:
-	 References:In-Reply-To;
-	bh=JmL8LoMVs76VvbagqtHAZXdxFbOYrgh5zmv9OUe36GM=;
-	b=Sf0Nza8amSY/o6TBPxmFR2D8S61yLAy8E6tFP/b+v6x3kdy3NkIJCYsZcsnCJHUTAsg9
-	 YvvFOJNhOI71GxMsemRaLo6PgYn6evh2+9/HuzgdfwdlmfJ0HiLECWi93omVWnohBN6vP
-	 xerYD7lGTCHyTwiUqset1HL7gA+b0jY4i+2IVGSkKwW5Lg+S95DKHM1iwotSA2v+lN0fA
-	 IHeoOeTy64qkupTa50JcayQEAI6I64NRzn4EA5zzpqHrJTtljJ6lWrIjEqHrR48mE9OJc
-	 yrJXO89qo3XAJsVInD49AiAkWXefsv2MwVG7Cakp+oTtf7pNyh4VFHRMLq+MX6ljJUg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795808753;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=Ccqqo8bkY7xL+HYcO0JWuLLFtKCJUhxP0ky2YEXw5Wc=;
+	b=rsu0oxHDoOHNifXAzXBBjtHAi6xDfdFvSkGVdpBuNxG4VCZcSFxA+i3lEBKXjrZl/kn+
+	 2XWeXniVom7+HHV6/ZehkFAhIGjvLbb7IN3zHeW5Nb8Qk8mgNL8+d2Kn0TQvuOJHeG44j
+	 9HdvBZQZpd3bC9qyat03aImq65BAcH6rJS+tLO63mTgJBziZwU+mrP5hJF17+5xZ2G2fY
+	 7QAdzLgWg7kAel5unbJnXni3HYQCsn/Fn1BiV7eGruhHAEadC0KfJ0df8acWTsw1AEhZS
+	 2hJ35arCSM6oG6+8wDfBW85Ay86x7Bts3UdvLhpiCVCX7wPbT/xQBCIU8tmeS4ACA4w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=m3pNdptj;
-	arc=none smtp.remote-ip=209.85.221.46
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U1IJVo42;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E252B606A326
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 18:51:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E252B606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87850606A31C;
+	Fri, 27 Nov 2026 19:45:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=m3pNdptj
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4ac109a8a12so4995023f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 10:51:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795805476; x=1796410276; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:mime-version:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=JmL8LoMVs76VvbagqtHAZXdxFbOYrgh5zmv9OUe36GM=;
-        b=m3pNdptjqW81pY9NLNr665+hJMXwfSRIqlg9cV1mmo9g7662QC2nuYP6a74k3dZ3Iv
-         zvWxD2plIKeVWrLGkl0fu/pCXc3Vzo5AvT6VFc4h9ivwKjhKyhk7gIjLCx9npZwJUmyQ
-         Nk4TvX4IzB2micR2Tn6o+UKGujjmbSTrorSwb1pZ/GkQGqOji8LqBS5bCMicKVrMKepu
-         ioYd1kId/PYWHMgCja4C2aGhqgHUyOK5G1CCmNbKgHfRfy+Yjo4yFy+orjpyYzTB+iHt
-         M9/R5HRHUsAyOqHMXuprEzV4ETE8D3x09EMM2j33PoYMAXrIBvD7VzX01Z6gcTlyJABk
-         Dmow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795805476; x=1796410276;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=JmL8LoMVs76VvbagqtHAZXdxFbOYrgh5zmv9OUe36GM=;
-        b=FOJsAWdFf8aon2B1alw/Pkrs6puuMiB15qY6dhb4PvfRu0SpHV67BZr0Tz/uf8FKqe
-         jkP4mdDJuQ+7z8mSQHAxfg/edpKXXcISgRVbZDRSp0HzYJp2NwpO95JTITgKc/mhMDQK
-         2m8/n/lG5SR+Jv1/U5Q7443vbfBIVQEnXcv1l2UVo0Lah1IhIsqHiEC6agaDTCyBNEbu
-         gZ0ZWD3/IhmOODC/CCK8Gwh5WNnIbYVL7NLCv/cd6eSDsnXAMlAyUXjXGlKPYP/j5HHO
-         Vyyirj0NfI+PEmi/NAPRcdzg53P4tMrIXpV0dBkNfyXOX9m0grng5wtatvoCQ9U1JAbx
-         MaHQ==
-X-Forwarded-Encrypted: i=1; AL+hErE+pP4RLHbSGrJ2xJ9zwoK28yHWa0RvDVKfNkBHINUwhmiHiY8295lauNB6wU5hRSGH0ruRp1YgU9o4QAQO@vger.kernel.org
-X-Gm-Message-State: APuU4Z82HstqOx8u1ZF8XaygUQNmhjk3CnYnMPE4YRU8OV40KjUPRWcE
-	0WvF3unAuX64IalpKuvKrOXfbKL3S84Z6bqciQUqjgpV0lw60P15ozU7
-X-Gm-Gg: AZFdTZdNZvB6Uy7JNJFsQcra0D/GY9ReGMFEjXjiapUr7ROyH2p0ICemapVQ7Wiu4ZZ
-	hH2u/ZzMK2iuDGBTIId5lM4BrWZhfcCttwFEpsNbmp3heiQVOV9sf5waGwxJ3zMArJR/babigIu
-	vab5tOOa11ZMpAP5+0+3fAbsJaWqy94hR2aFq2+VIdg3NZx736gBGaFe3pgHNLTd2Af8AoWuCB1
-	x517mWZ0kRuPshB2z1K2w7+QySaRpTZkTlvTr6Y1qkAFA/xMYDeSKq4A11MbjDJfk8jRXMB9xK0
-	A7YtNNnnI4Wu9yMyPglewsmfzIly/nwrmzH87gmdafUG/WtD4IIUSYE6SU83pTW3ujw94JIeM/W
-	pOihuJaSSWkBR63h2dzIB3/DLNzDBh582HCTwpB/KxTCmW64rT0xLcV7I389lUIAct3HAntnVxb
-	rcmxpBpfYpWk03b7RAkY9tcST90OQcAPHoPrZzAUmOCQ7NWtLDc0a0Q1Lto6Y1hyI5YvTlpD2pa
-	nhmcgDSqAX07/PnI6cbsVsHUjwH/NP/9Jf1cBlsjl+O01F7hULpMW90B6rzBr6N4xMeWGI+dl5o
-	sQVQZTrOJgVBUCd2ZBwH/EzTLA==
-X-Received: by 2002:a05:6000:4812:b0:48d:b650:69aa with SMTP id ffacd0b85a97d-4abb55185e4mr49465105f8f.50.1795805475952;
-        Fri, 27 Nov 2026 10:51:15 -0800 (PST)
-Received: from localhost ([2001:b07:5d26:7a6a:365a:60ff:fe0d:cfc6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4bef07f9e0dsm4921752f8f.53.2026.11.27.10.51.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Nov 2026 10:51:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U1IJVo42
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07E441F00898;
+	Fri, 27 Nov 2026 19:45:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795808752;
+	bh=Ccqqo8bkY7xL+HYcO0JWuLLFtKCJUhxP0ky2YEXw5Wc=;
+	h=From:Subject:Date:To:Cc;
+	b=U1IJVo42+yjUoLPOMPFgOCbISQ+dYclpD5Wc8wo+oDtr3dO/WJ0X5NJGF6QfhT5zC
+	 afVN8BrYB2sSCkOLwhh6NVXWXeNFW9uj8RepxTvndcHK+8bTDEAB5hEIKKjE/lVW0D
+	 NfoV6+saJtZsP/ssWkugYBjUH6nmTB2iXjgZzJIF/m295J0HQ+vwvUxOI/xifuNzsT
+	 YRkRvKMFg004fYOQNepBRYO0icOTiiJyimCc6Sbl5zqFATngKBNAoObE6KKxCRZW8X
+	 UAxa9ZacZGlg4NI2y18B/hYfUEL0eUCMIJe0J+Ln5SN1X3aSHIfMLdUXaP48MDKir/
+	 z9IOtQ4GVGyFA==
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Subject: [PATCH 0/4] mm: AI-generated fixes for coda, madvise, mprotect and
+ PAGEMAP_SCAN
+Date: Fri, 27 Nov 2026 19:45:39 +0000
+Message-Id: <20261127-mlock-madvise-mprotect-ai-fixes-v1-0-e46b2b1eb435@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -86,110 +53,87 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=3d0117b6230d8b8a6a185cfbfe10dda73718c7f46272653fffdbe69dff91;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Fri, 27 Nov 2026 19:51:13 +0100
-Message-Id: <DN67WTNVL19F.1D5GOBP57BP1L@gmail.com>
-Cc: "Namjae Jeon" <linkinjeon@kernel.org>, "Hyunchul Lee"
- <hyc.lee@gmail.com>, "Eric Biggers" <ebiggers@kernel.org>, "Theodore Y .
- Ts'o" <tytso@mit.edu>, "Jaegeuk Kim" <jaegeuk@kernel.org>, "Alexander Viro"
- <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>, "Chuck
- Lever" <cel@kernel.org>, "Jeff Layton" <jlayton@kernel.org>, "Jan Kara"
- <jack@suse.cz>, "Alexander Aring" <alex.aring@gmail.com>, "Darrick J .
- Wong" <djwong@kernel.org>, "Andrey Albershteyn" <aalbersh@kernel.org>,
- =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, "Lauri Gates"
- <lauri.gates@gmail.com>, "Christoph Hellwig" <hch@infradead.org>, "Dave
- Chinner" <dgc@kernel.org>, <linux-btrfs@vger.kernel.org>,
- <linux-xfs@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-fsdevel@vger.kernel.org>, <ntfs@lists.linux.dev>,
- <linux-nfs@vger.kernel.org>, <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v2 3/4] vfs: add xflags mask to fileattr API
-From: "koraynilay" <koray.fra@gmail.com>
-To: "Amir Goldstein" <amir73il@gmail.com>, "koraynilay"
- <koray.fra@gmail.com>
-X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
-References: <20261126163114.403846-1-koray.fra@gmail.com>
- <20261126163114.403846-4-koray.fra@gmail.com>
- <CAOQ4uxhA+93bo5WseLxe7cAvJHJ8eQodoQHLwh=iToyEVkeXEA@mail.gmail.com>
-In-Reply-To: <CAOQ4uxhA+93bo5WseLxe7cAvJHJ8eQodoQHLwh=iToyEVkeXEA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAA/x3JQQqDMBAF0KsMs3agyaLFXKV0kcSfOtgYyYgUx
+ LsX+rbvZENXGAc6ueNQ07ZyIDcQ5zmub4hOHIj9zd+d8w+pn5YXqXE61CB1621H3iWqFP3CBAU
+ plZgwjpkH4q3jHxzo+bquHzj3+N9xAAAA
+X-Change-ID: 20261127-mlock-madvise-mprotect-ai-fixes-efebbfabe99c
+To: Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ David Rheinsberg <david@readahead.eu>, Hugh Dickins <hughd@google.com>, 
+ Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+ David Hildenbrand <david@kernel.org>, Jann Horn <jannh@google.com>, 
+ Alex Shi <alexs@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Pedro Falcato <pfalcato@suse.de>, David Rientjes <rientjes@google.com>, 
+ Rik van Riel <riel@redhat.com>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ =?utf-8?q?Micha=C5=82_Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>, 
+ Arnd Bergmann <arnd@arndb.de>, Stephen Rothwell <sfr@canb.auug.org.au>, 
+ Muhammad Usama Anjum <usama.anjum@arm.com>
+Cc: codalist@coda.cs.cmu.edu, linux-mm@kvack.org, 
+ Andrei Vagin <avagin@gmail.com>, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Chris Mason <mason@kernel.org>, 
+ stable@vger.kernel.org
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1860; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=aeycByJuRD6O/7hAo/Q3yNzTpVZuppfVH7qRNkz4Ftk=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLI5777YO2/KyWkxJqtOXjlWKXDuh/yZT2k1C7boac97V
+ as+89ftjR2lLAxiXAyyYoosz7+I7w8SCZvXecHfDWYOKxPIEAYuTgGYSPAsRoYHQa4OVmuFvZn0
+ /19aL/LFm2f2mwfX2xfJzV+3apHTozV7Gf6nt08vEvR/eG1pxdxnq7SsRVZEabRkrzRtifyakB0
+ TacAOAA==
+X-Developer-Key: i=ljs@kernel.org; a=openpgp;
+ fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
---3d0117b6230d8b8a6a185cfbfe10dda73718c7f46272653fffdbe69dff91
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+The usual stuff - glorious gifts of AI goodness transmuted into a smoother
+form by your's truly.
 
-On Fri Nov 27, 2026 at 6:48 PM CET, Amir Goldstein wrote:
-> On Thu, Nov 26, 2026 at 5:31=E2=80=AFPM koraynilay <koray.fra@gmail.com> =
-wrote:
->>
->> Add fa_xflags_rw_mask and fa_xflags_ro_mask to struct file_attr, both
->> __u64 to match fa_xflags' size, and bump FILE_ATTR_SIZE_LATEST to
->> FILE_ATTR_SIZE_VER1, which is now 40 bytes.
->>
-...
->
->>  #endif /* _UAPI_LINUX_FCNTL_H */
->> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
->> index a13c7b32a1bd..63d88ebe3420 100644
->> --- a/include/uapi/linux/fs.h
->> +++ b/include/uapi/linux/fs.h
->> @@ -238,10 +238,13 @@ struct file_attr {
->>         __u32 fa_nextents;      /* nextents field value (get)   */
->>         __u32 fa_projid;        /* project identifier (get/set) */
->>         __u32 fa_cowextsize;    /* CoW extsize field value (get/set) */
->> +       __u64 fa_xflags_rw_mask;/* supported writeable xflags (get) / fl=
-ags to set (set) */
->> +       __u64 fa_xflags_ro_mask;/* supported read-only xflags (get) */
->>  };
->>
->>  #define FILE_ATTR_SIZE_VER0 24
->> -#define FILE_ATTR_SIZE_LATEST FILE_ATTR_SIZE_VER0
->> +#define FILE_ATTR_SIZE_VER1 40
->> +#define FILE_ATTR_SIZE_LATEST FILE_ATTR_SIZE_VER1
->>
->
-> Man... we really need a bot to review all UAPI changes
-> Please someone tell the bot to check
-> NO LATEST/LAST/ALL constants in UAPI headers!!!
+Please check for any insanity. OK wait, let me clarify - in the patches.
 
-Forgot to add: maybe Sashiko can do it if asked nicely :D
+The only one that needs a backport is the first coda fixup, whereupon, in
+the unlikely scenario of a container manager doing something rather silly,
+we might end up with a dangling pointer.
 
-> Your patch does not introduce this constant in UAPI but if we change
-> it we risk spreading different versions in installed headers.
->
-> Honestly I see no reason for FILE_ATTR_SIZE_VER* to be in UAPI
-> either. For other UAPIs those constants are not in the UAPI header:
->
-> ~/src/linux$ git grep SIZE_LATEST include/linux/
-> include/linux/fcntl.h:#define OPEN_HOW_SIZE_LATEST      OPEN_HOW_SIZE_VER=
-0
-> include/linux/seccomp.h:#define SECCOMP_NOTIFY_ADDFD_SIZE_LATEST
-> SECCOMP_NOTIFY_ADDFD_SIZE_VER0
-> include/linux/xattr.h:#define XATTR_ARGS_SIZE_LATEST    XATTR_ARGS_SIZE_V=
-ER0
->
-> So please move those contacts before adding/changing them
-> (can be in the same patch IMO).
->
-> This is a high level review.
-> I did not look at the details of the conversions and validations
-> Will do that for v3.
->
-> Thanks,
-> Amir.
+Whilst unlikely, that one might be worth sending out sooner rather than
+later.
 
+The rest are the usual edge case stuff, one involving the truly cursed
+'guess what it's possible to map at address 0 if you're crazy enough!' type
+thing.
 
+I shan't talk about the evils contained in the last patch. PAGEMAP_SCAN
+deep inside your soul ye masses to find salvation from PM_SCAN_WP_MATCHING!
 
---3d0117b6230d8b8a6a185cfbfe10dda73718c7f46272653fffdbe69dff91
-Content-Type: application/pgp-signature; name="signature.asc"
+Anyway, as usual, please review! Thanks.
 
------BEGIN PGP SIGNATURE-----
+(Also note that a lack of Cc: stable is not a mistake, rather it means that
+ I think the fix doesn't warrant any back port shenanigans.)
 
-iHUEABYKAB0WIQSgVimKafU5DQMcjcDmj22qf5IGXAUCawnRIQAKCRDmj22qf5IG
-XJUmAP9OYQdkwBS0FIjyqP9a3I8gdrfFrp/bZms8ThGuY3SovAEA9zGXlhLiGxhC
-iuYnX95tMjFyQ2w7/Y0yIwxjSTRZ7gg=
-=DR0g
------END PGP SIGNATURE-----
+Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+---
+Chris Mason (2):
+      mm/madvise: don't declare OOM for MADV_WILLNEED swapin
+      mm/mprotect: fix unpaired notifier start at address 0
 
---3d0117b6230d8b8a6a185cfbfe10dda73718c7f46272653fffdbe69dff91--
+Lorenzo Stoakes (ARM) (2):
+      coda: never point a file's f_mapping at a container's mapping
+      fs/proc/task_mmu: write-protect only with ptrace attach
+
+ Documentation/admin-guide/mm/pagemap.rst |  4 ++-
+ fs/coda/file.c                           | 14 +++++++++-
+ fs/proc/task_mmu.c                       | 47 ++++++++++++++++++++++++++++----
+ mm/madvise.c                             | 19 +++++++++----
+ mm/mprotect.c                            |  8 +++---
+ 5 files changed, 75 insertions(+), 17 deletions(-)
+---
+base-commit: c6f53520f32302ea64cbcfd7cc25a31081e34548
+change-id: 20261127-mlock-madvise-mprotect-ai-fixes-efebbfabe99c
+
+Cheers,
+-- 
+Lorenzo Stoakes (ARM) <ljs@kernel.org>
+
