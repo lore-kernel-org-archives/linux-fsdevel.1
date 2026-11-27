@@ -1,72 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795771138;
-	b=1XJtDaQLPFMU9SPPlsT/+Uzc8pxfYecqVRI99qWamhxcVo3cYSrU3nQBGi7fmXg0jD8d
-	 qvdIq27RWsPccIYuZUquxZAIDXm0WmtvIDguTYKrS0fbPdEOKcgJbi8OVXsNvsWDD+uN6
-	 RULyJ/ffHinYZgJ6SS+/lt+5JdTQiJKJYyUzHdVwD2TbvDDd1h5DmDU0FVmA6K0lPfhze
-	 OauC/M+eL82T/eK1qUFKoz4VEXQgEfF6ktmD0y1sNp1kZ3WEu1UyPPjKcp7CDzCivwF55
-	 AS9bOkPrGdVkSqRoJfQ+h0idFnXNtsoL+3KtBSFRr17yOEvsju6n8mElkVL0TRvF7WQ==
+	t=1795771532;
+	b=G+c9BYqFjN4ljI1OmPKXa0nYaH0AMTICUs5Sf4wGDYcV7qQlQ/RwySdhRlOaewiZtUFv
+	 EA22X85B/nPD47jFuHkzmJ2PhjuyxB9E1DbMYW8RL4dhbO0qwyfISNvqcQscQ4btCl07s
+	 mRwNi6TM4qIs/RO0ndg8tr8m+jTJGJG9OrLBbK0wMfkDgBVOV5+y45sPeIGFBkYnla9cs
+	 EzRJ3Er6zlsUBwThaXmwmz8Oss8Jk+tkJmJ4VlmiurSv5fYmnGxk58L3bFHGIFWA66osE
+	 fLt8uRtbdaBxx6j+ZxqcN2YGo9gAzAYzVWnk8JUs5KMERQ+BGx4WbmHUIV3lA7Wc+pw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795771138;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=O76IIwZpAm8NpBXKtN94VyTUYktRHuJ9UogySv+TxgE=;
-	b=Ka8PUIXXklOyfa9FUmTTKQjsKZ2VWml96hePD9AehCvAqXN+DR6a1+53KTykZlPh0pGm
-	 WFQeW2SIAgM8QKlALarTwhHFKwbgiNjUkIy4RvVVv4K47QMyRa9DpXhTjRxZKy7pGRXJL
-	 T/CU7oiF4cVj6fEBJrYMmltZR07traXHb3QDT6khBiCLnfeaNciM0RsS3oVSLDn1ug6rP
-	 rZxLLUIErpZ0l956rQ28rvOow71F6P/tdFpSPNwRnEjLxrR9qonbCjS8HU/Amm2zhIqzu
-	 HGFRge0E6ddlgCJNAo1aYg5BCWSsfHKk0xpG3owjfag0ZtyiTFkA8sBwIaOky8l603w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795771532;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=lkg78SVa1VvZWM1qpB5F09DE1jX0V7/77oNZYtMWp3Q=;
+	b=WutMI3DdzJ7JE9XJPDxE0qdVEJmG5dgEjBzLlu3G9g/gyoJIc4KKFKQXom4Achi8faWY
+	 15w9umH0cpk6zLTQEojriDFPrystoVpW8azooJ4PROkLUSA7vmNTivtVWCZGZWQhdTmL7
+	 6NfP7d2cWLRtTbnxnRkP9hAFCgZWYy8G+ywoP2Z0L2VHrBnUZWkfDaXl+KjpnGszjYIo0
+	 cpCW26BUtu1Lo+7qo1Izw3IxP1UumwYpIMFaaYz4bTU0d7CNOgwPSvXtAA8KUvtlPcndc
+	 vfr8CK/2AXFC2Pwam8QoE7uMLH6iPjhi9VZ0aSxvI15hPoOOjZ9FtXBYFgv/G/9MauQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=q+P8Z+VF;
-	arc=none smtp.remote-ip=90.155.92.199
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=fB21m6RG;
+	arc=none smtp.remote-ip=209.85.221.41
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C367606A31C;
-	Fri, 27 Nov 2026 09:18:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2C367606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84C8606A321
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 09:25:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A84C8606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=q+P8Z+VF
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=O76IIwZpAm8NpBXKtN94VyTUYktRHuJ9UogySv+TxgE=; b=q+P8Z+VFvcXOYcSsAQUUKdha9A
-	G0JnWTshf2VqEs1N0M1XnEtiC5lRjVs73Mz+IgnC1cOkOb6aFxF3ZzgdxDCEewLlIeb9EmKc5Rg6e
-	sfwiaF44IVMsmeI9AFm59NLM3hJyQLzmbuZmMGlqgW+InkS3imPOr6A1oU4kRbWDpse4wqwPQ6B40
-	h0Gg2m9PHl0Z8QlWWZyq9OI1A+eXY1FHVI8GjGpseiNEVkigkH1Z+tDjdqdU8ePUwYJoD/RcBKxEY
-	KcjE6N0W01wkSJGeVuq3V+fNaGplx33ZN3K6xkyLT2axYOwH3Skhv763gFTVnN4jjYAH+yEF9Acpz
-	ciUf+WTw==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xWs6Y-00000007VNz-0X3X;
-	Fri, 27 Nov 2026 09:18:54 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 655D530316A; Fri, 27 Nov 2026 10:18:52 +0100 (CET)
-Date: Fri, 27 Nov 2026 10:18:52 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Jann Horn <jannh@google.com>, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, adrian.hunter@intel.com,
-	alexander.shishkin@linux.intel.com, dapeng1.mi@linux.intel.com
-Subject: Re: [PATCH 1/2] perf: look up address filter files without
- ctx->mutex held
-Message-ID: <20261127091852.GD83911@noisy.programming.kicks-ass.net>
-References: <20261126-work-exec-update_lock-leftovers-v1-0-1024b26792bc@kernel.org>
- <20261126-work-exec-update_lock-leftovers-v1-1-1024b26792bc@kernel.org>
- <20261126152414.GH49833@noisy.programming.kicks-ass.net>
- <20261126-gedruckt-gastarbeiter-vorsorgen-5fea7cea1877@brauner>
- <20261126-erlogen-bedrucken-dementieren-5de5e5460481@brauner>
- <20261127081303.GN49833@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=fB21m6RG
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4b52fcb410dso3055052f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 01:25:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1795771530; x=1796376330; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=lkg78SVa1VvZWM1qpB5F09DE1jX0V7/77oNZYtMWp3Q=;
+        b=fB21m6RGRDcXRPyA/EBWMigyLQqGvB9zRj4XIHuXhCVyQcR2j3cAdoXL1vdtAPHZYS
+         hS+m+8gmxxeRkDwrw/pZ9Md7n9nG2mdKYahjAc7tyYfLolUm8zYFp57jl/M87odQ3sRE
+         p2W74AHXknKXYHrT1pzS34oootQtiwZzJ8tPOU3YBWgUW5fr3OlS21JdfBNCc27cgCop
+         74BBYtir0B58DN6k2tz8VO/xfnJVQ/VYkusqK6tc+IGaRFilxIYjnfJTPrT/pgv7dQHU
+         PzwY5opjMzU+4ydupSppaQ0nUVbXclK8ccuRcMmKqUXRmGvrFc+edgl06X7rSw96KujF
+         MC3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795771530; x=1796376330;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=lkg78SVa1VvZWM1qpB5F09DE1jX0V7/77oNZYtMWp3Q=;
+        b=ME4pjz32nbGDjHjnjk0Jh2MVDFtpR0FHgTSbLx4CEWk3v9iAxtkDXhHbWi8KLSY98n
+         f1NtYPeiqCzi5vGtPP6mAh4NWjBGgjkR2VGIh8kOnjuZK6hkE/PmuuF5rENqPUTZ780G
+         n+AFSeiGVYuKMLPn1/5jyPz/LmJjPyD+I9xSrXeDcu6J4CtHeewqo5DEIA86JeiVSyp5
+         6lFJ3zI0mDVF8+TzUGLO3GRPCRQWMII+z3S3pK2upB233VTtAQjAw6/zyOmKpgJfWSPr
+         7HryLQ+p2VVQYFAaF8VW/ZTg7n+hdHlc94I9obml6df0opX3FZtlhnxxCXiM6xBV5Faf
+         dngQ==
+X-Forwarded-Encrypted: i=1; AL+hErFRMpna8vFGAWnPEdoWVW6Y3H5GLaNrK/JimvWWqVJ0JDRxtj+Pmp+nUi+JSGjgSJSu2XgMLXWjHP7ECMoE@vger.kernel.org
+X-Gm-Message-State: APuU4Z96TTEJ9y9+CiKwbS4pKuh/SLnsCCNZQYw/n+BZIc3bQzH5Gi2z
+	aKSnPIErwSRKjkBqgKpWQy5vtUB/mH4RhUp5bs/lv/SRlPIBwTyBO0wAEqxaXkngTxQ=
+X-Gm-Gg: AZFdTZewtSyWxL8Res/Q6LZDQjCjFtUU97krRcZiE5GSG/wicMGRzzL+UqnIzeA/vsR
+	EpRERPEc1p2dp7T+xAvIzDT7rL7LERu+clyTb4FK5T8XfV1zB0ohSt7fgD+Kvj1ORt+wZr+pUSJ
+	vq62GKqwXzqK3l1kJhMgNNCyZK1dW4HvHod54jfJeR2EkpUasLgiNdJZAdbv25UXB6PU5h9QSpj
+	exFU3h/flAaIeRGkMLwUZVNf5yoh9ObYHgAzOOgji8dP487br4MtaDSnBult+xsLuh8Y9d5+AzN
+	xNOX6LRTyHdEDuFCIUGQ5kRNYl41Oj4tJWoTD8ZJ/Lt030fJ6AAdKaXE360uzrYVweivR7+v/OQ
+	YELvSfNcykf1kbwNZohkfdtDp0Dde872t8B4SA9+1zz3dSFZimpDWz+YHtP0oBBeh6lHLWTdul9
+	uUyL0d392//Y5GdJsUQOnL3oOGAjxJrXd89Rjl8SQCFAeQThFso7iNxOG8vMbZCtuHNCdqirHnB
+	pEnptTop1Y6a+7JzRSJ40D3kzhoo6f5kpd1aOxk/N1Lr6IXKyw6fjHwmp6TVEp+lqN46wfeGIN7
+	mVYJFhRIwf3o45Nshnl2bvPYIAjNCxFK4OZTyt8L
+X-Received: by 2002:a05:6000:2382:b0:4a7:1fca:e537 with SMTP id ffacd0b85a97d-4abb0886cbamr47878406f8f.9.1795771529952;
+        Fri, 27 Nov 2026 01:25:29 -0800 (PST)
+Received: from localhost (109-81-21-11.rct.o2.cz. [109.81.21.11])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6c4353d6sm44226033f8f.56.2026.11.27.01.25.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Nov 2026 01:25:29 -0800 (PST)
+Date: Fri, 27 Nov 2026 10:25:28 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: Tejun Heo <tj@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	David Hildenbrand <david@kernel.org>, Qi Zheng <qi.zheng@linux.dev>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Greg Thelen <gthelen@google.com>, Greg KH <greg@kroah.com>,
+	Ming Lei <tom.leiming@gmail.com>, linux-mm@kvack.org,
+	cgroups@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND] mm/vmscan: Fix legacy memcg reclaim deadlock
+ against filesystem freeze
+Message-ID: <awlMiOQjOyTH3hQR@tiehlicka>
+References: <17d0d1395c0237d201a1abb2473d51f5@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -78,289 +112,275 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261127081303.GN49833@noisy.programming.kicks-ass.net>
+In-Reply-To: <17d0d1395c0237d201a1abb2473d51f5@kernel.org>
 
-On Fri, Nov 27, 2026 at 09:13:03AM +0100, Peter Zijlstra wrote:
-> On Thu, Nov 26, 2026 at 10:26:02PM +0100, Christian Brauner wrote:
-> > So ok, if we can't drop ctx->mutex in the middle of the ioctl then how
-> > about we don't hold ctx->mutex during parsing to begin with?
-> > We let perf_ioctl() hand PERF_EVENT_IOC_SET_FILTER off before it takes
-> > the mutex:
-> > 
-> > ioctl(PERF_EVENT_IOC_SET_FILTER)
-> > -> perf_ioctl()
-> >    -> perf_event_set_filter()                // no ctx->mutex
-> >       -> perf_event_set_addr_filter()
-> >          -> perf_event_parse_addr_filter()   // kern_path(), own list
-> >          -> perf_event_ctx_lock()
-> >             // revoked? has_addr_filter()? ->addr_filters_validate()
-> >             -> perf_addr_filters_splice()
-> >             -> perf_event_addr_filters_apply() on each child
-> >          -> perf_event_ctx_unlock()
-> > 
-> > The parser fills its own list and counts the file filters in locals.
-> > Everything that needs ctx->mutex then happens in one go under
-> > perf_event_ctx_lock().
-> > 
-> > So ctx->mutex is never dropped in the middle of an ioctl, a migrated
-> > event is handled by perf_event_ctx_lock() like everywhere else and no
-> > ctx is carried across the lookup?
+On Thu 26-11-26 02:08:56, Tejun Heo wrote:
+> Legacy memcg reclaim has no dirty throttling, and shrink_folio_list() waits
+> for a folio that is under writeback and already marked for reclaim (case 3
+> in its comment). That wait can deadlock against a filesystem freeze:
 > 
-> Let me try this.
+> 1. A task in write() to filesystem B holds freeze protection on B, enters
+>    memcg reclaim and waits for writeback of a folio of a filesystem on a
+>    loop device backed by a file on B.
+> 
+> 2. A freeze of B waits for the task to drop its freeze protection.
+> 
+> 3. The loop worker has to take freeze protection on B to write the folio out
+>    and blocks behind the freeze.
+> 
+> The same applies to any driver that writes to a file on a local filesystem
+> to serve block I/O and takes freeze protection for it.
+> 
+> Reclaim can't tell which filesystem a writeback depends on. Count the
+> superblocks that are being frozen and make the wait time out after 15
+> seconds. If one is being frozen at that point, warn and give up. Until none
+> is, treat such folios like case 2 and skip the legacy writeback throttle, so
+> that the task a freeze may be waiting for isn't held up.
+> 
+> This trades the deadlock for premature memcg OOM kills during such a freeze.
+> The wait also no longer hits the folio_wait_writeback tracepoint, and the
+> hung task detector no longer reports a task stuck in it for another reason
+> as the task wakes up every 15 seconds.
+> 
+> Fixes: e62e384e9da8 ("memcg: prevent OOM with too many dirty pages")
+> Reported-by: Christian Brauner <brauner@kernel.org>
+> Signed-off-by: Tejun Heo <tj@kernel.org>
+> Reviewed-by: Johannes Weiner <hannes@cmpxchg.org>
+> Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Compile tested only; Alexander, Adrian; could any of you take a hard
-look at this and actually test?
+Acked-by: Michal Hocko <mhocko@suse.com>
+Thanks!
 
----
- kernel/events/core.c | 135 +++++++++++++++++++++++++--------------------------
- 1 file changed, 67 insertions(+), 68 deletions(-)
+> ---
+> This was first posted in a private thread and is resent here for the lists,
+> rebased onto the current mainline. The only other change is the added
+> Reviewed-by tags.
+> 
+> This is on top of v7.4-rc4-388 (25faec9ce61c). In a test with a filesystem
+> on a loop device backed by a file on another filesystem, writers to both in
+> a v1 memcg and the backing filesystem frozen and thawed in a loop, the
+> unpatched kernel deadlocks within seconds. With the patch, a stuck freeze
+> gets through in 15 to 18 seconds.
+> 
+>  fs/super.c               |    7 +++++
+>  include/linux/fs/super.h |    1 
+>  mm/filemap.c             |   22 +++++++++++++++--
+>  mm/internal.h            |    1 
+>  mm/vmscan.c              |   58 ++++++++++++++++++++++++++++++++++++++++++++---
+>  5 files changed, 83 insertions(+), 6 deletions(-)
+> 
+> --- a/fs/super.c
+> +++ b/fs/super.c
+> @@ -48,6 +48,9 @@ static int thaw_super_locked(struct supe
+>  static LIST_HEAD(super_blocks);
+>  static DEFINE_SPINLOCK(sb_lock);
+>  
+> +/* nr of superblocks that freeze_super() is in the middle of freezing */
+> +atomic_t sb_nr_freezing;
+> +
+>  static char *sb_writers_name[SB_FREEZE_LEVELS] = {
+>  	"sb_writers",
+>  	"sb_pagefaults",
+> @@ -2235,6 +2238,7 @@ retry:
+>  		return 0;
+>  	}
+>  
+> +	atomic_inc(&sb_nr_freezing);
+>  	sb->s_writers.frozen = SB_FREEZE_WRITE;
+>  	/* Release s_umount to preserve sb_start_write -> s_umount ordering */
+>  	super_unlock_excl(sb);
+> @@ -2249,6 +2253,7 @@ retry:
+>  	ret = sync_filesystem(sb);
+>  	if (ret) {
+>  		sb->s_writers.frozen = SB_UNFROZEN;
+> +		atomic_dec(&sb_nr_freezing);
+>  		sb_freeze_unlock(sb, SB_FREEZE_PAGEFAULT);
+>  		wake_up_var(&sb->s_writers.frozen);
+>  		deactivate_locked_super(sb);
+> @@ -2265,6 +2270,7 @@ retry:
+>  			printk(KERN_ERR
+>  				"VFS:Filesystem freeze failed\n");
+>  			sb->s_writers.frozen = SB_UNFROZEN;
+> +			atomic_dec(&sb_nr_freezing);
+>  			sb_freeze_unlock(sb, SB_FREEZE_FS);
+>  			wake_up_var(&sb->s_writers.frozen);
+>  			deactivate_locked_super(sb);
+> @@ -2278,6 +2284,7 @@ retry:
+>  	WARN_ON_ONCE(freeze_inc(sb, who) > 1);
+>  	sb->s_writers.freeze_owner = freeze_owner;
+>  	sb->s_writers.frozen = SB_FREEZE_COMPLETE;
+> +	atomic_dec(&sb_nr_freezing);
+>  	wake_up_var(&sb->s_writers.frozen);
+>  	lockdep_sb_freeze_release(sb);
+>  	super_unlock_excl(sb);
+> --- a/include/linux/fs/super.h
+> +++ b/include/linux/fs/super.h
+> @@ -234,6 +234,7 @@ int freeze_super(struct super_block *sup
+>  		 const void *freeze_owner);
+>  int thaw_super(struct super_block *super, enum freeze_holder who,
+>  	       const void *freeze_owner);
+> +extern atomic_t sb_nr_freezing;
+>  
+>  int sb_init_dio_done_wq(struct super_block *sb);
+>  
+> --- a/mm/filemap.c
+> +++ b/mm/filemap.c
+> @@ -1245,8 +1245,8 @@ static inline bool folio_trylock_flag(st
+>  	return true;
+>  }
+>  
+> -static inline int folio_wait_bit_common(struct folio *folio, int bit_nr,
+> -		int state, enum behavior behavior)
+> +static inline int folio_wait_bit_common_timeout(struct folio *folio, int bit_nr, int state,
+> +		enum behavior behavior, long timeout)
+>  {
+>  	wait_queue_head_t *q = folio_waitqueue(folio);
+>  	int unfairness = sysctl_page_lock_unfairness;
+> @@ -1324,7 +1324,9 @@ repeat:
+>  			if (signal_pending_state(state, current))
+>  				break;
+>  
+> -			io_schedule();
+> +			timeout = io_schedule_timeout(timeout);
+> +			if (!timeout)
+> +				break;
+>  			continue;
+>  		}
+>  
+> @@ -1393,6 +1395,13 @@ repeat:
+>  	return wait->flags & WQ_FLAG_WOKEN ? 0 : -EINTR;
+>  }
+>  
+> +static inline int folio_wait_bit_common(struct folio *folio, int bit_nr, int state,
+> +		enum behavior behavior)
+> +{
+> +	return folio_wait_bit_common_timeout(folio, bit_nr, state, behavior,
+> +					     MAX_SCHEDULE_TIMEOUT);
+> +}
+> +
+>  #ifdef CONFIG_MIGRATION
+>  /**
+>   * softleaf_entry_wait_on_locked - Wait for a migration entry or
+> @@ -1490,6 +1499,13 @@ int folio_wait_bit_killable(struct folio
+>  }
+>  EXPORT_SYMBOL(folio_wait_bit_killable);
+>  
+> +/* wait up to @timeout jiffies for @bit_nr to clear, true if it cleared */
+> +bool folio_wait_bit_timeout(struct folio *folio, int bit_nr, long timeout)
+> +{
+> +	return !folio_wait_bit_common_timeout(folio, bit_nr, TASK_UNINTERRUPTIBLE, SHARED,
+> +					      timeout);
+> +}
+> +
+>  /**
+>   * folio_put_wait_locked - Drop a reference and wait for it to be unlocked
+>   * @folio: The folio to wait for.
+> --- a/mm/internal.h
+> +++ b/mm/internal.h
+> @@ -1276,6 +1276,7 @@ struct migration_target_control {
+>   */
+>  ssize_t splice_folio_into_pipe(struct pipe_inode_info *pipe,
+>  			       struct folio *folio, loff_t fpos, size_t size);
+> +bool folio_wait_bit_timeout(struct folio *folio, int bit_nr, long timeout);
+>  
+>  static inline bool vma_is_single_threaded_private(struct vm_area_struct *vma)
+>  {
+> --- a/mm/vmscan.c
+> +++ b/mm/vmscan.c
+> @@ -1157,6 +1157,55 @@ static bool may_enter_fs(struct folio *f
+>  }
+>  
+>  /*
+> + * Legacy memcg reclaim has no dirty throttling and waits for writeback in
+> + * shrink_folio_list() instead. That wait can deadlock against a filesystem
+> + * freeze:
+> + *
+> + * 1. A task holds freeze protection on filesystem B, e.g. in write(), enters
+> + *    reclaim and waits for writeback of a folio whose I/O ends up as a write to
+> + *    B, e.g. through a loop device backed by a file on B.
+> + *
+> + * 2. A freeze of B waits for the task to drop its freeze protection.
+> + *
+> + * 3. The write to B waits for the freeze.
+> + *
+> + * Reclaim can't tell which filesystem a writeback depends on. As a crude
+> + * workaround, memcg_wait_writeback() times out and, if any filesystem is being
+> + * frozen at that point, sets memcg_wb_wait_skip. While it is set, legacy memcg
+> + * reclaim neither waits for nor throttles on writeback, so that the task a
+> + * freeze may be waiting for isn't held up in reclaim and can drop its freeze
+> + * protection. This can cause premature memcg OOM kills.
+> + */
+> +static bool memcg_wb_wait_skip;
+> +
+> +/*
+> + * Test memcg_wb_wait_skip. It takes effect only while a filesystem is being
+> + * frozen and is cleared here once none is. A freeze that starts before it is
+> + * cleared inherits the skip.
+> + */
+> +static bool memcg_skip_wb_wait(void)
+> +{
+> +	if (!READ_ONCE(memcg_wb_wait_skip))
+> +		return false;
+> +	if (atomic_read(&sb_nr_freezing))
+> +		return true;
+> +	WRITE_ONCE(memcg_wb_wait_skip, false);
+> +	return false;
+> +}
+> +
+> +/* wait for writeback of @folio, see memcg_wb_wait_skip for the timeout */
+> +static void memcg_wait_writeback(struct folio *folio)
+> +{
+> +	while (!folio_wait_bit_timeout(folio, PG_writeback, 15 * HZ)) {
+> +		if (atomic_read(&sb_nr_freezing)) {
+> +			WRITE_ONCE(memcg_wb_wait_skip, true);
+> +			pr_warn("memcg1 writeback wait timed out during fs freeze, skipping waits, may OOM early\n");
+> +			return;
+> +		}
+> +	}
+> +}
+> +
+> +/*
+>   * shrink_folio_list() returns the number of reclaimed pages
+>   */
+>  static unsigned int shrink_folio_list(struct list_head *folio_list,
+> @@ -1277,7 +1326,9 @@ retry:
+>  		 *    reclaim flag set. memcg does not have any dirty folio
+>  		 *    throttling so we could easily OOM just because too many
+>  		 *    folios are in writeback and there is nothing else to
+> -		 *    reclaim. Wait for the writeback to complete.
+> +		 *    reclaim. Wait for the writeback to complete. If
+> +		 *    memcg_wait_writeback() gives up, such folios are treated
+> +		 *    as in case 2 until no filesystem is being frozen.
+>  		 *
+>  		 * In cases 1) and 2) we activate the folios to get them out of
+>  		 * the way while we continue scanning for clean folios on the
+> @@ -1300,6 +1351,7 @@ retry:
+>  
+>  			/* Case 2 above */
+>  			} else if (writeback_throttling_sane(sc) ||
+> +			    memcg_skip_wb_wait() ||
+>  			    !folio_test_reclaim(folio) ||
+>  			    !may_enter_fs(folio, sc->gfp_mask) ||
+>  			    (mapping &&
+> @@ -1325,7 +1377,7 @@ retry:
+>  			/* Case 3 above */
+>  			} else {
+>  				folio_unlock(folio);
+> -				folio_wait_writeback(folio);
+> +				memcg_wait_writeback(folio);
+>  				/* then go back and try same folio again */
+>  				list_add_tail(&folio->lru, folio_list);
+>  				continue;
+> @@ -2086,7 +2138,7 @@ static void handle_reclaim_writeback(uns
+>  		 * enough for cgroupv1 writeback throttling to work
+>  		 * on a large system.
+>  		 */
+> -		if (!writeback_throttling_sane(sc))
+> +		if (!writeback_throttling_sane(sc) && !memcg_skip_wb_wait())
+>  			reclaim_throttle(pgdat, VMSCAN_THROTTLE_WRITEBACK);
+>  	}
+>  
 
-diff --git a/kernel/events/core.c b/kernel/events/core.c
-index 77c501005143..c019e4faf655 100644
---- a/kernel/events/core.c
-+++ b/kernel/events/core.c
-@@ -6632,16 +6632,24 @@ static inline bool is_perf_file(struct fd f)
- 
- static int perf_event_set_output(struct perf_event *event,
- 				 struct perf_event *output_event);
--static int perf_event_set_filter(struct perf_event *event, void __user *arg);
-+static int perf_event_set_filter(struct perf_event *event, struct list_head *filters);
- static int perf_copy_attr(struct perf_event_attr __user *uattr,
- 			  struct perf_event_attr *attr);
- static int __perf_event_set_bpf_prog(struct perf_event *event,
- 				     struct bpf_prog *prog,
- 				     u64 bpf_cookie);
- 
--static long _perf_ioctl(struct perf_event *event, unsigned int cmd, unsigned long arg)
-+struct perf_ioctl_ctx {
-+	unsigned int cmd;
-+	unsigned long arg;
-+	struct list_head filters;
-+};
-+
-+static long _perf_ioctl(struct perf_event *event, struct perf_ioctl_ctx *ctx)
- {
- 	void (*func)(struct perf_event *);
-+	unsigned long arg = ctx->arg;
-+	unsigned int cmd = ctx->cmd;
- 	u32 flags = arg;
- 
- 	if (event->state <= PERF_EVENT_STATE_REVOKED)
-@@ -6692,7 +6700,7 @@ static long _perf_ioctl(struct perf_event *event, unsigned int cmd, unsigned lon
- 	}
- 
- 	case PERF_EVENT_IOC_SET_FILTER:
--		return perf_event_set_filter(event, (void __user *)arg);
-+		return perf_event_set_filter(event, &ctx->filters);
- 
- 	case PERF_EVENT_IOC_SET_BPF:
- 	{
-@@ -6751,10 +6759,21 @@ static long _perf_ioctl(struct perf_event *event, unsigned int cmd, unsigned lon
- 	return 0;
- }
- 
-+static inline bool perf_event_is_tracing(struct perf_event *event);
-+static void free_filters_list(struct list_head *filters);
-+static int
-+perf_event_parse_addr_filter(int event_node, bool event_task, char *fstr,
-+			     struct list_head *filters);
-+
- static long perf_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
- {
- 	struct perf_event *event = file->private_data;
- 	struct perf_event_context *ctx;
-+	struct perf_ioctl_ctx ic = {
-+		.cmd = cmd,
-+		.arg = arg,
-+		.filters = LIST_HEAD_INIT(ic.filters),
-+	};
- 	long ret;
- 
- 	/* Treat ioctl like writes as it is likely a mutating operation. */
-@@ -6762,10 +6781,34 @@ static long perf_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
- 	if (ret)
- 		return ret;
- 
-+	if (cmd == PERF_EVENT_IOC_SET_FILTER) {
-+		int cpu = READ_ONCE(event->cpu);
-+		int node = cpu == -1 ? NUMA_NO_NODE : cpu_to_node(cpu);
-+		bool task = event->attach_state & PERF_ATTACH_TASK;
-+		char *filter_str __free(kfree) =
-+			strndup_user((void __user *)arg, PAGE_SIZE);
-+
-+		if (IS_ERR(filter_str))
-+			return PTR_ERR(filter_str);
-+
-+#ifdef CONFIG_EVENT_TRACING
-+		if (perf_event_is_tracing(event)) {
-+			return ftrace_profile_set_filter(event, event->attr.config,
-+							filter_str);
-+		}
-+#endif
-+		ret = perf_event_parse_addr_filter(node, task, filter_str,
-+						   &ic.filters);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	ctx = perf_event_ctx_lock(event);
--	ret = _perf_ioctl(event, cmd, arg);
-+	ret = _perf_ioctl(event, &ic);
- 	perf_event_ctx_unlock(event, ctx);
- 
-+	free_filters_list(&ic.filters);
-+
- 	return ret;
- }
- 
-@@ -11990,9 +12033,8 @@ void perf_bp_event(struct perf_event *bp, void *data)
-  * Allocate a new address filter
-  */
- static struct perf_addr_filter *
--perf_addr_filter_new(struct perf_event *event, struct list_head *filters)
-+perf_addr_filter_new(int node, struct list_head *filters)
- {
--	int node = cpu_to_node(event->cpu == -1 ? 0 : event->cpu);
- 	struct perf_addr_filter *filter;
- 
- 	filter = kzalloc_node(sizeof(*filter), GFP_KERNEL, node);
-@@ -12035,8 +12077,17 @@ static void perf_addr_filters_splice(struct perf_event *event,
- 	raw_spin_lock_irqsave(&event->addr_filters.lock, flags);
- 
- 	list_splice_init(&event->addr_filters.list, &list);
--	if (head)
-+	event->addr_filters.nr_file_filters = 0;
-+
-+	if (head) {
-+		struct perf_addr_filter *filter;
-+
- 		list_splice(head, &event->addr_filters.list);
-+		list_for_each_entry(filter, &event->addr_filters.list, entry) {
-+			if (filter->path.dentry)
-+				event->addr_filters.nr_file_filters++;
-+		}
-+	}
- 
- 	raw_spin_unlock_irqrestore(&event->addr_filters.lock, flags);
- 
-@@ -12186,7 +12237,7 @@ static const match_table_t if_tokens = {
-  * Address filter string parser
-  */
- static int
--perf_event_parse_addr_filter(struct perf_event *event, char *fstr,
-+perf_event_parse_addr_filter(int event_node, bool event_task, char *fstr,
- 			     struct list_head *filters)
- {
- 	struct perf_addr_filter *filter = NULL;
-@@ -12213,7 +12264,7 @@ perf_event_parse_addr_filter(struct perf_event *event, char *fstr,
- 
- 		/* filter definition begins */
- 		if (state == IF_STATE_ACTION) {
--			filter = perf_addr_filter_new(event, filters);
-+			filter = perf_addr_filter_new(event_node, filters);
- 			if (!filter)
- 				goto fail;
- 		}
-@@ -12299,7 +12350,7 @@ perf_event_parse_addr_filter(struct perf_event *event, char *fstr,
- 				 * different processes.
- 				 */
- 				ret = -EOPNOTSUPP;
--				if (!event->ctx->task)
-+				if (!event_task)
- 					goto fail;
- 
- 				/* look up the path and grab its inode */
-@@ -12310,11 +12361,8 @@ perf_event_parse_addr_filter(struct perf_event *event, char *fstr,
- 
- 				ret = -EINVAL;
- 				if (!filter->path.dentry ||
--				    !S_ISREG(d_inode(filter->path.dentry)
--					     ->i_mode))
-+				    !S_ISREG(d_inode(filter->path.dentry)->i_mode))
- 					goto fail;
--
--				event->addr_filters.nr_file_filters++;
- 			}
- 
- 			/* ready to consume more filters */
-@@ -12343,9 +12391,8 @@ perf_event_parse_addr_filter(struct perf_event *event, char *fstr,
- }
- 
- static int
--perf_event_set_addr_filter(struct perf_event *event, char *filter_str)
-+perf_event_set_filter(struct perf_event *event, struct list_head *filters)
- {
--	LIST_HEAD(filters);
- 	int ret;
- 
- 	/*
-@@ -12357,65 +12404,17 @@ perf_event_set_addr_filter(struct perf_event *event, char *filter_str)
- 	if (WARN_ON_ONCE(event->parent))
- 		return -EINVAL;
- 
--	ret = perf_event_parse_addr_filter(event, filter_str, &filters);
-+	ret = event->pmu->addr_filters_validate(filters);
- 	if (ret)
--		goto fail_clear_files;
--
--	ret = event->pmu->addr_filters_validate(&filters);
--	if (ret)
--		goto fail_free_filters;
-+		return ret;
- 
- 	/* remove existing filters, if any */
--	perf_addr_filters_splice(event, &filters);
-+	perf_addr_filters_splice(event, filters);
- 
- 	/* install new filters */
- 	perf_event_for_each_child(event, perf_event_addr_filters_apply);
- 
--	return ret;
--
--fail_free_filters:
--	free_filters_list(&filters);
--
--fail_clear_files:
--	event->addr_filters.nr_file_filters = 0;
--
--	return ret;
--}
--
--static int perf_event_set_filter(struct perf_event *event, void __user *arg)
--{
--	int ret = -EINVAL;
--	char *filter_str;
--
--	filter_str = strndup_user(arg, PAGE_SIZE);
--	if (IS_ERR(filter_str))
--		return PTR_ERR(filter_str);
--
--#ifdef CONFIG_EVENT_TRACING
--	if (perf_event_is_tracing(event)) {
--		struct perf_event_context *ctx = event->ctx;
--
--		/*
--		 * Beware, here be dragons!!
--		 *
--		 * the tracepoint muck will deadlock against ctx->mutex, but
--		 * the tracepoint stuff does not actually need it. So
--		 * temporarily drop ctx->mutex. As per perf_event_ctx_lock() we
--		 * already have a reference on ctx.
--		 *
--		 * This can result in event getting moved to a different ctx,
--		 * but that does not affect the tracepoint state.
--		 */
--		mutex_unlock(&ctx->mutex);
--		ret = ftrace_profile_set_filter(event, event->attr.config, filter_str);
--		mutex_lock(&ctx->mutex);
--	} else
--#endif
--	if (has_addr_filter(event))
--		ret = perf_event_set_addr_filter(event, filter_str);
--
--	kfree(filter_str);
--	return ret;
-+	return 0;
- }
- 
- /*
+-- 
+Michal Hocko
+SUSE Labs
