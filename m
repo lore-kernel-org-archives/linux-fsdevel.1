@@ -1,96 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795740641;
-	b=j5TTDBTeFhpvuisV0d/rz4p/KoMffZFRBYWKmiELpELRH+8c9nQaO4bFdq+4ygNdkiLW
-	 s8w0sCF5rnfCH+cfjqD4XFe0tb2ehQ18T6IT0ZeZe9VFuRsiZn3qu8zioTqs29BgqFF7Y
-	 yNAvLs77D54G9UDw/wUI9kiUTnX0pEOdhXAU1gWdH53VtUBFJCSg9S5tPQ9rtngTkK4KJ
-	 eGZak3CEe7WxRrx2a87kl0vPUFDoYZNc0JsIohlZa6QzEre22fn7VCerqafQh5MFJahwT
-	 mmZWw2WLhGYe5FGMGlpIzMmX7bAAG9AXpqOtUsGvaODJCZFbXWklBDHYUrCRwETOFaQ==
+	t=1795744682;
+	b=KzNjcbmVX5QFM3a+n7OW7WBmx/rWl1kTX9FbRpYwdVeGTZnJzPAQw4kOSXdTkjmxN+gS
+	 Bc+VK369+PvsHBM8wb+fU0KCX55vo1fPKKxBgH6eRxUc2tUnxgl1GKFNlDPmSHsZxRscA
+	 qluhCDdBhOgeduvNZdTmwVe2Ynyr42HDnDRfHGgy0PvR4ynSB6KeDF/o/hREYTgqnHNg5
+	 Hm6h6kPq2QteADyW2Y/cwHlhsqjzPzSOxW5N1splP/ad5+iP21azVOn/WwKxaIc7WGEHN
+	 XrYT6CCcX9jskrGGRBzErm+xRrPSTFIdI4ULFTc5EhTALkIpYOb0qAeG3IzLojWhAbQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795740641;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795744682;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:Message-ID:From:
-	 To:Cc:Subject:In-Reply-To:References;
-	bh=x0Mp5Txn9dhWnd7kNaeyrGhDTXOo7utFqS5hhFOq2io=;
-	b=o/+f/ODO1w2IBsvrYZ7oKrR20bgTtRNQ0IYyFoirEVQvMObNZZv3Thf5oOpRoj6oN5yN
-	 30/Ktd4kj/DGgsmjr14MrpyxDtp4ieVGHLaohXsdh01jnU+BtbmliJFHeGXotKc/mWbjM
-	 vRe1lQUKX0fgQAGXiEvnrCvuyqJkUMAP+CcAqbpTixCEjeopzRYj9slF2vFZ3HquYg2np
-	 TzfkVB90E8iZEqeACB0AN4N/FjBM+27NGGwudMmu7VE+D8ZFdA0yEIPSEA5PJhvXWJDD0
-	 /O6T24WbsxjOxjfhjqZnGpzANDg0cgpPeB0CjNgZ/8DlyKPAzba/3gK2edQXWF7w7BA==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References;
+	bh=ehVaAjvNIfxC+oqsI5UfGcgMz+JKUDo/Bvw/5n/ejys=;
+	b=0ldTONdq2bh130ArSzSpNZmlnjWv/URyjya2FPpHpx0yiWJpE2WSUyUlhJOHMunwx2AC
+	 NE7S11gyyVNTN9upKIVBL+/LIfsHA8N1O2vWyxBAX2js40Dk+xhCrZ4LASE8Vec7rH4Dv
+	 0TOHtnNo9PKB9K3ONUWvOVEAJIyN/SpQ5sfYgYkoecGszDwTbPmWGwelG48Z8AzEnuRpb
+	 uLQwXS8JC+fbhr2o5xiLnuRM85+AdkvW1n+oUfErp1JVrXlCbxh9eTBbe6y++PMVQnE9A
+	 EUcZyI8xO719QUPBYV/Rh5979WKmLVO28yhoX4SqGh/mOihBuOneo06UAb1olLZ605A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=K1tEEi0C;
-	arc=none smtp.remote-ip=209.85.222.179
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Pnvri9dK;
+	arc=none smtp.remote-ip=209.85.219.47
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49122606A321
-	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 00:50:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49122606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E3B606A31C
+	for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 01:58:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3E3B606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=K1tEEi0C
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-9496317b730so863984785a.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 16:50:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Pnvri9dK
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-921318b2eb8so92981886d6.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 26 Nov 2026 17:58:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795740640; x=1796345440; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795744681; x=1796349481; darn=vger.kernel.org;
         h=references:in-reply-to:subject:cc:to:from:message-id:date:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=x0Mp5Txn9dhWnd7kNaeyrGhDTXOo7utFqS5hhFOq2io=;
-        b=K1tEEi0CKdL//6rYPHcqQGCm7O0J2ly60eWlW+M9HTfuVDK6FL91RNDcDxOxAxtiTp
-         oI7sUzz6QMfcVvFq4csJ6S083G2fdGSO+96r+9wFfux6cu46po3ovanEv6MSYhrNRPuh
-         IQRkruV5OXzzvS8TSq91jU/dMUZz4WKqyxCeQSHwpqqP2n004NI2x8HjUvKRpMdohSJp
-         LKJFj1bPEwjjKwdlmGJ5cwFR20a2FvFJ29hffy5GBV619FNLpZmc+rU9hunaxkLwu96q
-         tJfPopPK/Hbxyq1qO4pmcgcT6uFv67XSRGyn7viNKf9DaddfZHEz+68SomD6h69VsuMX
-         axBQ==
+        bh=ehVaAjvNIfxC+oqsI5UfGcgMz+JKUDo/Bvw/5n/ejys=;
+        b=Pnvri9dKqQyBU7Va2yfxz9j0DUuvH8l9Ao9oag4ViF8eqg0f0L7GKm0DYyVkLwVa1n
+         GoAXwzuKghvdOKCA+dp6x7Hnp0mmQN4Wci/RA4/jE0sO6EkLlmY76GiaLL7Y0trsQFfm
+         f2TGGKgB7eo0fFLe/OSLBthacaDwJXySENC2I5souOh94SC+U7HP32UEtA/fTEx9AEn3
+         pwL5HE+6ZmV3dLKkyFT9bIH9L4q8KnOsSVA1T7IiNx6N0AsDZ2VzdiAwaPUwOwobHBJx
+         0gvcsye9VqAUaX+CU290cazctiSB0J5yub8mHKNk61TbjvE71WOe/+jjlu64RLvdfE5r
+         6opA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795740640; x=1796345440;
+        d=1e100.net; s=20260707; t=1795744681; x=1796349481;
         h=references:in-reply-to:subject:cc:to:from:message-id:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=x0Mp5Txn9dhWnd7kNaeyrGhDTXOo7utFqS5hhFOq2io=;
-        b=BImrT3QprPUugwcM4BcBXbQbz5gkWvEW37MgubH4zMRrz2/1IgZe7tsJpdBgi9fWdj
-         ykO9n/5o6ovSS7tOb9WqwR/yfkfzdiYbtzImy9ZhvGqO2/AcWeV/QkFqBDO6Y+9N6DEp
-         twHDiUI8LJ8OhemQ7A73LYoCdW/SL7CbMDEXUzGw/gxnZssXdn8yDj97yXH45gDjXon7
-         aPkEAnDz4pRxjFNDvO0LBOonNt5w/5eS9sPt5hCSZOblZb6AT/jg/AFM8S1fCSP8+zdh
-         VIKKHLV1sGRsC/6DqRMjVIOi7cbcB4S2o0uJFIDC1oC2eCmMaKBR/c+U2A0ViSP+26r0
-         TmVQ==
-X-Gm-Message-State: APuU4Z8kijyEb6z2lTaynCHMq8ljikKxfBXSyHTfujX2Re2TAOHsNkke
-	mORFbTj8uyvhEEesX6YsxLJLfHHnADlHxBlGJ6N5/S1xnzGu5QAlVNNf6KmK1lP5kBlbGA==
-X-Gm-Gg: AZFdTZdJdYupXWlMIaA7yuEVQ8NoNpWNve8Fcd/1tZE3FWAAZDFWHADmMDX+9uZdgnm
-	mH50T6pfM3a091/7g/SzfTn29c+RonvvM6SQvZ5Q8lDPghNNkoJC23LEM2+54S6lJLpNJkKcdtR
-	6LpIsL2vcY+8Ch2W+Ss2t3Si37LIpND3sMPGytKHfeoZd3FLRhJIjBdE6EcFeR8mLCXSuySVmnK
-	NUq5lUSngsIX1RvAPLC4SiHf1XJqcobAnJKh1+EWzATfOd4fLCdVB9JHyENJ2HW8UYy9O2oCQ0K
-	gJfIksmRmNcvw2p/0H8ApL4Jk38Fxx5JcUmI8v0kDyGvmWCP8NWFThmnaIhADrb+aEUvkGxcPab
-	80/9KcGghOe+YqDL5yTZEHKKic8afMW8ER5dKtoWBVCrRl5fkVt13fhvaEI3bw7/AasxwMTsNSQ
-	JiWzOOk7PuP/VMmPf3lB9cMHC56t/UHpxN3yJmjkL2pIGSwv2cA5h8ykO226OqkmAp++XkwRDLu
-	xkflI4pdjgbzTcRJAp12f9K+HcrNpNexlmRvqL1xq34U3YPkB60BBAM+/QBBPxYqmcLOmPsFsNx
-	DRWrn7Cl/pBiZHqugOIfeglQdQkVLF2qHessTkL1A4wTBrTEjG6IwkGs2VT7gaHGAF5D5QGUmWp
-	0xQsx0V1huSEoPx8mjW50/3uZ3w==
-X-Received: by 2002:a05:620a:2907:b0:949:72c3:dee6 with SMTP id af79cd13be357-949ba99cbf7mr4043850085a.19.1795740640134;
-        Thu, 26 Nov 2026 16:50:40 -0800 (PST)
+        bh=ehVaAjvNIfxC+oqsI5UfGcgMz+JKUDo/Bvw/5n/ejys=;
+        b=Xho+ZyLbJiFZUdwDAfVVw43ifdTwf6ornm/F6pLZnWroUDqnj7u/M9X/ytBXGFQ6J6
+         DTR41JvExDynkA4/pQnLrZwCh/Jk1jRqjUDkBSCsVbLu7cwVJfa9Ec2gDatqxhqB010Q
+         mltI3hpWwUt2AKWfkrbYSyNmOixWTPlYgB3f27pg70ZW5mlTgJbvtQKgttrI4YInXSbo
+         ecBV9DcVaK/H8n24RpkVcmeq+1u4WvCLb+dzzpt4ucH/pbKuXlbPNbp6HGzjCoN530Rh
+         KVbokvYajIEb+Ee3hcM/7pKwCyWpVKECdiEY7FNigmV77z9l0hS2h7lVZxaTB6QyeMUv
+         kN8A==
+X-Forwarded-Encrypted: i=1; AL+hErHpzJ+V3XybKjQj3AoBO9GsfyNZGUuUnR3VZwTnugZwfRCIAbHf3+87jVXmucWjMKKIjSv3Lt0JeSNr5s+s@vger.kernel.org
+X-Gm-Message-State: APuU4Z/kb8MoB4N4x4FWnd1ljf/6XRdpHNd/j/jGjkZ0Bo8BVxGuaBOB
+	HV101ATJkMtQ5TtlGNQ4Yn9Sy6d0oBWQddABhX8FL839vhruTaDrxB7o
+X-Gm-Gg: AZFdTZeruXVmMBcR5sm54W5kfNu/++TcFvAs13U81T1qH9s+qpz8Y7tvgKIsvSbIVCj
+	H9HosdKa0Gcf8L1E0zb/jCn0Oc51K+TMXNtfWZWpsiBdCoCoyPv/423Yj1xfuZ/lhJD3/y4Sj5C
+	956+Yp9Z8dAejkvabpdGut6d7sywKQHsSwOEFIP/3tXASy82YUNAMUsTsaqAxJE88NKOOC3o7va
+	AAK5qI892mNgwOORhn5umQwKolpmzR35Qh+M0fFp9awUfGmDeZCziXnWqBZjdpIcDEuEALARWs7
+	WiY3kqV9w33PBQioqb7WM7udGXpndKKkC5goaSKzoZMpAeYKmj7csOwMYsF0i552FlmlWMhs4xt
+	oUqf39QEFUxpXa6vl0vG3IkyGy7SN3BE11JpicZTCErGBcdxuzGuoskL6ItW6g+fBc+HmVvOJ5A
+	pVqjd1EZYCiYR0M7WSUKXPgNxGNa2tMAnapRIg94b1hXZ/4BMPSEujifeftwQX47rtUwLx6PNsZ
+	AKGzfVSdvUMZujUsQEZMC6zTTv2ogjS5A4EO5pA7jtFwuyxIQdg63QKxkap2zN3TnU/T6TuS0pH
+	6rwG0R/4I6wxSiiWSAYlJ7Iel3MrOU4qnxD4Fq12wG8dP7BFxgfIC72IwJBvrVOif8ZUaexaDxv
+	LGQb7IKgZ29JUTV4aNhU4EPJTGg==
+X-Received: by 2002:a05:6214:4197:b0:91e:9b17:2be9 with SMTP id 6a1803df08f44-92134a8c2cemr403235366d6.36.1795744680871;
+        Thu, 26 Nov 2026 17:58:00 -0800 (PST)
 Received: from localhost ([138.197.109.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-949bb34ac11sm1703987985a.14.2026.11.26.16.50.39
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921349d0e35sm203478486d6.20.2026.11.26.17.57.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 16:50:39 -0800 (PST)
-Date: Fri, 27 Nov 2026 03:50:37 +0300
-Message-ID: <a424da14ad9f0fcda6988f558432d10e.ndokutovich@gmail.com>
+        Thu, 26 Nov 2026 17:58:00 -0800 (PST)
+Date: Fri, 27 Nov 2026 04:57:58 +0300
+Message-ID: <dfcd154c01206a9fd23e0a26f3aef3da.ndokutovich@gmail.com>
 From: Nikolai Dokutovich <ndokutovich@gmail.com>
-To: linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
- dm-devel@lists.linux.dev
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>,
- Benjamin Marzinski <bmarzins@redhat.com>, Shuah Khan <shuah@kernel.org>,
- linux-kselftest@vger.kernel.org
-Subject: Re: [RFC PATCH] fs: tolerate an unfrozen superblock in the
- block-layer thaw
-In-Reply-To: <20261127003902.48-1-ndokutovich@gmail.com>
-References: <20261127003902.48-1-ndokutovich@gmail.com>
+To: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 00/15] super: fixes for freezing, reconfiguration and
+ error reporting
+In-Reply-To: <20261011-work-super-fixes-core-v1-0-c727176c5b53@kernel.org>
+References: <20261011-work-super-fixes-core-v1-0-c727176c5b53@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,10 +97,24 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 
-Please disregard this patch.  The same issue is already fixed by the
-"super: fixes for freezing, reconfiguration and error reporting" series
-([PATCH 09/15] fs: don't keep a device frozen when its freeze is already
-gone), which I missed when preparing this.  Sorry for the noise.
+Tested-by: Nikolai Dokutovich <ndokutovich@gmail.com>
+
+Tested vfs-7.5.super at 5c8e69ad504d (7.4.0-rc1 based, so including
+78f687e0e0dd for the -EALREADY follow-up) on x86_64 in QEMU/KVM with a
+KASAN kernel, CONFIG_FAIL_MAKE_REQUEST=y and debugfs mounted:
+
+  bdev_freeze_test  1/1 pass  (sync_error_does_not_strand_freeze)
+  bdev_thaw_test    1/1 pass  (fithaw_during_dm_suspend)
+  shared_bdev_test  6/6 pass
+  quotactl_test     4/4 pass
+
+No KASAN reports.
+
+I also checked the userspace contract that the -EALREADY change touches:
+FITHAW on an unfrozen ext4 filesystem, and a second FITHAW after a real
+freeze/thaw, both still return EINVAL, so fsfreeze and qemu-guest-agent
+see no change.  Happy to turn that check into a selftest case if you
+want it covered.
 
 Thanks,
 Nikolai Dokutovich
