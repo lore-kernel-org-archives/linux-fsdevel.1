@@ -1,57 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795854525;
-	b=F50G3Jm1Uz/ahHhwtiz/hJxKlqBaoDNXK+h4fzuRrsKCAurDaiJgFzN/o13uvbsnr2of
-	 kie4K3cH+hH3g0piIYoX2u0ckLMBx5ACf5Ite5L1qT4URGrMk7SjbuSYnfnY0NY3D+HcQ
-	 Gqy+rfZAW/87TOApOeLhDRxg1GrQQNf2oJNE3kzUA8m4Ume05J0QQ+c5DQHadFkjPlFwE
-	 PoU0BuZ8o0iEJpCIJefyGBXKqWDqpbShzT1JFbga2Pwhpj4mn33U3ZLKKjnqJUOldwP+7
-	 kl/Fs1x6mybE8Yql/8WvCwMc+MpsAia/AGsl3dR5hEk6LtpTMFZlHV2t0/3DUcLIJiw==
+	t=1795858620;
+	b=u7rldXwrogVr/yH3d0cl1WFFa3IMwl+SlEJBGkgHdIvG+5VU6iy3AUxI0QlCdI9n43oA
+	 RMTVmcHJeorkC5W9BIfNBZGbn6yfuDG4iLh567/CuRCFyoXb5yw5cwp+vGK/UPS0/I0HA
+	 iO1zr5bwQZQLuAJwK/a8Qs5T7XbMWcx/n4r5PEC2l/gEiQwIQMkylTMjG5cJrlSaHi63R
+	 WgZ+2+buGTT0Rmel9DukxfMVQL9pGSpTocFUVTqqjEjgRkctVFVhW3envp+NBIzHeLIiP
+	 64XtcLOKjmEWwjU5iy5omU6AbXqObxgAii37d9K3Ezz707Qov4cWQCSJYiErROXq01g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795854525;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
-	bh=98DjPq0k77S6BY+ei2O96+19h+dMB8NHTMDNKHV/HtY=;
-	b=Gzn5PxQq4QUQL1Oc5WJ8yacwEfte/6D7cps+pMODJDk1vVhaMJxQ/lrUxTj++16YOHuc
-	 Y3tXPZD9D2SpVK107dNGtIvTCj2QzsIX2rzj3EbEim4CTp5D1hR2m2A2u9DWkxvA4pA9N
-	 cbuU4WAQNQ2eN5NhsiKlznLR+hjszbHrAdEJWVKczp2iU1DMrzDI7wShvlW23TodXMDz8
-	 zbxetmSgOGq5h+NuHfXMgyvS/XoZNVZ6lS685rrqz0El4xmJNSjpWZh1uUImzF0QXWeEn
-	 GQNcBhpXs3IV8JIJNAxIwUlBmBYKKSpxX5RsfUvr5dvOSXI8gAg68edjFvAzPj3707A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795858620;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:Message-ID:From:
+	 Subject:To:Cc:MIME-Version:Content-Type:Content-Disposition:
+	 User-Agent;
+	bh=aFuH3CwyqkMoGdxfnHGMpD/JLCCKLuO9Rr2dCftzpuI=;
+	b=nmEYS3woWpTCGYMtjg5ft9r9jhj6Ji7Orx1hBC22uFyfO6lg+vdVWdZ3QigEgUBasORe
+	 maZHvfByKR7vovorMpkRGdgU7lgVnpepRH+nkerI+D8bQq9b4qxsLNpLGxlOsbZoh9gWc
+	 qpqycB9EjRA2D5+pgRM0Az048AKXeSwbY2nbyYh2HlfQJYMW3o3EdJfVOz1mpJatYKVey
+	 JCS5GgZSIsQqkA8zqftgHM+GV9AK41CnLpPhG8KWsnii03Ls1Z7di2EkLwf9EyxXgZiMT
+	 wK7LTne7zVlUlbNBtK+QcIaVkp0Vs4IILyFgMNAs9fC26am273px60fooEut8Suu+pA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=T1hz9zak;
-	arc=none smtp.remote-ip=220.197.31.5
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=chrisdown.name;
+	spf=pass smtp.mailfrom=chrisdown.name;
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=JikK7AiD;
+	arc=none smtp.remote-ip=209.85.128.177
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B97C606A334;
-	Sat, 28 Nov 2026 08:28:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B97C606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9CF8606A31F
+	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Nov 2026 09:36:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9CF8606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=T1hz9zak
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=98
-	DjPq0k77S6BY+ei2O96+19h+dMB8NHTMDNKHV/HtY=; b=T1hz9zakpCaESXv5m/
-	j7egMUti2NuouMJGlAccA2KvDCVs0S2uJeCr4ML18WBD2QKzX2zBiISTs5emHW3l
-	GWlw8DjnKgxXbeikfixYApoNmRHFS3PdNootHvWsA0qCGaq7XySbD0Jh7Ge4kzb6
-	T9wX2KruzzguHsCBaQc2ook9g=
-Received: from shaos.localdomain (unknown [])
-	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wD3X1eskApruM8PLA--.19391S2;
-	Sat, 28 Nov 2026 16:28:29 +0800 (CST)
-From: shaos <shawnq1@163.com>
-To: slava@dubeyko.com
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] hfsplus: bound B-tree map node traversal
-Date: Sat, 28 Nov 2026 08:28:28 +0000
-Message-Id: <20261128082828.3075144-1-shawnq1@163.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=JikK7AiD
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-8b5981c4834so10039127b3.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 28 Nov 2026 01:36:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chrisdown.name; s=google; t=1795858619; x=1796463419; darn=vger.kernel.org;
+        h=user-agent:content-disposition:content-type:mime-version:cc:to
+         :subject:from:message-id:date:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=aFuH3CwyqkMoGdxfnHGMpD/JLCCKLuO9Rr2dCftzpuI=;
+        b=JikK7AiDXvJDf/ciqvCah0/KWbCdIMfKgZGcXs0V9aYVk6ytiwQ6DTBuSrUkytQBfJ
+         PMzhzsA+Tt5cyubk3p4ThBmzd1dmMF9425d09sXLUjV6+8ZA347gWoSbmjGlyj6gGOcA
+         mUG+o4VpqAbnIZedNFHL5fcwb8iR8lTSrbaaM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795858619; x=1796463419;
+        h=user-agent:content-disposition:content-type:mime-version:cc:to
+         :subject:from:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=aFuH3CwyqkMoGdxfnHGMpD/JLCCKLuO9Rr2dCftzpuI=;
+        b=zYWnX58iVUzxvrHBBmjXrpJokQhQMOzeDZukAd3fmanR2bibvoAQofn6I5v4fAo3oT
+         wHhShGBnpohqxLP3gMuIFxodwjT1kBfoXpqcPU1F80UYDvp0EzdTya+Ckd/tInMbDKSB
+         2kGOtfYAnFvnFFJJF33wxjGkvyNPk+6hhojC1NN1r987xoh/HTLl1A/YEoq+WL6zi5wv
+         NEMcYdwNXxWfyclt+A+u2HZmJpgUKEDEUy/whxrO6R00PZtA7rNGBU9UVJSdHOJnxHFo
+         xEF0cBoDIbnTIqrXg/iFs/t4lYGgzot5j00B3kN+A+i6poIKtgR3d47HkEt1Jjdzg/6L
+         vSoA==
+X-Gm-Message-State: APuU4Z8icqeJldzEROXa3ZpGn4uXX6Y59Q6JMChS9RcXEtnQtjb2gEIf
+	vIcvEHeFwp4ZUr0Yt6cRUlex4Wyr4sPGoPZC+NmcnRMXkH1SxGPoMzE5QWoumfMuEvrCHInAiSp
+	zKq2GxBEmQNxsdOs=
+X-Gm-Gg: AZFdTZcsSYWmwZDUKXQQZfDj12xy1lNi78u3HCSXQnFi05tdz4leBjsM3yG/z7TkJdk
+	XCoPBAO14+aJgFNmVVT1jXjgwha8/jfWJU9Glwz4X6ebJOHtTE5Y/X5vsKgLOvBbSAcLgGH5DCU
+	c6bZkTnxejGfs9gAYgMwEUNRwBR3iiniYU62sKK4J3ZOGjA859qrvgnHs757cAdGim0DB0esXEO
+	kQGJJqt1Aky4Gz/o8FWapndYS19Llrjr5nDw/QTaqIOBpnO+h6Oppaoz8t+IU8IoQvr9g9IFCtB
+	ikx2U+7vTOhTqO540o+rSe3fRJO5+YPSnq5WEi1OvrpQ/QjfSLmjN5qewHc7Y0/VGWNV5DPFOn3
+	67Ubtk1p4RcmPo65Rmh1dd074LjSlPwPfh0d9IzoQQGC56DmN2ruU5MxhrA1in74b0QHjeaBYvq
+	l1V3N2oZUQvqIBSpk1ktHumaIBRZnvojYaX7RN72xeUTyq6mFEV0kl0KV3kyQyyUJ9+JsXk+A3r
+	zxtZ3+UmoY9dpSfWougYXU7B/YvvCdtBR6qMJcFVA8SAio+NmDo1qjulSMXCcNoUngIvvLpo1i/
+	wbtQhsr2bIwcRuZD47geZqyE2RTmhbK5YUwK596hK1N8WtgP9I5fA/1ZtuEOQ3wOU9VviCP9fEJ
+	ZAcNwLtBd/nKQ/QNZmHU7/7ZeN+TnJXJv8hDX5eKTsqx5e0Mj7fJWSWHwJMCrJ/jL+xV0kjMdYC
+	36HTiKwQrLFICyr5swSYyCYSRoSBahcGTmOARWnW4lMwQwI6R8C57B07zl1KNWT/ewhDFxGbaMp
+	LL8VX6xR0ya3BozpaK6/E+vARWRdqMo1ig2NAa51JIG
+X-Received: by 2002:a05:690c:4a03:b0:8a8:5c3d:903 with SMTP id 00721157ae682-8b520519690mr101400097b3.62.1795858618844;
+        Sat, 28 Nov 2026 01:36:58 -0800 (PST)
+Received: from [172.20.0.3] (c-73-207-185-9.hsd1.ga.comcast.net. [73.207.185.9])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b5201ba5c1sm105483647b3.3.2026.11.28.01.36.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Nov 2026 01:36:57 -0800 (PST)
+Date: Sat, 28 Nov 2026 01:36:56 -0800
+Message-ID: <cover.1795855037.git.chris@chrisdown.name>
+From: Chris Down <chris@chrisdown.name>
+Subject: [PATCH v2 0/2] timerfd: Support CLOCK_TAI
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+    Alexander Viro <viro@zeniv.linux.org.uk>,
+    Christian Brauner <brauner@kernel.org>,
+    Jan Kara <jack@suse.cz>,
+    Anna-Maria Behnsen <anna-maria@linutronix.de>,
+    Frederic Weisbecker <frederic@kernel.org>,
+    Thomas Gleixner <tglx@kernel.org>,
+    kernel-team@meta.com
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -61,128 +100,61 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3X1eskApruM8PLA--.19391S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxAw1UtryDuF1DXF4fXF47Arb_yoWrur1kpF
-	Zxtayay3WvqF1Fqws3Ka10q3Wa9wn7JrWa93WkXw4xZwn8Xr1xtr10yFyYqFsrAFWkWrWY
-	qFW5Wa4Fgay7tFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jw_-PUUUUU=
-X-CM-SenderInfo: pvkd40jtr6il2tof0z/xtbC0A2sumsKkK0cVQAA3e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
 
-Hello,
+Both hrtimers and POSIX timers accept CLOCK_TAI, but timerfd_create()
+rejects it. An application with TAI deadlines and an epoll based event
+loop is left with two options. It can convert the deadlines to
+CLOCK_REALTIME, which brings back the exposure to wall clock jumps it
+was trying to avoid, or it can stop using timerfd.
 
-hfs_bmap_alloc() follows the next pointer of each B-tree map node without
-checking for a cycle or an upper bound.  A crafted HFS+ image can make a
-full map node point to itself.  Mounting the image then loops in the
-allocation-map scan and consumes CPU; the mount task remains alive after
-SIGKILL.
+Patch 1 makes timerfd_create() accept CLOCK_TAI and makes
+TFD_TIMER_CANCEL_ON_SET work for it. A CLOCK_TAI timer is cancelled when
+CLOCK_REALTIME is set and when adjtimex(ADJ_TAI) changes the TAI offset.
+Nothing changes for CLOCK_REALTIME timers.
 
-The reproducer creates the image and tests a self-cycle, a non-cyclic
-full map, and a normal map.  The cycle hung in two vulnerable runs.  The
-non-cyclic full-map fixture returned -ENOMEM when it reached node 8192,
-without hanging; the normal-map control mounted successfully.  With this
-patch, mounting the cycle returns -EIO promptly, and the normal-map
-control still mounts successfully.
+Patch 2 adds a selftest for this.
 
-The issue requires a privileged writable mount of a crafted HFS+ image.
-It demonstrates a local denial of service, not memory corruption or
-privilege escalation.
+There are two existing limitations I noticed which I have not fixed here:
 
-Tested source revision:
-HEAD commit:    8d7fe9885c62fc9a95bf55d9db244d9672a8aadc
-git tree:       fe970b05333fb8e41da21e9e289f652abcc7cba7
-source version: Linux 7.4.0-rc4
-compiler:       gcc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0,
-                GNU ld 2.38
+- Relative CLOCK_TAI timers stay on the TAI base, but hrtimer_setup()
+  moves relative CLOCK_REALTIME timers to CLOCK_MONOTONIC. That makes a
+  relative CLOCK_TAI timerfd expire early if the clock is stepped
+  forwards. The same happens with timer_settime() and clock_nanosleep()
+  on CLOCK_TAI today. TFD_TIMER_CANCEL_ON_SET does not report it because
+  it only applies to absolute timers.
+- The offset which cancel on set compares against is first recorded in
+  timerfd_create() rather than when the timer is armed. If the clock is
+  stepped between the two, the next clock_was_set() cancels the timer
+  even if nothing moved, and a later step back by the same amount is not
+  reported. This happens with CLOCK_REALTIME timers today.
 
-console output:
-https://gist.githubusercontent.com/shaos26/9280cbfdae1690b6b20c86bfe0c8db8e/raw/131205d3de25b8c5fe42864362c6e2e1009f90a1/console-output.txt
-kernel config:
-https://gist.githubusercontent.com/shaos26/9280cbfdae1690b6b20c86bfe0c8db8e/raw/d63b446bf570fc993d04b3ffeae979b3db4a6eec/kernel-config.txt
-reproducer:
-https://gist.githubusercontent.com/shaos26/9280cbfdae1690b6b20c86bfe0c8db8e/raw/d734030b8907670c9aefd748bd6663d894d828a2/poc.c
-initramfs init:
-https://gist.githubusercontent.com/shaos26/9280cbfdae1690b6b20c86bfe0c8db8e/raw/ce28f3f2f53dce541ad5cb7f5b110a378af9e2e6/init
-patched-kernel config:
-https://gist.githubusercontent.com/shaos26/9280cbfdae1690b6b20c86bfe0c8db8e/raw/d204ab19c4a8824c83293b94741f80cc0fa52b0a/patched-kernel-config.txt
+I can send patches for these separately if you think they are worth
+fixing.
 
-Build the kernel at the tested revision with the attached configuration.
-Build poc.c statically, place it at /poc in a minimal initramfs, and use
-the supplied init script as /init.  The initramfs needs a static BusyBox
-at /bin/busybox.  Run the cycle case with:
+v2:
 
-    gcc -O2 -Wall -Wextra -static -o poc poc.c
-    mkdir -p rootfs/bin
-    cp poc rootfs/poc
-    cp init rootfs/init
-    cp <static-busybox> rootfs/bin/busybox
-    chmod 0755 rootfs/init rootfs/poc rootfs/bin/busybox
-    (cd rootfs && find . -print0 | cpio --null -o -H newc) |
-        gzip -9 > initramfs.cpio.gz
+- Make TFD_TIMER_CANCEL_ON_SET work for CLOCK_TAI timers (tglx)
+- Add a selftest
+- Rebase onto tip timers/core
 
-    qemu-system-x86_64 -m 2G -smp 2 \
-        -kernel <linux-tree>/arch/x86/boot/bzImage \
-        -initrd initramfs.cpio.gz \
-        -append 'console=ttyS0 rdinit=/init pocmode=cycle lsm=landlock' \
-        -nographic -monitor none -no-reboot
+v1: https://lore.kernel.org/r/abuTTv9FC__H_8RC@chrisdown.name
 
-The init script runs /poc with the value of pocmode.  Repeat with
-pocmode=normal for the successful mount control.  The no-cycle fixture
-is also available as pocmode=nocycle.
+Chris Down (2):
+  timerfd: Support CLOCK_TAI
+  selftests: timers: Add a test for CLOCK_TAI timerfds
 
-Bound traversal by both the B-tree header's node count and the number of
-complete nodes that fit in the tree file.  This prevents a malformed
-header from permitting an unbounded walk:
+ fs/timerfd.c                                 |  20 +-
+ tools/testing/selftests/timers/.gitignore    |   1 +
+ tools/testing/selftests/timers/Makefile      |   2 +-
+ tools/testing/selftests/timers/timerfd-tai.c | 183 +++++++++++++++++++
+ 4 files changed, 201 insertions(+), 5 deletions(-)
+ create mode 100644 tools/testing/selftests/timers/timerfd-tai.c
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Signed-off-by: shaos <shawnq1@163.com>
----
- fs/hfsplus/btree.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
-index bd4dbdbc8f98c..7aff41420c098 100644
---- a/fs/hfsplus/btree.c
-+++ b/fs/hfsplus/btree.c
-@@ -534,6 +534,7 @@ struct hfs_bnode *hfs_bmap_alloc(struct hfs_btree *tree)
- 	struct hfs_bmap_ctx ctx;
- 	struct page *page;
- 	u32 nidx, idx;
-+	u32 max_nodes, nodes_seen = 1;
- 	u8 *data, byte, m;
- 	int i, res;
- 
-@@ -543,6 +544,9 @@ struct hfs_bnode *hfs_bmap_alloc(struct hfs_btree *tree)
- 	if (res)
- 		return ERR_PTR(res);
- 
-+	max_nodes = min_t(u64, tree->node_count,
-+			  tree->inode->i_size >> tree->node_size_shift);
-+
- 	nidx = 0;
- 	node = hfs_bnode_find(tree, nidx);
- 	if (IS_ERR(node))
-@@ -592,8 +596,15 @@ struct hfs_bnode *hfs_bmap_alloc(struct hfs_btree *tree)
- 			hfs_dbg("create new bmap node\n");
- 			next_node = hfs_bmap_new_bmap(node, idx);
- 			hfs_btree_write(tree);
--		} else
-+		} else {
-+			if (nodes_seen >= max_nodes) {
-+				pr_err("invalid btree map node chain\n");
-+				hfs_bnode_put(node);
-+				return ERR_PTR(-EIO);
-+			}
-+			nodes_seen++;
- 			next_node = hfs_bnode_find(tree, nidx);
-+		}
- 		hfs_bnode_put(node);
- 		if (IS_ERR(next_node))
- 			return next_node;
+base-commit: 0359ecff58853a491dd0f09792fea8e87235ae06
 -- 
-2.34.1
-
-Thanks,
-
-shaos
+2.56.1
 
