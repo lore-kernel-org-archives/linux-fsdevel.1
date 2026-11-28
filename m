@@ -1,65 +1,136 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795828136;
-	b=FNkfPSoHVCw3SiUPPSEmvmw+Wh5U8xLcNwhuOrvIo2uJFSlQwS6tO2lE3ScIZJEKHLfk
-	 EkPLcVyyvqJ7abf9pEv0sKTVTAC6mJcsVq2DYl+nONgESZhk26d4Z+d4ZzHGyS3/Ws4vb
-	 VOVCkQdhf0jHOWB2pmpN/48IRB44RxC8VxSvwqRyWIzs2lMPsPwLY6l/Sj7EKzvR7XI+t
-	 fQWkbpMBqj7LkgvA/yFW6N4aBe0S6BnMDZrXOgIAEomIzrjXtCLWrI8OQqq3rZ4dC3ral
-	 j9tdryGAUXgifOoLnoxLDQOQ/vHYi6xjpL4pApIiFE48F1D4c11Sn4xxwGt8r/Ntogw==
+	t=1795828227;
+	b=t3N1bNN8sl3FvC6Mp4ryjZ6KJmWjiQ8hAcl8gfIUmNX+SfsRT560y6fGQnqxbmrcS1/B
+	 uUSxLq1Tli4QiYpjAHqGILTfAsA3iT5p8IgSWopd3uWLVDr2ojcZrqd1dRHsFr9sy3E8n
+	 pRtkVx52DealQhAwQLkG184upXHbD2cmn23EOt6TpLC1eoE313XcPYJCICtSWCYOu/LIv
+	 tdSdUFzXUUQT0kf20E2aOHyDNUIkcU5ICmAgUYMMx61avwNrkBdnzFpkxZSOoN6NLv8Pc
+	 FWqDuIlFNQKmH72Z9simAknFxN01kiTh3QYej6M9t+BRavUz6eXxjw8ZM35X7gUgMGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795828136;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=BiX6ZyljcdQPQcS9kGO9WzZ1LmpsTkhRSgDRiHn9c1o=;
-	b=B8F6SatI2g49+Upcak7smdW9E5GuosVTBUYE/rCLQS8TbTtMjOmKc2EOhvpeSLGfGp9z
-	 w/pi4V2bkR0Wq1M6MXtKSKwi3vA+xtCuJCtNyhbK5bkrtnzhOVZxzpy1c8DJJIoBZpf+/
-	 KbpyMoCis7wd5S9R743/Nj7UKyEY5XhkO1bp/jHohwGvZf0bmGmbuaA1NDw7zsTxdTAuS
-	 lvYzrRzUwB3wMzcgI3mu5arnE3IeoE8firc0RY07wCmsAT1gvPKkFwriEG90VF1mvxeBA
-	 rXRVqraVfV+XtcBdAXzc4BKWmE1gGMLDwJe5TS3LnjeSKyzwc6oiRRa0YQd+T2QjHEQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795828227;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:Mail-Followup-To:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=LCoNBWE3kmGZQJ1kgw8zMrA5EDN0aulmwFxsRmULwsM=;
+	b=A2/GY3rmklgZ20Pz+IkTYPF0A4FDiaEcXbP9WH1iWHF9FFQFhtQgoUcfbPkdevsNLrmL
+	 cmDa4kRp5Jcs1XWAof4UCCtC7KEVlfb0ZuuinX0wRf8mpRsq4Xs+yPIe6jyf0y7OUD4sX
+	 BStgrg1JMZP06n442lj9B+f9w8nDjjVnG3C5waCo9S7laeTuOVwHBjpNmxx4u10zrcYcF
+	 BWEGvOIYAbeUvn1vaxHU6fJRlimGaMFlwbOobCvb7XO3mRaMXjjG5ppxuDJJInPNr8Pel
+	 e8ANm9h7D7Q0SEevdkmMGVcwUxyNN8tFYyhzvYk67Wmhx6h4E5lwaRPi2XcQ/16EgIQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m7iLJfrH;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=cs.cmu.edu;
+	spf=pass smtp.mailfrom=andrew.cmu.edu;
+	dkim=pass header.d=cs.cmu.edu header.i=@cs.cmu.edu header.a=rsa-sha256 header.s=google-2021 header.b=CWjYKGT0;
+	arc=none smtp.remote-ip=209.85.160.178
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id A6D99606A31F;
-	Sat, 28 Nov 2026 01:08:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13684606A32C
+	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Nov 2026 01:10:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13684606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.cmu.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andrew.cmu.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m7iLJfrH
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 91B211F00893;
-	Sat, 28 Nov 2026 01:08:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795828136;
-	bh=BiX6ZyljcdQPQcS9kGO9WzZ1LmpsTkhRSgDRiHn9c1o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=m7iLJfrHpA8eePZ6FYzysI93EHHYYCIo2ytcOQKp7ORyyDMSYxAtkEvF/yx09Cg4R
-	 iJpoHjXY0fVAvXCIvIs1NJ/9w+qIsCt6RlwL4ajRU1yO+cHTh7Kqs9xPXT70wa2ztz
-	 w9aAxfd4oLS/lkq6tKivYGYmqxvSr9+PmXk6sL5aSxkY+3hL8PAK3/XCPEqMlKxIz+
-	 HQtEFMtzRMrzi4vfR0aKtXsT0Hn90k3NcrBuaz2Pdcy1JZLE49YB2Eq7UcGR+3pIPL
-	 0oJTU3Xa3CDhp1P5hE3sz1DkIOuyxJP2Em7qSR+Y9YvoBlBS1Ske2Iz2DgAlZ38EGJ
-	 V6CXPjiHUEcjA==
-Date: Sat, 28 Nov 2026 03:08:52 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Askar Safin <safinaskar@gmail.com>
-Cc: aleksa@amutable.com, alex@amutable.com, arnd@arndb.de,
-	bpf@vger.kernel.org, brauner@kernel.org, containers@lists.linux.dev,
-	corbet@lwn.net, dhowells@redhat.com, ebiggers@kernel.org,
-	giuseppe@scrivano.org, hughd@google.com, jack@suse.cz,
-	jlayton@kernel.org, josef@toxicpanda.com, kees@kernel.org,
-	kpsingh@kernel.org, lennart@poettering.net,
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	luto@amacapital.net, neal@gompa.dev, oleg@redhat.com,
-	paul@paul-moore.com, ptikhomirov@virtuozzo.com, sergeh@kernel.org,
-	skhan@linuxfoundation.org, viro@zeniv.linux.org.uk,
-	zygmunt.krynicki@canonical.com
-Subject: Re: [RFC PATCH v7 00/26] userland: Userland containers
-Message-ID: <awoppInSWN0XVPz-@kernel.org>
-References: <20261122193539.3334213-1-jarkko@kernel.org>
- <20261128005541.873229-1-safinaskar@gmail.com>
+	dkim=pass (2048-bit key) header.d=cs.cmu.edu header.i=@cs.cmu.edu header.a=rsa-sha256 header.s=google-2021 header.b=CWjYKGT0
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-55d03bfd477so96031191cf.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 17:10:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cs.cmu.edu; s=google-2021; t=1795828223; x=1796433023; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:mail-followup-to:message-id:subject:cc:to:from:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LCoNBWE3kmGZQJ1kgw8zMrA5EDN0aulmwFxsRmULwsM=;
+        b=CWjYKGT0Rxh7o04L3TC/JfK+uf4hcTv5G/OYgTRB1iBdL4eDH3e/LFFIDSlMTSh10O
+         nTeD3sJ2hsdOj+qUENGI6sv3VZx0OdZm7gaYArds/UnZMFzu0txNbil2P2V49E3BSbKf
+         fBFWYtcAxrxOXqE8cE3CSJ7ayej+C8/WOWoK8p4TehPSmjK4cVdj6nW4QQnR0rVwFURz
+         FQHMbeQFo/sRs/DRuW4xea47NphJ6VklMieXOE0gjy6FzMga+PUhUn4yGX9iJcyWCFRN
+         dHlM28+px1j6+Lb66EZ6+U6goVgQsWG0+7hHxkb8jYPOwUJKOuA9bMOR7OUMQNy1D4tO
+         ehCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795828223; x=1796433023;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=LCoNBWE3kmGZQJ1kgw8zMrA5EDN0aulmwFxsRmULwsM=;
+        b=SCn6X6QeUlcppSCsBn9pnGROo4M1wkpvAU4EhonczuOY/YyU0UcUe6wRFqryyFLpfW
+         sxl8AHabOqmNWN2o72z2NpzBPO10TPSjyjwMJb3NhqIMdlccc8YPUtn4UgofSB8d1JWO
+         QDGooMnU9odmuKzI1qpfGyTz7zfAvOTSbEx5cMpqcb/cmK5qHA5BIuN+uXKAASBmM7xb
+         +uj3xmVoQSpOxN/LrSA5WcBuoLvnn3LSExOU+M71Jdp0yh+KOiJPaED3VhWQDZrzGeWf
+         p3NNCT81wYvGNlul74i9af/B/qlvedpB5wdSZ29E2cQO/HIgUtzlHHTIXyyHe0dcEChG
+         X4nw==
+X-Forwarded-Encrypted: i=1; AL+hErH68Fb8IUWTzh/xzXcDGGmUPJ0xpHKCqv0Cl7b52UnrQPP3xlKWBf3Y1vOv611Os5YAwh9jJCi5p+i/9GJ5@vger.kernel.org
+X-Gm-Message-State: APuU4Z9NDKEQdKS/RfglLaVImbwRjAWN/DsklucH9/G+JV8OzvFuK6s8
+	whwJ/qgQ0Nal7nswedzLy0jJfjk0Yfv12kEU8pJMZ+Ja6hHDLy3tf4FG/8M8/fJtRg==
+X-Gm-Gg: AZFdTZfIpQ93EpolVi6jmJTQ1BD5e26+6Ls5lc8ZlqMFh3Lv3t2J7rRZpDvr/QCiqiX
+	cIPfPTUseEFyU4T6jXP7xvd3fyBjzGx7Tq4ANn3RK7qeUsx0kS1E4CCjmEe9NXjKezjlKJ9oone
+	6bxXH+wd4RBvQ44LYz48xHGaojCXFCA0ZBBuf7irAEG74SpNH0pUJnSIAARh3vwkaxZLYy6QalU
+	9xNo5hH9DTWD+yP/Fvh7B37iK38FwYRlP3CRYVwpA3Ny2G15Oydfz4gX75e4rsAXQEW0089nhX8
+	6GGwGxn7rmhV3tnmL1wd3ui89IOQX/AVr/QrfD4IoKE2PC9IaK6EC5kZWIolLwfRqTNq5bNV22F
+	g0dIB/G8/NO3c9RczuXOt9Hx1lsRo4dL2uvhxCYJ0MQkxNYNefxFINdguA14TIefWmFT+a7w34S
+	/odM4uYGsawFB1ysCjbLVY6ZpSSW/3JDmcP4YAKPd9k6FWUu2PWd6jgX3IOsgG0M4tlbRPXyruI
+	yJ8qrV7IlnKuTaA6pfNU08BO6gn3uYky6FZqkyCwSaz++wjeV+q6FIa7ebRpKatLwcmQFvJr4mm
+	6uQ9iOuxcFF7jXGZpvO0ScDeCW8SKdx19aBIY46MbsbRdNMDTQ==
+X-Received: by 2002:a05:622a:428a:b0:535:f92d:5c00 with SMTP id d75a77b69052e-55d76af8921mr488959251cf.76.1795828223013;
+        Fri, 27 Nov 2026 17:10:23 -0800 (PST)
+Received: from cs.cmu.edu (tempest.elijah.cs.cmu.edu. [128.2.210.10])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921349b3a0csm229263356d6.14.2026.11.27.17.10.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Nov 2026 17:10:22 -0800 (PST)
+Date: Fri, 27 Nov 2026 20:10:13 -0500
+From: Jan Harkes <jaharkes@cs.cmu.edu>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+	David Rheinsberg <david@readahead.eu>,
+	Hugh Dickins <hughd@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	David Hildenbrand <david@kernel.org>, Jann Horn <jannh@google.com>,
+	Alex Shi <alexs@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+	Pedro Falcato <pfalcato@suse.de>,
+	David Rientjes <rientjes@google.com>,
+	Rik van Riel <riel@redhat.com>, Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Muhammad Usama Anjum <usama.anjum@arm.com>, linux-mm@kvack.org,
+	Andrei Vagin <avagin@gmail.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Chris Mason <mason@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH 1/4] coda: never point a file's f_mapping at a
+ container's mapping
+Message-ID: <20261128010821.irhzl7qcqahz6onx@cs.cmu.edu>
+Mail-Followup-To: Andrew Morton <akpm@linux-foundation.org>,
+	"Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+	David Rheinsberg <david@readahead.eu>,
+	Hugh Dickins <hughd@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	David Hildenbrand <david@kernel.org>, Jann Horn <jannh@google.com>,
+	Alex Shi <alexs@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+	Pedro Falcato <pfalcato@suse.de>,
+	David Rientjes <rientjes@google.com>,
+	Rik van Riel <riel@redhat.com>, Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Muhammad Usama Anjum <usama.anjum@arm.com>, linux-mm@kvack.org,
+	Andrei Vagin <avagin@gmail.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Chris Mason <mason@kernel.org>, stable@vger.kernel.org
+References: <20261127-mlock-madvise-mprotect-ai-fixes-v1-0-e46b2b1eb435@kernel.org>
+ <20261127-mlock-madvise-mprotect-ai-fixes-v1-1-e46b2b1eb435@kernel.org>
+ <20261127124428.f1f66c6244d3e5c2811f56de@linux-foundation.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -71,22 +142,39 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261128005541.873229-1-safinaskar@gmail.com>
+In-Reply-To: <20261127124428.f1f66c6244d3e5c2811f56de@linux-foundation.org>
 
-On Sat, Nov 28, 2026 at 03:55:41AM +0300, Askar Safin wrote:
-> Jarkko Sakkinen <jarkko@kernel.org>:
-> > Work on this feature started in 2025 after reviewing David Howells'
-> > container object patch set [1], whose underlying mechanics made sense to
+On Fri, Nov 27, 2026 at 12:44:28PM -0800, Andrew Morton wrote:
+> On Fri, 27 Nov 2026 19:45:40 +0000 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
 > 
-> > [1] https://lore.kernel.org/all/155059610368.17079.2220554006494174417.stgit@warthog.procyon.org.uk/
-> > [2] https://lwn.net/Articles/1102593/
-> 
-> You put wrong link in "[1]". This is not Howells' container patchset. This
-> is Howells' fsopen/fsmount patchset.
-> 
-> Link "[2]" seems to be wrong, too. It is not something "earlier", this is
-> very recent LWN article.
+> > Coda file systems stack differently from other stacked file systems.
+> > 
+> > On mmap(), coda_file_mmap() switches both the Coda inode's i_mapping and
+> > the Coda file's f_mapping for the mapping of the container file. This
+> > causes two problems.
+> > 
+> > Firstly, the container file may not remain pinned, at which point this may
+> > result in a dangling reference in coda_file->f_mapping, and so a
+> > use-after-free in mmap() or lseek().
+> > 
+> > This can happen when you open the same inode across two files, mmap()'ing
+> > in one, which assigns the i_mapping, and open()'ing another, which assigns
+> > that i_mapping to the file's f_mapping, if the cache manager gave the two
+> > files different containers. Each file pins only its own container.
 
-Thanks for pointing that out: https://lwn.net/Articles/780364/
+Coda uses open-close consistency, so between the first open and the last
+close the cache manager does not make any changes to the cached copy, so
+every open is guaranteed to get the exact same container file.
 
-Br, Jarkko
+Now that happens to be the Coda cache manager, I guess changes that
+would enforce this at the kernel module level can be useful, but
+dropping f_mapping, I think will break mmap for us.
+
+> Yeah, I hit this while getting
+> tools/testing/selftests/mm/memory-failure.c to work on all Linux
+> filesystems.
+
+Did you test this without the actual Coda userspace? What was the
+cache consistency model your userspace was using?
+
+Jan
