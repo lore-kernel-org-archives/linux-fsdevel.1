@@ -1,70 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.69
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795846990;
-	b=GJd2TY9Mre8s+VOFFYtC5K6fRmEcGhtGgpjL4gsaa96irIkClaGRGtXzcEkIgzfFEe81
-	 j2v1oJAMKWwnXeh6ZSbdOwbACev9Z7gqdDae/Sb9WtJuiUUYOOli8FuFrq3UJyERE3oNl
-	 gJlaBjZ3Oj5hYC5dl5agws2rO29/NzfkJkKUsaEstkbIASSkwter5DybSLYntziN8f9Iw
-	 vSt6t5SgRiUQFORoPMPFcuNzLW2WkmVCpjj6nSUu+faar8gDL6XMCRwRx2iq99Zfi8uYv
-	 U996ck8vA/EyIk/Xex+UrogAh3aaeioDF5yrbrBVI6Wc38KXPPDgXGDcsmcn0TgcN6A==
+	t=1795850495;
+	b=Bq/+4mcXHwyYyqCtjKMf04tsJQzkcxwwsfyC6GixHdj35PkwGWt4RWrWs3LRRW039EMm
+	 K/tFEPKD+REIenFCfdjxcwMt7i7g/Jn7UlA0YWzDQhMOn4hBEhf06MYHxuFZW3kC7gZMo
+	 mDlzd9+M6iK6a1H1cHBUmOHs2z3/iiBexAG0YOqJHvU+z1/bTyN/Dh1NKTqbyZKBJKifY
+	 9PYw2Dw2tRjpsFisg6+eYR+JRZRnPgScMnh42F2K0HxiY0qJv9qDihBP9Sv9DkAPDfeCs
+	 TVjXd588b9cHOJq3pgjjcB9y6MvO4GLlp53xfJqbKG/wEbHk5HM6Xs5mYBJaNMI7mwg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795846990;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
-	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=lTtuW/eDk2oXdvt9wdrZZaMl79sbzHRyXPa+arkL84k=;
-	b=jt8NEUww5RWh18PUF4dLegCjiYz0OO8UmH3bCQexC1qI4kxz5PyeC1YHwcECLnk5sztg
-	 e21Lklh1OqP2LgIru4Osd2hAZLAQN0mNwPjlTfOrQjsw53/jy6jAGSZWZ4OalwBYOHsdL
-	 1IvEtb/riXX6PLdwek2cK+xYWB64xLOqnvi+Nk0fdMvYGSbW5YOgueY/0+TvvNWzPfeQu
-	 ZmVevQURaLgPpKJ0T8j7kCWI2ey5DHhzBargAF//Uh4f8WnuDgHn42qBRFFf46aEq2+SI
-	 POAmwSZNAU4bJF0Rp5CVO7fm7+p1+osQgUNZWMJY8Xm0ks6fG/0knviPPSCjlwQn22Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795850495;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=u3YnEfSpBa8GXAsmJOqVgSfPCQe9iVa1OjCJNB3v9Ls=;
+	b=MvJVmgjOOb9ZKZZehFWLCA/QiJHnDP2mr1GtOYG11tVGJa3jk1b5dPHnzIoIFFY+qKWE
+	 6StZlQHdk8NK34Rx72xK/ik4QpB0n2+9V0GXOZxNqQN63RR3b3MhDUEkI+dQX1t/1aOXG
+	 LYO6WYr73Kze5VXoMlhn8bDoROWA1wtY1IrjLElaWV8NEHQ8MKLgUXLVVjE10yWlb4tao
+	 Pfb60EzSaTGnTdxn6LpyhIRjTu+C3LbnxLY3GHTRdScDkGouIxvH8fUGf0aX5ljDRqFu0
+	 ibR84sRUb33gNw5ZpkPu6DfA9P3SH3OwQHs3ZSHyy3OyuLz+lDVpqtne5SNcyISLIkQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=ChhNmfMy;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.160.69
+Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com [209.85.160.69])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8365D606A31C;
-	Sat, 28 Nov 2026 06:23:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=ChhNmfMy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38DBB1F000C1;
-	Sat, 28 Nov 2026 06:23:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1795846990;
-	bh=lTtuW/eDk2oXdvt9wdrZZaMl79sbzHRyXPa+arkL84k=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=ChhNmfMyeP4ZlcWr+LP9M1gmjvgctYMPIlzWsY83EhNxPBeq2WWnH9yZPES9pALV+
-	 /kazP36zqNtWuSnZcLB9XRQZm3CPs6DVHYgQCoomLstjIjqIiv8UH6fAuaI9yVzWFC
-	 grkSzniHmJ707b757jtFD5MgdIFYR/5uq2B8Ta9c=
-Date: Fri, 27 Nov 2026 22:23:08 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Jan Harkes <jaharkes@cs.cmu.edu>
-Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, David Rheinsberg
- <david@readahead.eu>, Hugh Dickins <hughd@google.com>, Vlastimil Babka
- <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, David
- Hildenbrand <david@kernel.org>, Jann Horn <jannh@google.com>, Alex Shi
- <alexs@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, Pedro Falcato
- <pfalcato@suse.de>, David Rientjes <rientjes@google.com>, Rik van Riel
- <riel@redhat.com>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
- <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, =?UTF-8?Q?Micha=C5=82_Miros=C5=82aw?=
- <mirq-linux@rere.qmqm.pl>, Arnd Bergmann <arnd@arndb.de>, Stephen Rothwell
- <sfr@canb.auug.org.au>, Muhammad Usama Anjum <usama.anjum@arm.com>,
- linux-mm@kvack.org, Andrei Vagin <avagin@gmail.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Chris Mason <mason@kernel.org>,
- stable@vger.kernel.org
-Subject: Re: [PATCH 1/4] coda: never point a file's f_mapping at a
- container's mapping
-Message-Id: <20261127222308.a372076fef9e470ea264cbb5@linux-foundation.org>
-In-Reply-To: <20261128010821.irhzl7qcqahz6onx@cs.cmu.edu>
-References: <20261127-mlock-madvise-mprotect-ai-fixes-v1-0-e46b2b1eb435@kernel.org>
-	<20261127-mlock-madvise-mprotect-ai-fixes-v1-1-e46b2b1eb435@kernel.org>
-	<20261127124428.f1f66c6244d3e5c2811f56de@linux-foundation.org>
-	<20261128010821.irhzl7qcqahz6onx@cs.cmu.edu>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFDD606A31F
+	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Nov 2026 07:21:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7EFDD606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f69.google.com with SMTP id 586e51a60fabf-45e6091d8a1so6153013fac.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 27 Nov 2026 23:21:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795850494; x=1796455294;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=u3YnEfSpBa8GXAsmJOqVgSfPCQe9iVa1OjCJNB3v9Ls=;
+        b=apmREgtIYb4NYm+1ZnkZH0xkYGr0/wDBZ6UM4iPAFmH8KtXycP8joVVA7OC5yhmnV3
+         8s1lk0Iz34QSysssJXY+JWly1ak3A9PlpvG8yIC6q+DksQ8arymifNstQ9wFK9j32vSw
+         BbH7eYLuJdPjpkHaNWvlpwEUBIAoWCJSBciejmZOtMSAafET0V67wseNzaSZOXjMd2iY
+         g7h7G1C3MVbpKTszV3PuSqpwEoYLfS1LV0KIpTBEjci48aIx1bLnmaF2J68q+8xy4dXV
+         7hRo47d4huvDLvzNj9VhmKoaVfeSI4dRpcCEsO5913xhTM4JwE4Xb0npYWp/Z4mnyCFa
+         OQqA==
+X-Forwarded-Encrypted: i=1; AL+hErEMg/JW0uNLPOQRHRZSeE7NO7So2JjitsiZiERW+h75vJPYzqGQjqCYcmlWWIVfDMa+8lYKKcmXj20aL3In@vger.kernel.org
+X-Gm-Message-State: APuU4Z/XfHcyA4hmnmSqpM5ZSYdM2ATVVAsuAYNoGWne6xrbw/PdCQnf
+	YROzA8wiBmUDMenO81G1o2wc091gTTtQSNd19qRZa2EXlDXtoS0QaIW1RSM5QzhazFSUlQp+xo1
+	ZoKY5KnKj8tsqoMPFSAestQwWNXda0cfUOCGEYaTwS2qWnDHRVo2+RbVUydM=
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -73,325 +57,128 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+X-Received: by 2002:a05:6808:30a7:b0:4f7:a3f2:d8b4 with SMTP id
+ 5614622812f47-57a0caddaedmr28732716b6e.65.1795850494592; Fri, 27 Nov 2026
+ 23:21:34 -0800 (PST)
+Date: Fri, 27 Nov 2026 23:21:34 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6b0a80fe.8ccee5ca.1045fd.028c.GAE@google.com>
+Subject: [syzbot] [fs?] KCSAN: data-race in proc_invalidate_siblings_dcache / proc_pid_evict_inode
+From: syzbot <syzbot+c477bc599c896b5de237@syzkaller.appspotmail.com>
+To: adobriyan@gmail.com, akpm@linux-foundation.org, brauner@kernel.org, 
+	jack@suse.cz, jannh@google.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, sforshee@kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 27 Nov 2026 20:10:13 -0500 Jan Harkes <jaharkes@cs.cmu.edu> wrote:
+Hello,
 
-> On Fri, Nov 27, 2026 at 12:44:28PM -0800, Andrew Morton wrote:
-> > On Fri, 27 Nov 2026 19:45:40 +0000 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
-> > 
-> > > Coda file systems stack differently from other stacked file systems.
-> > > 
-> > > On mmap(), coda_file_mmap() switches both the Coda inode's i_mapping and
-> > > the Coda file's f_mapping for the mapping of the container file. This
-> > > causes two problems.
-> > > 
-> > > Firstly, the container file may not remain pinned, at which point this may
-> > > result in a dangling reference in coda_file->f_mapping, and so a
-> > > use-after-free in mmap() or lseek().
-> > > 
-> > > This can happen when you open the same inode across two files, mmap()'ing
-> > > in one, which assigns the i_mapping, and open()'ing another, which assigns
-> > > that i_mapping to the file's f_mapping, if the cache manager gave the two
-> > > files different containers. Each file pins only its own container.
-> 
-> Coda uses open-close consistency, so between the first open and the last
-> close the cache manager does not make any changes to the cached copy, so
-> every open is guaranteed to get the exact same container file.
-> 
-> Now that happens to be the Coda cache manager, I guess changes that
-> would enforce this at the kernel module level can be useful, but
-> dropping f_mapping, I think will break mmap for us.
-> 
-> > Yeah, I hit this while getting
-> > tools/testing/selftests/mm/memory-failure.c to work on all Linux
-> > filesystems.
-> 
-> Did you test this without the actual Coda userspace? What was the
-> cache consistency model your userspace was using?
+syzbot found the following issue on:
 
-Couldn't figure out how to get Venus working (I wouldn't know what a
-coda is if it bit me on the foot!) so a mockup thing over tmpfs was
-used in place.
+HEAD commit:    9437ee8b6cf6 Merge tag 'net-7.4-rc5' of git://git.kernel.o..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13557865580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=dc99102739636b09
+dashboard link: https://syzkaller.appspot.com/bug?extid=c477bc599c896b5de237
+compiler:       Debian clang version 22.1.8 (1~deb13u5), Debian LLD 22.1.8
 
-<tries harder>
+Unfortunately, I don't have any reproducer for this issue yet.
 
-OK, reran with real Venus and a writable file on the server.  The below
-repro makes a writable shared mapping, then opens and maps it again
-while the first mapping is live.  All 300 first mappings succeeded and
-299 of the 300 second mappings failed with EPERM.  This uses one Coda
-file and doesn't depend on Venus changing containers between opens.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/a18388c9db19/disk-9437ee8b.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/a8415136a96e/vmlinux-9437ee8b.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/594b09b51c9a/bzImage-9437ee8b.xz
 
-That one-line-removal fixes this up.
+AI-generated root cause summary:
+proc_invalidate_siblings_dcache() in fs/proc/inode.c reads the RCU-protected
+hlist head using hlist_first_rcu(inodes) directly without wrapping it in
+rcu_dereference() (or holding the list spinlock). Because hlist_first_rcu() is a
+plain pointer dereference rather than an atomic/RCU load, this creates an
+unmarked read on pid->inodes.first that races with marked writes
+(WRITE_ONCE(*pprev, next)) in __hlist_del() when proc_pid_evict_inode() unlinks
+a sibling inode under pid->lock.
 
-: Coda changes file->f_mapping to the container file's mapping inside
-: coda_file_mmap(). mmap_region() takes a temporary writable-mapping count
-: before calling ->mmap() and releases it afterward. Coda's assignment
-: makes those two operations use different mappings, leaving the
-: container's count too low. Subsequent writable MAP_SHARED mappings can
-: fail with -EPERM.
-: 
-: I reproduced this with real Venus and a writable file on a Coda server.
-: Without the patch, 299 of 300 second mappings failed with -EPERM when
-: another mapping of the same file was live. With the one-line-removal
-: all 300 succeeded, and mapped writes passed the readback check.
+full analysis:  https://syzkaller.appspot.com/x/ai_root_cause?x=c477bc599c896b5de237
 
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+c477bc599c896b5de237@syzkaller.appspotmail.com
 
+==================================================================
+BUG: KCSAN: data-race in proc_invalidate_siblings_dcache / proc_pid_evict_inode
 
+write (marked) to 0xffff8881048a01d0 of 8 bytes by task 6951 on cpu 0:
+ __hlist_del include/linux/list.h:1045 [inline]
+ hlist_del_init_rcu include/linux/rculist.h:238 [inline]
+ proc_pid_evict_inode+0x7c/0xd0 fs/proc/base.c:1918
+ proc_evict_inode+0x45/0xa0 fs/proc/inode.c:41
+ evict+0x301/0x570 fs/inode.c:829
+ iput_final fs/inode.c:2036 [inline]
+ iput+0x44f/0x5d0 fs/inode.c:2085
+ dentry_unlink_inode+0x29a/0x2b0 fs/dcache.c:510
+ dentry_kill+0x135/0x4f0 fs/dcache.c:857
+ finish_dput+0x9f/0x1d0 fs/dcache.c:1032
+ dput+0x43/0x50 fs/dcache.c:1073
+ proc_invalidate_siblings_dcache+0x1e6/0x2c0 fs/proc/inode.c:143
+ proc_flush_pid+0x1d/0x30 fs/proc/base.c:3457
+ release_task+0xa0c/0xba0 kernel/exit.c:292
+ exit_notify kernel/exit.c:781 [inline]
+ do_exit+0xd64/0x1530 kernel/exit.c:992
+ do_group_exit+0xfe/0x140 kernel/exit.c:1123
+ get_signal+0xc49/0xd30 kernel/signal.c:3113
+ arch_do_signal_or_restart+0x96/0x480 arch/x86/kernel/signal.c:337
+ __exit_to_user_mode_loop kernel/entry/common.c:66 [inline]
+ exit_to_user_mode_loop+0x161/0x940 kernel/entry/common.c:101
+ __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
+ syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
+ syscall_exit_to_user_mode include/linux/entry-common.h:343 [inline]
+ do_syscall_64+0x23b/0x3a0 arch/x86/entry/syscall_64.c:107
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-I also hit a lockdep splat along the way.  That's also appended along
-with a slop-coded "fix" which I haven't even looked at, sorry.  But it
-did make the splat go away.
+read to 0xffff8881048a01d0 of 8 bytes by task 5112 on cpu 1:
+ proc_invalidate_siblings_dcache+0x2a/0x2c0 fs/proc/inode.c:114
+ proc_flush_pid+0x1d/0x30 fs/proc/base.c:3457
+ release_task+0xa0c/0xba0 kernel/exit.c:292
+ wait_task_zombie kernel/exit.c:1285 [inline]
+ wait_consider_task+0x1131/0x1630 kernel/exit.c:1512
+ do_wait_thread kernel/exit.c:1575 [inline]
+ __do_wait+0xf1/0x500 kernel/exit.c:1693
+ do_wait+0xc9/0x2c0 kernel/exit.c:1727
+ kernel_wait4+0x19f/0x210 kernel/exit.c:1886
+ __do_sys_wait4 kernel/exit.c:1914 [inline]
+ __se_sys_wait4 kernel/exit.c:1910 [inline]
+ __x64_sys_wait4+0x91/0x120 kernel/exit.c:1910
+ x64_sys_call+0x108f/0x2550 arch/x86/include/generated/asm/syscalls_64.h:62
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x11e/0x3a0 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
+value changed: 0xffff8881071611b0 -> 0xffff88810718e530
 
-
-
-// SPDX-License-Identifier: GPL-2.0
-/*
- * Reproduce Coda writable MAP_SHARED failures with a real Venus.
- * Usage: ./coda-mmap-repro /coda/REALM/test-directory/file [iterations]
- * The named file is created/truncated. Use a disposable writable test path.
- */
-#define _GNU_SOURCE
-#include <errno.h>
-#include <fcntl.h>
-#include <linux/magic.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/mman.h>
-#include <sys/statfs.h>
-#include <unistd.h>
-
-int main(int argc, char **argv)
-{
-	long pagesize = sysconf(_SC_PAGESIZE), loops = 300;
-	long first_ok = 0, second_ok = 0, first_eperm = 0;
-	long second_eperm = 0, other = 0, coherence_ok = 0;
-	struct statfs fs;
-	char *end;
-	int setup;
-
-	if (argc < 2 || argc > 3 || pagesize < 1) {
-		fprintf(stderr, "usage: %s CODA-TEST-FILE [iterations]\n", argv[0]);
-		return 2;
-	}
-	if (argc == 3) {
-		errno = 0;
-		loops = strtol(argv[2], &end, 10);
-		if (errno || *end || loops < 1 || loops > 1000000) {
-			fprintf(stderr, "invalid iteration count\n");
-			return 2;
-		}
-	}
-	if (statfs(argv[1], &fs) < 0) {
-		/* The file need not exist yet: check its parent in the runner. */
-		if (errno != ENOENT) {
-			perror("statfs");
-			return 2;
-		}
-	} else if ((unsigned long)fs.f_type != CODA_SUPER_MAGIC) {
-		fprintf(stderr, "%s is not on a Coda filesystem\n", argv[1]);
-		return 2;
-	}
-	setup = open(argv[1], O_CREAT | O_TRUNC | O_RDWR, 0600);
-	if (setup < 0 || ftruncate(setup, pagesize) < 0 || close(setup) < 0) {
-		perror("create/truncate");
-		return 2;
-	}
-	if (statfs(argv[1], &fs) < 0 ||
-	    (unsigned long)fs.f_type != CODA_SUPER_MAGIC) {
-		fprintf(stderr, "test file is not on a Coda filesystem\n");
-		return 2;
-	}
-	printf("coda_magic=0x%lx path=%s\n", (unsigned long)fs.f_type, argv[1]);
-	for (long i = 0; i < loops; i++) {
-		int first = open(argv[1], O_RDWR), second;
-		char *a, *b, check;
-		if (first < 0) {
-			perror("first open");
-			return 2;
-		}
-		a = mmap(NULL, pagesize, PROT_READ | PROT_WRITE,
-			 MAP_SHARED, first, 0);
-		if (a == MAP_FAILED) {
-			if (errno == EPERM) first_eperm++;
-			else { fprintf(stderr, "first mmap %ld: %s\n", i, strerror(errno)); other++; }
-			close(first);
-			continue;
-		}
-		first_ok++;
-		a[0] = (char)('A' + i % 26);
-		/* Open while the first writable mapping is still live. */
-		second = open(argv[1], O_RDWR);
-		if (second < 0) {
-			perror("second open");
-			return 2;
-		}
-		b = mmap(NULL, pagesize, PROT_READ | PROT_WRITE,
-			 MAP_SHARED, second, 0);
-		if (b == MAP_FAILED) {
-			if (errno == EPERM) second_eperm++;
-			else { fprintf(stderr, "second mmap %ld: %s\n", i, strerror(errno)); other++; }
-		} else {
-			second_ok++;
-			if (b[0] != a[0]) {
-				fprintf(stderr, "mapping coherence mismatch at %ld\n", i);
-				other++;
-			} else {
-				b[0] = (char)('a' + i % 26);
-				if (msync(b, pagesize, MS_SYNC) < 0 ||
-				    pread(first, &check, 1, 0) != 1 ||
-				    a[0] != b[0] || check != b[0]) {
-					fprintf(stderr, "write/msync/read mismatch at %ld: %s\n",
-						i, strerror(errno));
-					other++;
-				} else coherence_ok++;
-			}
-			if (munmap(b, pagesize) < 0) { perror("munmap second"); return 2; }
-		}
-		if (close(second) < 0 || munmap(a, pagesize) < 0 ||
-		    close(first) < 0) {
-			perror("cleanup");
-			return 2;
-		}
-	}
-	printf("iterations=%ld first_ok=%ld first_EPERM=%ld second_ok=%ld "
-	       "second_EPERM=%ld coherence_ok=%ld other=%ld\n",
-	       loops, first_ok, first_eperm, second_ok, second_eperm,
-	       coherence_ok, other);
-	return first_eperm || second_eperm || other ? 1 : 0;
-}
+Reported by Kernel Concurrency Sanitizer on:
+CPU: 1 UID: 0 PID: 5112 Comm: syz-executor Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/06/2026
+==================================================================
 
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-From: Andrew Morton <akpm@linux-foundation.org>
-Subject: coda: copy Venus requests to userspace without holding vc_mutex
-Date: Mon, 23 Nov 2026 15:07:44 -0800
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-coda_psdev_read() holds vc_mutex while copying an upcall into the Venus
-process, and copy_to_user() may take mmap_lock.  coda_file_mmap() runs
-with mmap_lock held and its access-intent upcall takes vc_mutex.  Lockdep
-reports the inversion:
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-  WARNING: possible circular locking dependency detected
-  init/1 is trying to acquire lock:
-  (&(&coda_comms[i])->vc_mutex){+.+.}-{4:4}, at: coda_upcall+0x2e/0x437
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-  but task is already holding lock:
-  (&mm->mmap_lock){++++}-{4:4}, at: vm_mmap_pgoff+0x71/0x10c
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-  which lock already depends on the new lock.
-
-  -> #1 (&mm->mmap_lock){++++}-{4:4}:
-         __might_fault+0x4e/0x6a
-         _copy_to_user+0x22/0x4d
-         coda_psdev_read+0x19a/0x203
-         ksys_read+0x72/0xa2
-
-  -> #0 (&(&coda_comms[i])->vc_mutex){+.+.}-{4:4}:
-         coda_upcall+0x2e/0x437
-         venus_access_intent+0xc6/0xfa
-         coda_file_mmap+0xa2/0x1ef
-         __mmap_region+0x87d/0xcac
-         mmap_region+0xc3/0xe5
-         do_mmap+0x5a4/0x5e3
-         vm_mmap_pgoff+0xd4/0x10c
-         ksys_mmap_pgoff+0x6c/0x95
-
-   Possible unsafe locking scenario:
-
-         CPU0                    CPU1
-         ----                    ----
-    lock(&mm->mmap_lock);
-                                 lock(&(&coda_comms[i])->vc_mutex);
-                                 lock(&mm->mmap_lock);
-    lock(&(&coda_comms[i])->vc_mutex);
-
-This is not a deadlock with a normal Venus, because the fault takes
-Venus's mmap_lock and the task which calls mmap() holds its own.  The two
-are the same lock only when the mmap() caller shares its mm with the task
-which reads the Coda device.
-
-Copy the upcall into a private buffer while holding vc_mutex.  Keep the
-request pending if the allocation fails.  Once the request has been moved
-to the processing list (or freed, for an asynchronous request), drop
-vc_mutex before copying the private buffer to Venus.  The copy no longer
-depends on the lifetime of the original request, which its sender is free
-to remove once vc_mutex has been dropped.
-
-The allocation is GFP_KERNEL, as are the ones which coda_upcall() already
-makes under vc_mutex.
-
-Return -EFAULT when the userspace copy fails.  Previously the nonzero
-count took precedence over retval, reporting a successful read even though
-the copy failed.
-
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-
- fs/coda/psdev.c |   28 ++++++++++++++++++++--------
- 1 file changed, 20 insertions(+), 8 deletions(-)
-
---- a/fs/coda/psdev.c~coda-avoid-user-page-faults-under-vc_mutex
-+++ a/fs/coda/psdev.c
-@@ -207,6 +207,7 @@ static ssize_t coda_psdev_read(struct fi
- 	DECLARE_WAITQUEUE(wait, current);
-         struct venus_comm *vcp = (struct venus_comm *) file->private_data;
-         struct upc_req *req;
-+	void *data;
- 	ssize_t retval = 0, count = 0;
- 
- 	if (nbytes == 0)
-@@ -238,7 +239,6 @@ static ssize_t coda_psdev_read(struct fi
- 		goto out;
- 
- 	req = list_entry(vcp->vc_pending.next, struct upc_req,uc_chain);
--	list_del(&req->uc_chain);
- 
- 	/* Move the input args into userspace */
- 	count = req->uc_inSize;
-@@ -248,21 +248,33 @@ static ssize_t coda_psdev_read(struct fi
- 		count = nbytes;
-         }
- 
--	if (copy_to_user(buf, req->uc_data, count))
--	        retval = -EFAULT;
--        
-+	/*
-+	 * The request can be freed when its reply arrives.  Keep a copy so
-+	 * that the userspace fault below does not run under vc_mutex.
-+	 */
-+	data = kvmemdup(req->uc_data, count, GFP_KERNEL);
-+	if (!data) {
-+		retval = -ENOMEM;
-+		goto out;
-+	}
-+	list_del(&req->uc_chain);
-+
- 	/* If request was not a signal, enqueue and don't free */
- 	if (!(req->uc_flags & CODA_REQ_ASYNC)) {
- 		req->uc_flags |= CODA_REQ_READ;
- 		list_add_tail(&(req->uc_chain), &vcp->vc_processing);
--		goto out;
-+	} else {
-+		kvfree(req->uc_data);
-+		kfree(req);
- 	}
- 
--	kvfree(req->uc_data);
--	kfree(req);
-+	mutex_unlock(&vcp->vc_mutex);
-+	retval = copy_to_user(buf, data, count) ? -EFAULT : count;
-+	kvfree(data);
-+	return retval;
- out:
- 	mutex_unlock(&vcp->vc_mutex);
--	return (count ? count : retval);
-+	return retval;
- }
- 
- static int coda_psdev_open(struct inode * inode, struct file * file)
-_
-
+If you want to undo deduplication, reply with:
+#syz undup
