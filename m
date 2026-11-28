@@ -1,75 +1,75 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.171.160.6
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795852266;
-	b=JoSPQtrKin/jm7/ppqxjkl0/Si29FArF/CPpldN/L22JLwgnhYO09YhRv02ezVIrwS0g
-	 OeUegsO/WmH32Sg8x3m9P7BbYso0A6NpeiGj5ffSz+PxBmvuSld3sp0WYrRNlLGTjcEh3
-	 G1xvkM7N1zeeLRN6lnfD4t8gPcKR3i/8jqkxuN37zjUY2YW8Ev031pYSMNvFKMB7f4Q38
-	 x9H2B1jnm/zMb+ObMLb9Kjed4gyEEuoUY0Hupx/UgVYR8tyW6jlesFmTK+1o7wUAfPjvY
-	 bPphAhURrQE6dEVnWzTEkLginj/XMP9ka94tR1HkiQu1mma7I2n8TwOEaOhfuhzjA8Q==
+	t=1795852385;
+	b=UMmUkDv8iPCPANbCN5Bf4nOER6Jdb/SgMG9ZdaRIYgdg3LMK7drK+7BMcvZd4sREl9q+
+	 QxrQyRJNgnnzLouMP77XbdeLsfroa9jnoJtVvLJQchjoyMN92NX6rHomCyh5R0nmE01pp
+	 lTpOOjF9NUdMdZJY60Fnp8DozkFQYMqbC7TKM5vLfdVsbw6cIJuUm69LLTOyXnKLI5qrB
+	 ADaEPAuSlN7uW4bl4JUZqwMC7bTKkfO9Ga9E29d2ghBpe6WDL6ddf1X1/wJvFhHwp2g+T
+	 gxhNZjBASffoMYvEldSZi7L6lBRJJN1bifstepeLqmv/5AivsUmTcMuXcmx5WdN2iwA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795852266;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795852385;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
 	 Received:From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
 	 User-Agent:MIME-Version:Content-Type;
-	bh=98031xNii7Sl8gn1ue6ZuB2M2pAzYOkrCW/79fWX61c=;
-	b=VaCtVvVQvXxuzV6gC/eituUQJw+l80yqB3ENmiFGH0qCjGQBo7treJIKswOkS8mLA+fo
-	 peNGrSUjYNpOrWevPd6I8zfIoI1v+ewr4P8zV3ToNCdRSMQxg9oO3mXlimHiD+J3M9c1j
-	 Z3eP9hjkne2W174Gy2p89562xT6U1UqpUtEOBLuTpJ1240TBNn7GCvIW9atgoBu13tDlX
-	 YTUmZB0omGEmWk9mGkZsL1DVLPHDnxw3SpObiBjl13ueWe/wQkpyoWeAZ6nbO0KywQoqx
-	 xJLnPT0iYzo00jzGxlfl65pHsALpLlh6zg2FFaFK3Lfon6Mn5jTxWZVJkma7X34BjsA==
+	bh=wXVEGbdJRwHK0RZHrEYmDaMXKttxQnaY0pTFcjJ+chc=;
+	b=LG0R/6Zgl18T0yB2FnOkCq2vqMEj4q1YQ9j5mRBWwQLjuUbTSrr76ewpKbWE4kp77Dq8
+	 0fo6ErO8rpdjLZ/RWm70QB8peM26u1LuUTe4gHHuNTgILUeaGPZIzYCcPvbhzuZFiscnX
+	 sSCLARc53Y3mgbg/W0hTGdICvSL9BxXnB3Dpo3sgWIaVMHHdDYfMoDrYRMTepkkBv3TSU
+	 u4cGVzr+x0xq5kklV4nX4du0QY0dfMUkBkpv6XygobpX0TtkM0Kcd52gKhGl5IVPYbpJT
+	 GQuZs1vcCG8XDwYGRW/hKgRGY3NiwqsKW1XkCiTRdCZo8UumIwg88CaNPkHFjUYr3Wg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=mail.parknet.co.jp;
 	spf=pass smtp.mailfrom=parknet.co.jp;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=WjqSyvQ3;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=AR7jz+8F;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=6iKyfIYj;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=mAT+81VA;
 	arc=none smtp.remote-ip=210.171.160.6
 Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4F2606A31C;
-	Sat, 28 Nov 2026 07:51:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3B4F2606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D70606A31C;
+	Sat, 28 Nov 2026 07:53:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03D70606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=WjqSyvQ3;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=AR7jz+8F
+	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=6iKyfIYj;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=mAT+81VA
 Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id B280B20BD2A0;
-	Sat, 28 Nov 2026 16:50:56 +0900 (JST)
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id 70CF820BD2A0;
+	Sat, 28 Nov 2026 16:53:03 +0900 (JST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1795852256;
+	s=20250114; t=1795852383;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=98031xNii7Sl8gn1ue6ZuB2M2pAzYOkrCW/79fWX61c=;
-	b=WjqSyvQ3uqs/M0wppCJ9gWFDBAZDxACvOXZ84U1WTBMMQStM0tzj9pNZQV4QY3MWXp8qyf
-	QiYiSimjYrwfIeF+oj1cj1NxbVP9xzL6ksVOUBeLeW+jBXjdLIUVP0Up3UEHvWkdtrDwR4
-	RctbaO5bTFxKhnypPCOTyVGrMwTxwnMc7pBQWhvN6Mf44SxNGG3xdm5Q+0+fovQUbOwcRK
-	S78LJydQykYgmqzvGvGIv0+dDphVVn2p+EwAb0BZRiEyL3Vax6SjUV/M0cE12pdNfWkEPP
-	VFmFpS1BaghmTAcgDiCsCYxFBWEqOvkin+ULuK9xgDWGAt5gdp0D9nVZY+zAHA==
+	bh=wXVEGbdJRwHK0RZHrEYmDaMXKttxQnaY0pTFcjJ+chc=;
+	b=6iKyfIYjQ+KVZMr1Bm3C8ygiGDkFarFToT2SxeOQ+G5o+cGVNRRaO0bitFAHa2uoUJnN0o
+	S+0i97NMEnv838rIk/YTTpYCDnl+/XE8bTZFtVvipYWTKB8auhtIHYYf6wZplHlUlOv8vg
+	ZECOYTUf3Ol8Yh4i+agzAcx1+3Rr4CWXtw4xaWkoipCoQx0+pWnLSsKOQ9swicyj5KK0EI
+	Z66icQ58Qnk+MS0umX7PMnvxPvbmq8XoJy0+KscQecH/DAAHNEdHv2bSbwYzZTVbsqngyf
+	Cpd4DjGRO794S6jywY2U12IjcjM5ivXyeVmDgXlI829qVgxkH/eUrmMtl3vLbg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1795852256;
+	s=20250114-ed25519; t=1795852383;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=98031xNii7Sl8gn1ue6ZuB2M2pAzYOkrCW/79fWX61c=;
-	b=AR7jz+8FVqlYNYzH4xiy+sUvLhw1i1U9z6egzVFtP2w8e9tL05OvifTOXZV+BW2KwoTx8w
-	N4QOdMnhckRbm1BQ==
+	bh=wXVEGbdJRwHK0RZHrEYmDaMXKttxQnaY0pTFcjJ+chc=;
+	b=mAT+81VAjHDdwVg9gASfBs5FXPRsTC8FkTFjveUX07D99QgQBqMnuk/fSCCsYaXZsW6dtu
+	LPFjJh76KpsVVHAQ==
 Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 3EAB4E002C5;
-	Sat, 28 Nov 2026 16:50:56 +0900 (JST)
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id E6ED2E002C5;
+	Sat, 28 Nov 2026 16:53:02 +0900 (JST)
 Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id 327992200208; Sat, 28 Nov 2026 16:50:56 +0900 (JST)
+	id D3CFE2200208; Sat, 28 Nov 2026 16:53:02 +0900 (JST)
 From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
 To: Christian Brauner <brauner@kernel.org>
 Cc: linux-kernel@vger.kernel.org,  linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 2/4] fat: support O_TMPFILE on vfat
-In-Reply-To: <20261126-work-fat-tmpfile-v1-2-3bca7b2dbc20@kernel.org>
+Subject: Re: [PATCH 3/4] fat: support O_TMPFILE on msdos
+In-Reply-To: <20261126-work-fat-tmpfile-v1-3-3bca7b2dbc20@kernel.org>
 References: <20261126-work-fat-tmpfile-v1-0-3bca7b2dbc20@kernel.org>
-	<20261126-work-fat-tmpfile-v1-2-3bca7b2dbc20@kernel.org>
-Date: Sat, 28 Nov 2026 16:50:56 +0900
-Message-ID: <87a4mtqtr3.fsf@mail.parknet.co.jp>
+	<20261126-work-fat-tmpfile-v1-3-3bca7b2dbc20@kernel.org>
+Date: Sat, 28 Nov 2026 16:53:02 +0900
+Message-ID: <8733slqtnl.fsf@mail.parknet.co.jp>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -84,74 +84,69 @@ Content-Type: text/plain
 
 Christian Brauner <brauner@kernel.org> writes:
 
-> Currently, vfat doesn't implement ->link() since FAT has no hard links
-> and link(2) fails with EPERM. But O_TMPFILE is only half a feature
-> without linkat(). Worse, implementing just ->tmpfile() would break
-> userspace that works fine right now. systemd's
-> open_tmpfile_linkable_at() only falls back to a named temporary file if
-> opening with O_TMPFILE fails. If the open succeeds link_tmpfile_at()
-> calls linkat() and gives up if that fails. bootctl writes loader.conf,
-> entries.srel and the boot loader binaries to the ESP like that.
->
-> So add a ->link() that only gives an O_TMPFILE its first name.
-> vfs_link() refuses to link an inode without links unless it is
-> I_LINKABLE and it checks that under the inode lock. So an inode without
-> links that makes it into vfat_link() is an O_TMPFILE that may be
-> linked. Everything else still gets EPERM.
->
-> Linking does what vfat_rename() does for a new name: add the directory
-> entry, attach the inode at its position and let the inode write fill in
-> the start cluster and the size.
->
-> If the system crashes while an O_TMPFILE is open its clusters stay
-> allocated but no directory entry refers to them. The same thing happens
-> to an open file that was unlinked. fsck.fat finds them as lost
-> clusters, with -a it saves them to FSCKnnnn.REC files. ext2, minix and
-> udf implement O_TMPFILE without orphan handling as well.
+> Do what vfat does. msdos_link() creates the directory entry the same
+> way msdos_create() does and handles ATTR_HIDDEN like do_msdos_rename().
+> With the dots mount option a leading dot means the file is hidden and
+> __fat_write_inode() writes the attributes from i_attrs. So i_attrs has
+> to agree with the new name.
 >
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 > ---
->  fs/fat/namei_vfat.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 46 insertions(+)
+>  fs/fat/namei_msdos.c | 70 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 70 insertions(+)
 >
-> diff --git a/fs/fat/namei_vfat.c b/fs/fat/namei_vfat.c
-> index 791f2d7b85092..31b4a293c0493 100644
-> --- a/fs/fat/namei_vfat.c
-> +++ b/fs/fat/namei_vfat.c
-> @@ -938,6 +938,50 @@ static void vfat_update_dir_metadata(struct inode *dir, struct timespec64 *ts)
->  		(void)sync_inode_metadata(dir, 1);
+> diff --git a/fs/fat/namei_msdos.c b/fs/fat/namei_msdos.c
+> index 5a43d042eb01f..5709650a29986 100644
+> --- a/fs/fat/namei_msdos.c
+> +++ b/fs/fat/namei_msdos.c
+> @@ -439,6 +439,74 @@ static int msdos_unlink(struct inode *dir, struct dentry *dentry)
+>  	return err;
 >  }
 >  
-> +static int vfat_link(struct dentry *old_dentry, struct inode *dir,
-> +		     struct dentry *dentry)
+> +/***** Give an O_TMPFILE its first name */
+> +static int msdos_link(struct dentry *old_dentry, struct inode *dir,
+> +		      struct dentry *dentry)
 > +{
-> +	struct inode *inode = d_inode(old_dentry);
-> +	struct super_block *sb = dir->i_sb;
-> +	struct fat_slot_info sinfo;
-> +	struct timespec64 ts;
-> +	int err, err2;
-> +
-> +	/* No hard links on FAT, only give an O_TMPFILE its first name. */
-> +	if (inode->i_nlink)
-> +		return -EPERM;
-> +
-> +	mutex_lock(&MSDOS_SB(sb)->s_lock);
-> +
+
+[...]
+
+> +	err = msdos_format_name(dentry->d_name.name, dentry->d_name.len,
+> +				msdos_name, &MSDOS_SB(sb)->options);
+> +	if (err)
+> +		goto out;
+> +	is_hid = (dentry->d_name.name[0] == '.') && (msdos_name[0] != '.');
+> +	/* Have to do it due to foo vs. .foo conflicts */
+> +	if (!fat_scan(dir, msdos_name, &sinfo)) {
+> +		brelse(sinfo.bh);
+> +		err = -EINVAL;
+> +		goto out;
+> +	}
+
+Maybe this part is better to share with others?
+
 > +	ts = current_time(dir);
-> +	err = vfat_add_entry(dir, &dentry->d_name, 0, 0, &ts, &sinfo);
+> +	err = msdos_add_entry(dir, msdos_name, 0, is_hid, 0, &ts, &sinfo);
 > +	if (err)
 > +		goto out;
 > +	inode_inc_iversion(dir);
 > +
+> +	old_attrs = MSDOS_I(inode)->i_attrs;
 > +	fat_attach(inode, sinfo.i_pos);
-> +	err = vfat_sync_ipos(dir, inode);
+> +	if (is_hid)
+> +		MSDOS_I(inode)->i_attrs |= ATTR_HIDDEN;
+> +	else
+> +		MSDOS_I(inode)->i_attrs &= ~ATTR_HIDDEN;
+> +	mark_inode_dirty(inode);
+> +	if (IS_DIRSYNC(dir)) {
+> +		err = sync_inode_metadata(inode, 1);
 
-Please add "FIXME: this sync should be done within vfat_add_entry()"
+Please add "FIXME: this sync should be done within msdos_add_entry()"
 
 Thanks.
 
-> +	if (err)
-> +		goto out_detach;
+> +		if (err)
+> +			goto out_detach;
+> +	}
 > +	brelse(sinfo.bh);
 
 [...]
