@@ -1,81 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795874788;
-	b=SJJ6PtCEcB4fSQ5GPdKHzpOPq/DgcvdRaWQ8o7FGw8H2HtUd/3WEZBmn6PlOjR6qHaux
-	 gy5zSbekP0pLPO3EcKqSmOgVMBX4zOTqMk9QklM3P7luIaI7LGMsh3i24+yc5dRecVCW5
-	 B0MWJU4JytbMCe7azOkSX2YuMNEBu8YFA6RcJ6DfTOUg0JyBrKUoWhi9U83qebW/kN1ja
-	 W3I4jltLASIBrq1sNYf0/AcUZSS1q/HPZqbkpQLTFopNYgLpqSEJ1GY0sapereFaOsobQ
-	 t5/iUWVMIb3nKsKdbZ0pT8ejcFYUNkq93USuPh+OPEJCn4Gp2yJXP/VM04yCQCHoPVg==
+	t=1795874791;
+	b=0tPavF83OjuMaSPG0ppZBLs1Hd/HOcg9VXzwpJ3XrpJTJSbHaSQXEV1TvoUalYTcnWCv
+	 UrdoF8hd4bQFHeUe/gRqwX4h74k1SMLmlLCDluzmM15cEGT0DO79NDIpPb7946JeKqMnd
+	 +XkF++da1nBG0qUZmHlG1MJ2KYlOcbsVMdn2EE7CB8YQ3UW/W7/0XiVgA+Vx/En/toNDP
+	 AzKM5Dkes1SIO4wy30cNTpKpzr5MHuUqqB1iUcllv/m2JMydWaLIf7Mi75XzZONu2qlVs
+	 IC0qMC3qEfJvZPZByT64GL/AFZzfZn2ob/ivmyyYPTM4nJeC5pJAaWqHWiWk0fwhF5w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795874788;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795874791;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=v3H54DsDzOYnj3Smze3+HlsIoq0mUB1s2ye+/e1WTeE=;
-	b=rRnbZYi4xFjTtOvwRkWb5vyTiPs9Wd+ps0eRn5fIN1RpKfQHBnzHBNy4KtRsCHP1zDpB
-	 1bnuNpu3ZhpZShqU6GS3wIEgFauiUK9iHt98twBfFJxTxduzAn0+uDXNQPatyKNPjN4co
-	 2WZnrlXnvXloclsmYEK9RkrBFIYCYqiZrz9JZiu8MRNniMY/hLA8r3aLC6gC7xyxMWMGk
-	 e22yZfsJFGdlpKXNms8I3GqBiB5wqQTtUOwJxtCFM0g7iVsvu87duQEkxSDUyoXNEexNA
-	 Im3/dvNhzNcAoVFt9JiFnP9EpAlNBug5YRC0ipeJpaGUZWwWlxtcD7Cw6vPgCIFdkKQ==
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Hu4rTYZRq8CRBWytQe/3nd1VmbMLjbiC2A6r+ZmdVf8=;
+	b=pgP1W263P4a0gm0lTKWiDvQrQq0QoLPW1ThOeeIKOnNkRsVWRWE9R42nT2TPYjZeEb6m
+	 Xit/rLbdoAamopcZ9qFfQgqhNmBKXw+bhXcn1bE4jiVBaHT3Tm9IfOP+PJ2b3g1cxL2Bm
+	 GWaaqO8O4IaqYN+FrKKx3r/LKxpPUREa52dYf6fwN72U10HlNaRjb8CoSShZsveNPe/oF
+	 I1ybHdv2nDtMwJcN1GlvuJ8fi3vkvb5/A53ljoBfpD4ZjRwF2HjNUzGmCEXjVIR5K7lwE
+	 oMZqKEGKJVAwrbBFHMT6eJZvdJ11CA8WxNoVO5ZE44b3ADaGDQZ9A1c9kznOrN/PiWQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PJTWve60;
-	arc=none smtp.remote-ip=209.85.160.170
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qmp30UDl;
+	arc=none smtp.remote-ip=209.85.160.182
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164DB606A321
-	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Nov 2026 14:06:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 164DB606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1834606A324
+	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Nov 2026 14:06:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A1834606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PJTWve60
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-5361e313e63so123621071cf.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 28 Nov 2026 06:06:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qmp30UDl
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-537548b811aso71939451cf.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 28 Nov 2026 06:06:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795874786; x=1796479586; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=v3H54DsDzOYnj3Smze3+HlsIoq0mUB1s2ye+/e1WTeE=;
-        b=PJTWve60gkjqokB9j9i26wjB02mdIzdtXwOjB6PqhfailjyAe7ApzPFiNVxkuKL8LM
-         Xd3DlUZqP/CRIWTjXjIfZOR9lxYbyZ9U28ikqqoEOk49AIGBunNOaIMGw8pJkdA3UyYY
-         /Mc8fLGHxGWQ6Db0Kv50pqepr4FqsFasBji5+4LeFgqxJpyAtK7OXyLeWPrdmrq5a4Ht
-         2Iip9v8mvDbuHMq4M12V6lZ1otYb6YnXBdxsejz/y3VXMLWYST01SEWJP0HWIcGJT8pv
-         KSHKmWY4PcFLAFUxpgthYnynHIh6mah6LZ4eJbaqsiTmg4L+ZrN8q6HZF0JaUh0B8MhO
-         FLEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795874786; x=1796479586;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1795874790; x=1796479590; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=v3H54DsDzOYnj3Smze3+HlsIoq0mUB1s2ye+/e1WTeE=;
-        b=Qpfdfwij4+rBAZSj6AKVwsOAC5XkJQIRbZ/8jwLq4OzZDbmdhgOaLBJNf5vOGKyhbZ
-         6i2Tv4+i6fD6KmkLMfOTFKBBaGGCfyJ4cqPHNNtIaEFM87uco1NtjxWR9Fn9oAC/62Es
-         3zILXcu2LCPrUaWngWv0UMQBmwVUQGFuvALvjLGqmX54UDKfb48az9vVDiXnEdXuqMsv
-         syNGWBj+B2F7a78KNV7GnBf18bttL6+rl+hQy5ch3VTDLEHtAcA+LNI50u9SBZqKAM7K
-         YZ/zSHTZ4pCSWYYnPJaixjy9OaWN6CnrIJJ2ncfYlhTLHIIoFbXQ59WYlwS1wJmDIPNx
-         aucw==
-X-Gm-Message-State: APuU4Z+8SQzPihqFOhZGNKTHMZ81f4DIwYEWz7vY7gpFwthqwsD9yM8b
-	KnfYMqvMUgKsxe1X8NGfmg67dGdy2OzHs5dNdidZ6ey6YFdvdXO4FpTY
-X-Gm-Gg: AZFdTZcSBG3ST9oMFWLQDMcF47huyya2pCS+0zJY/uPf5NaHlLiMAb8J26ff/1QEgwy
-	isuciw1gKYL1yBkG/nXTyRrc62EiwNXO8iMoBvdHm6CW3y1geMzOu5n0WI0l7cdzmOTCBpwUITm
-	UE6OlhKQx+NHXRl3IctmQ+HkN3WAGgNWcf3X1A0VhsAxmMaXbSq1WeZysnrFs5iMwsbi+uhLNKp
-	CfdwsSqBwpnw8+0Xg8bM+2ZFJESMjgNHN0swc8YiaFHxBGQEZtMq5sFReGAkRaW7S5Kf9hwpNnJ
-	sGSutWgYeVX6pAAtdqrkS468r8gvL+1od7E17r0dhBIUiyYHlVxB/zmxBPBpRppnwBloKlqFPIO
-	sSXU8+Ru+u9NHPBhizKqlUKD7BEj12yXoNr2AAft9hH/O5iOy4hjyjJf0HQgmzA1lZySHQ0CfeK
-	UDKNxrng00TJWfL1UYPRPOSCQZJjy0JEOBKmPqFKhRAh/ZkviBDjzFr7IFt+nZA1ksP79tRXlai
-	1Ai5vCFmJ4EnSR04IkcmJbrj2eKVcGHG9uFT1CyMsn8QfHuNR3EjtE9au+OEnHnxsoWaGZ8WIFH
-	gJHiDR7QI4iaChuF2M6srdP74nCKGfJMxO9XT1KRf0Wy8eqdRpTst9Y8IWAageQBzP2i7igEK2j
-	fEmNw
-X-Received: by 2002:a05:622a:98a:b0:534:dcbb:4920 with SMTP id d75a77b69052e-55d76a19c9emr540008471cf.42.1795874785928;
-        Sat, 28 Nov 2026 06:06:25 -0800 (PST)
+        bh=Hu4rTYZRq8CRBWytQe/3nd1VmbMLjbiC2A6r+ZmdVf8=;
+        b=qmp30UDlRJrw8D65dtGD3Y4sLmXyuySPR2zFk4D4VglYBX1w3L9bsDC4lvVVgTKTDn
+         0y2BW2EZ5jAwVsCIMh25KHvQWY15I6Ogp2PZepWQXDyyj8CPKDnovWRP1q1Xt3LOAkZR
+         hAQ91GmjHVOkYlwar1+pq80tMUlQGAkIjY/maUd3pvOVNNCBjgB3fosVtA6IdxYTkIRK
+         MlChkve4wIRqupfcCXDepISVUYgMXU3qrCInPK+WjqNamVprJN0yOfYJ6la2bMx/dWo1
+         fjlwvIxVfeuwLZIHlfqEdEpDwfi8j6Wukyc75ui5zEhEZy47UnXbgz/g7mYPDfYRp58r
+         V9gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795874790; x=1796479590;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Hu4rTYZRq8CRBWytQe/3nd1VmbMLjbiC2A6r+ZmdVf8=;
+        b=EBRu2DC7MiyiuHjy2QIrG/mUSKsAqkocxKtJNY/OWMZMD55re1BmgFQFOJpR7Y94fm
+         Ryfc3Gpe2YldEOhwhnhS3zVw0wILBUErSHc/LAvMwRwOhW8TG8mo9qZXrZ9dko1smz0Y
+         QLvuAz9ECzO3CmsWSze2AGoTXLKdkz7f5p2c8xDcgkH3bG/3h1k2OFxWapK05WixmnSR
+         YwYhTs4aXSnGZ5RtGhT4Jk2YCQPB/lytMbLugFdJjmnH3Wf/YrTaMW5mPWaA2GdGd/rd
+         Zyz1yRNCo5M5ca/xTC85iTowXtRSiUfdcUfk5bBQeAZhWh6uUAoNlcg1J0PQMJSPZ+LZ
+         7zvA==
+X-Gm-Message-State: APuU4Z97XO8En24p71wP3hIecfDkp/dYJMzzgftGzzSZLYVER5HM5oeW
+	zZVQWoI8+eSKjkHqcchcF9Z8TiQ9rLXrpHXx77QO0ubRqlo2w9emQGPt
+X-Gm-Gg: AZFdTZepREUzEDG88JniPo7fBwc/DqdjTDqL+VzRDplMQFD/srq1dXE4qQHoBHak/h8
+	qBMNtR9PNvYhIdu5W8QRlIndyK/FzDU7HuAgWBqlwze2NtfzxdiEU/KP4Vg0iURc0az5ZWogvib
+	t1JIshLW0udxBqPa/SEzxgU2a3TWI0Qm+RPCzXnztWiMfVK3HJSKNPP2RJG6cmTeM41bpkP6zJy
+	HWhKfCy8m/Bj9+Qej4umT8E2GBVa2gLtzp1sJbrP5Qnbp72YT1epArG5wnrggdKOtJSM+QnLH+4
+	gMstEQxkPQ5jgXfTa+bckk1PM5DaoK/X/1mjinxgQ22ZU+I4nt6jP9JZ7iJMsZCG0z8k5ra+qYI
+	OXqAzGEaRgUebMqb2X26N7j++5i/VTfir9jBiEOM1Zd5/F/zpITX36wv0Ssr5mW/7tiHT5zFYjH
+	SEjO07jLXjcION7cs1XGrGsqPRmhBZhbSnfSVnUU7Q3lp0tuLauXfyY+k081AS6ZMgaRBPdYUZz
+	Fh2dcTjtsosu3WlLy3DOzR33EmPSNR64+XLnq9wzwvLVjQkDuKW9DHmcpL2wpWqCdrJgCrQeO4l
+	BWTZMp8dh+mwqSxNj/PhlKR0sE5AdNtFThsP0xSpKww8lkqokK4cxjmYh/zE/M/l2ypCpKZvO5I
+	p5ErY
+X-Received: by 2002:a05:620a:4056:b0:949:7893:397d with SMTP id af79cd13be357-949ba9b8ccdmr5414402485a.23.1795874788655;
+        Sat, 28 Nov 2026 06:06:28 -0800 (PST)
 Received: from localhost ([138.197.109.108])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d788506b0sm230475611cf.17.2026.11.28.06.06.25
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-94a017cfb46sm1038426385a.28.2026.11.28.06.06.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Nov 2026 06:06:25 -0800 (PST)
+        Sat, 28 Nov 2026 06:06:28 -0800 (PST)
 From: Nikolai Dokutovich <ndokutovich@gmail.com>
 To: Christian Brauner <brauner@kernel.org>
 Cc: linux-fsdevel@vger.kernel.org,
@@ -85,10 +87,12 @@ Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org,
 	Nikolai Dokutovich <ndokutovich@gmail.com>
-Subject: [PATCH 0/2] listns(): validate the reserved spare2 field
-Date: Sat, 28 Nov 2026 17:06:21 +0300
-Message-ID: <20261128140623.19-1-ndokutovich@gmail.com>
+Subject: [PATCH 1/2] nstree: reject a non-zero spare2 in the listns() request
+Date: Sat, 28 Nov 2026 17:06:22 +0300
+Message-ID: <20261128140623.19-2-ndokutovich@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261128140623.19-1-ndokutovich@gmail.com>
+References: <20261128140623.19-1-ndokutovich@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,19 +104,35 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-copy_ns_id_req() rejects a non-zero @spare but not @spare2, although
-struct ns_id_req documents both as reserved.  Validate @spare2 the same
-way, and extend the error-case selftest to cover it instead of only
-@spare.
+struct ns_id_req documents @spare2 as reserved, and copy_ns_id_req()
+already rejects a non-zero @spare.  Reject a non-zero @spare2 the same
+way so that both reserved fields are validated consistently and the
+field can be given a meaning later without having to keep accepting
+callers that filled it with arbitrary bits.
 
-Nikolai Dokutovich (2):
-  nstree: reject a non-zero spare2 in the listns() request
-  selftests/namespaces: check that listns() rejects a non-zero spare2
+This makes kernels that already have listns() reject a value they used
+to accept; no valid caller has a reason to set the field.
 
- kernel/nstree.c                                  |  2 +-
- tools/testing/selftests/namespaces/listns_test.c | 11 +++++++++++
- 2 files changed, 12 insertions(+), 1 deletion(-)
+Fixes: 76b6f5dfb3fd ("nstree: add listns()")
+Cc: stable@vger.kernel.org
+Signed-off-by: Nikolai Dokutovich <ndokutovich@gmail.com>
+---
+ kernel/nstree.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/kernel/nstree.c b/kernel/nstree.c
+index 44e07d0fa8e5..ba5743dd4f17 100644
+--- a/kernel/nstree.c
++++ b/kernel/nstree.c
+@@ -437,7 +437,7 @@ static int copy_ns_id_req(const struct ns_id_req __user *req,
+ 	ret = copy_struct_from_user(kreq, sizeof(*kreq), req, usize);
+ 	if (ret)
+ 		return ret;
+-	if (kreq->spare != 0)
++	if (kreq->spare != 0 || kreq->spare2 != 0)
+ 		return -EINVAL;
+ 	if (kreq->ns_type & ~NS_ALL)
+ 		return -EOPNOTSUPP;
 -- 
 2.43.0
 
