@@ -1,99 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795858626;
-	b=ozRydN5cS7zAiYz+iAHfR2n5+axayDuNHQyZyeeyzJ3x+Za66ycivV4Rjx8stn2taAnd
-	 4CKbueHGAm3TN31qYiytaxqovro2/fO7K3gHWjJ+rJr0GLdRi96FJn3+ai7Msm55V45u5
-	 AQAeK5R6mNdwx9oa69AFSfKpYf6kap8aIeRUJZ730j15pRF1QKWq6V6BlMl/tTvSl7e/x
-	 NzaFUhGcgkIfeOY0BGwHWqCAiPZorkp+fHeZYeqDFcU7UKtKfruet+VVveLfnFODnWwws
-	 CyfLXp5GzGCuGT2PumnHeTnUlXNi+bJkp9n5rgGP8np6GMzsF/I5UNYMD+G32kp0M9A==
+	t=1795858628;
+	b=03Zj9PlaCIl9gb8/AAzOPmah5e/OCnpZ5xjhnVFdfV7SiButDLSZZC/WJSQizPQC4sjc
+	 /v0mTMehK9sTqFhFtVN9RTpbY7ixDZUI/wLKTsmRyPG5+4w786RmhgioOlKhjEJOWx68A
+	 syY+XFvseh8SvYaoOy1gFreME4NkjoKVJgezkitZzyMTeGd9IquFAsZs3p4XkBHAT8jgP
+	 bjKYL1d0/MHGHY3ao4tAA8GIip4Y7nlC/vK66bd/hdQlMIfXg4iISiI/DX3BI7z0L6t5a
+	 hBhoCg06ioBG1UHolYiIHFz2aXxRiIRuW5vF9W2SN6XIYHgMDkFy7mE2Ay2XdsZdBCg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795858626;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795858628;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:Message-ID:
-	 In-Reply-To:References:From:Subject:To:Cc:MIME-Version:Content-Type:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
+	 Subject:In-Reply-To:References:Message-ID:MIME-Version:Content-Type:
 	 Content-Disposition:User-Agent;
-	bh=sEbzT/UxRBEXtg0cQY6CwwKz04kR+adLcDsN0sVZSjQ=;
-	b=F43oEafTYfkbYgW+mG0dGDNRE0KdkTyKkdFZ6jY/HkC2dKTyElP0Dgsc7Sc9j+KA6RAM
-	 pKnLqOrMAmQoBn1IREupGkcyzpQT4ta7PMO+O43c9oZjXXHbnwGDBHfvUbXIkln8bq+ul
-	 XaY1hnDCJ3wJe9f8TeMJrwafEhlIyKErcvrI3OcZmF7zSNYSOctQnbHKjFoTWSxtjI2PQ
-	 qax3oxwksPQ2lrAlDJZeNSxCxHzuLq0a5SwZ8E+YI+IgO4I5R/CRKfAxvXxUMEKPizBQ6
-	 hBR/6C/ApqDm8k8lvnruoDXUodjy2liR/Y07KiNdHNE5clYO22qrj8iNc8e5gZrQVCw==
+	bh=nNfFTTNka5fIOddFDJ8PGI7qQNrHsISszyTlsbSGy5g=;
+	b=0EjLcXIVuwl3YvyHTqZm6vmTZSOLCQlaD5HhYVeuJQ4G7534EaFPYsaap1joiRj/M38I
+	 ocrkVyYCitY6DtMd0lpNZcPHQLb5EYpnQB4LI+WXOvQjjfREtti08fEQf+jfIqNPex3Y4
+	 MWqRdll1BpdM30UlwgyGDpo/TKXuPk2shhXcTYCi3Me4BemMghUEHX4DPod3SZqN5Pni3
+	 DmLikRUrg2+lddFBMURoUXQ8Te2Fk17q6+k4e8dW6BqpgnJCAZ1pi85WS8iN3lWL4apFD
+	 BMXCH4A3stdrNnTqA6SdKVWLnGZtrnsWqJLhCiMulDrYw7EfTl7xXItUxs4wvJrOcig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=chrisdown.name;
 	spf=pass smtp.mailfrom=chrisdown.name;
-	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=YMKnSHxX;
-	arc=none smtp.remote-ip=209.85.128.174
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=Wt5TkJV2;
+	arc=none smtp.remote-ip=209.85.128.176
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FDB606A330
-	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Nov 2026 09:37:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5FDB606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD58606A326
+	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Nov 2026 09:37:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4FD58606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=YMKnSHxX
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-8b4e2fcc300so77132407b3.2
-        for <linux-fsdevel@vger.kernel.org>; Sat, 28 Nov 2026 01:37:05 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=Wt5TkJV2
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-8b4ea3c5afaso59965777b3.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 28 Nov 2026 01:37:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1795858625; x=1796463425; darn=vger.kernel.org;
-        h=user-agent:content-disposition:content-type:mime-version:cc:to
-         :subject:from:references:in-reply-to:message-id:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=sEbzT/UxRBEXtg0cQY6CwwKz04kR+adLcDsN0sVZSjQ=;
-        b=YMKnSHxXgL4Hqka7wy884jSomiegrWwk8P1eGjJjgkursYLGFFGhIbenbj1WTQx1PZ
-         SgiWfAA0PUVTZqjlFBd0mt5D/rUSWsZloumjNO3KNwJERbKnhJipwUWtFzmuXptguAEu
-         VZJs+0CKQaZ8oqc4dcjw/qA0jtpHYKTGngln8=
+        d=chrisdown.name; s=google; t=1795858627; x=1796463427; darn=vger.kernel.org;
+        h=user-agent:content-disposition:content-type:mime-version:message-id
+         :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=nNfFTTNka5fIOddFDJ8PGI7qQNrHsISszyTlsbSGy5g=;
+        b=Wt5TkJV2cpQRVDm49rBdjWiR1vSzhgbVbPyjEWPKq2vkAp1CiQcWp96Z5MJpXmyjga
+         4zalRErWPBysM3c1roCQUVr5fK5rUXmkkSg0vPo0+IiSqHoQD4lJO4ay4ebww2vpNppy
+         dH/WMHHQafMqM5lrOkicyHMs1RrILPL+N/tt4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795858625; x=1796463425;
-        h=user-agent:content-disposition:content-type:mime-version:cc:to
-         :subject:from:references:in-reply-to:message-id:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1795858627; x=1796463427;
+        h=user-agent:content-disposition:content-type:mime-version:message-id
+         :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=sEbzT/UxRBEXtg0cQY6CwwKz04kR+adLcDsN0sVZSjQ=;
-        b=h0p0qvUegnX49gbNa76JfQuGbvobKQuBWRRLqpBAjGa0E7QBXRC8p3pu1rfRdUu6JF
-         GvhPESKaARlo85cPTFzJOri6GHDHxvQlOYxFhQsFpKDRdlfqhwhJ40ijpou01K2Vtj0R
-         aSKj4Kb2v9Tu1mOjd4j/bQTjMBmQJow+n8NZef3io05T4k5J1LNoUF9hsR9kwRjSjwi+
-         8ktA+U/tpVYdkxUamgUpiF5UZDamb3LvCbHoPuHFB7AxxrAktITI+wyyG5jGPbl8R2tQ
-         Qt04vWcCSg/5xCUa22hVvtEzIy/74LKU4q51gQ/GNDZIUd/37krp7p9Tx5uZ3X+94jzq
-         NndA==
-X-Gm-Message-State: APuU4Z9ct7+bceiWvOMnvjIwmsV4nquztliy4LwWK+Q1YDYaoR4wFx1l
-	2f5Yrzf9b8l5a0PjFUVJEhmg7m423nRMmyIdfG4monlGUIhkM7jr4MDm6bPjOwMsorRgksFVPec
-	h202/2HBX5+fV7lU=
-X-Gm-Gg: AZFdTZdNruTjIbZbGG3R0rOtMkZrkw+3JTBjoYpO6aDLDcnYoed8DwY2LjRFwiIfG6F
-	0w70z7H+qpqdMB4kdKh8ONsR8f91XEqr+U3M+82VW1ZlDsoY+xYNSkeLMXa2tk0Kqq74PdRr6ZJ
-	jVeQgLyz6QBPSGzmpL1/WY0Ie0aKXn0ju3iyYNdt4J665iJHv+IyqdrDTJBBvCaUEobCZhNLf75
-	A/1T1T/wBNEbg0SbJ9I/o5tR5bp21PtVklBiAHlkoJLd050P1abHhnWIrA5bWIiPDDG0ngplaKl
-	k3g27ruT0HUKV3fZT631xQaX87zk+ihogqC199nRjfgrcVJJyeSzHJ2QIIOARo6Gn3ue3NHxe/M
-	/h3FsX/472RB51O5gL7wQ6m4s1xhwy9uzxuXtBUaJY0QctjkamBuTpM3nxavn8XoPBlqF2EWXY3
-	aR4Q+ZPelR9w85Lf6XQ1rAIwnnSVeiny2jxecOQwAAlGJa8ZyPmLXa31L4eg6E2dIzS9on42568
-	ZDVsh+gdAFjF2VE1ywGvciO5zsz8vE26kQSY5mWFYdrUmuY9uC/uT/B/JpYJjkGsrUu+IOVT+Ur
-	ygysT0l4447fEjaH2QjD7GMPXw6ytS39g5fhsaXYYXfe/+tx0waKGFNtkKe2d8FeXXpclevpz+U
-	31D4sPwGED9vi2Ce6Obs3x94Lbkd7SnGHB7W/T7GCFwOAqlgiybRU3eWU+C+Uac+ula0McV5Cox
-	DxfkAu1FPLzXnpnYakvsbbaCSfsvDoSiq7Qd5P95EUzmn1s659W6zoeKrbaSFHzaNv+KW/QytCV
-	mzuX6H4G4fMcxHi/L+sHcI0QvT1uFwndo5nlMhHNdsH
-X-Received: by 2002:a05:690c:4b8b:b0:8b5:6873:52d0 with SMTP id 00721157ae682-8b5687359bbmr51538537b3.78.1795858624817;
-        Sat, 28 Nov 2026 01:37:04 -0800 (PST)
+        bh=nNfFTTNka5fIOddFDJ8PGI7qQNrHsISszyTlsbSGy5g=;
+        b=UHKjE61w/iAjKjJSe1GHZxwY7kWbtwGT8IzkC3pLLeCgek4/O9kKzn8bX3a+UN+CBK
+         FfhezSt4XF6qoX9UTcBAFO83el+aV7EoKPjQJ1lqedTz9lEEmFH8NgaHDRB4xESu0hqy
+         pYGaiI0SE5X/xeOlR1bpL+qBgi64G4qwV0xDOw+R74UGCYd76zqcuQoAf7lvVb2FSORg
+         IW86RMs7FecQrMkwPesTifwnh8t2rLJSImm6ryAvp6NG+q5SlvF2+37o9xrbKjmcgiBr
+         QR5aKAaVw9hhYjqyeY8N6O8HanVBovM4gK5coHwP6pOajqaTRXzefnMzWHhjQ0dHdpRC
+         8EsA==
+X-Gm-Message-State: APuU4Z+4Y9R3zkhc9Bi0FFaKmOk/dNwsGOLgaitdAjwNy8dnXBKvWMF7
+	Z1/xqLM5jJBmlFL/EcpJMjMCDryvqwSj1eUioNssEkVpFolFaPfWu3WQT6oPsK046VU=
+X-Gm-Gg: AZFdTZfnYZzY3Ao3v8KuO+cQ4P75YnjY26vVULTQK36Y7DWLBkJ38k8j6CvWUmeyuzQ
+	0mzWeBK+NZRVr4DF8ACKifOrLxoajSNtLCAxVFOfH78sjuOojlv7wFIc4vSmn4dV1SI4Y2/niaJ
+	R5CMRaUjd51QbGiF2GKiU3i7TsWx3JZh4WPj7Z8fcn6XljtOR++fkvIGRIkCMiPlJ5c0NekSPDw
+	hyfw05/UuEqMq5WIaeoyn5hescO3NMout/Egf9kQehsIqymLUlyK1yar5ASTgcqR5o8RH9x7QmP
+	Yvck1B15+JvGnayk1hqbfTrZY+cxWJW46uWuP7FLp1bfIlBas12BU3HEFpsoHgdzvOajTeYIokS
+	HVyeL4jSiOoJJAXXAJfoBk/sW285PQZLeDW4D10PY+JRgxgrUpGVDTqiFi3M8V0koWFMbW/1Eye
+	9n6yEVpMhdCsH1OG3SP89I65kij3BPXUXTbwIPAv5Ie9renaUIG+kOK+VuMoGijAXByojwvqoNi
+	aZJOMx/dRSumHe8ZpbdjBv/r6Pxifuui42V2Ae4fLHTTDlE6mFtFxMtq7bPrbwnPNPrSrSAhXLa
+	k/zsI3TV6RQnaB/1TIGgqJhKbVUaM7f0jkqnYadKNFH+u8JrR7ICiznaJmZWR22krrEnlsgT/x8
+	OrvNDLzfPMp7Dybwgm+PwiFH7dgsOpSn7Crbgrnff0eKUUHICKGUbkfrbxO6NwdMokVs21wOqzR
+	ihlCOnsBMVBrLwIpuMsv1NXwML8Pwg68ccdlg8eavSD2Lp3YiS89UEEkM5kDP+c9Qhx6RkVS3SK
+	oYRBpsPGqpHXdiul1zgVpU=
+X-Received: by 2002:a05:690c:3701:b0:8b4:cc42:9b6e with SMTP id 00721157ae682-8b5204ebe42mr105762417b3.81.1795858627420;
+        Sat, 28 Nov 2026 01:37:07 -0800 (PST)
 Received: from [172.20.0.3] (c-73-207-185-9.hsd1.ga.comcast.net. [73.207.185.9])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b520354770sm106365047b3.42.2026.11.28.01.37.02
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b52036d72csm103270237b3.45.2026.11.28.01.37.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Nov 2026 01:37:03 -0800 (PST)
-Date: Sat, 28 Nov 2026 01:37:02 -0800
-Message-ID: <bf93ffe454e1992c583e0c5823688f7ed0f80304.1795855037.git.chris@chrisdown.name>
-In-Reply-To: <cover.1795855037.git.chris@chrisdown.name>
-References: <cover.1795855037.git.chris@chrisdown.name>
+        Sat, 28 Nov 2026 01:37:06 -0800 (PST)
+Date: Sat, 28 Nov 2026 01:37:04 -0800
 From: Chris Down <chris@chrisdown.name>
-Subject: [PATCH v2 2/2] selftests: timers: Add a test for CLOCK_TAI timerfds
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-    Alexander Viro <viro@zeniv.linux.org.uk>,
-    Christian Brauner <brauner@kernel.org>,
-    Jan Kara <jack@suse.cz>,
-    Anna-Maria Behnsen <anna-maria@linutronix.de>,
-    Frederic Weisbecker <frederic@kernel.org>,
-    Thomas Gleixner <tglx@kernel.org>,
-    kernel-team@meta.com
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>, kernel-team@meta.com
+Subject: Re: [PATCH] timerfd: Support CLOCK_TAI
+In-Reply-To: <87tsuaiet1.ffs@tglx>
+References: <abuTTv9FC__H_8RC@chrisdown.name>
+	<abu8cG7g11DP9nkn@chrisdown.name> <87tsuaiet1.ffs@tglx>
+Message-ID: <awqgwKy5zmLqsbyI@chrisdown.name>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -107,238 +104,19 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
 
-Add timerfd-tai. It checks that an absolute CLOCK_TAI timer expires once
-CLOCK_TAI reaches its expiry time, and what setting the clock does to
-timers which were armed with TFD_TIMER_CANCEL_ON_SET:
+Hi Thomas,
 
-- A step of CLOCK_REALTIME has to cancel CLOCK_REALTIME and CLOCK_TAI
-  timers.
-- A change of the TAI offset has to cancel CLOCK_TAI timers only.
-- Injecting an offset of zero has to cancel neither.
+Thomas Gleixner writes:
+>Q: What's the big change?
+>
+>A: Nothing. Because TAI changes are already propagated
 
-The test steps CLOCK_REALTIME by a second and changes the TAI offset by
-one. It puts both back afterwards, but that still makes it a destructive
-test. It is skipped where timerfd_create() rejects CLOCK_TAI.
+You're right, I got that wrong, sorry.
 
-Signed-off-by: Chris Down <chris@chrisdown.name>
----
- tools/testing/selftests/timers/.gitignore    |   1 +
- tools/testing/selftests/timers/Makefile      |   2 +-
- tools/testing/selftests/timers/timerfd-tai.c | 183 +++++++++++++++++++
- 3 files changed, 185 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/timers/timerfd-tai.c
+v2 will make TFD_TIMER_CANCEL_ON_SET work for CLOCK_TAI timers and add a
+selftest for it. They will be cancelled when CLOCK_REALTIME is set and
+when ADJ_TAI changes the TAI offset.
 
-diff --git a/tools/testing/selftests/timers/.gitignore b/tools/testing/selftests/timers/.gitignore
-index bb5326ff900b..ef56c8bbcc35 100644
---- a/tools/testing/selftests/timers/.gitignore
-+++ b/tools/testing/selftests/timers/.gitignore
-@@ -20,3 +20,4 @@ valid-adjtimex
- adjtick
- set-tz
- freq-step
-+timerfd-tai
-diff --git a/tools/testing/selftests/timers/Makefile b/tools/testing/selftests/timers/Makefile
-index 0e73a16874c4..7a978064e3fb 100644
---- a/tools/testing/selftests/timers/Makefile
-+++ b/tools/testing/selftests/timers/Makefile
-@@ -9,7 +9,7 @@ TEST_GEN_PROGS = posix_timers nanosleep nsleep-lat set-timer-lat mqueue-lat \
- 
- DESTRUCTIVE_TESTS = alarmtimer-suspend valid-adjtimex adjtick change_skew \
- 		      skew_consistency clocksource-switch freq-step leap-a-day \
--		      leapcrash set-tai set-2038 set-tz
-+		      leapcrash set-tai set-2038 set-tz timerfd-tai
- 
- TEST_GEN_PROGS_EXTENDED = $(DESTRUCTIVE_TESTS)
- 
-diff --git a/tools/testing/selftests/timers/timerfd-tai.c b/tools/testing/selftests/timers/timerfd-tai.c
-new file mode 100644
-index 000000000000..803937d9e354
---- /dev/null
-+++ b/tools/testing/selftests/timers/timerfd-tai.c
-@@ -0,0 +1,183 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Tests for timerfd timers on CLOCK_TAI.
-+ *
-+ * The TFD_TIMER_CANCEL_ON_SET tests run on CLOCK_REALTIME too, because a
-+ * change of the TAI offset has to cancel the timers on one clock but not on
-+ * the other. They step CLOCK_REALTIME and change the TAI offset, and put both
-+ * back afterwards.
-+ */
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <poll.h>
-+#include <stdbool.h>
-+#include <stdint.h>
-+#include <time.h>
-+#include <unistd.h>
-+#include <sys/timerfd.h>
-+#include <sys/timex.h>
-+
-+#include "clock-helpers.h"
-+#include "kselftest.h"
-+
-+static int tai_offset;
-+
-+static void set_tai_offset(int offset)
-+{
-+	struct timex tx = { .modes = ADJ_TAI, .constant = offset };
-+
-+	if (adjtimex(&tx) < 0)
-+		ksft_exit_fail_perror("adjtimex(ADJ_TAI)");
-+}
-+
-+static void step_realtime(int sec)
-+{
-+	struct timex tx = { .modes = ADJ_SETOFFSET, .time.tv_sec = sec };
-+
-+	if (adjtimex(&tx) < 0)
-+		ksft_exit_fail_perror("adjtimex(ADJ_SETOFFSET)");
-+}
-+
-+static long long timespec_to_ns(const struct timespec *ts)
-+{
-+	return ts->tv_sec * NSEC_PER_SEC + ts->tv_nsec;
-+}
-+
-+static void check_expiry(void)
-+{
-+	struct pollfd pfd = { .events = POLLIN };
-+	struct itimerspec its = {};
-+	struct timespec now;
-+	uint64_t ticks;
-+	bool pass;
-+
-+	pfd.fd = timerfd_create(CLOCK_TAI, 0);
-+	if (pfd.fd < 0)
-+		ksft_exit_fail_perror("timerfd_create()");
-+
-+	if (clock_gettime(CLOCK_TAI, &its.it_value))
-+		ksft_exit_fail_perror("clock_gettime()");
-+	its.it_value.tv_sec++;
-+
-+	if (timerfd_settime(pfd.fd, TFD_TIMER_ABSTIME, &its, NULL))
-+		ksft_exit_fail_perror("timerfd_settime()");
-+
-+	pass = poll(&pfd, 1, 5 * MSEC_PER_SEC) == 1 &&
-+	       read(pfd.fd, &ticks, sizeof(ticks)) == sizeof(ticks) && ticks == 1;
-+
-+	if (clock_gettime(CLOCK_TAI, &now))
-+		ksft_exit_fail_perror("clock_gettime()");
-+	pass &= timespec_to_ns(&now) >= timespec_to_ns(&its.it_value);
-+
-+	close(pfd.fd);
-+	ksft_test_result(pass, "%s %s\n", __func__, clock_name(CLOCK_TAI));
-+}
-+
-+/* Arm a timer which is too far away to expire while the test runs */
-+static int arm_timer(clockid_t clockid)
-+{
-+	struct itimerspec its = {};
-+	int fd;
-+
-+	fd = timerfd_create(clockid, TFD_NONBLOCK);
-+	if (fd < 0)
-+		ksft_exit_fail_perror("timerfd_create()");
-+
-+	if (clock_gettime(clockid, &its.it_value))
-+		ksft_exit_fail_perror("clock_gettime()");
-+	its.it_value.tv_sec += 3600;
-+
-+	if (timerfd_settime(fd, TFD_TIMER_ABSTIME | TFD_TIMER_CANCEL_ON_SET, &its, NULL))
-+		ksft_exit_fail_perror("timerfd_settime()");
-+
-+	return fd;
-+}
-+
-+/*
-+ * A cancelled timer is readable and the read fails with ECANCELED. One which
-+ * was left alone is not readable.
-+ */
-+static bool check_timer(int fd, bool cancelled)
-+{
-+	struct pollfd pfd = { .fd = fd, .events = POLLIN };
-+	bool readable = poll(&pfd, 1, 0) == 1;
-+	uint64_t ticks;
-+
-+	if (readable != cancelled)
-+		return false;
-+
-+	if (read(fd, &ticks, sizeof(ticks)) >= 0)
-+		return false;
-+
-+	return errno == (cancelled ? ECANCELED : EAGAIN);
-+}
-+
-+static void check_clock_step(clockid_t clockid)
-+{
-+	int fd = arm_timer(clockid);
-+	bool pass;
-+
-+	/* CLOCK_TAI is stepped along with CLOCK_REALTIME */
-+	step_realtime(1);
-+	pass = check_timer(fd, true);
-+	step_realtime(-1);
-+	pass &= check_timer(fd, true);
-+
-+	/* Injecting no offset counts as setting the clock, but it moves nothing */
-+	step_realtime(0);
-+	pass &= check_timer(fd, false);
-+
-+	close(fd);
-+	ksft_test_result(pass, "%s %s\n", __func__, clock_name(clockid));
-+}
-+
-+static void check_tai_offset(clockid_t clockid)
-+{
-+	/* The TAI offset only moves CLOCK_TAI */
-+	bool cancelled = clockid == CLOCK_TAI;
-+	int fd = arm_timer(clockid);
-+	bool pass;
-+
-+	set_tai_offset(tai_offset + 1);
-+	pass = check_timer(fd, cancelled);
-+	set_tai_offset(tai_offset);
-+	pass &= check_timer(fd, cancelled);
-+
-+	close(fd);
-+	ksft_test_result(pass, "%s %s\n", __func__, clock_name(clockid));
-+}
-+
-+int main(void)
-+{
-+	struct timex tx = {};
-+	int fd;
-+
-+	ksft_print_header();
-+
-+	fd = timerfd_create(CLOCK_TAI, 0);
-+	if (fd < 0 && errno == EINVAL)
-+		ksft_exit_skip("timerfd does not support CLOCK_TAI\n");
-+	if (fd < 0)
-+		ksft_exit_fail_perror("timerfd_create()");
-+	close(fd);
-+
-+	if (adjtimex(&tx) < 0)
-+		ksft_exit_fail_perror("adjtimex()");
-+	tai_offset = tx.tai;
-+
-+	/* Setting the TAI offset to what it already is only checks permissions */
-+	tx.modes = ADJ_TAI;
-+	tx.constant = tai_offset;
-+	if (adjtimex(&tx) < 0 && errno == EPERM)
-+		ksft_exit_skip("Changing the clocks needs CAP_SYS_TIME\n");
-+
-+	ksft_set_plan(5);
-+
-+	check_expiry();
-+	check_clock_step(CLOCK_REALTIME);
-+	check_clock_step(CLOCK_TAI);
-+	check_tai_offset(CLOCK_REALTIME);
-+	check_tai_offset(CLOCK_TAI);
-+
-+	ksft_finished();
-+}
--- 
-2.56.1
+Thanks!
 
+Chris
