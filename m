@@ -1,90 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795858623;
-	b=UQ+PR7QU/DPVHKmeVk8uc663hdCukIvkxY3wZ35e1RR1JnOdUWs9SrnVHJyH5FFLXRaD
-	 YVgmwIfD6ygDuXZFfRuWK7zjiyss+JdpTH7+Zi88KtRx0vDIWPjlxu8/RpQfQD8WoMPtf
-	 76bivg6nw1xTP91+2N0wZRtZG4CGKJV0Fhr5By8HSWLja50y5kX744XfE09qvdb8NQ57/
-	 ZpJCux9L7bR2IlKXxBb0a98GkcRzfYV/Mnb9poo5zOHsdIM0BBeKNq+Ot3JWGoBpyTDnG
-	 PQBl2Jkt3APR2kObrLoFzWCX+tLKh5+ZE2ACatWdqVnQJbwAr+yXhGhF7zjAFz1pamw==
+	t=1795858626;
+	b=ozRydN5cS7zAiYz+iAHfR2n5+axayDuNHQyZyeeyzJ3x+Za66ycivV4Rjx8stn2taAnd
+	 4CKbueHGAm3TN31qYiytaxqovro2/fO7K3gHWjJ+rJr0GLdRi96FJn3+ai7Msm55V45u5
+	 AQAeK5R6mNdwx9oa69AFSfKpYf6kap8aIeRUJZ730j15pRF1QKWq6V6BlMl/tTvSl7e/x
+	 NzaFUhGcgkIfeOY0BGwHWqCAiPZorkp+fHeZYeqDFcU7UKtKfruet+VVveLfnFODnWwws
+	 CyfLXp5GzGCuGT2PumnHeTnUlXNi+bJkp9n5rgGP8np6GMzsF/I5UNYMD+G32kp0M9A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795858623;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795858626;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:Message-ID:
 	 In-Reply-To:References:From:Subject:To:Cc:MIME-Version:Content-Type:
 	 Content-Disposition:User-Agent;
-	bh=BWjnfF9XDNa3hMHhMzLFnECwIvuoYJmNEMNUTfzqFtk=;
-	b=JP9sCghgMDfPKu8A6qIx1wV7Qc+OOhmJ4bep8CgsMvaki0ire2QU5jajKHrRh3LomfTt
-	 4vmGIGVZzxvl7M9FHfUoOtoLlnAaq9+NPa7KDS1j/GOAfn9LdIga5yIKpVGtNCaOwO8DK
-	 a27clmHnwGZq/GUI3mC2xnvIlbTgU8ExS4rfJ2Idt62RPA4BUOGEIdtHhe5LKv1gZLZLz
-	 j1CajfujSl3ZEe7PRxbPdMw6BpqT4/fEFKo/3oP5hp5npZRoKP5Lxj4eaMyMwwJlRWiNC
-	 biIOTfcC175nOv0O6dekjpQ3pTTEAJ/5zZ9ERdJWAndeCrvW+3cRj8mJXhLKTj9xdQg==
+	bh=sEbzT/UxRBEXtg0cQY6CwwKz04kR+adLcDsN0sVZSjQ=;
+	b=F43oEafTYfkbYgW+mG0dGDNRE0KdkTyKkdFZ6jY/HkC2dKTyElP0Dgsc7Sc9j+KA6RAM
+	 pKnLqOrMAmQoBn1IREupGkcyzpQT4ta7PMO+O43c9oZjXXHbnwGDBHfvUbXIkln8bq+ul
+	 XaY1hnDCJ3wJe9f8TeMJrwafEhlIyKErcvrI3OcZmF7zSNYSOctQnbHKjFoTWSxtjI2PQ
+	 qax3oxwksPQ2lrAlDJZeNSxCxHzuLq0a5SwZ8E+YI+IgO4I5R/CRKfAxvXxUMEKPizBQ6
+	 hBR/6C/ApqDm8k8lvnruoDXUodjy2liR/Y07KiNdHNE5clYO22qrj8iNc8e5gZrQVCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=chrisdown.name;
 	spf=pass smtp.mailfrom=chrisdown.name;
-	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=lQ+HWSjR;
-	arc=none smtp.remote-ip=209.85.128.172
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=YMKnSHxX;
+	arc=none smtp.remote-ip=209.85.128.174
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3856606A31F
-	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Nov 2026 09:37:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D3856606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FDB606A330
+	for <linux-fsdevel@vger.kernel.org>; Sat, 28 Nov 2026 09:37:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5FDB606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=lQ+HWSjR
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-8b4cd576f2aso63969677b3.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 28 Nov 2026 01:37:02 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=YMKnSHxX
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-8b4e2fcc300so77132407b3.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 28 Nov 2026 01:37:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1795858622; x=1796463422; darn=vger.kernel.org;
+        d=chrisdown.name; s=google; t=1795858625; x=1796463425; darn=vger.kernel.org;
         h=user-agent:content-disposition:content-type:mime-version:cc:to
          :subject:from:references:in-reply-to:message-id:date:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=BWjnfF9XDNa3hMHhMzLFnECwIvuoYJmNEMNUTfzqFtk=;
-        b=lQ+HWSjRxdkbtAQECNMEYgbMHkueRa1Naw6JIJKoxq5GlU32jKSsORVfi1LY6atJTF
-         DLYMwW4/fV1M6uJey20W/J5VzCsniHP9b8n3ZPWrIBhBF1cAt+HFdnpGBOZH+xz1cGC7
-         GweFPn0brFz4rfVpMQU5XZuaKYVTxILr0vibE=
+        bh=sEbzT/UxRBEXtg0cQY6CwwKz04kR+adLcDsN0sVZSjQ=;
+        b=YMKnSHxXgL4Hqka7wy884jSomiegrWwk8P1eGjJjgkursYLGFFGhIbenbj1WTQx1PZ
+         SgiWfAA0PUVTZqjlFBd0mt5D/rUSWsZloumjNO3KNwJERbKnhJipwUWtFzmuXptguAEu
+         VZJs+0CKQaZ8oqc4dcjw/qA0jtpHYKTGngln8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795858622; x=1796463422;
+        d=1e100.net; s=20260707; t=1795858625; x=1796463425;
         h=user-agent:content-disposition:content-type:mime-version:cc:to
          :subject:from:references:in-reply-to:message-id:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=BWjnfF9XDNa3hMHhMzLFnECwIvuoYJmNEMNUTfzqFtk=;
-        b=Tc6SLo13Jx1ZJP44Vja9orQ4IANVIHWwUgUdIWRNDnq4OnZz7ZukWm4KCSsRECGTAu
-         /QYNieU5ArCBAVHZmnDxK/TjwM4hvIzK5jjFdvPCtGU0W+ZvR+pfS1Ni6fddHux2kFDz
-         BEZ26HYN+N30rd8D2GNx2wf6Ey0IDok5xDN+ScUt1JzLwcisxWH2B8YjkuJtJBBwhLNQ
-         UTBDk7mn8Vez4vgtyd13PUH+zg03gUDcbl2j/b1xQ1liDOahIt2rHJ843213xKyULeaZ
-         sfUDsCWC9UzBROE8pLChnSDOpxMngan7zRYi/3oSuLRdDnSJ81yLOjI74GEngmENBYAY
-         n/tg==
-X-Gm-Message-State: APuU4Z8wzOqKCIcTzmcfYpBZhklGFPIGG/LFwbS7h1b+XA/miYW8pB2Q
-	hMtWWbjnTXbyUKVJ+SN6aWP4K/H0CIWREpzwQZKCEjW0KQ4fB4Wfk8HQYw0gh7ZLBrpTSqnmALw
-	F4lJI0RwmRBtZ2sY=
-X-Gm-Gg: AZFdTZdLWLgEMvBGoeDu24/WjrgEs6y9T8oYDEjU5/NgGL7wHd6Gs6gnGTT+nNs3hi8
-	zMhVjX6UitsRGOG7OJ1jaKWa9BX9fBR1EHboA21i5HvinlDabnTjl9F8RRVua99cF4Pn5trGyUL
-	wige/GVxJVOKdBpX8xTFUlXLyhx1LOmgYI2/P76+BBZJ/rQiVNvA1L2w9O599G0vhOSyizOyFT7
-	48D5u59u5eDWpzmIAYNZsuRRThkIRHo4vx00n9wuVjWBNc6g32FiortQ59uUuDqWm4mBTMSSbri
-	0ihEHoF6PViQLP6wo6yyjdOuVx57HpiU4dCkWBHNn8pFEVkGeD724w/P/CVHPqu8b4Ubb+2fndy
-	dMU0OmO4iWC++jNKNu4VUVGl2zrGFd38bHT9Pg/vawN5kUfqzJe7t1A1zziFa5/5aoQhYzcwaC2
-	HDBIQ1YP0cU82dykp1lyHozBTXywW3pTRoECubXLshZShlYAyDyRLeSzaUjNORppOomwJ3euLh3
-	VDEzRWXNx1RaQaOqYkXwjIEk3tuCwFdwzC4ah0ytemz6y6D3yGQmF5UAIb8Jx8Z07kE6Lmv2sjS
-	MPUbwRgMx0HvQ7Z08z7BwcCFQhPIhWxjaFtdevaqfPcFKT80F0zxmGn4r/N84gt3SGaoYiaOqMj
-	FNUokErdFHTgv8+/SnEFWwDnSfEak9Bq94POhr0kF7IDB+p1Ov1zHf4HfsjQol3P1cFIl837O1Q
-	K6f0HciJH0tFQ00ZedB/pCoq1q0uDD0GaUquOQYsJOnRkYn0EWXNekshyUepCX4QIND0iqMRytG
-	zLgKdXmDoYRxSx//8xBamw=
-X-Received: by 2002:a05:690c:6d8a:b0:8b4:dba5:f101 with SMTP id 00721157ae682-8b5204f720cmr118184247b3.52.1795858621859;
-        Sat, 28 Nov 2026 01:37:01 -0800 (PST)
+        bh=sEbzT/UxRBEXtg0cQY6CwwKz04kR+adLcDsN0sVZSjQ=;
+        b=h0p0qvUegnX49gbNa76JfQuGbvobKQuBWRRLqpBAjGa0E7QBXRC8p3pu1rfRdUu6JF
+         GvhPESKaARlo85cPTFzJOri6GHDHxvQlOYxFhQsFpKDRdlfqhwhJ40ijpou01K2Vtj0R
+         aSKj4Kb2v9Tu1mOjd4j/bQTjMBmQJow+n8NZef3io05T4k5J1LNoUF9hsR9kwRjSjwi+
+         8ktA+U/tpVYdkxUamgUpiF5UZDamb3LvCbHoPuHFB7AxxrAktITI+wyyG5jGPbl8R2tQ
+         Qt04vWcCSg/5xCUa22hVvtEzIy/74LKU4q51gQ/GNDZIUd/37krp7p9Tx5uZ3X+94jzq
+         NndA==
+X-Gm-Message-State: APuU4Z9ct7+bceiWvOMnvjIwmsV4nquztliy4LwWK+Q1YDYaoR4wFx1l
+	2f5Yrzf9b8l5a0PjFUVJEhmg7m423nRMmyIdfG4monlGUIhkM7jr4MDm6bPjOwMsorRgksFVPec
+	h202/2HBX5+fV7lU=
+X-Gm-Gg: AZFdTZdNruTjIbZbGG3R0rOtMkZrkw+3JTBjoYpO6aDLDcnYoed8DwY2LjRFwiIfG6F
+	0w70z7H+qpqdMB4kdKh8ONsR8f91XEqr+U3M+82VW1ZlDsoY+xYNSkeLMXa2tk0Kqq74PdRr6ZJ
+	jVeQgLyz6QBPSGzmpL1/WY0Ie0aKXn0ju3iyYNdt4J665iJHv+IyqdrDTJBBvCaUEobCZhNLf75
+	A/1T1T/wBNEbg0SbJ9I/o5tR5bp21PtVklBiAHlkoJLd050P1abHhnWIrA5bWIiPDDG0ngplaKl
+	k3g27ruT0HUKV3fZT631xQaX87zk+ihogqC199nRjfgrcVJJyeSzHJ2QIIOARo6Gn3ue3NHxe/M
+	/h3FsX/472RB51O5gL7wQ6m4s1xhwy9uzxuXtBUaJY0QctjkamBuTpM3nxavn8XoPBlqF2EWXY3
+	aR4Q+ZPelR9w85Lf6XQ1rAIwnnSVeiny2jxecOQwAAlGJa8ZyPmLXa31L4eg6E2dIzS9on42568
+	ZDVsh+gdAFjF2VE1ywGvciO5zsz8vE26kQSY5mWFYdrUmuY9uC/uT/B/JpYJjkGsrUu+IOVT+Ur
+	ygysT0l4447fEjaH2QjD7GMPXw6ytS39g5fhsaXYYXfe/+tx0waKGFNtkKe2d8FeXXpclevpz+U
+	31D4sPwGED9vi2Ce6Obs3x94Lbkd7SnGHB7W/T7GCFwOAqlgiybRU3eWU+C+Uac+ula0McV5Cox
+	DxfkAu1FPLzXnpnYakvsbbaCSfsvDoSiq7Qd5P95EUzmn1s659W6zoeKrbaSFHzaNv+KW/QytCV
+	mzuX6H4G4fMcxHi/L+sHcI0QvT1uFwndo5nlMhHNdsH
+X-Received: by 2002:a05:690c:4b8b:b0:8b5:6873:52d0 with SMTP id 00721157ae682-8b5687359bbmr51538537b3.78.1795858624817;
+        Sat, 28 Nov 2026 01:37:04 -0800 (PST)
 Received: from [172.20.0.3] (c-73-207-185-9.hsd1.ga.comcast.net. [73.207.185.9])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b52030df7bsm107006967b3.31.2026.11.28.01.36.59
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b520354770sm106365047b3.42.2026.11.28.01.37.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Nov 2026 01:37:00 -0800 (PST)
-Date: Sat, 28 Nov 2026 01:36:59 -0800
-Message-ID: <f7d42197b65bd98166440c75fff0d42d366fc377.1795855037.git.chris@chrisdown.name>
+        Sat, 28 Nov 2026 01:37:03 -0800 (PST)
+Date: Sat, 28 Nov 2026 01:37:02 -0800
+Message-ID: <bf93ffe454e1992c583e0c5823688f7ed0f80304.1795855037.git.chris@chrisdown.name>
 In-Reply-To: <cover.1795855037.git.chris@chrisdown.name>
 References: <cover.1795855037.git.chris@chrisdown.name>
 From: Chris Down <chris@chrisdown.name>
-Subject: [PATCH v2 1/2] timerfd: Support CLOCK_TAI
+Subject: [PATCH v2 2/2] selftests: timers: Add a test for CLOCK_TAI timerfds
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
     Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -107,116 +107,238 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
 
-Despite hrtimer and POSIX timers both accepting CLOCK_TAI,
-timerfd_create() rejects it. This usually corners userspace into one of
-two bad options:
+Add timerfd-tai. It checks that an absolute CLOCK_TAI timer expires once
+CLOCK_TAI reaches its expiry time, and what setting the clock does to
+timers which were armed with TFD_TIMER_CANCEL_ON_SET:
 
-1. Convert TAI deadlines through CLOCK_REALTIME, which reintroduces the
-   leap second exposure the application was trying to avoid in the first
-   place.
-2. Abandon timerfd entirely and use POSIX timers or busy wait approaches
-   that do not compose well with epoll based event loops.
+- A step of CLOCK_REALTIME has to cancel CLOCK_REALTIME and CLOCK_TAI
+  timers.
+- A change of the TAI offset has to cancel CLOCK_TAI timers only.
+- Injecting an offset of zero has to cancel neither.
 
-Avoid these bad outcomes by allowing timerfd to support CLOCK_TAI.
-timerfd arms hrtimers directly and hrtimers already have a CLOCK_TAI
-base, so nothing is needed to queue and expire the timers.
-
-TFD_TIMER_CANCEL_ON_SET has to work for them as well. CLOCK_TAI moves
-along when CLOCK_REALTIME is set, and it also moves when
-adjtimex(ADJ_TAI) changes the TAI offset. timerfd_clock_was_set()
-cancels a timer when the offset between CLOCK_MONOTONIC and
-CLOCK_REALTIME differs from the one recorded for the timer. That is the
-wrong offset for a CLOCK_TAI timer in two cases:
-
-1. adjtimex(ADJ_TAI) moves CLOCK_TAI, but not CLOCK_REALTIME.
-2. A leap second moves CLOCK_REALTIME, but not CLOCK_TAI.
-
-Compare against the offset of the clock which the timer is on instead,
-and put CLOCK_TAI timers on the cancel list. clock_was_set() already
-notifies timerfd when the TAI offset changes, so the timekeeping side
-needs no change.
-
-With this, epoll based applications can arm TAI based file descriptor
-timers natively, and can have them cancelled when CLOCK_TAI is set.
+The test steps CLOCK_REALTIME by a second and changes the TAI offset by
+one. It puts both back afterwards, but that still makes it a destructive
+test. It is skipped where timerfd_create() rejects CLOCK_TAI.
 
 Signed-off-by: Chris Down <chris@chrisdown.name>
 ---
- fs/timerfd.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ tools/testing/selftests/timers/.gitignore    |   1 +
+ tools/testing/selftests/timers/Makefile      |   2 +-
+ tools/testing/selftests/timers/timerfd-tai.c | 183 +++++++++++++++++++
+ 3 files changed, 185 insertions(+), 1 deletion(-)
+ create mode 100644 tools/testing/selftests/timers/timerfd-tai.c
 
-diff --git a/fs/timerfd.c b/fs/timerfd.c
-index fe845af0b74e..26cf804d8d0f 100644
---- a/fs/timerfd.c
-+++ b/fs/timerfd.c
-@@ -55,6 +55,13 @@ static inline bool isalarm(struct timerfd_ctx *ctx)
- 		ctx->clockid == CLOCK_BOOTTIME_ALARM;
- }
+diff --git a/tools/testing/selftests/timers/.gitignore b/tools/testing/selftests/timers/.gitignore
+index bb5326ff900b..ef56c8bbcc35 100644
+--- a/tools/testing/selftests/timers/.gitignore
++++ b/tools/testing/selftests/timers/.gitignore
+@@ -20,3 +20,4 @@ valid-adjtimex
+ adjtick
+ set-tz
+ freq-step
++timerfd-tai
+diff --git a/tools/testing/selftests/timers/Makefile b/tools/testing/selftests/timers/Makefile
+index 0e73a16874c4..7a978064e3fb 100644
+--- a/tools/testing/selftests/timers/Makefile
++++ b/tools/testing/selftests/timers/Makefile
+@@ -9,7 +9,7 @@ TEST_GEN_PROGS = posix_timers nanosleep nsleep-lat set-timer-lat mqueue-lat \
  
-+static ktime_t timerfd_get_moffs(struct timerfd_ctx *ctx)
+ DESTRUCTIVE_TESTS = alarmtimer-suspend valid-adjtimex adjtick change_skew \
+ 		      skew_consistency clocksource-switch freq-step leap-a-day \
+-		      leapcrash set-tai set-2038 set-tz
++		      leapcrash set-tai set-2038 set-tz timerfd-tai
+ 
+ TEST_GEN_PROGS_EXTENDED = $(DESTRUCTIVE_TESTS)
+ 
+diff --git a/tools/testing/selftests/timers/timerfd-tai.c b/tools/testing/selftests/timers/timerfd-tai.c
+new file mode 100644
+index 000000000000..803937d9e354
+--- /dev/null
++++ b/tools/testing/selftests/timers/timerfd-tai.c
+@@ -0,0 +1,183 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Tests for timerfd timers on CLOCK_TAI.
++ *
++ * The TFD_TIMER_CANCEL_ON_SET tests run on CLOCK_REALTIME too, because a
++ * change of the TAI offset has to cancel the timers on one clock but not on
++ * the other. They step CLOCK_REALTIME and change the TAI offset, and put both
++ * back afterwards.
++ */
++#define _GNU_SOURCE
++#include <errno.h>
++#include <poll.h>
++#include <stdbool.h>
++#include <stdint.h>
++#include <time.h>
++#include <unistd.h>
++#include <sys/timerfd.h>
++#include <sys/timex.h>
++
++#include "clock-helpers.h"
++#include "kselftest.h"
++
++static int tai_offset;
++
++static void set_tai_offset(int offset)
 +{
-+	if (ctx->clockid == CLOCK_TAI)
-+		return ktime_mono_to_any(0, TK_OFFS_TAI);
-+	return ktime_mono_to_real(0);
++	struct timex tx = { .modes = ADJ_TAI, .constant = offset };
++
++	if (adjtimex(&tx) < 0)
++		ksft_exit_fail_perror("adjtimex(ADJ_TAI)");
 +}
 +
- static void __timerfd_triggered(struct timerfd_ctx *ctx)
- {
- 	lockdep_assert_held(&ctx->wqh.lock);
-@@ -98,14 +105,17 @@ static void timerfd_alarmproc(struct alarm *alarm, ktime_t now)
-  */
- void timerfd_clock_was_set(void)
- {
--	ktime_t moffs = ktime_mono_to_real(0);
-+	ktime_t moffs_tai = ktime_mono_to_any(0, TK_OFFS_TAI);
-+	ktime_t moffs_real = ktime_mono_to_real(0);
- 	struct timerfd_ctx *ctx;
- 	unsigned long flags;
-+	ktime_t moffs;
- 
- 	rcu_read_lock();
- 	list_for_each_entry_rcu(ctx, &cancel_list, clist) {
- 		if (!ctx->might_cancel)
- 			continue;
-+		moffs = ctx->clockid == CLOCK_TAI ? moffs_tai : moffs_real;
- 		spin_lock_irqsave(&ctx->wqh.lock, flags);
- 		if (ctx->moffs != moffs) {
- 			ctx->moffs = KTIME_MAX;
-@@ -154,7 +164,7 @@ static bool timerfd_canceled(struct timerfd_ctx *ctx)
- {
- 	if (!ctx->might_cancel || ctx->moffs != KTIME_MAX)
- 		return false;
--	ctx->moffs = ktime_mono_to_real(0);
-+	ctx->moffs = timerfd_get_moffs(ctx);
- 	return true;
- }
- 
-@@ -162,7 +172,8 @@ static void timerfd_setup_cancel(struct timerfd_ctx *ctx, int flags)
- {
- 	spin_lock(&ctx->cancel_lock);
- 	if ((ctx->clockid == CLOCK_REALTIME ||
--	     ctx->clockid == CLOCK_REALTIME_ALARM) &&
-+	     ctx->clockid == CLOCK_REALTIME_ALARM ||
-+	     ctx->clockid == CLOCK_TAI) &&
- 	    (flags & TFD_TIMER_ABSTIME) && (flags & TFD_TIMER_CANCEL_ON_SET)) {
- 		if (!ctx->might_cancel) {
- 			ctx->might_cancel = true;
-@@ -434,6 +445,7 @@ SYSCALL_DEFINE2(timerfd_create, int, clockid, int, flags)
- 	    (clockid != CLOCK_MONOTONIC &&
- 	     clockid != CLOCK_REALTIME &&
- 	     clockid != CLOCK_REALTIME_ALARM &&
-+	     clockid != CLOCK_TAI &&
- 	     clockid != CLOCK_BOOTTIME &&
- 	     clockid != CLOCK_BOOTTIME_ALARM))
- 		return -EINVAL;
-@@ -459,7 +471,7 @@ SYSCALL_DEFINE2(timerfd_create, int, clockid, int, flags)
- 	else
- 		hrtimer_setup(&ctx->t.tmr, timerfd_tmrproc, clockid, HRTIMER_MODE_ABS);
- 
--	ctx->moffs = ktime_mono_to_real(0);
-+	ctx->moffs = timerfd_get_moffs(ctx);
- 
- 	ret = FD_ADD(flags & TFD_SHARED_FCNTL_FLAGS,
- 		     anon_inode_getfile_fmode("[timerfd]", &timerfd_fops, ctx,
++static void step_realtime(int sec)
++{
++	struct timex tx = { .modes = ADJ_SETOFFSET, .time.tv_sec = sec };
++
++	if (adjtimex(&tx) < 0)
++		ksft_exit_fail_perror("adjtimex(ADJ_SETOFFSET)");
++}
++
++static long long timespec_to_ns(const struct timespec *ts)
++{
++	return ts->tv_sec * NSEC_PER_SEC + ts->tv_nsec;
++}
++
++static void check_expiry(void)
++{
++	struct pollfd pfd = { .events = POLLIN };
++	struct itimerspec its = {};
++	struct timespec now;
++	uint64_t ticks;
++	bool pass;
++
++	pfd.fd = timerfd_create(CLOCK_TAI, 0);
++	if (pfd.fd < 0)
++		ksft_exit_fail_perror("timerfd_create()");
++
++	if (clock_gettime(CLOCK_TAI, &its.it_value))
++		ksft_exit_fail_perror("clock_gettime()");
++	its.it_value.tv_sec++;
++
++	if (timerfd_settime(pfd.fd, TFD_TIMER_ABSTIME, &its, NULL))
++		ksft_exit_fail_perror("timerfd_settime()");
++
++	pass = poll(&pfd, 1, 5 * MSEC_PER_SEC) == 1 &&
++	       read(pfd.fd, &ticks, sizeof(ticks)) == sizeof(ticks) && ticks == 1;
++
++	if (clock_gettime(CLOCK_TAI, &now))
++		ksft_exit_fail_perror("clock_gettime()");
++	pass &= timespec_to_ns(&now) >= timespec_to_ns(&its.it_value);
++
++	close(pfd.fd);
++	ksft_test_result(pass, "%s %s\n", __func__, clock_name(CLOCK_TAI));
++}
++
++/* Arm a timer which is too far away to expire while the test runs */
++static int arm_timer(clockid_t clockid)
++{
++	struct itimerspec its = {};
++	int fd;
++
++	fd = timerfd_create(clockid, TFD_NONBLOCK);
++	if (fd < 0)
++		ksft_exit_fail_perror("timerfd_create()");
++
++	if (clock_gettime(clockid, &its.it_value))
++		ksft_exit_fail_perror("clock_gettime()");
++	its.it_value.tv_sec += 3600;
++
++	if (timerfd_settime(fd, TFD_TIMER_ABSTIME | TFD_TIMER_CANCEL_ON_SET, &its, NULL))
++		ksft_exit_fail_perror("timerfd_settime()");
++
++	return fd;
++}
++
++/*
++ * A cancelled timer is readable and the read fails with ECANCELED. One which
++ * was left alone is not readable.
++ */
++static bool check_timer(int fd, bool cancelled)
++{
++	struct pollfd pfd = { .fd = fd, .events = POLLIN };
++	bool readable = poll(&pfd, 1, 0) == 1;
++	uint64_t ticks;
++
++	if (readable != cancelled)
++		return false;
++
++	if (read(fd, &ticks, sizeof(ticks)) >= 0)
++		return false;
++
++	return errno == (cancelled ? ECANCELED : EAGAIN);
++}
++
++static void check_clock_step(clockid_t clockid)
++{
++	int fd = arm_timer(clockid);
++	bool pass;
++
++	/* CLOCK_TAI is stepped along with CLOCK_REALTIME */
++	step_realtime(1);
++	pass = check_timer(fd, true);
++	step_realtime(-1);
++	pass &= check_timer(fd, true);
++
++	/* Injecting no offset counts as setting the clock, but it moves nothing */
++	step_realtime(0);
++	pass &= check_timer(fd, false);
++
++	close(fd);
++	ksft_test_result(pass, "%s %s\n", __func__, clock_name(clockid));
++}
++
++static void check_tai_offset(clockid_t clockid)
++{
++	/* The TAI offset only moves CLOCK_TAI */
++	bool cancelled = clockid == CLOCK_TAI;
++	int fd = arm_timer(clockid);
++	bool pass;
++
++	set_tai_offset(tai_offset + 1);
++	pass = check_timer(fd, cancelled);
++	set_tai_offset(tai_offset);
++	pass &= check_timer(fd, cancelled);
++
++	close(fd);
++	ksft_test_result(pass, "%s %s\n", __func__, clock_name(clockid));
++}
++
++int main(void)
++{
++	struct timex tx = {};
++	int fd;
++
++	ksft_print_header();
++
++	fd = timerfd_create(CLOCK_TAI, 0);
++	if (fd < 0 && errno == EINVAL)
++		ksft_exit_skip("timerfd does not support CLOCK_TAI\n");
++	if (fd < 0)
++		ksft_exit_fail_perror("timerfd_create()");
++	close(fd);
++
++	if (adjtimex(&tx) < 0)
++		ksft_exit_fail_perror("adjtimex()");
++	tai_offset = tx.tai;
++
++	/* Setting the TAI offset to what it already is only checks permissions */
++	tx.modes = ADJ_TAI;
++	tx.constant = tai_offset;
++	if (adjtimex(&tx) < 0 && errno == EPERM)
++		ksft_exit_skip("Changing the clocks needs CAP_SYS_TIME\n");
++
++	ksft_set_plan(5);
++
++	check_expiry();
++	check_clock_step(CLOCK_REALTIME);
++	check_clock_step(CLOCK_TAI);
++	check_tai_offset(CLOCK_REALTIME);
++	check_tai_offset(CLOCK_TAI);
++
++	ksft_finished();
++}
 -- 
 2.56.1
 
